@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Link;
 use Auth;
+use Laracasts\Utilities\JavaScript\JavaScriptFacade;
+use Illuminate\Support\Facades\File;
 
 class LinkController extends Controller
 {
@@ -14,6 +16,13 @@ class LinkController extends Controller
             ->withCount('visits')
             ->with('latest_visit')
             ->get();
+
+        JavaScriptFacade::put([
+            'background' => Auth::user()->background,
+            'username' => Auth::user()->username,
+            'links' => $links,
+            'icons' => File::glob(public_path('images/icons').'/*'),
+        ]);
 
         return view('links.index', [
             'links' => $links
@@ -28,10 +37,11 @@ class LinkController extends Controller
 
         $request->validate([
             'name' => 'required|max:255',
-            'link' => 'required|url'
+            'link' => 'required|url',
+            'link_icon' => 'required',
         ]);
 
-        $link = Auth::user()->links()->create($request->only(['name', 'link']));
+        $link = Auth::user()->links()->create($request->only(['name', 'link', 'link_icon']));
 
         if ($link) {
             return redirect()->to('/dashboard/links');
@@ -58,10 +68,11 @@ class LinkController extends Controller
 
         $request->validate([
             'name' => 'required|max:255',
-            'link' => 'required|url'
+            'link' => 'required|url',
+            'link_icon' => 'required',
         ]);
 
-        $link->update($request->only(['name', 'lnk']));
+        $link->update($request->only(['name', 'lnk', 'link_icon']));
 
         return redirect()->to('/dashboard/links');
 

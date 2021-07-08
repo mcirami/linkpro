@@ -58,7 +58,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="/dashboard/settings">Settings</a>
+                                    <a class="dropdown-item" href="/dashboard/appearance">Appearance</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -79,6 +79,8 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+        @include ('footer')
     </div>
 </body>
 </html>

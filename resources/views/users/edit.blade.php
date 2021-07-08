@@ -5,8 +5,8 @@
         <div class="row justify-content-center">
             <div class="col-12 card">
                 <div class="card-body">
-                    <h2>Edit user settings</h2>
-                    <form action="/dashboard/settings" method="POST">
+                    <h2>Edit Page Appearance</h2>
+                    <form action="/dashboard/appearance" method="POST">
                         <div class="row">
                             <div class="col-12 col-md-6">
                                 <div class="form-group">

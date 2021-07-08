@@ -33,8 +33,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
     Route::post('/links/{link}', [LinkController::class, 'update']);
     Route::delete('/links/{link}', [LinkController::class, 'destroy']);
 
-    Route::get('/settings', [UserController::class, 'edit']);
-    Route::post('/settings', [UserController::class, 'update']);
+    Route::get('/appearance', [UserController::class, 'edit']);
+    Route::post('/appearance', [UserController::class, 'update']);
 });
 
 

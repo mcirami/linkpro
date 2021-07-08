@@ -1,11 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-12 card">
-            <div class="card-body">
-               <h2>Your Links</h2>
+<div class="container" id="links_page">
+
+    <div id="root"></div>
+
+    {{--<div class="row justify-content-center">
+        <div class="col-8">
+            <h2>Your Links</h2>
+            @foreach($links as $link)
+                <div class="card">
+                    <div>
+                        <img src="{{ $link->link_icon }}" />
+                    </div>
+                    <p>{{ $link->name }}</p>
+                    <p><a href="{{ $link->link }}">{{ $link->link }}</a></p>
+                    --}}{{--<td>{{ $link->visits_count }}</td>
+                    <td>{{ $link->latest_visit ? $link->latest_visit->created_at->format('M j Y - H:ia') : 'N/A' }}</td>--}}{{--
+                    <p><a href="/dashboard/links/{{ $link->id }}">Edit</a>
+                </div>
+            @endforeach
+            --}}{{--<div class="card">
+
                <table class="table table-striped">
                     <thead>
                         <tr>
@@ -27,10 +43,12 @@
                             </tr>
                         @endforeach
                     </tbody>
-               </table>
+               </table>--}}{{--
                <a href="/dashboard/links/new" class="btn btn-primary">Add Link</a>
-            </div>
         </div>
-    </div>
+        <div class="col-4 preview_col">
+            <div id="preview"></div>
+        </div>
+    </div>--}}
 </div>
 @endsection
