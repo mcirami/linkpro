@@ -4,6 +4,7 @@ import Preview from './Preview';
 import {MdEdit} from 'react-icons/md';
 //import EditForm from './EditForm';
 import IconList from './IconList';
+import axios from "axios";
 
 const getUserLinks = () => {
     return (user.links);
@@ -47,6 +48,22 @@ function App() {
                 return item;
             })
         );
+
+        const packets = {
+            name: name,
+            link: link,
+            link_icon: link_icon.src,
+        };
+
+        axios.post('/dashboard/links/' + editID, packets)
+            .then(
+                response => alert(JSON.stringify(response.data))
+
+            )
+            .catch(error => {
+                console.log("ERROR:: ",error.response.data);
+
+            });
 
         setEditID(null);
     };
