@@ -8,15 +8,18 @@ const Links = ({links, handleSubmit, editID, setEditID, setName, setLink, setLin
 
     return (
         <div className="icons_wrap">
+
             {links.map((linkItem) => {
                 const { id, name, link, link_icon } = linkItem;
+
 
                 return (
                     <div key={id} className="icon_col">
                         <img src={ link_icon} />
-                        <button onClick={() => setEditID(id) }><MdEdit /></button>
+                        <button onClick={(e) => setEditID(id) }><MdEdit /></button>
                         { editID === id ?
                             <EditForm
+                                setEditID={setEditID}
                             handleSubmit={handleSubmit}
                             currentLink={linkItem}
                             setName={setName}

@@ -1918,7 +1918,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _Preview__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Preview */ "./resources/js/components/Preview.js");
-/* harmony import */ var _Links__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Links */ "./resources/js/components/Links.js");
+/* harmony import */ var react_icons_md__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-icons/md */ "./node_modules/react-icons/md/index.esm.js");
+/* harmony import */ var _IconList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./IconList */ "./resources/js/components/IconList.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
@@ -1938,6 +1939,10 @@ function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "und
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+
+ //import Links from './Links';
+
+ //import EditForm from './EditForm';
 
 
 
@@ -1959,8 +1964,8 @@ var getUserInfo = function getUserInfo() {
 function App() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(getUserLinks()),
       _useState2 = _slicedToArray(_useState, 2),
-      links = _useState2[0],
-      setLinks = _useState2[1]; //const [isEditing, setIsEditing] = useState(false);
+      userLinks = _useState2[0],
+      setUserLinks = _useState2[1]; //const [isEditing, setIsEditing] = useState(false);
 
 
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
@@ -1993,14 +1998,20 @@ function App() {
       showIcons = _useState14[0],
       setShowIcons = _useState14[1];
 
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (linkIcon) {
+      setLinkIcon(linkIcon);
+    }
+  }, [linkIcon]);
+
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
-    setLinks(links.map(function (item) {
+    setUserLinks(userLinks.map(function (item) {
       if (item.id === editID) {
         return _objectSpread(_objectSpread({}, item), {}, {
           name: name,
           link: link,
-          link_icon: link_icon
+          link_icon: link_icon.src
         });
       }
 
@@ -2010,7 +2021,7 @@ function App() {
   };
 
   var editItem = function editItem(id) {
-    var specificItem = links.find(function (item) {
+    var specificItem = userLinks.find(function (item) {
       return item.id === id;
     });
     setName(specificItem.name);
@@ -2024,106 +2035,104 @@ function App() {
       className: "col-8",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h2", {
         children: "Your Links"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Links__WEBPACK_IMPORTED_MODULE_2__.default, {
-        links: links,
-        handleSubmit: handleSubmit,
-        editID: editID,
-        setEditID: setEditID,
-        setName: setName,
-        setLink: setLink,
-        setLinkIcon: setLinkIcon,
-        showIcons: showIcons,
-        setShowIcons: setShowIcons
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
-        href: "/dashboard/links/new",
-        className: "btn btn-primary",
-        children: "Add Link"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "icons_wrap",
+        children: userLinks.map(function (linkItem) {
+          var id = linkItem.id,
+              name = linkItem.name,
+              link = linkItem.link,
+              link_icon = linkItem.link_icon;
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+            className: "icon_col",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(Links, {
+              id: id,
+              link_icon: link_icon,
+              setEditID: setEditID
+            }), editID === id ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(EditForm, {
+              handleSubmit: handleSubmit,
+              setEditID: setEditID,
+              currentLink: linkItem,
+              setName: setName,
+              setLink: setLink,
+              setLinkIcon: setLinkIcon,
+              showIcons: showIcons,
+              setShowIcons: setShowIcons
+            }) : ""]
+          }, id);
+        })
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "col-4 preview_col",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Preview__WEBPACK_IMPORTED_MODULE_1__.default, {
-        links: links,
+        links: userLinks,
         userInfo: userInfo
       })
     })]
   });
 }
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
+var Links = function Links(_ref) {
+  var id = _ref.id,
+      link_icon = _ref.link_icon,
+      setEditID = _ref.setEditID;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+      src: link_icon
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+      onClick: function onClick(e) {
+        return setEditID(id);
+      },
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_4__.MdEdit, {})
+    })]
+  });
+};
 
-/***/ }),
-
-/***/ "./resources/js/components/EditForm.js":
-/*!*********************************************!*\
-  !*** ./resources/js/components/EditForm.js ***!
-  \*********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _IconList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./IconList */ "./resources/js/components/IconList.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-
-
-
-
-
-
-var EditForm = function EditForm(_ref) {
-  var handleSubmit = _ref.handleSubmit,
-      currentLink = _ref.currentLink,
-      setName = _ref.setName,
-      setLink = _ref.setLink,
-      setLinkIcon = _ref.setLinkIcon,
-      showIcons = _ref.showIcons,
-      setShowIcons = _ref.setShowIcons;
+var EditForm = function EditForm(_ref2) {
+  var handleChange = _ref2.handleChange,
+      handleSubmit = _ref2.handleSubmit,
+      setEditID = _ref2.setEditID,
+      currentLink = _ref2.currentLink,
+      setName = _ref2.setName,
+      setLink = _ref2.setLink,
+      setLinkIcon = _ref2.setLinkIcon,
+      showIcons = _ref2.showIcons,
+      setShowIcons = _ref2.setShowIcons;
   var id = currentLink.id,
       name = currentLink.name,
       link = currentLink.link,
       link_icon = currentLink.link_icon;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("form", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
       onSubmit: handleSubmit,
       className: "links_forms",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
         className: "row",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
           className: "col-4",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+            id: "current_icon",
             src: link_icon,
             name: "link_icon",
             alt: ""
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
-            id: "current_icon",
-            type: "text",
-            hidden: true,
-            value: link_icon,
-            onChange: function onChange(e) {
-              return setLinkIcon(e.target.value);
-            }
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
             href: "#",
             onClick: function onClick(e) {
               return setShowIcons(true);
             },
             children: "Change Icon"
-          }), showIcons ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_IconList__WEBPACK_IMPORTED_MODULE_1__.default, {
+          }), showIcons ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_IconList__WEBPACK_IMPORTED_MODULE_2__.default, {
             setShowIcons: setShowIcons
           }) : ""]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
           className: "col-8",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
             name: "name",
             type: "text",
             defaultValue: name,
             onChange: function onChange(e) {
               return setName(e.target.value);
             }
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
             name: "link",
             type: "text",
             defaultValue: link,
@@ -2132,18 +2141,21 @@ var EditForm = function EditForm(_ref) {
             }
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
         type: "submit",
         children: "Update"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
         href: "#",
+        onClick: function onClick() {
+          return setEditID(null);
+        },
         children: "Cancel"
       })]
     })
   });
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (EditForm);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
 
 /***/ }),
 
@@ -2172,8 +2184,16 @@ var IconLinks = function IconLinks(_ref) {
 
   var selectIcon = function selectIcon(e, source) {
     var el = e.target;
-    el.classList.add('active');
-    document.getElementById('current_icon').value = source;
+    var image = document.getElementById('current_icon');
+
+    if (!el.classList.contains('active')) {
+      $('.icon_image').removeClass('active');
+      el.classList.add('active');
+      image.src = source;
+    } else {
+      el.classList.remove('active');
+      image.src = "";
+    }
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
@@ -2211,74 +2231,6 @@ var IconLinks = function IconLinks(_ref) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (IconLinks);
-
-/***/ }),
-
-/***/ "./resources/js/components/Links.js":
-/*!******************************************!*\
-  !*** ./resources/js/components/Links.js ***!
-  \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_icons_md__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-icons/md */ "./node_modules/react-icons/md/index.esm.js");
-/* harmony import */ var _EditForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./EditForm */ "./resources/js/components/EditForm.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-
-
-
-
-
-
-
-
-var Links = function Links(_ref) {
-  var links = _ref.links,
-      handleSubmit = _ref.handleSubmit,
-      editID = _ref.editID,
-      setEditID = _ref.setEditID,
-      setName = _ref.setName,
-      setLink = _ref.setLink,
-      setLinkIcon = _ref.setLinkIcon,
-      showIcons = _ref.showIcons,
-      setShowIcons = _ref.setShowIcons;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-    className: "icons_wrap",
-    children: links.map(function (linkItem) {
-      var id = linkItem.id,
-          name = linkItem.name,
-          link = linkItem.link,
-          link_icon = linkItem.link_icon;
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        className: "icon_col",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
-          src: link_icon
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-          onClick: function onClick() {
-            return setEditID(id);
-          },
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_4__.MdEdit, {})
-        }), editID === id ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_EditForm__WEBPACK_IMPORTED_MODULE_2__.default, {
-          handleSubmit: handleSubmit,
-          currentLink: linkItem,
-          setName: setName,
-          setLink: setLink,
-          setLinkIcon: setLinkIcon,
-          showIcons: showIcons,
-          setShowIcons: setShowIcons
-        }) : ""]
-      }, id);
-    })
-  });
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Links);
 
 /***/ }),
 
@@ -2425,7 +2377,7 @@ jQuery(document).ready(function ($) {
             document.getElementById('link_icon').value = this.getAttribute('src');
           } else {
             this.classList.remove('active');
-            iconPath.value = "";
+            document.getElementById('link_icon').value = "";
           }
         });
       }

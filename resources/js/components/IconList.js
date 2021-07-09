@@ -5,9 +5,18 @@ const IconLinks = ({setShowIcons}) => {
     const iconpaths = user.icons;
 
     const selectIcon = (e, source) => {
-        let el = e.target;
-        el.classList.add('active');
-        document.getElementById('current_icon').value = source;
+        const el = e.target;
+        const image = document.getElementById('current_icon');
+
+        if(!el.classList.contains('active')) {
+            $('.icon_image').removeClass('active');
+            el.classList.add('active');
+            image.src = source;
+
+        } else {
+            el.classList.remove('active');
+            image.src = "";
+        }
     }
 
     return (

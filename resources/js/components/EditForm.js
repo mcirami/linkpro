@@ -2,7 +2,7 @@ import React from 'react';
 import {MdEdit} from 'react-icons/md';
 import IconList from './IconList';
 
-const EditForm = ({handleSubmit, currentLink, setName, setLink, setLinkIcon, showIcons, setShowIcons}) => {
+const EditForm = ({handleSubmit, setEditID, currentLink, setName, setLink, setLinkIcon, showIcons, setShowIcons}) => {
     let { id, name, link, link_icon} = currentLink;
 
     return (
@@ -21,7 +21,7 @@ const EditForm = ({handleSubmit, currentLink, setName, setLink, setLinkIcon, sho
                     </div>
                 </div>
                 <button type="submit">Update</button>
-                <a href="#">Cancel</a>
+                <a href="#" onClick={() => setEditID(null) }>Cancel</a>
             </form>
         </div>
 

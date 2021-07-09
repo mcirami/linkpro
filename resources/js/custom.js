@@ -16,7 +16,7 @@ jQuery(document).ready(function($) {
 
                 } else {
                     this.classList.remove('active');
-                    iconPath.value = "";
+                    document.getElementById('link_icon').value = "";
                 }
             })
 
