@@ -1929,6 +1929,14 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -1976,30 +1984,39 @@ function App() {
       editID = _useState4[0],
       setEditID = _useState4[1];
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState6 = _slicedToArray(_useState5, 2),
-      name = _useState6[0],
-      setName = _useState6[1];
+      showForm = _useState6[0],
+      setShowForm = _useState6[1];
 
   var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState8 = _slicedToArray(_useState7, 2),
-      link = _useState8[0],
-      setLink = _useState8[1];
+      name = _useState8[0],
+      setName = _useState8[1];
 
   var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState10 = _slicedToArray(_useState9, 2),
-      linkIcon = _useState10[0],
-      setLinkIcon = _useState10[1];
+      link = _useState10[0],
+      setLink = _useState10[1];
 
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(getUserInfo()),
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState12 = _slicedToArray(_useState11, 2),
-      userInfo = _useState12[0],
-      setUserInfo = _useState12[1];
+      linkIcon = _useState12[0],
+      setLinkIcon = _useState12[1];
 
-  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(getUserInfo()),
       _useState14 = _slicedToArray(_useState13, 2),
-      showIcons = _useState14[0],
-      setShowIcons = _useState14[1];
+      userInfo = _useState14[0],
+      setUserInfo = _useState14[1];
+
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState16 = _slicedToArray(_useState15, 2),
+      showIcons = _useState16[0],
+      setShowIcons = _useState16[1];
+
+  var stringIndex = user.defaultIcon[0].search("/images"); //const end = defaultIconPath[0].search("/images");
+
+  var defaultIconPath = user.defaultIcon[0].slice(stringIndex); //let nextLinkID = user.nextLinkId;
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (linkIcon) {
@@ -2009,27 +2026,42 @@ function App() {
 
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
-    setUserLinks(userLinks.map(function (item) {
-      if (item.id === editID) {
-        return _objectSpread(_objectSpread({}, item), {}, {
-          name: name,
-          link: link,
-          link_icon: link_icon.src
-        });
-      }
-
-      return item;
-    }));
     var packets = {
       name: name,
       link: link,
       link_icon: link_icon.src
     };
-    axios__WEBPACK_IMPORTED_MODULE_3___default().post('/dashboard/links/' + editID, packets).then(function (response) {
-      return alert(JSON.stringify(response.data));
-    })["catch"](function (error) {
-      console.log("ERROR:: ", error.response.data);
-    });
+
+    if (editID.toString().includes("new")) {
+      setUserLinks([].concat(_toConsumableArray(userLinks), [{
+        name: name,
+        link: link,
+        link_icon: link_icon.src
+      }]));
+      axios__WEBPACK_IMPORTED_MODULE_3___default().post('/dashboard/links/new', packets).then(function (response) {
+        return alert(JSON.stringify(response.data));
+      })["catch"](function (error) {
+        console.log("ERROR:: ", error.response.data);
+      });
+    } else {
+      setUserLinks(userLinks.map(function (item) {
+        if (item.id === editID) {
+          return _objectSpread(_objectSpread({}, item), {}, {
+            name: name,
+            link: link,
+            link_icon: link_icon.src
+          });
+        }
+
+        return item;
+      }));
+      axios__WEBPACK_IMPORTED_MODULE_3___default().post('/dashboard/links/' + editID, packets).then(function (response) {
+        return alert(JSON.stringify(response.data));
+      })["catch"](function (error) {
+        console.log("ERROR:: ", error.response.data);
+      });
+    }
+
     setEditID(null);
   };
 
@@ -2042,6 +2074,28 @@ function App() {
     setLinkIcon(specificItem.link_icon);
   };
 
+  var count = userLinks.length;
+  var myLinksArray = [];
+
+  for (var n = 0; n < 9; n++) {
+    if (userLinks[n] !== undefined) {
+      myLinksArray.push({
+        id: userLinks[n].id,
+        name: userLinks[n].name,
+        link: userLinks[n].link,
+        link_icon: userLinks[n].link_icon
+      });
+    } else {
+      myLinksArray.push({
+        id: null,
+        name: null,
+        link: null,
+        link_icon: defaultIconPath
+      });
+    }
+  }
+
+  var formArray = [];
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
     className: "row justify-content-center",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
@@ -2049,28 +2103,56 @@ function App() {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h2", {
         children: "Your Links"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-        className: "icons_wrap",
-        children: userLinks.map(function (linkItem) {
+        className: "icons_wrap add_icons",
+        children: myLinksArray.map(function (linkItem, index) {
           var id = linkItem.id,
               name = linkItem.name,
               link = linkItem.link,
               link_icon = linkItem.link_icon;
+
+          if (id === null) {
+            id = "new_" + index;
+          }
+
+          if (name === null) {
+            name = "add_new_link_" + index;
+          }
+          /* if (loopCount % 3 === 0) {
+               formArray = [];
+           }
+            formArray.push({
+               id: id,
+               name: name,
+               link: link,
+               link_icon: link_icon,
+           });
+             loopCount++;*/
+
+
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
             className: "icon_col",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(Links, {
-              id: id,
-              link_icon: link_icon,
-              setEditID: setEditID
-            }), editID === id ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(EditForm, {
-              handleSubmit: handleSubmit,
-              setEditID: setEditID,
-              currentLink: linkItem,
-              setName: setName,
-              setLink: setLink,
-              setLinkIcon: setLinkIcon,
-              showIcons: showIcons,
-              setShowIcons: setShowIcons
-            }) : ""]
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+              className: "col_top",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(Links, {
+                id: id,
+                link_icon: link_icon,
+                setEditID: setEditID,
+                setShowForm: setShowForm
+              })
+            }, name), editID === id ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+              className: "col_bottom",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(EditForm, {
+                handleSubmit: handleSubmit,
+                setEditID: setEditID,
+                editID: editID,
+                currentLink: linkItem,
+                setName: setName,
+                setLink: setLink,
+                setLinkIcon: setLinkIcon,
+                showIcons: showIcons,
+                setShowIcons: setShowIcons
+              })
+            }, name + "form") : ""]
           }, id);
         })
       })]
@@ -2078,7 +2160,9 @@ function App() {
       className: "col-4 preview_col",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Preview__WEBPACK_IMPORTED_MODULE_1__.default, {
         links: userLinks,
-        userInfo: userInfo
+        userInfo: userInfo,
+        defaultIconPath: defaultIconPath,
+        count: count
       })
     })]
   });
@@ -2101,8 +2185,8 @@ var Links = function Links(_ref) {
 };
 
 var EditForm = function EditForm(_ref2) {
-  var handleChange = _ref2.handleChange,
-      handleSubmit = _ref2.handleSubmit,
+  var handleSubmit = _ref2.handleSubmit,
+      editId = _ref2.editId,
       setEditID = _ref2.setEditID,
       currentLink = _ref2.currentLink,
       setName = _ref2.setName,
@@ -2114,7 +2198,8 @@ var EditForm = function EditForm(_ref2) {
       name = currentLink.name,
       link = currentLink.link,
       link_icon = currentLink.link_icon;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+    className: "edit_form",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("form", {
       onSubmit: handleSubmit,
       className: "links_forms",
@@ -2167,8 +2252,165 @@ var EditForm = function EditForm(_ref2) {
     })
   });
 };
+/*
+
+const DefaultIcon = ({count, defaultIconPath, nextLinkID, handleSubmit, setName, setLink, setLinkIcon, showIcons, setShowIcons}) => {
+
+
+    let idArray = [];
+    let n = 9 - count;
+    for (n; n > 0; n--) {
+
+        idArray.push({
+            id: nextLinkID
+        })
+        nextLinkID++;
+    }
+
+    return (
+        <>
+             {idArray.map((item) => {
+                 return(
+                     <div id={item.id} key={item.id} className="icon_col">
+                        <Links
+                            id={item.id}
+                            link_icon={defaultIconPath}
+                            setEditID={item.id}
+                        />
+                    </div>
+                 )}
+            )}
+        </>
+
+    )
+}
+
+const AddNewIconForm = ({handleChange, handleSubmit, defaultIconPath, setName, setLink, setLinkIcon, showIcons, setShowIcons}) => {
+
+    return (
+        <>
+            <form onSubmit={handleSubmit} className="links_forms">
+                <div className="row">
+                    <div className="col-4">
+                        {/!*<input name="name" type="file" onChange={(e) => handleChange(e) }/>*!/}
+                        <img id="current_icon" src={link_icon} name="link_icon" alt=""/>
+
+                        <a href="#" onClick={(e) => setShowIcons(true) }>Select Icon</a>
+                        { showIcons ? <IconList setShowIcons={setShowIcons} /> : "" }
+                    </div>
+                    <div className="col-8">
+                        <input name="name" type="text" defaultValue={name} onChange={(e) => setName(e.target.value) } />
+                        <input name="link" type="text" defaultValue={link} onChange={(e) => setLink(e.target.value) }/>
+                    </div>
+                </div>
+                <button type="submit">Add Icon</button>
+                <a href="#" onClick={() => setEditID(null) }>Cancel</a>
+            </form>
+        </>
+    );
+}
+*/
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
+
+/***/ }),
+
+/***/ "./resources/js/components/EditForm.js":
+/*!*********************************************!*\
+  !*** ./resources/js/components/EditForm.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _IconList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./IconList */ "./resources/js/components/IconList.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+
+var EditForm = function EditForm(_ref) {
+  var handleSubmit = _ref.handleSubmit,
+      setEditID = _ref.setEditID,
+      currentLink = _ref.currentLink,
+      setName = _ref.setName,
+      setLink = _ref.setLink,
+      setLinkIcon = _ref.setLinkIcon,
+      showIcons = _ref.showIcons,
+      setShowIcons = _ref.setShowIcons;
+  var id = currentLink.id,
+      name = currentLink.name,
+      link = currentLink.link,
+      link_icon = currentLink.link_icon;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("form", {
+      onSubmit: handleSubmit,
+      className: "links_forms",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        className: "row",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "col-4",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
+            src: link_icon,
+            name: "link_icon",
+            alt: ""
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+            id: "current_icon",
+            type: "text",
+            hidden: true,
+            value: link_icon,
+            onChange: function onChange(e) {
+              return setLinkIcon(e.target.value);
+            }
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+            href: "#",
+            onClick: function onClick(e) {
+              return setShowIcons(true);
+            },
+            children: "Change Icon"
+          }), showIcons ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_IconList__WEBPACK_IMPORTED_MODULE_1__.default, {
+            setShowIcons: setShowIcons
+          }) : ""]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "col-8",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+            name: "name",
+            type: "text",
+            defaultValue: name,
+            onChange: function onChange(e) {
+              return setName(e.target.value);
+            }
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+            name: "link",
+            type: "text",
+            defaultValue: link,
+            onChange: function onChange(e) {
+              return setLink(e.target.value);
+            }
+          })]
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+        type: "submit",
+        children: "Update"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+        href: "#",
+        onClick: function onClick() {
+          return setEditID(null);
+        },
+        children: "Cancel"
+      })]
+    })
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (EditForm);
 
 /***/ }),
 
@@ -2247,6 +2489,75 @@ var IconLinks = function IconLinks(_ref) {
 
 /***/ }),
 
+/***/ "./resources/js/components/Links.js":
+/*!******************************************!*\
+  !*** ./resources/js/components/Links.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_icons_md__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-icons/md */ "./node_modules/react-icons/md/index.esm.js");
+/* harmony import */ var _EditForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./EditForm */ "./resources/js/components/EditForm.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+
+
+
+var Links = function Links(_ref) {
+  var links = _ref.links,
+      handleSubmit = _ref.handleSubmit,
+      editID = _ref.editID,
+      setEditID = _ref.setEditID,
+      setName = _ref.setName,
+      setLink = _ref.setLink,
+      setLinkIcon = _ref.setLinkIcon,
+      showIcons = _ref.showIcons,
+      setShowIcons = _ref.setShowIcons;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    className: "icons_wrap",
+    children: links.map(function (linkItem) {
+      var id = linkItem.id,
+          name = linkItem.name,
+          link = linkItem.link,
+          link_icon = linkItem.link_icon;
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        className: "icon_col",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+          src: link_icon
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+          onClick: function onClick(e) {
+            return setEditID(id);
+          },
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_4__.MdEdit, {})
+        }), editID === id ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_EditForm__WEBPACK_IMPORTED_MODULE_2__.default, {
+          setEditID: setEditID,
+          handleSubmit: handleSubmit,
+          currentLink: linkItem,
+          setName: setName,
+          setLink: setLink,
+          setLinkIcon: setLinkIcon,
+          showIcons: showIcons,
+          setShowIcons: setShowIcons
+        }) : ""]
+      }, id);
+    })
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Links);
+
+/***/ }),
+
 /***/ "./resources/js/components/Main.js":
 /*!*****************************************!*\
   !*** ./resources/js/components/Main.js ***!
@@ -2287,7 +2598,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_safe_src_doc_iframe__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-safe-src-doc-iframe */ "./node_modules/react-safe-src-doc-iframe/dist/safe-src-doc-iframe.js");
 /* harmony import */ var react_safe_src_doc_iframe__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_safe_src_doc_iframe__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _Links__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Links */ "./resources/js/components/Links.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
 
 
 
@@ -2318,38 +2631,59 @@ const html = `
 
 
 
+
 var Preview = function Preview(_ref) {
   var links = _ref.links,
-      userInfo = _ref.userInfo;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      userInfo = _ref.userInfo,
+      count = _ref.count,
+      defaultIconPath = _ref.defaultIconPath;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
     className: "preview_wrap",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
       className: "inner_content",
-      style: {
-        background: userInfo.background,
-        height: "600px",
-        width: "100%"
-      },
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h2", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h2", {
         children: userInfo.username
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "icons_wrap",
-        children: links.map(function (linkItem) {
+        children: [links.map(function (linkItem) {
           var id = linkItem.id,
               link = linkItem.link,
               link_icon = linkItem.link_icon;
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
             className: "icon_col",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
               target: "_blank",
               href: link,
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
                 src: link_icon
               })
             })
           }, id);
-        })
+        }), count < 9 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(DefaultIcon, {
+          count: count,
+          defaultIconPath: defaultIconPath
+        }) : ""]
       })]
+    })
+  });
+};
+
+var DefaultIcon = function DefaultIcon(_ref2) {
+  var count = _ref2.count,
+      defaultIconPath = _ref2.defaultIconPath;
+  var n = 9 - count;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
+    children: _.times(n, function () {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        className: "icon_col disabled",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
+          target: "_blank",
+          href: null,
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+            src: defaultIconPath
+          })
+        })
+      }, n);
     })
   });
 };

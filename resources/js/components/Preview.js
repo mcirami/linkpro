@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import SafesrcDocIframe from 'react-safe-src-doc-iframe';
+import Links from './Links';
+
 /*
 
 const html = `
@@ -26,12 +28,12 @@ const html = `
 */
 
 
-const Preview = ({links, userInfo}) => {
+const Preview = ({links, userInfo, count, defaultIconPath}) => {
 
     return (
         <div className="preview_wrap">
 
-            <div className="inner_content" style={{ background: userInfo.background, height: "600px", width: "100%" }}>
+            <div className="inner_content">
                 <h2>{userInfo.username}</h2>
                 <div className="icons_wrap">
                     {links.map((linkItem) => {
@@ -44,10 +46,34 @@ const Preview = ({links, userInfo}) => {
                             </div>
                         )
                     })}
+                    {count < 9 ?
+                        <DefaultIcon count={count}
+                                     defaultIconPath={defaultIconPath}
+                                    />
+                        : ""
+                    }
                 </div>
             </div>
         </div>
     );
+}
+
+const DefaultIcon = ({count, defaultIconPath}) => {
+
+    let n = 9 - count;
+    return (
+        <>
+            {_.times( n, () =>
+
+                <div className="icon_col disabled" key={n}>
+                    <a target="_blank" href={null}>
+                        <img src={defaultIconPath} />
+                    </a>
+                </div>
+            )}
+        </>
+
+    )
 }
 
 

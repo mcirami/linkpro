@@ -5,12 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Link;
 use Auth;
+use Illuminate\Support\Facades\DB;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade;
 use Illuminate\Support\Facades\File;
 
 class LinkController extends Controller
 {
+
     public function index() {
+
+
+        $statement = DB::select("SHOW TABLE STATUS LIKE 'links'");
+        $nextId = $statement[0]->Auto_increment;
 
         $links = Auth::user()->links()
             ->withCount('visits')
@@ -22,6 +28,8 @@ class LinkController extends Controller
             'username' => Auth::user()->username,
             'links' => $links,
             'icons' => File::glob(public_path('images/icons').'/*'),
+            'defaultIcon' => File::glob(public_path('images/icon-placeholder.jpg')),
+            'nextLinkId' => $nextId
         ]);
 
         return view('links.index', [
