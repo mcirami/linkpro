@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Page;
+use Illuminate\Support\Facades\File;
 
 class RegisterController extends Controller
 {
@@ -64,10 +66,22 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'username' => $data['username'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        $headerIMGPath = File::glob('images/default-header-img.jpg');
+        $profileIMGPath = File::glob('images/default-profile-img.png');
+
+        $user->pages()->create([
+            'name' => $user->username,
+            'page_header_img' => $headerIMGPath[0],
+            'page_profile_img' => $profileIMGPath[0],
+            'display_name' => $user->username,
+            'page_bio' => 'This is where your bio goes']);
+
+        return $user;
     }
 }

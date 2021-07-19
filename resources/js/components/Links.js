@@ -1,37 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { FaEdit, FaTrash } from 'react-icons/fa';
 import { MdEdit } from 'react-icons/md';
-import EditForm from './EditForm';
 
-const Links = ({links, handleSubmit, editID, setEditID, setName, setLink, setLinkIcon, showIcons, setShowIcons}) => {
+const Links = ({id, name, link_icon, setLinkID, linkItem, moveItem}) => {
 
     return (
-        <div className="icons_wrap">
+        <>
+            <p>{name}</p>
+            <img src={ link_icon } />
+            <button onClick={(e) => setLinkID(id) }><MdEdit /></button>
 
-            {links.map((linkItem) => {
-                const { id, name, link, link_icon } = linkItem;
-
-
-                return (
-                    <div key={id} className="icon_col">
-                        <img src={ link_icon} />
-                        <button onClick={(e) => setEditID(id) }><MdEdit /></button>
-                        { editID === id ?
-                            <EditForm
-                                setEditID={setEditID}
-                            handleSubmit={handleSubmit}
-                            currentLink={linkItem}
-                            setName={setName}
-                            setLink={setLink}
-                            setLinkIcon={setLinkIcon}
-                            showIcons={showIcons}
-                            setShowIcons={setShowIcons}/> : ""
-                        }
-                    </div>
-                )
-            })}
-        </div>
+        </>
 
     );
 }

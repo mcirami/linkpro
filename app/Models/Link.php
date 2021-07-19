@@ -16,8 +16,21 @@ class Link extends Model
      */
     protected $guarded = [];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'sub_links' => 'array',
+    ];
+
     public function user() {
         return $this->belongsTo(User::class);
+    }
+
+    public function page() {
+        return $this->belongsTo(Page::class);
     }
 
     public function visits() {

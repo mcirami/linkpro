@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLinksTable extends Migration
+class CreatePagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateLinksTable extends Migration
      */
     public function up()
     {
-        Schema::create('links', function (Blueprint $table) {
+        Schema::create('pages', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->integer('page_id');
-            $table->string('name');
-            $table->text('link');
-            $table->string('link_icon')->nullable();
-            $table->json('sub_links')->nullable();
+            $table->string('name')->unique();
+            $table->string('page_header_img');
+            $table->string('page_profile_img');
+            $table->string('display_name');
+            $table->text('page_bio');
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ class CreateLinksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('links');
+        Schema::dropIfExists('pages');
     }
 }

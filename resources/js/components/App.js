@@ -1,31 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Preview from './Preview';
-//import Links from './Links';
-import {MdEdit} from 'react-icons/md';
-//import EditForm from './EditForm';
-import IconList from './IconList';
+import Links from './Links';
+import SubmitForm from './SubmitForm';
 import axios from "axios";
-
-const getUserLinks = () => {
-    return (user.links);
-}
+import myLinksArray from './LinkItems';
+import PageHeader from './PageHeader';
 
 const getUserInfo = () => {
 
     const userInfo = {
         'username': user.username,
-        'background': user.background
     }
 
     return (userInfo);
 }
 
+const page = user.page;
+
+
 function App() {
 
-    const [userLinks, setUserLinks] = useState(getUserLinks());
-   //const [isEditing, setIsEditing] = useState(false);
-    const [editID, setEditID] = useState(null);
-    const [showForm, setShowForm] = useState(false);
+    const [userLinks, setUserLinks] = useState(myLinksArray);
+    const [linkID, setLinkID] = useState(null);
+    //const [showForm, setShowForm] = useState(false);
     const [name, setName] = useState('');
     const [link, setLink] = useState('');
     const [linkIcon, setLinkIcon] = useState('');
@@ -33,11 +30,7 @@ function App() {
     const [showIcons, setShowIcons] = useState(false);
 
     const stringIndex = user.defaultIcon[0].search("/images");
-    //const end = defaultIconPath[0].search("/images");
     const defaultIconPath = user.defaultIcon[0].slice(stringIndex);
-
-    //let nextLinkID = user.nextLinkId;
-
 
     useEffect( () => {
         if(linkIcon){
@@ -52,29 +45,13 @@ function App() {
             name: name,
             link: link,
             link_icon: link_icon.src,
+            page_id : page["id"]
         };
 
-        if (editID.toString().includes("new") ) {
-            setUserLinks([
-                ...userLinks,
-                {
-                    name: name,
-                    link: link,
-                    link_icon: link_icon.src
-                }
-            ]);
-
-            axios.post('/dashboard/links/new', packets).then(
-                response => alert(JSON.stringify(response.data))
-            ).catch(error => {
-                console.log("ERROR:: ", error.response.data);
-
-            });
-
-        } else {
+        if (linkID.toString().includes("new") ) {
             setUserLinks(
                 userLinks.map((item) => {
-                    if (item.id === editID) {
+                    if (item.id === linkID) {
                         return {
                             ...item,
                             name: name,
@@ -86,236 +63,117 @@ function App() {
                 })
             );
 
-            axios.post('/dashboard/links/' + editID, packets).then(
+            axios.post('/dashboard/links/new', packets).then(
+                response => console.log(JSON.stringify(response.data))
+            ).catch(error => {
+                console.log("ERROR:: ", error.response.data);
+
+            });
+
+        } else {
+
+            axios.post('/dashboard/links/' + linkID, packets).then(
                 response => alert(JSON.stringify(response.data))
             ).catch(error => {
                 console.log("ERROR:: ", error.response.data);
 
             });
+
+            setUserLinks(
+                userLinks.map((item) => {
+                    if (item.id === linkID) {
+                        return {
+                            ...item,
+                            name: name,
+                            link: link,
+                            link_icon: link_icon.src
+                        }
+                    }
+                    return item;
+                })
+            );
         }
 
-        setEditID(null);
+        setLinkID(null);
     };
 
-    const editItem = (id) => {
-        const specificItem = userLinks.find((item) => item.id === id);
-        setName(specificItem.name);
-        setLink(specificItem.link);
-        setLinkIcon(specificItem.link_icon);
-    };
-    let count = userLinks.length;
+    const deleteItem = (e) => {
+        e.preventDefault();
 
-    let myLinksArray = [];
-    for (let n = 0; n < 9 ; n++) {
+        axios.delete('/dashboard/links/' + linkID).then(
+            response => alert(JSON.stringify(response.data))
+        ).catch(error => {
+            console.log("ERROR:: ", error.response.data);
+        });
 
-        if (userLinks[n] !== undefined) {
-            myLinksArray.push({
-                id: userLinks[n].id,
-                name: userLinks[n].name,
-                link: userLinks[n].link,
-                link_icon: userLinks[n].link_icon,
-            })
-        } else {
-            myLinksArray.push({
-                id: null,
-                name: null,
-                link: null,
-                link_icon: defaultIconPath,
-            })
-        }
+        setName(null);
+        setLink(null);
+        setLinkIcon(defaultIconPath);
+
+        setLinkID(null);
+
     }
 
-    var formArray = [];
+    let count = userLinks.length;
+    let loopCount = 0;
 
     return (
         <div className="row justify-content-center">
             <div className="col-8">
-                <h2>Your Links</h2>
-                <div className="icons_wrap add_icons">
 
-                    {myLinksArray.map((linkItem, index) => {
+                <PageHeader page={page}/>
+
+                <div className="icons_wrap add_icons icons">
+
+                    {userLinks.map((linkItem, index) => {
 
                         let {id, name, link, link_icon} = linkItem;
-
-                        if (id === null) {
-                            id = "new_" + index;
-                        }
-
-                        if (name === null) {
-                            name = "add_new_link_" + index;
-                        }
-
-                       /* if (loopCount % 3 === 0) {
-                            formArray = [];
-                        }
-
-                        formArray.push({
-                            id: id,
-                            name: name,
-                            link: link,
-                            link_icon: link_icon,
-                        });
-
-
-                        loopCount++;*/
+                        //id = id.toString();
+                        //loopCount++;
 
                         return (
-
-                            <div key={id} className="icon_col">
-
-                                <div key={name} className="col_top">
+                            <div key={id} className="icon_col" id={id}>
                                     <Links
-                                        id={id}
-                                        link_icon={link_icon}
-                                        setEditID={setEditID}
-                                        setShowForm={setShowForm}
+                                    id={id}
+                                    link_icon={link_icon}
+                                    setLinkID={setLinkID}
+                                    name={name}
+                                    //item={linkItem}
+                                />
+
+                                 {/*{loopCount % 3 === 0 && showForm ?*/}
+                                {linkID === id ?
+                                <div key={name + "_form"} className="edit_form" id={name + "_form"}>
+                                    <SubmitForm
+                                        handleSubmit={handleSubmit}
+                                        deleteItem={deleteItem}
+                                        setLinkID={setLinkID}
+                                        linkID={linkID}
+                                        currentLink={linkItem}
+                                        setName={setName}
+                                        setLink={setLink}
+                                        setLinkIcon={setLinkIcon}
+                                        showIcons={showIcons}
+                                        setShowIcons={setShowIcons}
+                                        page={page}
+
                                     />
                                 </div>
+                                : ""
 
-                                {editID === id ?
-                                    <div key={name + "form"} className="col_bottom">
-                                        <EditForm
-                                            handleSubmit={handleSubmit}
-                                            setEditID={setEditID}
-                                            editID={editID}
-                                            currentLink={linkItem}
-                                            setName={setName}
-                                            setLink={setLink}
-                                            setLinkIcon={setLinkIcon}
-                                            showIcons={showIcons}
-                                            setShowIcons={setShowIcons}
-
-                                        />
-                                    </div>
-                                        : ""
-
-                                }
+                            }
                             </div>
                         )
 
                     })}
 
-                    {/*{count < 9 ?
-                       <DefaultIcon count={count}
-                                    defaultIconPath={newPath}
-                                    nextLinkID={nextLinkID}
-                                    handleSubmit={handleSubmit}
-                                    setEditID={setEditID}
-                                    setName={setName}
-                                    setLink={setLink}
-                                    setLinkIcon={setLinkIcon}
-                                    showIcons={showIcons}
-                                    setShowIcons={setShowIcons}/>
-                        : ""
-                    }*/}
-
                 </div>
             </div>
-                    {/*<a href="/dashboard/links/new" className="btn btn-primary">Add Link</a>*/}
-
             <div className="col-4 preview_col">
                 <Preview links={userLinks} userInfo={userInfo} defaultIconPath={defaultIconPath} count={count}/>
             </div>
         </div>
     );
 }
-
-const Links = ({id, link_icon, setEditID}) => {
-
-    return (
-        <>
-            <img src={ link_icon } />
-            <button onClick={(e) => setEditID(id) }><MdEdit /></button>
-        </>
-
-    );
-}
-
-const EditForm = ({handleSubmit, editId, setEditID, currentLink, setName, setLink, setLinkIcon, showIcons, setShowIcons}) => {
-
-    let { id, name, link, link_icon} = currentLink;
-
-    return (
-
-        <div className="edit_form">
-            <form onSubmit={handleSubmit} className="links_forms">
-                <div className="row">
-                    <div className="col-4">
-                        {/*<input name="name" type="file" onChange={(e) => handleChange(e) }/>*/}
-                        <img id="current_icon" src={link_icon} name="link_icon" alt=""/>
-
-                        <a href="#" onClick={(e) => setShowIcons(true) }>Change Icon</a>
-                        { showIcons ? <IconList setShowIcons={setShowIcons} /> : "" }
-                    </div>
-                    <div className="col-8">
-                        <input name="name" type="text" defaultValue={name} onChange={(e) => setName(e.target.value) } />
-                        <input name="link" type="text" defaultValue={link} onChange={(e) => setLink(e.target.value) }/>
-                    </div>
-                </div>
-                <button type="submit">Update</button>
-                <a href="#" onClick={() => setEditID(null)}>Cancel</a>
-            </form>
-        </div>
-
-    );
-}
-/*
-
-const DefaultIcon = ({count, defaultIconPath, nextLinkID, handleSubmit, setName, setLink, setLinkIcon, showIcons, setShowIcons}) => {
-
-
-    let idArray = [];
-    let n = 9 - count;
-    for (n; n > 0; n--) {
-
-        idArray.push({
-            id: nextLinkID
-        })
-        nextLinkID++;
-    }
-
-    return (
-        <>
-             {idArray.map((item) => {
-                 return(
-                     <div id={item.id} key={item.id} className="icon_col">
-                        <Links
-                            id={item.id}
-                            link_icon={defaultIconPath}
-                            setEditID={item.id}
-                        />
-                    </div>
-                 )}
-            )}
-        </>
-
-    )
-}
-
-const AddNewIconForm = ({handleChange, handleSubmit, defaultIconPath, setName, setLink, setLinkIcon, showIcons, setShowIcons}) => {
-
-    return (
-        <>
-            <form onSubmit={handleSubmit} className="links_forms">
-                <div className="row">
-                    <div className="col-4">
-                        {/!*<input name="name" type="file" onChange={(e) => handleChange(e) }/>*!/}
-                        <img id="current_icon" src={link_icon} name="link_icon" alt=""/>
-
-                        <a href="#" onClick={(e) => setShowIcons(true) }>Select Icon</a>
-                        { showIcons ? <IconList setShowIcons={setShowIcons} /> : "" }
-                    </div>
-                    <div className="col-8">
-                        <input name="name" type="text" defaultValue={name} onChange={(e) => setName(e.target.value) } />
-                        <input name="link" type="text" defaultValue={link} onChange={(e) => setLink(e.target.value) }/>
-                    </div>
-                </div>
-                <button type="submit">Add Icon</button>
-                <a href="#" onClick={() => setEditID(null) }>Cancel</a>
-            </form>
-        </>
-    );
-}
-*/
 
 export default App;

@@ -2,21 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Page;
 use Illuminate\Http\Request;
 use App\Models\Link;
 use Auth;
 use Illuminate\Support\Facades\DB;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade;
 use Illuminate\Support\Facades\File;
+use App\Http\Resources\Link as LinkResource;
+use App\Http\Resources\LinkCollection;
+
 
 class LinkController extends Controller
 {
 
-    public function index() {
+    public function index(Request $request) {
 
+       /* $statement = DB::select("SHOW TABLE STATUS LIKE 'links'");
+        $nextId = $statement[0]->Auto_increment;*/
 
-        $statement = DB::select("SHOW TABLE STATUS LIKE 'links'");
-        $nextId = $statement[0]->Auto_increment;
+        $getPage = $request->input('page');
+
+        $page = Page::find($getPage);
 
         $links = Auth::user()->links()
             ->withCount('visits')
@@ -29,11 +36,11 @@ class LinkController extends Controller
             'links' => $links,
             'icons' => File::glob(public_path('images/icons').'/*'),
             'defaultIcon' => File::glob(public_path('images/icon-placeholder.jpg')),
-            'nextLinkId' => $nextId
+            'page' => $page,
         ]);
 
         return view('links.index', [
-            'links' => $links
+            'links' => $links,
         ]);
     }
 
@@ -49,10 +56,13 @@ class LinkController extends Controller
             'link_icon' => 'required',
         ]);
 
-        $link = Auth::user()->links()->create($request->only(['name', 'link', 'link_icon']));
+        $link = Auth::user()->links()->create($request->only(['name', 'link', 'link_icon', 'page_id']));
 
         if ($link) {
             return redirect()->to('/dashboard/links');
+            /*return (new LinkResource($link))
+                ->response()
+                ->setStatusCode(201);*/
         }
 
         return redirect()->back();
@@ -84,6 +94,8 @@ class LinkController extends Controller
 
         return redirect()->to('/dashboard/links');
 
+        //return response()->setStatusCode(201);
+
     }
 
     public function destroy(Request $request, Link $link) {
@@ -94,5 +106,6 @@ class LinkController extends Controller
         $link->delete();
 
         return redirect()->to('/dashboard/links');
+        //return response()->json(null, 204);
     }
 }

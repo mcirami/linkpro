@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Link as Link;
+use App\Models\Page as Page;
 
 class User extends Authenticatable
 {
@@ -21,8 +22,6 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
-        'background',
-        'text_color'
     ];
 
     /**
@@ -44,7 +43,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function links() {
+    public function pages(){
+        return $this->hasMany(Page::class);
+    }
+
+    public function links(){
         return $this->hasMany(Link::class);
     }
 
@@ -52,8 +55,8 @@ class User extends Authenticatable
         return $this->hasManyThrough(Visit::class, Link::class);
     }
 
-    public function getRouteKeyName() {
+    /*public function getRouteKeyName() {
         return 'username';
-    }
+    }*/
 
 }

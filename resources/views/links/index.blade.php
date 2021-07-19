@@ -3,7 +3,9 @@
 @section('content')
 <div class="container" id="links_page">
 
+
     <div id="root"></div>
+
 
     {{--<div class="row justify-content-center">
         <div class="col-8">
