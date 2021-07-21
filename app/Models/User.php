@@ -9,9 +9,11 @@ use Illuminate\Notifications\Notifiable;
 use App\Models\Link as Link;
 use App\Models\Page as Page;
 
+use Laravel\Passport\HasApiTokens;
+
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.

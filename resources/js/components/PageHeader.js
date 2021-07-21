@@ -1,67 +1,94 @@
 import React, {useState, useEffect} from 'react';
-import axios from "axios";
+import axios, {post} from "axios";
+
+const page_header_path = user.page_header_path;
 
 const PageHeader = ({page}) => {
 
-    const [pageHeader, setPageHeader] = useState(page["page_header_img"]);
-    const [selectedFile, setSelectedFile] = useState();
-    const [preview, setPreview] = useState();
+    const currentPageHeader = page_header_path + "/" + page["page_header_img"];
+
+    const [pageHeader, setPageHeader] = useState(currentPageHeader);
+    //const [selectedFile, setSelectedFile] = useState();
+    //const [preview, setPreview] = useState();
 
     // create a preview as a side effect, whenever selected file is changed
-    useEffect(() => {
+   /* useEffect(() => {
         if (!selectedFile) {
             setPreview(undefined)
             return
         }
 
-        setPageHeader("/images" + selectedFile["name"]);
+        setPageHeader(selectedFile["name"]);
 
         const objectUrl = URL.createObjectURL(selectedFile)
         setPreview(objectUrl)
 
         // free memory when ever this component is unmounted
         return () => URL.revokeObjectURL(objectUrl)
-    }, [selectedFile])
+    }, [selectedFile])*/
+
+    /*useEffect(() => {
+
+        const currentPageHeader = "/storage/page-headers/" + page["page_header_img"];
+        setPageHeader(currentPageHeader);
+
+    }, [pageHeader]);*/
 
     const onSelectFile = e => {
-        if (!e.target.files || e.target.files.length === 0) {
-            setSelectedFile(undefined)
-            return
+        let files = e.target.files || e.dataTransfer.files;
+        if (!files.length) {
+            return;
         }
 
+        createImage(files[0]);
+
         // I've kept this example simple by using the first image instead of multiple
-        setSelectedFile(e.target.files[0])
+        //setSelectedFile(e.target.files[0])
+    }
+
+   const createImage = (file) => {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+            setPageHeader(e.target.result);
+        };
+        reader.readAsDataURL(file);
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        const packets = {
-            page_header_img: pageHeader,
-            page_id: page["id"]
-        };
-
-        axios.post('/dashboard/links/header', packets).then(
-            response => alert(JSON.stringify(response.data))
-        ).catch(error => {
-            console.log("ERROR:: ", error.response.data);
-
-        });
-
-
+        fileUpload(pageHeader);
     }
+
+   const fileUpload = (image) => {
+
+       const packets = {
+           page_header_img: image,
+       };
+
+       axios.post('/dashboard/page/header-update/' + page["id"], packets).then(
+           response => console.log(JSON.stringify(response.data))
+       ).catch(error => {
+           console.log("ERROR:: ", error.response.data);
+       });
+   }
 
     return (
         <form onSubmit={handleSubmit}>
-            {selectedFile ? <img src={preview} /> :
-                <img id="page_header_img" src={pageHeader} name="page_header_img" alt=""/>
-            }
-            <input type="file"
-                   onChange={onSelectFile}
-            />
-            <button type="submit">
-                Upload
-            </button>
+            {/*{selectedFile ? <img src={preview} /> :*/}
+            <div className="row">
+                <div className="col-3">
+                    <img id="page_header_img" src={pageHeader} name="page_header_img" alt=""/>
+                </div>
+          {/*  }*/}
+                <div className="col-9">
+                    <input type="file"
+                           onChange={onSelectFile}
+                    />
+                    <button type="submit">
+                        Upload
+                    </button>
+                </div>
+            </div>
         </form>
 
     )

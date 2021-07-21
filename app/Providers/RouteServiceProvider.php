@@ -5,11 +5,15 @@ namespace App\Providers;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use App\Models\Page;
+
 
 class RouteServiceProvider extends ServiceProvider
 {
+
     /**
      * The path to the "home" route for your application.
      *
@@ -17,7 +21,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/dashboard/links';
+    public const HOME = '/dashboard/pages';
 
     /**
      * The controller namespace for the application.
@@ -46,6 +50,15 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
+        });
+
+        Route::bind('page', function($value) {
+            return Page::where('name', $value)->orWhere(function ($query) use ($value) {
+               if (is_numeric($value)) {
+                   $query->where('id', $value);
+               }
+            })->firstOrFail();
+
         });
     }
 

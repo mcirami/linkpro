@@ -28,13 +28,13 @@ const html = `
 */
 
 
-const Preview = ({links, userInfo, count, defaultIconPath}) => {
+const Preview = ({links, page, count, defaultIconPath}) => {
 
     return (
         <div className="preview_wrap">
 
             <div className="inner_content">
-                <h2>{userInfo.username}</h2>
+                <h2>{page["name"]}</h2>
                 <div className="icons_wrap">
                     {links.map((linkItem) => {
                         const { id, link, link_icon } = linkItem;

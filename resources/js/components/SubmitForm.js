@@ -32,6 +32,7 @@ const SubmitForm = ({handleSubmit, deleteItem, linkID, setLinkID, currentLink, s
                     }
                 </button>
                 {linkID && !linkID.toString().includes("new") ?
+
                     <a href="#" onClick={(e) => deleteItem(e) }>Delete</a> : ""
                 }
                 <a href="#" onClick={() => setLinkID(null)}>Cancel</a>

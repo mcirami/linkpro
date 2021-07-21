@@ -31,7 +31,7 @@ class Page extends Model
         return $this->hasMany(Link::class);
     }
 
-    public function getRouteKeyName() {
+    /*public function getRouteKeyName() {
         return 'name';
-    }
+    }*/
 }

@@ -52,7 +52,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'username' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255'. 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -72,13 +72,13 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        $headerIMGPath = File::glob('images/default-header-img.jpg');
-        $profileIMGPath = File::glob('images/default-profile-img.png');
+        $headerIMG = 'default-header-img.jpg';
+        $profileIMG = 'default-profile-img.png';
 
         $user->pages()->create([
             'name' => $user->username,
-            'page_header_img' => $headerIMGPath[0],
-            'page_profile_img' => $profileIMGPath[0],
+            'page_header_img' => $headerIMG,
+            'page_profile_img' => $profileIMG,
             'display_name' => $user->username,
             'page_bio' => 'This is where your bio goes']);
 

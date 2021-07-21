@@ -5,25 +5,31 @@ namespace App\Http\Controllers;
 use App\Models\Page;
 use Illuminate\Http\Request;
 use App\Models\Link;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\DB;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade;
 use Illuminate\Support\Facades\File;
 use App\Http\Resources\Link as LinkResource;
 use App\Http\Resources\LinkCollection;
-
+use Illuminate\Support\Facades\Storage;
 
 class LinkController extends Controller
 {
 
     public function index(Request $request) {
 
-       /* $statement = DB::select("SHOW TABLE STATUS LIKE 'links'");
-        $nextId = $statement[0]->Auto_increment;*/
-
         $getPage = $request->input('page');
-
         $page = Page::find($getPage);
+        $userID = Auth::id();
+
+   /*     $directories = Storage::directories('public/page-headers');
+        print_r($directories);
+        if (!empty($directories && in_array($userID,$directories))) {
+            echo "/public/page-headers/'. $userID . "/"";
+        } else {
+            echo "doesn't exist";
+        }*/
 
         $links = Auth::user()->links()
             ->withCount('visits')
@@ -31,7 +37,6 @@ class LinkController extends Controller
             ->get();
 
         JavaScriptFacade::put([
-            'background' => Auth::user()->background,
             'username' => Auth::user()->username,
             'links' => $links,
             'icons' => File::glob(public_path('images/icons').'/*'),

@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\PageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,10 +19,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/links/new', [LinkController::class, 'store']);
-Route::post('/links/{link}', [LinkController::class, 'update']);
-Route::delete('/links/{link}', [LinkController::class, 'destroy']);
+Route::group(['middleware' => ['CORS']], function() {
+        /*Route::post('/links/new', [LinkController::class, 'store']);
+        Route::post('/links/{link}', [LinkController::class, 'update']);
+        Route::delete('/links/{link}', [LinkController::class, 'destroy']);*/
 
-Route::post('/links/header', [PageController::class, 'headerUpload']);
 
+        //Route::post('/page/header-update', [PageController::class, 'headerUpdate'])->name('page.header.update');
+        //Route::post('page/profile-update', [PageController::class, 'profileUpdate'])->name('page.profile.update');
+        //Route::post('/page/name-update/{page}', [PageController::class, 'nameUpdate'])->name('page.name.update');
 
+    }
+);
