@@ -64,9 +64,10 @@ class PageController extends Controller
         }
 
         $links = Auth::user()->links()->where('page_id', $page["id"])
-                     ->withCount('visits')
-                     ->with('latest_visit')
-                     ->get();
+                                      ->withCount('visits')
+                                      ->with('latest_visit')
+                                      ->orderBy('position', 'asc')
+                                      ->get();
 
         JavaScriptFacade::put([
             'username' => Auth::user()->username,
