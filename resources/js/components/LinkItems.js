@@ -12,18 +12,18 @@ for (let n = 0; n < 9 ; n++) {
         myLinksArray.push({
             id: userLinks[n].id,
             name: userLinks[n].name,
-            link: userLinks[n].link,
-            link_icon: userLinks[n].link_icon,
+            url: userLinks[n].url,
+            icon: userLinks[n].icon,
         })
     } else {
         const id = "new_" + (n + 1);
-        const name = "add_new_link_" + n;
+        //const name = "add_new_link_" + n;
 
         myLinksArray.push({
             id: id,
-            name: name,
-            link: null,
-            link_icon: defaultIconPath,
+            name: "Link Name",
+            url: "https://linkurl.com",
+            icon: defaultIconPath,
         })
     }
 }

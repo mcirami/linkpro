@@ -17,10 +17,10 @@ class CreatePagesTable extends Migration
             $table->id();
             $table->integer('user_id');
             $table->string('name')->unique();
-            $table->string('page_header_img');
-            $table->string('page_profile_img');
-            $table->string('display_name');
-            $table->text('page_bio');
+            $table->string('header_img');
+            $table->string('profile_img');
+            $table->string('title');
+            $table->text('bio');
             $table->timestamps();
         });
     }

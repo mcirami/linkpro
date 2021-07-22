@@ -35,10 +35,10 @@ class PageController extends Controller
 
         $user->pages()->create([
             'name' => $request->name,
-            'page_header_img' => $headerIMG,
-            'page_profile_img' => $profileIMG,
-            'display_name' => $request->name,
-            'page_bio' => 'This is where your bio goes']);
+            'header_img' => $headerIMG,
+            'profile_img' => $profileIMG,
+            'title' => $request->name,
+            'bio' => 'This is where your bio goes']);
 
         return response()->json('Successfully added');
     }
@@ -92,14 +92,14 @@ class PageController extends Controller
             return abort(404);
         }
 
-        if($request->get('page_header_img')) {
-            $image = $request->get('page_header_img');
+        if($request->get('header_img')) {
+            $image = $request->get('header_img');
             $name = time() . '.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-            $img = Image::make($request->get('page_header_img'));
+            $img = Image::make($request->get('header_img'));
             Storage::put('/public/page-headers/'. $userID . "/" . $page->id . "/" . $name, $img->stream());
         }
 
-        $page->update(['page_header_img' => $name]);
+        $page->update(['header_img' => $name]);
         return response()->json('Successfully added');
 
         //return redirect()->back();
@@ -114,14 +114,14 @@ class PageController extends Controller
             return abort(404);
         }
 
-        if($request->get('page_profile_img')) {
-            $image = $request->get('page_profile_img');
+        if($request->get('profile_img')) {
+            $image = $request->get('profile_img');
             $name = time() . '.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-            $img = Image::make($request->get('page_profile_img'));
+            $img = Image::make($request->get('profile_img'));
             Storage::put('/public/profile-images/'. $userID . "/" . $page->id . "/" . $name, $img->stream());
         }
 
-        $page->update(['page_profile_img' => $name]);
+        $page->update(['profile_img' => $name]);
         return response()->json('Successfully added');
 
         //return redirect()->back();

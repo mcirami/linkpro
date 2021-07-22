@@ -57,20 +57,14 @@ class LinkController extends Controller
 
         $request->validate([
             'name' => 'required|max:255',
-            'link' => 'required|url',
-            'link_icon' => 'required',
+            'url' => 'required|url',
+            'icon' => 'required',
+            'page_id' => 'required|integer'
         ]);
 
-        $link = Auth::user()->links()->create($request->only(['name', 'link', 'link_icon', 'page_id']));
+        $link = Auth::user()->links()->create($request->only(['name', 'url', 'icon', 'page_id']));
 
-        if ($link) {
-            return redirect()->to('/dashboard/links');
-            /*return (new LinkResource($link))
-                ->response()
-                ->setStatusCode(201);*/
-        }
-
-        return redirect()->back();
+        return response()->json(['message'=> 'Successfully added', 'link_id' => $link->id]);
     }
 
     public function edit(Link $link) {
@@ -91,13 +85,15 @@ class LinkController extends Controller
 
         $request->validate([
             'name' => 'required|max:255',
-            'link' => 'required|url',
-            'link_icon' => 'required',
+            'url' => 'required|url',
+            'icon' => 'required',
         ]);
 
-        $link->update($request->only(['name', 'lnk', 'link_icon']));
+        $link->update($request->only(['name', 'url', 'icon']));
 
-        return redirect()->to('/dashboard/links');
+        return response()->json('Successfully updated');
+
+        //return redirect()->to('/dashboard/links');
 
         //return response()->setStatusCode(201);
 
@@ -110,7 +106,7 @@ class LinkController extends Controller
 
         $link->delete();
 
-        return redirect()->to('/dashboard/links');
+        return response()->json('Successfully Deleted');
         //return response()->json(null, 204);
     }
 }

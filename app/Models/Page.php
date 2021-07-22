@@ -17,10 +17,10 @@ class Page extends Model
     protected $fillable = [
         'user_id',
         'name',
-        'page_header_img',
-        'page_profile_img',
-        'display_name',
-        'page_bio'
+        'header_img',
+        'profile_img',
+        'title',
+        'bio'
     ];
 
     public function user() {
@@ -29,6 +29,10 @@ class Page extends Model
 
     public function links() {
         return $this->hasMany(Link::class);
+    }
+
+    public function folders() {
+        return $this->hasMany(Folder::class);
     }
 
     /*public function getRouteKeyName() {

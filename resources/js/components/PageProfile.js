@@ -4,7 +4,7 @@ import axios, {post} from "axios";
 const page_profile_path = user.page_profile_path;
 
 const PageProfile = ({page}) => {
-    const currentPageProfileIMG = page_profile_path + "/" + page["page_profile_img"];
+    const currentPageProfileIMG = page_profile_path + "/" + page["profile_img"];
 
     const [pageProfileIMG, setPageProfileIMG] = useState(currentPageProfileIMG);
     //const [selectedFile, setSelectedFile] = useState();
@@ -72,7 +72,7 @@ const PageProfile = ({page}) => {
     const fileUpload = (image) => {
 
         const packets = {
-            page_profile_img: image,
+            profile_img: image,
         };
 
         axios.post('/dashboard/page/profile-update/' + page["id"], packets).then(
@@ -87,7 +87,7 @@ const PageProfile = ({page}) => {
             {/*{selectedFile ? <img src={preview} /> :*/}
             <div className="row">
                 <div className="col-3">
-                    <img id="page_profile_img" src={pageProfileIMG} name="page_profile_img" alt=""/>
+                    <img id="profile_img" src={pageProfileIMG} name="profile_img" alt=""/>
                 </div>
             {/*  }*/}
                 <div className="col-9">

@@ -1,23 +1,9 @@
 import React from 'react';
 import { MdClose } from 'react-icons/md';
+import axios from 'axios';
 
-const IconLinks = ({setShowIcons}) => {
+const IconLinks = ({setShowIcons, selectIcon}) => {
     const iconpaths = user.icons;
-
-    const selectIcon = (e, source) => {
-        const el = e.target;
-        const image = document.getElementById('current_icon');
-
-        if(!el.classList.contains('active')) {
-            $('.icon_image').removeClass('active');
-            el.classList.add('active');
-            image.src = source;
-
-        } else {
-            el.classList.remove('active');
-            image.src = "";
-        }
-    }
 
     return (
         <div className="icon_popup">
@@ -31,7 +17,7 @@ const IconLinks = ({setShowIcons}) => {
 
                         return (
                             <div key={index} className="icon_col">
-                                <img className="img-fluid icon_image" onClick={(e) => selectIcon(e, newPath) } src={ newPath } />
+                                <img className="img-fluid icon_image" src={ newPath } onClick={(e) => {e.preventDefault(); selectIcon(e, newPath)} }/>
                             </div>
                         )
                     })}

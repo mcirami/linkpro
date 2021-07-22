@@ -34,14 +34,14 @@ const Preview = ({links, page, count, defaultIconPath}) => {
         <div className="preview_wrap">
 
             <div className="inner_content">
-                <h2>{page["name"]}</h2>
+                <h2>{page["title"]}</h2>
                 <div className="icons_wrap">
                     {links.map((linkItem) => {
-                        const { id, link, link_icon } = linkItem;
+                        const { id, url, icon } = linkItem;
                         return (
                             <div className="icon_col" key={id}>
-                                <a target="_blank" href={link}>
-                                    <img src={link_icon} />
+                                <a target="_blank" href={url}>
+                                    <img src={icon} />
                                 </a>
                             </div>
                         )

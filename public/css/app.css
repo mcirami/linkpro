@@ -10102,13 +10102,13 @@ img {
   background: none;
 }
 
-.links_forms .icon_image {
+.icon_popup .icon_image {
   border: 2px solid transparent;
 }
-.links_forms .icon_image:hover {
+.icon_popup .icon_image:hover {
   cursor: pointer;
 }
-.links_forms .icon_image.active {
+.icon_popup .icon_image.active {
   border: 2px solid #000;
   border-radius: 10px;
   -webkit-border-radius: 10px;

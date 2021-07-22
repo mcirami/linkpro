@@ -5,7 +5,7 @@ const page_header_path = user.page_header_path;
 
 const PageHeader = ({page}) => {
 
-    const currentPageHeader = page_header_path + "/" + page["page_header_img"];
+    const currentPageHeader = page_header_path + "/" + page["header_img"];
 
     const [pageHeader, setPageHeader] = useState(currentPageHeader);
     //const [selectedFile, setSelectedFile] = useState();
@@ -29,7 +29,7 @@ const PageHeader = ({page}) => {
 
     /*useEffect(() => {
 
-        const currentPageHeader = "/storage/page-headers/" + page["page_header_img"];
+        const currentPageHeader = "/storage/page-headers/" + page["header_img"];
         setPageHeader(currentPageHeader);
 
     }, [pageHeader]);*/
@@ -62,7 +62,7 @@ const PageHeader = ({page}) => {
    const fileUpload = (image) => {
 
        const packets = {
-           page_header_img: image,
+           header_img: image,
        };
 
        axios.post('/dashboard/page/header-update/' + page["id"], packets).then(
@@ -77,7 +77,7 @@ const PageHeader = ({page}) => {
             {/*{selectedFile ? <img src={preview} /> :*/}
             <div className="row">
                 <div className="col-3">
-                    <img id="page_header_img" src={pageHeader} name="page_header_img" alt=""/>
+                    <img id="header_img" src={pageHeader} name="header_img" alt=""/>
                 </div>
           {/*  }*/}
                 <div className="col-9">

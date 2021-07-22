@@ -27,95 +27,18 @@ function App() {
     const [linkID, setLinkID] = useState(null);
     //const [showForm, setShowForm] = useState(false);
     const [name, setName] = useState('');
-    const [link, setLink] = useState('');
-    const [linkIcon, setLinkIcon] = useState('');
+    const [url, setUrl] = useState('');
+    const [icon, setIcon] = useState('');
     //const [userInfo, setUserInfo] = useState(getUserInfo());
 
     const stringIndex = user.defaultIcon[0].search("/images");
     const defaultIconPath = user.defaultIcon[0].slice(stringIndex);
 
     useEffect( () => {
-        if(linkIcon){
-            setLinkIcon(linkIcon);
+        if(icon){
+            setIcon(icon);
         }
-    },[linkIcon])
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        const packets = {
-            name: name,
-            link: link,
-            link_icon: link_icon.src,
-            page_id : page["id"]
-        };
-
-        if (linkID.toString().includes("new") ) {
-
-            axios.post('/dashboard/links/new', packets).then(
-                response => console.log(JSON.stringify(response.data)),
-                setUserLinks(
-                    userLinks.map((item) => {
-                        if (item.id === linkID) {
-                            return {
-                                ...item,
-                                name: name,
-                                link: link,
-                                link_icon: link_icon.src
-                            }
-                        }
-                        return item;
-                    })
-                )
-            ).catch(error => {
-                console.log("ERROR:: ", error.response.data);
-
-            });
-
-        } else {
-
-            axios.post('/dashboard/links/' + linkID, packets).then(
-                response => alert(JSON.stringify(response.data)),
-                setUserLinks(
-                    userLinks.map((item) => {
-                        if (item.id === linkID) {
-                            return {
-                                ...item,
-                                name: name,
-                                link: link,
-                                link_icon: link_icon.src
-                            }
-                        }
-                        return item;
-                    })
-                )
-            ).catch(error => {
-                console.log("ERROR:: ", error.response.data);
-
-            });
-
-
-        }
-
-        setLinkID(null);
-    };
-
-    const deleteItem = (e) => {
-        e.preventDefault();
-
-        axios.delete('/dashboard/links/' + linkID).then(
-            response => alert(JSON.stringify(response.data))
-        ).catch(error => {
-            console.log("ERROR:: ", error.response.data);
-        });
-
-        setName(null);
-        setLink(null);
-        setLinkIcon(defaultIconPath);
-
-        setLinkID(null);
-
-    }
+    },[icon])
 
     let count = userLinks.length;
     let loopCount = 0;
@@ -139,43 +62,23 @@ function App() {
 
                             {userLinks.map((linkItem, index) => {
 
-                                //let {id, name, link, link_icon} = linkItem;
-                                //id = id.toString();
-                                //loopCount++;
-
                                 return (
                                     <div key={index} className="icon_col" id={index}>
                                             <Links
                                                 linkItem={linkItem}
-                                                handleSubmit={handleSubmit}
                                                 setLinkID={setLinkID}
+                                                currentName={name}
                                                 setName={setName}
-                                                setLink={setLink}
-                                                setLinkIcon={setLinkIcon}
-                                            //item={linkItem}
+                                                currentUrl={url}
+                                                setUrl={setUrl}
+                                                currentIcon={icon}
+                                                setIcon={setIcon}
+                                                userLinks={userLinks}
+                                                setUserLinks={setUserLinks}
+                                                defaultIconPath={defaultIconPath}
+                                                pageID={page["id"]}
                                         />
 
-                                         {/*{loopCount % 3 === 0 && showForm ?*/}
-                                       {/* {linkID === id ?
-                                        <div key={name + "_form"} className="edit_form" id={name + "_form"}>
-                                            <SubmitForm
-                                                handleSubmit={handleSubmit}
-                                                deleteItem={deleteItem}
-                                                setLinkID={setLinkID}
-                                                linkID={linkID}
-                                                currentLink={linkItem}
-                                                setName={setName}
-                                                setLink={setLink}
-                                                setLinkIcon={setLinkIcon}
-                                                showIcons={showIcons}
-                                                setShowIcons={setShowIcons}
-                                                page={page}
-
-                                            />
-                                        </div>
-                                        : ""
-
-                                    }*/}
                                     </div>
                                 )
 

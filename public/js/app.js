@@ -1928,12 +1928,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PageName__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./PageName */ "./resources/js/components/PageName.js");
 /* harmony import */ var _PageNav__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./PageNav */ "./resources/js/components/PageNav.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -1989,82 +1983,22 @@ function App() {
 
   var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState8 = _slicedToArray(_useState7, 2),
-      link = _useState8[0],
-      setLink = _useState8[1];
+      url = _useState8[0],
+      setUrl = _useState8[1];
 
   var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState10 = _slicedToArray(_useState9, 2),
-      linkIcon = _useState10[0],
-      setLinkIcon = _useState10[1]; //const [userInfo, setUserInfo] = useState(getUserInfo());
+      icon = _useState10[0],
+      setIcon = _useState10[1]; //const [userInfo, setUserInfo] = useState(getUserInfo());
 
 
   var stringIndex = user.defaultIcon[0].search("/images");
   var defaultIconPath = user.defaultIcon[0].slice(stringIndex);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    if (linkIcon) {
-      setLinkIcon(linkIcon);
+    if (icon) {
+      setIcon(icon);
     }
-  }, [linkIcon]);
-
-  var handleSubmit = function handleSubmit(e) {
-    e.preventDefault();
-    var packets = {
-      name: name,
-      link: link,
-      link_icon: link_icon.src,
-      page_id: page["id"]
-    };
-
-    if (linkID.toString().includes("new")) {
-      axios__WEBPACK_IMPORTED_MODULE_4___default().post('/dashboard/links/new', packets).then(function (response) {
-        return console.log(JSON.stringify(response.data));
-      }, setUserLinks(userLinks.map(function (item) {
-        if (item.id === linkID) {
-          return _objectSpread(_objectSpread({}, item), {}, {
-            name: name,
-            link: link,
-            link_icon: link_icon.src
-          });
-        }
-
-        return item;
-      })))["catch"](function (error) {
-        console.log("ERROR:: ", error.response.data);
-      });
-    } else {
-      axios__WEBPACK_IMPORTED_MODULE_4___default().post('/dashboard/links/' + linkID, packets).then(function (response) {
-        return alert(JSON.stringify(response.data));
-      }, setUserLinks(userLinks.map(function (item) {
-        if (item.id === linkID) {
-          return _objectSpread(_objectSpread({}, item), {}, {
-            name: name,
-            link: link,
-            link_icon: link_icon.src
-          });
-        }
-
-        return item;
-      })))["catch"](function (error) {
-        console.log("ERROR:: ", error.response.data);
-      });
-    }
-
-    setLinkID(null);
-  };
-
-  var deleteItem = function deleteItem(e) {
-    e.preventDefault();
-    axios__WEBPACK_IMPORTED_MODULE_4___default().delete('/dashboard/links/' + linkID).then(function (response) {
-      return alert(JSON.stringify(response.data));
-    })["catch"](function (error) {
-      console.log("ERROR:: ", error.response.data);
-    });
-    setName(null);
-    setLink(null);
-    setLinkIcon(defaultIconPath);
-    setLinkID(null);
-  };
-
+  }, [icon]);
   var count = userLinks.length;
   var loopCount = 0;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
@@ -2087,20 +2021,22 @@ function App() {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
             className: "icons_wrap add_icons icons",
             children: userLinks.map(function (linkItem, index) {
-              //let {id, name, link, link_icon} = linkItem;
-              //id = id.toString();
-              //loopCount++;
               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
                 className: "icon_col",
                 id: index,
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Links__WEBPACK_IMPORTED_MODULE_2__.default, {
                   linkItem: linkItem,
-                  handleSubmit: handleSubmit,
                   setLinkID: setLinkID,
+                  currentName: name,
                   setName: setName,
-                  setLink: setLink,
-                  setLinkIcon: setLinkIcon //item={linkItem}
-
+                  currentUrl: url,
+                  setUrl: setUrl,
+                  currentIcon: icon,
+                  setIcon: setIcon,
+                  userLinks: userLinks,
+                  setUserLinks: setUserLinks,
+                  defaultIconPath: defaultIconPath,
+                  pageID: page["id"]
                 })
               }, index);
             })
@@ -2135,57 +2071,47 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_icons_md__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-icons/md */ "./node_modules/react-icons/md/index.esm.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_icons_md__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-icons/md */ "./node_modules/react-icons/md/index.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
 
 
 
 
 
 var IconLinks = function IconLinks(_ref) {
-  var setShowIcons = _ref.setShowIcons;
+  var setShowIcons = _ref.setShowIcons,
+      selectIcon = _ref.selectIcon;
   var iconpaths = user.icons;
-
-  var selectIcon = function selectIcon(e, source) {
-    var el = e.target;
-    var image = document.getElementById('current_icon');
-
-    if (!el.classList.contains('active')) {
-      $('.icon_image').removeClass('active');
-      el.classList.add('active');
-      image.src = source;
-    } else {
-      el.classList.remove('active');
-      image.src = "";
-    }
-  };
-
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
     className: "icon_popup",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
       href: "#",
       className: "close_popup",
       onClick: function onClick(e) {
         return setShowIcons(false);
       },
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_2__.MdClose, {})
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_3__.MdClose, {})
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
       className: "icon_box",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h3", {
         children: "Change Link Icon"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "icons_wrap",
         children: iconpaths.map(function (iconPath, index) {
           var end = iconPath.search("/images");
           var newPath = iconPath.slice(end);
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
             className: "icon_col",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
               className: "img-fluid icon_image",
+              src: newPath,
               onClick: function onClick(e) {
-                return selectIcon(e, newPath);
-              },
-              src: newPath
+                e.preventDefault();
+                selectIcon(e, newPath);
+              }
             })
           }, index);
         })
@@ -2247,17 +2173,17 @@ for (var n = 0; n < 9; n++) {
     myLinksArray.push({
       id: userLinks[n].id,
       name: userLinks[n].name,
-      link: userLinks[n].link,
-      link_icon: userLinks[n].link_icon
+      url: userLinks[n].url,
+      icon: userLinks[n].icon
     });
   } else {
-    var id = "new_" + (n + 1);
-    var name = "add_new_link_" + n;
+    var id = "new_" + (n + 1); //const name = "add_new_link_" + n;
+
     myLinksArray.push({
       id: id,
-      name: name,
-      link: null,
-      link_icon: defaultIconPath
+      name: "Link Name",
+      url: "https://linkurl.com",
+      icon: defaultIconPath
     });
   }
 }
@@ -2283,6 +2209,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -2305,15 +2237,21 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var Links = function Links(_ref) {
   var linkItem = _ref.linkItem,
-      handleSubmit = _ref.handleSubmit,
       setLinkID = _ref.setLinkID,
+      currentName = _ref.currentName,
       setName = _ref.setName,
-      setLink = _ref.setLink,
-      setLinkIcon = _ref.setLinkIcon;
+      currentUrl = _ref.currentUrl,
+      setUrl = _ref.setUrl,
+      userLinks = _ref.userLinks,
+      setUserLinks = _ref.setUserLinks,
+      currentIcon = _ref.currentIcon,
+      setIcon = _ref.setIcon,
+      pageID = _ref.pageID,
+      defaultIconPath = _ref.defaultIconPath;
   var id = linkItem.id,
       name = linkItem.name,
-      link = linkItem.link,
-      link_icon = linkItem.link_icon;
+      url = linkItem.url,
+      icon = linkItem.icon;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
@@ -2327,20 +2265,166 @@ var Links = function Links(_ref) {
 
   var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState6 = _slicedToArray(_useState5, 2),
-      elementEditing = _useState6[0],
-      setElementEditing = _useState6[1];
+      elementType = _useState6[0],
+      setElementType = _useState6[1];
 
-  var handleClick = function handleClick(id, name) {
+  var handleClick = function handleClick(id, type) {
     setLinkID(id);
-    setElementEditing(name);
+    setElementType(type);
     setIsEditing(true);
   };
 
+  var selectIcon = function selectIcon(e, source) {
+    e.preventDefault();
+    var el = e.target;
+    el.classList.add('active');
+    var packets = {
+      name: name,
+      url: url,
+      icon: source,
+      page_id: pageID
+    };
+
+    if (id.toString().includes("new")) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post('/dashboard/links/new', packets).then(function (response) {
+        console.log(JSON.stringify(response.data));
+        var link_id = JSON.stringify(response.data.link_id);
+        setUserLinks(userLinks.map(function (item) {
+          if (item.id === id) {
+            return _objectSpread(_objectSpread({}, item), {}, {
+              id: link_id,
+              name: item.name,
+              url: item.url,
+              icon: source,
+              page_id: pageID
+            });
+          }
+
+          return item;
+        }));
+        setShowIcons(false);
+      })["catch"](function (error) {
+        console.log("ERROR:: ", error.response.data);
+      });
+    } else {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post('/dashboard/links/' + id, packets).then(function (response) {
+        return console.log(JSON.stringify(response.data));
+      }, setUserLinks(userLinks.map(function (item) {
+        if (item.id === id) {
+          return _objectSpread(_objectSpread({}, item), {}, {
+            name: item.name,
+            url: item.url,
+            icon: source
+          });
+        }
+
+        return item;
+      })), setShowIcons(false))["catch"](function (error) {
+        console.log("ERROR:: ", error.response.data);
+      });
+    }
+  };
+
+  var handleSubmit = function handleSubmit(e, clickedID) {
+    e.preventDefault();
+    setLinkID(clickedID);
+    var newName;
+    var newUrl;
+
+    if (elementType === "name") {
+      newName = currentName;
+    } else {
+      newName = name;
+    }
+
+    if (elementType === "url") {
+      newUrl = currentUrl;
+    } else {
+      newUrl = url;
+    }
+
+    var packets = {
+      name: newName,
+      url: newUrl,
+      icon: icon,
+      page_id: pageID
+    };
+
+    if (id.toString().includes("new")) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post('/dashboard/links/new', packets).then(function (response) {
+        console.log(JSON.stringify(response.data));
+        var link_id = JSON.stringify(response.data.link_id);
+        setUserLinks(userLinks.map(function (item) {
+          if (item.id === id) {
+            return _objectSpread(_objectSpread({}, item), {}, {
+              id: link_id,
+              name: item.name,
+              url: item.url,
+              icon: source,
+              page_id: pageID
+            });
+          }
+
+          return item;
+        }));
+        setShowIcons(false);
+      })["catch"](function (error) {
+        console.log("ERROR:: ", error.response.data);
+      });
+    } else {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post('/dashboard/links/' + id, packets).then(function (response) {
+        return console.log(JSON.stringify(response.data));
+      }, setUserLinks(userLinks.map(function (item) {
+        if (item.id === id) {
+          return _objectSpread(_objectSpread({}, item), {}, {
+            name: newName,
+            url: newUrl,
+            icon: icon
+          });
+        }
+
+        return item;
+      })), setLinkID(null), setIsEditing(false))["catch"](function (error) {
+        console.log("ERROR:: ", error.response.data);
+      });
+    }
+  };
+
+  var deleteItem = function deleteItem(e, clickedID) {
+    e.preventDefault();
+    setLinkID(clickedID);
+    setName("Link Name");
+    setUrl("https://linkurl.com");
+    setIcon(defaultIconPath);
+    setUserLinks(userLinks.map(function (item) {
+      if (item.id === id) {
+        return _objectSpread(_objectSpread({}, item), {}, {
+          name: currentName,
+          url: currentUrl,
+          icon: currentIcon
+        });
+      }
+
+      return item;
+    }));
+    axios__WEBPACK_IMPORTED_MODULE_2___default().delete('/dashboard/links/' + id).then(function (response) {
+      return console.log(JSON.stringify(response.data));
+    })["catch"](function (error) {
+      console.log("ERROR:: ", error.response.data);
+    });
+  };
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+    children: [!id.toString().includes("new") ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+      href: "#",
+      onClick: function onClick(e) {
+        return deleteItem(e, id);
+      },
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_4__.MdDeleteForever, {})
+    }) : "", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
       className: "icon_wrap",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
-        src: link_icon
+        src: icon
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
         href: "#",
         onClick: function onClick(e) {
@@ -2348,11 +2432,12 @@ var Links = function Links(_ref) {
         },
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_4__.MdEdit, {})
       }), showIcons ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_IconList__WEBPACK_IMPORTED_MODULE_1__.default, {
-        setShowIcons: setShowIcons
+        setShowIcons: setShowIcons,
+        selectIcon: selectIcon
       }) : ""]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "my_row",
-      children: isEditing ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
+      children: isEditing && elementType === "name" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
           type: "text",
           defaultValue: name,
@@ -2361,7 +2446,7 @@ var Links = function Links(_ref) {
           },
           onKeyPress: function onKeyPress(event) {
             if (event.key === 'Enter') {
-              handleSubmit(event);
+              handleSubmit(event, id);
             }
           }
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
@@ -2375,23 +2460,23 @@ var Links = function Links(_ref) {
       }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
         children: [name, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
           onClick: function onClick(e) {
-            return handleClick(id, name);
+            return handleClick(id, "name");
           },
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_4__.MdEdit, {})
         })]
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-      className: "myrow",
-      children: isEditing ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
+      className: "my_row",
+      children: isEditing && elementType === "url" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
           type: "text",
-          defaultValue: link,
+          defaultValue: url,
           onChange: function onChange(e) {
-            return setLink(e.target.value);
+            return setUrl(e.target.value);
           },
           onKeyPress: function onKeyPress(event) {
             if (event.key === 'Enter') {
-              handleSubmit(event);
+              handleSubmit(event, id);
             }
           }
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
@@ -2403,9 +2488,9 @@ var Links = function Links(_ref) {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_4__.MdCancel, {})
         })]
       }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
-        children: [link, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+        children: [url, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
           onClick: function onClick(e) {
-            return handleClick(id, name);
+            return handleClick(id, "url");
           },
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_4__.MdEdit, {})
         })]
@@ -2453,7 +2538,7 @@ var page_header_path = user.page_header_path;
 
 var PageHeader = function PageHeader(_ref) {
   var page = _ref.page;
-  var currentPageHeader = page_header_path + "/" + page["page_header_img"];
+  var currentPageHeader = page_header_path + "/" + page["header_img"];
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(currentPageHeader),
       _useState2 = _slicedToArray(_useState, 2),
@@ -2475,7 +2560,7 @@ var PageHeader = function PageHeader(_ref) {
    }, [selectedFile])*/
 
   /*useEffect(() => {
-       const currentPageHeader = "/storage/page-headers/" + page["page_header_img"];
+       const currentPageHeader = "/storage/page-headers/" + page["header_img"];
       setPageHeader(currentPageHeader);
    }, [pageHeader]);*/
 
@@ -2508,7 +2593,7 @@ var PageHeader = function PageHeader(_ref) {
 
   var fileUpload = function fileUpload(image) {
     var packets = {
-      page_header_img: image
+      header_img: image
     };
     axios__WEBPACK_IMPORTED_MODULE_1___default().post('/dashboard/page/header-update/' + page["id"], packets).then(function (response) {
       return console.log(JSON.stringify(response.data));
@@ -2524,9 +2609,9 @@ var PageHeader = function PageHeader(_ref) {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "col-3",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
-          id: "page_header_img",
+          id: "header_img",
           src: pageHeader,
-          name: "page_header_img",
+          name: "header_img",
           alt: ""
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
@@ -2588,8 +2673,8 @@ var PageName = function PageName(_ref) {
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(page['name']),
       _useState2 = _slicedToArray(_useState, 2),
-      linkPageName = _useState2[0],
-      setLinkPageName = _useState2[1];
+      name = _useState2[0],
+      setName = _useState2[1];
 
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState4 = _slicedToArray(_useState3, 2),
@@ -2599,7 +2684,7 @@ var PageName = function PageName(_ref) {
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
     var packets = {
-      name: linkPageName
+      name: name
     };
     axios__WEBPACK_IMPORTED_MODULE_2___default().post('/dashboard/page/name-update/' + page['id'], packets).then(function (response) {
       return console.log(JSON.stringify(response.data));
@@ -2617,9 +2702,9 @@ var PageName = function PageName(_ref) {
         children: "https://link.pro/"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
         type: "text",
-        defaultValue: linkPageName,
+        defaultValue: name,
         onChange: function onChange(e) {
-          return setLinkPageName(e.target.value);
+          return setName(e.target.value);
         },
         onKeyPress: function onKeyPress(event) {
           if (event.key === 'Enter') {
@@ -2634,7 +2719,7 @@ var PageName = function PageName(_ref) {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_4__.MdCancel, {})
       })]
     }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
-      children: ["https://link.pro/", linkPageName, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+      children: ["https://link.pro/", name, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
         onClick: function onClick(e) {
           return setIsEditing(true);
         },
@@ -2723,8 +2808,8 @@ var PageNav = function PageNav(_ref) {
           className: page["id"] === currentPage ? "active" : "",
           href: "/dashboard/pages/" + page["id"],
           children: page["name"]
-        }, page["id"])
-      });
+        })
+      }, page["id"]);
     }), pageCount < 3 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
       id: "new_" + pageCount + 1,
       children: isEditing ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
@@ -2788,7 +2873,7 @@ var page_profile_path = user.page_profile_path;
 
 var PageProfile = function PageProfile(_ref) {
   var page = _ref.page;
-  var currentPageProfileIMG = page_profile_path + "/" + page["page_profile_img"];
+  var currentPageProfileIMG = page_profile_path + "/" + page["profile_img"];
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(currentPageProfileIMG),
       _useState2 = _slicedToArray(_useState, 2),
@@ -2852,7 +2937,7 @@ var PageProfile = function PageProfile(_ref) {
 
   var fileUpload = function fileUpload(image) {
     var packets = {
-      page_profile_img: image
+      profile_img: image
     };
     axios__WEBPACK_IMPORTED_MODULE_1___default().post('/dashboard/page/profile-update/' + page["id"], packets).then(function (response) {
       return console.log(JSON.stringify(response.data));
@@ -2868,9 +2953,9 @@ var PageProfile = function PageProfile(_ref) {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "col-3",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
-          id: "page_profile_img",
+          id: "profile_img",
           src: pageProfileIMG,
-          name: "page_profile_img",
+          name: "profile_img",
           alt: ""
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
@@ -2950,20 +3035,20 @@ var Preview = function Preview(_ref) {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
       className: "inner_content",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h2", {
-        children: page["name"]
+        children: page["title"]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "icons_wrap",
         children: [links.map(function (linkItem) {
           var id = linkItem.id,
-              link = linkItem.link,
-              link_icon = linkItem.link_icon;
+              url = linkItem.url,
+              icon = linkItem.icon;
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
             className: "icon_col",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
               target: "_blank",
-              href: link,
+              href: url,
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
-                src: link_icon
+                src: icon
               })
             })
           }, id);
@@ -3114,39 +3199,22 @@ var SubmitForm = function SubmitForm(_ref) {
 "use strict";
 
 
-function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 jQuery(document).ready(function ($) {
-  var icons = document.querySelectorAll('.icon_image');
-
-  if (icons) {
-    var _iterator = _createForOfIteratorHelper(icons),
-        _step;
-
-    try {
-      for (_iterator.s(); !(_step = _iterator.n()).done;) {
-        var icon = _step.value;
-        icon.addEventListener('click', function () {
-          if (!this.classList.contains('active')) {
-            $('.icon_image').removeClass('active');
-            this.classList.add('active');
-            document.getElementById('link_icon').value = this.getAttribute('src');
-          } else {
-            this.classList.remove('active');
-            document.getElementById('link_icon').value = "";
-          }
-        });
-      }
-    } catch (err) {
-      _iterator.e(err);
-    } finally {
-      _iterator.f();
-    }
-  }
+  /* const icons = document.querySelectorAll('.icon_image');
+    if(icons) {
+        for (const icon of icons) {
+            icon.addEventListener('click', function() {
+                if(!this.classList.contains('active')) {
+                   $('.icon_image').removeClass('active');
+                   this.classList.add('active');
+                   document.getElementById('link_icon').value = this.getAttribute('src');
+                } else {
+                   this.classList.remove('active');
+                   document.getElementById('link_icon').value = "";
+               }
+           })
+        }
+   }*/
 });
 
 /***/ }),

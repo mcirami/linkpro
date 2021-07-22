@@ -1,7 +1,7 @@
 'use strict'
 jQuery(document).ready(function($) {
 
-    const icons = document.querySelectorAll('.icon_image');
+   /* const icons = document.querySelectorAll('.icon_image');
 
     if(icons) {
 
@@ -21,7 +21,7 @@ jQuery(document).ready(function($) {
             })
 
         }
-    }
+    }*/
 
 
 });

@@ -34,7 +34,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
     Route::get('/links/new', [LinkController::class, 'create']);
     Route::post('/links/new', [LinkController::class, 'store']);
     //Route::get('/links/{link}', [LinkController::class, 'edit']);
-    //Route::post('/links/{link}', [LinkController::class, 'update']);
+    Route::post('/links/{link}', [LinkController::class, 'update']);
     Route::delete('/links/{link}', [LinkController::class, 'destroy']);
 
     Route::get('/pages/{page}', [PageController::class, 'edit'])

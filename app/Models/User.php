@@ -53,6 +53,10 @@ class User extends Authenticatable
         return $this->hasMany(Link::class);
     }
 
+    public function folders(){
+        return $this->hasMany(Folder::class);
+    }
+
     public function visits() {
         return $this->hasManyThrough(Visit::class, Link::class);
     }

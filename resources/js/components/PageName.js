@@ -5,14 +5,14 @@ import { MdEdit, MdCancel } from 'react-icons/md';
 
 const PageName = ({page}) => {
 
-    const [linkPageName, setLinkPageName] = useState(page['name']);
+    const [name, setName] = useState(page['name']);
     const [isEditing, setIsEditing] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         const packets = {
-            name: linkPageName,
+            name: name,
         };
 
         axios.post('/dashboard/page/name-update/' + page['id'], packets).then(
@@ -31,8 +31,8 @@ const PageName = ({page}) => {
             {isEditing ?
                <form>
                     <label>https://link.pro/</label>
-                    <input type="text" defaultValue={linkPageName}
-                           onChange={(e) => setLinkPageName(e.target.value) }
+                    <input type="text" defaultValue={name}
+                           onChange={(e) => setName(e.target.value) }
                            onKeyPress={ event => {
                                    if(event.key === 'Enter') {
                                        handleSubmit(event);
@@ -43,7 +43,7 @@ const PageName = ({page}) => {
                     <a href="#" onClick={() => setIsEditing(false)}><MdCancel /></a>
                </form>
                 :
-                <p>https://link.pro/{linkPageName}<a onClick={(e) => setIsEditing(true) }><MdEdit /></a></p>
+                <p>https://link.pro/{name}<a onClick={(e) => setIsEditing(true) }><MdEdit /></a></p>
             }
 
 

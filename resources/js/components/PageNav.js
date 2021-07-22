@@ -32,8 +32,8 @@ const PageNav = ({userPages, currentPage}) => {
 
                 return (
 
-                    <li id={page["id"]} >
-                        <a key={page["id"]} className={page["id"] === currentPage ? "active" : ""} href={"/dashboard/pages/" + page["id"]}>{page["name"]}</a>
+                    <li id={page["id"]} key={page["id"]}>
+                        <a className={page["id"] === currentPage ? "active" : ""} href={"/dashboard/pages/" + page["id"]}>{page["name"]}</a>
                     </li>
 
                 )

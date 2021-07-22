@@ -17,12 +17,17 @@ class Link extends Model
     protected $guarded = [];
 
     /**
-     * The attributes that should be cast to native types.
+     * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $casts = [
-        'sub_links' => 'array',
+    protected $fillable = [
+        'user_id',
+        'page_id',
+        'folder_id',
+        'name',
+        'url',
+        'icon',
     ];
 
     public function user() {
@@ -31,6 +36,10 @@ class Link extends Model
 
     public function page() {
         return $this->belongsTo(Page::class);
+    }
+
+    public function folder() {
+        return $this->belongsTo(Folder::class);
     }
 
     public function visits() {

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLinksTable extends Migration
+class CreateFoldersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,10 @@ class CreateLinksTable extends Migration
      */
     public function up()
     {
-        Schema::create('links', function (Blueprint $table) {
+        Schema::create('folders', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
             $table->integer('page_id');
-            $table->integer('folder_id')->nullable();
-            $table->string('name');
-            $table->text('url');
-            $table->string('icon')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +28,6 @@ class CreateLinksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('links');
+        Schema::dropIfExists('folders');
     }
 }
