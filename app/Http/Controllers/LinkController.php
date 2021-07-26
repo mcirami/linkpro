@@ -55,6 +55,13 @@ class LinkController extends Controller
 
     public function store(Request $request) {
 
+        $highestPosition = Auth::user()->links()->max('position');
+        if ($highestPosition) {
+            $newPosition = $highestPosition + 1;
+        } else {
+            $newPosition = 1;
+        }
+
         $request->validate([
             'name' => 'required|max:255',
             'url' => 'required|url',
@@ -62,7 +69,13 @@ class LinkController extends Controller
             'page_id' => 'required|integer'
         ]);
 
-        $link = Auth::user()->links()->create($request->only(['name', 'url', 'icon', 'page_id']));
+        $link = Auth::user()->links()->create( [
+            'name' => $request->name,
+            'url' => $request->url,
+            'icon' => $request->icon,
+            'page_id' => $request->page_id,
+            'position' => $newPosition
+        ]);
 
         return response()->json(['message'=> 'Successfully added', 'link_id' => $link->id]);
     }
@@ -90,6 +103,21 @@ class LinkController extends Controller
         ]);
 
         $link->update($request->only(['name', 'url', 'icon']));
+
+        return response()->json('Successfully updated');
+
+        //return redirect()->to('/dashboard/links');
+
+        //return response()->setStatusCode(201);
+
+    }
+
+    public function updateStatus(Request $request, Link $link) {
+        if ($link->user_id != Auth::id()) {
+            return abort(403);
+        }
+
+        $link->update($request->only(['active_status']));
 
         return response()->json('Successfully updated');
 

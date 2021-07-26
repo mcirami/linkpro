@@ -2,23 +2,28 @@ import React, {useState} from 'react';
 import {MdCancel, MdEdit, MdDeleteForever} from 'react-icons/md';
 import IconList from './IconList';
 import axios from 'axios';
+import Switch from "react-switch";
 
-const Links = ({linkItem, setLinkID, currentName, setName, currentUrl, setUrl, userLinks, setUserLinks, currentIcon, setIcon, pageID, defaultIconPath}) => {
+const Links = ({linkItem, currentName, setName, currentUrl, setUrl, userLinks, setUserLinks, currentIcon, setIcon, pageID, defaultIconPath}) => {
 
-    const {id, name, url, icon} = linkItem;
+    const {id, name, url, icon, active_status} = linkItem;
 
     const [showIcons, setShowIcons] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [elementType, setElementType] = useState();
+    const [editID, setEditID] = useState(null);
+    const [switchStatus, setSwitchStatus] = useState(active_status);
+
+    const newLink = id.toString().includes("new");
 
     const handleClick = (id, type) => {
-        setLinkID(id);
+        setEditID(id);
         setElementType(type);
         setIsEditing(true);
     }
 
     const selectIcon = (e, source) => {
-        e.preventDefault();
+        //e.preventDefault();
 
         const el = e.target;
         el.classList.add('active');
@@ -30,7 +35,7 @@ const Links = ({linkItem, setLinkID, currentName, setName, currentUrl, setUrl, u
             page_id: pageID
         };
 
-        if (id.toString().includes("new") ) {
+        if (newLink) {
 
             axios.post('/dashboard/links/new', packets).then(
                 response => {
@@ -89,7 +94,7 @@ const Links = ({linkItem, setLinkID, currentName, setName, currentUrl, setUrl, u
     const handleSubmit = (e, clickedID) => {
         e.preventDefault();
 
-        setLinkID(clickedID);
+        setEditID(clickedID);
         let newName;
         let newUrl;
 
@@ -113,7 +118,7 @@ const Links = ({linkItem, setLinkID, currentName, setName, currentUrl, setUrl, u
             page_id : pageID
         };
 
-        if (id.toString().includes("new") ) {
+        if (newLink ) {
 
             axios.post('/dashboard/links/new', packets).then(
                 response => {
@@ -126,17 +131,18 @@ const Links = ({linkItem, setLinkID, currentName, setName, currentUrl, setUrl, u
                                 return {
                                     ...item,
                                     id: link_id,
-                                    name: item.name,
-                                    url: item.url,
-                                    icon: source,
+                                    name: newName,
+                                    url: newUrl,
+                                    icon: item.icon,
                                     page_id: pageID
                                 }
                             }
                             return item;
                         })
-                    )
+                    );
 
-                    setShowIcons(false)
+                    setEditID(null);
+                    setIsEditing(false);
                 },
 
             ).catch(error => {
@@ -161,8 +167,9 @@ const Links = ({linkItem, setLinkID, currentName, setName, currentUrl, setUrl, u
                         return item;
                     })
                 ),
-                setLinkID(null),
+                setEditID(null),
                 setIsEditing(false)
+
             ).catch(error => {
                 console.log("ERROR:: ", error.response.data);
 
@@ -175,17 +182,16 @@ const Links = ({linkItem, setLinkID, currentName, setName, currentUrl, setUrl, u
     const deleteItem = (e, clickedID) => {
         e.preventDefault();
 
-        setLinkID(clickedID);
-
         setName("Link Name");
         setUrl("https://linkurl.com");
         setIcon(defaultIconPath);
 
         setUserLinks(
             userLinks.map((item) => {
-                if (item.id === id) {
+                if (item.id === clickedID) {
                     return {
                         ...item,
+                        id: "new_" + clickedID,
                         name: currentName,
                         url: currentUrl,
                         icon: currentIcon
@@ -204,12 +210,41 @@ const Links = ({linkItem, setLinkID, currentName, setName, currentUrl, setUrl, u
 
     }
 
+    const handleChange = (id) => {
+        const newStatus = !switchStatus;
+
+        setSwitchStatus(newStatus);
+
+        const packets = {
+            active_status: newStatus,
+        };
+
+        axios.post('/dashboard/links/status/' + id, packets).then(
+            response => console.log(JSON.stringify(response.data)),
+            setUserLinks(
+                userLinks.map((item) => {
+                    if (item.id === id) {
+                        return {
+                            ...item,
+                            active_status: newStatus
+                        }
+                    }
+                    return item;
+                })
+            ),
+
+        ).catch(error => {
+            console.log("ERROR:: ", error.response.data);
+
+        });
+    }
+
     return (
         <>
 
-            {!id.toString().includes("new") ?
+            {!newLink ?
 
-                <a href="#" onClick={(e) => deleteItem(e, id) }><MdDeleteForever /></a> : ""
+                <a id={id} href="#" onClick={(e) => deleteItem(e, id) }><MdDeleteForever /></a> : ""
             }
 
             <div className="icon_wrap">
@@ -219,7 +254,7 @@ const Links = ({linkItem, setLinkID, currentName, setName, currentUrl, setUrl, u
             </div>
 
             <div className="my_row">
-                {isEditing && elementType === "name" ?
+                {(isEditing && elementType === "name" && editID === id) ?
                     <form>
                         <input type="text" defaultValue={name}
                                onChange={(e) => setName(e.target.value)}
@@ -230,14 +265,14 @@ const Links = ({linkItem, setLinkID, currentName, setName, currentUrl, setUrl, u
                                    }
                                }
                         />
-                        <a href="#" onClick={(e) => {e.preventDefault(); setIsEditing(false) } }><MdCancel /></a>
+                        <a href="#" onClick={(e) => {e.preventDefault(); setIsEditing(false);setEditID(null) } }><MdCancel /></a>
                     </form>
                     :
                     <p>{name}<a onClick={(e) => handleClick(id, "name") }><MdEdit /></a></p>
                 }
             </div>
             <div className="my_row">
-                {isEditing && elementType === "url" ?
+                {(isEditing && elementType === "url" && editID === id) ?
                     <form>
                         <input type="text" defaultValue={url}
                                onChange={(e) => setUrl(e.target.value)}
@@ -248,11 +283,22 @@ const Links = ({linkItem, setLinkID, currentName, setName, currentUrl, setUrl, u
                                     }
                                }
                         />
-                        <a href="#" onClick={(e) => {e.preventDefault(); setIsEditing(false) } }><MdCancel /></a>
+                        <a href="#" onClick={(e) => {e.preventDefault(); setIsEditing(false);setEditID(null) } }><MdCancel /></a>
                     </form>
                     :
                     <p>{url}<a onClick={(e) => handleClick(id, "url") }><MdEdit /></a></p>
                 }
+            </div>
+            <div className="my_row">
+
+                <Switch onChange={(e) => handleChange(id) }
+                        disabled={newLink}
+                        height={20}
+                        checked={Boolean(switchStatus)}
+                        onColor='#424fcf'
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                />
             </div>
 
 

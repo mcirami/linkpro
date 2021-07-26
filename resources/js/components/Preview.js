@@ -37,13 +37,17 @@ const Preview = ({links, page, count, defaultIconPath}) => {
                 <h2>{page["title"]}</h2>
                 <div className="icons_wrap">
                     {links.map((linkItem) => {
-                        const { id, url, icon } = linkItem;
+                        const { id, url, icon, active_status } = linkItem;
                         return (
-                            <div className="icon_col" key={id}>
-                                <a target="_blank" href={url}>
-                                    <img src={icon} />
-                                </a>
-                            </div>
+                            <>
+                                { active_status ?
+                                    <div className="icon_col" key={id}>
+                                        <a target="_blank" href={url}>
+                                            <img src={icon} />
+                                        </a>
+                                    </div>
+                                 : "" }
+                             </>
                         )
                     })}
                     {count < 9 ?

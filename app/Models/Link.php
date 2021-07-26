@@ -28,6 +28,8 @@ class Link extends Model
         'name',
         'url',
         'icon',
+        'position',
+        'active_status'
     ];
 
     public function user() {

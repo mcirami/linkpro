@@ -33,14 +33,14 @@ class PageController extends Controller
         $headerIMG = 'default-header-img.jpg';
         $profileIMG = 'default-profile-img.png';
 
-        $user->pages()->create([
+        $page = $user->pages()->create([
             'name' => $request->name,
             'header_img' => $headerIMG,
             'profile_img' => $profileIMG,
             'title' => $request->name,
             'bio' => 'This is where your bio goes']);
 
-        return response()->json('Successfully added');
+        return response()->json(['message'=> 'Successfully added', 'page_id' => $page->id]);
     }
 
     public function edit(Page $page) {

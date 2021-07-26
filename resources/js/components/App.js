@@ -24,7 +24,7 @@ const userPages = user.user_pages;
 function App() {
 
     const [userLinks, setUserLinks] = useState(myLinksArray);
-    const [linkID, setLinkID] = useState(null);
+    //const [linkID, setLinkID] = useState(null);
     //const [showForm, setShowForm] = useState(false);
     const [name, setName] = useState('');
     const [url, setUrl] = useState('');
@@ -66,7 +66,6 @@ function App() {
                                     <div key={index} className="icon_col" id={index}>
                                             <Links
                                                 linkItem={linkItem}
-                                                setLinkID={setLinkID}
                                                 currentName={name}
                                                 setName={setName}
                                                 currentUrl={url}

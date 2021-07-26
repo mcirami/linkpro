@@ -1968,28 +1968,24 @@ function App() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(_LinkItems__WEBPACK_IMPORTED_MODULE_5__.default),
       _useState2 = _slicedToArray(_useState, 2),
       userLinks = _useState2[0],
-      setUserLinks = _useState2[1];
+      setUserLinks = _useState2[1]; //const [linkID, setLinkID] = useState(null);
+  //const [showForm, setShowForm] = useState(false);
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState4 = _slicedToArray(_useState3, 2),
-      linkID = _useState4[0],
-      setLinkID = _useState4[1]; //const [showForm, setShowForm] = useState(false);
-
+      name = _useState4[0],
+      setName = _useState4[1];
 
   var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState6 = _slicedToArray(_useState5, 2),
-      name = _useState6[0],
-      setName = _useState6[1];
+      url = _useState6[0],
+      setUrl = _useState6[1];
 
   var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState8 = _slicedToArray(_useState7, 2),
-      url = _useState8[0],
-      setUrl = _useState8[1];
-
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState10 = _slicedToArray(_useState9, 2),
-      icon = _useState10[0],
-      setIcon = _useState10[1]; //const [userInfo, setUserInfo] = useState(getUserInfo());
+      icon = _useState8[0],
+      setIcon = _useState8[1]; //const [userInfo, setUserInfo] = useState(getUserInfo());
 
 
   var stringIndex = user.defaultIcon[0].search("/images");
@@ -2026,7 +2022,6 @@ function App() {
                 id: index,
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Links__WEBPACK_IMPORTED_MODULE_2__.default, {
                   linkItem: linkItem,
-                  setLinkID: setLinkID,
                   currentName: name,
                   setName: setName,
                   currentUrl: url,
@@ -2174,7 +2169,9 @@ for (var n = 0; n < 9; n++) {
       id: userLinks[n].id,
       name: userLinks[n].name,
       url: userLinks[n].url,
-      icon: userLinks[n].icon
+      icon: userLinks[n].icon,
+      position: userLinks[n].position,
+      active_status: userLinks[n].active_status
     });
   } else {
     var id = "new_" + (n + 1); //const name = "add_new_link_" + n;
@@ -2183,7 +2180,9 @@ for (var n = 0; n < 9; n++) {
       id: id,
       name: "Link Name",
       url: "https://linkurl.com",
-      icon: defaultIconPath
+      icon: defaultIconPath,
+      position: 0,
+      active_status: false
     });
   }
 }
@@ -2204,11 +2203,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_icons_md__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-icons/md */ "./node_modules/react-icons/md/index.esm.js");
+/* harmony import */ var react_icons_md__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-icons/md */ "./node_modules/react-icons/md/index.esm.js");
 /* harmony import */ var _IconList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./IconList */ "./resources/js/components/IconList.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_switch__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-switch */ "./node_modules/react-switch/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2235,9 +2235,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var Links = function Links(_ref) {
   var linkItem = _ref.linkItem,
-      setLinkID = _ref.setLinkID,
       currentName = _ref.currentName,
       setName = _ref.setName,
       currentUrl = _ref.currentUrl,
@@ -2251,7 +2251,8 @@ var Links = function Links(_ref) {
   var id = linkItem.id,
       name = linkItem.name,
       url = linkItem.url,
-      icon = linkItem.icon;
+      icon = linkItem.icon,
+      active_status = linkItem.active_status;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
@@ -2268,14 +2269,26 @@ var Links = function Links(_ref) {
       elementType = _useState6[0],
       setElementType = _useState6[1];
 
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState8 = _slicedToArray(_useState7, 2),
+      editID = _useState8[0],
+      setEditID = _useState8[1];
+
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(active_status),
+      _useState10 = _slicedToArray(_useState9, 2),
+      switchStatus = _useState10[0],
+      setSwitchStatus = _useState10[1];
+
+  var newLink = id.toString().includes("new");
+
   var handleClick = function handleClick(id, type) {
-    setLinkID(id);
+    setEditID(id);
     setElementType(type);
     setIsEditing(true);
   };
 
   var selectIcon = function selectIcon(e, source) {
-    e.preventDefault();
+    //e.preventDefault();
     var el = e.target;
     el.classList.add('active');
     var packets = {
@@ -2285,7 +2298,7 @@ var Links = function Links(_ref) {
       page_id: pageID
     };
 
-    if (id.toString().includes("new")) {
+    if (newLink) {
       axios__WEBPACK_IMPORTED_MODULE_2___default().post('/dashboard/links/new', packets).then(function (response) {
         console.log(JSON.stringify(response.data));
         var link_id = JSON.stringify(response.data.link_id);
@@ -2327,7 +2340,7 @@ var Links = function Links(_ref) {
 
   var handleSubmit = function handleSubmit(e, clickedID) {
     e.preventDefault();
-    setLinkID(clickedID);
+    setEditID(clickedID);
     var newName;
     var newUrl;
 
@@ -2350,7 +2363,7 @@ var Links = function Links(_ref) {
       page_id: pageID
     };
 
-    if (id.toString().includes("new")) {
+    if (newLink) {
       axios__WEBPACK_IMPORTED_MODULE_2___default().post('/dashboard/links/new', packets).then(function (response) {
         console.log(JSON.stringify(response.data));
         var link_id = JSON.stringify(response.data.link_id);
@@ -2358,16 +2371,17 @@ var Links = function Links(_ref) {
           if (item.id === id) {
             return _objectSpread(_objectSpread({}, item), {}, {
               id: link_id,
-              name: item.name,
-              url: item.url,
-              icon: source,
+              name: newName,
+              url: newUrl,
+              icon: item.icon,
               page_id: pageID
             });
           }
 
           return item;
         }));
-        setShowIcons(false);
+        setEditID(null);
+        setIsEditing(false);
       })["catch"](function (error) {
         console.log("ERROR:: ", error.response.data);
       });
@@ -2384,7 +2398,7 @@ var Links = function Links(_ref) {
         }
 
         return item;
-      })), setLinkID(null), setIsEditing(false))["catch"](function (error) {
+      })), setEditID(null), setIsEditing(false))["catch"](function (error) {
         console.log("ERROR:: ", error.response.data);
       });
     }
@@ -2392,13 +2406,13 @@ var Links = function Links(_ref) {
 
   var deleteItem = function deleteItem(e, clickedID) {
     e.preventDefault();
-    setLinkID(clickedID);
     setName("Link Name");
     setUrl("https://linkurl.com");
     setIcon(defaultIconPath);
     setUserLinks(userLinks.map(function (item) {
-      if (item.id === id) {
+      if (item.id === clickedID) {
         return _objectSpread(_objectSpread({}, item), {}, {
+          id: "new_" + clickedID,
           name: currentName,
           url: currentUrl,
           icon: currentIcon
@@ -2414,31 +2428,53 @@ var Links = function Links(_ref) {
     });
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
-    children: [!id.toString().includes("new") ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+  var handleChange = function handleChange(id) {
+    var newStatus = !switchStatus;
+    setSwitchStatus(newStatus);
+    var packets = {
+      active_status: newStatus
+    };
+    axios__WEBPACK_IMPORTED_MODULE_2___default().post('/dashboard/links/status/' + id, packets).then(function (response) {
+      return console.log(JSON.stringify(response.data));
+    }, setUserLinks(userLinks.map(function (item) {
+      if (item.id === id) {
+        return _objectSpread(_objectSpread({}, item), {}, {
+          active_status: newStatus
+        });
+      }
+
+      return item;
+    })))["catch"](function (error) {
+      console.log("ERROR:: ", error.response.data);
+    });
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
+    children: [!newLink ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
+      id: id,
       href: "#",
       onClick: function onClick(e) {
         return deleteItem(e, id);
       },
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_4__.MdDeleteForever, {})
-    }) : "", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_5__.MdDeleteForever, {})
+    }) : "", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
       className: "icon_wrap",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
         src: icon
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
         href: "#",
         onClick: function onClick(e) {
           return setShowIcons(true);
         },
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_4__.MdEdit, {})
-      }), showIcons ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_IconList__WEBPACK_IMPORTED_MODULE_1__.default, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_5__.MdEdit, {})
+      }), showIcons ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_IconList__WEBPACK_IMPORTED_MODULE_1__.default, {
         setShowIcons: setShowIcons,
         selectIcon: selectIcon
       }) : ""]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "my_row",
-      children: isEditing && elementType === "name" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+      children: isEditing && elementType === "name" && editID === id ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("form", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
           type: "text",
           defaultValue: name,
           onChange: function onChange(e) {
@@ -2449,26 +2485,27 @@ var Links = function Links(_ref) {
               handleSubmit(event, id);
             }
           }
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
           href: "#",
           onClick: function onClick(e) {
             e.preventDefault();
             setIsEditing(false);
+            setEditID(null);
           },
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_4__.MdCancel, {})
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_5__.MdCancel, {})
         })]
-      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
-        children: [name, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("p", {
+        children: [name, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
           onClick: function onClick(e) {
             return handleClick(id, "name");
           },
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_4__.MdEdit, {})
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_5__.MdEdit, {})
         })]
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "my_row",
-      children: isEditing && elementType === "url" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+      children: isEditing && elementType === "url" && editID === id ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("form", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
           type: "text",
           defaultValue: url,
           onChange: function onChange(e) {
@@ -2479,21 +2516,35 @@ var Links = function Links(_ref) {
               handleSubmit(event, id);
             }
           }
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
           href: "#",
           onClick: function onClick(e) {
             e.preventDefault();
             setIsEditing(false);
+            setEditID(null);
           },
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_4__.MdCancel, {})
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_5__.MdCancel, {})
         })]
-      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
-        children: [url, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("p", {
+        children: [url, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
           onClick: function onClick(e) {
             return handleClick(id, "url");
           },
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_4__.MdEdit, {})
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_5__.MdEdit, {})
         })]
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+      className: "my_row",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_switch__WEBPACK_IMPORTED_MODULE_3__.default, {
+        onChange: function onChange(e) {
+          return handleChange(id);
+        },
+        disabled: newLink,
+        height: 20,
+        checked: Boolean(switchStatus),
+        onColor: "#424fcf",
+        uncheckedIcon: false,
+        checkedIcon: false
       })
     })]
   });
@@ -2749,6 +2800,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_icons_md__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-icons/md */ "./node_modules/react-icons/md/index.esm.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -2786,7 +2845,7 @@ var PageNav = function PageNav(_ref) {
       newPageName = _useState6[0],
       setNewPageName = _useState6[1];
 
-  var pageCount = userPages.length;
+  var pageCount = pages.length;
 
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
@@ -2794,7 +2853,14 @@ var PageNav = function PageNav(_ref) {
       name: newPageName
     };
     axios__WEBPACK_IMPORTED_MODULE_1___default().post('/dashboard/page/new', packets).then(function (response) {
-      return console.log(JSON.stringify(response.data));
+      console.log(JSON.stringify(response.data));
+      var page_id = JSON.stringify(response.data.page_id);
+      var newElement = {
+        id: page_id,
+        name: newPageName
+      };
+      setPages([].concat(_toConsumableArray(pages), [newElement]));
+      setIsEditing(false);
     })["catch"](function (error) {
       console.log("ERROR:: ", error.response.data["errors"]["name"][0]);
     });
@@ -3041,17 +3107,20 @@ var Preview = function Preview(_ref) {
         children: [links.map(function (linkItem) {
           var id = linkItem.id,
               url = linkItem.url,
-              icon = linkItem.icon;
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-            className: "icon_col",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
-              target: "_blank",
-              href: url,
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
-                src: icon
+              icon = linkItem.icon,
+              active_status = linkItem.active_status;
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
+            children: active_status ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+              className: "icon_col",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
+                target: "_blank",
+                href: url,
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+                  src: icon
+                })
               })
-            })
-          }, id);
+            }, id) : ""
+          });
         }), count < 9 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(DefaultIcon, {
           count: count,
           defaultIconPath: defaultIconPath
@@ -70146,6 +70215,597 @@ if (false) {} else {
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 !function(e,t){ true?module.exports=t(__webpack_require__(/*! react */ "./node_modules/react/index.js"),__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js")):0}(window,function(e,t){return function(e){var t={};function r(n){if(t[n])return t[n].exports;var o=t[n]={i:n,l:!1,exports:{}};return e[n].call(o.exports,o,o.exports,r),o.l=!0,o.exports}return r.m=e,r.c=t,r.d=function(e,t,n){r.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:n})},r.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},r.t=function(e,t){if(1&t&&(e=r(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var n=Object.create(null);if(r.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)r.d(n,o,function(t){return e[t]}.bind(null,o));return n},r.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return r.d(t,"a",t),t},r.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},r.p="",r(r.s=0)}([function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var n=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var r=arguments[t];for(var n in r)Object.prototype.hasOwnProperty.call(r,n)&&(e[n]=r[n])}return e},o=function(){return function(e,t){if(Array.isArray(e))return e;if(Symbol.iterator in Object(e))return function(e,t){var r=[],n=!0,o=!1,i=void 0;try{for(var a,u=e[Symbol.iterator]();!(n=(a=u.next()).done)&&(r.push(a.value),!t||r.length!==t);n=!0);}catch(e){o=!0,i=e}finally{try{!n&&u.return&&u.return()}finally{if(o)throw i}}return r}(e,t);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}(),i=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),a=r(1),u=c(a),l=c(r(2));function c(e){return e&&e.__esModule?e:{default:e}}var f="\n  *[href], button, img {\n    pointer-events: none !important;\n    display: inline-block !important;\n  }\n",s=function(e){function t(){var e;!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,t);for(var r=arguments.length,n=Array(r),o=0;o<r;o++)n[o]=arguments[o];var i=function(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!=typeof t&&"function"!=typeof t?e:t}(this,(e=t.__proto__||Object.getPrototypeOf(t)).call.apply(e,[this].concat(n)));return i.iframeElement=null,i.disableStyleTag=document.createElement("style"),i.disableStylesTextNode=document.createTextNode(f),i.disableStyleTag.appendChild(i.disableStylesTextNode),i}return function(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}(t,a.Component),i(t,[{key:"componentDidMount",value:function(){var e=this;this.iframeElement&&(this.iframeElement.onload=function(){e.applySafeguards()})}},{key:"componentWillUnmount",value:function(){this.disableStylesTextNode=null,this.disableStyleTag=null}},{key:"applySafeguards",value:function(){if(this.iframeElement.contentDocument){var e=this.iframeElement.contentDocument.getElementsByTagName("body"),t=o(e,1)[0];t&&t.appendChild(this.disableStyleTag)}}},{key:"render",value:function(){var e=this,t=this.props,r=t.title,o=t.referrerPolicy,i=t.sandbox,a=t.srcDoc,l=(t.src,function(e,t){var r={};for(var n in e)t.indexOf(n)>=0||Object.prototype.hasOwnProperty.call(e,n)&&(r[n]=e[n]);return r}(t,["title","referrerPolicy","sandbox","srcDoc","src"]));return u.default.createElement("iframe",n({title:r,srcDoc:a,referrerPolicy:o,sandbox:i,ref:function(t){e.iframeElement=t}},l))}}]),t}();s.propTypes={title:l.default.string.isRequired,srcDoc:l.default.string.isRequired,sandbox:l.default.string,referrerPolicy:l.default.string,src:l.default.string},s.defaultProps={sandbox:"allow-same-origin",referrerPolicy:"no-referrer",src:""},t.default=s},function(t,r){t.exports=e},function(e,r){e.exports=t}])});
+
+/***/ }),
+
+/***/ "./node_modules/react-switch/dist/react-switch.dev.js":
+/*!************************************************************!*\
+  !*** ./node_modules/react-switch/dist/react-switch.dev.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var PropTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
+/*
+The MIT License (MIT)
+
+Copyright (c) 2015 instructure-react
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+var uncheckedIcon = React.createElement('svg', {
+  viewBox: "-2 -5 14 20",
+  height: "100%",
+  width: "100%",
+  style: {
+    position: "absolute",
+    top: 0
+  }
+}, React.createElement('path', {
+  d: "M9.9 2.12L7.78 0 4.95 2.828 2.12 0 0 2.12l2.83 2.83L0 7.776 2.123 9.9 4.95 7.07 7.78 9.9 9.9 7.776 7.072 4.95 9.9 2.12",
+  fill: "#fff",
+  fillRule: "evenodd"
+}));
+var checkedIcon = React.createElement('svg', {
+  height: "100%",
+  width: "100%",
+  viewBox: "-2 -5 17 21",
+  style: {
+    position: "absolute",
+    top: 0
+  }
+}, React.createElement('path', {
+  d: "M11.264 0L5.26 6.004 2.103 2.847 0 4.95l5.26 5.26 8.108-8.107L11.264 0",
+  fill: "#fff",
+  fillRule: "evenodd"
+}));
+
+function createBackgroundColor(pos, checkedPos, uncheckedPos, offColor, onColor) {
+  var relativePos = (pos - uncheckedPos) / (checkedPos - uncheckedPos);
+
+  if (relativePos === 0) {
+    return offColor;
+  }
+
+  if (relativePos === 1) {
+    return onColor;
+  }
+
+  var newColor = "#";
+
+  for (var i = 1; i < 6; i += 2) {
+    var offComponent = parseInt(offColor.substr(i, 2), 16);
+    var onComponent = parseInt(onColor.substr(i, 2), 16);
+    var weightedValue = Math.round((1 - relativePos) * offComponent + relativePos * onComponent);
+    var newComponent = weightedValue.toString(16);
+
+    if (newComponent.length === 1) {
+      newComponent = "0" + newComponent;
+    }
+
+    newColor += newComponent;
+  }
+
+  return newColor;
+}
+
+function convertShorthandColor(color) {
+  if (color.length === 7) {
+    return color;
+  }
+
+  var sixDigitColor = "#";
+
+  for (var i = 1; i < 4; i += 1) {
+    sixDigitColor += color[i] + color[i];
+  }
+
+  return sixDigitColor;
+}
+
+function getBackgroundColor(pos, checkedPos, uncheckedPos, offColor, onColor) {
+  var sixDigitOffColor = convertShorthandColor(offColor);
+  var sixDigitOnColor = convertShorthandColor(onColor);
+  return createBackgroundColor(pos, checkedPos, uncheckedPos, sixDigitOffColor, sixDigitOnColor);
+}
+
+// Make sure color props are strings that start with "#" since other ways to write colors are not supported.
+var hexColorPropType = function (props, propName, componentName) {
+  var prop = props[propName];
+
+  if (typeof prop !== "string" || prop[0] !== "#" || prop.length !== 4 && prop.length !== 7) {
+    return new Error("Invalid prop '" + propName + "' supplied to '" + componentName + "'. '" + propName + "' has to be either a 3-digit or 6-digit hex-color string. Valid examples: '#abc', '#123456'");
+  }
+
+  return null;
+};
+
+function objectWithoutProperties(obj, exclude) {
+  var target = {};
+
+  for (var k in obj) if (Object.prototype.hasOwnProperty.call(obj, k) && exclude.indexOf(k) === -1) target[k] = obj[k];
+
+  return target;
+}
+
+var ReactSwitch = /*@__PURE__*/function (Component) {
+  function ReactSwitch(props) {
+    Component.call(this, props);
+    var height = props.height;
+    var width = props.width;
+    var handleDiameter = props.handleDiameter;
+    var checked = props.checked;
+    this.$handleDiameter = handleDiameter || height - 2;
+    this.$checkedPos = Math.max(width - height, width - (height + this.$handleDiameter) / 2);
+    this.$uncheckedPos = Math.max(0, (height - this.$handleDiameter) / 2);
+    this.state = {
+      $pos: checked ? this.$checkedPos : this.$uncheckedPos
+    };
+    this.$lastDragAt = 0;
+    this.$lastKeyUpAt = 0;
+    this.$onMouseDown = this.$onMouseDown.bind(this);
+    this.$onMouseMove = this.$onMouseMove.bind(this);
+    this.$onMouseUp = this.$onMouseUp.bind(this);
+    this.$onTouchStart = this.$onTouchStart.bind(this);
+    this.$onTouchMove = this.$onTouchMove.bind(this);
+    this.$onTouchEnd = this.$onTouchEnd.bind(this);
+    this.$onClick = this.$onClick.bind(this);
+    this.$onInputChange = this.$onInputChange.bind(this);
+    this.$onKeyUp = this.$onKeyUp.bind(this);
+    this.$setHasOutline = this.$setHasOutline.bind(this);
+    this.$unsetHasOutline = this.$unsetHasOutline.bind(this);
+    this.$getInputRef = this.$getInputRef.bind(this);
+  }
+
+  if (Component) ReactSwitch.__proto__ = Component;
+  ReactSwitch.prototype = Object.create(Component && Component.prototype);
+  ReactSwitch.prototype.constructor = ReactSwitch;
+
+  ReactSwitch.prototype.componentDidMount = function componentDidMount() {
+    this.$isMounted = true;
+  };
+
+  ReactSwitch.prototype.componentDidUpdate = function componentDidUpdate(prevProps) {
+    if (prevProps.checked === this.props.checked) {
+      return;
+    }
+
+    var $pos = this.props.checked ? this.$checkedPos : this.$uncheckedPos;
+    this.setState({
+      $pos: $pos
+    });
+  };
+
+  ReactSwitch.prototype.componentWillUnmount = function componentWillUnmount() {
+    this.$isMounted = false;
+  };
+
+  ReactSwitch.prototype.$onDragStart = function $onDragStart(clientX) {
+    this.$inputRef.focus();
+    this.setState({
+      $startX: clientX,
+      $hasOutline: true,
+      $dragStartingTime: Date.now()
+    });
+  };
+
+  ReactSwitch.prototype.$onDrag = function $onDrag(clientX) {
+    var ref = this.state;
+    var $startX = ref.$startX;
+    var $isDragging = ref.$isDragging;
+    var $pos = ref.$pos;
+    var ref$1 = this.props;
+    var checked = ref$1.checked;
+    var startPos = checked ? this.$checkedPos : this.$uncheckedPos;
+    var mousePos = startPos + clientX - $startX; // We need this check to fix a windows glitch where onDrag is triggered onMouseDown in some cases
+
+    if (!$isDragging && clientX !== $startX) {
+      this.setState({
+        $isDragging: true
+      });
+    }
+
+    var newPos = Math.min(this.$checkedPos, Math.max(this.$uncheckedPos, mousePos)); // Prevent unnecessary rerenders
+
+    if (newPos !== $pos) {
+      this.setState({
+        $pos: newPos
+      });
+    }
+  };
+
+  ReactSwitch.prototype.$onDragStop = function $onDragStop(event) {
+    var ref = this.state;
+    var $pos = ref.$pos;
+    var $isDragging = ref.$isDragging;
+    var $dragStartingTime = ref.$dragStartingTime;
+    var ref$1 = this.props;
+    var checked = ref$1.checked;
+    var halfwayCheckpoint = (this.$checkedPos + this.$uncheckedPos) / 2;
+    /*
+      Set position state back to the previous position even if user drags the switch with intention to change the state.
+      This is to prevent the switch from getting stuck in the middle if the event isn't handled in the onChange callback.
+    */
+
+    var prevPos = this.props.checked ? this.$checkedPos : this.$uncheckedPos;
+    this.setState({
+      $pos: prevPos
+    }); // Act as if the user clicked the handle if they didn't drag it _or_ the dragged it for less than 250ms
+
+    var timeSinceStart = Date.now() - $dragStartingTime;
+    var isSimulatedClick = !$isDragging || timeSinceStart < 250; // Handle when the user has dragged the switch more than halfway from either side
+
+    var isDraggedHalfway = checked && $pos <= halfwayCheckpoint || !checked && $pos >= halfwayCheckpoint;
+
+    if (isSimulatedClick || isDraggedHalfway) {
+      this.$onChange(event);
+    }
+
+    if (this.$isMounted) {
+      this.setState({
+        $isDragging: false,
+        $hasOutline: false
+      });
+    }
+
+    this.$lastDragAt = Date.now();
+  };
+
+  ReactSwitch.prototype.$onMouseDown = function $onMouseDown(event) {
+    event.preventDefault(); // Ignore right click and scroll
+
+    if (typeof event.button === "number" && event.button !== 0) {
+      return;
+    }
+
+    this.$onDragStart(event.clientX);
+    window.addEventListener("mousemove", this.$onMouseMove);
+    window.addEventListener("mouseup", this.$onMouseUp);
+  };
+
+  ReactSwitch.prototype.$onMouseMove = function $onMouseMove(event) {
+    event.preventDefault();
+    this.$onDrag(event.clientX);
+  };
+
+  ReactSwitch.prototype.$onMouseUp = function $onMouseUp(event) {
+    this.$onDragStop(event);
+    window.removeEventListener("mousemove", this.$onMouseMove);
+    window.removeEventListener("mouseup", this.$onMouseUp);
+  };
+
+  ReactSwitch.prototype.$onTouchStart = function $onTouchStart(event) {
+    this.$checkedStateFromDragging = null;
+    this.$onDragStart(event.touches[0].clientX);
+  };
+
+  ReactSwitch.prototype.$onTouchMove = function $onTouchMove(event) {
+    this.$onDrag(event.touches[0].clientX);
+  };
+
+  ReactSwitch.prototype.$onTouchEnd = function $onTouchEnd(event) {
+    event.preventDefault();
+    this.$onDragStop(event);
+  };
+
+  ReactSwitch.prototype.$onInputChange = function $onInputChange(event) {
+    // This condition is unfortunately needed in some browsers where the input's change event might get triggered
+    // right after the dragstop event is triggered (occurs when dropping over a label element)
+    if (Date.now() - this.$lastDragAt > 50) {
+      this.$onChange(event); // Prevent clicking label, but not key activation from setting outline to true - yes, this is absurd
+
+      if (Date.now() - this.$lastKeyUpAt > 50) {
+        if (this.$isMounted) {
+          this.setState({
+            $hasOutline: false
+          });
+        }
+      }
+    }
+  };
+
+  ReactSwitch.prototype.$onKeyUp = function $onKeyUp() {
+    this.$lastKeyUpAt = Date.now();
+  };
+
+  ReactSwitch.prototype.$setHasOutline = function $setHasOutline() {
+    this.setState({
+      $hasOutline: true
+    });
+  };
+
+  ReactSwitch.prototype.$unsetHasOutline = function $unsetHasOutline() {
+    this.setState({
+      $hasOutline: false
+    });
+  };
+
+  ReactSwitch.prototype.$getInputRef = function $getInputRef(el) {
+    this.$inputRef = el;
+  };
+
+  ReactSwitch.prototype.$onClick = function $onClick(event) {
+    event.preventDefault();
+    this.$inputRef.focus();
+    this.$onChange(event);
+
+    if (this.$isMounted) {
+      this.setState({
+        $hasOutline: false
+      });
+    }
+  };
+
+  ReactSwitch.prototype.$onChange = function $onChange(event) {
+    var ref = this.props;
+    var checked = ref.checked;
+    var onChange = ref.onChange;
+    var id = ref.id;
+    onChange(!checked, event, id);
+  };
+
+  ReactSwitch.prototype.render = function render() {
+    var ref = this.props;
+    var checked = ref.checked;
+    var disabled = ref.disabled;
+    var className = ref.className;
+    var offColor = ref.offColor;
+    var onColor = ref.onColor;
+    var offHandleColor = ref.offHandleColor;
+    var onHandleColor = ref.onHandleColor;
+    var checkedIcon = ref.checkedIcon;
+    var uncheckedIcon = ref.uncheckedIcon;
+    var checkedHandleIcon = ref.checkedHandleIcon;
+    var uncheckedHandleIcon = ref.uncheckedHandleIcon;
+    var boxShadow = ref.boxShadow;
+    var activeBoxShadow = ref.activeBoxShadow;
+    var height = ref.height;
+    var width = ref.width;
+    var borderRadius = ref.borderRadius;
+    var handleDiameter = ref.handleDiameter;
+    var rest$1 = objectWithoutProperties(ref, ["checked", "disabled", "className", "offColor", "onColor", "offHandleColor", "onHandleColor", "checkedIcon", "uncheckedIcon", "checkedHandleIcon", "uncheckedHandleIcon", "boxShadow", "activeBoxShadow", "height", "width", "borderRadius", "handleDiameter"]);
+    var rest = rest$1;
+    var ref$1 = this.state;
+    var $pos = ref$1.$pos;
+    var $isDragging = ref$1.$isDragging;
+    var $hasOutline = ref$1.$hasOutline;
+    var rootStyle = {
+      position: "relative",
+      display: "inline-block",
+      textAlign: "left",
+      opacity: disabled ? 0.5 : 1,
+      direction: "ltr",
+      borderRadius: height / 2,
+      WebkitTransition: "opacity 0.25s",
+      MozTransition: "opacity 0.25s",
+      transition: "opacity 0.25s",
+      touchAction: "none",
+      WebkitTapHighlightColor: "rgba(0, 0, 0, 0)",
+      WebkitUserSelect: "none",
+      MozUserSelect: "none",
+      msUserSelect: "none",
+      userSelect: "none"
+    };
+    var backgroundStyle = {
+      height: height,
+      width: width,
+      margin: Math.max(0, (this.$handleDiameter - height) / 2),
+      position: "relative",
+      background: getBackgroundColor($pos, this.$checkedPos, this.$uncheckedPos, offColor, onColor),
+      borderRadius: typeof borderRadius === "number" ? borderRadius : height / 2,
+      cursor: disabled ? "default" : "pointer",
+      WebkitTransition: $isDragging ? null : "background 0.25s",
+      MozTransition: $isDragging ? null : "background 0.25s",
+      transition: $isDragging ? null : "background 0.25s"
+    };
+    var checkedIconStyle = {
+      height: height,
+      width: Math.min(height * 1.5, width - (this.$handleDiameter + height) / 2 + 1),
+      position: "relative",
+      opacity: ($pos - this.$uncheckedPos) / (this.$checkedPos - this.$uncheckedPos),
+      pointerEvents: "none",
+      WebkitTransition: $isDragging ? null : "opacity 0.25s",
+      MozTransition: $isDragging ? null : "opacity 0.25s",
+      transition: $isDragging ? null : "opacity 0.25s"
+    };
+    var uncheckedIconStyle = {
+      height: height,
+      width: Math.min(height * 1.5, width - (this.$handleDiameter + height) / 2 + 1),
+      position: "absolute",
+      opacity: 1 - ($pos - this.$uncheckedPos) / (this.$checkedPos - this.$uncheckedPos),
+      right: 0,
+      top: 0,
+      pointerEvents: "none",
+      WebkitTransition: $isDragging ? null : "opacity 0.25s",
+      MozTransition: $isDragging ? null : "opacity 0.25s",
+      transition: $isDragging ? null : "opacity 0.25s"
+    };
+    var handleStyle = {
+      height: this.$handleDiameter,
+      width: this.$handleDiameter,
+      background: getBackgroundColor($pos, this.$checkedPos, this.$uncheckedPos, offHandleColor, onHandleColor),
+      display: "inline-block",
+      cursor: disabled ? "default" : "pointer",
+      borderRadius: typeof borderRadius === "number" ? borderRadius - 1 : "50%",
+      position: "absolute",
+      transform: "translateX(" + $pos + "px)",
+      top: Math.max(0, (height - this.$handleDiameter) / 2),
+      outline: 0,
+      boxShadow: $hasOutline ? activeBoxShadow : boxShadow,
+      border: 0,
+      WebkitTransition: $isDragging ? null : "background-color 0.25s, transform 0.25s, box-shadow 0.15s",
+      MozTransition: $isDragging ? null : "background-color 0.25s, transform 0.25s, box-shadow 0.15s",
+      transition: $isDragging ? null : "background-color 0.25s, transform 0.25s, box-shadow 0.15s"
+    };
+    var uncheckedHandleIconStyle = {
+      height: this.$handleDiameter,
+      width: this.$handleDiameter,
+      opacity: Math.max((1 - ($pos - this.$uncheckedPos) / (this.$checkedPos - this.$uncheckedPos) - 0.5) * 2, 0),
+      position: "absolute",
+      left: 0,
+      top: 0,
+      pointerEvents: "none",
+      WebkitTransition: $isDragging ? null : "opacity 0.25s",
+      MozTransition: $isDragging ? null : "opacity 0.25s",
+      transition: $isDragging ? null : "opacity 0.25s"
+    };
+    var checkedHandleIconStyle = {
+      height: this.$handleDiameter,
+      width: this.$handleDiameter,
+      opacity: Math.max((($pos - this.$uncheckedPos) / (this.$checkedPos - this.$uncheckedPos) - 0.5) * 2, 0),
+      position: "absolute",
+      left: 0,
+      top: 0,
+      pointerEvents: "none",
+      WebkitTransition: $isDragging ? null : "opacity 0.25s",
+      MozTransition: $isDragging ? null : "opacity 0.25s",
+      transition: $isDragging ? null : "opacity 0.25s"
+    };
+    var inputStyle = {
+      border: 0,
+      clip: "rect(0 0 0 0)",
+      height: 1,
+      margin: -1,
+      overflow: "hidden",
+      padding: 0,
+      position: "absolute",
+      width: 1
+    };
+    return React.createElement('div', {
+      className: className,
+      style: rootStyle
+    }, React.createElement('div', {
+      className: "react-switch-bg",
+      style: backgroundStyle,
+      onClick: disabled ? null : this.$onClick,
+      onMouseDown: function (e) {
+        return e.preventDefault();
+      }
+    }, checkedIcon && React.createElement('div', {
+      style: checkedIconStyle
+    }, checkedIcon), uncheckedIcon && React.createElement('div', {
+      style: uncheckedIconStyle
+    }, uncheckedIcon)), React.createElement('div', {
+      className: "react-switch-handle",
+      style: handleStyle,
+      onClick: function (e) {
+        return e.preventDefault();
+      },
+      onMouseDown: disabled ? null : this.$onMouseDown,
+      onTouchStart: disabled ? null : this.$onTouchStart,
+      onTouchMove: disabled ? null : this.$onTouchMove,
+      onTouchEnd: disabled ? null : this.$onTouchEnd,
+      onTouchCancel: disabled ? null : this.$unsetHasOutline
+    }, uncheckedHandleIcon && React.createElement('div', {
+      style: uncheckedHandleIconStyle
+    }, uncheckedHandleIcon), checkedHandleIcon && React.createElement('div', {
+      style: checkedHandleIconStyle
+    }, checkedHandleIcon)), React.createElement('input', _extends({}, {
+      type: "checkbox",
+      role: "switch",
+      'aria-checked': checked,
+      checked: checked,
+      disabled: disabled,
+      style: inputStyle
+    }, rest, {
+      ref: this.$getInputRef,
+      onFocus: this.$setHasOutline,
+      onBlur: this.$unsetHasOutline,
+      onKeyUp: this.$onKeyUp,
+      onChange: this.$onInputChange
+    })));
+  };
+
+  return ReactSwitch;
+}(React.Component);
+
+ReactSwitch.propTypes = {
+  checked: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+  offColor: hexColorPropType,
+  onColor: hexColorPropType,
+  offHandleColor: hexColorPropType,
+  onHandleColor: hexColorPropType,
+  handleDiameter: PropTypes.number,
+  uncheckedIcon: PropTypes.oneOfType([PropTypes.bool, PropTypes.element]),
+  checkedIcon: PropTypes.oneOfType([PropTypes.bool, PropTypes.element]),
+  boxShadow: PropTypes.string,
+  borderRadius: PropTypes.number,
+  activeBoxShadow: PropTypes.string,
+  uncheckedHandleIcon: PropTypes.element,
+  checkedHandleIcon: PropTypes.element,
+  height: PropTypes.number,
+  width: PropTypes.number,
+  id: PropTypes.string,
+  className: PropTypes.string
+};
+ReactSwitch.defaultProps = {
+  disabled: false,
+  offColor: "#888",
+  onColor: "#080",
+  offHandleColor: "#fff",
+  onHandleColor: "#fff",
+  uncheckedIcon: uncheckedIcon,
+  checkedIcon: checkedIcon,
+  boxShadow: null,
+  activeBoxShadow: "0 0 2px 3px #3bf",
+  height: 28,
+  width: 56
+};
+
+exports.default = ReactSwitch;
+
+
+/***/ }),
+
+/***/ "./node_modules/react-switch/index.js":
+/*!********************************************!*\
+  !*** ./node_modules/react-switch/index.js ***!
+  \********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+if (false) {} else {
+  module.exports = __webpack_require__(/*! ./dist/react-switch.dev.js */ "./node_modules/react-switch/dist/react-switch.dev.js");
+}
+
 
 /***/ }),
 

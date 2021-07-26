@@ -14,6 +14,8 @@ for (let n = 0; n < 9 ; n++) {
             name: userLinks[n].name,
             url: userLinks[n].url,
             icon: userLinks[n].icon,
+            position: userLinks[n].position,
+            active_status: userLinks[n].active_status
         })
     } else {
         const id = "new_" + (n + 1);
@@ -24,6 +26,8 @@ for (let n = 0; n < 9 ; n++) {
             name: "Link Name",
             url: "https://linkurl.com",
             icon: defaultIconPath,
+            position: 0,
+            active_status: false
         })
     }
 }

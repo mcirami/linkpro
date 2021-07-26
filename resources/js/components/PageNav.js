@@ -8,7 +8,7 @@ const PageNav = ({userPages, currentPage}) => {
     const [isEditing, setIsEditing] = useState(false);
     const [newPageName, setNewPageName] = useState();
 
-    const pageCount = userPages.length;
+    const pageCount = pages.length;
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -18,7 +18,16 @@ const PageNav = ({userPages, currentPage}) => {
         };
 
         axios.post('/dashboard/page/new', packets).then(
-            response => console.log(JSON.stringify(response.data)),
+            response => {
+                console.log(JSON.stringify(response.data));
+                const page_id  = JSON.stringify(response.data.page_id);
+                const newElement = {
+                    id: page_id,
+                    name: newPageName,
+                };
+                setPages([...pages, newElement]);
+                setIsEditing(false);
+            },
 
         ).catch(error => {
             console.log("ERROR:: ", error.response.data["errors"]["name"][0]);
