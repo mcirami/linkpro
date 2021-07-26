@@ -1928,6 +1928,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PageName__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./PageName */ "./resources/js/components/PageName.js");
 /* harmony import */ var _PageNav__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./PageNav */ "./resources/js/components/PageNav.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -1972,21 +1978,28 @@ function App() {
   //const [showForm, setShowForm] = useState(false);
 
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
       _useState4 = _slicedToArray(_useState3, 2),
       name = _useState4[0],
       setName = _useState4[1];
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
       _useState6 = _slicedToArray(_useState5, 2),
       url = _useState6[0],
       setUrl = _useState6[1];
 
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
       _useState8 = _slicedToArray(_useState7, 2),
       icon = _useState8[0],
       setIcon = _useState8[1]; //const [userInfo, setUserInfo] = useState(getUserInfo());
 
+
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    isDragging: false
+  }),
+      _useState10 = _slicedToArray(_useState9, 2),
+      dragState = _useState10[0],
+      setDragState = _useState10[1];
 
   var stringIndex = user.defaultIcon[0].search("/images");
   var defaultIconPath = user.defaultIcon[0].slice(stringIndex);
@@ -1995,8 +2008,40 @@ function App() {
       setIcon(icon);
     }
   }, [icon]);
-  var count = userLinks.length;
-  var loopCount = 0;
+
+  var handleDragStart = function handleDragStart(event) {
+    var div = event.target.closest(".icon_col");
+
+    var onMouseMove = function onMouseMove(event) {
+      setDragState(function (dragState) {
+        return _objectSpread(_objectSpread({}, dragState), {}, {
+          xf: event.clientX,
+          yf: event.clientY
+        });
+      });
+    };
+
+    var onMouseOut = function onMouseOut(event) {
+      console.log("mouseout fired");
+      setDragState(function (dragState) {
+        return _objectSpread(_objectSpread({}, dragState), {}, {
+          isDragging: false
+        });
+      });
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseout", onMouseOut);
+    setDragState(function (dragState) {
+      return _objectSpread(_objectSpread({}, dragState), {}, {
+        isDragging: true,
+        id: div.id,
+        xi: event.clientX,
+        yi: event.clientY
+      });
+    });
+  };
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
     className: "row",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
@@ -2019,7 +2064,11 @@ function App() {
             children: userLinks.map(function (linkItem, index) {
               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
                 className: "icon_col",
-                id: index,
+                id: linkItem.id,
+                onMouseDown: handleDragStart,
+                style: _objectSpread({}, dragState.isDragging && linkItem.id == dragState.id && {
+                  transform: "translate3d(".concat(dragState.xf - dragState.xi, "px, ").concat(dragState.yf - dragState.yi, "px, 0)")
+                }),
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Links__WEBPACK_IMPORTED_MODULE_2__.default, {
                   linkItem: linkItem,
                   currentName: name,
@@ -2042,7 +2091,7 @@ function App() {
             links: userLinks,
             page: page,
             defaultIconPath: defaultIconPath,
-            count: count
+            count: userLinks.length
           })
         })]
       })]
@@ -2155,35 +2204,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
 var userLinks = user.links;
-var stringIndex = user.defaultIcon[0].search("/images"); //const end = defaultIconPath[0].search("/images");
-
-var defaultIconPath = user.defaultIcon[0].slice(stringIndex);
-var myLinksArray = [];
+var myLinksArray = userLinks.map(function (_ref) {
+  var id = _ref.id,
+      name = _ref.name,
+      icon = _ref.icon,
+      url = _ref.url;
+  return {
+    id: id,
+    name: name,
+    icon: icon,
+    url: url
+  };
+});
 
 for (var n = 0; n < 9; n++) {
-  if (userLinks[n] !== undefined) {
-    myLinksArray.push({
-      id: userLinks[n].id,
-      name: userLinks[n].name,
-      url: userLinks[n].url,
-      icon: userLinks[n].icon,
-      position: userLinks[n].position,
-      active_status: userLinks[n].active_status
-    });
-  } else {
-    var id = "new_" + (n + 1); //const name = "add_new_link_" + n;
-
-    myLinksArray.push({
-      id: id,
-      name: "Link Name",
-      url: "https://linkurl.com",
-      icon: defaultIconPath,
-      position: 0,
-      active_status: false
-    });
+  if (!myLinksArray[n]) {
+    myLinksArray[n] = {};
   }
 }
 
@@ -2279,8 +2316,6 @@ var Links = function Links(_ref) {
       switchStatus = _useState10[0],
       setSwitchStatus = _useState10[1];
 
-  var newLink = id.toString().includes("new");
-
   var handleClick = function handleClick(id, type) {
     setEditID(id);
     setElementType(type);
@@ -2290,7 +2325,7 @@ var Links = function Links(_ref) {
   var selectIcon = function selectIcon(e, source) {
     //e.preventDefault();
     var el = e.target;
-    el.classList.add('active');
+    el.classList.add("active");
     var packets = {
       name: name,
       url: url,
@@ -2298,8 +2333,22 @@ var Links = function Links(_ref) {
       page_id: pageID
     };
 
-    if (newLink) {
-      axios__WEBPACK_IMPORTED_MODULE_2___default().post('/dashboard/links/new', packets).then(function (response) {
+    if (linkItem.id) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post("/dashboard/links/" + id, packets).then(function (response) {
+        return console.log(JSON.stringify(response.data));
+      }, setUserLinks(userLinks.map(function (item) {
+        if (item.id === id) {
+          return _objectSpread(_objectSpread({}, item), {}, {
+            icon: source
+          });
+        }
+
+        return item;
+      })), setShowIcons(false))["catch"](function (error) {
+        console.log("ERROR:: ", error.response.data);
+      });
+    } else {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post("/dashboard/links/new", packets).then(function (response) {
         console.log(JSON.stringify(response.data));
         var link_id = JSON.stringify(response.data.link_id);
         setUserLinks(userLinks.map(function (item) {
@@ -2317,22 +2366,6 @@ var Links = function Links(_ref) {
         }));
         setShowIcons(false);
       })["catch"](function (error) {
-        console.log("ERROR:: ", error.response.data);
-      });
-    } else {
-      axios__WEBPACK_IMPORTED_MODULE_2___default().post('/dashboard/links/' + id, packets).then(function (response) {
-        return console.log(JSON.stringify(response.data));
-      }, setUserLinks(userLinks.map(function (item) {
-        if (item.id === id) {
-          return _objectSpread(_objectSpread({}, item), {}, {
-            name: item.name,
-            url: item.url,
-            icon: source
-          });
-        }
-
-        return item;
-      })), setShowIcons(false))["catch"](function (error) {
         console.log("ERROR:: ", error.response.data);
       });
     }
@@ -2363,8 +2396,8 @@ var Links = function Links(_ref) {
       page_id: pageID
     };
 
-    if (newLink) {
-      axios__WEBPACK_IMPORTED_MODULE_2___default().post('/dashboard/links/new', packets).then(function (response) {
+    if (!linkItem.id) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post("/dashboard/links/new", packets).then(function (response) {
         console.log(JSON.stringify(response.data));
         var link_id = JSON.stringify(response.data.link_id);
         setUserLinks(userLinks.map(function (item) {
@@ -2386,14 +2419,13 @@ var Links = function Links(_ref) {
         console.log("ERROR:: ", error.response.data);
       });
     } else {
-      axios__WEBPACK_IMPORTED_MODULE_2___default().post('/dashboard/links/' + id, packets).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post("/dashboard/links/" + id, packets).then(function (response) {
         return console.log(JSON.stringify(response.data));
       }, setUserLinks(userLinks.map(function (item) {
         if (item.id === id) {
           return _objectSpread(_objectSpread({}, item), {}, {
             name: newName,
-            url: newUrl,
-            icon: icon
+            url: newUrl
           });
         }
 
@@ -2421,7 +2453,7 @@ var Links = function Links(_ref) {
 
       return item;
     }));
-    axios__WEBPACK_IMPORTED_MODULE_2___default().delete('/dashboard/links/' + id).then(function (response) {
+    axios__WEBPACK_IMPORTED_MODULE_2___default().delete("/dashboard/links/" + id).then(function (response) {
       return console.log(JSON.stringify(response.data));
     })["catch"](function (error) {
       console.log("ERROR:: ", error.response.data);
@@ -2434,7 +2466,7 @@ var Links = function Links(_ref) {
     var packets = {
       active_status: newStatus
     };
-    axios__WEBPACK_IMPORTED_MODULE_2___default().post('/dashboard/links/status/' + id, packets).then(function (response) {
+    axios__WEBPACK_IMPORTED_MODULE_2___default().post("/dashboard/links/status/" + id, packets).then(function (response) {
       return console.log(JSON.stringify(response.data));
     }, setUserLinks(userLinks.map(function (item) {
       if (item.id === id) {
@@ -2450,7 +2482,7 @@ var Links = function Links(_ref) {
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
-    children: [!newLink ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
+    children: [linkItem.id ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
       id: id,
       href: "#",
       onClick: function onClick(e) {
@@ -2481,7 +2513,7 @@ var Links = function Links(_ref) {
             return setName(e.target.value);
           },
           onKeyPress: function onKeyPress(event) {
-            if (event.key === 'Enter') {
+            if (event.key === "Enter") {
               handleSubmit(event, id);
             }
           }
@@ -2512,7 +2544,7 @@ var Links = function Links(_ref) {
             return setUrl(e.target.value);
           },
           onKeyPress: function onKeyPress(event) {
-            if (event.key === 'Enter') {
+            if (event.key === "Enter") {
               handleSubmit(event, id);
             }
           }
@@ -2539,7 +2571,7 @@ var Links = function Links(_ref) {
         onChange: function onChange(e) {
           return handleChange(id);
         },
-        disabled: newLink,
+        disabled: !linkItem.id,
         height: 20,
         checked: Boolean(switchStatus),
         onColor: "#424fcf",
@@ -3090,18 +3122,40 @@ const html = `
 
 
 
+var page_header_path = user.page_header_path;
+var page_profile_path = user.page_profile_path;
 
 var Preview = function Preview(_ref) {
   var links = _ref.links,
       page = _ref.page,
       count = _ref.count,
       defaultIconPath = _ref.defaultIconPath;
+  var currentPageHeader = page_header_path + "/" + page["header_img"];
+  var currentPageProfileIMG = page_profile_path + "/" + page["profile_img"];
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
     className: "preview_wrap",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
       className: "inner_content",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h2", {
-        children: page["title"]
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        className: "page_header",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+          src: currentPageHeader
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        className: "profile_section",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+          className: "image_col",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+            src: currentPageProfileIMG
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          className: "content_col",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h2", {
+            children: page["title"]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
+            children: page["bio"]
+          })]
+        })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "icons_wrap",
         children: [links.map(function (linkItem) {
@@ -3109,7 +3163,7 @@ var Preview = function Preview(_ref) {
               url = linkItem.url,
               icon = linkItem.icon,
               active_status = linkItem.active_status;
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
             children: active_status ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
               className: "icon_col",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
@@ -3119,8 +3173,8 @@ var Preview = function Preview(_ref) {
                   src: icon
                 })
               })
-            }, id) : ""
-          });
+            }) : ""
+          }, id || Math.random());
         }), count < 9 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(DefaultIcon, {
           count: count,
           defaultIconPath: defaultIconPath
