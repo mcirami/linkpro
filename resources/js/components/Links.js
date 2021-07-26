@@ -3,7 +3,7 @@ import {MdCancel, MdEdit, MdDeleteForever} from 'react-icons/md';
 import IconList from './IconList';
 import axios from 'axios';
 
-const Links = ({linkItem, setLinkID, currentName, setName, currentUrl, setUrl, userLinks, setUserLinks, currentIcon, setIcon, pageID, defaultIconPath}) => {
+const Links = ({linkItem, currentLinkID, setLinkID, currentName, setName, currentUrl, setUrl, userLinks, setUserLinks, currentIcon, setIcon, pageID, defaultIconPath}) => {
 
     const {id, name, url, icon} = linkItem;
 
@@ -16,6 +16,8 @@ const Links = ({linkItem, setLinkID, currentName, setName, currentUrl, setUrl, u
         setElementType(type);
         setIsEditing(true);
     }
+
+    console.log(id);
 
     const selectIcon = (e, source) => {
         e.preventDefault();
@@ -34,14 +36,16 @@ const Links = ({linkItem, setLinkID, currentName, setName, currentUrl, setUrl, u
 
             axios.post('/dashboard/links/new', packets).then(
                 response => {
-                    console.log(JSON.stringify(response.data));
-                    const link_id  = JSON.stringify(response.data.link_id);
+                    console.log(JSON.stringify(response.data.link_id));
+
+                    const returnMessage  = JSON.stringify(response.data);
+                    const linkID = returnMessage.link_id;
                     setUserLinks(
                         userLinks.map((item) => {
                             if (item.id === id) {
                                 return {
                                     ...item,
-                                    id: link_id,
+                                    id: linkID,
                                     name: item.name,
                                     url: item.url,
                                     icon: source,
@@ -117,18 +121,20 @@ const Links = ({linkItem, setLinkID, currentName, setName, currentUrl, setUrl, u
 
             axios.post('/dashboard/links/new', packets).then(
                 response => {
-                    console.log(JSON.stringify(response.data));
-                    const link_id  = JSON.stringify(response.data.link_id);
+                    console.log(JSON.stringify(response.data.link_id));
+
+                    const returnMessage  = JSON.stringify(response.data);
+                    const linkID = returnMessage.link_id;
 
                     setUserLinks(
                         userLinks.map((item) => {
                             if (item.id === id) {
                                 return {
                                     ...item,
-                                    id: link_id,
+                                    id: linkID,
                                     name: item.name,
                                     url: item.url,
-                                    icon: source,
+                                    icon: item.icon,
                                     page_id: pageID
                                 }
                             }
@@ -205,7 +211,7 @@ const Links = ({linkItem, setLinkID, currentName, setName, currentUrl, setUrl, u
     }
 
     return (
-        <>
+        <div className="link_wrap">
 
             {!id.toString().includes("new") ?
 
@@ -256,7 +262,7 @@ const Links = ({linkItem, setLinkID, currentName, setName, currentUrl, setUrl, u
             </div>
 
 
-        </>
+        </div>
 
     );
 }

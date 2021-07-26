@@ -1927,7 +1927,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PageProfile__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./PageProfile */ "./resources/js/components/PageProfile.js");
 /* harmony import */ var _PageName__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./PageName */ "./resources/js/components/PageName.js");
 /* harmony import */ var _PageNav__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./PageNav */ "./resources/js/components/PageNav.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _Column__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Column */ "./resources/js/components/Column.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -1939,6 +1940,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -2001,31 +2003,33 @@ function App() {
   }, [icon]);
   var count = userLinks.length;
   var loopCount = 0;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
     className: "row",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
       className: "col-12",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_PageNav__WEBPACK_IMPORTED_MODULE_9__.default, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_PageNav__WEBPACK_IMPORTED_MODULE_9__.default, {
         userPages: userPages,
         currentPage: page["id"]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
         className: "row justify-content-center",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
           className: "col-8",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_PageName__WEBPACK_IMPORTED_MODULE_8__.default, {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_PageName__WEBPACK_IMPORTED_MODULE_8__.default, {
             page: page
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_PageHeader__WEBPACK_IMPORTED_MODULE_6__.default, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_PageHeader__WEBPACK_IMPORTED_MODULE_6__.default, {
             page: page
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_PageProfile__WEBPACK_IMPORTED_MODULE_7__.default, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_PageProfile__WEBPACK_IMPORTED_MODULE_7__.default, {
             page: page
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
             className: "icons_wrap add_icons icons",
             children: userLinks.map(function (linkItem, index) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
                 className: "icon_col",
                 id: index,
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Links__WEBPACK_IMPORTED_MODULE_2__.default, {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Column__WEBPACK_IMPORTED_MODULE_10__.default, {
+                  index: index,
                   linkItem: linkItem,
+                  currentLinkID: linkID,
                   setLinkID: setLinkID,
                   currentName: name,
                   setName: setName,
@@ -2041,9 +2045,9 @@ function App() {
               }, index);
             })
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
           className: "col-4 preview_col",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Preview__WEBPACK_IMPORTED_MODULE_1__.default, {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Preview__WEBPACK_IMPORTED_MODULE_1__.default, {
             links: userLinks,
             page: page,
             defaultIconPath: defaultIconPath,
@@ -2056,6 +2060,61 @@ function App() {
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
+
+/***/ }),
+
+/***/ "./resources/js/components/Column.js":
+/*!*******************************************!*\
+  !*** ./resources/js/components/Column.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Links__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Links */ "./resources/js/components/Links.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+var Column = function Column(_ref) {
+  var index = _ref.index,
+      setLinkID = _ref.setLinkID,
+      linkItem = _ref.linkItem,
+      currentName = _ref.currentName,
+      setName = _ref.setName,
+      currentUrl = _ref.currentUrl,
+      setUrl = _ref.setUrl,
+      currentIcon = _ref.currentIcon,
+      setIcon = _ref.setIcon,
+      userLinks = _ref.userLinks,
+      setUserLinks = _ref.setUserLinks,
+      defaultIconPath = _ref.defaultIconPath,
+      pageID = _ref.pageID;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Links__WEBPACK_IMPORTED_MODULE_1__.default, {
+      linkItem: linkItem,
+      setLinkID: setLinkID,
+      currentName: currentName,
+      setName: setName,
+      currentUrl: currentUrl,
+      setUrl: setUrl,
+      currentIcon: currentIcon,
+      setIcon: setIcon,
+      userLinks: userLinks,
+      setUserLinks: setUserLinks,
+      defaultIconPath: defaultIconPath,
+      pageID: pageID
+    })
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Column);
 
 /***/ }),
 
@@ -2234,9 +2293,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
 var Links = function Links(_ref) {
   var linkItem = _ref.linkItem,
+      currentLinkID = _ref.currentLinkID,
       setLinkID = _ref.setLinkID,
       currentName = _ref.currentName,
       setName = _ref.setName,
@@ -2274,6 +2333,8 @@ var Links = function Links(_ref) {
     setIsEditing(true);
   };
 
+  console.log(id);
+
   var selectIcon = function selectIcon(e, source) {
     e.preventDefault();
     var el = e.target;
@@ -2287,12 +2348,13 @@ var Links = function Links(_ref) {
 
     if (id.toString().includes("new")) {
       axios__WEBPACK_IMPORTED_MODULE_2___default().post('/dashboard/links/new', packets).then(function (response) {
-        console.log(JSON.stringify(response.data));
-        var link_id = JSON.stringify(response.data.link_id);
+        console.log(JSON.stringify(response.data.link_id));
+        var returnMessage = JSON.stringify(response.data);
+        var linkID = returnMessage.link_id;
         setUserLinks(userLinks.map(function (item) {
           if (item.id === id) {
             return _objectSpread(_objectSpread({}, item), {}, {
-              id: link_id,
+              id: linkID,
               name: item.name,
               url: item.url,
               icon: source,
@@ -2352,15 +2414,16 @@ var Links = function Links(_ref) {
 
     if (id.toString().includes("new")) {
       axios__WEBPACK_IMPORTED_MODULE_2___default().post('/dashboard/links/new', packets).then(function (response) {
-        console.log(JSON.stringify(response.data));
-        var link_id = JSON.stringify(response.data.link_id);
+        console.log(JSON.stringify(response.data.link_id));
+        var returnMessage = JSON.stringify(response.data);
+        var linkID = returnMessage.link_id;
         setUserLinks(userLinks.map(function (item) {
           if (item.id === id) {
             return _objectSpread(_objectSpread({}, item), {}, {
-              id: link_id,
+              id: linkID,
               name: item.name,
               url: item.url,
-              icon: source,
+              icon: item.icon,
               page_id: pageID
             });
           }
@@ -2414,7 +2477,8 @@ var Links = function Links(_ref) {
     });
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+    className: "link_wrap",
     children: [!id.toString().includes("new") ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
       href: "#",
       onClick: function onClick(e) {

@@ -8,6 +8,7 @@ import PageHeader from './PageHeader';
 import PageProfile from './PageProfile';
 import PageName from './PageName';
 import PageNav from './PageNav';
+import Column from './Column';
 
 /*const getUserInfo = () => {
 
@@ -40,6 +41,7 @@ function App() {
         }
     },[icon])
 
+
     let count = userLinks.length;
     let loopCount = 0;
 
@@ -64,21 +66,22 @@ function App() {
 
                                 return (
                                     <div key={index} className="icon_col" id={index}>
-                                            <Links
-                                                linkItem={linkItem}
-                                                setLinkID={setLinkID}
-                                                currentName={name}
-                                                setName={setName}
-                                                currentUrl={url}
-                                                setUrl={setUrl}
-                                                currentIcon={icon}
-                                                setIcon={setIcon}
-                                                userLinks={userLinks}
-                                                setUserLinks={setUserLinks}
-                                                defaultIconPath={defaultIconPath}
-                                                pageID={page["id"]}
+                                        <Column
+                                            index={index}
+                                            linkItem={linkItem}
+                                            currentLinkID={linkID}
+                                            setLinkID={setLinkID}
+                                            currentName={name}
+                                            setName={setName}
+                                            currentUrl={url}
+                                            setUrl={setUrl}
+                                            currentIcon={icon}
+                                            setIcon={setIcon}
+                                            userLinks={userLinks}
+                                            setUserLinks={setUserLinks}
+                                            defaultIconPath={defaultIconPath}
+                                            pageID={page["id"]}
                                         />
-
                                     </div>
                                 )
 

@@ -55,14 +55,23 @@ class LinkController extends Controller
 
     public function store(Request $request) {
 
+        $highestPosition = Auth::user()->links()->max('position');
+        $newPosition = $highestPosition + 1;
+
         $request->validate([
             'name' => 'required|max:255',
             'url' => 'required|url',
             'icon' => 'required',
-            'page_id' => 'required|integer'
+            'page_id' => 'required|integer',
         ]);
 
-        $link = Auth::user()->links()->create($request->only(['name', 'url', 'icon', 'page_id']));
+        $link = Auth::user()->links()->create( [
+            'name' => $request->name,
+            'url' => $request->url,
+            'icon' => $request->icon,
+            'page_id' => $request->page_id,
+            'position' => $newPosition
+        ]);
 
         return response()->json(['message'=> 'Successfully added', 'link_id' => $link->id]);
     }
