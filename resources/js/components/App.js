@@ -9,39 +9,18 @@ import PageProfile from './PageProfile';
 import PageName from './PageName';
 import PageNav from './PageNav';
 
-/*const getUserInfo = () => {
-
-    const userInfo = {
-        'username': user.username,
-    }
-
-    return (userInfo);
-}*/
-
 const page = user.page;
 const userPages = user.user_pages;
 
 function App() {
 
     const [userLinks, setUserLinks] = useState(myLinksArray);
-    //const [linkID, setLinkID] = useState(null);
-    //const [showForm, setShowForm] = useState(false);
     const [name, setName] = useState('');
     const [url, setUrl] = useState('');
     const [icon, setIcon] = useState('');
-    //const [userInfo, setUserInfo] = useState(getUserInfo());
 
     const stringIndex = user.defaultIcon[0].search("/images");
     const defaultIconPath = user.defaultIcon[0].slice(stringIndex);
-
-    useEffect( () => {
-        if(icon){
-            setIcon(icon);
-        }
-    },[icon])
-
-    let count = userLinks.length;
-    let loopCount = 0;
 
     return (
         <div className="row">
@@ -86,7 +65,7 @@ function App() {
                         </div>
                     </div>
                     <div className="col-4 preview_col">
-                        <Preview links={userLinks} page={page} defaultIconPath={defaultIconPath} count={count}/>
+                        <Preview links={userLinks} page={page} defaultIconPath={defaultIconPath} count={userLinks.length}/>
                     </div>
                 </div>
             </div>

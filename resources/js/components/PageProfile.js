@@ -7,42 +7,13 @@ const PageProfile = ({page}) => {
     const currentPageProfileIMG = page_profile_path + "/" + page["profile_img"];
 
     const [pageProfileIMG, setPageProfileIMG] = useState(currentPageProfileIMG);
-    //const [selectedFile, setSelectedFile] = useState();
-    //const [preview, setPreview] = useState();
-
-    // create a preview as a side effect, whenever selected file is changed
-    /* useEffect(() => {
-         if (!selectedFile) {
-             setPreview(undefined)
-             return
-         }
-
-         setPageHeader(selectedFile["name"]);
-
-         const objectUrl = URL.createObjectURL(selectedFile)
-         setPreview(objectUrl)
-
-         // free memory when ever this component is unmounted
-         return () => URL.revokeObjectURL(objectUrl)
-     }, [selectedFile])*/
-
-    /*useEffect(() => {
-
-        const currentPageHeader = "/storage/page-headers/" + page["page_header_img"];
-        setPageHeader(currentPageHeader);
-
-    }, [pageHeader]);*/
 
     const onSelectFile = e => {
         let files = e.target.files || e.dataTransfer.files;
         if (!files.length) {
             return;
         }
-
         createImage(files[0]);
-
-        // I've kept this example simple by using the first image instead of multiple
-        //setSelectedFile(e.target.files[0])
     }
 
     const createImage = (file) => {
@@ -56,17 +27,6 @@ const PageProfile = ({page}) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         fileUpload(pageProfileIMG);
-        /*const packets = {
-            page_header_img: pageHeader,
-            page_id: page["id"]
-        };
-
-        axios.post('/dashboard/page/header', packets).then(
-            response => alert(JSON.stringify(response.data))
-        ).catch(error => {
-            console.log("ERROR:: ", error.response.data);
-
-        });*/
     }
 
     const fileUpload = (image) => {

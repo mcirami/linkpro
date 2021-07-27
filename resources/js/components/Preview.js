@@ -1,33 +1,3 @@
-import React, { useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import SafesrcDocIframe from 'react-safe-src-doc-iframe';
-import Links from './Links';
-
-/*
-
-const html = `
-<!DOCTYPE html>
-  <html>
-    <head>
-      <title>My Cats Page</title>
-    </head>
-    <style>
-        .inner_content {
-    	    background: user.background ;
-    	    height: 600px;
-    	    width: 100%;
-        }
-    </style>
-      <div class="inner_content">
-      <h2>Hello There!</h2>
-                    </div>
-  </body>
-  </html>
-
-`;
-*/
-
-
 const Preview = ({links, page, count, defaultIconPath}) => {
 
     return (
@@ -39,7 +9,7 @@ const Preview = ({links, page, count, defaultIconPath}) => {
                     {links.map((linkItem) => {
                         const { id, url, icon, active_status } = linkItem;
                         return (
-                            <>
+                            <div key={id || Math.random()}>
                                 { active_status ?
                                     <div className="icon_col" key={id}>
                                         <a target="_blank" href={url}>
@@ -47,7 +17,7 @@ const Preview = ({links, page, count, defaultIconPath}) => {
                                         </a>
                                     </div>
                                  : "" }
-                             </>
+                             </div>
                         )
                     })}
                     {count < 9 ?
