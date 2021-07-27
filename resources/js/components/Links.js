@@ -31,7 +31,7 @@ const Links = ({
         setIsEditing(true);
     };
 
-    const selectIcon = (e, source) => {
+    const selectIcon = ( e, source ) => {
 
         const el = e.target;
         el.classList.add("active");
@@ -239,11 +239,9 @@ const Links = ({
             });
     };
 
-    console.log(linkItem)
-
     return (
         <>
-            {id ? (
+            { id ? (
                 <a id={id} href="#" onClick={(e) => deleteItem(e, id)}>
                     <MdDeleteForever />
                 </a>
@@ -252,9 +250,9 @@ const Links = ({
             )}
 
             <div className="icon_wrap">
-                <img src={icon || defaultIconPath} />
-                <a href="#" onClick={(e) => setShowIcons(true)}>
-                    <MdEdit />
+                <a href="#" onClick={(e) => { e.preventDefault(); setShowIcons(true) }}>
+                    <img src={ icon || defaultIconPath } />
+                    {/*<MdEdit />*/}
                 </a>
                 {showIcons ? (
                     <IconList
@@ -300,7 +298,7 @@ const Links = ({
                 )}
             </div>
             <div className="my_row">
-                {isEditing && elementType === "url" && editID === id ? (
+                { isEditing && elementType === "url" && editID === id ? (
                     <form>
                         <input
                             type="text"

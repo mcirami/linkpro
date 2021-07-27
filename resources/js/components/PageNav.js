@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import { MdAddCircleOutline } from 'react-icons/md';
+import {MdAddCircleOutline, MdCancel} from 'react-icons/md';
 
-const PageNav = ({userPages, currentPage}) => {
+const PageNav = ({ userPages, currentPage }) => {
 
     const [pages, setPages] = useState(userPages);
     const [isEditing, setIsEditing] = useState(false);
@@ -36,8 +36,8 @@ const PageNav = ({userPages, currentPage}) => {
     };
 
     return (
-        <ul>
-            {pages.map((page) => {
+        <ul className="page_nav_menu">
+            { pages.map((page) => {
 
                 return (
 
@@ -49,17 +49,29 @@ const PageNav = ({userPages, currentPage}) => {
             })}
 
             {pageCount < 3 ?
-                <li id={"new_" + pageCount + 1} >
-                    {isEditing ?
-                        <input type="text"
-                               onChange={(e) => setNewPageName(e.target.value) }
-                               onKeyPress={ event => {
-                                    if(event.key === 'Enter') {
-                                        handleSubmit(event);
+                <li id={"new_" + pageCount + 1 } className="new_page">
+                    { isEditing ?
+                        <form>
+                            <input type="text"
+                                   placeholder="Link Name"
+                                   onChange={(e) => setNewPageName(e.target.value) }
+                                   onKeyPress={ event => {
+                                        if(event.key === 'Enter') {
+                                            handleSubmit(event);
+                                            }
                                         }
                                     }
-                                }
-                        />
+                            />
+                            <a className="cancel_icon"
+                                href="#"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setIsEditing(false);
+                                }}
+                            >
+                                <MdCancel />
+                            </a>
+                        </form>
                         :
                         <a key={"new_" + pageCount + 1} className="add_new_page" onClick={(e) => setIsEditing(true) } href="#"><MdAddCircleOutline/></a>
                     }

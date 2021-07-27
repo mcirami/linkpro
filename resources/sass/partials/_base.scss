@@ -1,0 +1,58 @@
+img {
+    width: 100%;
+    height: auto;
+}
+main {
+    padding: 80px 0;
+}
+
+.container {
+    max-width: 1400px;
+}
+
+input[type="text"] {
+    border: 1px solid $borderGray;
+    border-top-right-radius: 8px;
+    -webkit-border-top-right-radius: 8px;
+    -moz-border-radius-topright: 8px;
+    border-top-left-radius: 8px;
+    -webkit-border-top-left-radius: 8px;
+    -moz-border-radius-topleft: 8px;
+    height: 40px;
+    padding: 10px;
+}
+
+.edit_icon {
+    background: $lightBlue;
+    color: $white;
+    border-radius: 50px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    padding: 0 7px 5px;
+    margin-left: 5px;
+
+    &:hover {
+        cursor: pointer;
+        color: $darkGray;
+    }
+
+    svg {
+        width: 15px;
+        height: 15px;
+    }
+}
+
+.cancel_icon {
+    color: $red;
+    padding-left: 5px;
+
+    &:hover {
+        background: none;
+        color: $darkGray;
+    }
+
+    svg {
+        width: 25px;
+        height: 25px;
+    }
+}

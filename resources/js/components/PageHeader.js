@@ -1,5 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import axios, {post} from "axios";
+import {MdCancel, MdEdit, MdFileUpload} from 'react-icons/md';
 
 const page_header_path = user.page_header_path;
 
@@ -8,31 +9,7 @@ const PageHeader = ({page}) => {
     const currentPageHeader = page_header_path + "/" + page["header_img"];
 
     const [pageHeader, setPageHeader] = useState(currentPageHeader);
-    //const [selectedFile, setSelectedFile] = useState();
-    //const [preview, setPreview] = useState();
-
-    // create a preview as a side effect, whenever selected file is changed
-   /* useEffect(() => {
-        if (!selectedFile) {
-            setPreview(undefined)
-            return
-        }
-
-        setPageHeader(selectedFile["name"]);
-
-        const objectUrl = URL.createObjectURL(selectedFile)
-        setPreview(objectUrl)
-
-        // free memory when ever this component is unmounted
-        return () => URL.revokeObjectURL(objectUrl)
-    }, [selectedFile])*/
-
-    /*useEffect(() => {
-
-        const currentPageHeader = "/storage/page-headers/" + page["header_img"];
-        setPageHeader(currentPageHeader);
-
-    }, [pageHeader]);*/
+    const [isEditing, setIsEditing] = useState(false);
 
     const onSelectFile = e => {
         let files = e.target.files || e.dataTransfer.files;
@@ -41,9 +18,6 @@ const PageHeader = ({page}) => {
         }
 
         createImage(files[0]);
-
-        // I've kept this example simple by using the first image instead of multiple
-        //setSelectedFile(e.target.files[0])
     }
 
    const createImage = (file) => {
@@ -73,23 +47,51 @@ const PageHeader = ({page}) => {
    }
 
     return (
-        <form onSubmit={handleSubmit}>
-            {/*{selectedFile ? <img src={preview} /> :*/}
-            <div className="row">
-                <div className="col-3">
-                    <img id="header_img" src={pageHeader} name="header_img" alt=""/>
-                </div>
-          {/*  }*/}
-                <div className="col-9">
-                    <input type="file"
-                           onChange={onSelectFile}
-                    />
-                    <button type="submit">
-                        Upload
-                    </button>
+
+        <div className="row page_settings">
+            {/*<div className="col-3">
+                <img id="header_img" src={pageHeader} name="header_img" alt=""/>
+            </div>
+            <div className="col-9">
+                <input type="file"
+                       onChange={onSelectFile}
+                />
+                <button type="submit">
+                    Upload
+                </button>
+            </div>*/}
+
+                <div className="col-12">
+                    <div className="column_wrap">
+                        {isEditing ?
+                            <form onSubmit={handleSubmit}>
+                                <input type="file"
+                                       onChange={onSelectFile}
+                                />
+                                <div>
+                                    <button type="submit">
+                                        <MdFileUpload />
+                                    </button>
+                                    <a className="cancel_icon" href="#"
+                                       onClick={(e) => {
+                                           e.preventDefault();
+                                           setIsEditing(false);
+                                       }}
+                                    ><MdCancel />
+                                    </a>
+                                </div>
+                            </form>
+                        :
+                            <div className="column_content">
+                                <h3>Header Image</h3>
+                                <a className="edit_icon" onClick={(e) => setIsEditing(true) } href="#"><MdEdit /></a>
+                            </div>
+                        }
+
+                    </div>
+
                 </div>
             </div>
-        </form>
 
     )
 }

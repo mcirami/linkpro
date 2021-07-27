@@ -8,6 +8,7 @@ import PageHeader from './PageHeader';
 import PageProfile from './PageProfile';
 import PageName from './PageName';
 import PageNav from './PageNav';
+import { IoIosLock } from "react-icons/io";
 
 const page = user.page;
 const userPages = user.user_pages;
@@ -26,42 +27,56 @@ function App() {
         <div className="row">
             <div className="col-12">
 
-                <PageNav userPages={userPages} currentPage={page["id"]} />
-
                 <div className="row justify-content-center">
                     <div className="col-8">
 
-                        <PageName page={page}/>
+                        <PageNav userPages={userPages} currentPage={page["id"]} />
 
-                        <PageHeader page={page}/>
+                        <div className="content_wrap">
 
-                        <PageProfile page={page}/>
+                            <PageName page={page}/>
 
-                        <div className="icons_wrap add_icons icons">
-
-                            {userLinks.map((linkItem, index) => {
-
-                                return (
-                                    <div key={index} className="icon_col" id={index}>
-                                            <Links
-                                                linkItem={linkItem}
-                                                currentName={name}
-                                                setName={setName}
-                                                currentUrl={url}
-                                                setUrl={setUrl}
-                                                currentIcon={icon}
-                                                setIcon={setIcon}
-                                                userLinks={userLinks}
-                                                setUserLinks={setUserLinks}
-                                                defaultIconPath={defaultIconPath}
-                                                pageID={page["id"]}
-                                        />
-
+                            <div className="row page_settings">
+                                <div className="col-12">
+                                    <div className="column_wrap">
+                                        <div className="column_content">
+                                            <h3>Password Protect</h3>
+                                            <a className="lock_icon" href="#"><IoIosLock /></a>
+                                        </div>
                                     </div>
-                                )
+                                </div>
+                            </div>
 
-                            })}
+                            <PageHeader page={page}/>
 
+                            <PageProfile page={page}/>
+
+                            <div className="icons_wrap add_icons icons">
+
+                                {userLinks.map((linkItem, index) => {
+
+                                    return (
+                                        <div key={index} className="icon_col" id={index}>
+                                                <Links
+                                                    linkItem={linkItem}
+                                                    currentName={name}
+                                                    setName={setName}
+                                                    currentUrl={url}
+                                                    setUrl={setUrl}
+                                                    currentIcon={icon}
+                                                    setIcon={setIcon}
+                                                    userLinks={userLinks}
+                                                    setUserLinks={setUserLinks}
+                                                    defaultIconPath={defaultIconPath}
+                                                    pageID={page["id"]}
+                                            />
+
+                                        </div>
+                                    )
+
+                                })}
+
+                            </div>
                         </div>
                     </div>
                     <div className="col-4 preview_col">

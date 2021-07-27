@@ -73,7 +73,7 @@ class PageController extends Controller
             'username' => Auth::user()->username,
             'links' => $links,
             'icons' => File::glob(public_path('images/icons').'/*'),
-            'defaultIcon' => File::glob(public_path('images/icon-placeholder.jpg')),
+            'defaultIcon' => File::glob(public_path('images/icon-placeholder.png')),
             'page' => $page,
             'page_header_path' => $pageHeaderPath,
             'page_profile_path' => $pageProfilePath,

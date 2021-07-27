@@ -1,10 +1,36 @@
+const page_header_path = user.page_header_path;
+const page_profile_path = user.page_profile_path;
+
 const Preview = ({links, page, count, defaultIconPath}) => {
 
+    const currentPageHeader = page_header_path + "/" + page["header_img"];
+    const currentPageProfileIMG = page_profile_path + "/" + page["profile_img"];
+
+    const myStyle = {
+        background: "url(" + currentPageHeader + ") no-repeat",
+        backgroundSize: "100%",
+        padding: "20%"
+
+    };
+
     return (
+
         <div className="preview_wrap">
 
             <div className="inner_content">
-                <h2>{page["title"]}</h2>
+                <div className="page_header"
+                    style={myStyle}
+                >
+                </div>
+                <div className="profile_content">
+                    <div className="profile_image">
+                        <img src={currentPageProfileIMG} alt=""/>
+                    </div>
+                    <div className="profile_text">
+                        <h2>{page["title"]}</h2>
+                        <p>{page["bio"]}</p>
+                    </div>
+                </div>
                 <div className="icons_wrap">
                     {links.map((linkItem) => {
                         const { id, url, icon, active_status } = linkItem;
@@ -20,18 +46,19 @@ const Preview = ({links, page, count, defaultIconPath}) => {
                              </div>
                         )
                     })}
-                    {count < 9 ?
+                    {/*{count < 9 ?
                         <DefaultIcon count={count}
                                      defaultIconPath={defaultIconPath}
                                     />
                         : ""
-                    }
+                    }*/}
                 </div>
             </div>
         </div>
     );
 }
 
+/*
 const DefaultIcon = ({count, defaultIconPath}) => {
 
     let n = 9 - count;
@@ -49,6 +76,7 @@ const DefaultIcon = ({count, defaultIconPath}) => {
 
     )
 }
+*/
 
 
 export default Preview;

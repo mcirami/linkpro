@@ -7,7 +7,7 @@ const IconLinks = ({setShowIcons, selectIcon}) => {
 
     return (
         <div className="icon_popup">
-            <a href="#" className="close_popup" onClick={(e) => setShowIcons(false) }><MdClose /></a>
+            <a href="#" className="close_popup" onClick={(e) => {e.preventDefault(); setShowIcons(false) }}><MdClose /></a>
             <div className="icon_box">
                 <h3>Change Link Icon</h3>
                 <div className="icons_wrap">
