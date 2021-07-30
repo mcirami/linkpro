@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { MdCancel, MdEdit, MdDeleteForever } from "react-icons/md";
-import IconList from "./IconList";
+import IconList from "../IconList";
 import axios from "axios";
 import Switch from "react-switch";
 
@@ -242,7 +242,7 @@ const Links = ({
     return (
         <>
             { id ? (
-                <a id={id} href="#" onClick={(e) => deleteItem(e, id)}>
+                <a className="delete_icon" id={id} href="#" onClick={(e) => deleteItem(e, id)}>
                     <MdDeleteForever />
                 </a>
             ) : (
@@ -291,7 +291,7 @@ const Links = ({
                 ) : (
                     <p>
                         {name || "Link Name"}
-                        <a onClick={(e) => handleClick(id, "name")}>
+                        <a className="edit_icon" onClick={(e) => handleClick(id, "name")}>
                             <MdEdit />
                         </a>
                     </p>
@@ -324,7 +324,7 @@ const Links = ({
                 ) : (
                     <p>
                         {url || "https://linkurl.com"}
-                        <a onClick={(e) => handleClick(id, "url")}>
+                        <a className="edit_icon"  onClick={(e) => handleClick(id, "url")}>
                             <MdEdit />
                         </a>
                     </p>

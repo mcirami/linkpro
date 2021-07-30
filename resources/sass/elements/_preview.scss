@@ -1,11 +1,108 @@
 .preview_col {
-    padding: 60px 0 60px 60px;
+    background: url('/images/preview-device-bg.png') no-repeat;
+    background-size: 100%;
+    background-position: 50% 10%;
 
     .preview_wrap {
-        background: url('/images/preview-device.svg') no-repeat;
-        background-size: 100%;
-        height: 670px;
-        padding: 20px;
+        max-width: 380px;
+        margin: 0 auto;
+        position: relative;
+        height: 100%;
+        background: #f8fafc;
+
+        &:after {
+            content: '';
+            background: url('/images/preview-device-no-btm.png') no-repeat;
+            background-size: contain;
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+        }
+
+        img.device {
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .page_header {
+            padding: 30%;
+            border-top-right-radius: 12%;
+            -webkit-border-top-right-radius: 12%;
+            -moz-border-radius-topright: 12%;
+            border-top-left-radius: 12%;
+            -webkit-border-top-left-radius: 12%;
+            -moz-border-radius-topleft: 12%;
+            background-size: cover !important;
+
+            &.default {
+                padding: 22%;
+                background: $lightGray;
+                color: $gray;
+                text-align: center;
+
+                svg {
+                    width: 75px;
+                    height: 75px;
+                }
+            }
+        }
+
+        .inner_content {
+            background: $white;
+            border-radius: 50px;
+            -webkit-border-radius: 50px;
+            -moz-border-radius: 50px;
+            margin: 0 auto;
+            padding: 12px;
+        }
+
+        .profile_content {
+            padding: 10px 20px;
+            width: 100%;
+            float: left;
+
+            .profile_image {
+                width: 28%;
+                border-radius: 50px;
+                border: 7px solid $blue;
+                padding: 4px;
+                float: left;
+                margin-top: -67px;
+
+                img {
+                    border-radius: 50px;
+                    -webkit-border-radius: 50px;
+                    -moz-border-radius: 50px;
+                }
+
+                &.default {
+                    background: $lightGray;
+                    color: $gray;
+                    margin-top: -60px;
+                    padding: 8%;
+
+                    svg {
+                        width: 30px;
+                        height: 30px;
+                    }
+                }
+            }
+
+            .profile_text {
+                width: 72%;
+                float: left;
+            }
+        }
+
+        .icons_wrap {
+            width: 100%;
+            padding: 0 20px;
+        }
 
         .icon_col {
             background: none;

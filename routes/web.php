@@ -20,7 +20,7 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -42,7 +42,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
         ->name('pages.edit')
         ->missing(function (Request $request) {
             $user = Auth::user();
-            $page = $user->pages()->first()->pluck('id');
+            $pages = $user->pages()->first()->pluck('id');
     });
 
     Route::post('/page/header-update/{page}', [PageController::class, 'headerUpdate'])->name('page.header.update');

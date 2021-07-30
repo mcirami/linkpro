@@ -1,21 +1,37 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useReducer, useEffect, createContext } from 'react';
 import Preview from './Preview';
-import Links from './Links';
+import Links from './Link/Links';
 import SubmitForm from './SubmitForm';
-import axios from "axios";
-import myLinksArray from './LinkItems';
-import PageHeader from './PageHeader';
-import PageProfile from './PageProfile';
-import PageName from './PageName';
-import PageNav from './PageNav';
+import myLinksArray from './Link/LinkItems';
+import PageHeader from './Page/PageHeader';
+import PageProfile from './Page/PageProfile';
+import PageName from './Page/PageName';
+import PageNav from './Page/PageNav';
 import { IoIosLock } from "react-icons/io";
+import UserContext from './User/User';
 
 const page = user.page;
 const userPages = user.user_pages;
 
+export const LinksContext = createContext();
+export const PageContext = createContext();
+
+function reducer(state, item) {
+    return [...state, item]
+}
+
+function reducer2(state, item) {
+    return [item]
+}
+
 function App() {
 
-    const [userLinks, setUserLinks] = useState(myLinksArray);
+    //const myLinksArray = useContext(UserContext);
+
+    const [userLinks, setUserLinks] = useReducer(reducer, myLinksArray);
+    const [pageSettings, setPageSettings] = useReducer(reducer2, page);
+
+    //const [userLinks, setUserLinks] = useState(myLinksArray);
     const [name, setName] = useState('');
     const [url, setUrl] = useState('');
     const [icon, setIcon] = useState('');
@@ -28,7 +44,7 @@ function App() {
             <div className="col-12">
 
                 <div className="row justify-content-center">
-                    <div className="col-8">
+                    <div className="col-7 pr-5">
 
                         <PageNav userPages={userPages} currentPage={page["id"]} />
 
@@ -47,9 +63,10 @@ function App() {
                                 </div>
                             </div>
 
-                            <PageHeader page={page}/>
-
-                            <PageProfile page={page}/>
+                            <PageContext.Provider value={{ pageSettings, setPageSettings}}>
+                                <PageHeader />
+                                <PageProfile page={page}/>
+                            </PageContext.Provider>
 
                             <div className="icons_wrap add_icons icons">
 
@@ -79,8 +96,12 @@ function App() {
                             </div>
                         </div>
                     </div>
-                    <div className="col-4 preview_col">
-                        <Preview links={userLinks} page={page} defaultIconPath={defaultIconPath} count={userLinks.length}/>
+                    <div className="col-5 preview_col">
+                        <LinksContext.Provider value={{ userLinks, setUserLinks}} >
+                            <PageContext.Provider value={{ pageSettings, setPageSettings}}>
+                                <Preview page={page} defaultIconPath={defaultIconPath} />
+                            </PageContext.Provider>
+                        </LinksContext.Provider>
                     </div>
                 </div>
             </div>

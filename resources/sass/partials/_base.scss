@@ -56,3 +56,31 @@ input[type="text"] {
         height: 25px;
     }
 }
+
+.button {
+    width: 150px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+
+    @media all and (max-width: 768px) {
+        width: 138px;
+    }
+
+    &.red {
+        background: $red;
+        color: $white;
+
+        &:hover {
+            background: $blue;
+            text-decoration: none;
+        }
+    }
+
+    &.transparent {
+        border: 1px solid $blue;
+        color: $blue;
+    }
+}

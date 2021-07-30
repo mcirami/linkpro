@@ -9,12 +9,14 @@ const PageProfile = ({ page }) => {
 
     const [pageProfileIMG, setPageProfileIMG] = useState(currentPageProfileIMG);
     const [isEditing, setIsEditing] = useState(false);
+    const [fileName, setFileName] = useState("");
 
     const onSelectFile = e => {
         let files = e.target.files || e.dataTransfer.files;
         if (!files.length) {
             return;
         }
+        setFileName(files[0]["name"]);
         createImage(files[0]);
     }
 
@@ -65,9 +67,15 @@ const PageProfile = ({ page }) => {
                 <div className="column_wrap">
                     { isEditing ?
                         <form onSubmit={handleSubmit}>
-                            <input type="file"
-                                   onChange={onSelectFile}
-                            />
+                            <div>
+                                <label htmlFor="header_file_upload">
+                                    Choose File
+                                </label>
+                                <span>{fileName}</span>
+                                <input id="header_file_upload" type="file"
+                                       onChange={onSelectFile}
+                                />
+                            </div>
                             <div>
                                 <button type="submit">
                                     <MdFileUpload />
@@ -84,7 +92,7 @@ const PageProfile = ({ page }) => {
                         :
                         <div className="column_content">
                             <h3>Profile Image </h3>
-                            <a className="edit_icon" onClick={(e) => setIsEditing(true) } href="#"><MdEdit /></a>
+                            <a className="edit_icon" onClick={(e) => {e.preventDefault(); setIsEditing(true) }} href="#"><MdEdit /></a>
                         </div>
                     }
 

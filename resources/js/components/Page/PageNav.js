@@ -48,11 +48,11 @@ const PageNav = ({ userPages, currentPage }) => {
                 )
             })}
 
-            {pageCount < 3 ?
+            { pageCount < 3 ?
                 <li id={"new_" + pageCount + 1 } className="new_page">
                     { isEditing ?
                         <form>
-                            <input type="text"
+                            <input name="name" type="text"
                                    placeholder="Link Name"
                                    onChange={(e) => setNewPageName(e.target.value) }
                                    onKeyPress={ event => {
@@ -73,7 +73,7 @@ const PageNav = ({ userPages, currentPage }) => {
                             </a>
                         </form>
                         :
-                        <a key={"new_" + pageCount + 1} className="add_new_page" onClick={(e) => setIsEditing(true) } href="#"><MdAddCircleOutline/></a>
+                        <a key={"new_" + pageCount + 1} className="add_new_page" onClick={(e) => {e.preventDefault(); setIsEditing(true) }} href="#"><MdAddCircleOutline/></a>
                     }
                 </li>
                 : ""

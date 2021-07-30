@@ -27,7 +27,7 @@ const PageName = ({page}) => {
         <div className="edit_form">
             <label>Link.pro/</label>
                <form>
-                    <input type="text" defaultValue={name}
+                    <input name="name" type="text" defaultValue={name}
                            onChange={(e) => setName(e.target.value) }
                            onKeyPress={ event => {
                                    if(event.key === 'Enter') {

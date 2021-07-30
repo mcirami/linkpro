@@ -67,7 +67,7 @@ ul.page_nav_menu {
         }
     }
 
-    a {
+    a:not(.cancel_icon) {
         padding: 15px 50px 20px 15px;
         color: $gray;
         text-transform: uppercase;
@@ -92,7 +92,7 @@ ul.page_nav_menu {
             border-right: 1px solid $borderGray;
         }
 
-        &.add_new_page, &.cancel {
+        &.add_new_page {
             color: $blue;
 
             &:hover {
@@ -105,5 +105,75 @@ ul.page_nav_menu {
                 height: 25px;
             }
         }
+    }
+}
+
+header.guest_header {
+    width: 100%;
+    float:left;
+    padding: 20px 5%;
+    background: $white;
+
+    .button {
+        margin-left: 20px;
+
+        @media all and (max-width: 768px) {
+            margin-left: 10px;
+            width: 40%;
+            font-size: 14px;
+        }
+    }
+
+    a {
+        @include osregular;
+
+        &:hover {
+            text-decoration: none;
+        }
+
+        &:not(.button) {
+            color: $gray;
+
+            &:hover {
+                color: $blue;
+            }
+        }
+
+        &.button:hover {
+            background: $blue;
+            color: $white;
+        }
+    }
+
+    .col {
+        width: 30%;
+        float:left;
+
+        img {
+            float:left;
+            max-width: 175px;
+
+            @media all and (max-width: 768px) {
+                max-width: 150px;
+            }
+        }
+
+        &.right {
+            width: 70%;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            -ms-flex-wrap: nowrap;
+            flex-wrap: nowrap;
+            justify-content: flex-end;
+            -webkit-justify-content: flex-end;
+            align-items: center;
+            -webkit-align-items: center;
+        }
+
     }
 }

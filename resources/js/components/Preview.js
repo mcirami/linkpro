@@ -1,38 +1,51 @@
-const page_header_path = user.page_header_path;
-const page_profile_path = user.page_profile_path;
+import React, { useContext } from 'react';
+import {MdEdit} from "react-icons/md";
+import {LinksContext, PageContext} from './App';
 
-const Preview = ({links, page, count, defaultIconPath}) => {
+const page_header_path = user.page_header_path + "/";
+const page_profile_path = user.page_profile_path + "/";
 
-    const currentPageHeader = page_header_path + "/" + page["header_img"];
-    const currentPageProfileIMG = page_profile_path + "/" + page["profile_img"];
+const Preview = ({}) => {
+
+    const { userLinks } = useContext(LinksContext);
+    const { pageSettings, setPageSettings } = useContext(PageContext);
 
     const myStyle = {
-        background: "url(" + currentPageHeader + ") no-repeat",
-        backgroundSize: "100%",
-        padding: "20%"
+        background: "url(" + page_header_path + pageSettings["header_img"] + ") no-repeat",
+        backgroundSize: "cover",
 
     };
 
     return (
 
         <div className="preview_wrap">
-
             <div className="inner_content">
-                <div className="page_header"
-                    style={myStyle}
-                >
-                </div>
+
+                {pageSettings["header_img"] ?
+                    <div className="page_header"
+                         style={myStyle}
+                    >
+                    </div>
+                    :
+                    <div className={!pageSettings["header_img"] ? "page_header default" : "page_header" }>
+                        <MdEdit />
+                    </div>
+                }
                 <div className="profile_content">
-                    <div className="profile_image">
-                        <img src={currentPageProfileIMG} alt=""/>
+                    <div className={!pageSettings["profile_img"] ? "profile_image default" : "profile_image"  }>
+                        {pageSettings["profile_img"] ?
+                            <img src={page_profile_path + pageSettings["profile_img"]} alt=""/>
+                            :
+                            <MdEdit />
+                        }
                     </div>
                     <div className="profile_text">
-                        <h2>{page["title"]}</h2>
-                        <p>{page["bio"]}</p>
+                        <h2>{pageSettings["title"]}</h2>
+                        <p>{pageSettings["bio"]}</p>
                     </div>
                 </div>
                 <div className="icons_wrap">
-                    {links.map((linkItem) => {
+                    {userLinks.map((linkItem) => {
                         const { id, url, icon, active_status } = linkItem;
                         return (
                             <div key={id || Math.random()}>

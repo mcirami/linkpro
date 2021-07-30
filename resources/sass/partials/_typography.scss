@@ -46,8 +46,12 @@
     font-style: normal;
 }
 
-h1, h2,h3, a {
+h1, h2, h3, a {
     @include osbold;
+}
+
+label {
+    @include ossemibold;
 }
 
 h4, p {

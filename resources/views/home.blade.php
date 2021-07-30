@@ -1,23 +1,61 @@
-@extends('layouts.app')
+@extends('layouts.guest.header')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
+    <div class="guest_home">
+        <section class="two_col top">
+            <div class="col">
+                <h2>Unite Your Audience.</h2>
+                <h3>You are the pro!</h3>
+                <p>Connect your followers across all platforms.</p>
+                <p>Use LinkPro to cross-promote your offers and get paid!</p>
+                <div class="bottom_row">
+                    <a class="button red open_popup" href="/regsiter">Sign up to get started for free</a>
+                    <p><em><strong>Already on LinkPro?</strong></em> <a href="/login">Log In</a></p>
                 </div>
             </div>
-        </div>
+            <div class="col">
+                <img src="/images/top-section-image.jpg" alt="">
+            </div>
+        </section>
+
+        <section class="two_col social_media">
+            <div class="col left">
+                <img src="/images/social-media-image.png" alt="">
+            </div>
+            <div class="col">
+                <h2>Link Your Platforms</h2>
+                <p>Post your exclusive LinkPro link on all of your social media accounts. Cross all of your platforms to skyrocket your brand.</p>
+            </div>
+        </section>
+
+        <section class="two_col laptop">
+            <div class="col">
+                <h2>Get Down To Business</h2>
+                <p>LinkPro is all about business. We're in this to build all of our clients bottom line. Join Today to let LinkPro help you leverage the intersection of media & business to kick your revenue into gear.</p>
+            </div>
+            <div class="col right">
+                <img src="/images/laptop-image.png" alt="">
+            </div>
+        </section>
+
+        <section class="two_col phone">
+            <div class="col left">
+                <img src="/images/phone-image.png" alt="">
+            </div>
+            <div class="col">
+                <h2>Self-Managed Platform</h2>
+                <p>LinkPro allows you to create your own private link, add a profile & background image, and create buttons to link all of your social media and business accounts in one place.</p>
+            </div>
+        </section>
+
+        <section class="two_col bottom">
+            <div class="col">
+                <h2>Cross Promote To Increase Revenue</h2>
+                <p>Contact Us to discuss how LinkPro will work directly with you to cross promote other products & services to increase your bottom line. Get paid every week for all revenue generated from our partners.</p>
+            </div>
+            <div class="col right">
+                <img src="/images/bottom-image.png" alt="">
+            </div>
+        </section>
     </div>
-</div>
 @endsection

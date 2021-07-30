@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Page;
@@ -31,7 +32,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    //protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -72,16 +73,24 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        $headerIMG = 'default-header-img.jpg';
-        $profileIMG = 'default-profile-img.png';
-
         $user->pages()->create([
             'name' => $user->username,
-            'header_img' => $headerIMG,
-            'profile_img' => $profileIMG,
-            'title' => $user->username,
-            'bio' => 'This is where your bio goes']);
+            'title' => "LinkPro",
+            'bio' => 'Add Slogan/Intro Here']);
 
         return $user;
+    }
+
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        $userPages = $user->pages()->get();
+        return redirect('/dashboard/pages/' . $userPages[0]["id"]);
     }
 }
