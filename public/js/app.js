@@ -1929,6 +1929,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Page_PageNav__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Page/PageNav */ "./resources/js/components/Page/PageNav.js");
 /* harmony import */ var react_icons_io__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-icons/io */ "./node_modules/react-icons/io/index.esm.js");
 /* harmony import */ var _User_User__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./User/User */ "./resources/js/components/User/User.js");
+/* harmony import */ var react_icons_md__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-icons/md */ "./node_modules/react-icons/md/index.esm.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -1963,8 +1964,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 
+
 var page = user.page;
 var userPages = user.user_pages;
+var page_profile_path = user.page_profile_path + "/";
+var page_header_path = user.page_header_path + "/";
 var LinksContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)();
 var PageContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)();
 
@@ -2006,14 +2010,18 @@ function App() {
 
   var stringIndex = user.defaultIcon[0].search("/images");
   var defaultIconPath = user.defaultIcon[0].slice(stringIndex);
+  var myStyle = {
+    background: "url(" + page_header_path + pageSettings["header_img"] + ") no-repeat",
+    backgroundSize: "cover"
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
     className: "row",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
       className: "col-12",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
         className: "row justify-content-center",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
-          className: "col-7 pr-5",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+          className: "col-12",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Page_PageNav__WEBPACK_IMPORTED_MODULE_8__.default, {
             userPages: userPages,
             currentPage: page["id"]
@@ -2048,47 +2056,57 @@ function App() {
                 page: page
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
-              className: "icons_wrap add_icons icons",
-              children: userLinks.map(function (linkItem, index) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
-                  className: "icon_col",
-                  id: index,
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Link_Links__WEBPACK_IMPORTED_MODULE_2__.default, {
-                    linkItem: linkItem,
-                    currentName: name,
-                    setName: setName,
-                    currentUrl: url,
-                    setUrl: setUrl,
-                    currentIcon: icon,
-                    setIcon: setIcon,
-                    userLinks: userLinks,
-                    setUserLinks: setUserLinks,
-                    defaultIconPath: defaultIconPath,
-                    pageID: page["id"]
+              className: "preview_wrap preview_col",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+                className: "inner_content",
+                children: [pageSettings["header_img"] ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+                  className: "page_header",
+                  style: myStyle
+                }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+                  className: !pageSettings["header_img"] ? "page_header default" : "page_header",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_12__.MdEdit, {})
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+                  className: "profile_content",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+                    className: !pageSettings["profile_img"] ? "profile_image default" : "profile_image",
+                    children: pageSettings["profile_img"] ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("img", {
+                      src: page_profile_path + pageSettings["profile_img"],
+                      alt: ""
+                    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_12__.MdEdit, {})
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+                    className: "profile_text",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("h2", {
+                      children: pageSettings["title"]
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
+                      children: pageSettings["bio"]
+                    })]
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+                  className: "icons_wrap add_icons icons",
+                  children: userLinks.map(function (linkItem, index) {
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+                      className: "icon_col",
+                      id: index,
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Link_Links__WEBPACK_IMPORTED_MODULE_2__.default, {
+                        linkItem: linkItem,
+                        currentName: name,
+                        setName: setName,
+                        currentUrl: url,
+                        setUrl: setUrl,
+                        currentIcon: icon,
+                        setIcon: setIcon,
+                        userLinks: userLinks,
+                        setUserLinks: setUserLinks,
+                        defaultIconPath: defaultIconPath,
+                        pageID: page["id"]
+                      })
+                    }, index);
                   })
-                }, index);
+                })]
               })
             })]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
-          className: "col-5 preview_col",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(LinksContext.Provider, {
-            value: {
-              userLinks: userLinks,
-              setUserLinks: setUserLinks
-            },
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(PageContext.Provider, {
-              value: {
-                pageSettings: pageSettings,
-                setPageSettings: setPageSettings
-              },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Preview__WEBPACK_IMPORTED_MODULE_1__.default, {
-                page: page,
-                defaultIconPath: defaultIconPath
-              })
-            })
-          })
-        })]
+        })
       })
     })
   });
