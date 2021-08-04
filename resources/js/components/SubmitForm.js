@@ -1,78 +1,157 @@
-import React from "react";
+import React, {useContext, useState } from 'react';
 import IconList from "./IconList";
+import axios from "axios";
+import { LinksContext, PageContext } from './App';
 
 const SubmitForm = ({
-    handleSubmit,
-    deleteItem,
-    linkID,
-    setLinkID,
-    currentLink,
-    setName,
-    setLink,
-    setLinkIcon,
-    showIcons,
-    setShowIcons,
-    page,
+    editID,
+    setEditID,
+    setUserLinks,
+    userLinks
 }) => {
-    let { id, name, link, link_icon } = currentLink;
 
-    //setName(name);
-    //setLink(link);
+    //const  { userLinks, setUserLinks } = useContext(LinksContext);
+    const  { pageSettings, setPageSettings } = useContext(PageContext);
+
+    const [ currentLink, setCurrentLink ] = useState(
+        userLinks.find(function(e) {
+            return e.id === editID
+        }) || null );
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const packets = {
+            name: currentLink.name,
+            url: currentLink.url,
+            icon: currentLink.icon,
+            page_id : pageSettings["id"]
+        };
+
+        if (editID == "new") {
+            axios.post('/dashboard/links/new', packets).then(
+                response => {
+                    console.log(JSON.stringify(response.data));
+                    const link_id = JSON.stringify(response.data.link_id);
+                    const newElement = {
+                        id: link_id,
+                        name: currentLink.name,
+                        url: currentLink.url,
+                        icon: currentLink.icon,
+                        page_id: pageSettings["id"]
+                    };
+                    setUserLinks(userLinks.concat(newElement));
+                })
+            .catch(error => {
+                console.log("ERROR:: ", error.response.data);
+
+            });
+
+
+        } else {
+            axios.post('/dashboard/links/update/' + editID, packets).then(
+                response => alert(JSON.stringify(response.data)),
+                setUserLinks(
+                    userLinks.map((item) => {
+                        if (item.id === editID) {
+                            return {
+                                ...item,
+                                name: currentLink.name,
+                                url: currentLink.url,
+                                icon: currentLink.icon
+                            }
+                        }
+                        return item;
+                    })
+                ),
+            ).catch(error => {
+                console.log("ERROR:: ", error.response.data);
+
+            });
+        }
+    };
 
     return (
-        <div className="edit_form">
-            <form onSubmit={handleSubmit} className="links_forms">
+        <div className="edit_form popup" key={editID}>
+            <form onSubmit={handleSubmit} className="link_form">
                 <div className="row">
-                    <div className="col-4">
-                        {/*<input name="name" type="file" onChange={(e) => handleChange(e) }/>*/}
-                        <img
+                    <div className="col-12">
+                        {/*<img
                             id="current_icon"
-                            src={link_icon}
+                            src={currentLink[0].icon}
                             name="link_icon"
                             alt=""
-                        />
+                        />*/}
 
-                        <a href="#" onClick={(e) => setShowIcons(true)}>
-                            Change Icon
-                        </a>
-                        {showIcons ? (
-                            <IconList setShowIcons={setShowIcons} />
-                        ) : (
-                            ""
-                        )}
+                        <IconList currentLink={currentLink} setCurrentLink={setCurrentLink}/>
                     </div>
-                    <div className="col-8">
+                </div>
+                <div className="row">
+                    <div className="col-12">
                         <input
                             name="name"
                             type="text"
-                            defaultValue={name}
-                            onChange={(e) => setName(e.target.value)}
+                            defaultValue={editID !== "new" ? currentLink.name : ""}
+                            placeholder="Link Name"
+                            onChange={(e) => setCurrentLink({
+                                ...currentLink,
+                                name: e.target.value
+                            }) }
                         />
-                        <input
-                            name="link"
-                            type="text"
-                            defaultValue={link}
-                            onChange={(e) => setLink(e.target.value)}
-                        />
-                        <input type="hidden" value={page["id"]} />
                     </div>
                 </div>
-                <button type="submit">
-                    {linkID && !linkID.toString().includes("new")
-                        ? "Update"
-                        : "Add Link"}
-                </button>
-                {linkID && !linkID.toString().includes("new") ? (
-                    <a href="#" onClick={(e) => deleteItem(e)}>
-                        Delete
-                    </a>
-                ) : (
-                    ""
-                )}
-                <a href="#" onClick={() => setLinkID(null)}>
-                    Cancel
-                </a>
+                <div className="row">
+                    <div className="col-12">
+                        <input
+                            name="url"
+                            type="text"
+                            defaultValue={editID !== "new" ? currentLink.url : ""}
+                            placeholder="Link Url"
+                            onChange={(e) => setCurrentLink({
+                                ...currentLink,
+                                url: e.target.value
+                            }) }
+                        />
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-12 button_row">
+                        <button className="button red" type="submit">
+                            Save
+                        </button>
+                        <a href="#" onClick={(e) => {e.preventDefault(); setEditID(null); }}>
+                            Cancel
+                        </a>
+                    </div>
+                </div>
             </form>
+            {/*<form>
+                <div className="my_row">
+                    <input
+                        type="text"
+                        defaultValue={name}
+                        onChange={(e) => setName(e.target.value)}
+                        onKeyPress={(event) => {
+                            if (event.key === "Enter") {
+                                handleSubmit(event, id);
+                            }
+                        }}
+                    />
+                </div>
+                <div className="my_row">
+                    <input
+                        type="text"
+                        defaultValue={url}
+                        onChange={(e) => setUrl(e.target.value)}
+                        onKeyPress={(event) => {
+                            if (event.key === "Enter") {
+                                handleSubmit(event, id);
+                            }
+                        }}
+                    />
+                </div>
+            </form>*/}
         </div>
     );
 };

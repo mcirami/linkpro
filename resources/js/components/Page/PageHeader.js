@@ -3,19 +3,12 @@ import axios, {post} from "axios";
 import {MdCancel, MdEdit, MdFileUpload} from 'react-icons/md';
 import { PageContext } from '../App';
 
-const page_header_path = user.page_header_path;
-
-const PageHeader = ({}) => {
+const PageHeader = () => {
 
     const { pageSettings, setPageSettings } = useContext(PageContext);
-
-    const currentPageHeader = page_header_path + "/" + pageSettings["header_img"];
-
-    //const [pageHeader, setPageHeader] = useState(currentPageHeader);
     const [isEditing, setIsEditing] = useState(false);
     const [fileName, setFileName] = useState("");
 
-    console.log(pageSettings["header_img"]);
     const onSelectFile = e => {
         let files = e.target.files || e.dataTransfer.files;
         if (!files.length) {
@@ -26,10 +19,11 @@ const PageHeader = ({}) => {
         createImage(files[0]);
     }
 
-   const createImage = (file) => {
+    const createImage = (file) => {
         let reader = new FileReader();
         reader.onload = (e) => {
             setPageSettings({
+                ...pageSettings,
                 header_img: e.target.result,
             });
         };
@@ -41,18 +35,18 @@ const PageHeader = ({}) => {
         fileUpload(pageSettings["header_img"]);
     }
 
-   const fileUpload = (image) => {
+    const fileUpload = (image) => {
 
-       const packets = {
-           header_img: image,
-       };
+        const packets = {
+            header_img: image,
+        };
 
-       axios.post('/dashboard/page/header-update/' + pageSettings["id"], packets).then(
-           response => console.log(JSON.stringify(response.data))
-       ).catch(error => {
-           console.log("ERROR:: ", error.response.data);
-       });
-   }
+        axios.post('/dashboard/page/header-update/' + pageSettings["id"], packets).then(
+            response => console.log(JSON.stringify(response.data))
+        ).catch(error => {
+            console.log("ERROR:: ", error.response.data);
+        });
+    }
 
     return (
 
@@ -69,43 +63,43 @@ const PageHeader = ({}) => {
                 </button>
             </div>*/}
 
-                <div className="col-12">
-                    <div className="column_wrap">
-                        {isEditing ?
-                            <form onSubmit={handleSubmit}>
-                                <div>
-                                    <label htmlFor="header_file_upload">
-                                        Choose File
-                                    </label>
-                                    <span>{fileName}</span>
-                                    <input id="header_file_upload" type="file"
-                                           onChange={onSelectFile}
-                                    />
-                                </div>
-                                <div>
-                                    <button type="submit">
-                                        <MdFileUpload />
-                                    </button>
-                                    <a className="cancel_icon" href="#"
-                                       onClick={(e) => {
-                                           e.preventDefault();
-                                           setIsEditing(false);
-                                       }}
-                                    ><MdCancel />
-                                    </a>
-                                </div>
-                            </form>
-                        :
-                            <div className="column_content">
-                                <h3>Header Image</h3>
-                                <a className="edit_icon" onClick={(e) => {e.preventDefault(); setIsEditing(true) }} href="#"><MdEdit /></a>
+            <div className="col-12">
+                <div className="column_wrap">
+                    {isEditing ?
+                        <form onSubmit={handleSubmit}>
+                            <div>
+                                <label htmlFor="header_file_upload" className="custom">
+                                    Choose File
+                                </label>
+                                <span>{fileName}</span>
+                                <input className="custom" id="header_file_upload" type="file"
+                                       onChange={onSelectFile}
+                                />
                             </div>
-                        }
-
-                    </div>
+                            <div>
+                                <button type="submit">
+                                    <MdFileUpload />
+                                </button>
+                                <a className="cancel_icon" href="#"
+                                   onClick={(e) => {
+                                       e.preventDefault();
+                                       setIsEditing(false);
+                                   }}
+                                ><MdCancel />
+                                </a>
+                            </div>
+                        </form>
+                        :
+                        <div className="column_content">
+                            <h3>Header Image</h3>
+                            <a className="edit_icon" onClick={(e) => {e.preventDefault(); setIsEditing(true) }} href="#"><MdEdit /></a>
+                        </div>
+                    }
 
                 </div>
+
             </div>
+        </div>
 
     )
 }

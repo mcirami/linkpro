@@ -57,9 +57,9 @@ class LinkController extends Controller
 
         $highestPosition = Auth::user()->links()->max('position');
         if ($highestPosition) {
-            $newPosition = $highestPosition + 1;
+            $position = $highestPosition + 1;
         } else {
-            $newPosition = 1;
+            $position = 1;
         }
 
         $request->validate([
@@ -74,7 +74,7 @@ class LinkController extends Controller
             'url' => $request->url,
             'icon' => $request->icon,
             'page_id' => $request->page_id,
-            'position' => $newPosition
+            'position' => $position
         ]);
 
         return response()->json(['message'=> 'Successfully added', 'link_id' => $link->id]);

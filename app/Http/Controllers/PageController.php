@@ -30,15 +30,17 @@ class PageController extends Controller
             'name' => 'required|max:255|unique:pages',
         ]);
 
-        $headerIMG = 'icon-edit-light.png';
-        $profileIMG = 'icon-edit-light.png';
+        /*$headerIMG = 'icon-edit-light.png';
+        $profileIMG = 'icon-edit-light.png';*/
 
         $page = $user->pages()->create([
             'name' => $request->name,
-            'header_img' => $headerIMG,
-            'profile_img' => $profileIMG,
+            'header_img' => null,
+            'profile_img' => null,
             'title' => 'LinkPro',
-            'bio' => 'Add Slogan/Intro Here']);
+            'bio' => 'Add Slogan/Intro Here',
+            'is_protected' => false
+        ]);
 
         return response()->json(['message'=> 'Successfully added', 'page_id' => $page->id]);
     }
@@ -53,17 +55,17 @@ class PageController extends Controller
 
         $userPages = $user->pages()->get();
 
-        if (Storage::exists('public/page-headers/' . $user["id"] . "/" . $page["id"])) {
-            $pageHeaderPath = '/storage/page-headers/' . $user["id"] . "/" . $page["id"];
+        /*if (Storage::exists('public/page-headers/' . $user["id"] . "/" . $page["id"])) {
+            $pageHeaderPath = $page['header_img'];
         } else {
-            $pageHeaderPath = '/storage/page-headers/';
+            $pageHeaderPath = null ;
         }
 
         if (Storage::exists('public/profile-images/' . $user["id"] . "/" . $page["id"])) {
-            $pageProfilePath = '/storage/profile-images/' . $user["id"] . "/" . $page["id"];
+            $pageProfilePath = $page['profile_img'];
         } else {
-            $pageProfilePath = '/storage/profile-images/';
-        }
+            $pageProfilePath = null;
+        }*/
 
         $links = Auth::user()->links()->where('page_id', $page["id"])
                                       ->withCount('visits')
@@ -76,8 +78,8 @@ class PageController extends Controller
             'icons' => File::glob(public_path('images/icons').'/*'),
             'defaultIcon' => File::glob(public_path('images/icon-placeholder.png')),
             'page' => $page,
-            'page_header_path' => $pageHeaderPath,
-            'page_profile_path' => $pageProfilePath,
+/*            'page_header_path' => $pageHeaderPath,
+            'page_profile_path' => $pageProfilePath,*/
             'user_pages' => $userPages
         ]);
 
@@ -98,10 +100,11 @@ class PageController extends Controller
             $image = $request->get('header_img');
             $name = time() . '.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
             $img = Image::make($request->get('header_img'));
-            Storage::put('/public/page-headers/'. $userID . "/" . $page->id . "/" . $name, $img->stream());
+            $path = "/page-headers/" . $userID . "/" . $page->id . "/" . $name;
+            Storage::put('/public' . $path , $img->stream());
         }
 
-        $page->update(['header_img' => $name]);
+        $page->update(['header_img' => "/storage" . $path]);
         return response()->json('Successfully added');
 
         //return redirect()->back();
@@ -120,10 +123,11 @@ class PageController extends Controller
             $image = $request->get('profile_img');
             $name = time() . '.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
             $img = Image::make($request->get('profile_img'));
-            Storage::put('/public/profile-images/'. $userID . "/" . $page->id . "/" . $name, $img->stream());
+            $path = "/profile-images/" . $userID . "/" . $page->id . "/" . $name;
+            Storage::put('/public' . $path, $img->stream());
         }
 
-        $page->update(['profile_img' => $name]);
+        $page->update(['profile_img' => "/storage" . $path]);
         return response()->json('Successfully added');
 
         //return redirect()->back();
@@ -142,6 +146,41 @@ class PageController extends Controller
         ]);
 
         $page->update(['name' => $request['name']]);
+        return response()->json('Successfully updated');
+
+        //return redirect()->back();
+
+    }
+
+    public function titleUpdate(Request $request, Page $page) {
+
+
+        if ($page->user_id != Auth::id()) {
+            return abort(404);
+        }
+
+        $request->validate([
+            'title' => 'required|max:255',
+        ]);
+
+        $page->update(['title' => $request['title']]);
+        return response()->json('Successfully updated');
+
+        //return redirect()->back();
+
+    }
+
+    public function bioUpdate(Request $request, Page $page) {
+
+        if ($page->user_id != Auth::id()) {
+            return abort(404);
+        }
+
+        $request->validate([
+            'bio' => 'required|max:255',
+        ]);
+
+        $page->update(['bio' => $request['bio']]);
         return response()->json('Successfully updated');
 
         //return redirect()->back();

@@ -25,12 +25,13 @@ const PageNav = ({ userPages, currentPage }) => {
                     id: page_id,
                     name: newPageName,
                 };
-                setPages([...pages, newElement]);
+                setPages(pages.concat(newElement));
                 setIsEditing(false);
+
             },
 
         ).catch(error => {
-            console.log("ERROR:: ", error.response.data["errors"]["name"][0]);
+            console.log("ERROR:: ", error.response.data);
 
         });
     };

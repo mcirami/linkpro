@@ -1,13 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import axios, {post} from "axios";
+import React, {useState, useContext} from 'react';
+import axios from "axios";
 import {MdCancel, MdEdit, MdFileUpload} from 'react-icons/md';
+import {PageContext} from '../App';
 
-const page_profile_path = user.page_profile_path;
+const PageProfile = () => {
 
-const PageProfile = ({ page }) => {
-    const currentPageProfileIMG = page_profile_path + "/" + page["profile_img"];
+    const { pageSettings, setPageSettings } = useContext(PageContext);
 
-    const [pageProfileIMG, setPageProfileIMG] = useState(currentPageProfileIMG);
     const [isEditing, setIsEditing] = useState(false);
     const [fileName, setFileName] = useState("");
 
@@ -23,14 +22,17 @@ const PageProfile = ({ page }) => {
     const createImage = (file) => {
         let reader = new FileReader();
         reader.onload = (e) => {
-            setPageProfileIMG(e.target.result);
+            setPageSettings({
+                ...pageSettings,
+                profile_img: e.target.result,
+            });
         };
         reader.readAsDataURL(file);
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fileUpload(pageProfileIMG);
+        fileUpload(pageSettings["profile_img"]);
     }
 
     const fileUpload = (image) => {
@@ -39,7 +41,7 @@ const PageProfile = ({ page }) => {
             profile_img: image,
         };
 
-        axios.post('/dashboard/page/profile-update/' + page["id"], packets).then(
+        axios.post('/dashboard/page/profile-update/' + pageSettings["id"], packets).then(
             response => console.log(JSON.stringify(response.data))
         ).catch(error => {
             console.log("ERROR:: ", error.response.data);
@@ -68,11 +70,11 @@ const PageProfile = ({ page }) => {
                     { isEditing ?
                         <form onSubmit={handleSubmit}>
                             <div>
-                                <label htmlFor="header_file_upload">
+                                <label htmlFor="header_file_upload" className="custom">
                                     Choose File
                                 </label>
                                 <span>{fileName}</span>
-                                <input id="header_file_upload" type="file"
+                                <input className="custom" id="header_file_upload" type="file"
                                        onChange={onSelectFile}
                                 />
                             </div>

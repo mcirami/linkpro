@@ -1,15 +1,57 @@
-import React from 'react';
-import { MdClose } from 'react-icons/md';
-import axios from 'axios';
+import React, {useContext, useState} from 'react';
+import {LinksContext} from './App';
 
-const IconLinks = ({setShowIcons, selectIcon}) => {
+const IconList = ({currentLink, setCurrentLink}) => {
     const iconpaths = user.icons;
 
+    //const  { userLinks, setUserLinks } = useContext(LinksContext);
+
+    const selectIcon = (e, source) => {
+        const el = e.target;
+
+        if(!el.classList.contains('active')) {
+            $('.icon_image').removeClass('active');
+            el.classList.add('active');
+            /*setUserLinks(
+                userLinks.map((item) => {
+                    console.log(item);
+                    if (item.id && item.id === editID) {
+                        return {
+                            ...item,
+                            icon: source,
+                        };
+                    }
+                    return item;
+                })
+            )*/
+
+            setCurrentLink({
+                ...currentLink,
+                icon: source
+            })
+
+        } else {
+            el.classList.remove('active');
+        }
+    }
+
+    //console.log(userLinks);
+
     return (
-        <div className="icon_popup">
-            <a href="#" className="close_popup" onClick={(e) => {e.preventDefault(); setShowIcons(false) }}><MdClose /></a>
+        <div className="icon_row">
             <div className="icon_box">
-                <h3>Change Link Icon</h3>
+                <div className="my_row top">
+                    <input type="text"/>
+                    <div className="uploader">
+                        <label htmlFor="header_file_upload" className="custom text-uppercase button blue">
+                            Custom Icon
+                        </label>
+                        {/* <input id="header_file_upload" type="file"
+                                   onChange={onSelectFile}
+                            />*/}
+                        <input id="header_file_upload" type="file" className="custom"/>
+                    </div>
+                </div>
                 <div className="icons_wrap">
                     {iconpaths.map((iconPath, index) => {
                         let end = iconPath.search("/images");
@@ -28,4 +70,4 @@ const IconLinks = ({setShowIcons, selectIcon}) => {
     );
 }
 
-export default IconLinks;
+export default IconList;

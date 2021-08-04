@@ -34,7 +34,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
     Route::get('/links/new', [LinkController::class, 'create']);
     Route::post('/links/new', [LinkController::class, 'store']);
     //Route::get('/links/{link}', [LinkController::class, 'edit']);
-    Route::post('/links/{link}', [LinkController::class, 'update']);
+    Route::post('/links/update/{link}', [LinkController::class, 'update']);
     Route::post('/links/status/{link}', [LinkController::class, 'updateStatus']);
     Route::delete('/links/{link}', [LinkController::class, 'destroy']);
 
@@ -45,10 +45,12 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
             $pages = $user->pages()->first()->pluck('id');
     });
 
-    Route::post('/page/header-update/{page}', [PageController::class, 'headerUpdate'])->name('page.header.update');
-    Route::post('/page/name-update/{page}', [PageController::class, 'nameUpdate'])->name('page.name.update');
-    Route::post('/page/profile-update/{page}', [PageController::class, 'profileUpdate'])->name('page.profile.update');
     Route::post('/page/new', [PageController::class, 'store'])->name('page.new');
+    Route::post('/page/header-update/{page}', [PageController::class, 'headerUpdate'])->name('page.header.update');
+    Route::post('/page/profile-update/{page}', [PageController::class, 'profileUpdate'])->name('page.profile.update');
+    Route::post('/page/name-update/{page}', [PageController::class, 'nameUpdate'])->name('page.name.update');
+    Route::post('/page/title-update/{page}', [PageController::class, 'titleUpdate'])->name('page.title.update');
+    Route::post('/page/bio-update/{page}', [PageController::class, 'bioUpdate'])->name('page.bio.update');
 
     Route::get('/appearance', [UserController::class, 'edit']);
     Route::post('/appearance', [UserController::class, 'update']);

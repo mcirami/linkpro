@@ -1,19 +1,18 @@
-import React, { useContext } from 'react';
+import React, {useContext} from 'react';
 import {MdEdit} from "react-icons/md";
 import {LinksContext, PageContext} from './App';
 
-const page_header_path = user.page_header_path + "/";
-const page_profile_path = user.page_profile_path + "/";
+//const page_header_path  = user.page_header_path + "/";
+//const page_profile_path  = user.page_profile_path + "/";
 
-const Preview = ({}) => {
+const Preview = ({setUserLinks, userLinks}) => {
 
-    const { userLinks } = useContext(LinksContext);
+    //const { userLinks } = useContext(LinksContext);
     const { pageSettings, setPageSettings } = useContext(PageContext);
 
     const myStyle = {
-        background: "url(" + page_header_path + pageSettings["header_img"] + ") no-repeat",
+        background: "url(" + pageSettings["header_img"] + ") no-repeat",
         backgroundSize: "cover",
-
     };
 
     return (
@@ -34,7 +33,7 @@ const Preview = ({}) => {
                 <div className="profile_content">
                     <div className={!pageSettings["profile_img"] ? "profile_image default" : "profile_image"  }>
                         {pageSettings["profile_img"] ?
-                            <img src={page_profile_path + pageSettings["profile_img"]} alt=""/>
+                            <img src={pageSettings["profile_img"]} alt=""/>
                             :
                             <MdEdit />
                         }
@@ -48,15 +47,15 @@ const Preview = ({}) => {
                     {userLinks.map((linkItem) => {
                         const { id, url, icon, active_status } = linkItem;
                         return (
-                            <div key={id || Math.random()}>
+                            <>
                                 { active_status ?
-                                    <div className="icon_col" key={id}>
+                                    <div className="icon_col" key={ id || Math.random()}>
                                         <a target="_blank" href={url}>
                                             <img src={icon} />
                                         </a>
                                     </div>
                                  : "" }
-                             </div>
+                             </>
                         )
                     })}
                     {/*{count < 9 ?

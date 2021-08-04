@@ -16,6 +16,7 @@
     }
 
     .icons_wrap {
+        position: relative;
         display: grid;
         --n: 4;
         grid-template-columns: repeat(auto-fill, minmax(max(50px,100%/var(--n)), 1fr));
@@ -32,7 +33,7 @@
             -moz-box-shadow: 0px 0px 35px 5px rgba(170,170,170,0.18);
             box-shadow: 0px 0px 35px 5px rgba(170,170,170,0.18);
 
-            .delete_icon {
+            /*.delete_icon {
                 position: absolute;
                 right: 8px;
                 top: 4px;
@@ -42,6 +43,13 @@
                     width: 20px;
                     height: 20px;
                 }
+            }*/
+
+            .edit_icon {
+                position: absolute;
+                right: 8px;
+                top: 8px;
+                padding: 0 5px 2px;
             }
 
             .icon_wrap {
@@ -82,19 +90,12 @@
     }
 }
 
-.icon_popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,.4);
+.icon_row {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 999;
 
-    .close_popup {
+    /*.close_popup {
         position: absolute;
         right: 20px;
         top: 20px;
@@ -109,22 +110,20 @@
             -moz-border-radius: 50px;
         }
 
-    }
+    }*/
 
     .icon_box {
-        width: 800px;
-        height: 500px;
-        max-width: 75%;
-        overflow-y: scroll;
-        overflow-x: hidden;
+        width: 100%;
         background: #fff;
-        padding: 20px;
         border-radius: 10px;
         -webkit-border-radius: 10px;
         -moz-border-radius: 10px;
     }
 
     .icons_wrap {
+        overflow-y: scroll;
+        overflow-x: hidden;
+        height: 150px;
         --n:6;
         grid-template-columns: repeat(auto-fill, minmax(max(50px,100%/var(--n)), 1fr));
 
@@ -177,6 +176,93 @@
             width: 100%;
         }
     }
+
+
+}
+
+#links_page {
+
+    .edit_form {
+
+        &.popup {
+            position: absolute;
+            background: rgba(0,0,0,.8);
+            left: 0;
+            z-index: 999;
+            top: 0;
+            width: 100%;
+            display: flex;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid $borderGray;
+            border-radius: 12px;
+            -webkit-border-radius: 12px;
+            -moz-border-radius: 12px;
+            padding: 8%;
+
+            .icons_wrap {
+                --n: 12;
+                grid-column-gap: 10px;
+                grid-row-gap: 10px;
+
+                .icon_col {
+                    padding: 0;
+                    box-shadow: none;
+                }
+            }
+
+            .my_row.top {
+                margin-bottom: 20px;
+
+                input[type="text"] {
+                    width: 58%;
+                    display: inline-block;
+                    margin-right: 2%;
+                }
+
+                .uploader {
+                    width: 40%;
+                    display: inline-block;
+                }
+
+                label.custom {
+                    padding: 10px;
+                    display: block;
+                    width: 100%;
+                }
+            }
+
+            .row {
+                margin-bottom: 20px;
+            }
+
+            .button_row {
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-orient: horizontal;
+                -webkit-box-direction: normal;
+                -ms-flex-direction: row;
+                flex-direction: row;
+                -ms-flex-wrap: nowrap;
+                flex-wrap: nowrap;
+                justify-content: space-between;
+                -webkit-justify-content: space-between;
+                align-items: center;
+                -webkit-align-items: center;
+            }
+
+            .link_form {
+                width: 100%;
+                background: $white;
+                padding: 20px;
+                border-radius: 12px;
+                -webkit-border-radius: 12px;
+                -moz-border-radius: 12px;
+            }
+        }
+    }
 }
 
 .page_settings {
@@ -201,29 +287,6 @@
             flex-wrap: nowrap;
             justify-content: space-between;
             -webkit-justify-content: space-between;
-
-            input[type="file"] {
-                position: absolute;
-                width: 1px;
-                height: 1px;
-                padding: 0;
-                margin: -1px;
-                overflow: hidden;
-                clip: rect(0,0,0,0);
-                border: 0;
-            }
-
-            label {
-                margin: 0;
-                border: 1px solid $borderGray;
-                padding: 2px 10px;
-                border-radius: 8px;
-                font-size: 14px;
-
-                &:hover {
-                    cursor: pointer;
-                }
-            }
 
             button {
                 background: none;

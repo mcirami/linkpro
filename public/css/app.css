@@ -10074,10 +10074,12 @@ input[type=text] {
   -moz-border-radius: 50px;
   padding: 0 7px 5px;
   margin-left: 5px;
+  border: none;
 }
 .edit_icon:hover {
   cursor: pointer;
-  color: #545656;
+  background: #545656;
+  color: #ffffff;
 }
 .edit_icon svg {
   width: 15px;
@@ -10104,6 +10106,7 @@ input[type=text] {
   border-radius: 6px;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
+  border: none;
 }
 @media all and (max-width: 768px) {
   .button {
@@ -10118,9 +10121,60 @@ input[type=text] {
   background: #424fcf;
   text-decoration: none;
 }
+.button.blue {
+  background: #424fcf;
+  color: #ffffff;
+}
+.button.blue:hover {
+  background: #f24d1d;
+  text-decoration: none;
+}
 .button.transparent {
   border: 1px solid #424fcf;
   color: #424fcf;
+}
+.button.settings {
+  position: absolute;
+  right: 10px;
+  background: none;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  top: 4px;
+  color: #0ba921;
+}
+.button.settings:hover {
+  color: #545656;
+}
+.button.settings svg {
+  width: 100%;
+  height: 100%;
+}
+
+form {
+  position: relative;
+}
+
+input[type=file].custom {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+label.custom {
+  margin: 0;
+  border: 1px solid #d2d2d2;
+  padding: 2px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+label.custom:hover {
+  cursor: pointer;
 }
 
 .navbar ul {
@@ -10427,6 +10481,7 @@ header.guest_header .col.right {
   -moz-border-radius-bottomleft: 20px;
 }
 #links_page .icons_wrap {
+  position: relative;
   display: grid;
   --n: 4;
   grid-template-columns: repeat(auto-fill, minmax(max(50px, 100% / var(--n)), 1fr));
@@ -10440,16 +10495,23 @@ header.guest_header .col.right {
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
   box-shadow: 0px 0px 35px 5px rgba(170, 170, 170, 0.18);
+  /*.delete_icon {
+      position: absolute;
+      right: 8px;
+      top: 4px;
+      color: $red;
+
+      svg {
+          width: 20px;
+          height: 20px;
+      }
+  }*/
 }
-#links_page .icons_wrap .icon_col .delete_icon {
+#links_page .icons_wrap .icon_col .edit_icon {
   position: absolute;
   right: 8px;
-  top: 4px;
-  color: #f24d1d;
-}
-#links_page .icons_wrap .icon_col .delete_icon svg {
-  width: 20px;
-  height: 20px;
+  top: 8px;
+  padding: 0 5px 2px;
 }
 #links_page .icons_wrap .icon_col .icon_wrap {
   width: 100%;
@@ -10480,58 +10542,51 @@ header.guest_header .col.right {
   grid-auto-flow: row dense;
 }
 
-.icon_popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4);
+.icon_row {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  /*.close_popup {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+
+      svg {
+          width: 40px;
+          height: 40px;
+          background: $black;
+          color: $white;
+          border-radius: 50px;
+          -webkit-border-radius: 50px;
+          -moz-border-radius: 50px;
+      }
+
+  }*/
 }
-.icon_popup .close_popup {
-  position: absolute;
-  right: 20px;
-  top: 20px;
-}
-.icon_popup .close_popup svg {
-  width: 40px;
-  height: 40px;
-  background: #000;
-  color: #ffffff;
-  border-radius: 50px;
-  -webkit-border-radius: 50px;
-  -moz-border-radius: 50px;
-}
-.icon_popup .icon_box {
-  width: 800px;
-  height: 500px;
-  max-width: 75%;
-  overflow-y: scroll;
-  overflow-x: hidden;
+.icon_row .icon_box {
+  width: 100%;
   background: #fff;
-  padding: 20px;
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
 }
-.icon_popup .icons_wrap {
+.icon_row .icons_wrap {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 150px;
   --n:6;
   grid-template-columns: repeat(auto-fill, minmax(max(50px, 100% / var(--n)), 1fr));
 }
-.icon_popup .icons_wrap .icon_col {
+.icon_row .icons_wrap .icon_col {
   background: none;
 }
-.icon_popup .icon_image {
+.icon_row .icon_image {
   border: 2px solid transparent;
 }
-.icon_popup .icon_image:hover {
+.icon_row .icon_image:hover {
   cursor: pointer;
 }
-.icon_popup .icon_image.active {
+.icon_row .icon_image.active {
   border: 2px solid #000;
   border-radius: 10px;
   -webkit-border-radius: 10px;
@@ -10560,6 +10615,70 @@ header.guest_header .col.right {
   width: 100%;
 }
 
+#links_page .edit_form.popup {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.8);
+  left: 0;
+  z-index: 999;
+  top: 0;
+  width: 100%;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #d2d2d2;
+  border-radius: 12px;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  padding: 8%;
+}
+#links_page .edit_form.popup .icons_wrap {
+  --n: 12;
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+}
+#links_page .edit_form.popup .icons_wrap .icon_col {
+  padding: 0;
+  box-shadow: none;
+}
+#links_page .edit_form.popup .my_row.top {
+  margin-bottom: 20px;
+}
+#links_page .edit_form.popup .my_row.top input[type=text] {
+  width: 58%;
+  display: inline-block;
+  margin-right: 2%;
+}
+#links_page .edit_form.popup .my_row.top .uploader {
+  width: 40%;
+  display: inline-block;
+}
+#links_page .edit_form.popup .my_row.top label.custom {
+  padding: 10px;
+  display: block;
+  width: 100%;
+}
+#links_page .edit_form.popup .row {
+  margin-bottom: 20px;
+}
+#links_page .edit_form.popup .button_row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+  align-items: center;
+  -webkit-align-items: center;
+}
+#links_page .edit_form.popup .link_form {
+  width: 100%;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+}
+
 .page_settings {
   margin-bottom: 20px;
 }
@@ -10576,26 +10695,6 @@ header.guest_header .col.right {
   flex-wrap: nowrap;
   justify-content: space-between;
   -webkit-justify-content: space-between;
-}
-.page_settings .column_wrap form input[type=file] {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
-}
-.page_settings .column_wrap form label {
-  margin: 0;
-  border: 1px solid #d2d2d2;
-  padding: 2px 10px;
-  border-radius: 8px;
-  font-size: 14px;
-}
-.page_settings .column_wrap form label:hover {
-  cursor: pointer;
 }
 .page_settings .column_wrap form button {
   background: none;

@@ -20,7 +20,8 @@ class Page extends Model
         'header_img',
         'profile_img',
         'title',
-        'bio'
+        'bio',
+        'is_protected'
     ];
 
     public function user() {
