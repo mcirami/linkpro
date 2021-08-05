@@ -30,8 +30,10 @@
         "styled-components": "^5.3.0"
     },
     "dependencies": {
+        "@material-ui/core": "^4.12.3",
         "prop-types": "^15.7.2",
         "react-beautiful-dnd": "^13.1.0",
+        "react-easy-crop": "^3.5.2",
         "react-icons": "^4.2.0",
         "react-modal": "^3.14.3",
         "react-safe-src-doc-iframe": "^1.1.0",

@@ -10689,12 +10689,31 @@ header.guest_header .col.right {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
 }
-.page_settings .column_wrap form {
+.page_settings .column_wrap form .top_row {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-between;
   -webkit-justify-content: space-between;
+}
+.page_settings .column_wrap form .bottom_row {
+  width: 100%;
+  position: relative;
+  height: 0;
+  transition: height 1s;
+  -webkit-transition: height 1s;
+  -moz-transition: height 1s;
+}
+.page_settings .column_wrap form .bottom_row.open {
+  height: 500px;
+}
+.page_settings .column_wrap form .bottom_row .crop_container {
+  width: 100%;
+  position: absolute;
+  top: 30px;
+  left: 0;
+  right: 0;
+  bottom: 30px;
 }
 .page_settings .column_wrap form button {
   background: none;

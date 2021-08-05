@@ -276,17 +276,41 @@
         -moz-border-radius: 12px;
 
         form {
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex;
-            -webkit-box-orient: horizontal;
-            -webkit-box-direction: normal;
-            -ms-flex-direction: row;
-            flex-direction: row;
-            -ms-flex-wrap: nowrap;
-            flex-wrap: nowrap;
-            justify-content: space-between;
-            -webkit-justify-content: space-between;
+           .top_row {
+               display: -webkit-box;
+               display: -ms-flexbox;
+               display: flex;
+               -webkit-box-orient: horizontal;
+               -webkit-box-direction: normal;
+               -ms-flex-direction: row;
+               flex-direction: row;
+               -ms-flex-wrap: nowrap;
+               flex-wrap: nowrap;
+               justify-content: space-between;
+               -webkit-justify-content: space-between;
+           }
+
+            .bottom_row {
+                width: 100%;
+                position: relative;
+                height: 0;
+                transition: height 1s;
+                -webkit-transition: height 1s;
+                -moz-transition: height 1s;
+
+                &.open {
+                    height: 500px;
+                }
+
+                .crop_container {
+                    width: 100%;
+                    position: absolute;
+                    top: 30px;
+                    left: 0;
+                    right: 0;
+                    bottom: 30px;
+                }
+            }
 
             button {
                 background: none;
@@ -334,6 +358,8 @@
             }
         }
     }
+
+
 }
 
 
