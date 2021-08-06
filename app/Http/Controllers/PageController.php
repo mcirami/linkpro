@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Page;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -13,12 +14,17 @@ use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
 class PageController extends Controller
 {
     public function show(Page $page) {
-        /*$page->load('links');*/
 
-        $links = Page::find($page->id)->links;
+        $value = session('authorized');
+
+        $links = $page->links()
+                     ->orderBy('position', 'asc')
+                     ->get();
 
         return view('pages.show', [
             'links' => $links,
+            'page'  => $page,
+            'authorized' => $value,
         ]);
     }
 
@@ -185,5 +191,18 @@ class PageController extends Controller
 
         //return redirect()->back();
 
+    }
+
+    public function pageAuth(Request $request, Page $page) {
+        $request->validate([
+            'pin' => 'required',
+        ]);
+
+        $enteredPin = $request->pin;
+        $pagePin = DB::table('pages')->where('id', $page["id"])->value('password');
+        if ($enteredPin === $pagePin) {
+            $request->session()->put('authorized', true);
+            return redirect()->back();
+        }
     }
 }

@@ -17,7 +17,7 @@ const Preview = ({setUserLinks, userLinks}) => {
 
     return (
 
-        <div className="preview_wrap">
+        <div className="links_wrap preview">
             <div className="inner_content">
 
                 {pageSettings["header_img"] ?

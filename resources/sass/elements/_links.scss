@@ -1,4 +1,4 @@
-#links_page  {
+#links_page {
 
     .content_wrap {
         background: $white;
@@ -76,7 +76,7 @@
         &.add_icons {
             grid-column-gap: 40px;
             grid-row-gap: 40px;
-            padding: 20px 20px 20px 0;
+            padding: 20px 0;
 
             .icon_col {
                 padding: 20px;
@@ -276,17 +276,20 @@
         -moz-border-radius: 12px;
 
         form {
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex;
-            -webkit-box-orient: horizontal;
-            -webkit-box-direction: normal;
-            -ms-flex-direction: row;
-            flex-direction: row;
-            -ms-flex-wrap: nowrap;
-            flex-wrap: nowrap;
-            justify-content: space-between;
-            -webkit-justify-content: space-between;
+
+            .top_section {
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-orient: horizontal;
+                -webkit-box-direction: normal;
+                -ms-flex-direction: row;
+                flex-direction: row;
+                -ms-flex-wrap: nowrap;
+                flex-wrap: nowrap;
+                justify-content: space-between;
+                -webkit-justify-content: space-between;
+            }
 
             button {
                 background: none;
@@ -331,6 +334,60 @@
                     width: 30px;
                     height: 30px;
                 }
+            }
+        }
+    }
+}
+
+.add_more_icons {
+    padding: 0 40px;
+    margin-top: 30px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -webkit-box-shadow: 0px 0px 35px 5px rgba(170,170,170,0.18);
+    -moz-box-shadow: 0px 0px 35px 5px rgba(170,170,170,0.18);
+    box-shadow: 0px 0px 35px 5px rgba(170,170,170,0.18);
+
+    .col_left {
+        width: 90%;
+        padding: 40px 0;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+        align-items: center;
+        -webkit-align-items: center;
+        justify-content: flex-start;
+        -webkit-justify-content: flex-start;
+        border-right: 1px solid $lightGray;
+
+        h3 {
+            color: $blue;
+            margin-left: 20px;
+            margin-bottom: 0;
+        }
+
+        .icon_wrap {
+            background: $darkGray;
+            border-radius: 20px;
+            -webkit-border-radius: 20px;
+            -moz-border-radius: 20px;
+            padding: 8%;
+            color: $white;
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            svg {
+                width: 30px;
+                height: 30px;
             }
         }
     }

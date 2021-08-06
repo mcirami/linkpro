@@ -9,6 +9,8 @@ import PageName from './Page/PageName';
 import PageNav from './Page/PageNav';
 import PageTitle from './Page/PageTitle';
 import PageBio from './Page/PageBio';
+import AddLink from './Link/AddLink';
+import PasswordProtect from './Page/PasswordProtect';
 
 import { IoIosLock } from "react-icons/io";
 //import UserContext from './User/User';
@@ -35,7 +37,7 @@ function App() {
     const [userLinks, setUserLinks] = useState(myLinksArray);
     const [pageSettings, setPageSettings] = useReducer(pageReducer, page);
 
-    const [editID, setEditID] = useState("");
+    const [editID, setEditID] = useState(null);
     //const [userLinks, setUserLinks] = useState(myLinksArray);
     const [name, setName] = useState('');
     const [url, setUrl] = useState('');
@@ -53,61 +55,55 @@ function App() {
                         <PageContext.Provider value={{ pageSettings, setPageSettings}}>
                             <div className="col-7 pr-5">
 
-                                    <PageNav userPages={userPages} currentPage={page["id"]} />
+                                <PageNav userPages={userPages} currentPage={page["id"]} />
 
-                                    <div className="content_wrap">
+                                <div className="content_wrap">
 
-                                        <PageName page={page}/>
+                                    <PageName page={page}/>
 
-                                        <div className="row page_settings">
-                                            <div className="col-12">
-                                                <div className="column_wrap">
-                                                    <div className="column_content">
-                                                        <h3>Password Protect</h3>
-                                                        <a className="lock_icon" href="#"><IoIosLock /></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <PasswordProtect />
 
-                                        <PageHeader />
-                                        <PageProfile />
-                                        <PageTitle />
-                                        <PageBio />
+                                    <PageHeader />
+                                    <PageProfile />
+                                    <PageTitle />
+                                    <PageBio />
 
-                                        <div className="icons_wrap add_icons icons">
+                                    <div className="icons_wrap add_icons icons">
 
-                                            {/*{userLinks.map(( linkItem, index) => {
+                                        {/*{userLinks.map(( linkItem, index) => {
 
-                                                //let {id, name, link, link_icon} = linkItem;
+                                            //let {id, name, link, link_icon} = linkItem;
 
-                                                return (
-                                                    <>*/}
-                                                        <Links
-                                                            setEditID={setEditID}
-                                                            defaultIconPath={defaultIconPath}
-                                                            userLinks={userLinks}
-                                                            setUserLinks={setUserLinks}
-                                                        />
-                                                    {/*</>
+                                            return (
+                                                <>*/}
+                                                    <Links
+                                                        setEditID={setEditID}
+                                                        defaultIconPath={defaultIconPath}
+                                                        userLinks={userLinks}
+                                                        setUserLinks={setUserLinks}
+                                                    />
+                                                {/*</>
 
-                                                )
+                                            )
 
-                                            })}
+                                        })}
 */}
-                                            { editID ?
+                                        { editID ?
 
-                                                <SubmitForm editID={editID} setEditID={setEditID} setUserLinks={setUserLinks} userLinks={userLinks}/>
+                                            <SubmitForm editID={editID} setEditID={setEditID} setUserLinks={setUserLinks} userLinks={userLinks}/>
 
-                                                :
-                                                ""
-                                            }
+                                            :
+                                            ""
+                                        }
 
-                                        </div>
                                     </div>
 
+                                    <AddLink userLinks={userLinks} setUserLinks={setUserLinks} defaultIcon={defaultIconPath} />
+
+                                </div>
+
                             </div>
-                            <div className="col-5 preview_col">
+                            <div className="col-5 links_col preview">
                                 <Preview page={page} defaultIconPath={defaultIconPath} setUserLinks={setUserLinks} userLinks={userLinks}/>
                             </div>
 

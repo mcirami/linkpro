@@ -74,7 +74,8 @@ class LinkController extends Controller
             'url' => $request->url,
             'icon' => $request->icon,
             'page_id' => $request->page_id,
-            'position' => $position
+            'position' => $position,
+            'active_status' => 1
         ]);
 
         return response()->json(['message'=> 'Successfully added', 'link_id' => $link->id]);

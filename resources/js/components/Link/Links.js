@@ -14,8 +14,6 @@ const Links = ({
     //const [switchStatus, setSwitchStatus] = useState(active_status);
     //const  { userLinks, setUserLinks } = useContext(LinksContext);
 
-    console.log(userLinks);
-
     const handleChange = (id, active_status) => {
         const newStatus = !active_status;
 
@@ -48,9 +46,11 @@ const Links = ({
             {userLinks.map((item, index) => {
                 let {id, icon, active_status} = item;
 
+                const key = id || "new_" + index;
+
               return (
-                  <div key={index} className="icon_col" id={index}>
-                        <button className="edit_icon" onClick={(e) => {id ? setEditID(id) : setEditID("new")} }>
+                  <div key={key} className="icon_col" id={key}>
+                        <button className="edit_icon" onClick={(e) => { setEditID(key) }} >
                             <MdEdit />
                         </button>
                         <div className="icon_wrap">

@@ -42,7 +42,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
         ->name('pages.edit')
         ->missing(function (Request $request) {
             $user = Auth::user();
-            $pages = $user->pages()->first()->pluck('id');
+            $pages = $user->pages()->first()->value('id');
     });
 
     Route::post('/page/new', [PageController::class, 'store'])->name('page.new');
@@ -59,7 +59,6 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
 
 Route::post('/visit/{link}', [VisitController::class, 'store']);
 
-// laravel-links.com/page
+// link.pro/page
 Route::get('/{page}', [PageController::class, 'show']);
-
-
+Route::post('/check-page-auth/{page}', [PageController::class, 'pageAuth'])->name('check.page.auth');

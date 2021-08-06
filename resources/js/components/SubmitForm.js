@@ -26,22 +26,43 @@ const SubmitForm = ({
             name: currentLink.name,
             url: currentLink.url,
             icon: currentLink.icon,
-            page_id : pageSettings["id"]
+            page_id : pageSettings["id"],
         };
 
-        if (editID == "new") {
+        if (editID.toString().includes("new")) {
             axios.post('/dashboard/links/new', packets).then(
                 response => {
                     console.log(JSON.stringify(response.data));
                     const link_id = JSON.stringify(response.data.link_id);
-                    const newElement = {
+                    let count = 0;
+                    setUserLinks(
+                        userLinks.map((item) => {
+                            if (!item.id) {
+                                count++;
+                                if (count === 1) {
+                                    return {
+                                        id: link_id,
+                                        name: currentLink.name,
+                                        url: currentLink.url,
+                                        icon: currentLink.icon,
+                                        active_status: 1,
+                                        page_id: pageSettings["id"]
+                                    }
+                                }
+                            }
+                            return item;
+                        })
+                    )
+                    /*const newElement = {
                         id: link_id,
                         name: currentLink.name,
                         url: currentLink.url,
                         icon: currentLink.icon,
+                        active_status: 1,
                         page_id: pageSettings["id"]
                     };
-                    setUserLinks(userLinks.concat(newElement));
+                    setUserLinks(userLinks.concat(newElement));*/
+                    setEditID(null);
                 })
             .catch(error => {
                 console.log("ERROR:: ", error.response.data);
@@ -65,6 +86,7 @@ const SubmitForm = ({
                         return item;
                     })
                 ),
+                setEditID(null),
             ).catch(error => {
                 console.log("ERROR:: ", error.response.data);
 
@@ -92,7 +114,7 @@ const SubmitForm = ({
                         <input
                             name="name"
                             type="text"
-                            defaultValue={editID !== "new" ? currentLink.name : ""}
+                            defaultValue={ editID.toString().includes("new") ? "" : currentLink.name}
                             placeholder="Link Name"
                             onChange={(e) => setCurrentLink({
                                 ...currentLink,
@@ -106,8 +128,8 @@ const SubmitForm = ({
                         <input
                             name="url"
                             type="text"
-                            defaultValue={editID !== "new" ? currentLink.url : ""}
-                            placeholder="Link Url"
+                            defaultValue={editID.toString().includes("new") ? "" : currentLink.url }
+                            placeholder="https://linkurl.com"
                             onChange={(e) => setCurrentLink({
                                 ...currentLink,
                                 url: e.target.value
