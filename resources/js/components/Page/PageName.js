@@ -13,7 +13,7 @@ const PageName = ({page}) => {
             name: name,
         };
 
-        axios.post('/dashboard/page/name-update/' + page['id'], packets).then(
+        axios.post('/dashboard/page/update-name/' + page['id'], packets).then(
             response => console.log(JSON.stringify(response.data)),
             //setIsEditing(false)
         ).catch(error => {

@@ -46,11 +46,12 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
     });
 
     Route::post('/page/new', [PageController::class, 'store'])->name('page.new');
-    Route::post('/page/header-update/{page}', [PageController::class, 'headerUpdate'])->name('page.header.update');
-    Route::post('/page/profile-update/{page}', [PageController::class, 'profileUpdate'])->name('page.profile.update');
-    Route::post('/page/name-update/{page}', [PageController::class, 'nameUpdate'])->name('page.name.update');
-    Route::post('/page/title-update/{page}', [PageController::class, 'titleUpdate'])->name('page.title.update');
-    Route::post('/page/bio-update/{page}', [PageController::class, 'bioUpdate'])->name('page.bio.update');
+    Route::post('/page/update-header-image/{page}', [PageController::class, 'updateHeaderImage'])->name('page.header.update');
+    Route::post('/page/update-profile-image/{page}', [PageController::class, 'updateProfileImage'])->name('page.profile.update');
+    Route::post('/page/update-name/{page}', [PageController::class, 'updateName'])->name('page.name.update');
+    Route::post('/page/update-title/{page}', [PageController::class, 'updateTitle'])->name('page.title.update');
+    Route::post('/page/update-password/{page}', [PageController::class, 'updatePassword'])->name('page.password.update');
+    Route::post('/page/update-bio/{page}', [PageController::class, 'updateBio'])->name('page.bio.update');
 
     Route::get('/appearance', [UserController::class, 'edit']);
     Route::post('/appearance', [UserController::class, 'update']);

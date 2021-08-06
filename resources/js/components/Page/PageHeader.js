@@ -131,7 +131,7 @@ const PageHeader = () => {
             header_img: image,
         };
 
-        axios.post('/dashboard/page/header-update/' + pageSettings["id"], packets).then(
+        axios.post('/dashboard/page/update-header-image/' + pageSettings["id"], packets).then(
             response => console.log(JSON.stringify(response.data)),
             setFileName(""),
             setUpImg("")

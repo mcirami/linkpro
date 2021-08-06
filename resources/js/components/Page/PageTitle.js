@@ -21,7 +21,7 @@ const PageTitle = () => {
             title: pageSettings["title"],
         };
 
-        axios.post('/dashboard/page/title-update/' + pageSettings['id'], packets).then(
+        axios.post('/dashboard/page/update-title/' + pageSettings['id'], packets).then(
             response => console.log(JSON.stringify(response.data)),
             //setIsEditing(false)
         ).catch(error => {
@@ -43,7 +43,7 @@ const PageTitle = () => {
                            }
                        }
                 />
-                <button className="button settings" type="submit"><MdCheckCircle /></button>
+                {/*<button className="button settings" type="submit"><MdCheckCircle /></button>*/}
                 {/*<a href="#" onClick={() => setIsEditing(false)}><MdCancel /></a>*/}
             </form>
 

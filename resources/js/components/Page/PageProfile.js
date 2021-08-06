@@ -119,7 +119,7 @@ const PageProfile = () => {
             profile_img: image,
         };
 
-        axios.post('/dashboard/page/profile-update/' + pageSettings["id"], packets).then(
+        axios.post('/dashboard/page/update-profile-image/' + pageSettings["id"], packets).then(
             response => console.log(JSON.stringify(response.data)),
             setFileName(""),
             setUpImg("")

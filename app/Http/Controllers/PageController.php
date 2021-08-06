@@ -94,7 +94,7 @@ class PageController extends Controller
         ]);
     }
 
-    public function headerUpdate(Request $request, Page $page) {
+    public function updateHeaderImage(Request $request, Page $page) {
 
         $userID = Auth::id();
 
@@ -117,7 +117,7 @@ class PageController extends Controller
 
     }
 
-    public function profileUpdate(Request $request, Page $page) {
+    public function updateProfileImage(Request $request, Page $page) {
 
         $userID = Auth::id();
 
@@ -140,7 +140,7 @@ class PageController extends Controller
 
     }
 
-    public function nameUpdate(Request $request, Page $page) {
+    public function updateName(Request $request, Page $page) {
 
 
         if ($page->user_id != Auth::id()) {
@@ -158,7 +158,7 @@ class PageController extends Controller
 
     }
 
-    public function titleUpdate(Request $request, Page $page) {
+    public function updateTitle(Request $request, Page $page) {
 
 
         if ($page->user_id != Auth::id()) {
@@ -176,7 +176,7 @@ class PageController extends Controller
 
     }
 
-    public function bioUpdate(Request $request, Page $page) {
+    public function updateBio(Request $request, Page $page) {
 
         if ($page->user_id != Auth::id()) {
             return abort(404);
@@ -191,6 +191,17 @@ class PageController extends Controller
 
         //return redirect()->back();
 
+    }
+
+    public function updatePassword(Request $request, Page $page) {
+
+        if ($page->user_id != Auth::id()) {
+            return abort(404);
+        }
+
+        $page->update([ 'is_protected' => $request['is_protected'], 'password' => $request['password'] ]);
+
+        return response()->json('Successfully updated');
     }
 
     public function pageAuth(Request $request, Page $page) {
