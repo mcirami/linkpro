@@ -215,5 +215,7 @@ class PageController extends Controller
             $request->session()->put('authorized', true);
             return redirect()->back();
         }
+
+        return redirect()->back();
     }
 }

@@ -4,24 +4,22 @@
         background: url('/images/preview-device-bg.png') no-repeat;
         background-size: 100%;
         background-position: 50% 10%;
-    }
 
-    .links_wrap {
-        max-width: 380px;
-        margin: 0 auto;
-        position: relative;
-        height: 100%;
-        background: #f8fafc;
 
-        &.live_page {
-            max-width: 450px;
+        .links_wrap {
+            max-width: 380px;
+            margin: 0 auto;
+            position: relative;
+            height: 100%;
+            background: #f8fafc;
 
-            @media all and (max-width: 768px) {
-                max-width: unset;
+            &.live_page {
+                max-width: 450px;
+
+                @media all and (max-width: 768px) {
+                    max-width: unset;
+                }
             }
-        }
-
-        &.preview {
 
             &:before {
                 content: '';
@@ -33,138 +31,142 @@
                 left: 0;
                 bottom: 0;
             }
-        }
 
-        img.device {
-            position: absolute;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            right: 0;
-        }
-
-
-
-        .inner_content {
-            background: $white;
-            border-radius: 50px;
-            -webkit-border-radius: 50px;
-            -moz-border-radius: 50px;
-            margin: 0 auto;
-            padding: 12px;
-
-            .page_header {
-                padding: 30%;
-                border-top-right-radius: 12%;
-                -webkit-border-top-right-radius: 12%;
-                -moz-border-radius-topright: 12%;
-                border-top-left-radius: 12%;
-                -webkit-border-top-left-radius: 12%;
-                -moz-border-radius-topleft: 12%;
-                background-size: cover !important;
-
-                &.default {
-                    padding: 22%;
-                    background: $lightGray;
-                    color: $gray;
-                    text-align: center;
-
-                    svg {
-                        width: 75px;
-                        height: 75px;
-                    }
-                }
+            img.device {
+                position: absolute;
+                z-index: 1;
+                top: 0;
+                left: 0;
+                right: 0;
             }
 
-            &.live_page {
-                padding: 0 0 20px 0;
 
-                @media all and (max-width: 768px) {
-                    border-radius: 0;
-                    -webkit-border-radius: 0;
-                    -moz-border-radius: 0;
-                }
+            .inner_content {
+                background: $white;
+                border-radius: 50px;
+                -webkit-border-radius: 50px;
+                -moz-border-radius: 50px;
+                margin: 0 auto;
+                padding: 12px;
 
                 .page_header {
                     padding: 30%;
-                    border-top-right-radius: 50px;
-                    -webkit-border-top-right-radius: 50px;
-                    -moz-border-radius-topright: 50px;
-                    border-top-left-radius: 50px;
-                    -webkit-border-top-left-radius: 50px;
-                    -moz-border-radius-topleft: 50px;
+                    border-top-right-radius: 12%;
+                    -webkit-border-top-right-radius: 12%;
+                    -moz-border-radius-topright: 12%;
+                    border-top-left-radius: 12%;
+                    -webkit-border-top-left-radius: 12%;
+                    -moz-border-radius-topleft: 12%;
+                    background-size: cover !important;
+
+                    &.default {
+                        padding: 22%;
+                        background: $lightGray;
+                        color: $gray;
+                        text-align: center;
+
+                        svg {
+                            width: 75px;
+                            height: 75px;
+                        }
+                    }
+                }
+
+                &.live_page {
+                    padding: 0 0 20px 0;
+
                     @media all and (max-width: 768px) {
                         border-radius: 0;
                         -webkit-border-radius: 0;
                         -moz-border-radius: 0;
                     }
-                }
-            }
-        }
 
-        .profile_content {
-            padding: 10px 20px;
-            width: 100%;
-            float: left;
-
-            .profile_image {
-                width: 28%;
-                border-radius: 50px;
-                border: 7px solid $blue;
-                padding: 4px;
-                float: left;
-                margin-top: -67px;
-
-                img {
-                    border-radius: 50px;
-                    -webkit-border-radius: 50px;
-                    -moz-border-radius: 50px;
-                }
-
-                &.default {
-                    background: $lightGray;
-                    color: $gray;
-                    margin-top: -60px;
-                    padding: 8%;
-
-                    svg {
-                        width: 30px;
-                        height: 30px;
+                    .page_header {
+                        padding: 30%;
+                        border-top-right-radius: 50px;
+                        -webkit-border-top-right-radius: 50px;
+                        -moz-border-radius-topright: 50px;
+                        border-top-left-radius: 50px;
+                        -webkit-border-top-left-radius: 50px;
+                        -moz-border-radius-topleft: 50px;
+                        @media all and (max-width: 768px) {
+                            border-radius: 0;
+                            -webkit-border-radius: 0;
+                            -moz-border-radius: 0;
+                        }
                     }
                 }
             }
 
-            .profile_text {
-                width: 72%;
+            .profile_content {
+                padding: 10px 20px;
+                width: 100%;
                 float: left;
+
+                .profile_image {
+                    width: 28%;
+                    border-radius: 50px;
+                    border: 7px solid $blue;
+                    padding: 4px;
+                    float: left;
+                    margin-top: -67px;
+
+                    img {
+                        border-radius: 50px;
+                        -webkit-border-radius: 50px;
+                        -moz-border-radius: 50px;
+                    }
+
+                    &.default {
+                        background: $lightGray;
+                        color: $gray;
+                        margin-top: -60px;
+                        padding: 8%;
+
+                        svg {
+                            width: 30px;
+                            height: 30px;
+                        }
+                    }
+                }
+
+                .profile_text {
+                    width: 72%;
+                    float: left;
+                }
             }
-        }
 
-        .icons_wrap {
-            width: 100%;
-            padding: 0 20px;
-        }
+            .icons_wrap {
+                width: 100%;
+                padding: 0 20px;
+            }
 
-        .icon_col {
-            background: none;
-            position: relative;
-
-            &.disabled {
-                border: 1px dashed gray;
+            .icon_col {
+                background: none;
                 position: relative;
-                border-radius: 10px;
+                box-shadow: none;
+                -moz-box-shadow: none;
+                -o-box-shadow: none;
+                -webkit-box-shadow: none;
 
-                &:before {
-                    content: '';
-                    background: rgba(155,155,155,.9);
-                    position: absolute;
-                    left: 0;
-                    right: 0;
-                    width: 100%;
-                    height: 100%;
+                &.disabled {
+                    border: 1px dashed gray;
+                    position: relative;
+                    border-radius: 10px;
+
+                    &:before {
+                        content: '';
+                        background: rgba(155, 155, 155, .9);
+                        position: absolute;
+                        left: 0;
+                        right: 0;
+                        width: 100%;
+                        height: 100%;
+                    }
                 }
             }
         }
+
     }
 }
 

@@ -5,7 +5,7 @@ import {LinksContext, PageContext} from './App';
 //const page_header_path  = user.page_header_path + "/";
 //const page_profile_path  = user.page_profile_path + "/";
 
-const Preview = ({setUserLinks, userLinks}) => {
+const Preview = ({userLinks}) => {
 
     //const { userLinks } = useContext(LinksContext);
     const { pageSettings, setPageSettings } = useContext(PageContext);
@@ -49,7 +49,7 @@ const Preview = ({setUserLinks, userLinks}) => {
                         return (
                             <>
                                 { active_status ?
-                                    <div className="icon_col" key={ id || Math.random()}>
+                                    <div className="icon_col" key={ id || Math.random()} id={id || Math.random()}>
                                         <a target="_blank" href={url}>
                                             <img src={icon} />
                                         </a>

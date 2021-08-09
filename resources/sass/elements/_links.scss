@@ -15,13 +15,31 @@
         -moz-border-radius-bottomleft: 20px;
     }
 
+    .bottom_section {
+        position: relative;
+    }
+
     .icons_wrap {
         position: relative;
-        display: grid;
+        /*display: grid;
         --n: 4;
         grid-template-columns: repeat(auto-fill, minmax(max(50px,100%/var(--n)), 1fr));
         grid-column-gap: 20px;
-        grid-row-gap: 20px;
+        grid-row-gap: 20px;*/
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-items: flex-start;
+        width: 40vw;
+        min-height: 85vh;
+
+        .pointer_ref {
+            position: absolute;
+            width: 5px;
+            height: 23vh;
+            background-color: $blue;
+            z-index: 2;
+        }
 
         .icon_col {
             position: relative;
@@ -32,6 +50,20 @@
             -webkit-box-shadow: 0px 0px 35px 5px rgba(170,170,170,0.18);
             -moz-box-shadow: 0px 0px 35px 5px rgba(170,170,170,0.18);
             box-shadow: 0px 0px 35px 5px rgba(170,170,170,0.18);
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1 1 calc(33% - 20px);
+            flex-direction: column;
+
+
+            &.dragging {
+                position: relative;
+                z-index: 1;
+                background-color: $blue;
+            }
 
             /*.delete_icon {
                 position: absolute;
@@ -74,8 +106,8 @@
         }
 
         &.add_icons {
-            grid-column-gap: 40px;
-            grid-row-gap: 40px;
+            /*grid-column-gap: 40px;
+            grid-row-gap: 40px;*/
             padding: 20px 0;
 
             .icon_col {

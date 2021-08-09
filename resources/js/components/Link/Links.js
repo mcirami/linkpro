@@ -44,12 +44,12 @@ const Links = ({
     return (
         <>
             {userLinks.map((item, index) => {
-                let {id, icon, active_status} = item;
+                let {id, name, icon, active_status} = item;
 
                 const key = id || "new_" + index;
 
               return (
-                  <div key={key} className="icon_col" id={key}>
+                  <div key={name} className="icon_col" id={name} data-name={name}>
                         <button className="edit_icon" onClick={(e) => { setEditID(key) }} >
                             <MdEdit />
                         </button>

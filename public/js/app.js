@@ -1930,7 +1930,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Page_PageBio__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Page/PageBio */ "./resources/js/components/Page/PageBio.js");
 /* harmony import */ var _Link_AddLink__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Link/AddLink */ "./resources/js/components/Link/AddLink.js");
 /* harmony import */ var _Page_PasswordProtect__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Page/PasswordProtect */ "./resources/js/components/Page/PasswordProtect.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_icons__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-icons */ "./node_modules/react-icons/lib/esm/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -1942,6 +1951,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -1989,71 +1999,173 @@ function App() {
       editID = _useState4[0],
       setEditID = _useState4[1]; //const [userLinks, setUserLinks] = useState(myLinksArray);
 
+  /*const [name, setName] = useState('');
+  const [url, setUrl] = useState('');
+  const [icon, setIcon] = useState('');
+  */
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState6 = _slicedToArray(_useState5, 2),
-      name = _useState6[0],
-      setName = _useState6[1];
-
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState8 = _slicedToArray(_useState7, 2),
-      url = _useState8[0],
-      setUrl = _useState8[1];
-
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState10 = _slicedToArray(_useState9, 2),
-      icon = _useState10[0],
-      setIcon = _useState10[1];
 
   var stringIndex = user.defaultIcon[0].search("/images");
   var defaultIconPath = user.defaultIcon[0].slice(stringIndex);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+  var pointerRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState6 = _slicedToArray(_useState5, 2),
+      dragState = _useState6[0],
+      setDragState = _useState6[1];
+
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState8 = _slicedToArray(_useState7, 2),
+      showPointer = _useState8[0],
+      setShowPointer = _useState8[1];
+
+  var handleStart = function handleStart(event) {
+    var icon = event.target.closest(".icon_col");
+    icon.classList.add("dragging");
+
+    if (icon) {
+      setDragState({
+        name: icon.dataset.name,
+        xi: event.clientX,
+        yi: event.clientY
+      });
+    }
+  };
+
+  var handleMove = function handleMove(event) {
+    var icon = event.target.closest(".icon_col");
+
+    if (icon && dragState) {
+      var over = document.elementsFromPoint(event.clientX, event.clientY).find(function (node) {
+        return node.classList.contains("icon_col") && !node.classList.contains("dragging");
+      });
+
+      if (over) {
+        setShowPointer(true);
+
+        var _over$getBoundingClie = over.getBoundingClientRect(),
+            x = _over$getBoundingClie.x,
+            y = _over$getBoundingClie.y,
+            width = _over$getBoundingClie.width;
+
+        console.log(x, width);
+        console.log(event.clientX);
+
+        if (event.clientX < x + width / 2) {
+          if (pointerRef.current) {
+            pointerRef.current.style.cssText = "transform: translate(".concat(x, "px, ").concat(y, "px)");
+          }
+        } else {
+          if (pointerRef.current) {
+            pointerRef.current.style.cssText = "transform: translate(".concat(x + width, "px, ").concat(y, "px)");
+          }
+        }
+      }
+
+      icon.style.cssText = "transform: translate(".concat(event.clientX - dragState.xi, "px, ").concat(event.clientY - dragState.yi, "px)");
+    }
+  };
+
+  var handleEnd = function handleEnd(event) {
+    var over = document.elementsFromPoint(event.clientX, event.clientY).find(function (node) {
+      return node.classList.contains("icon_col") && !node.classList.contains("dragging");
+    });
+
+    if (over) {
+      var _pointerRef$current;
+
+      (_pointerRef$current = pointerRef.current) === null || _pointerRef$current === void 0 ? void 0 : _pointerRef$current.removeAttribute("style");
+
+      var _over$getBoundingClie2 = over.getBoundingClientRect(),
+          x = _over$getBoundingClie2.x,
+          y = _over$getBoundingClie2.y,
+          width = _over$getBoundingClie2.width;
+
+      if (event.clientX < x + width / 2) {
+        setUserLinks(function (links) {
+          var index = links.findIndex(function (link) {
+            return over.dataset.name === link.name;
+          });
+          return [].concat(_toConsumableArray(links.filter(function (link) {
+            return link.name !== dragState.name;
+          }).slice(0, index)), [links.find(function (link) {
+            return link.name === dragState.name;
+          })], _toConsumableArray(links.filter(function (link) {
+            return link.name !== dragState.name;
+          }).slice(index)));
+        });
+      } else {
+        setUserLinks(function (links) {
+          var index = links.findIndex(function (link) {
+            return over.dataset.name === link.name;
+          });
+          return [].concat(_toConsumableArray(links.filter(function (link) {
+            return link.name !== dragState.name;
+          }).slice(0, index + 1)), [links.find(function (link) {
+            return link.name === dragState.name;
+          })], _toConsumableArray(links.filter(function (link) {
+            return link.name !== dragState.name;
+          }).slice(index + 1)));
+        });
+      }
+    }
+
+    document.querySelector(".dragging").removeAttribute("style");
+    document.querySelector(".dragging").classList.remove("dragging");
+    setDragState(null);
+    setShowPointer(false);
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
     className: "row",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
       className: "col-12",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
         className: "row justify-content-center",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(PageContext.Provider, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(PageContext.Provider, {
           value: {
             pageSettings: pageSettings,
             setPageSettings: setPageSettings
           },
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
             className: "col-7 pr-5",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Page_PageNav__WEBPACK_IMPORTED_MODULE_8__.default, {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Page_PageNav__WEBPACK_IMPORTED_MODULE_8__.default, {
               userPages: userPages,
               currentPage: page["id"]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
               className: "content_wrap",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Page_PageName__WEBPACK_IMPORTED_MODULE_7__.default, {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Page_PageName__WEBPACK_IMPORTED_MODULE_7__.default, {
                 page: page
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Page_PasswordProtect__WEBPACK_IMPORTED_MODULE_12__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Page_PageHeader__WEBPACK_IMPORTED_MODULE_5__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Page_PageProfile__WEBPACK_IMPORTED_MODULE_6__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Page_PageTitle__WEBPACK_IMPORTED_MODULE_9__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Page_PageBio__WEBPACK_IMPORTED_MODULE_10__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
-                className: "icons_wrap add_icons icons",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Link_Links__WEBPACK_IMPORTED_MODULE_2__.default, {
-                  setEditID: setEditID,
-                  defaultIconPath: defaultIconPath,
-                  userLinks: userLinks,
-                  setUserLinks: setUserLinks
-                }), editID ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_SubmitForm__WEBPACK_IMPORTED_MODULE_3__.default, {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Page_PasswordProtect__WEBPACK_IMPORTED_MODULE_12__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Page_PageHeader__WEBPACK_IMPORTED_MODULE_5__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Page_PageProfile__WEBPACK_IMPORTED_MODULE_6__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Page_PageTitle__WEBPACK_IMPORTED_MODULE_9__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Page_PageBio__WEBPACK_IMPORTED_MODULE_10__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+                className: "bottom_section",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+                  className: "icons_wrap add_icons icons",
+                  onMouseDown: handleStart,
+                  onMouseMove: handleMove,
+                  onMouseUp: handleEnd,
+                  children: [showPointer && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("span", {
+                    className: "pointer_ref",
+                    ref: pointerRef
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Link_Links__WEBPACK_IMPORTED_MODULE_2__.default, {
+                    setEditID: setEditID,
+                    defaultIconPath: defaultIconPath,
+                    userLinks: userLinks,
+                    setUserLinks: setUserLinks
+                  })]
+                }), editID ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_SubmitForm__WEBPACK_IMPORTED_MODULE_3__.default, {
                   editID: editID,
                   setEditID: setEditID,
                   setUserLinks: setUserLinks,
                   userLinks: userLinks
                 }) : ""]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Link_AddLink__WEBPACK_IMPORTED_MODULE_11__.default, {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Link_AddLink__WEBPACK_IMPORTED_MODULE_11__.default, {
                 userLinks: userLinks,
                 setUserLinks: setUserLinks,
                 defaultIcon: defaultIconPath
               })]
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
-            className: "col-5 links_col preview",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Preview__WEBPACK_IMPORTED_MODULE_1__.default, {
-              page: page,
-              defaultIconPath: defaultIconPath,
-              setUserLinks: setUserLinks,
-              userLinks: userLinks
-            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
+            className: "col-5 links_col preview"
           })]
         })
       })
@@ -2361,12 +2473,14 @@ var Links = function Links(_ref) {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
     children: userLinks.map(function (item, index) {
       var id = item.id,
+          name = item.name,
           icon = item.icon,
           active_status = item.active_status;
       var key = id || "new_" + index;
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
         className: "icon_col",
-        id: key,
+        id: name,
+        "data-name": name,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
           className: "edit_icon",
           onClick: function onClick(e) {
@@ -2392,7 +2506,7 @@ var Links = function Links(_ref) {
             checkedIcon: false
           })
         })]
-      }, key);
+      }, name);
     })
   });
 };
@@ -3461,8 +3575,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Preview = function Preview(_ref) {
-  var setUserLinks = _ref.setUserLinks,
-      userLinks = _ref.userLinks;
+  var userLinks = _ref.userLinks;
 
   //const { userLinks } = useContext(LinksContext);
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_App__WEBPACK_IMPORTED_MODULE_1__.PageContext),
@@ -3509,6 +3622,7 @@ var Preview = function Preview(_ref) {
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
             children: active_status ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
               className: "icon_col",
+              id: id || Math.random(),
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
                 target: "_blank",
                 href: url,

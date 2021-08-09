@@ -1,4 +1,4 @@
-import React, { useState, useReducer, createContext } from 'react';
+import React, { useState, useReducer, createContext, useRef } from 'react';
 import Preview from './Preview';
 import Links from './Link/Links';
 import SubmitForm from './SubmitForm';
@@ -13,6 +13,7 @@ import AddLink from './Link/AddLink';
 import PasswordProtect from './Page/PasswordProtect';
 
 import { IoIosLock } from "react-icons/io";
+import {icons} from 'react-icons';
 //import UserContext from './User/User';
 
 const page = user.page;
@@ -39,12 +40,114 @@ function App() {
 
     const [editID, setEditID] = useState(null);
     //const [userLinks, setUserLinks] = useState(myLinksArray);
-    const [name, setName] = useState('');
+    /*const [name, setName] = useState('');
     const [url, setUrl] = useState('');
     const [icon, setIcon] = useState('');
-
+*/
     const stringIndex = user.defaultIcon[0].search("/images");
     const defaultIconPath = user.defaultIcon[0].slice(stringIndex);
+
+    const pointerRef = useRef(null);
+    const [dragState, setDragState] = useState(null);
+    const [showPointer, setShowPointer] = useState(false);
+
+    const handleStart = (event) => {
+        const icon = event.target.closest(".icon_col");
+
+        icon.classList.add("dragging");
+
+        if (icon) {
+            setDragState({
+                name: icon.dataset.name,
+                xi: event.clientX,
+                yi: event.clientY
+            });
+        }
+    };
+
+    const handleMove = (event) => {
+        const icon = event.target.closest(".icon_col");
+
+        if (icon && dragState) {
+
+            const over = document.elementsFromPoint(event.clientX, event.clientY)
+                .find(
+                (node) =>
+                    node.classList.contains("icon_col") &&
+                    !node.classList.contains("dragging")
+            );
+
+            if (over) {
+                setShowPointer(true);
+                const { x, y, width} = over.getBoundingClientRect();
+
+                console.log(x, width);
+                console.log(event.clientX);
+
+                if (event.clientX < x + width / 2 ) {
+                    if(pointerRef.current) {
+                        pointerRef.current.style.cssText = `transform: translate(${x}px, ${y}px)`;
+                    }
+                } else {
+                    if (pointerRef.current) {
+                        pointerRef.current.style.cssText = `transform: translate(${x + width}px, ${y}px)`;
+                    }
+                }
+            }
+
+            icon.style.cssText = `transform: translate(${event.clientX - dragState.xi}px, ${event.clientY - dragState.yi}px)`;
+        }
+    }
+
+    const handleEnd = (event) => {
+        const over = document.elementsFromPoint(event.clientX, event.clientY)
+            .find(
+            (node) =>
+                node.classList.contains("icon_col") &&
+                !node.classList.contains("dragging")
+        );
+
+        if (over) {
+            pointerRef.current?.removeAttribute("style");
+            const {x, y, width } = over.getBoundingClientRect();
+            if (event.clientX < x + width / 2 ) {
+                setUserLinks((links) => {
+                    const index = links.findIndex(
+                        (link) => over.dataset.name === link.name
+                    );
+
+                    return [
+                        ...links
+                        .filter((link) => link.name !== dragState.name)
+                        .slice(0, index),
+                        ...[links.find((link) => link.name === dragState.name)],
+                        ...links.filter((link) => link.name !== dragState.name).slice(index)
+                    ];
+                })
+            } else {
+                setUserLinks((links) => {
+                    const index = links.findIndex (
+                        (link) => over.dataset.name === link.name
+                    );
+                    return [
+                        ...links
+                        .filter((link) => link.name !== dragState.name)
+                            .slice(0, index + 1),
+                        ...[links.find((link) => link.name === dragState.name)],
+                        ...links
+                            .filter((link) => link.name !== dragState.name)
+                            .slice(index + 1)
+                    ];
+                })
+            }
+        }
+
+        document.querySelector(".dragging").removeAttribute("style");
+        document.querySelector(".dragging").classList.remove("dragging");
+
+        setDragState(null);
+        setShowPointer(false);
+    }
 
     return (
         <div className="row">
@@ -68,26 +171,37 @@ function App() {
                                     <PageTitle />
                                     <PageBio />
 
-                                    <div className="icons_wrap add_icons icons">
+                                    <div className="bottom_section">
 
-                                        {/*{userLinks.map(( linkItem, index) => {
+                                        <div className="icons_wrap add_icons icons"
+                                            onMouseDown={handleStart}
+                                             onMouseMove={handleMove}
+                                             onMouseUp={handleEnd}
+                                        >
+                                            {showPointer && <span className="pointer_ref" ref={pointerRef} />}
 
-                                            //let {id, name, link, link_icon} = linkItem;
+                                            {/*{userLinks.map(( linkItem, index) => {
 
-                                            return (
-                                                <>*/}
-                                                    <Links
-                                                        setEditID={setEditID}
-                                                        defaultIconPath={defaultIconPath}
-                                                        userLinks={userLinks}
-                                                        setUserLinks={setUserLinks}
-                                                    />
-                                                {/*</>
+                                                //let {id, name, link, link_icon} = linkItem;
 
-                                            )
+                                                return (
+                                                    <>*/}
+                                                        <Links
+                                                            setEditID={setEditID}
+                                                            defaultIconPath={defaultIconPath}
+                                                            userLinks={userLinks}
+                                                            setUserLinks={setUserLinks}
+                                                        />
+                                                    {/*</>
 
-                                        })}
-*/}
+                                                )
+
+                                            })}
+    */}
+
+
+                                        </div>
+
                                         { editID ?
 
                                             <SubmitForm editID={editID} setEditID={setEditID} setUserLinks={setUserLinks} userLinks={userLinks}/>
@@ -95,7 +209,6 @@ function App() {
                                             :
                                             ""
                                         }
-
                                     </div>
 
                                     <AddLink userLinks={userLinks} setUserLinks={setUserLinks} defaultIcon={defaultIconPath} />
@@ -104,7 +217,7 @@ function App() {
 
                             </div>
                             <div className="col-5 links_col preview">
-                                <Preview page={page} defaultIconPath={defaultIconPath} setUserLinks={setUserLinks} userLinks={userLinks}/>
+                                {/*<Preview page={page} defaultIconPath={defaultIconPath} userLinks={userLinks} />*/}
                             </div>
 
                         </PageContext.Provider>
