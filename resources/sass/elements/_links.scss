@@ -2,7 +2,7 @@
 
     .content_wrap {
         background: $white;
-        padding: 40px 50px;
+        padding: 40px 0;
         border: 1px solid $borderGray;
         border-top-right-radius: 20px;
         -webkit-border-top-right-radius: 20px;
@@ -13,15 +13,33 @@
         border-bottom-left-radius: 20px;
         -webkit-border-bottom-left-radius: 20px;
         -moz-border-radius-bottomleft: 20px;
+
+        .top_section {
+            padding: 0 50px;
+        }
     }
 
     .icons_wrap {
         position: relative;
-        display: grid;
+        /*display: grid;
         --n: 4;
         grid-template-columns: repeat(auto-fill, minmax(max(50px,100%/var(--n)), 1fr));
         grid-column-gap: 20px;
-        grid-row-gap: 20px;
+        grid-row-gap: 20px;*/
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        -webkit-justify-content: flex-start;
+        align-items: flex-start;
+        -webkit-align-items: flex-start;
+
 
         .icon_col {
             position: relative;
@@ -29,9 +47,17 @@
             border-radius: 20px;
             -webkit-border-radius: 20px;
             -moz-border-radius: 20px;
-            -webkit-box-shadow: 0px 0px 35px 5px rgba(170,170,170,0.18);
-            -moz-box-shadow: 0px 0px 35px 5px rgba(170,170,170,0.18);
-            box-shadow: 0px 0px 35px 5px rgba(170,170,170,0.18);
+            padding: 20px;
+            width: 33.3%;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -ms-flex-wrap: nowrap;
+            flex-wrap: nowrap;
 
             /*.delete_icon {
                 position: absolute;
@@ -45,10 +71,18 @@
                 }
             }*/
 
+            .column_content {
+                @include boxShadow;
+                padding: 20px;
+                border-radius: 20px;
+                -webkit-border-radius: 20px;
+                -moz-border-radius: 20px;
+            }
+
             .edit_icon {
                 position: absolute;
-                right: 8px;
-                top: 8px;
+                right: 28px;
+                top: 28px;
                 padding: 0 5px 2px;
             }
 
@@ -74,9 +108,9 @@
         }
 
         &.add_icons {
-            grid-column-gap: 40px;
-            grid-row-gap: 40px;
-            padding: 20px 0;
+            /*grid-column-gap: 40px;
+            grid-row-gap: 40px;*/
+            padding: 20px 30px;
 
             .icon_col {
                 padding: 20px;
@@ -90,64 +124,70 @@
     }
 }
 
-.icon_row {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+#links_page {
 
-    /*.close_popup {
-        position: absolute;
-        right: 20px;
-        top: 20px;
+    .icon_row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-        svg {
-            width: 40px;
-            height: 40px;
-            background: $black;
-            color: $white;
-            border-radius: 50px;
-            -webkit-border-radius: 50px;
-            -moz-border-radius: 50px;
-        }
+        /*.close_popup {
+            position: absolute;
+            right: 20px;
+            top: 20px;
 
-    }*/
+            svg {
+                width: 40px;
+                height: 40px;
+                background: $black;
+                color: $white;
+                border-radius: 50px;
+                -webkit-border-radius: 50px;
+                -moz-border-radius: 50px;
+            }
 
-    .icon_box {
-        width: 100%;
-        background: #fff;
-        border-radius: 10px;
-        -webkit-border-radius: 10px;
-        -moz-border-radius: 10px;
-    }
+        }*/
 
-    .icons_wrap {
-        overflow-y: scroll;
-        overflow-x: hidden;
-        height: 150px;
-        --n:6;
-        grid-template-columns: repeat(auto-fill, minmax(max(50px,100%/var(--n)), 1fr));
-
-        .icon_col {
-            background: none;
-        }
-    }
-
-    .icon_image {
-        border: 2px solid transparent;
-
-        &:hover {
-            cursor: pointer;
-        }
-
-        &.active {
-            border: 2px solid #000;
+        .icon_box {
+            width: 100%;
+            background: #fff;
             border-radius: 10px;
             -webkit-border-radius: 10px;
             -moz-border-radius: 10px;
         }
+
+        .icons_wrap {
+            display: grid;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            height: 150px;
+            --n:6;
+            grid-template-columns: repeat(auto-fill, minmax(max(50px,100%/var(--n)), 1fr));
+            grid-column-gap: 20px;
+            grid-row-gap: 20px;
+
+            .icon_col {
+                background: none;
+                width: auto;
+            }
+        }
+
+        .icon_image {
+            border: 2px solid transparent;
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            &.active {
+                border: 2px solid #000;
+                border-radius: 10px;
+                -webkit-border-radius: 10px;
+                -moz-border-radius: 10px;
+            }
+        }
     }
 }
-
 .page_settings {
     margin-bottom: 20px;
 
@@ -223,14 +263,12 @@
 }
 
 .add_more_icons {
+    @include boxShadow;
     padding: 0 40px;
-    margin-top: 30px;
+    margin: 30px 50px 0 50px;
     border-radius: 20px;
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
-    -webkit-box-shadow: 0px 0px 35px 5px rgba(170,170,170,0.18);
-    -moz-box-shadow: 0px 0px 35px 5px rgba(170,170,170,0.18);
-    box-shadow: 0px 0px 35px 5px rgba(170,170,170,0.18);
 
     .col_left {
         width: 90%;

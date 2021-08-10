@@ -2,6 +2,7 @@ import React, {useContext, useState } from 'react';
 import IconList from "./IconList";
 import axios from "axios";
 import { LinksContext, PageContext } from './App';
+import EventBus from '../Utils/Bus';
 
 const SubmitForm = ({
     editID,
@@ -30,9 +31,12 @@ const SubmitForm = ({
         };
 
         if (editID.toString().includes("new")) {
-            axios.post('/dashboard/links/new', packets).then(
-                response => {
-                    console.log(JSON.stringify(response.data));
+            axios.post('/dashboard/links/new', packets)
+            .then(
+                (response) => {
+                    //console.log(JSON.stringify(response.data));
+                    const returnMessage = JSON.stringify(response.data.message);
+                    EventBus.dispatch("success", { message: returnMessage });
                     const link_id = JSON.stringify(response.data.link_id);
                     let count = 0;
                     setUserLinks(
@@ -71,22 +75,26 @@ const SubmitForm = ({
 
 
         } else {
-            axios.post('/dashboard/links/update/' + editID, packets).then(
-                response => alert(JSON.stringify(response.data)),
-                setUserLinks(
-                    userLinks.map((item) => {
-                        if (item.id === editID) {
-                            return {
-                                ...item,
-                                name: currentLink.name,
-                                url: currentLink.url,
-                                icon: currentLink.icon
+            axios.post('/dashboard/links/update/' + editID, packets)
+            .then(
+                (response) => {
+                    const returnMessage = JSON.stringify(response.data.message);
+                    EventBus.dispatch("success", {message: returnMessage});
+                    setUserLinks(
+                        userLinks.map((item) => {
+                            if (item.id === editID) {
+                                return {
+                                    ...item,
+                                    name: currentLink.name,
+                                    url: currentLink.url,
+                                    icon: currentLink.icon
+                                }
                             }
-                        }
-                        return item;
-                    })
-                ),
-                setEditID(null),
+                            return item;
+                        })
+                    )
+                    setEditID(null)
+                }
             ).catch(error => {
                 console.log("ERROR:: ", error.response.data);
 

@@ -10,26 +10,27 @@ import {MdCancel, MdEdit, MdFileUpload} from 'react-icons/md';
 import {PageContext} from '../App';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/lib/ReactCrop.scss';
+import EventBus from '../../Utils/Bus';
 
-const PageProfile = () => {
+const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop, profileFileName, setProfileFileName}) => {
 
     const { pageSettings, setPageSettings } = useContext(PageContext);
 
     const [isEditing, setIsEditing] = useState(false);
-    const [fileName, setFileName] = useState("");
+    //const [fileName, setFileName] = useState("");
 
     const [upImg, setUpImg] = useState();
     const imgRef = useRef(null);
-    const previewCanvasRef = useRef(null);
+    const previewCanvasRef = profileRef;
     const [crop, setCrop] = useState({ unit: '%', width: 30, aspect: 1 });
-    const [completedCrop, setCompletedCrop] = useState(null);
+    //const [completedCrop, setCompletedCrop] = useState(null);
 
     const onSelectFile = e => {
         let files = e.target.files || e.dataTransfer.files;
         if (!files.length) {
             return;
         }
-        setFileName(files[0]["name"]);
+        setProfileFileName(files[0]["name"]);
         createImage(files[0]);
     }
 
@@ -50,13 +51,13 @@ const PageProfile = () => {
     }, []);
 
     useEffect(() => {
-        if (!completedCrop || !previewCanvasRef.current || !imgRef.current) {
+        if (!completedProfileCrop || !previewCanvasRef.current || !imgRef.current) {
             return;
         }
 
         const image = imgRef.current;
         const canvas = previewCanvasRef.current;
-        const crop = completedCrop;
+        const crop = completedProfileCrop;
 
         const scaleX = image.naturalWidth / image.width;
         const scaleY = image.naturalHeight / image.height;
@@ -80,7 +81,7 @@ const PageProfile = () => {
             crop.width,
             crop.height
         );
-    }, [completedCrop]);
+    }, [completedProfileCrop]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -119,10 +120,15 @@ const PageProfile = () => {
             profile_img: image,
         };
 
-        axios.post('/dashboard/page/update-profile-image/' + pageSettings["id"], packets).then(
-            response => console.log(JSON.stringify(response.data)),
-            setFileName(""),
-            setUpImg("")
+        axios.post('/dashboard/page/update-profile-image/' + pageSettings["id"], packets)
+        .then(
+            (response) => {
+                //console.log(JSON.stringify(response.data))
+                const returnMessage = JSON.stringify(response.data.message);
+                EventBus.dispatch("success", { message: returnMessage });
+                setProfileFileName("")
+                setUpImg("")
+            }
         ).catch(error => {
             console.log("ERROR:: ", error.response.data);
         });
@@ -154,7 +160,7 @@ const PageProfile = () => {
                                     <label htmlFor="profile_file_upload" className="custom">
                                         Choose File
                                     </label>
-                                    <span>{fileName}</span>
+                                    <span>{profileFileName}</span>
                                     <input className="custom" id="profile_file_upload" type="file"
                                            onChange={onSelectFile}
                                     />
@@ -178,9 +184,9 @@ const PageProfile = () => {
                                     onImageLoaded={onLoad}
                                     crop={crop}
                                     onChange={(c) => setCrop(c)}
-                                    onComplete={(c) => setCompletedCrop(c)}
+                                    onComplete={(c) => setCompletedProfileCrop(c)}
                                 />
-                                <div>
+                                {/*<div>
                                     <canvas
                                         ref={previewCanvasRef}
                                         // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
@@ -189,7 +195,7 @@ const PageProfile = () => {
                                             height: Math.round(completedCrop?.height ?? 0)
                                         }}
                                     />
-                                </div>
+                                </div>*/}
                             </div>
                         </form>
                         :

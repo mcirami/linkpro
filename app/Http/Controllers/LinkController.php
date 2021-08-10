@@ -78,7 +78,7 @@ class LinkController extends Controller
             'active_status' => 1
         ]);
 
-        return response()->json(['message'=> 'Successfully added', 'link_id' => $link->id]);
+        return response()->json(['message'=> 'Link Added', 'link_id' => $link->id]);
     }
 
     public function edit(Link $link) {
@@ -105,7 +105,7 @@ class LinkController extends Controller
 
         $link->update($request->only(['name', 'url', 'icon']));
 
-        return response()->json('Successfully updated');
+        return response()->json(['message' => 'Link Updated']);
 
         //return redirect()->to('/dashboard/links');
 
@@ -120,7 +120,7 @@ class LinkController extends Controller
 
         $link->update($request->only(['active_status']));
 
-        return response()->json('Successfully updated');
+        return response()->json(['message' => 'Link Status Changed']);
 
         //return redirect()->to('/dashboard/links');
 
@@ -135,7 +135,7 @@ class LinkController extends Controller
 
         $link->delete();
 
-        return response()->json('Successfully Deleted');
+        return response()->json(['message' => 'Link Has Been Deleted']);
         //return response()->json(null, 204);
     }
 }

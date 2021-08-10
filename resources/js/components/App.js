@@ -1,4 +1,4 @@
-import React, { useState, useReducer, createContext } from 'react';
+import React, {useState, useReducer, createContext, createRef, useEffect} from 'react';
 import Preview from './Preview';
 import Links from './Link/Links';
 import SubmitForm from './SubmitForm';
@@ -11,8 +11,8 @@ import PageTitle from './Page/PageTitle';
 import PageBio from './Page/PageBio';
 import AddLink from './Link/AddLink';
 import PasswordProtect from './Page/PasswordProtect';
+import { Flash } from './Flash';
 
-import { IoIosLock } from "react-icons/io";
 //import UserContext from './User/User';
 
 const page = user.page;
@@ -29,7 +29,6 @@ function pageReducer(state, item) {
     return item
 }
 
-
 function App() {
 
     //const myLinksArray = useContext(UserContext);
@@ -38,17 +37,27 @@ function App() {
     const [pageSettings, setPageSettings] = useReducer(pageReducer, page);
 
     const [editID, setEditID] = useState(null);
-    //const [userLinks, setUserLinks] = useState(myLinksArray);
-    const [name, setName] = useState('');
-    const [url, setUrl] = useState('');
-    const [icon, setIcon] = useState('');
 
     const stringIndex = user.defaultIcon[0].search("/images");
     const defaultIconPath = user.defaultIcon[0].slice(stringIndex);
 
+    const ref = createRef(null);
+    const [completedCrop, setCompletedCrop] = useState(null);
+    const [fileName, setFileName] = useState(null);
+
+    const profileRef = createRef(null)
+    const [completedProfileCrop, setCompletedProfileCrop] = useState(null);
+    const [profileFileName, setProfileFileName] = useState(null);
+
+    useEffect(() => {
+
+    })
+
     return (
         <div className="row">
             <div className="col-12">
+
+                <Flash />
 
                 <div className="row justify-content-center">
                     {/*<LinksContext.Provider value={{ userLinks, setUserLinks}} >*/}
@@ -59,15 +68,17 @@ function App() {
 
                                 <div className="content_wrap">
 
-                                    <PageName page={page}/>
+                                    <div className="top_section">
+                                        <PageName page={page}/>
 
-                                    <PasswordProtect />
+                                        <PasswordProtect />
 
-                                    <PageHeader />
-                                    <PageProfile />
-                                    <PageTitle />
-                                    <PageBio />
+                                        <PageHeader setRef={ref} completedCrop={completedCrop} setCompletedCrop={setCompletedCrop} fileName={fileName} setFileName={setFileName} />
 
+                                        <PageProfile profileRef={profileRef} completedProfileCrop={completedProfileCrop} setCompletedProfileCrop={setCompletedProfileCrop} profileFileName={profileFileName} setProfileFileName={setProfileFileName} />
+                                        <PageTitle />
+                                        <PageBio />
+                                    </div>
                                     <div className="icons_wrap add_icons icons">
 
                                         {/*{userLinks.map(( linkItem, index) => {
@@ -104,7 +115,7 @@ function App() {
 
                             </div>
                             <div className="col-5 links_col preview">
-                                <Preview page={page} defaultIconPath={defaultIconPath} setUserLinks={setUserLinks} userLinks={userLinks}/>
+                                <Preview setRef={ref} profileRef={profileRef} completedCrop={completedCrop} completedProfileCrop={completedProfileCrop} defaultIconPath={defaultIconPath} userLinks={userLinks} fileName={fileName} profileFileName={profileFileName}/>
                             </div>
 
                         </PageContext.Provider>

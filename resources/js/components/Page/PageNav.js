@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import {MdAddCircleOutline, MdCancel} from 'react-icons/md';
+import EventBus from '../../Utils/Bus';
 
 const PageNav = ({ userPages, currentPage }) => {
 
@@ -18,9 +19,13 @@ const PageNav = ({ userPages, currentPage }) => {
         };
 
         axios.post('/dashboard/page/new', packets).then(
-            response => {
-                console.log(JSON.stringify(response.data));
-                const page_id  = JSON.stringify(response.data.page_id);
+            (response) => {
+                //console.log(JSON.stringify(response.data));
+
+                const page_id = JSON.stringify(response.data.page_id);
+                const returnMessage = JSON.stringify(response.data.message);
+                EventBus.dispatch("success", { message: returnMessage });
+
                 const newElement = {
                     id: page_id,
                     name: newPageName,

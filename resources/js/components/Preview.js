@@ -5,7 +5,7 @@ import {LinksContext, PageContext} from './App';
 //const page_header_path  = user.page_header_path + "/";
 //const page_profile_path  = user.page_profile_path + "/";
 
-const Preview = ({setUserLinks, userLinks}) => {
+const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, completedProfileCrop, profileRef }) => {
 
     //const { userLinks } = useContext(LinksContext);
     const { pageSettings, setPageSettings } = useContext(PageContext);
@@ -19,25 +19,76 @@ const Preview = ({setUserLinks, userLinks}) => {
 
         <div className="links_wrap preview">
             <div className="inner_content">
-
-                {pageSettings["header_img"] ?
-                    <div className="page_header"
+                {!pageSettings["header_img"] && !fileName ?
+                    <div className="page_header default"
                          style={myStyle}
                     >
-                    </div>
-                    :
-                    <div className={!pageSettings["header_img"] ? "page_header default" : "page_header" }>
                         <MdEdit />
                     </div>
+                    :
+                    ""
                 }
-                <div className="profile_content">
-                    <div className={!pageSettings["profile_img"] ? "profile_image default" : "profile_image"  }>
-                        {pageSettings["profile_img"] ?
-                            <img src={pageSettings["profile_img"]} alt=""/>
-                            :
-                            <MdEdit />
-                        }
+
+                {pageSettings["header_img"] && !fileName ?
+                    <div className="page_header" style={myStyle} >
                     </div>
+                    :
+                    <div className="page_header canvas"
+                         style={{
+                             width: completedCrop ? `100%` : 0,
+                             height: completedCrop ? `auto` : 0,
+                         }}>
+                        <canvas
+                            ref={setRef}
+                            // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
+                            style={{
+                                backgroundImage: setRef,
+                                /*width: Math.round(completedCrop?.width ?? 0),
+                                height: Math.round(completedCrop?.height ?? 0)*/
+                                width: completedCrop ? `100%` : 0,
+                                height: completedCrop ? `auto` : 0,
+                                borderTopRightRadius: `12%`,
+                                borderTopLeftRadius: `12%`,
+                            }}
+                        />
+                    </div>
+                }
+
+                <div className="profile_content">
+                    {!pageSettings["profile_img"] && !profileFileName ?
+                        <div className="profile_image default">
+                            <MdEdit />
+                        </div>
+                        :
+                        ""
+                    }
+
+                    {pageSettings["profile_img"] && !profileFileName ?
+                        <div className="profile_image">
+                            <div className="image_wrap">
+                                <img src={pageSettings["profile_img"]} alt=""/>
+                            </div>
+                        </div>
+                        :
+                        <div className={!pageSettings["profile_img"] && !profileFileName ?  "" : "profile_image" }>
+                            <div className="image_wrap">
+                                <canvas
+                                    ref={profileRef}
+                                    // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
+                                    style={{
+                                        backgroundImage: profileRef,
+                                        backgroundSize: `cover`,
+                                        backgroundRepeat: `no-repeat`,
+                                        /*width: Math.round(completedCrop?.width ?? 0),
+                                        height: Math.round(completedCrop?.height ?? 0)*/
+                                        width: completedProfileCrop ? `100%` : 0,
+                                        height: completedProfileCrop ? `100%` : 0,
+                                        borderRadius: `50px`,
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    }
                     <div className="profile_text">
                         <h2>{pageSettings["title"]}</h2>
                         <p>{pageSettings["bio"]}</p>
@@ -54,7 +105,14 @@ const Preview = ({setUserLinks, userLinks}) => {
                                             <img src={icon} />
                                         </a>
                                     </div>
-                                 : "" }
+                                 :
+                                    /*<div className="icon_col" key={ id || Math.random()}>
+                                        <div className="column_content">
+                                            <MdEdit />
+                                        </div>
+                                    </div>*/
+                                    ""
+                                }
                              </>
                         )
                     })}

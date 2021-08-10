@@ -21,20 +21,6 @@
             }
         }
 
-        &.preview {
-
-            &:before {
-                content: '';
-                background: url('/images/preview-device-no-btm.png') no-repeat;
-                background-size: contain;
-                position: absolute;
-                top: 0;
-                right: 0;
-                left: 0;
-                bottom: 0;
-            }
-        }
-
         img.device {
             position: absolute;
             z-index: 1;
@@ -42,8 +28,6 @@
             left: 0;
             right: 0;
         }
-
-
 
         .inner_content {
             background: $white;
@@ -74,6 +58,10 @@
                         height: 75px;
                     }
                 }
+
+                &.canvas {
+                    padding: 0;
+                }
             }
 
             &.live_page {
@@ -102,10 +90,30 @@
             }
         }
 
+        &.preview {
+
+            &:before {
+                content: '';
+                background: url('/images/preview-device-no-btm.png') no-repeat;
+                background-size: contain;
+                position: absolute;
+                top: 0;
+                right: 0;
+                left: 0;
+                bottom: 0;
+            }
+
+            .inner_content {
+                max-height: 730px;
+                overflow-y: scroll;
+            }
+        }
+
         .profile_content {
             padding: 10px 20px;
             width: 100%;
             float: left;
+            position: relative;
 
             .profile_image {
                 width: 28%;
@@ -119,6 +127,9 @@
                     border-radius: 50px;
                     -webkit-border-radius: 50px;
                     -moz-border-radius: 50px;
+                    object-fit: cover;
+                    object-position: center;
+
                 }
 
                 &.default {
@@ -131,6 +142,14 @@
                         width: 30px;
                         height: 30px;
                     }
+                }
+
+                .image_wrap {
+                    max-width: 65px;
+                    overflow: hidden;
+                    border-radius: 50px;
+                    -webkit-border-radius: 50px;
+                    -moz-border-radius: 50px;
                 }
             }
 
@@ -146,8 +165,9 @@
         }
 
         .icon_col {
-            background: none;
-            position: relative;
+            background: none !important;
+            position: relative !important;
+            padding: 10px !important;
 
             &.disabled {
                 border: 1px dashed gray;

@@ -1,21 +1,33 @@
-import React, {useState, useContext, useCallback, useRef, useEffect} from 'react';
+import React, {
+    useState,
+    useContext,
+    useCallback,
+    useRef,
+    useEffect,
+    createContext,
+} from 'react';
 import axios from "axios";
 import {MdCancel, MdEdit, MdFileUpload} from 'react-icons/md';
 import { PageContext } from '../App';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/lib/ReactCrop.scss';
+import EventBus from '../../Utils/Bus';
 
-const PageHeader = () => {
+export const RefContext = createContext();
+export const cropStatus = createContext();
+
+const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileName}) => {
 
     const { pageSettings, setPageSettings } = useContext(PageContext);
     const [isEditing, setIsEditing] = useState(false);
-    const [fileName, setFileName] = useState("");
+    //const [fileName, setFileName] = useState(null);
 
     const [upImg, setUpImg] = useState();
-    const imgRef = useRef(null);
-    const previewCanvasRef = useRef(null);
+    const imgRef = useRef();
+    const previewCanvasRef = setRef;
     const [crop, setCrop] = useState({ unit: '%', width: 30, aspect: 16 / 9 });
-    const [completedCrop, setCompletedCrop] = useState(null);
+
+
 
     /*const generateDownload = (canvas, crop) => {
         if(!crop || !canvas) {
@@ -131,10 +143,15 @@ const PageHeader = () => {
             header_img: image,
         };
 
-        axios.post('/dashboard/page/update-header-image/' + pageSettings["id"], packets).then(
-            response => console.log(JSON.stringify(response.data)),
-            setFileName(""),
-            setUpImg("")
+        axios.post('/dashboard/page/update-header-image/' + pageSettings["id"], packets)
+        .then(
+            (response) => {
+                const returnMessage = JSON.stringify(response.data.message);
+                EventBus.dispatch("success", { message: returnMessage });
+                setFileName(null)
+                setUpImg(null)
+                setCompletedCrop(false)
+            }
         ).catch(error => {
             console.log("ERROR:: ", error.response.data);
         });
@@ -190,7 +207,7 @@ const PageHeader = () => {
                                     onChange={(c) => setCrop(c)}
                                     onComplete={(c) => setCompletedCrop(c)}
                                 />
-                                <div>
+                                {/*<div>
                                     <canvas
                                         ref={previewCanvasRef}
                                         // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
@@ -199,7 +216,7 @@ const PageHeader = () => {
                                             height: Math.round(completedCrop?.height ?? 0)
                                         }}
                                     />
-                                </div>
+                                </div>*/}
                             </div>
                         </form>
                         :

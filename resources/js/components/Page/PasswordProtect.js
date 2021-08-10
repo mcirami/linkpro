@@ -3,6 +3,7 @@ import React, {useContext, useState} from 'react';
 import {PageContext} from '../App';
 import {MdCancel, MdCheckCircle } from 'react-icons/md';
 import axios from 'axios';
+import EventBus from '../../Utils/Bus';
 
 const PasswordProtect = () => {
 
@@ -20,13 +21,18 @@ const PasswordProtect = () => {
             password: password
         };
 
-        axios.post('/dashboard/page/update-password/' + pageSettings['id'], packets).then(
-            response => console.log(JSON.stringify(response.data)),
-            setPageSettings({
-                ...pageSettings,
-                password: password,
-            }),
-            setIsEditing(false)
+        axios.post('/dashboard/page/update-password/' + pageSettings['id'], packets)
+        .then(
+            (response) => {
+                //console.log(JSON.stringify(response.data))
+                const returnMessage = JSON.stringify(response.data.message);
+                EventBus.dispatch("success", { message: returnMessage });
+                setPageSettings({
+                    ...pageSettings,
+                    password: password,
+                })
+                //setIsEditing(false)
+            }
         ).catch(error => {
             console.log("ERROR:: ", error.response.data);
 
@@ -46,13 +52,18 @@ const PasswordProtect = () => {
             password: password
         };
 
-        axios.post('/dashboard/page/update-password/' + pageSettings['id'], packets).then(
-            response => console.log(JSON.stringify(response.data)),
-            setPageSettings({
-                ...pageSettings,
-                is_protected: !checked,
-            }),
-            setIsEditing(false)
+        axios.post('/dashboard/page/update-password/' + pageSettings['id'], packets)
+        .then(
+            (response) => {
+                //console.log(JSON.stringify(response.data))
+                const returnMessage = JSON.stringify(response.data.message);
+                EventBus.dispatch("success", { message: returnMessage });
+                setPageSettings({
+                    ...pageSettings,
+                    is_protected: !checked,
+                })
+                //setIsEditing(false)
+            }
         ).catch(error => {
             console.log("ERROR:: ", error.response.data);
 
@@ -63,7 +74,7 @@ const PasswordProtect = () => {
         <div className="row page_settings" key={ pageSettings['id'] }>
             <div className="col-12">
 
-                {isEditing ?
+                { isEditing ?
                         <div className="edit_form password">
                             <form onSubmit={handleSubmit}>
                                 <div className="input">
@@ -104,7 +115,7 @@ const PasswordProtect = () => {
                     <div className="column_wrap">
                         <div className="column_content">
                             <h3>Password Protect</h3>
-                            <a className="lock_icon" href="#" onClick={setIsEditing(true)}><IoIosLock/></a>
+                            <a className="lock_icon" href="#" onClick={(e) => { e.preventDefault(); setIsEditing(true)} }><IoIosLock/></a>
                         </div>
                     </div>
                 }

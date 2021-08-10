@@ -48,7 +48,7 @@ class PageController extends Controller
             'is_protected' => false
         ]);
 
-        return response()->json(['message'=> 'Successfully added', 'page_id' => $page->id]);
+        return response()->json(['message'=> 'New Page Added', 'page_id' => $page->id]);
     }
 
     public function edit(Page $page) {
@@ -111,7 +111,7 @@ class PageController extends Controller
         }
 
         $page->update(['header_img' => "/storage" . $path]);
-        return response()->json('Successfully added');
+        return response()->json(['message' => 'Header Image Updated']);
 
         //return redirect()->back();
 
@@ -134,7 +134,7 @@ class PageController extends Controller
         }
 
         $page->update(['profile_img' => "/storage" . $path]);
-        return response()->json('Successfully added');
+        return response()->json(['message' => 'Profile Image Updated']);
 
         //return redirect()->back();
 
@@ -152,7 +152,7 @@ class PageController extends Controller
         ]);
 
         $page->update(['name' => $request['name']]);
-        return response()->json('Successfully updated');
+        return response()->json(['message' => 'Page Name Updated']);
 
         //return redirect()->back();
 
@@ -170,7 +170,7 @@ class PageController extends Controller
         ]);
 
         $page->update(['title' => $request['title']]);
-        return response()->json('Successfully updated');
+        return response()->json(['message' => 'Page Title Updated']);
 
         //return redirect()->back();
 
@@ -187,7 +187,7 @@ class PageController extends Controller
         ]);
 
         $page->update(['bio' => $request['bio']]);
-        return response()->json('Successfully updated');
+        return response()->json(['message' => 'Page Bio Updated']);
 
         //return redirect()->back();
 
@@ -201,7 +201,7 @@ class PageController extends Controller
 
         $page->update([ 'is_protected' => $request['is_protected'], 'password' => $request['password'] ]);
 
-        return response()->json('Successfully updated');
+        return response()->json(['message' => 'Page Password Updated']);
     }
 
     public function pageAuth(Request $request, Page $page) {
