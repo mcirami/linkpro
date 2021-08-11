@@ -76,7 +76,9 @@ class RegisterController extends Controller
         $user->pages()->create([
             'name' => $user->username,
             'title' => "LinkPro",
-            'bio' => 'Add Slogan/Intro Here']);
+            'bio' => 'Add Slogan/Intro Here',
+            'is_protected' => false,
+        ]);
 
         return $user;
     }
