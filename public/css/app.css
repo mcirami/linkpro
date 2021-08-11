@@ -11046,6 +11046,8 @@ header.guest_header .col.right {
   border-radius: 12px;
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 .form_page .card h3 {
   text-align: center;
