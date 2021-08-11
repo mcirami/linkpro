@@ -1,5 +1,46 @@
 #links_page {
 
+    .my_row.page_wrap {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;;
+    }
+
+    .left_column {
+        width: 58%;
+        float: left;
+        padding-right: 3rem;
+
+        @media all and (max-width: 1199px) {
+            width: 65%;
+        }
+
+        @media all and (max-width: 992px) {
+            width: 100%;
+            padding-right: 0;
+        }
+    }
+
+    .right_column {
+        width: 42%;
+        float: left;
+
+        @media all and (max-width: 1199px) {
+            width: 35%;
+            padding: 0 3%;
+        }
+
+        @media screen and (max-width: 992px) {
+            width: 100%;
+        }
+    }
+
     .content_wrap {
         background: $white;
         padding: 40px 0;
@@ -16,6 +57,10 @@
 
         .top_section {
             padding: 0 50px;
+
+            @media all and (max-width: 550px) {
+                padding: 0 25px;
+            }
         }
     }
 
@@ -83,7 +128,11 @@
                 position: absolute;
                 right: 28px;
                 top: 28px;
-                padding: 0 5px 2px;
+
+                @media all and (max-width: 550px) {
+                    top: 24px;
+                    right: 24px;
+                }
             }
 
             .icon_wrap {
@@ -104,6 +153,20 @@
                 &:last-child {
                     margin-top: 5px;
                 }
+
+                .react-switch-bg {
+                    @media all and (max-width: 768px) {
+                        height: 14px !important;
+                        width: 50px !important;
+                    }
+                }
+
+                .react-switch-handle {
+                    @media all and (max-width: 768px) {
+                        height: 12px !important;
+                        width: 12px !important;
+                    }
+                }
             }
         }
 
@@ -111,6 +174,10 @@
             /*grid-column-gap: 40px;
             grid-row-gap: 40px;*/
             padding: 20px 30px;
+
+            @media all and (max-width: 550px) {
+                padding: 20px 10px;
+            }
 
             .icon_col {
                 padding: 20px;
@@ -270,6 +337,11 @@
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
 
+    @media all and (max-width: 550px) {
+        padding: 0 30px;
+        margin: 15px 25px 0 25px;
+    }
+
     .col_left {
         width: 90%;
         padding: 40px 0;
@@ -288,10 +360,19 @@
         -webkit-justify-content: flex-start;
         border-right: 1px solid $lightGray;
 
+        @media all and (max-width: 550px) {
+            width: 95%;
+            padding: 25px 0;
+        }
+
         h3 {
             color: $blue;
             margin-left: 20px;
             margin-bottom: 0;
+
+            @media all and (max-width: 550px) {
+                font-size: 20px;
+            }
         }
 
         .icon_wrap {
@@ -313,5 +394,4 @@
         }
     }
 }
-
 

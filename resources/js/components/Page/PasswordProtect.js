@@ -2,6 +2,7 @@ import {IoIosLock} from 'react-icons/io';
 import React, {useContext, useState} from 'react';
 import {PageContext} from '../App';
 import {MdCancel, MdCheckCircle } from 'react-icons/md';
+import Switch from "react-switch";
 import axios from 'axios';
 import EventBus from '../../Utils/Bus';
 
@@ -26,6 +27,7 @@ const PasswordProtect = () => {
             (response) => {
                 //console.log(JSON.stringify(response.data))
                 const returnMessage = JSON.stringify(response.data.message);
+                //const message = returnMessage.toString();
                 EventBus.dispatch("success", { message: returnMessage });
                 setPageSettings({
                     ...pageSettings,
@@ -34,8 +36,11 @@ const PasswordProtect = () => {
                 //setIsEditing(false)
             }
         ).catch(error => {
-            console.log("ERROR:: ", error.response.data);
-
+            if ( error.response ) {
+                console.log("ERROR:: ", error.response.data);
+            } else {
+                console.log("ERROR:: ", error);
+            }
         })
     }
 
@@ -56,7 +61,14 @@ const PasswordProtect = () => {
         .then(
             (response) => {
                 //console.log(JSON.stringify(response.data))
-                const returnMessage = JSON.stringify(response.data.message);
+                //const returnMessage = JSON.stringify(response.data.message);
+                let returnMessage;
+
+                if(!checked) {
+                    returnMessage = "Page Password Enabled";
+                } else {
+                    returnMessage = "Page Password Disabled";
+                }
                 EventBus.dispatch("success", { message: returnMessage });
                 setPageSettings({
                     ...pageSettings,
@@ -96,6 +108,19 @@ const PasswordProtect = () => {
                                     </button>*/}
                                 </div>
                                 <div className="checkbox">
+                                    <Switch
+                                        id="password_enable"
+                                        name="is_protected"
+                                        height={20}
+                                        width={45}
+                                        checked={Boolean(checked)}
+                                        onColor="#424fcf"
+                                        onChange={handleCheckedChange}
+                                        uncheckedIcon={false}
+                                        checkedIcon={false}
+                                    />
+                                </div>
+                                {/*<div className="checkbox">
                                     <label htmlFor="password_enable">
                                         <input
                                             id="password_enable"
@@ -108,7 +133,7 @@ const PasswordProtect = () => {
 
                                         </span>
                                     </label>
-                                </div>
+                                </div>*/}
                             </form>
                         </div>
                         :

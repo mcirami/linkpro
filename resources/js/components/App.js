@@ -1,5 +1,5 @@
 import React, {useState, useReducer, createContext, createRef, useEffect} from 'react';
-import Preview from './Preview';
+import Preview from './Preview/Preview';
 import Links from './Link/Links';
 import SubmitForm from './SubmitForm';
 import myLinksArray from './Link/LinkItems';
@@ -11,6 +11,7 @@ import PageTitle from './Page/PageTitle';
 import PageBio from './Page/PageBio';
 import AddLink from './Link/AddLink';
 import PasswordProtect from './Page/PasswordProtect';
+import ShowPreviewButton from './Preview/ShowPreviewButton';
 import { Flash } from './Flash';
 
 //import UserContext from './User/User';
@@ -54,74 +55,74 @@ function App() {
     })
 
     return (
-        <div className="row">
-            <div className="col-12">
+        <div className="my_row page_wrap">
 
-                <Flash />
+            <Flash />
 
-                <div className="row justify-content-center">
-                    {/*<LinksContext.Provider value={{ userLinks, setUserLinks}} >*/}
-                        <PageContext.Provider value={{ pageSettings, setPageSettings}}>
-                            <div className="col-7 pr-5">
+            {/*<LinksContext.Provider value={{ userLinks, setUserLinks}} >*/}
+                <PageContext.Provider value={{ pageSettings, setPageSettings}}>
+                    <div className="left_column">
 
-                                <PageNav userPages={userPages} currentPage={page["id"]} />
+                        <PageNav userPages={userPages} currentPage={page["id"]} />
 
-                                <div className="content_wrap">
+                        <div className="content_wrap">
 
-                                    <div className="top_section">
-                                        <PageName page={page}/>
+                            <div className="top_section">
+                                <PageName page={page}/>
 
-                                        <PasswordProtect />
+                                <PasswordProtect />
 
-                                        <PageHeader setRef={ref} completedCrop={completedCrop} setCompletedCrop={setCompletedCrop} fileName={fileName} setFileName={setFileName} />
+                                <PageHeader setRef={ref} completedCrop={completedCrop} setCompletedCrop={setCompletedCrop} fileName={fileName} setFileName={setFileName} />
 
-                                        <PageProfile profileRef={profileRef} completedProfileCrop={completedProfileCrop} setCompletedProfileCrop={setCompletedProfileCrop} profileFileName={profileFileName} setProfileFileName={setProfileFileName} />
-                                        <PageTitle />
-                                        <PageBio />
-                                    </div>
-                                    <div className="icons_wrap add_icons icons">
+                                <PageProfile profileRef={profileRef} completedProfileCrop={completedProfileCrop} setCompletedProfileCrop={setCompletedProfileCrop} profileFileName={profileFileName} setProfileFileName={setProfileFileName} />
+                                <PageTitle />
+                                <PageBio />
+                            </div>
 
-                                        {/*{userLinks.map(( linkItem, index) => {
+                            <ShowPreviewButton />
 
-                                            //let {id, name, link, link_icon} = linkItem;
+                            <div className="icons_wrap add_icons icons">
 
-                                            return (
-                                                <>*/}
-                                                    <Links
-                                                        setEditID={setEditID}
-                                                        defaultIconPath={defaultIconPath}
-                                                        userLinks={userLinks}
-                                                        setUserLinks={setUserLinks}
-                                                    />
-                                                {/*</>
+                                {/*{userLinks.map(( linkItem, index) => {
 
-                                            )
+                                    //let {id, name, link, link_icon} = linkItem;
 
-                                        })}
+                                    return (
+                                        <>*/}
+                                            <Links
+                                                setEditID={setEditID}
+                                                defaultIconPath={defaultIconPath}
+                                                userLinks={userLinks}
+                                                setUserLinks={setUserLinks}
+                                            />
+                                        {/*</>
+
+                                    )
+
+                                })}
 */}
-                                        { editID ?
+                                { editID ?
 
-                                            <SubmitForm editID={editID} setEditID={setEditID} setUserLinks={setUserLinks} userLinks={userLinks}/>
+                                    <SubmitForm editID={editID} setEditID={setEditID} setUserLinks={setUserLinks} userLinks={userLinks}/>
 
-                                            :
-                                            ""
-                                        }
-
-                                    </div>
-
-                                    <AddLink userLinks={userLinks} setUserLinks={setUserLinks} defaultIcon={defaultIconPath} />
-
-                                </div>
+                                    :
+                                    ""
+                                }
 
                             </div>
-                            <div className="col-5 links_col preview">
-                                <Preview setRef={ref} profileRef={profileRef} completedCrop={completedCrop} completedProfileCrop={completedProfileCrop} defaultIconPath={defaultIconPath} userLinks={userLinks} fileName={fileName} profileFileName={profileFileName}/>
-                            </div>
 
-                        </PageContext.Provider>
-                    {/*</LinksContext.Provider>*/}
-                </div>
-            </div>
+                            <AddLink userLinks={userLinks} setUserLinks={setUserLinks} defaultIcon={defaultIconPath} />
+
+                        </div>
+
+                    </div>
+                    <div className="right_column links_col preview">
+                        <Preview setRef={ref} profileRef={profileRef} completedCrop={completedCrop} completedProfileCrop={completedProfileCrop} defaultIconPath={defaultIconPath} userLinks={userLinks} fileName={fileName} profileFileName={profileFileName}/>
+                    </div>
+
+                </PageContext.Provider>
+            {/*</LinksContext.Provider>*/}
+
         </div>
     );
 }

@@ -10,7 +10,7 @@ export const Flash = () => {
     useEffect(() => {
         EventBus.on('success', (data) => {
            setVisibility(true);
-           setMessage(data.message.toString());
+           setMessage(data.message.replace(/\"/g, ""));
 
            setTimeout(() => {
                setVisibility(false);

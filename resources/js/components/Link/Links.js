@@ -63,15 +63,17 @@ const Links = ({
                                 <img src={ icon || defaultIconPath } />
                             </div>
                             <div className="my_row">
-                                <Switch
-                                    onChange={(e) => handleChange(id, active_status)}
-                                    disabled={!id}
-                                    height={20}
-                                    checked={Boolean(active_status)}
-                                    onColor="#424fcf"
-                                    uncheckedIcon={false}
-                                    checkedIcon={false}
-                                />
+                                <div className="switch_wrap">
+                                    <Switch
+                                        onChange={(e) => handleChange(id, active_status)}
+                                        disabled={!id}
+                                        height={20}
+                                        checked={Boolean(active_status)}
+                                        onColor="#424fcf"
+                                        uncheckedIcon={false}
+                                        checkedIcon={false}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>

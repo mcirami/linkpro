@@ -4,6 +4,8 @@ import {LinksContext} from './App';
 const IconList = ({currentLink, setCurrentLink}) => {
     const iconpaths = user.icons;
 
+    console.log(iconpaths);
+
     //const  { userLinks, setUserLinks } = useContext(LinksContext);
 
     const selectIcon = (e, source) => {
@@ -52,7 +54,7 @@ const IconList = ({currentLink, setCurrentLink}) => {
                         <input id="header_file_upload" type="file" className="custom"/>
                     </div>
                 </div>
-                <div className="icons_wrap">
+                <div className="icons_wrap my_row">
                     {iconpaths.map((iconPath, index) => {
                         let end = iconPath.search("/images");
                         let newPath = iconPath.slice(end);

@@ -4,6 +4,43 @@
         background: url('/images/preview-device-bg.png') no-repeat;
         background-size: 100%;
         background-position: 50% 10%;
+
+        @media all and (max-width: 992px) {
+            position: fixed;
+            right: -100%;
+            top: 0;
+            bottom: 0;
+            background-color: $white;
+            z-index: 9999;
+            padding-top: 5% !important;
+            background-position: center;
+            transition: right 500ms;
+        }
+
+        &.show {
+            right: 0;
+        }
+
+        .close_preview {
+            display: none;
+            position: absolute;
+            right: 8px;
+            top: 8px;
+
+            @media all and (max-width: 992px) {
+                display: block;
+            }
+
+            &:hover {
+                color: $darkGray;
+                cursor: pointer;
+            }
+
+            svg {
+                width: 35px;
+                height: 35px;
+            }
+        }
     }
 
     .links_wrap {
@@ -49,7 +86,7 @@
 
                 &.default {
                     padding: 22%;
-                    background: $lightGray;
+                    background: $lightGray !important;
                     color: $gray;
                     text-align: center;
 
@@ -117,16 +154,18 @@
 
             .profile_image {
                 width: 28%;
-                border-radius: 50px;
+                border-radius: 100%;
+                -webkit-border-radius: 100%;
+                -moz-border-radius: 100%;
                 border: 7px solid $blue;
-                padding: 4px;
+                padding: 6px;
                 float: left;
                 margin-top: -67px;
 
                 img {
-                    border-radius: 50px;
-                    -webkit-border-radius: 50px;
-                    -moz-border-radius: 50px;
+                    border-radius: 100%;
+                    -webkit-border-radius: 100%;
+                    -moz-border-radius: 100%;
                     object-fit: cover;
                     object-position: center;
 
@@ -167,7 +206,6 @@
         .icon_col {
             background: none !important;
             position: relative !important;
-            padding: 10px !important;
 
             &.disabled {
                 border: 1px dashed gray;
