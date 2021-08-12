@@ -6,10 +6,18 @@
         <div class="links_col">
             <div class="links_wrap live_page">
                 <div class="inner_content live_page">
-                    <div class="page_header" style="background: url({{ $page->header_img }}) no-repeat; background-size: cover;"></div>
+                    <div class="page_header @if (!$page->header_img) default @endif"
+                         @if ($page->header_img) style="background: url({{ $page->header_img }}) no-repeat; background-size: cover;" @endif
+                    >
+                        @if (!$page->header_img)
+                            <img src={{ asset( 'images/default-img.png' ) }} alt="" />
+                        @endif
+                    </div>
                     <div class="profile_content">
-                        <div class="profile_image">
-                            <img src="{{ $page->profile_img }}" alt=""/>
+                        <div class="profile_image @if (!$page->profile_img) default @endif">
+                            <div class="image_wrap">
+                                <img src={{ $page->profile_img ? $page->profile_img : asset( 'images/default-img.png' ) }} alt=""/>
+                            </div>
                         </div>
                         <div class="profile_text">
                             <h2>{{ $page->title }}</h2>

@@ -4,7 +4,7 @@ import {useContext} from 'react';
 import {PageContext} from '../App';
 import EventBus from '../../Utils/Bus';
 
-const AddLink = ({userLinks, setUserLinks, defaultIcon}) => {
+const AddLink = ({userLinks, setUserLinks }) => {
 
     const  { pageSettings, setPageSettings } = useContext(PageContext);
 
@@ -14,7 +14,6 @@ const AddLink = ({userLinks, setUserLinks, defaultIcon}) => {
         const packets = {
             name: "Link Name",
             url: "https://linkurl.com",
-            icon: defaultIcon,
             page_id : pageSettings["id"],
         };
 

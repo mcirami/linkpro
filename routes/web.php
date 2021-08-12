@@ -31,7 +31,7 @@ Auth::routes();
 Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
 
     //Route::get('/links', [LinkController::class, 'index']);
-    Route::get('/links/new', [LinkController::class, 'create']);
+    //Route::get('/links/new', [LinkController::class, 'create']);
     Route::post('/links/new', [LinkController::class, 'store']);
     //Route::get('/links/{link}', [LinkController::class, 'edit']);
     Route::post('/links/update/{link}', [LinkController::class, 'update']);

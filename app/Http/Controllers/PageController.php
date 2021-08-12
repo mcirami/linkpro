@@ -36,13 +36,10 @@ class PageController extends Controller
             'name' => 'required|max:255|unique:pages',
         ]);
 
-        /*$headerIMG = 'icon-edit-light.png';
-        $profileIMG = 'icon-edit-light.png';*/
+        //$defaultImage = File::glob(public_path('images/icon-edit-light.png'));
 
         $page = $user->pages()->create([
             'name' => $request->name,
-            'header_img' => null,
-            'profile_img' => null,
             'title' => 'LinkPro',
             'bio' => 'Add Slogan/Intro Here',
             'is_protected' => false
@@ -82,10 +79,7 @@ class PageController extends Controller
         Javascript::put([
             'links' => $links,
             'icons' => File::glob(public_path('images/icons').'/*'),
-            'defaultIcon' => File::glob(public_path('images/icon-placeholder.png')),
             'page' => $page,
-/*            'page_header_path' => $pageHeaderPath,
-            'page_profile_path' => $pageProfilePath,*/
             'user_pages' => $userPages
         ]);
 

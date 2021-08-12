@@ -2026,9 +2026,10 @@ function App() {
       _useState4 = _slicedToArray(_useState3, 2),
       editID = _useState4[0],
       setEditID = _useState4[1];
+  /*const stringIndex = user.defaultIcon[0].search("/images");
+  const defaultIconPath = user.defaultIcon[0].slice(stringIndex);*/
 
-  var stringIndex = user.defaultIcon[0].search("/images");
-  var defaultIconPath = user.defaultIcon[0].slice(stringIndex);
+
   var ref = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createRef)(null);
 
   var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
@@ -2089,7 +2090,6 @@ function App() {
             className: "icons_wrap add_icons icons",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Link_Links__WEBPACK_IMPORTED_MODULE_2__.default, {
               setEditID: setEditID,
-              defaultIconPath: defaultIconPath,
               userLinks: userLinks,
               setUserLinks: setUserLinks
             }), editID ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_SubmitForm__WEBPACK_IMPORTED_MODULE_3__.default, {
@@ -2100,8 +2100,7 @@ function App() {
             }) : ""]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Link_AddLink__WEBPACK_IMPORTED_MODULE_11__.default, {
             userLinks: userLinks,
-            setUserLinks: setUserLinks,
-            defaultIcon: defaultIconPath
+            setUserLinks: setUserLinks
           })]
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
@@ -2111,7 +2110,6 @@ function App() {
           profileRef: profileRef,
           completedCrop: completedCrop,
           completedProfileCrop: completedProfileCrop,
-          defaultIconPath: defaultIconPath,
           userLinks: userLinks,
           fileName: fileName,
           profileFileName: profileFileName
@@ -2357,8 +2355,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var AddLink = function AddLink(_ref) {
   var userLinks = _ref.userLinks,
-      setUserLinks = _ref.setUserLinks,
-      defaultIcon = _ref.defaultIcon;
+      setUserLinks = _ref.setUserLinks;
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_App__WEBPACK_IMPORTED_MODULE_2__.PageContext),
       pageSettings = _useContext.pageSettings,
@@ -2369,7 +2366,6 @@ var AddLink = function AddLink(_ref) {
     var packets = {
       name: "Link Name",
       url: "https://linkurl.com",
-      icon: defaultIcon,
       page_id: pageSettings["id"]
     };
     axios__WEBPACK_IMPORTED_MODULE_0___default().post('/dashboard/links/new', packets).then(function (response) {
@@ -2476,8 +2472,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var Links = function Links(_ref) {
   var userLinks = _ref.userLinks,
       setUserLinks = _ref.setUserLinks,
-      setEditID = _ref.setEditID,
-      defaultIconPath = _ref.defaultIconPath;
+      setEditID = _ref.setEditID;
 
   //const [switchStatus, setSwitchStatus] = useState(active_status);
   //const  { userLinks, setUserLinks } = useContext(LinksContext);
@@ -2526,7 +2521,7 @@ var Links = function Links(_ref) {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
             className: "icon_wrap",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
-              src: icon || defaultIconPath
+              src: icon || '/images/icon-placeholder.png'
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
             className: "my_row",
@@ -3644,8 +3639,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_icons_md__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-icons/md */ "./node_modules/react-icons/md/index.esm.js");
 /* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../App */ "./resources/js/components/App.js");
+/* harmony import */ var react_icons_md__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-icons/md */ "./node_modules/react-icons/md/index.esm.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
@@ -3691,8 +3686,10 @@ var Preview = function Preview(_ref) {
         className: "inner_content",
         children: [!pageSettings["header_img"] && !fileName ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
           className: "page_header default",
-          style: myStyle,
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_3__.MdEdit, {})
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
+            src: "/images/default-img.png",
+            alt: ""
+          })
         }) : "", pageSettings["header_img"] && !fileName ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
           className: "page_header",
           style: myStyle
@@ -3722,7 +3719,10 @@ var Preview = function Preview(_ref) {
             className: "profile_image default",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
               className: "image_wrap",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_3__.MdEdit, {})
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
+                src: "/images/default-img.png",
+                alt: ""
+              })
             })
           }) : "", pageSettings["profile_img"] && !profileFileName ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
             className: "profile_image",
@@ -3792,26 +3792,6 @@ var Preview = function Preview(_ref) {
     })]
   });
 };
-/*
-const DefaultIcon = ({count, defaultIconPath}) => {
-
-    let n = 9 - count;
-    return (
-        <>
-            {_.times( n, () =>
-
-                <div className="icon_col disabled" key={n}>
-                    <a target="_blank" href={null}>
-                        <img src={defaultIconPath} />
-                    </a>
-                </div>
-            )}
-        </>
-
-    )
-}
-*/
-
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Preview);
 

@@ -73,6 +73,8 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
+        //$defaultImage = File::glob(public_path('images/icon-edit-light.png'));
+
         $user->pages()->create([
             'name' => $user->username,
             'title' => "LinkPro",

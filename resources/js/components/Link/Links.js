@@ -8,7 +8,6 @@ const Links = ({
                    userLinks,
                    setUserLinks,
                    setEditID,
-                   defaultIconPath,
 
                }) => {
 
@@ -60,7 +59,7 @@ const Links = ({
                                 <MdEdit />
                             </button>
                             <div className="icon_wrap">
-                                <img src={ icon || defaultIconPath } />
+                                <img src={ icon || '/images/icon-placeholder.png' } />
                             </div>
                             <div className="my_row">
                                 <div className="switch_wrap">

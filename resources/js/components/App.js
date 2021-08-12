@@ -39,8 +39,8 @@ function App() {
 
     const [editID, setEditID] = useState(null);
 
-    const stringIndex = user.defaultIcon[0].search("/images");
-    const defaultIconPath = user.defaultIcon[0].slice(stringIndex);
+    /*const stringIndex = user.defaultIcon[0].search("/images");
+    const defaultIconPath = user.defaultIcon[0].slice(stringIndex);*/
 
     const ref = createRef(null);
     const [completedCrop, setCompletedCrop] = useState(null);
@@ -91,7 +91,6 @@ function App() {
                                         <>*/}
                                             <Links
                                                 setEditID={setEditID}
-                                                defaultIconPath={defaultIconPath}
                                                 userLinks={userLinks}
                                                 setUserLinks={setUserLinks}
                                             />
@@ -111,13 +110,13 @@ function App() {
 
                             </div>
 
-                            <AddLink userLinks={userLinks} setUserLinks={setUserLinks} defaultIcon={defaultIconPath} />
+                            <AddLink userLinks={userLinks} setUserLinks={setUserLinks} />
 
                         </div>
 
                     </div>
                     <div className="right_column links_col preview">
-                        <Preview setRef={ref} profileRef={profileRef} completedCrop={completedCrop} completedProfileCrop={completedProfileCrop} defaultIconPath={defaultIconPath} userLinks={userLinks} fileName={fileName} profileFileName={profileFileName}/>
+                        <Preview setRef={ref} profileRef={profileRef} completedCrop={completedCrop} completedProfileCrop={completedProfileCrop} userLinks={userLinks} fileName={fileName} profileFileName={profileFileName}/>
                     </div>
 
                 </PageContext.Provider>

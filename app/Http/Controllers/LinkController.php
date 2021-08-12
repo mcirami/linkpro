@@ -63,13 +63,12 @@ class LinkController extends Controller
         }
 
         $request->validate([
-            'name' => 'required|max:255',
-            'url' => 'required|url',
-            'icon' => 'required',
+            'name' => 'max:255',
+            'url' => 'url',
             'page_id' => 'required|integer'
         ]);
 
-        $link = Auth::user()->links()->create( [
+        $link = Auth::user()->links()->create([
             'name' => $request->name,
             'url' => $request->url,
             'icon' => $request->icon,

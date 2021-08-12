@@ -26,6 +26,7 @@
             position: absolute;
             right: 8px;
             top: 8px;
+            z-index: 999;
 
             @media all and (max-width: 992px) {
                 display: block;
@@ -48,7 +49,6 @@
         margin: 0 auto;
         position: relative;
         height: 100%;
-        background: #f8fafc;
 
         &.live_page {
             max-width: 450px;
@@ -73,6 +73,7 @@
             -moz-border-radius: 50px;
             margin: 0 auto;
             padding: 12px;
+            height: 100%;
 
             .page_header {
                 padding: 30%;
@@ -85,15 +86,10 @@
                 background-size: cover !important;
 
                 &.default {
-                    padding: 22%;
+                    padding: 75px 36%;
                     background: $lightGray !important;
                     color: $gray;
                     text-align: center;
-
-                    svg {
-                        width: 75px;
-                        height: 75px;
-                    }
                 }
 
                 &.canvas {
@@ -103,6 +99,7 @@
 
             &.live_page {
                 padding: 0 0 20px 0;
+                min-height: 740px;
 
                 @media all and (max-width: 768px) {
                     border-radius: 0;
@@ -118,10 +115,15 @@
                     border-top-left-radius: 50px;
                     -webkit-border-top-left-radius: 50px;
                     -moz-border-radius-topleft: 50px;
+
                     @media all and (max-width: 768px) {
                         border-radius: 0;
                         -webkit-border-radius: 0;
                         -moz-border-radius: 0;
+                    }
+
+                    &.default {
+                        padding: 75px 36%;
                     }
                 }
             }
@@ -141,7 +143,7 @@
             }
 
             .inner_content {
-                max-height: 730px;
+                max-height: 740px;
                 overflow-y: scroll;
             }
         }
@@ -158,7 +160,7 @@
                 -webkit-border-radius: 100%;
                 -moz-border-radius: 100%;
                 border: 7px solid $blue;
-                padding: 6px;
+                padding: 8px;
                 float: left;
                 margin-top: -67px;
 
@@ -166,21 +168,6 @@
                     border-radius: 100%;
                     -webkit-border-radius: 100%;
                     -moz-border-radius: 100%;
-                    object-fit: cover;
-                    object-position: center;
-
-                }
-
-                &.default {
-                    background: $lightGray;
-                    color: $gray;
-                    margin-top: -60px;
-                    padding: 8%;
-
-                    svg {
-                        width: 30px;
-                        height: 30px;
-                    }
                 }
 
                 .image_wrap {
@@ -190,11 +177,34 @@
                     -webkit-border-radius: 50px;
                     -moz-border-radius: 50px;
                 }
+
+                &.default {
+                    background: $white;
+                    color: $gray;
+                    margin-top: -60px;
+
+                    .image_wrap {
+                        max-width: unset;
+                        overflow: unset;
+                        padding: 20%;
+                        background: $lightGray;
+                        border-radius: 100%;
+                        -webkit-border-radius: 100%;
+                        -moz-border-radius: 100%;
+
+                        img {
+                            border-radius: 0;
+                            -webkit-border-radius: 0;
+                            -moz-border-radius: 0;
+                        }
+                    }
+                }
             }
 
             .profile_text {
                 width: 72%;
                 float: left;
+                padding-left: 20px;
             }
         }
 

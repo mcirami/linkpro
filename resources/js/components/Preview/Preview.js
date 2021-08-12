@@ -29,10 +29,8 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
             <div className="links_wrap preview">
                 <div className="inner_content">
                     {!pageSettings["header_img"] && !fileName ?
-                        <div className="page_header default"
-                             style={myStyle}
-                        >
-                            <MdEdit />
+                        <div className="page_header default">
+                            <img src="/images/default-img.png" alt=""/>
                         </div>
                         :
                         ""
@@ -67,7 +65,7 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
                         {!pageSettings["profile_img"] && !profileFileName ?
                             <div className="profile_image default">
                                 <div className="image_wrap">
-                                    <MdEdit />
+                                    <img src="/images/default-img.png" alt=""/>
                                 </div>
                             </div>
                             :
@@ -127,39 +125,12 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
                                  </>
                             )
                         })}
-                        {/*{count < 9 ?
-                            <DefaultIcon count={count}
-                                         defaultIconPath={defaultIconPath}
-                                        />
-                            : ""
-                        }*/}
                     </div>
                 </div>
             </div>
         </>
     );
 }
-
-/*
-const DefaultIcon = ({count, defaultIconPath}) => {
-
-    let n = 9 - count;
-    return (
-        <>
-            {_.times( n, () =>
-
-                <div className="icon_col disabled" key={n}>
-                    <a target="_blank" href={null}>
-                        <img src={defaultIconPath} />
-                    </a>
-                </div>
-            )}
-        </>
-
-    )
-}
-*/
-
 
 export default Preview;
 
