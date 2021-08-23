@@ -13,7 +13,7 @@
     }
 
     .left_column {
-        width: 58%;
+        width: 55%;
         float: left;
         padding-right: 3rem;
 
@@ -28,7 +28,7 @@
     }
 
     .right_column {
-        width: 42%;
+        width: 45%;
         float: left;
 
         @media all and (max-width: 1199px) {
@@ -92,7 +92,7 @@
             border-radius: 20px;
             -webkit-border-radius: 20px;
             -moz-border-radius: 20px;
-            padding: 10px;
+            padding: 20px;
             width: 33.3%;
             display: -webkit-box;
             display: -ms-flexbox;
@@ -177,10 +177,6 @@
 
             @media all and (max-width: 550px) {
                 padding: 20px 10px;
-            }
-
-            .icon_col {
-                padding: 20px;
             }
         }
 
@@ -279,6 +275,7 @@
                 flex-wrap: nowrap;
                 justify-content: space-between;
                 -webkit-justify-content: space-between;
+                padding: 0 !important;
             }
 
             button {
@@ -293,6 +290,14 @@
                 svg {
                     width: 25px;
                     height: 25px;
+                }
+            }
+
+            .bottom_section {
+                height: auto;
+
+                &.hidden {
+                    height: 0;
                 }
             }
         }

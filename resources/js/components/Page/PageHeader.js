@@ -10,7 +10,7 @@ import axios from "axios";
 import {MdCancel, MdEdit, MdFileUpload} from 'react-icons/md';
 import { PageContext } from '../App';
 import ReactCrop from 'react-image-crop';
-import 'react-image-crop/lib/ReactCrop.scss';
+import 'react-image-crop/src/ReactCrop.scss';
 import EventBus from '../../Utils/Bus';
 
 export const RefContext = createContext();
@@ -20,33 +20,12 @@ const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileN
 
     const { pageSettings, setPageSettings } = useContext(PageContext);
     const [isEditing, setIsEditing] = useState(false);
-    //const [fileName, setFileName] = useState(null);
+    const [previousImage, setPreviousImage] = useState(pageSettings['header_img']);
 
     const [upImg, setUpImg] = useState();
     const imgRef = useRef();
     const previewCanvasRef = setRef;
     const [crop, setCrop] = useState({ unit: '%', width: 30, aspect: 16 / 9 });
-
-
-
-    /*const generateDownload = (canvas, crop) => {
-        if(!crop || !canvas) {
-            return;
-        }
-
-        canvas.toBlob (
-            (blob) => {
-                const previewUrl = window.URL.createObjectURL(blob);
-
-                const anchor = document.createElement('a');
-                anchor.download = 'cropPreview.png';
-                anchor.href = URL.createObjectURL(blob);
-                anchor.click();
-
-                window.URL.revokeObjectURL(previewUrl);
-            }, 'image/png', 1
-        )
-    }*/
 
     const onSelectFile = e => {
         let files = e.target.files || e.dataTransfer.files;
@@ -55,6 +34,7 @@ const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileN
         }
 
         setFileName(files[0]["name"]);
+        document.querySelector('form.header_img_form .bottom_section').classList.remove('hidden');
         createImage(files[0]);
     }
 
@@ -111,17 +91,6 @@ const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileN
         e.preventDefault();
         previewCanvasRef.current.toBlob(
             (blob) => {
-                /*const previewUrl = window.URL.createObjectURL(blob);
-
-                /!*const anchor = document.createElement('a');
-                anchor.download = 'cropPreview.png';
-                anchor.href = URL.createObjectURL(blob);
-                anchor.click();*!/
-
-                const myURL = URL.createObjectURL(blob);
-                fileUpload(myURL);
-
-                window.URL.revokeObjectURL(previewUrl);*/
                 const reader = new FileReader();
                 reader.readAsDataURL(blob)
                 reader.onloadend = () => {
@@ -151,31 +120,32 @@ const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileN
                 setFileName(null)
                 setUpImg(null)
                 setCompletedCrop(false)
+                document.querySelector('form.header_img_form .bottom_section').classList.add('hidden');
             }
         ).catch(error => {
             console.log("ERROR:: ", error.response.data);
         });
     }
 
+    const handleCancel = () => {
+        setIsEditing(false);
+        setFileName(null)
+        setUpImg(null)
+        setCompletedCrop(false)
+        document.querySelector('form.header_img_form .bottom_section').classList.add('hidden');
+        setPageSettings({
+            ...pageSettings,
+            header_img: previousImage,
+        });
+    }
+
     return (
 
         <div className="row page_settings">
-            {/*<div className="col-3">
-                <img id="header_img" src={pageHeader} name="header_img" alt=""/>
-            </div>
-            <div className="col-9">
-                <input type="file"
-                       onChange={onSelectFile}
-                />
-                <button type="submit">
-                    Upload
-                </button>
-            </div>*/}
-
             <div className="col-12">
                 <div className="column_wrap">
                     {isEditing ?
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={handleSubmit}  className="header_img_form">
                             <div className="top_section">
                                 <div>
                                     <label htmlFor="header_file_upload" className="custom">
@@ -187,19 +157,19 @@ const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileN
                                     />
                                 </div>
                                 <div>
-                                    <button type="submit">
+                                    <button type="submit" disabled={!fileName && true}>
                                         <MdFileUpload />
                                     </button>
                                     <a className="cancel_icon" href="#"
                                        onClick={(e) => {
                                            e.preventDefault();
-                                           setIsEditing(false);
+                                           handleCancel();
                                        }}
                                     ><MdCancel />
                                     </a>
                                 </div>
                             </div>
-                            <div className="bottom_section">
+                            <div className="bottom_section hidden">
                                 <ReactCrop
                                     src={upImg}
                                     onImageLoaded={onLoad}
@@ -207,16 +177,6 @@ const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileN
                                     onChange={(c) => setCrop(c)}
                                     onComplete={(c) => setCompletedCrop(c)}
                                 />
-                                {/*<div>
-                                    <canvas
-                                        ref={previewCanvasRef}
-                                        // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
-                                        style={{
-                                            width: Math.round(completedCrop?.width ?? 0),
-                                            height: Math.round(completedCrop?.height ?? 0)
-                                        }}
-                                    />
-                                </div>*/}
                             </div>
                         </form>
                         :

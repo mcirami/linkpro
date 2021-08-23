@@ -1,7 +1,7 @@
 import React, {useState, useReducer, createContext, createRef, useEffect} from 'react';
 import Preview from './Preview/Preview';
 import Links from './Link/Links';
-import SubmitForm from './SubmitForm';
+import SubmitForm from './Link/SubmitForm';
 import myLinksArray from './Link/LinkItems';
 import PageHeader from './Page/PageHeader';
 import PageProfile from './Page/PageProfile';

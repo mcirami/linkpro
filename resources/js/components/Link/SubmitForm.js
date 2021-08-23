@@ -1,8 +1,8 @@
 import React, {useContext, useState } from 'react';
 import IconList from "./IconList";
 import axios from "axios";
-import { LinksContext, PageContext } from './App';
-import EventBus from '../Utils/Bus';
+import { LinksContext, PageContext } from '../App';
+import EventBus from '../../Utils/Bus';
 
 const SubmitForm = ({
     editID,
@@ -19,6 +19,8 @@ const SubmitForm = ({
             return e.id === editID
         }) || null );
 
+
+    console.log(currentLink);
 
     const handleSubmit = (e) => {
         e.preventDefault();

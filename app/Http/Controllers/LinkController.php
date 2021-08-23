@@ -8,6 +8,7 @@ use App\Models\Link;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\DB;
+use Intervention\Image\Facades\Image;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade;
 use Illuminate\Support\Facades\File;
 use App\Http\Resources\Link as LinkResource;
@@ -17,19 +18,13 @@ use Illuminate\Support\Facades\Storage;
 class LinkController extends Controller
 {
 
-    public function index(Request $request) {
+    /*public function index(Request $request) {
 
         $getPage = $request->input('page');
         $page = Page::find($getPage);
         $userID = Auth::id();
 
-   /*     $directories = Storage::directories('public/page-headers');
-        print_r($directories);
-        if (!empty($directories && in_array($userID,$directories))) {
-            echo "/public/page-headers/'. $userID . "/"";
-        } else {
-            echo "doesn't exist";
-        }*/
+        $userIcons = null;
 
         $links = Auth::user()->links()
             ->withCount('visits')
@@ -40,18 +35,18 @@ class LinkController extends Controller
             'username' => Auth::user()->username,
             'links' => $links,
             'icons' => File::glob(public_path('images/icons').'/*'),
-            'defaultIcon' => File::glob(public_path('images/icon-placeholder.jpg')),
+            'userIcons' => $userIcons,
             'page' => $page,
         ]);
 
         return view('links.index', [
             'links' => $links,
         ]);
-    }
+    }*/
 
-    public function create() {
+    /*public function create() {
         return view('links.create');
-    }
+    }*/
 
     public function store(Request $request) {
 
@@ -80,7 +75,7 @@ class LinkController extends Controller
         return response()->json(['message'=> 'Link Added', 'link_id' => $link->id]);
     }
 
-    public function edit(Link $link) {
+    /*public function edit(Link $link) {
 
         if ($link->user_id != Auth::id()) {
             return abort(404);
@@ -89,7 +84,7 @@ class LinkController extends Controller
         return view('links.edit', [
             'link' => $link
         ]);
-    }
+    }*/
 
     public function update(Request $request, Link $link) {
         if ($link->user_id != Auth::id()) {
@@ -102,7 +97,16 @@ class LinkController extends Controller
             'icon' => 'required',
         ]);
 
-        $link->update($request->only(['name', 'url', 'icon']));
+        if (str_contains($request->icon, 'data:image') ) {
+            $image = $request->get('icon');
+            $name = time() . '.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+            $img = Image::make($request->get('icon'));
+            $path = "/icons/" . $link->user_id . "/" . $name;
+            Storage::put('/public' . $path , $img->stream());
+        }
+
+        $link->update(['name' => $request->name, 'url' => $request->url, 'icon' => "/storage" . $path]);
+        //$link->update($request->only(['name', 'url', 'icon']));
 
         return response()->json(['message' => 'Link Updated']);
 

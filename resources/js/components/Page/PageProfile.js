@@ -9,21 +9,19 @@ import axios from "axios";
 import {MdCancel, MdEdit, MdFileUpload} from 'react-icons/md';
 import {PageContext} from '../App';
 import ReactCrop from 'react-image-crop';
-import 'react-image-crop/lib/ReactCrop.scss';
+import 'react-image-crop/src/ReactCrop.scss';
 import EventBus from '../../Utils/Bus';
 
 const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop, profileFileName, setProfileFileName}) => {
 
     const { pageSettings, setPageSettings } = useContext(PageContext);
-
     const [isEditing, setIsEditing] = useState(false);
-    //const [fileName, setFileName] = useState("");
+    const [previousImage, setPreviousImage] = useState(pageSettings['profile_img']);
 
     const [upImg, setUpImg] = useState();
     const imgRef = useRef(null);
     const previewCanvasRef = profileRef;
     const [crop, setCrop] = useState({ unit: '%', width: 30, aspect: 1 });
-    //const [completedCrop, setCompletedCrop] = useState(null);
 
     const onSelectFile = e => {
         let files = e.target.files || e.dataTransfer.files;
@@ -31,6 +29,7 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
             return;
         }
         setProfileFileName(files[0]["name"]);
+        document.querySelector('form.profile_img_form .bottom_section').classList.remove('hidden');
         createImage(files[0]);
     }
 
@@ -88,17 +87,6 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
 
         previewCanvasRef.current.toBlob(
             (blob) => {
-                /*const previewUrl = window.URL.createObjectURL(blob);
-
-                /!*const anchor = document.createElement('a');
-                anchor.download = 'cropPreview.png';
-                anchor.href = URL.createObjectURL(blob);
-                anchor.click();*!/
-
-                const myURL = URL.createObjectURL(blob);
-                fileUpload(myURL);
-
-                window.URL.revokeObjectURL(previewUrl);*/
                 const reader = new FileReader();
                 reader.readAsDataURL(blob)
                 reader.onloadend = () => {
@@ -128,33 +116,30 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
                 EventBus.dispatch("success", { message: returnMessage });
                 setProfileFileName("")
                 setUpImg("")
+                document.querySelector('form.profile_img_form .bottom_section').classList.add('hidden');
             }
         ).catch(error => {
             console.log("ERROR:: ", error.response.data);
         });
     }
+    const handleCancel = () => {
+        setIsEditing(false);
+        setProfileFileName(null)
+        setUpImg(null)
+        setCompletedProfileCrop(false)
+        document.querySelector('form.profile_img_form .bottom_section').classList.add('hidden');
+        setPageSettings({
+            ...pageSettings,
+            profile_img: previousImage,
+        });
+    }
 
     return (
         <div className="row page_settings">
-            {/*<div className="row">
-                <div className="col-3">
-                    <img id="profile_img" src={pageProfileIMG} name="profile_img" alt=""/>
-                </div>
-                <div className="col-9">
-                    <form onSubmit={handleSubmit}>
-                        <input type="file"
-                               onChange={onSelectFile}
-                        />
-                        <button type="submit">
-                            Upload
-                        </button>
-                    </form>
-                </div>
-            </div>*/}
             <div className="col-12">
                 <div className="column_wrap">
                     { isEditing ?
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={handleSubmit} className="profile_img_form">
                             <div className="top_section">
                                 <div>
                                     <label htmlFor="profile_file_upload" className="custom">
@@ -172,13 +157,13 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
                                     <a className="cancel_icon" href="#"
                                        onClick={(e) => {
                                            e.preventDefault();
-                                           setIsEditing(false);
+                                           handleCancel();
                                         }}
                                     ><MdCancel />
                                     </a>
                                 </div>
                             </div>
-                            <div className="bottom_section">
+                            <div className="bottom_section hidden">
                                 <ReactCrop
                                     src={upImg}
                                     onImageLoaded={onLoad}
@@ -186,16 +171,6 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
                                     onChange={(c) => setCrop(c)}
                                     onComplete={(c) => setCompletedProfileCrop(c)}
                                 />
-                                {/*<div>
-                                    <canvas
-                                        ref={previewCanvasRef}
-                                        // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
-                                        style={{
-                                            width: Math.round(completedCrop?.width ?? 0),
-                                            height: Math.round(completedCrop?.height ?? 0)
-                                        }}
-                                    />
-                                </div>*/}
                             </div>
                         </form>
                         :

@@ -58,6 +58,8 @@ class PageController extends Controller
 
         $userPages = $user->pages()->get();
 
+        $userIcons = null;
+
         /*if (Storage::exists('public/page-headers/' . $user["id"] . "/" . $page["id"])) {
             $pageHeaderPath = $page['header_img'];
         } else {
@@ -70,6 +72,10 @@ class PageController extends Controller
             $pageProfilePath = null;
         }*/
 
+        if (Storage::exists("public/icons/" . $page->user_id)) {
+            $userIcons = Storage::allFiles("public/icons/" . $page->user_id);
+        }
+
         $links = Auth::user()->links()->where('page_id', $page["id"])
                                       ->withCount('visits')
                                       ->with('latest_visit')
@@ -80,7 +86,8 @@ class PageController extends Controller
             'links' => $links,
             'icons' => File::glob(public_path('images/icons').'/*'),
             'page' => $page,
-            'user_pages' => $userPages
+            'user_pages' => $userPages,
+            'userIcons' => $userIcons,
         ]);
 
         return view('pages.edit', [

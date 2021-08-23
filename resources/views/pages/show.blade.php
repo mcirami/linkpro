@@ -30,7 +30,7 @@
                             <h2>Page Secure</h2>
                             <p>Enter your pin to continue</p>
                             <input name="pin" type="text">
-                            <button type="submit">Enter</button>
+                            <button type="submit" class="button blue">Enter</button>
                         </form>
                     @elseif ($page->is_protected && $authorized || !$page->is_protected)
                         <div class="icons_wrap">
