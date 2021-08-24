@@ -50,7 +50,7 @@ h1, h2, h3, a {
     @include osbold;
 }
 
-label {
+label, button {
     @include ossemibold;
 }
 

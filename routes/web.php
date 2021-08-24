@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\VisitController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\SubscriptionController;
 use Illuminate\Http\Request;
 
 /*
@@ -55,6 +56,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
 
     Route::get('/appearance', [UserController::class, 'edit']);
     Route::post('/appearance', [UserController::class, 'update']);
+
+    Route::get('/subscribe', [SubscriptionController::class, 'show']);
+    Route::post('/subscribe', [SubscriptionController::class, 'store'])->name('subscribe.post');
 });
 
 

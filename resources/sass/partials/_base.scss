@@ -2,6 +2,11 @@ img {
     width: 100%;
     height: auto;
 }
+
+a {
+    text-decoration: none;
+}
+
 main {
     padding: 80px 0;
 }
@@ -90,6 +95,7 @@ main {
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border: none;
+    text-transform: uppercase;
 
     @media all and (max-width: 768px) {
         width: 138px;
