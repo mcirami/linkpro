@@ -84,7 +84,7 @@ class PageController extends Controller
 
         Javascript::put([
             'links' => $links,
-            'icons' => File::glob(public_path('images/icons').'/*'),
+            'icons' => File::glob('images/icons'.'/*'),
             'page' => $page,
             'user_pages' => $userPages,
             'userIcons' => $userIcons,

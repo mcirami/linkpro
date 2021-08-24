@@ -5460,12 +5460,25 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+var iconPaths = user.icons;
+var customIcons = user.userIcons;
 
 var IconList = function IconList(_ref) {
   var currentLink = _ref.currentLink,
       setCurrentLink = _ref.setCurrentLink;
-  var iconPaths = user.icons;
-  var customIcons = user.userIcons; //const  { userLinks, setUserLinks } = useContext(LinksContext);
+  //const  { userLinks, setUserLinks } = useContext(LinksContext);
+  var iconArray = [];
+  iconPaths.map(function (iconPath) {
+    var end = iconPath.lastIndexOf("/");
+    var newPath = iconPath.slice(end);
+    var newArray = newPath.split(".");
+    var iconName = newArray[0].replace("/", "");
+    var tmp = {
+      "name": iconName,
+      "path": iconPath
+    };
+    iconArray.push(tmp);
+  });
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
@@ -5475,7 +5488,24 @@ var IconList = function IconList(_ref) {
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState4 = _slicedToArray(_useState3, 2),
       preview = _useState4[0],
-      setPreview = _useState4[1];
+      setPreview = _useState4[1]; //let [icons, setIcons] = useState(iconArray);
+
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
+      _useState6 = _slicedToArray(_useState5, 2),
+      input = _useState6[0],
+      setInput = _useState6[1];
+
+  var handleChange = function handleChange(e) {
+    e.preventDefault();
+    setInput(e.target.value);
+  };
+
+  if (input.length > 0) {
+    iconArray = iconArray.filter(function (i) {
+      return i.name.match(input);
+    });
+  }
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (!customIcon) {
@@ -5508,10 +5538,6 @@ var IconList = function IconList(_ref) {
 
   var selectCustomIcon = function selectCustomIcon(e) {
     var files = e.target.files || e.dataTransfer.files;
-    /*if (!e.target.files || e.target.files.length === 0) {
-        setCustomIcon(null)
-        return
-    }*/
 
     if (!files.length) {
       return;
@@ -5541,7 +5567,9 @@ var IconList = function IconList(_ref) {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
         className: "my_row top",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-          type: "text"
+          type: "text",
+          placeholder: "Search Icons",
+          onChange: handleChange
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
           className: "uploader",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
@@ -5582,18 +5610,19 @@ var IconList = function IconList(_ref) {
               }
             })
           }, index);
-        }) : "", iconPaths.map(function (iconPath, index) {
-          var end = iconPath.search("/images");
-          var newPath = iconPath.slice(end);
+        }) : "", iconArray.map(function (icon, index) {
+          /*let end = iconPath.search("/images");
+          let newPath = iconPath.slice(end);*/
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
             className: "icon_col",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
               className: "img-fluid icon_image",
-              src: newPath,
+              src: '/' + icon.path,
               onClick: function onClick(e) {
                 e.preventDefault();
-                selectIcon(e, newPath);
-              }
+                selectIcon(e, "/" + icon.path);
+              },
+              alt: ""
             })
           }, index);
         })]
@@ -5816,8 +5845,6 @@ var SubmitForm = function SubmitForm(_ref) {
       _useState2 = _slicedToArray(_useState, 2),
       currentLink = _useState2[0],
       setCurrentLink = _useState2[1];
-
-  console.log(currentLink);
 
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();

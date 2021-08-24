@@ -19,9 +19,6 @@ const SubmitForm = ({
             return e.id === editID
         }) || null );
 
-
-    console.log(currentLink);
-
     const handleSubmit = (e) => {
         e.preventDefault();
 

@@ -1,14 +1,40 @@
 import React, {useContext, useState, useEffect} from 'react';
 //import {LinksContext} from './App';
 
+const iconPaths = user.icons;
+const customIcons = user.userIcons;
+
 const IconList = ({currentLink, setCurrentLink}) => {
-    const iconPaths = user.icons;
-    const customIcons = user.userIcons;
 
     //const  { userLinks, setUserLinks } = useContext(LinksContext);
 
+    let iconArray = [];
+
+    iconPaths.map((iconPath) => {
+        const end = iconPath.lastIndexOf("/");
+        const newPath = iconPath.slice(end);
+        const newArray = newPath.split(".")
+        const iconName = newArray[0].replace("/", "");
+        const tmp = {"name": iconName, "path" : iconPath}
+        iconArray.push(tmp);
+    });
+
     const [customIcon, setCustomIcon] = useState(null);
     const [preview, setPreview] = useState();
+    //let [icons, setIcons] = useState(iconArray);
+
+    const [input, setInput] = useState("");
+
+    const handleChange = (e) => {
+        e.preventDefault();
+        setInput(e.target.value);
+    }
+
+    if (input.length > 0 ) {
+        iconArray = iconArray.filter((i) => {
+            return i.name.match(input);
+        });
+    }
 
     useEffect(() => {
         if (!customIcon) {
@@ -43,11 +69,6 @@ const IconList = ({currentLink, setCurrentLink}) => {
 
         let files = e.target.files || e.dataTransfer.files;
 
-        /*if (!e.target.files || e.target.files.length === 0) {
-            setCustomIcon(null)
-            return
-        }*/
-
         if (!files.length) {
             return;
         }
@@ -74,7 +95,9 @@ const IconList = ({currentLink, setCurrentLink}) => {
         <div className="icon_row">
             <div className="icon_box">
                 <div className="my_row top">
-                    <input type="text"/>
+                    <input type="text" placeholder="Search Icons"
+                           onChange={handleChange}
+                    />
                     <div className="uploader">
                         <label htmlFor="header_file_upload" className="custom text-uppercase button blue">
                             Custom Icon
@@ -108,13 +131,12 @@ const IconList = ({currentLink, setCurrentLink}) => {
                     ""
                     }
 
-                    {iconPaths.map((iconPath, index) => {
-                        let end = iconPath.search("/images");
-                        let newPath = iconPath.slice(end);
-
+                    {iconArray.map((icon, index) => {
+                        /*let end = iconPath.search("/images");
+                        let newPath = iconPath.slice(end);*/
                         return (
                             <div key={index} className="icon_col">
-                                <img className="img-fluid icon_image" src={ newPath } onClick={(e) => {e.preventDefault(); selectIcon(e, newPath)} }/>
+                                <img className="img-fluid icon_image" src={'/' + icon.path } onClick={(e) => {e.preventDefault(); selectIcon(e, "/" + icon.path)} } alt=""/>
                             </div>
                         )
                     })}

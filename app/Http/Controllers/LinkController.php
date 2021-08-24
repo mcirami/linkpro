@@ -103,10 +103,12 @@ class LinkController extends Controller
             $img = Image::make($request->get('icon'));
             $path = "/icons/" . $link->user_id . "/" . $name;
             Storage::put('/public' . $path , $img->stream());
+            $link->update(['name' => $request->name, 'url' => $request->url, 'icon' => "/storage" . $path]);
+        } else {
+            $link->update($request->only(['name', 'url', 'icon']));
         }
 
-        $link->update(['name' => $request->name, 'url' => $request->url, 'icon' => "/storage" . $path]);
-        //$link->update($request->only(['name', 'url', 'icon']));
+
 
         return response()->json(['message' => 'Link Updated']);
 
