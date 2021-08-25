@@ -1,15 +1,18 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import {MdAddCircleOutline, MdCancel} from 'react-icons/md';
+import {MdAddCircleOutline, MdCancel, MdCheckCircle} from 'react-icons/md';
 import EventBus from '../../Utils/Bus';
 
-const PageNav = ({ userPages, currentPage }) => {
+let pageNames = user.pageNames;
 
-    const [pages, setPages] = useState(userPages);
+const PageNav = ({ allUserPages, setAllUserPages, currentPage }) => {
+
+    //const [pages, setPages] = useState(userPages);
     const [isEditing, setIsEditing] = useState(false);
     const [newPageName, setNewPageName] = useState();
+    const [available, setAvailability] = useState(false);
 
-    const pageCount = pages.length;
+    const pageCount = allUserPages.length;
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -30,7 +33,7 @@ const PageNav = ({ userPages, currentPage }) => {
                     id: page_id,
                     name: newPageName,
                 };
-                setPages(pages.concat(newElement));
+                setAllUserPages(allUserPages.concat(newElement));
                 setIsEditing(false);
 
             },
@@ -41,9 +44,22 @@ const PageNav = ({ userPages, currentPage }) => {
         });
     };
 
+    const checkPageName = (e) => {
+        let value = e.target.value;
+        const match = pageNames.indexOf(value);
+
+        if (match < 0 && value !== "") {
+            setAvailability(true);
+        } else {
+            setAvailability(false);
+        }
+
+        setNewPageName(value)
+    }
+
     return (
         <ul className="page_nav_menu">
-            { pages.map((page) => {
+            { allUserPages.map((page) => {
 
                 return (
 
@@ -60,7 +76,7 @@ const PageNav = ({ userPages, currentPage }) => {
                         <form>
                             <input name="name" type="text"
                                    placeholder="Link Name"
-                                   onChange={(e) => setNewPageName(e.target.value) }
+                                   onChange={ checkPageName }
                                    onKeyPress={ event => {
                                         if(event.key === 'Enter') {
                                             handleSubmit(event);
@@ -68,15 +84,23 @@ const PageNav = ({ userPages, currentPage }) => {
                                         }
                                     }
                             />
-                            <a className="cancel_icon"
-                                href="#"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    setIsEditing(false);
-                                }}
-                            >
-                                <MdCancel />
-                            </a>
+
+                            {available ?
+                                <a className="submit_circle" href="#"
+                                   onClick={(e) => handleSubmit(e)}
+                                >
+                                    <MdCheckCircle />
+                                </a>
+                            :
+                                <a className="cancel_icon" href="#"
+                                   onClick={(e) => {
+                                       e.preventDefault();
+                                       setIsEditing(false);
+                                   }}
+                                >
+                                    <MdCancel />
+                                </a>
+                            }
                         </form>
                         :
                         <a key={"new_" + pageCount + 1} className="add_new_page" onClick={(e) => {e.preventDefault(); setIsEditing(true) }} href="#"><MdAddCircleOutline/></a>

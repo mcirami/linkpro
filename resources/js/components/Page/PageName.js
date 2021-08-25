@@ -1,11 +1,16 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import EventBus from '../../Utils/Bus';
+import {MdCancel, MdCheckCircle} from 'react-icons/md';
 
-const PageName = ({page}) => {
+let pageNames = user.pageNames;
+
+const PageName = ({allUserPages, setAllUserPages, page}) => {
 
     const [name, setName] = useState(page['name']);
     //const [isEditing, setIsEditing] = useState(false);
+    const [available, setAvailability] = useState(true);
+    const currentName = page['name'];
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -28,13 +33,37 @@ const PageName = ({page}) => {
         });
     };
 
+    const checkPageName = (e) => {
+        let value = e.target.value;
+        const match = pageNames.indexOf(value);
+
+        if (match < 0 && value !== "" || value === currentName) {
+            setAvailability(true);
+        } else {
+            setAvailability(false);
+        }
+
+        setName(value)
+        setAllUserPages(
+            allUserPages.map((item) => {
+                if (item.id === page['id']) {
+                    return {
+                        ...item,
+                        name: value,
+                    };
+                }
+                return item;
+            })
+        )
+    }
+
     return (
 
         <div className="edit_form">
             <label>Link.pro/</label>
                <form>
                     <input name="name" type="text" defaultValue={name}
-                           onChange={(e) => setName(e.target.value) }
+                           onChange={ checkPageName }
                            onKeyPress={ event => {
                                    if(event.key === 'Enter') {
                                        handleSubmit(event);
@@ -42,7 +71,20 @@ const PageName = ({page}) => {
                                }
                            }
                     />
-                    {/*<a href="#" onClick={() => setIsEditing(false)}><MdCancel /></a>*/}
+
+                   {available ?
+                       <a className="submit_circle" href="#"
+                          onClick={(e) => handleSubmit(e)}
+                       >
+                           <MdCheckCircle />
+                       </a>
+                       :
+                       <span className="cancel_icon">
+                           <MdCancel />
+                       </span>
+
+                   }
+
                </form>
 
             {/*<p>{name}<a className="edit_icon" onClick={(e) => setIsEditing(true) }><MdEdit /></a></p>*/}

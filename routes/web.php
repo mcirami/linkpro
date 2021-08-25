@@ -39,12 +39,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
     Route::post('/links/status/{link}', [LinkController::class, 'updateStatus']);
     Route::delete('/links/{link}', [LinkController::class, 'destroy']);
 
-    Route::get('/pages/{page}', [PageController::class, 'edit'])
-        ->name('pages.edit')
-        ->missing(function (Request $request) {
-            $user = Auth::user();
-            $pages = $user->pages()->first()->value('id');
-    });
+    Route::get('/pages/{page}', [PageController::class, 'edit'])->name('pages.edit');
+    Route::get('/pages', [PageController::class, 'redirect']);
+    Route::get('/', [PageController::class, 'redirect']);
 
     Route::post('/page/new', [PageController::class, 'store'])->name('page.new');
     Route::post('/page/update-header-image/{page}', [PageController::class, 'updateHeaderImage'])->name('page.header.update');
@@ -57,10 +54,13 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
     Route::get('/appearance', [UserController::class, 'edit']);
     Route::post('/appearance', [UserController::class, 'update']);
 
+
+});
+
+Route::group(['middleware' => 'auth'], function() {
     Route::get('/subscribe', [SubscriptionController::class, 'show']);
     Route::post('/subscribe', [SubscriptionController::class, 'store'])->name('subscribe.post');
 });
-
 
 Route::post('/visit/{link}', [VisitController::class, 'store']);
 

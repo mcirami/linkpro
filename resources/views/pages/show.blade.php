@@ -1,4 +1,4 @@
-@extends('layouts.links')
+@extends('layouts.page.header')
 
 @section('content')
 
@@ -29,6 +29,9 @@
                             @csrf
                             <h2>Page Secure</h2>
                             <p>Enter your pin to continue</p>
+                            @if($errors->any())
+                                <p class="alert-warning">{{ $errors->first() }}</p>
+                            @endif
                             <input name="pin" type="text">
                             <button type="submit" class="button blue">Enter</button>
                         </form>

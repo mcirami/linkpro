@@ -36,8 +36,6 @@ class PageController extends Controller
             'name' => 'required|max:255|unique:pages',
         ]);
 
-        //$defaultImage = File::glob(public_path('images/icon-edit-light.png'));
-
         $page = $user->pages()->create([
             'name' => $request->name,
             'title' => 'LinkPro',
@@ -57,20 +55,7 @@ class PageController extends Controller
         }
 
         $userPages = $user->pages()->get();
-
         $userIcons = null;
-
-        /*if (Storage::exists('public/page-headers/' . $user["id"] . "/" . $page["id"])) {
-            $pageHeaderPath = $page['header_img'];
-        } else {
-            $pageHeaderPath = null ;
-        }
-
-        if (Storage::exists('public/profile-images/' . $user["id"] . "/" . $page["id"])) {
-            $pageProfilePath = $page['profile_img'];
-        } else {
-            $pageProfilePath = null;
-        }*/
 
         if (Storage::exists("public/icons/" . $page->user_id)) {
             $userIcons = Storage::allFiles("public/icons/" . $page->user_id);
@@ -81,6 +66,7 @@ class PageController extends Controller
                                       ->with('latest_visit')
                                       ->orderBy('position', 'asc')
                                       ->get();
+        $pageNames = Page::all()->pluck('name')->toArray();
 
         Javascript::put([
             'links' => $links,
@@ -88,6 +74,7 @@ class PageController extends Controller
             'page' => $page,
             'user_pages' => $userPages,
             'userIcons' => $userIcons,
+            'pageNames' => $pageNames
         ]);
 
         return view('pages.edit', [
@@ -211,10 +198,19 @@ class PageController extends Controller
         ]);
 
         $enteredPin = $request->pin;
-        $pagePin = DB::table('pages')->where('id', $page["id"])->value('password');
+        $pagePin = $page->password;
+
         if ($enteredPin === $pagePin) {
             $request->session()->put('authorized', true);
             return redirect()->back();
         }
+
+        return redirect()->back()->withErrors(['unauthorized' => 'Incorrect Pin']);
+    }
+
+    public function redirect() {
+        $user = Auth::user();
+        $page = $user->pages()->firstWhere('user_id', $user["id"]);
+        return redirect('/dashboard/pages/' . $page->id);
     }
 }

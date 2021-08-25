@@ -11379,17 +11379,21 @@ main {
   height: 100%;
 }
 
-.cancel_icon {
+.cancel_icon, .submit_circle {
   color: #f24d1d;
   padding-left: 5px;
 }
-.cancel_icon:hover {
+.cancel_icon:hover, .submit_circle:hover {
   background: none;
   color: #545656;
 }
-.cancel_icon svg {
+.cancel_icon svg, .submit_circle svg {
   width: 25px;
   height: 25px;
+}
+
+.submit_circle {
+  color: #0ba921;
 }
 
 .button {
@@ -11546,7 +11550,7 @@ ul.page_nav_menu li {
 ul.page_nav_menu li input[type=text] {
   height: 30px;
 }
-ul.page_nav_menu a:not(.cancel_icon) {
+ul.page_nav_menu a:not(.cancel_icon, .submit_circle) {
   padding: 15px 50px 20px 15px;
   color: #d4d2d2;
   text-transform: uppercase;
@@ -11557,26 +11561,26 @@ ul.page_nav_menu a:not(.cancel_icon) {
   -webkit-border-top-left-radius: 8px;
   -moz-border-radius-topleft: 8px;
 }
-ul.page_nav_menu a:not(.cancel_icon):hover {
+ul.page_nav_menu a:not(.cancel_icon, .submit_circle):hover {
   color: #424fcf;
   background: #ffffff;
   text-decoration: none;
 }
-ul.page_nav_menu a:not(.cancel_icon).active {
+ul.page_nav_menu a:not(.cancel_icon, .submit_circle).active {
   color: #424fcf;
   background: #ffffff;
   border-top: 1px solid #d2d2d2;
   border-left: 1px solid #d2d2d2;
   border-right: 1px solid #d2d2d2;
 }
-ul.page_nav_menu a:not(.cancel_icon).add_new_page {
+ul.page_nav_menu a:not(.cancel_icon, .submit_circle).add_new_page {
   color: #424fcf;
 }
-ul.page_nav_menu a:not(.cancel_icon).add_new_page:hover {
+ul.page_nav_menu a:not(.cancel_icon, .submit_circle).add_new_page:hover {
   background: none;
   color: #545656;
 }
-ul.page_nav_menu a:not(.cancel_icon).add_new_page svg {
+ul.page_nav_menu a:not(.cancel_icon, .submit_circle).add_new_page svg {
   width: 25px;
   height: 25px;
 }
@@ -12468,6 +12472,11 @@ label.custom:hover {
 }
 .edit_form form input {
   width: 100%;
+}
+.edit_form .cancel_icon, .edit_form .submit_circle {
+  position: absolute;
+  right: 12px;
+  top: 4px;
 }
 
 #links_page .edit_form.popup {

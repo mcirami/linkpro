@@ -5151,37 +5151,40 @@ function App() {
       pageSettings = _useReducer2[0],
       setPageSettings = _useReducer2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(userPages),
       _useState4 = _slicedToArray(_useState3, 2),
-      editID = _useState4[0],
-      setEditID = _useState4[1];
-  /*const stringIndex = user.defaultIcon[0].search("/images");
-  const defaultIconPath = user.defaultIcon[0].slice(stringIndex);*/
-
-
-  var ref = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createRef)(null);
+      allUserPages = _useState4[0],
+      setAllUserPages = _useState4[1];
 
   var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState6 = _slicedToArray(_useState5, 2),
-      completedCrop = _useState6[0],
-      setCompletedCrop = _useState6[1];
+      editID = _useState6[0],
+      setEditID = _useState6[1];
+
+  console.log(pageSettings);
+  var ref = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createRef)(null);
 
   var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState8 = _slicedToArray(_useState7, 2),
-      fileName = _useState8[0],
-      setFileName = _useState8[1];
-
-  var profileRef = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createRef)(null);
+      completedCrop = _useState8[0],
+      setCompletedCrop = _useState8[1];
 
   var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState10 = _slicedToArray(_useState9, 2),
-      completedProfileCrop = _useState10[0],
-      setCompletedProfileCrop = _useState10[1];
+      fileName = _useState10[0],
+      setFileName = _useState10[1];
+
+  var profileRef = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createRef)(null);
 
   var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState12 = _slicedToArray(_useState11, 2),
-      profileFileName = _useState12[0],
-      setProfileFileName = _useState12[1];
+      completedProfileCrop = _useState12[0],
+      setCompletedProfileCrop = _useState12[1];
+
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState14 = _slicedToArray(_useState13, 2),
+      profileFileName = _useState14[0],
+      setProfileFileName = _useState14[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {});
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
@@ -5194,13 +5197,16 @@ function App() {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
         className: "left_column",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Page_PageNav__WEBPACK_IMPORTED_MODULE_8__.default, {
-          userPages: userPages,
+          allUserPages: allUserPages,
+          setAllUserPages: setAllUserPages,
           currentPage: page["id"]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
           className: "content_wrap",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
             className: "top_section",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Page_PageName__WEBPACK_IMPORTED_MODULE_7__.default, {
+              allUserPages: allUserPages,
+              setAllUserPages: setAllUserPages,
               page: page
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Page_PasswordProtect__WEBPACK_IMPORTED_MODULE_12__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Page_PageHeader__WEBPACK_IMPORTED_MODULE_5__.default, {
               setRef: ref,
@@ -6347,7 +6353,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _Utils_Bus__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Utils/Bus */ "./resources/js/Utils/Bus.js");
+/* harmony import */ var react_icons_md__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-icons/md */ "./node_modules/react-icons/md/index.esm.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -6366,14 +6379,25 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+var pageNames = user.pageNames;
+
 var PageName = function PageName(_ref) {
-  var page = _ref.page;
+  var allUserPages = _ref.allUserPages,
+      setAllUserPages = _ref.setAllUserPages,
+      page = _ref.page;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(page['name']),
       _useState2 = _slicedToArray(_useState, 2),
       name = _useState2[0],
       setName = _useState2[1]; //const [isEditing, setIsEditing] = useState(false);
 
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+      _useState4 = _slicedToArray(_useState3, 2),
+      available = _useState4[0],
+      setAvailability = _useState4[1];
+
+  var currentName = page['name'];
 
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
@@ -6390,24 +6414,54 @@ var PageName = function PageName(_ref) {
     });
   };
 
+  var checkPageName = function checkPageName(e) {
+    var value = e.target.value;
+    var match = pageNames.indexOf(value);
+
+    if (match < 0 && value !== "" || value === currentName) {
+      setAvailability(true);
+    } else {
+      setAvailability(false);
+    }
+
+    setName(value);
+    setAllUserPages(allUserPages.map(function (item) {
+      if (item.id === page['id']) {
+        return _objectSpread(_objectSpread({}, item), {}, {
+          name: value
+        });
+      }
+
+      return item;
+    }));
+  };
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
     className: "edit_form",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
       children: "Link.pro/"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("form", {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
         name: "name",
         type: "text",
         defaultValue: name,
-        onChange: function onChange(e) {
-          return setName(e.target.value);
-        },
+        onChange: checkPageName,
         onKeyPress: function onKeyPress(event) {
           if (event.key === 'Enter') {
             handleSubmit(event);
           }
         }
-      })
+      }), available ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+        className: "submit_circle",
+        href: "#",
+        onClick: function onClick(e) {
+          return handleSubmit(e);
+        },
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_4__.MdCheckCircle, {})
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+        className: "cancel_icon",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_4__.MdCancel, {})
+      })]
     })]
   });
 };
@@ -6451,27 +6505,30 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+var pageNames = user.pageNames;
 
 var PageNav = function PageNav(_ref) {
-  var userPages = _ref.userPages,
+  var allUserPages = _ref.allUserPages,
+      setAllUserPages = _ref.setAllUserPages,
       currentPage = _ref.currentPage;
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(userPages),
+  //const [pages, setPages] = useState(userPages);
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
-      pages = _useState2[0],
-      setPages = _useState2[1];
+      isEditing = _useState2[0],
+      setIsEditing = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState4 = _slicedToArray(_useState3, 2),
-      isEditing = _useState4[0],
-      setIsEditing = _useState4[1];
+      newPageName = _useState4[0],
+      setNewPageName = _useState4[1];
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState6 = _slicedToArray(_useState5, 2),
-      newPageName = _useState6[0],
-      setNewPageName = _useState6[1];
+      available = _useState6[0],
+      setAvailability = _useState6[1];
 
-  var pageCount = pages.length;
+  var pageCount = allUserPages.length;
 
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
@@ -6489,16 +6546,29 @@ var PageNav = function PageNav(_ref) {
         id: page_id,
         name: newPageName
       };
-      setPages(pages.concat(newElement));
+      setAllUserPages(allUserPages.concat(newElement));
       setIsEditing(false);
     })["catch"](function (error) {
       console.log("ERROR:: ", error.response.data);
     });
   };
 
+  var checkPageName = function checkPageName(e) {
+    var value = e.target.value;
+    var match = pageNames.indexOf(value);
+
+    if (match < 0 && value !== "") {
+      setAvailability(true);
+    } else {
+      setAvailability(false);
+    }
+
+    setNewPageName(value);
+  };
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("ul", {
     className: "page_nav_menu",
-    children: [pages.map(function (page) {
+    children: [allUserPages.map(function (page) {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
         id: page["id"],
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
@@ -6515,15 +6585,20 @@ var PageNav = function PageNav(_ref) {
           name: "name",
           type: "text",
           placeholder: "Link Name",
-          onChange: function onChange(e) {
-            return setNewPageName(e.target.value);
-          },
+          onChange: checkPageName,
           onKeyPress: function onKeyPress(event) {
             if (event.key === 'Enter') {
               handleSubmit(event);
             }
           }
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+        }), available ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+          className: "submit_circle",
+          href: "#",
+          onClick: function onClick(e) {
+            return handleSubmit(e);
+          },
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_4__.MdCheckCircle, {})
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
           className: "cancel_icon",
           href: "#",
           onClick: function onClick(e) {
