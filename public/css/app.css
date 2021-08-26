@@ -12409,7 +12409,7 @@ header.guest_header .col.right {
   float: left;
 }
 
-input[type=text], #card-element, input[type=email], input[type=password] {
+input[type=text], #card-element, input[type=email], input[type=password], textarea {
   border: 1px solid #d2d2d2;
   border-top-right-radius: 8px;
   -webkit-border-top-right-radius: 8px;
@@ -12420,6 +12420,11 @@ input[type=text], #card-element, input[type=email], input[type=password] {
   height: 40px;
   padding: 10px;
   background-color: #ffffff;
+}
+
+textarea {
+  height: 100px;
+  width: 100%;
 }
 
 form {
@@ -12477,6 +12482,35 @@ label.custom:hover {
   position: absolute;
   right: 12px;
   top: 4px;
+}
+.edit_form .char_max {
+  margin-bottom: 0;
+  font-size: 12px;
+  color: #908e8e;
+}
+.edit_form .my_row.characters {
+  display: flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+}
+.edit_form .my_row.characters.title {
+  margin-top: 5px;
+}
+.edit_form .my_row.characters .char_count {
+  margin-bottom: 0;
+  color: #908e8e;
+  font-size: 12px;
+}
+.edit_form .my_row.characters .char_count span {
+  font-family: "opensanssemibold", sans-serif;
+  font-weight: 500;
+  color: #0ba921;
+}
+.edit_form .my_row.characters .char_count span.over {
+  color: #f24d1d;
 }
 
 #links_page .edit_form.popup {

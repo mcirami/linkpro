@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import axios from "axios";
 import {PageContext} from '../App';
 import {MdCheckCircle} from 'react-icons/md';
@@ -6,12 +6,19 @@ import EventBus from '../../Utils/Bus';
 
 const PageBio = () => {
 
+
     const { pageSettings, setPageSettings } = useContext(PageContext);
+    const [characterCount, setCharacterCount] = useState(55 - pageSettings["bio"].length);
+
+    console.log(characterCount);
 
     const handleChange = (e) => {
+        const value = e.target.value;
+
+        setCharacterCount(55 - value.length);
         setPageSettings({
             ...pageSettings,
-            bio: e.target.value,
+            bio: value,
         });
     }
 
@@ -35,11 +42,32 @@ const PageBio = () => {
         });
     }
 
+
+
     return (
 
         <div className="edit_form">
             <form onSubmit={handleSubmit}>
-                <input name="title" type="text" defaultValue={pageSettings["bio"]}
+                <textarea name="bio" id="" rows="5"
+                          defaultValue={pageSettings["bio"]}
+                          onChange={(e) => handleChange(e) }
+                          onKeyPress={ event => {
+                                  if(event.key === 'Enter') {
+                                      handleSubmit(event);
+                                  }
+                              }
+                          }
+                >
+
+                </textarea>
+                <div className="my_row characters">
+                    <p className="char_max">Max 55 Characters</p>
+                    <p className="char_count">
+                        Characters Left: <span className={characterCount < 0 ? "over" : ""}>{characterCount}</span>
+                    </p>
+                </div>
+
+                {/*<input name="bio" type="text" defaultValue={pageSettings["bio"]}
                        onChange={(e) => handleChange(e) }
                        onKeyPress={ event => {
                                if(event.key === 'Enter') {
@@ -47,7 +75,7 @@ const PageBio = () => {
                                }
                            }
                        }
-                />
+                />*/}
                {/* <button className="button settings" type="submit"><MdCheckCircle /></button>*/}
                 {/*<a href="#" onClick={() => setIsEditing(false)}><MdCancel /></a>*/}
             </form>

@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import axios from "axios";
 import {PageContext} from '../App';
 import {MdCheckCircle} from 'react-icons/md';
@@ -7,11 +7,16 @@ import EventBus from '../../Utils/Bus';
 const PageTitle = () => {
 
     const { pageSettings, setPageSettings } = useContext(PageContext);
+    const [characterCount, setCharacterCount] = useState(55 - pageSettings["title"].length);
 
     const handleChange = (e) => {
+        const value = e.target.value;
+
+        setCharacterCount(30 - value.length);
+
         setPageSettings({
             ...pageSettings,
-            title: e.target.value,
+            title: value,
         });
     }
 
@@ -48,6 +53,12 @@ const PageTitle = () => {
                            }
                        }
                 />
+                <div className="my_row characters title">
+                    <p className="char_max">Max 30 Characters</p>
+                    <p className="char_count">
+                        Characters Left: <span className={characterCount < 0 ? "over" : ""}>{characterCount}</span>
+                    </p>
+                </div>
                 {/*<button className="button settings" type="submit"><MdCheckCircle /></button>*/}
                 {/*<a href="#" onClick={() => setIsEditing(false)}><MdCancel /></a>*/}
             </form>
