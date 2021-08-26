@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import axios from "axios";
 import {PageContext} from '../App';
 import {MdCheckCircle} from 'react-icons/md';
@@ -7,7 +7,11 @@ import EventBus from '../../Utils/Bus';
 const PageTitle = () => {
 
     const { pageSettings, setPageSettings } = useContext(PageContext);
-    const [characterCount, setCharacterCount] = useState(55 - pageSettings["title"].length);
+    const [characterCount, setCharacterCount] = useState();
+
+    useEffect(() => {
+        setCharacterCount(30 - pageSettings["title"].length);
+    },[characterCount])
 
     const handleChange = (e) => {
         const value = e.target.value;

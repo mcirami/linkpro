@@ -6045,12 +6045,14 @@ var PageBio = function PageBio() {
       pageSettings = _useContext.pageSettings,
       setPageSettings = _useContext.setPageSettings;
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(55 - pageSettings["bio"].length),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState2 = _slicedToArray(_useState, 2),
       characterCount = _useState2[0],
       setCharacterCount = _useState2[1];
 
-  console.log(characterCount);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    setCharacterCount(55 - pageSettings["bio"].length);
+  }, [characterCount]);
 
   var handleChange = function handleChange(e) {
     var value = e.target.value;
@@ -6961,10 +6963,14 @@ var PageTitle = function PageTitle() {
       pageSettings = _useContext.pageSettings,
       setPageSettings = _useContext.setPageSettings;
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(55 - pageSettings["title"].length),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState2 = _slicedToArray(_useState, 2),
       characterCount = _useState2[0],
       setCharacterCount = _useState2[1];
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    setCharacterCount(30 - pageSettings["title"].length);
+  }, [characterCount]);
 
   var handleChange = function handleChange(e) {
     var value = e.target.value;

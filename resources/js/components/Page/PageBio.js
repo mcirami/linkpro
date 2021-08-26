@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import axios from "axios";
 import {PageContext} from '../App';
 import {MdCheckCircle} from 'react-icons/md';
@@ -8,9 +8,11 @@ const PageBio = () => {
 
 
     const { pageSettings, setPageSettings } = useContext(PageContext);
-    const [characterCount, setCharacterCount] = useState(55 - pageSettings["bio"].length);
+    const [characterCount, setCharacterCount] = useState();
 
-    console.log(characterCount);
+    useEffect(() => {
+        setCharacterCount(55 - pageSettings["bio"].length);
+    },[characterCount])
 
     const handleChange = (e) => {
         const value = e.target.value;
