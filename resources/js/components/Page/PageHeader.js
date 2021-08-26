@@ -3,7 +3,7 @@ import axios from "axios";
 import {MdCancel, MdEdit, MdFileUpload} from 'react-icons/md';
 import { PageContext } from '../App';
 import ReactCrop from 'react-image-crop';
-import 'react-image-crop/lib/ReactCrop.scss';
+import 'react-image-crop/src/ReactCrop.scss';
 
 const PageHeader = () => {
 
