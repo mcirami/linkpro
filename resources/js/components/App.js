@@ -39,8 +39,6 @@ function App() {
     const [allUserPages, setAllUserPages] = useState(userPages);
     const [editID, setEditID] = useState(null);
 
-    console.log(pageSettings);
-
     const ref = createRef(null);
     const [completedCrop, setCompletedCrop] = useState(null);
     const [fileName, setFileName] = useState(null);

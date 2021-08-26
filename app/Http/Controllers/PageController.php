@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PageBioRequest;
+use App\Http\Requests\PageNameRequest;
+use App\Http\Requests\PageTitleRequest;
 use App\Models\Page;
+use App\Services\PageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -28,25 +32,26 @@ class PageController extends Controller
         ]);
     }
 
-    public function store(Request $request) {
+    public function store(PageNameRequest $request, PageService $newPage) {
 
-        $user = Auth::user();
-
-        $request->validate([
-            'name' => 'required|max:255|unique:pages',
-        ]);
-
-        $page = $user->pages()->create([
-            'name' => $request->name,
-            'title' => 'LinkPro',
-            'bio' => 'Add Slogan/Intro Here',
-            'is_protected' => false
-        ]);
+        $page = $newPage->createNewPage($request);
 
         return response()->json(['message'=> 'New Page Added', 'page_id' => $page->id]);
     }
 
-    public function edit(Page $page) {
+    public function updateName(PageNameRequest $request, PageService $pageService, Page $page) {
+
+        if ($page->user_id != Auth::id()) {
+            return abort(404);
+        }
+
+        $pageService->updatePageName($request, $page);
+
+        return response()->json(['message' => 'Page Name Updated']);
+
+    }
+
+    public function edit(PageService $pageService, Page $page) {
 
         $user = Auth::user();
 
@@ -54,35 +59,14 @@ class PageController extends Controller
             return abort(404);
         }
 
-        $userPages = $user->pages()->get();
-        $userIcons = null;
-
-        if (Storage::exists("public/icons/" . $page->user_id)) {
-            $userIcons = Storage::allFiles("public/icons/" . $page->user_id);
-        }
-
-        $links = Auth::user()->links()->where('page_id', $page["id"])
-                                      ->withCount('visits')
-                                      ->with('latest_visit')
-                                      ->orderBy('position', 'asc')
-                                      ->get();
-        $pageNames = Page::all()->pluck('name')->toArray();
-
-        Javascript::put([
-            'links' => $links,
-            'icons' => File::glob('images/icons'.'/*'),
-            'page' => $page,
-            'user_pages' => $userPages,
-            'userIcons' => $userIcons,
-            'pageNames' => $pageNames
-        ]);
+        $links = $pageService->editPage($user, $page);
 
         return view('pages.edit', [
             'links' => $links,
         ]);
     }
 
-    public function updateHeaderImage(Request $request, Page $page) {
+    public function updateHeaderImage(Request $request, Page $page, PageService $pageService) {
 
         $userID = Auth::id();
 
@@ -90,22 +74,13 @@ class PageController extends Controller
             return abort(404);
         }
 
-        if($request->get('header_img')) {
-            $image = $request->get('header_img');
-            $name = time() . '.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-            $img = Image::make($request->get('header_img'));
-            $path = "/page-headers/" . $userID . "/" . $page->id . "/" . $name;
-            Storage::put('/public' . $path , $img->stream());
-        }
+        $pageService->updateHeaderImage($request, $userID, $page);
 
-        $page->update(['header_img' => "/storage" . $path]);
         return response()->json(['message' => 'Header Image Updated']);
 
-        //return redirect()->back();
-
     }
 
-    public function updateProfileImage(Request $request, Page $page) {
+    public function updateProfileImage(Request $request, Page $page, PageService $pageService) {
 
         $userID = Auth::id();
 
@@ -113,97 +88,51 @@ class PageController extends Controller
             return abort(404);
         }
 
-        if($request->get('profile_img')) {
-            $image = $request->get('profile_img');
-            $name = time() . '.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-            $img = Image::make($request->get('profile_img'));
-            $path = "/profile-images/" . $userID . "/" . $page->id . "/" . $name;
-            Storage::put('/public' . $path, $img->stream());
-        }
+        $pageService->updateProfileImage($request, $userID, $page);
 
-        $page->update(['profile_img' => "/storage" . $path]);
         return response()->json(['message' => 'Profile Image Updated']);
 
-        //return redirect()->back();
-
     }
 
-    public function updateName(Request $request, Page $page) {
+    public function updateTitle(PageTitleRequest $request, Page $page, PageService $pageService) {
 
 
         if ($page->user_id != Auth::id()) {
             return abort(404);
         }
 
-        $request->validate([
-            'name' => 'required|max:255',
-        ]);
+        $pageService->updatePageTitle($request, $page);
 
-        $page->update(['name' => $request['name']]);
-        return response()->json(['message' => 'Page Name Updated']);
-
-        //return redirect()->back();
-
-    }
-
-    public function updateTitle(Request $request, Page $page) {
-
-
-        if ($page->user_id != Auth::id()) {
-            return abort(404);
-        }
-
-        $request->validate([
-            'title' => 'required|max:255',
-        ]);
-
-        $page->update(['title' => $request['title']]);
         return response()->json(['message' => 'Page Title Updated']);
 
-        //return redirect()->back();
-
     }
 
-    public function updateBio(Request $request, Page $page) {
+    public function updateBio(PageBioRequest $request, Page $page, PageService $pageService) {
 
         if ($page->user_id != Auth::id()) {
             return abort(404);
         }
 
-        $request->validate([
-            'bio' => 'required|max:255',
-        ]);
+        $pageService->updatePageBio($request, $page);
 
-        $page->update(['bio' => $request['bio']]);
         return response()->json(['message' => 'Page Bio Updated']);
 
-        //return redirect()->back();
-
     }
 
-    public function updatePassword(Request $request, Page $page) {
+    public function updatePassword(Request $request, Page $page, PageService $pageService) {
 
         if ($page->user_id != Auth::id()) {
             return abort(404);
         }
 
-        $page->update([ 'is_protected' => $request['is_protected'], 'password' => $request['password'] ]);
+        $pageService->updatePagePassword($request, $page);
 
         return response()->json(['message' => 'Page Password Updated']);
     }
 
-    public function pageAuth(Request $request, Page $page) {
-        $request->validate([
-            'pin' => 'required',
-        ]);
+    public function pageAuth(Request $request, Page $page, PageService $pageService) {
 
-        $enteredPin = $request->pin;
-        $pagePin = $page->password;
-
-        if ($enteredPin === $pagePin) {
-            $request->session()->put('authorized', true);
-            return redirect()->back();
-        }
+        $pageService->authorizePage($request, $page);
 
         return redirect()->back()->withErrors(['unauthorized' => 'Incorrect Pin']);
     }

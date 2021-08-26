@@ -34,7 +34,7 @@ const PageName = ({allUserPages, setAllUserPages, page}) => {
     };
 
     const checkPageName = (e) => {
-        let value = e.target.value;
+        let value = e.target.value.toLowerCase().replace(/\s/g, '-');
         const match = pageNames.indexOf(value);
 
         if (match < 0 && value !== "" || value === currentName) {

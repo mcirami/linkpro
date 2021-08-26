@@ -120,6 +120,7 @@ const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileN
                 setFileName(null)
                 setUpImg(null)
                 setCompletedCrop(false)
+                setIsEditing(false)
                 document.querySelector('form.header_img_form .bottom_section').classList.add('hidden');
             }
         ).catch(error => {

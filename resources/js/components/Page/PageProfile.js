@@ -116,6 +116,7 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
                 EventBus.dispatch("success", { message: returnMessage });
                 setProfileFileName("")
                 setUpImg("")
+                setIsEditing(false)
                 document.querySelector('form.profile_img_form .bottom_section').classList.add('hidden');
             }
         ).catch(error => {

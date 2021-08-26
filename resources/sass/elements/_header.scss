@@ -72,7 +72,7 @@ ul.page_nav_menu {
     a:not(.cancel_icon, .submit_circle) {
         padding: 15px 50px 20px 15px;
         color: $gray;
-        text-transform: uppercase;
+        text-transform: lowercase;
         border-top-right-radius: 8px;
         -webkit-border-top-right-radius: 8px;
         -moz-border-radius-topright: 8px;

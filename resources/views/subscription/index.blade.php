@@ -17,10 +17,10 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-12">
-                            <input type="radio" name="plan" data-level="standard" id="standard" value="price_1JS1p5GIBktjIJUPjG5ksGFb" checked>
-                            <label for="standard">Standard - $4.99/month</label> <br>
-                            <input type="radio" name="plan" data-level="premium" id="premium" value="price_1JS1qkGIBktjIJUPVSjN20LH">
-                            <label for="premium">Premium - $19.99/month</label>
+                            <input type="radio" name="plan" data-level="pro" id="pro" value="price_1JS1p5GIBktjIJUPjG5ksGFb" checked>
+                            <label for="pro">Pro - $4.99/month</label> <br>
+                            <input type="radio" name="plan" data-level="corporate" id="corporate" value="price_1JS1qkGIBktjIJUPVSjN20LH">
+                            <label for="corporate">Corporate - $19.99/month</label>
                         </div>
                     </div>
                     <div id="card-element">

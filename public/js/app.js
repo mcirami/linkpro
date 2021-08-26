@@ -5161,7 +5161,6 @@ function App() {
       editID = _useState6[0],
       setEditID = _useState6[1];
 
-  console.log(pageSettings);
   var ref = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createRef)(null);
 
   var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
@@ -6245,6 +6244,7 @@ var PageHeader = function PageHeader(_ref) {
       setFileName(null);
       setUpImg(null);
       setCompletedCrop(false);
+      setIsEditing(false);
       document.querySelector('form.header_img_form .bottom_section').classList.add('hidden');
     })["catch"](function (error) {
       console.log("ERROR:: ", error.response.data);
@@ -6415,7 +6415,7 @@ var PageName = function PageName(_ref) {
   };
 
   var checkPageName = function checkPageName(e) {
-    var value = e.target.value;
+    var value = e.target.value.toLowerCase().replace(/\s/g, '-');
     var match = pageNames.indexOf(value);
 
     if (match < 0 && value !== "" || value === currentName) {
@@ -6554,7 +6554,7 @@ var PageNav = function PageNav(_ref) {
   };
 
   var checkPageName = function checkPageName(e) {
-    var value = e.target.value;
+    var value = e.target.value.toLowerCase().replace(/\s/g, '-');
     var match = pageNames.indexOf(value);
 
     if (match < 0 && value !== "") {
@@ -6785,6 +6785,7 @@ var PageProfile = function PageProfile(_ref) {
       });
       setProfileFileName("");
       setUpImg("");
+      setIsEditing(false);
       document.querySelector('form.profile_img_form .bottom_section').classList.add('hidden');
     })["catch"](function (error) {
       console.log("ERROR:: ", error.response.data);

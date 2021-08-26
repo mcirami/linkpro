@@ -7,8 +7,7 @@ use App\Http\Controllers\LinkController;
 use App\Http\Controllers\VisitController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SubscriptionController;
-use Illuminate\Http\Request;
-
+use App\Http\Controllers\MailController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -60,6 +59,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/subscribe', [SubscriptionController::class, 'show']);
     Route::post('/subscribe', [SubscriptionController::class, 'store'])->name('subscribe.post');
+
+    Route::get('/email', [MailController::class, 'sendEmail']);
 });
 
 Route::post('/visit/{link}', [VisitController::class, 'store']);
@@ -67,3 +68,6 @@ Route::post('/visit/{link}', [VisitController::class, 'store']);
 // link.pro/page
 Route::get('/{page}', [PageController::class, 'show']);
 Route::post('/check-page-auth/{page}', [PageController::class, 'pageAuth'])->name('check.page.auth');
+
+// route for mailing
+
