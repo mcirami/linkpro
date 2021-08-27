@@ -98,7 +98,7 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
-        $userPages = $user->pages()->get();
-        return redirect('/dashboard/pages/' . $userPages[0]["id"]);
+        //$userPages = $user->pages()->get();
+        return redirect('/upgrade');
     }
 }

@@ -17,9 +17,9 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-12">
-                            <input type="radio" name="plan" data-level="pro" id="pro" value="price_1JS1p5GIBktjIJUPjG5ksGFb" checked>
+                            <input type="radio" name="plan" data-level="pro" id="pro" value="price_1JS1p5GIBktjIJUPjG5ksGFb" {{$plan == "pro" ? "checked" : ""}}>
                             <label for="pro">Pro - $4.99/month</label> <br>
-                            <input type="radio" name="plan" data-level="corporate" id="corporate" value="price_1JS1qkGIBktjIJUPVSjN20LH">
+                            <input type="radio" name="plan" data-level="corporate" id="corporate" value="price_1JS1qkGIBktjIJUPVSjN20LH" {{$plan == "corp" ? "checked" : ""}}>
                             <label for="corporate">Corporate - $19.99/month</label>
                         </div>
                     </div>

@@ -46,11 +46,22 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: "bebasneue";
+    src: url("/css/fonts/bebasneue-webfont.eot"),
+    url("/css/fonts/bebasneue-webfont.ttf") format("truetype"),
+    url("/css/fonts/bebasneue-webfont.woff2") format("woff2"),
+    url("/css/fonts/bebasneue-webfont.woff") format("woff"),
+    url("/css/fonts/bebasneue-webfont.svg#bebasneue") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+
 h1, h2, h3, a {
     @include osbold;
 }
 
-label, button {
+label, button, h5 {
     @include ossemibold;
 }
 

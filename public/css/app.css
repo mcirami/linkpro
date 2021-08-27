@@ -11297,12 +11297,18 @@ textarea.form-control-lg {
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: "bebasneue";
+  src: url("/css/fonts/bebasneue-webfont.eot"), url("/css/fonts/bebasneue-webfont.ttf") format("truetype"), url("/css/fonts/bebasneue-webfont.woff2") format("woff2"), url("/css/fonts/bebasneue-webfont.woff") format("woff"), url("/css/fonts/bebasneue-webfont.svg#bebasneue") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
 h1, .h1, h2, .h2, h3, .h3, a {
   font-family: "opensansbold", sans-serif;
   font-weight: 700;
 }
 
-label, button {
+label, button, h5, .h5 {
   font-family: "opensanssemibold", sans-serif;
   font-weight: 500;
 }
@@ -11323,6 +11329,11 @@ a {
 
 main {
   padding: 80px 0;
+}
+@media all and (max-width: 768px) {
+  main {
+    padding: 40px 0;
+  }
 }
 
 .my_row {
@@ -11450,6 +11461,55 @@ main {
 .button.settings svg {
   width: 100%;
   height: 100%;
+}
+.button.green {
+  background: #2ac77a;
+}
+.button.green:hover {
+  background: #424fcf;
+}
+.button.pink_gradient {
+  /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#bf73dc+0,c971d5+24,e06ec5+50,f26cb9+76,fd6ab1+100 */
+  background: #bf73dc;
+  /* Old browsers */
+  /* FF3.6-15 */
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right, #bf73dc 0%, #c971d5 24%, #e06ec5 50%, #f26cb9 76%, #fd6ab1 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#bf73dc", endColorstr="#fd6ab1",GradientType=1 );
+  /* IE6-9 */
+}
+.button.pink_gradient:hover {
+  background: #fd6ab1;
+  /* Old browsers */
+  /* FF3.6-15 */
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right, #fd6ab1 0%, #f26cb9 24%, #e06ec5 50%, #c971d5 76%, #bf73dc 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#fd6ab1", endColorstr="#bf73dc",GradientType=1 );
+  /* IE6-9 */
+}
+.button.blue_gradient {
+  /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#79b6e2+0,6799dd+25,4e6ed6+50,384acf+75,2d38cc+100 */
+  background: #79b6e2;
+  /* Old browsers */
+  /* FF3.6-15 */
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right, #79b6e2 0%, #6799dd 25%, #4e6ed6 50%, #384acf 75%, #2d38cc 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#79b6e2", endColorstr="#2d38cc",GradientType=1 );
+  /* IE6-9 */
+}
+.button.blue_gradient:hover {
+  /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#79b6e2+0,6799dd+25,4e6ed6+50,384acf+75,2d38cc+100 */
+  background: #2d38cc;
+  /* Old browsers */
+  /* FF3.6-15 */
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right, #2d38cc 0%, #384acf 25%, #4e6ed6 50%, #6799dd 75%, #79b6e2 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#2d38cc", endColorstr="#79b6e2",GradientType=1 );
+  /* IE6-9 */
 }
 
 .display_message {
@@ -12750,6 +12810,226 @@ label.custom:hover {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+.pricing_plans {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+@media all and (max-width: 768px) {
+  .pricing_plans {
+    display: block;
+  }
+}
+.pricing_plans .column {
+  width: 23%;
+  float: left;
+  text-align: center;
+  border-radius: 30px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  box-shadow: 0px 0px 35px 5px rgba(170, 170, 170, 0.18);
+}
+@media all and (max-width: 768px) {
+  .pricing_plans .column {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+.pricing_plans .column .button {
+  width: 75%;
+  padding: 12px;
+  font-size: 24px;
+  color: #ffffff;
+  text-transform: none;
+  border-radius: 50px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+}
+@media all and (max-width: 992px) {
+  .pricing_plans .column .button {
+    font-size: 20px;
+    width: 80%;
+  }
+}
+.pricing_plans .column h3, .pricing_plans .column .h3 {
+  font-family: "bebasneue", sans-serif;
+  font-weight: 500;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  -webkit-align-items: center;
+  justify-content: center;
+  -webkit-justify-content: center;
+  font-size: 70px;
+}
+@media all and (max-width: 1199px) {
+  .pricing_plans .column h3, .pricing_plans .column .h3 {
+    font-size: 55px;
+  }
+}
+@media all and (max-width: 992px) {
+  .pricing_plans .column h3, .pricing_plans .column .h3 {
+    font-size: 35px;
+  }
+}
+.pricing_plans .column p, .pricing_plans .column h3 span, .pricing_plans .column .h3 span {
+  font-family: "opensansregular", sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  color: #545656;
+  text-transform: uppercase;
+  margin-bottom: 0;
+}
+.pricing_plans .column h3 span, .pricing_plans .column .h3 span {
+  margin-left: 5px;
+  text-transform: none;
+}
+.pricing_plans .column h2, .pricing_plans .column .h2 {
+  font-family: "opensansregular", sans-serif;
+  font-weight: 300;
+  text-transform: uppercase;
+  margin: 0;
+}
+@media all and (max-width: 992px) {
+  .pricing_plans .column h2, .pricing_plans .column .h2 {
+    font-size: 22px;
+  }
+}
+.pricing_plans .column h4, .pricing_plans .column .h4 {
+  display: none;
+}
+@media all and (max-width: 768px) {
+  .pricing_plans .column h4, .pricing_plans .column .h4 {
+    display: block;
+    font-size: 18px;
+  }
+}
+.pricing_plans .column img {
+  width: 30px;
+}
+@media all and (max-width: 992px) {
+  .pricing_plans .column img {
+    width: 25px;
+  }
+}
+.pricing_plans .column .column_row {
+  background: #e0e7ed;
+  min-height: 65px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  -webkit-justify-content: center;
+  align-items: center;
+  -webkit-align-items: center;
+}
+@media all and (max-width: 768px) {
+  .pricing_plans .column .column_row {
+    padding: 10px 20px;
+    flex-direction: row;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+  }
+}
+.pricing_plans .column .column_row.alt {
+  background: #d1d8df;
+}
+.pricing_plans .column .column_header {
+  color: white;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 85px;
+  border-top-left-radius: 30px;
+  -webkit-border-top-left-radius: 30px;
+  -moz-border-radius-topleft: 30px;
+  border-top-right-radius: 30px;
+  -webkit-border-top-right-radius: 30px;
+  -moz-border-radius-topright: 30px;
+}
+.pricing_plans .column .column_header.basic {
+  background: radial-gradient(circle farthest-corner at 115% 720%, #1cb8a9 10%, #26c386 90%, #57d19d 90%, #58d398 0%);
+}
+.pricing_plans .column .column_header.pro {
+  background: radial-gradient(circle farthest-corner at 115% 720%, #fa6ab3 10%, #d070d0 90%, #d590de 90%, #cb92e4 0%);
+}
+.pricing_plans .column .column_header.corp {
+  background: radial-gradient(circle farthest-corner at 115% 720%, #2d38cc 10%, #4a69d5 90%, #7d9de1 90%, #7d9de1 100%, #7d9de1 100%);
+}
+.pricing_plans .column .column_sub_header {
+  min-height: 95px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  -webkit-justify-content: center;
+  align-items: center;
+  -webkit-align-items: center;
+}
+.pricing_plans .column.plan_items {
+  width: 31%;
+}
+@media all and (max-width: 768px) {
+  .pricing_plans .column.plan_items {
+    width: 100%;
+    background: #f1f1f1;
+  }
+}
+.pricing_plans .column.plan_items h2, .pricing_plans .column.plan_items .h2 {
+  font-family: "opensansbold", sans-serif;
+  font-weight: 700;
+}
+.pricing_plans .column.plan_items h4, .pricing_plans .column.plan_items .h4 {
+  display: block;
+}
+@media all and (max-width: 1199px) {
+  .pricing_plans .column.plan_items h4, .pricing_plans .column.plan_items .h4 {
+    font-size: 18px;
+  }
+}
+.pricing_plans .column.plan_items img {
+  width: 120px;
+}
+.pricing_plans .column.plan_items .column_row {
+  font-family: "opensanssemibold", sans-serif;
+  font-weight: 500;
+  background: #d3dae0;
+  text-align: left;
+  align-items: flex-start;
+  -webkit-align-items: flex-start;
+  padding: 0 10%;
+}
+.pricing_plans .column.plan_items .column_row.alt {
+  background: #c0cad3;
+}
+.pricing_plans .column:last-child .column_row {
+  background: #e5ecf3;
+}
+.pricing_plans .column:last-child .column_row.alt {
+  background: #dbe4ec;
+}
+.pricing_plans .column .column_footer {
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  -webkit-justify-content: center;
+  align-items: center;
+  -webkit-align-items: center;
+}
+.pricing_plans .column .column_footer h5, .pricing_plans .column .column_footer .h5 {
+  color: #545656;
+  font-size: 24px;
+}
+@media all and (max-width: 992px) {
+  .pricing_plans .column .column_footer h5, .pricing_plans .column .column_footer .h5 {
+    font-size: 20px;
   }
 }
 

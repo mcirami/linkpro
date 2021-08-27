@@ -18,6 +18,11 @@
     font-weight: 200;
 }
 
+@mixin bebas {
+    font-family: 'bebasneue', sans-serif;
+    font-weight: 500;
+}
+
 @mixin boxShadow {
     -webkit-box-shadow: 0px 0px 35px 5px rgba(170,170,170,0.18);
     -moz-box-shadow: 0px 0px 35px 5px rgba(170,170,170,0.18);

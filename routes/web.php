@@ -57,6 +57,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
 });
 
 Route::group(['middleware' => 'auth'], function() {
+    Route::get('/upgrade', [SubscriptionController::class, 'upgrade'])->name('upgrade.get');
     Route::get('/subscribe', [SubscriptionController::class, 'show']);
     Route::post('/subscribe', [SubscriptionController::class, 'store'])->name('subscribe.post');
 
