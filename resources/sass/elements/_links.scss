@@ -74,17 +74,25 @@
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
-        -webkit-box-orient: horizontal;
+       /* -webkit-box-orient: horizontal;
         -webkit-box-direction: normal;
         -ms-flex-direction: row;
-        flex-direction: row;
+        flex-direction: row;*/
         -ms-flex-wrap: wrap;
         flex-wrap: wrap;
-        justify-content: flex-start;
+        /*justify-content: flex-start;
         -webkit-justify-content: flex-start;
         align-items: flex-start;
-        -webkit-align-items: flex-start;
+        -webkit-align-items: flex-start;*/
+        width: 100%;
 
+        span {
+            position: absolute;
+            width: 5px;
+            height: 23vh;
+            background-color: $blue;
+            z-index: 2;
+        }
 
         .icon_col {
             position: relative;
@@ -103,6 +111,12 @@
             flex-direction: column;
             -ms-flex-wrap: nowrap;
             flex-wrap: nowrap;
+
+            &.dragging {
+                position: relative;
+                z-index: 1;
+                background-color: $blue;
+            }
 
             /*.delete_icon {
                 position: absolute;

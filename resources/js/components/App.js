@@ -1,4 +1,4 @@
-import React, {useState, useReducer, createContext, createRef, useEffect} from 'react';
+import React, {useState, useReducer, createContext, createRef, useEffect, useRef} from 'react';
 import Preview from './Preview/Preview';
 import Links from './Link/Links';
 import SubmitForm from './Link/SubmitForm';
@@ -51,6 +51,115 @@ function App() {
 
     })
 
+    /*
+    * Drag and drop
+    *
+    * */
+    const pointerRef = useRef(null);
+    const [dragState, setDragState] = useState(null);
+    const [showPointer, setShowPointer] = useState(false);
+
+    const handleStart = (event) => {
+        const icon = event.target.closest(".icon_col");
+
+        icon.classList.add("dragging");
+
+        if (icon) {
+            setDragState({
+                name: icon.dataset.name,
+                xi: event.clientX,
+                yi: event.clientY
+            });
+        }
+    };
+
+    const handleMove = (event) => {
+        const icon = event.target.closest(".icon_col");
+
+        if (icon && dragState) {
+
+            const over = document.elementsFromPoint(event.clientX, event.clientY)
+            .find(
+                (node) =>
+                    node.classList.contains("icon_col") &&
+                    !node.classList.contains("dragging")
+            );
+
+            if (over) {
+                setShowPointer(true);
+                const { x, y, width, height} = over.getBoundingClientRect();
+
+                console.log("x:" + x);
+                console.log("y:" + y);
+                console.log("width:" + width);
+                console.log("height:" + height);
+
+                if (event.clientX < x + width / 2 ) {
+                    if(pointerRef.current) {
+                        pointerRef.current.style.cssText = `transform: translate(${x}px, ${y}px)`;
+                    }
+                } else {
+                    if (pointerRef.current) {
+                        pointerRef.current.style.cssText = `transform: translate(${x + width}px, ${y}px)`;
+                    }
+                }
+            }
+
+            icon.style.cssText = `transform: translate(${event.clientX - dragState.xi}px, ${event.clientY - dragState.yi}px)`;
+        }
+    }
+
+    const handleEnd = (event) => {
+        const over = document.elementsFromPoint(event.clientX, event.clientY)
+        .find(
+            (node) =>
+                node.classList.contains("icon_col") &&
+                !node.classList.contains("dragging")
+        );
+
+        if (over) {
+            pointerRef.current?.removeAttribute("style");
+            const {x, y, width } = over.getBoundingClientRect();
+            if (event.clientX < x + width / 2 ) {
+                setUserLinks((links) => {
+                    const index = links.findIndex(
+                        (link) => over.dataset.name === link.name
+                    );
+
+                    return [
+                        ...links
+                        .filter((link) => link.name !== dragState.name)
+                        .slice(0, index),
+                        ...[links.find((link) => link.name === dragState.name)],
+                        ...links.filter((link) => link.name !== dragState.name).slice(index)
+                    ];
+                })
+            } else {
+                setUserLinks((links) => {
+                    const index = links.findIndex (
+                        (link) => over.dataset.name === link.name
+                    );
+                    return [
+                        ...links
+                        .filter((link) => link.name !== dragState.name)
+                        .slice(0, index + 1),
+                        ...[links.find((link) => link.name === dragState.name)],
+                        ...links
+                        .filter((link) => link.name !== dragState.name)
+                        .slice(index + 1)
+                    ];
+                })
+            }
+        }
+
+        document.querySelector(".dragging").removeAttribute("style");
+        document.querySelector(".dragging").classList.remove("dragging");
+
+        setDragState(null);
+        setShowPointer(false);
+    }
+
+
     return (
         <div className="my_row page_wrap">
             <Flash />
@@ -98,7 +207,14 @@ function App() {
 
                         <ShowPreviewButton />
 
-                        <div className="icons_wrap add_icons icons">
+                        <div className="icons_wrap add_icons icons"
+                             onMouseDown={handleStart}
+                             onMouseMove={handleMove}
+                             onMouseUp={handleEnd}
+                        >
+
+                            {showPointer && <span ref={pointerRef} />}
+
                             {/*{userLinks.map(( linkItem, index) => {
 
                                     //let {id, name, link, link_icon} = linkItem;

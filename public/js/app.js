@@ -5097,6 +5097,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Preview_ShowPreviewButton__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./Preview/ShowPreviewButton */ "./resources/js/components/Preview/ShowPreviewButton.js");
 /* harmony import */ var _Flash__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./Flash */ "./resources/js/components/Flash.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -5186,6 +5194,123 @@ function App() {
       setProfileFileName = _useState14[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {});
+  /*
+  * Drag and drop
+  *
+  * */
+
+  var pointerRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState16 = _slicedToArray(_useState15, 2),
+      dragState = _useState16[0],
+      setDragState = _useState16[1];
+
+  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState18 = _slicedToArray(_useState17, 2),
+      showPointer = _useState18[0],
+      setShowPointer = _useState18[1];
+
+  var handleStart = function handleStart(event) {
+    var icon = event.target.closest(".icon_col");
+    icon.classList.add("dragging");
+
+    if (icon) {
+      setDragState({
+        name: icon.dataset.name,
+        xi: event.clientX,
+        yi: event.clientY
+      });
+    }
+  };
+
+  var handleMove = function handleMove(event) {
+    var icon = event.target.closest(".icon_col");
+
+    if (icon && dragState) {
+      var over = document.elementsFromPoint(event.clientX, event.clientY).find(function (node) {
+        return node.classList.contains("icon_col") && !node.classList.contains("dragging");
+      });
+
+      if (over) {
+        setShowPointer(true);
+
+        var _over$getBoundingClie = over.getBoundingClientRect(),
+            x = _over$getBoundingClie.x,
+            y = _over$getBoundingClie.y,
+            width = _over$getBoundingClie.width,
+            height = _over$getBoundingClie.height;
+
+        console.log("x:" + x);
+        console.log("y:" + y);
+        console.log("width:" + width);
+        console.log("height:" + height);
+
+        if (event.clientX < x + width / 2) {
+          if (pointerRef.current) {
+            pointerRef.current.style.cssText = "transform: translate(".concat(x, "px, ").concat(y, "px)");
+          }
+        } else {
+          if (pointerRef.current) {
+            pointerRef.current.style.cssText = "transform: translate(".concat(x + width, "px, ").concat(y, "px)");
+          }
+        }
+      }
+
+      icon.style.cssText = "transform: translate(".concat(event.clientX - dragState.xi, "px, ").concat(event.clientY - dragState.yi, "px)");
+    }
+  };
+
+  var handleEnd = function handleEnd(event) {
+    var over = document.elementsFromPoint(event.clientX, event.clientY).find(function (node) {
+      return node.classList.contains("icon_col") && !node.classList.contains("dragging");
+    });
+
+    if (over) {
+      var _pointerRef$current;
+
+      (_pointerRef$current = pointerRef.current) === null || _pointerRef$current === void 0 ? void 0 : _pointerRef$current.removeAttribute("style");
+
+      var _over$getBoundingClie2 = over.getBoundingClientRect(),
+          x = _over$getBoundingClie2.x,
+          y = _over$getBoundingClie2.y,
+          width = _over$getBoundingClie2.width;
+
+      if (event.clientX < x + width / 2) {
+        setUserLinks(function (links) {
+          var index = links.findIndex(function (link) {
+            return over.dataset.name === link.name;
+          });
+          return [].concat(_toConsumableArray(links.filter(function (link) {
+            return link.name !== dragState.name;
+          }).slice(0, index)), [links.find(function (link) {
+            return link.name === dragState.name;
+          })], _toConsumableArray(links.filter(function (link) {
+            return link.name !== dragState.name;
+          }).slice(index)));
+        });
+      } else {
+        setUserLinks(function (links) {
+          var index = links.findIndex(function (link) {
+            return over.dataset.name === link.name;
+          });
+          return [].concat(_toConsumableArray(links.filter(function (link) {
+            return link.name !== dragState.name;
+          }).slice(0, index + 1)), [links.find(function (link) {
+            return link.name === dragState.name;
+          })], _toConsumableArray(links.filter(function (link) {
+            return link.name !== dragState.name;
+          }).slice(index + 1)));
+        });
+      }
+    }
+
+    document.querySelector(".dragging").removeAttribute("style");
+    document.querySelector(".dragging").classList.remove("dragging");
+    setDragState(null);
+    setShowPointer(false);
+  };
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
     className: "my_row page_wrap",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Flash__WEBPACK_IMPORTED_MODULE_14__.Flash, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)(PageContext.Provider, {
@@ -5222,7 +5347,12 @@ function App() {
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Page_PageTitle__WEBPACK_IMPORTED_MODULE_9__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Page_PageBio__WEBPACK_IMPORTED_MODULE_10__.default, {})]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Preview_ShowPreviewButton__WEBPACK_IMPORTED_MODULE_13__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
             className: "icons_wrap add_icons icons",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Link_Links__WEBPACK_IMPORTED_MODULE_2__.default, {
+            onMouseDown: handleStart,
+            onMouseMove: handleMove,
+            onMouseUp: handleEnd,
+            children: [showPointer && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("span", {
+              ref: pointerRef
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Link_Links__WEBPACK_IMPORTED_MODULE_2__.default, {
               setEditID: setEditID,
               userLinks: userLinks,
               setUserLinks: setUserLinks
@@ -5743,12 +5873,14 @@ var Links = function Links(_ref) {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
     children: userLinks.map(function (item, index) {
       var id = item.id,
+          name = item.name,
           icon = item.icon,
           active_status = item.active_status;
       var key = id || "new_" + index;
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "icon_col",
-        id: key,
+        id: name,
+        "data-name": name,
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
           className: "column_content",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
@@ -5780,7 +5912,7 @@ var Links = function Links(_ref) {
             })
           })]
         })
-      }, key);
+      }, name);
     })
   });
 };
