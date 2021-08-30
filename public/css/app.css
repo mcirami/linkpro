@@ -11328,6 +11328,8 @@ a {
 }
 
 main {
+  width: 100%;
+  float: left;
   padding: 80px 0;
 }
 @media all and (max-width: 768px) {
@@ -11510,6 +11512,9 @@ main {
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#2d38cc", endColorstr="#79b6e2",GradientType=1 );
   /* IE6-9 */
+}
+.button.disabled {
+  background: #d4d2d2;
 }
 
 .display_message {
@@ -11867,7 +11872,7 @@ header.guest_header .col.right {
 }
 @media all and (max-width: 1199px) {
   #links_page .left_column {
-    width: 65%;
+    width: 60%;
   }
 }
 @media all and (max-width: 992px) {
@@ -11882,7 +11887,7 @@ header.guest_header .col.right {
 }
 @media all and (max-width: 1199px) {
   #links_page .right_column {
-    width: 35%;
+    width: 40%;
     padding: 0 3%;
   }
 }
@@ -12246,11 +12251,11 @@ header.guest_header .col.right {
 }
 .links_col .links_wrap .inner_content {
   background: #ffffff;
-  border-radius: 50px;
-  -webkit-border-radius: 50px;
-  -moz-border-radius: 50px;
+  border-radius: 85px;
+  -webkit-border-radius: 85px;
+  -moz-border-radius: 85px;
   margin: 0 auto;
-  padding: 12px;
+  padding: 10px;
   height: 100%;
 }
 .links_col .links_wrap .inner_content .page_header {
@@ -12353,6 +12358,9 @@ header.guest_header .col.right {
   float: left;
   padding-left: 20px;
 }
+.links_col .links_wrap .profile_content .profile_text p {
+  margin: 0;
+}
 .links_col .links_wrap .icons_wrap {
   width: 100%;
   padding: 0 20px;
@@ -12387,18 +12395,50 @@ header.guest_header .col.right {
 }
 .links_col .links_wrap.preview .inner_content {
   max-height: 860px;
+  overflow: hidden;
+}
+.links_col .links_wrap.preview .inner_content .inner_content_wrap {
+  height: 100%;
+  margin-right: -50px;
+  padding-right: 50px;
   overflow-y: scroll;
 }
-.links_col .links_wrap.preview .icon_col {
-  padding: 10px !important;
+@media all and (max-width: 1199px) {
+  .links_col .links_wrap.preview .inner_content .inner_content_wrap {
+    margin-right: -60px;
+    padding-right: 40px;
+  }
+}
+.links_col .links_wrap.preview .inner_content .profile_content {
+  padding: 10px 20px 10px 35px;
+}
+@media all and (max-width: 1199px) {
+  .links_col .links_wrap.preview .inner_content .profile_content .profile_text {
+    padding-left: 10px;
+  }
+}
+@media all and (max-width: 1199px) {
+  .links_col .links_wrap.preview .inner_content .profile_content .profile_image {
+    margin-top: -44px;
+    padding: 5px;
+  }
+}
+@media all and (max-width: 1199px) {
+  .links_col .links_wrap.preview .inner_content .profile_content h2, .links_col .links_wrap.preview .inner_content .profile_content .h2 {
+    font-size: 2vw;
+    margin-bottom: 5px;
+  }
+}
+@media all and (max-width: 1199px) {
+  .links_col .links_wrap.preview .inner_content .icon_col {
+    padding: 15px !important;
+  }
 }
 
-.form_page {
-  padding: 100px 0;
-}
 .form_page .card {
+  box-shadow: 0px 0px 35px 5px rgba(170, 170, 170, 0.18);
+  border: none;
   padding: 40px;
-  border: 1px solid #d2d2d2;
   border-radius: 12px;
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
@@ -12720,45 +12760,120 @@ label.custom:hover {
   }*/
 }
 
-.checkout {
-  /* Variables */
+.form_page.checkout {
   /* spinner/processing state, errors */
 }
-.checkout * {
-  box-sizing: border-box;
+.form_page.checkout h3, .form_page.checkout .h3 {
+  margin-bottom: 40px;
 }
-.checkout #card-element {
+@media all and (max-width: 768px) {
+  .form_page.checkout h3, .form_page.checkout .h3 {
+    margin-bottom: 20px;
+  }
+}
+.form_page.checkout .card {
+  width: 100%;
+  max-width: unset;
+}
+@media all and (max-width: 768px) {
+  .form_page.checkout .card {
+    padding: 20px;
+  }
+}
+.form_page.checkout ul {
+  list-style: none;
+  padding-left: 0;
+}
+.form_page.checkout ul img {
+  width: 20px;
+  margin-right: 5px;
+}
+.form_page.checkout ul p {
+  font-family: "opensanssemibold", sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+}
+.form_page.checkout .plan_details {
+  padding-right: 60px;
+  border-right: 1px solid #d4d2d2;
+}
+@media all and (max-width: 768px) {
+  .form_page.checkout .plan_details {
+    padding-right: 0;
+    border: none;
+  }
+}
+.form_page.checkout .plan_details h2, .form_page.checkout .plan_details .h2 {
   margin-bottom: 20px;
 }
-.checkout .result-message {
+.form_page.checkout .credit_card_form {
+  padding-left: 50px;
+}
+@media all and (max-width: 768px) {
+  .form_page.checkout .credit_card_form {
+    padding: 0;
+    margin-bottom: 40px;
+  }
+}
+.form_page.checkout input[type=text] {
+  width: 100%;
+}
+.form_page.checkout .radio_buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+}
+.form_page.checkout .radio_buttons div:first-child {
+  margin-right: 20px;
+}
+.form_page.checkout .radio_buttons input {
+  width: 18px;
+  height: 18px;
+  margin-right: 5px;
+}
+.form_page.checkout .radio_buttons label {
+  line-height: 1;
+  font-size: 20px;
+}
+@media all and (max-width: 992px) {
+  .form_page.checkout .radio_buttons label {
+    font-size: 18px;
+  }
+}
+.form_page.checkout #card-element {
+  margin-bottom: 20px;
+}
+.form_page.checkout .result-message {
   line-height: 22px;
   font-size: 16px;
 }
-.checkout .result-message a {
+.form_page.checkout .result-message a {
   color: #596fd6;
   font-weight: 600;
   text-decoration: none;
 }
-.checkout .hidden {
+.form_page.checkout .hidden {
   display: none;
 }
-.checkout #card-error {
+.form_page.checkout #card-error {
   color: #697386;
   text-align: left;
   font-size: 13px;
   line-height: 17px;
   margin-top: 12px;
 }
-.checkout button:disabled {
+.form_page.checkout button:disabled {
   opacity: 0.5;
   cursor: default;
 }
-.checkout .spinner,
-.checkout .spinner:before,
-.checkout .spinner:after {
+.form_page.checkout .spinner,
+.form_page.checkout .spinner:before,
+.form_page.checkout .spinner:after {
   border-radius: 50%;
 }
-.checkout .spinner {
+.form_page.checkout .spinner {
   color: #ffffff;
   font-size: 22px;
   text-indent: -99999px;
@@ -12769,12 +12884,12 @@ label.custom:hover {
   box-shadow: inset 0 0 0 2px;
   transform: translateZ(0);
 }
-.checkout .spinner:before,
-.checkout .spinner:after {
+.form_page.checkout .spinner:before,
+.form_page.checkout .spinner:after {
   position: absolute;
   content: "";
 }
-.checkout .spinner:before {
+.form_page.checkout .spinner:before {
   width: 10.4px;
   height: 20.4px;
   background: #424fcf;
@@ -12785,7 +12900,7 @@ label.custom:hover {
   -webkit-animation: loading 2s infinite ease 1.5s;
   animation: loading 2s infinite ease 1.5s;
 }
-.checkout .spinner:after {
+.form_page.checkout .spinner:after {
   width: 10.4px;
   height: 10.2px;
   background: #424fcf;

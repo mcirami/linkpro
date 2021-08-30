@@ -87,7 +87,9 @@
                     <img src="{{ asset('images/x-circle-pink.png') }}" alt="">
                 </div>
                 <div class="my_row column_footer">
-                    <a class="button green" href="/dashboard/pages/{{$page_id}}">Continue</a>
+                    <a class="button green" href="/dashboard/pages/{{$page_id}}">
+                        {{ $subscription ? "Free" : "Continue"}}
+                    </a>
                 </div>
             </div>
             <div class="column">
@@ -130,7 +132,13 @@
                     <img src="{{ asset('images/x-circle-pink.png') }}" alt="">
                 </div>
                 <div class="my_row column_footer">
-                    <a class="button pink_gradient" href="/subscribe?plan=pro">Order Now</a>
+                    @if ($subscription == "pro")
+                        <span class='button disabled'>Current</span>
+                    @else
+                        <a class='button pink_gradient' href='/subscribe?plan=pro'>
+                            Order Now
+                        </a>
+                    @endif
                 </div>
             </div>
             <div class="column">
@@ -173,7 +181,13 @@
                     <img src="{{ asset('images/check-circle-blue.png') }}" alt="">
                 </div>
                 <div class="my_row column_footer">
-                    <a class="button blue_gradient" href="/subscribe/?plan=corp">Order Now</a>
+                    @if ($subscription == "corporate")
+                        <span class='button disabled'>Current</span>
+                    @else
+                        <a class='button pink_gradient' href='/subscribe?plan=corp'>
+                            Order Now
+                        </a>
+                    @endif
                 </div>
             </div>
         </div>

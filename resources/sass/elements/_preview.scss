@@ -68,11 +68,11 @@
 
         .inner_content {
             background: $white;
-            border-radius: 50px;
-            -webkit-border-radius: 50px;
-            -moz-border-radius: 50px;
+            border-radius: 85px;
+            -webkit-border-radius: 85px;
+            -moz-border-radius: 85px;
             margin: 0 auto;
-            padding: 12px;
+            padding: 10px;
             height: 100%;
 
             .page_header {
@@ -185,6 +185,10 @@
                 width: 72%;
                 float: left;
                 padding-left: 20px;
+
+                p {
+                    margin: 0;
+                }
             }
         }
 
@@ -229,11 +233,49 @@
 
             .inner_content {
                 max-height: 860px;
-                overflow-y: scroll;
-            }
+                overflow: hidden;
 
-            .icon_col {
-                padding: 10px !important;
+                .inner_content_wrap {
+                    height: 100%;
+                    margin-right: -50px;
+                    padding-right: 50px;
+                    overflow-y: scroll;
+
+                    @media all and (max-width: 1199px) {
+                        margin-right: -60px;
+                        padding-right: 40px;
+                    }
+                }
+
+                .profile_content {
+                    padding: 10px 20px 10px 35px;
+
+                    .profile_text {
+                        @media all and (max-width: 1199px) {
+                            padding-left: 10px;
+                        }
+                    }
+
+                    .profile_image {
+                        @media all and (max-width: 1199px) {
+                            margin-top: -44px;
+                            padding: 5px;
+                        }
+                    }
+
+                    h2 {
+                        @media all and (max-width: 1199px) {
+                            font-size: 2vw;
+                            margin-bottom: 5px;
+                        }
+                    }
+                }
+
+                .icon_col {
+                    @media all and (max-width: 1199px) {
+                        padding: 15px !important;
+                    }
+                }
             }
         }
     }

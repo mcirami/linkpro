@@ -1,27 +1,33 @@
 'use strict'
 jQuery(document).ready(function($) {
 
-   /* const icons = document.querySelectorAll('.icon_image');
+    let windowWidth = $(window).width();
+    const box = document.querySelector('.links_wrap.preview');
+    const innerContent = document.getElementById('preview_wrap');
 
-    if(icons) {
+    if (box) {
 
-        for (const icon of icons) {
-
-            icon.addEventListener('click', function() {
-
-                if(!this.classList.contains('active')) {
-                    $('.icon_image').removeClass('active');
-                    this.classList.add('active');
-                    document.getElementById('link_icon').value = this.getAttribute('src');
-
-                } else {
-                    this.classList.remove('active');
-                    document.getElementById('link_icon').value = "";
-                }
-            })
-
+        if (windowWidth < 1200) {
+            //const height = box.offsetHeight;
+            const width = box.offsetWidth;
+            innerContent.style.maxHeight = width * 2 + "px";
         }
-    }*/
+
+        $(window).on('resize', function() {
+
+            windowWidth = $(window).width();
+
+            if (windowWidth < 1200) {
+                //const height = box.offsetHeight;
+                const width = box.offsetWidth;
+                innerContent.style.maxHeight = width * 2 + "px";
+            } else {
+                innerContent.style.maxHeight = "860px";
+            }
+
+
+        });
+    }
 
 
 });

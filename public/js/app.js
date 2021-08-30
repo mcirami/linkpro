@@ -7277,112 +7277,116 @@ var Preview = function Preview(_ref) {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_3__.MdCancel, {})
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "links_wrap preview",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "inner_content",
-        children: [!pageSettings["header_img"] && !fileName ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-          className: "page_header default",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
-            src: "/images/default-img.png",
-            alt: ""
-          })
-        }) : "", pageSettings["header_img"] && !fileName ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-          className: "page_header",
-          style: myStyle
-        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-          className: "page_header canvas",
-          style: {
-            width: completedCrop ? "100%" : 0,
-            height: completedCrop ? "auto" : 0
-          },
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("canvas", {
-            ref: setRef // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
-            ,
-            style: {
-              backgroundImage: setRef,
-
-              /*width: Math.round(completedCrop?.width ?? 0),
-              height: Math.round(completedCrop?.height ?? 0)*/
-              width: completedCrop ? "100%" : 0,
-              height: completedCrop ? "auto" : 0,
-              borderTopRightRadius: "12%",
-              borderTopLeftRadius: "12%"
-            }
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-          className: "profile_content",
-          children: [!pageSettings["profile_img"] && !profileFileName ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-            className: "profile_image default",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-              className: "image_wrap",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
-                src: "/images/default-img.png",
-                alt: ""
-              })
+        id: "preview_wrap",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "inner_content_wrap",
+          children: [!pageSettings["header_img"] && !fileName ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            className: "page_header default",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
+              src: "/images/default-img.png",
+              alt: ""
             })
-          }) : "", pageSettings["profile_img"] && !profileFileName ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-            className: "profile_image",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-              className: "image_wrap",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
-                src: pageSettings["profile_img"],
-                alt: ""
-              })
-            })
+          }) : "", pageSettings["header_img"] && !fileName ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            className: "page_header",
+            style: myStyle
           }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-            className: !pageSettings["profile_img"] && !profileFileName ? "" : "profile_image",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-              className: "image_wrap",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("canvas", {
-                ref: profileRef // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
-                ,
-                style: {
-                  backgroundImage: profileRef,
-                  backgroundSize: "cover",
-                  backgroundRepeat: "no-repeat",
+            className: "page_header canvas",
+            style: {
+              width: completedCrop ? "100%" : 0,
+              height: completedCrop ? "auto" : 0
+            },
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("canvas", {
+              ref: setRef // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
+              ,
+              style: {
+                backgroundImage: setRef,
 
-                  /*width: Math.round(completedCrop?.width ?? 0),
-                  height: Math.round(completedCrop?.height ?? 0)*/
-                  width: completedProfileCrop ? "100%" : 0,
-                  height: completedProfileCrop ? "100%" : 0,
-                  borderRadius: "50px"
-                }
-              })
+                /*width: Math.round(completedCrop?.width ?? 0),
+                height: Math.round(completedCrop?.height ?? 0)*/
+                width: completedCrop ? "100%" : 0,
+                height: completedCrop ? "auto" : 0,
+                borderTopRightRadius: "12%",
+                borderTopLeftRadius: "12%"
+              }
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-            className: "profile_text",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h2", {
-              children: pageSettings["title"]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
-              children: pageSettings["bio"]
-            })]
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-          className: "icons_wrap",
-          children: userLinks.map(function (linkItem) {
-            var id = linkItem.id,
-                url = linkItem.url,
-                icon = linkItem.icon,
-                active_status = linkItem.active_status;
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
-              children: active_status ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-                className: "icon_col",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
-                  target: "_blank",
-                  href: url,
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
-                    src: icon || '/images/icon-placeholder-preview.png'
-                  })
+            className: "profile_content",
+            children: [!pageSettings["profile_img"] && !profileFileName ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+              className: "profile_image default",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                className: "image_wrap",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
+                  src: "/images/default-img.png",
+                  alt: ""
                 })
-              }, id || Math.random()) :
-              /*<div className="icon_col" key={ id || Math.random()}>
-                  <div className="column_content">
-                      <MdEdit />
-                  </div>
-              </div>*/
-              ""
-            });
-          })
-        })]
+              })
+            }) : "", pageSettings["profile_img"] && !profileFileName ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+              className: "profile_image",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                className: "image_wrap",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
+                  src: pageSettings["profile_img"],
+                  alt: ""
+                })
+              })
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+              className: !pageSettings["profile_img"] && !profileFileName ? "" : "profile_image",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                className: "image_wrap",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("canvas", {
+                  ref: profileRef // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
+                  ,
+                  style: {
+                    backgroundImage: profileRef,
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+
+                    /*width: Math.round(completedCrop?.width ?? 0),
+                    height: Math.round(completedCrop?.height ?? 0)*/
+                    width: completedProfileCrop ? "100%" : 0,
+                    height: completedProfileCrop ? "100%" : 0,
+                    borderRadius: "50px"
+                  }
+                })
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+              className: "profile_text",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h2", {
+                children: pageSettings["title"]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+                children: pageSettings["bio"]
+              })]
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            className: "icons_wrap",
+            children: userLinks.map(function (linkItem) {
+              var id = linkItem.id,
+                  url = linkItem.url,
+                  icon = linkItem.icon,
+                  active_status = linkItem.active_status;
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
+                children: active_status ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                  className: "icon_col",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+                    target: "_blank",
+                    href: url,
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
+                      src: icon || '/images/icon-placeholder-preview.png'
+                    })
+                  })
+                }, id || Math.random()) :
+                /*<div className="icon_col" key={ id || Math.random()}>
+                    <div className="column_content">
+                        <MdEdit />
+                    </div>
+                </div>*/
+                ""
+              });
+            })
+          })]
+        })
       })
     })]
   });
@@ -7435,21 +7439,29 @@ var ShowPreviewButton = function ShowPreviewButton() {
 
 
 jQuery(document).ready(function ($) {
-  /* const icons = document.querySelectorAll('.icon_image');
-    if(icons) {
-        for (const icon of icons) {
-            icon.addEventListener('click', function() {
-                if(!this.classList.contains('active')) {
-                   $('.icon_image').removeClass('active');
-                   this.classList.add('active');
-                   document.getElementById('link_icon').value = this.getAttribute('src');
-                } else {
-                   this.classList.remove('active');
-                   document.getElementById('link_icon').value = "";
-               }
-           })
-        }
-   }*/
+  var windowWidth = $(window).width();
+  var box = document.querySelector('.links_wrap.preview');
+  var innerContent = document.getElementById('preview_wrap');
+
+  if (box) {
+    if (windowWidth < 1200) {
+      //const height = box.offsetHeight;
+      var width = box.offsetWidth;
+      innerContent.style.maxHeight = width * 2 + "px";
+    }
+
+    $(window).on('resize', function () {
+      windowWidth = $(window).width();
+
+      if (windowWidth < 1200) {
+        //const height = box.offsetHeight;
+        var _width = box.offsetWidth;
+        innerContent.style.maxHeight = _width * 2 + "px";
+      } else {
+        innerContent.style.maxHeight = "860px";
+      }
+    });
+  }
 });
 
 /***/ }),

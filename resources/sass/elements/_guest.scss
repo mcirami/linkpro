@@ -1,9 +1,9 @@
 .form_page {
-    padding: 100px 0;
 
     .card {
+        @include boxShadow;
+        border: none;
         padding: 40px;
-        border: 1px solid $borderGray;
         border-radius: 12px;
         -webkit-border-radius: 12px;
         -moz-border-radius: 12px;
