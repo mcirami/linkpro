@@ -11933,6 +11933,12 @@ header.guest_header .col.right {
   align-items: flex-start;
   -webkit-align-items: flex-start;
 }
+#links_page .icons_wrap .demo_col {
+  position: absolute;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
 #links_page .icons_wrap .icon_col {
   position: relative;
   background: #ffffff;
