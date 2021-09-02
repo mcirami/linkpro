@@ -45,9 +45,6 @@
         background: $white;
         padding: 40px 0;
         border: 1px solid $borderGray;
-        border-top-right-radius: 20px;
-        -webkit-border-top-right-radius: 20px;
-        -moz-border-radius-topright: 20px;
         border-bottom-right-radius: 20px;
         -webkit-border-bottom-right-radius: 20px;
         -moz-border-radius-bottomright: 20px;
@@ -85,21 +82,15 @@
         align-items: flex-start;
         -webkit-align-items: flex-start;
 
-        .demo_col {
-            position: absolute;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-        }
-
-
         .icon_col {
-            position: relative;
+            @include boxShadow;
             background: $white;
             border-radius: 20px;
             -webkit-border-radius: 20px;
             -moz-border-radius: 20px;
-            padding: 20px;
+            position: absolute;
+            /*position: relative;*/
+            /*background: $white;*/
             width: 33.3%;
             display: -webkit-box;
             display: -ms-flexbox;
@@ -110,6 +101,24 @@
             flex-direction: column;
             -ms-flex-wrap: nowrap;
             flex-wrap: nowrap;
+
+
+            span {
+                background: $white;
+                border-bottom: 2px solid $lightGray;
+                border-top-right-radius: 20px;
+                -webkit-border-top-right-radius: 20px;
+                -moz-border-radius-topright: 20px;
+                border-top-left-radius: 20px;
+                -webkit-border-top-left-radius: 20px;
+                -moz-border-radius-topleft: 20px;
+                font-size: 30px;
+                text-align:center;
+
+                svg {
+                    color: $blue;
+                }
+            }
 
             /*.delete_icon {
                 position: absolute;
@@ -124,21 +133,21 @@
             }*/
 
             .column_content {
-                @include boxShadow;
                 padding: 20px;
                 border-radius: 20px;
                 -webkit-border-radius: 20px;
                 -moz-border-radius: 20px;
+                position: relative;
             }
 
             .edit_icon {
                 position: absolute;
-                right: 28px;
-                top: 28px;
+                right: 10px;
+                top: 10px;
 
                 @media all and (max-width: 550px) {
-                    top: 24px;
-                    right: 24px;
+                    right: 6px;
+                    top: 6px;
                 }
             }
 
@@ -181,6 +190,7 @@
             /*grid-column-gap: 40px;
             grid-row-gap: 40px;*/
             padding: 20px 30px;
+            min-height: 800px;
 
             @media all and (max-width: 550px) {
                 padding: 20px 10px;
