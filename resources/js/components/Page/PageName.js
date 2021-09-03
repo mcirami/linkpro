@@ -10,6 +10,7 @@ const PageName = ({allUserPages, setAllUserPages, page}) => {
     const [name, setName] = useState(page['name']);
     //const [isEditing, setIsEditing] = useState(false);
     const [available, setAvailability] = useState(true);
+    const [currentMatch, setCurrentMatch] = useState(true);
     const currentName = page['name'];
 
     const handleSubmit = (e) => {
@@ -39,6 +40,12 @@ const PageName = ({allUserPages, setAllUserPages, page}) => {
 
         if (match < 0 && value !== "" || value === currentName) {
             setAvailability(true);
+
+            if (value !== currentName) {
+                setCurrentMatch(false);
+            } else{
+                setCurrentMatch(true);
+            }
         } else {
             setAvailability(false);
         }
@@ -61,7 +68,7 @@ const PageName = ({allUserPages, setAllUserPages, page}) => {
 
         <div className="edit_form">
             <label>Link.pro/</label>
-               <form>
+               <form className="link_name">
                     <input name="name" type="text" defaultValue={name}
                            onChange={ checkPageName }
                            onKeyPress={ event => {
@@ -79,10 +86,16 @@ const PageName = ({allUserPages, setAllUserPages, page}) => {
                            <MdCheckCircle />
                        </a>
                        :
-                       <span className="cancel_icon">
+                       /*<span className="cancel_icon">
                            <MdCancel />
-                       </span>
+                       </span>*/
+                        ""
+                   }
 
+                   {available ?
+                       <p className="status" >{currentMatch ? "" : "Available"}</p>
+                       :
+                       <p className="status not_available">Not Available</p>
                    }
 
                </form>

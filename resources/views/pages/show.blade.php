@@ -45,6 +45,7 @@
                                     >
                                         <img src="{{ $link->icon }}" alt="" />
                                     </a>
+                                    <p>{{ $link->name }}</p>
                                 </div>
                             @endforeach
                         </div>

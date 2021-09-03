@@ -106,7 +106,7 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
                         </div>
                         <div className="icons_wrap">
                             {userLinks.map((linkItem) => {
-                                const { id, url, icon, active_status } = linkItem;
+                                const { id, name, url, icon, active_status } = linkItem;
                                 return (
                                     <>
                                         { active_status ?
@@ -114,14 +114,12 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
                                                 <a target="_blank" href={url}>
                                                     <img src={icon || '/images/icon-placeholder-preview.png'} />
                                                 </a>
+                                                <p>{ name }</p>
                                             </div>
                                          :
-                                            /*<div className="icon_col" key={ id || Math.random()}>
-                                                <div className="column_content">
-                                                    <MdEdit />
-                                                </div>
-                                            </div>*/
-                                            ""
+                                            <div className="icon_col" key={ id || Math.random()}>
+
+                                            </div>
                                         }
                                      </>
                                 )

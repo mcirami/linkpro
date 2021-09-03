@@ -6012,6 +6012,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../App */ "./resources/js/components/App.js");
+/* harmony import */ var react_icons_md__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-icons/md */ "./node_modules/react-icons/md/index.esm.js");
 /* harmony import */ var _Utils_Bus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Utils/Bus */ "./resources/js/Utils/Bus.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
@@ -6051,12 +6052,12 @@ var PageBio = function PageBio() {
       setCharacterCount = _useState2[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    setCharacterCount(55 - pageSettings["bio"].length);
+    setCharacterCount(65 - pageSettings["bio"].length);
   }, [characterCount]);
 
   var handleChange = function handleChange(e) {
     var value = e.target.value;
-    setCharacterCount(55 - value.length);
+    setCharacterCount(65 - value.length);
     setPageSettings(_objectSpread(_objectSpread({}, pageSettings), {}, {
       bio: value
     }));
@@ -6082,6 +6083,7 @@ var PageBio = function PageBio() {
     className: "edit_form",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("form", {
       onSubmit: handleSubmit,
+      className: "bio",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("textarea", {
         name: "bio",
         id: "",
@@ -6095,17 +6097,24 @@ var PageBio = function PageBio() {
             handleSubmit(event);
           }
         }
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      }), characterCount > -1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
+        className: "submit_circle",
+        href: "#",
+        onClick: function onClick(e) {
+          return handleSubmit(e);
+        },
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_5__.MdCheckCircle, {})
+      }) : "", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "my_row characters",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
           className: "char_max",
-          children: "Max 55 Characters"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("p", {
+          children: "Max 65 Characters"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
           className: "char_count",
-          children: ["Characters Left: ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
-            className: characterCount < 0 ? "over" : "",
-            children: characterCount
-          })]
+          children: characterCount < 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+            className: "over",
+            children: "Over Character Limit"
+          }) : "Characters Left: " + characterCount
         })]
       })]
     })
@@ -6434,6 +6443,11 @@ var PageName = function PageName(_ref) {
       available = _useState4[0],
       setAvailability = _useState4[1];
 
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+      _useState6 = _slicedToArray(_useState5, 2),
+      currentMatch = _useState6[0],
+      setCurrentMatch = _useState6[1];
+
   var currentName = page['name'];
 
   var handleSubmit = function handleSubmit(e) {
@@ -6457,6 +6471,12 @@ var PageName = function PageName(_ref) {
 
     if (match < 0 && value !== "" || value === currentName) {
       setAvailability(true);
+
+      if (value !== currentName) {
+        setCurrentMatch(false);
+      } else {
+        setCurrentMatch(true);
+      }
     } else {
       setAvailability(false);
     }
@@ -6478,6 +6498,7 @@ var PageName = function PageName(_ref) {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
       children: "Link.pro/"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
+      className: "link_name",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
         name: "name",
         type: "text",
@@ -6495,9 +6516,16 @@ var PageName = function PageName(_ref) {
           return handleSubmit(e);
         },
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_4__.MdCheckCircle, {})
-      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-        className: "cancel_icon",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_4__.MdCancel, {})
+      }) :
+      /*<span className="cancel_icon">
+          <MdCancel />
+      </span>*/
+      "", available ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+        className: "status",
+        children: currentMatch ? "" : "Available"
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+        className: "status not_available",
+        children: "Not Available"
       })]
     })]
   });
@@ -6614,36 +6642,45 @@ var PageNav = function PageNav(_ref) {
           children: page["name"]
         })
       }, page["id"]);
-    }), pageCount < 3 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+    }), pageCount < 5 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
       id: "new_" + pageCount + 1,
-      className: "new_page",
-      children: isEditing ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-          name: "name",
-          type: "text",
-          placeholder: "Link Name",
-          onChange: checkPageName,
-          onKeyPress: function onKeyPress(event) {
-            if (event.key === 'Enter') {
-              handleSubmit(event);
+      className: "edit_form new_page",
+      children: isEditing ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
+          className: "new_page",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+            name: "name",
+            type: "text",
+            placeholder: "Link Name",
+            onChange: checkPageName,
+            onKeyPress: function onKeyPress(event) {
+              if (event.key === 'Enter') {
+                handleSubmit(event);
+              }
             }
-          }
-        }), available ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
-          className: "submit_circle",
-          href: "#",
-          onClick: function onClick(e) {
-            return handleSubmit(e);
-          },
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_4__.MdCheckCircle, {})
-        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
-          className: "cancel_icon",
-          href: "#",
-          onClick: function onClick(e) {
-            e.preventDefault();
-            setIsEditing(false);
-          },
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_4__.MdCancel, {})
-        })]
+          }), available ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+            className: "submit_circle",
+            href: "#",
+            onClick: function onClick(e) {
+              return handleSubmit(e);
+            },
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_4__.MdCheckCircle, {})
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+            className: "cancel_icon",
+            href: "#",
+            onClick: function onClick(e) {
+              e.preventDefault();
+              setIsEditing(false);
+            },
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_4__.MdCancel, {})
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+            className: "status",
+            children: available ? "Available" : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+              className: "status not_available",
+              children: "Not Available"
+            })
+          })]
+        })
       }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
         className: "add_new_page",
         onClick: function onClick(e) {
@@ -6930,6 +6967,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../App */ "./resources/js/components/App.js");
+/* harmony import */ var react_icons_md__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-icons/md */ "./node_modules/react-icons/md/index.esm.js");
 /* harmony import */ var _Utils_Bus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Utils/Bus */ "./resources/js/Utils/Bus.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
@@ -7008,21 +7046,30 @@ var PageTitle = function PageTitle() {
           return handleChange(e);
         },
         onKeyPress: function onKeyPress(event) {
+          console.log(event);
+
           if (event.key === 'Enter') {
             handleSubmit(event);
           }
         }
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      }), characterCount > -1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
+        className: "submit_circle",
+        href: "#",
+        onClick: function onClick(e) {
+          return handleSubmit(e);
+        },
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_5__.MdCheckCircle, {})
+      }) : "", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "my_row characters title",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
           className: "char_max",
           children: "Max 30 Characters"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("p", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
           className: "char_count",
-          children: ["Characters Left: ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
-            className: characterCount < 0 ? "over" : "",
-            children: characterCount
-          })]
+          children: characterCount < 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+            className: "over",
+            children: "Over Character Limit"
+          }) : "Characters Left: " + characterCount
         })]
       })]
     })
@@ -7363,26 +7410,25 @@ var Preview = function Preview(_ref) {
             className: "icons_wrap",
             children: userLinks.map(function (linkItem) {
               var id = linkItem.id,
+                  name = linkItem.name,
                   url = linkItem.url,
                   icon = linkItem.icon,
                   active_status = linkItem.active_status;
               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
-                children: active_status ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                children: active_status ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
                   className: "icon_col",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
                     target: "_blank",
                     href: url,
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
                       src: icon || '/images/icon-placeholder-preview.png'
                     })
-                  })
-                }, id || Math.random()) :
-                /*<div className="icon_col" key={ id || Math.random()}>
-                    <div className="column_content">
-                        <MdEdit />
-                    </div>
-                </div>*/
-                ""
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+                    children: name
+                  })]
+                }, id || Math.random()) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                  className: "icon_col"
+                }, id || Math.random())
               });
             })
           })]

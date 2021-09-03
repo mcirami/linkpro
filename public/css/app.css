@@ -11344,7 +11344,7 @@ main {
 }
 
 .container {
-  max-width: 1400px;
+  max-width: 1500px;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -11616,7 +11616,7 @@ ul.page_nav_menu li input[type=text] {
   height: 30px;
 }
 ul.page_nav_menu a:not(.cancel_icon, .submit_circle) {
-  padding: 15px 50px 20px 15px;
+  padding: 15px 24px 20px 15px;
   color: #d4d2d2;
   text-transform: lowercase;
   border-top-right-radius: 8px;
@@ -12369,6 +12369,11 @@ header.guest_header .col.right {
   background: none !important;
   position: relative !important;
 }
+.links_col .links_wrap .icon_col p {
+  text-align: center;
+  font-size: 12px;
+  margin: 0;
+}
 .links_col .links_wrap .icon_col.disabled {
   border: 1px dashed #d2d2d2;
   position: relative;
@@ -12428,6 +12433,9 @@ header.guest_header .col.right {
     font-size: 2vw;
     margin-bottom: 5px;
   }
+}
+.links_col .links_wrap.preview .inner_content .icon_col {
+  padding: 10px 20px !important;
 }
 @media all and (max-width: 1199px) {
   .links_col .links_wrap.preview .inner_content .icon_col {
@@ -12575,18 +12583,44 @@ label.custom:hover {
   width: 100%;
   margin-left: 5px;
 }
+.edit_form form .cancel_icon, .edit_form form .submit_circle {
+  position: absolute;
+  right: 12px;
+  top: 5px;
+}
 .edit_form form input {
   width: 100%;
 }
-.edit_form .cancel_icon, .edit_form .submit_circle {
-  position: absolute;
-  right: 12px;
-  top: 4px;
+.edit_form form.link_name {
+  margin-top: 20px;
 }
-.edit_form .char_max {
+.edit_form form.link_name .status {
+  height: 15px;
+}
+.edit_form form.bio .submit_circle {
+  top: auto;
+  bottom: 35px;
+}
+.edit_form.new_page {
+  margin-bottom: 0;
+}
+.edit_form.new_page .submit_circle, .edit_form.new_page .cancel_icon {
+  top: 0;
+  right: 5px;
+}
+.edit_form.new_page p {
+  margin: 0;
+}
+.edit_form .char_max, .edit_form .status {
   margin-bottom: 0;
   font-size: 12px;
   color: #908e8e;
+}
+.edit_form .status {
+  margin-top: 2px;
+}
+.edit_form .status.not_available {
+  color: #f24d1d;
 }
 .edit_form .my_row.characters {
   display: flex;

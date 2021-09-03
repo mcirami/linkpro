@@ -70,38 +70,42 @@ const PageNav = ({ allUserPages, setAllUserPages, currentPage }) => {
                 )
             })}
 
-            { pageCount < 3 ?
-                <li id={"new_" + pageCount + 1 } className="new_page">
+            { pageCount < 5 ?
+                <li id={"new_" + pageCount + 1 } className="edit_form new_page">
                     { isEditing ?
-                        <form>
-                            <input name="name" type="text"
-                                   placeholder="Link Name"
-                                   onChange={ checkPageName }
-                                   onKeyPress={ event => {
-                                        if(event.key === 'Enter') {
-                                            handleSubmit(event);
+                        <div>
+                            <form className="new_page">
+                                <input name="name" type="text"
+                                       placeholder="Link Name"
+                                       onChange={ checkPageName }
+                                       onKeyPress={ event => {
+                                            if(event.key === 'Enter') {
+                                                handleSubmit(event);
+                                                }
                                             }
                                         }
-                                    }
-                            />
+                                />
 
-                            {available ?
-                                <a className="submit_circle" href="#"
-                                   onClick={(e) => handleSubmit(e)}
-                                >
-                                    <MdCheckCircle />
-                                </a>
-                            :
-                                <a className="cancel_icon" href="#"
-                                   onClick={(e) => {
-                                       e.preventDefault();
-                                       setIsEditing(false);
-                                   }}
-                                >
-                                    <MdCancel />
-                                </a>
-                            }
-                        </form>
+                                {available ?
+                                    <a className="submit_circle" href="#"
+                                       onClick={(e) => handleSubmit(e)}
+                                    >
+                                        <MdCheckCircle />
+                                    </a>
+                                :
+                                    <a className="cancel_icon" href="#"
+                                       onClick={(e) => {
+                                           e.preventDefault();
+                                           setIsEditing(false);
+                                       }}
+                                    >
+                                        <MdCancel />
+                                    </a>
+                                }
+                                <p className="status">{available ? "Available" : <span className="status not_available">Not Available</span>}</p>
+                            </form>
+
+                        </div>
                         :
                         <a key={"new_" + pageCount + 1} className="add_new_page" onClick={(e) => {e.preventDefault(); setIsEditing(true) }} href="#"><MdAddCircleOutline/></a>
                     }

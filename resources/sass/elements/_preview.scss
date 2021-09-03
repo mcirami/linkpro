@@ -201,6 +201,12 @@
             background: none !important;
             position: relative !important;
 
+            p {
+                text-align: center;
+                font-size: 12px;
+                margin: 0;
+            }
+
             &.disabled {
                 border: 1px dashed $borderGray;
                 position: relative;
@@ -272,6 +278,8 @@
                 }
 
                 .icon_col {
+                    padding: 10px 20px !important;
+
                     @media all and (max-width: 1199px) {
                         padding: 15px !important;
                     }

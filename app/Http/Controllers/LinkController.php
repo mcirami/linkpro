@@ -92,9 +92,8 @@ class LinkController extends Controller
         }
 
         $request->validate([
-            'name' => 'required|max:255',
-            'url' => 'required|url',
-            'icon' => 'required',
+            'name' => 'max:255',
+            'url' => 'url',
         ]);
 
         if (str_contains($request->icon, 'data:image') ) {
