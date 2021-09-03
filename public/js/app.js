@@ -5748,7 +5748,7 @@ var springSetting2 = {
   damping: 17
 };
 
-function reinsert(arr, from, to) {
+function reinsert(arr, from, to, oldPos, newPos) {
   var _arr = arr.slice(0);
 
   var val = _arr[from];
@@ -5763,6 +5763,9 @@ function reinsert(arr, from, to) {
 function clamp(n, min, max) {
   return Math.max(Math.min(n, max), min);
 }
+
+var width = 200,
+    height = 250;
 
 var Links = function Links(_ref) {
   var userLinks = _ref.userLinks,
@@ -5795,22 +5798,20 @@ var Links = function Links(_ref) {
       return parseInt(divHeight) + 250 + 20;
   }
    console.log(colWidth);*/
+  //console.log(userLinks);
 
-
-  console.log(userLinks);
 
   var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(function () {
     return {
-      oldPosition: null,
-      newPosition: null
+      oldPosition: 0,
+      newPosition: 0,
+      linkID: null
     };
   }),
       _useState6 = _slicedToArray(_useState5, 2),
-      position = _useState6[0],
-      setPosition = _useState6[1];
+      linkAttr = _useState6[0],
+      setLinkAttr = _useState6[1]; //console.log(position);
 
-  var width = 200,
-      height = 250;
 
   var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(function () {
     return {
@@ -5845,8 +5846,7 @@ var Links = function Links(_ref) {
         lastPress: key,
         isPressed: true,
         mouseCircleDelta: [pageX - pressX, pageY - pressY],
-        mouseXY: [pressX, pressY],
-        currentPosition: _LinkItems__WEBPACK_IMPORTED_MODULE_4__.default[key].position
+        mouseXY: [pressX, pressY]
       });
     });
   }, []);
@@ -5861,18 +5861,18 @@ var Links = function Links(_ref) {
         isPressed = state.isPressed,
         _state$mouseCircleDel = _slicedToArray(state.mouseCircleDelta, 2),
         dx = _state$mouseCircleDel[0],
-        dy = _state$mouseCircleDel[1],
-        currentPosition = state.currentPosition;
+        dy = _state$mouseCircleDel[1];
 
     if (isPressed) {
       var _mouseXY = [pageX - dx, pageY - dy];
       var col = clamp(Math.floor(_mouseXY[0] / width), 0, 2);
       var row = clamp(Math.floor(_mouseXY[1] / height), 0, Math.floor(userLinks.length / 3));
       var index = row * 3 + col;
-      setPosition(function () {
+      setLinkAttr(function () {
         return {
-          oldPosition: currentPosition,
-          newPosition: _LinkItems__WEBPACK_IMPORTED_MODULE_4__.default[index].position
+          oldPosition: lastPress,
+          newPosition: index,
+          linkID: _LinkItems__WEBPACK_IMPORTED_MODULE_4__.default[lastPress].id
         };
       });
       var newOrder = reinsert(userLinks, userLinks.findIndex(function (link) {
@@ -5883,6 +5883,7 @@ var Links = function Links(_ref) {
           mouseXY: _mouseXY
         });
       });
+      console.log(linkAttr);
       setUserLinks(newOrder); //handleSubmit(newOrder, lastPress, index);
     }
   }, [state]);

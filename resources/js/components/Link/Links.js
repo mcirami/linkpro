@@ -9,7 +9,7 @@ import myLinksArray from './LinkItems';
 const springSetting1 = { stiffness: 180, damping: 10 };
 const springSetting2 = { stiffness: 120, damping: 17 };
 
-function reinsert(arr, from, to) {
+function reinsert(arr, from, to, oldPos, newPos) {
     const _arr = arr.slice(0);
     const val = _arr[from];
     _arr.splice(from, 1);
@@ -20,6 +20,8 @@ function reinsert(arr, from, to) {
 function clamp(n, min, max) {
     return Math.max(Math.min(n, max), min);
 }
+
+const [width, height] = [200, 250];
 
 const Links = ({
    userLinks,
@@ -54,13 +56,14 @@ const Links = ({
     }
 
     console.log(colWidth);*/
-    console.log(userLinks);
-    const [position, setPosition] = useState(() => ({
-        oldPosition: null,
-        newPosition: null
+    //console.log(userLinks);
+    const [linkAttr, setLinkAttr] = useState(() => ({
+        oldPosition: 0,
+        newPosition: 0,
+        linkID : null
     }));
 
-    const [width, height] = [200, 250];
+    //console.log(position);
 
     const [state, setState] = useState(() => ({
         mouseXY: [0,0],
@@ -79,7 +82,7 @@ const Links = ({
         return [width * col, height * row];
     });
 
-    const handleMouseDown = useCallback(
+    const handleMouseDown = useCallback (
         (key, [pressX, pressY], { pageX, pageY }) => {
             setState((state) => ({
                 ...state,
@@ -87,7 +90,6 @@ const Links = ({
                 isPressed: true,
                 mouseCircleDelta: [pageX - pressX, pageY - pressY],
                 mouseXY: [pressX, pressY],
-                currentPosition: myLinksArray[key].position,
             }));
         },
         []
@@ -107,7 +109,6 @@ const Links = ({
                 lastPress,
                 isPressed,
                 mouseCircleDelta: [dx, dy],
-                currentPosition,
             } = state;
 
             if (isPressed) {
@@ -120,9 +121,10 @@ const Links = ({
                 );
                 const index = row * 3 + col;
 
-                setPosition(() => ({
-                    oldPosition: currentPosition,
-                    newPosition: myLinksArray[index].position
+                setLinkAttr(() => ({
+                    oldPosition: lastPress,
+                    newPosition: index,
+                    linkID: myLinksArray[lastPress].id
                 }));
 
                 const newOrder = reinsert(
@@ -131,6 +133,8 @@ const Links = ({
                     index,
                 );
                 setState((state) => ({ ...state, mouseXY }));
+
+                console.log(linkAttr);
                 setUserLinks(newOrder);
                 //handleSubmit(newOrder, lastPress, index);
             }
