@@ -31,8 +31,8 @@ const Links = ({
 }) => {
     const order = userLinks.map(link => link.name)
 
-    userLinks.map((link, index) => ({...link, position: index}));
-    console.log(userLinks);
+    /*const newPositions = userLinks.map((link, index) => ({...link, position: index}));
+    console.log(newPositions);*/
 
     const [switchStatus, setSwitchStatus] = useState(null);
     //const  { userLinks, setUserLinks } = useContext(LinksContext);
@@ -125,7 +125,7 @@ const Links = ({
 
                 //console.log(linkAttr);
                 setUserLinks(newOrder);
-                //handleSubmit(newOrder, lastPress, index);
+                handleSubmit();
             }
         },
         [state]
@@ -163,53 +163,25 @@ const Links = ({
 
     const {lastPress, isPressed, mouseXY } = state;
 
-    const handleSubmit = (newOrder, lastPress, index) => {
-        // console.log(userLinks[lastPress]);
+    const handleSubmit = () => {
+        const newPostionsArray = userLinks.map((link, index) => ({...link, position: index}));
 
-        /*const newArr = [...newOrder];
-        //console.log(_arr);
-
-        newArr[lastPress] = {
-            ...newArr[lastPress],
-            name: "fuck You",
-            position: position.newPosition
+        const packets = {
+            userLinks: newPostionsArray,
         }
 
-        newArr[index] = {
-            ...newArr[index],
-            name: "fuck You too",
-            position: position.oldPosition
-        }
-
-        console.log(newArr);*/
-
-        //newArr[index].position = position.oldPosition;
-
-        //setUserLinks(newArr);
-
-        /*axios
-        .post("/dashboard/links/status/" + id, packets)
+        axios
+        .post("/dashboard/links/update-positions", packets)
         .then(
             (response) => {
-                //console.log(JSON.stringify(response.data))
-                const returnMessage = JSON.stringify(response.data.message);
-                EventBus.dispatch("success", { message: returnMessage });
-                setUserLinks(
-                    userLinks.map((item) => {
-                        if (item.id === id) {
-                            return {
-                                ...item,
-                                active_status: newStatus,
-                            };
-                        }
-                        return item;
-                    })
-                )
+                console.log(JSON.stringify(response.data.message))
+                /*const returnMessage = JSON.stringify(response.data.message);
+                EventBus.dispatch("success", { message: returnMessage });*/
             }
         )
         .catch((error) => {
             console.log("ERROR:: ", error.response.data);
-        });*/
+        });
     }
 
 
@@ -299,7 +271,7 @@ const Links = ({
                                     </div>
                                     <div className="my_row">
                                         <div className="switch_wrap">
-                                            {console.log(Boolean(link.active_status)) || null}
+                                           {/* {console.log(Boolean(link.active_status)) || null}*/}
                                             <Switch
                                                 onChange={(e) => handleChange(myLinksArray[key].id)}
                                                 disabled={!myLinksArray[key].id}
