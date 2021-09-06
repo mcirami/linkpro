@@ -29,12 +29,15 @@ const Links = ({
    setEditID,
 
 }) => {
+    const order = userLinks.map(link => link.name)
+
+    userLinks.map((link, index) => ({...link, position: index}));
+    console.log(userLinks);
 
     const [switchStatus, setSwitchStatus] = useState(null);
     //const  { userLinks, setUserLinks } = useContext(LinksContext);
 
     const [colWidth, setColWidth] = useState();
-    //console.log(myLinksArray);
 
     // DND CODE
     /*useEffect(() => {
@@ -56,14 +59,6 @@ const Links = ({
     }
 
     console.log(colWidth);*/
-    //console.log(userLinks);
-    const [linkAttr, setLinkAttr] = useState(() => ({
-        oldPosition: 0,
-        newPosition: 0,
-        linkID : null
-    }));
-
-    //console.log(position);
 
     const [state, setState] = useState(() => ({
         mouseXY: [0,0],
@@ -121,12 +116,6 @@ const Links = ({
                 );
                 const index = row * 3 + col;
 
-                setLinkAttr(() => ({
-                    oldPosition: lastPress,
-                    newPosition: index,
-                    linkID: myLinksArray[lastPress].id
-                }));
-
                 const newOrder = reinsert(
                     userLinks,
                     userLinks.findIndex((link) => link.position === lastPress),
@@ -134,7 +123,7 @@ const Links = ({
                 );
                 setState((state) => ({ ...state, mouseXY }));
 
-                console.log(linkAttr);
+                //console.log(linkAttr);
                 setUserLinks(newOrder);
                 //handleSubmit(newOrder, lastPress, index);
             }
@@ -177,7 +166,7 @@ const Links = ({
     const handleSubmit = (newOrder, lastPress, index) => {
         // console.log(userLinks[lastPress]);
 
-        const newArr = [...newOrder];
+        /*const newArr = [...newOrder];
         //console.log(_arr);
 
         newArr[lastPress] = {
@@ -192,7 +181,7 @@ const Links = ({
             position: position.oldPosition
         }
 
-        console.log(newArr);
+        console.log(newArr);*/
 
         //newArr[index].position = position.oldPosition;
 
@@ -310,11 +299,13 @@ const Links = ({
                                     </div>
                                     <div className="my_row">
                                         <div className="switch_wrap">
+                                            {console.log(Boolean(link.active_status)) || null}
                                             <Switch
-                                                onChange={(e) => handleChange(myLinksArray[key].id, myLinksArray[key].active_status)}
+                                                onChange={(e) => handleChange(myLinksArray[key].id)}
                                                 disabled={!myLinksArray[key].id}
                                                 height={20}
                                                 checked={Boolean(myLinksArray[key].active_status)}
+                                                // checked={Boolean(link.active_status)}
                                                 onColor="#424fcf"
                                                 uncheckedIcon={false}
                                                 checkedIcon={false}

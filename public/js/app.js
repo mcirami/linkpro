@@ -5703,20 +5703,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_motion__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-motion */ "./node_modules/react-motion/lib/react-motion.js");
 /* harmony import */ var _LinkItems__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./LinkItems */ "./resources/js/components/Link/LinkItems.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -5728,6 +5714,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
@@ -5771,6 +5763,15 @@ var Links = function Links(_ref) {
   var userLinks = _ref.userLinks,
       setUserLinks = _ref.setUserLinks,
       setEditID = _ref.setEditID;
+  var order = userLinks.map(function (link) {
+    return link.name;
+  });
+  userLinks.map(function (link, index) {
+    return _objectSpread(_objectSpread({}, link), {}, {
+      position: index
+    });
+  });
+  console.log(userLinks);
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
@@ -5781,8 +5782,7 @@ var Links = function Links(_ref) {
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState4 = _slicedToArray(_useState3, 2),
       colWidth = _useState4[0],
-      setColWidth = _useState4[1]; //console.log(myLinksArray);
-  // DND CODE
+      setColWidth = _useState4[1]; // DND CODE
 
   /*useEffect(() => {
       const iconsWrap = document.querySelector('.icons_wrap');
@@ -5798,22 +5798,9 @@ var Links = function Links(_ref) {
       return parseInt(divHeight) + 250 + 20;
   }
    console.log(colWidth);*/
-  //console.log(userLinks);
 
 
   var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(function () {
-    return {
-      oldPosition: 0,
-      newPosition: 0,
-      linkID: null
-    };
-  }),
-      _useState6 = _slicedToArray(_useState5, 2),
-      linkAttr = _useState6[0],
-      setLinkAttr = _useState6[1]; //console.log(position);
-
-
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(function () {
     return {
       mouseXY: [0, 0],
       mouseCircleDelta: [0, 0],
@@ -5823,9 +5810,9 @@ var Links = function Links(_ref) {
       currentPosition: null
     };
   }),
-      _useState8 = _slicedToArray(_useState7, 2),
-      state = _useState8[0],
-      setState = _useState8[1]; //console.log(userLinks);
+      _useState6 = _slicedToArray(_useState5, 2),
+      state = _useState6[0],
+      setState = _useState6[1]; //console.log(userLinks);
   // indexed by visual position
 
 
@@ -5868,13 +5855,6 @@ var Links = function Links(_ref) {
       var col = clamp(Math.floor(_mouseXY[0] / width), 0, 2);
       var row = clamp(Math.floor(_mouseXY[1] / height), 0, Math.floor(userLinks.length / 3));
       var index = row * 3 + col;
-      setLinkAttr(function () {
-        return {
-          oldPosition: lastPress,
-          newPosition: index,
-          linkID: _LinkItems__WEBPACK_IMPORTED_MODULE_4__.default[lastPress].id
-        };
-      });
       var newOrder = reinsert(userLinks, userLinks.findIndex(function (link) {
         return link.position === lastPress;
       }), index);
@@ -5882,8 +5862,8 @@ var Links = function Links(_ref) {
         return _objectSpread(_objectSpread({}, state), {}, {
           mouseXY: _mouseXY
         });
-      });
-      console.log(linkAttr);
+      }); //console.log(linkAttr);
+
       setUserLinks(newOrder); //handleSubmit(newOrder, lastPress, index);
     }
   }, [state]);
@@ -5915,20 +5895,22 @@ var Links = function Links(_ref) {
       isPressed = state.isPressed,
       mouseXY = state.mouseXY;
 
-  var handleSubmit = function handleSubmit(newOrder, lastPress, index) {
-    // console.log(userLinks[lastPress]);
-    var newArr = _toConsumableArray(newOrder); //console.log(_arr);
+  var handleSubmit = function handleSubmit(newOrder, lastPress, index) {// console.log(userLinks[lastPress]);
 
-
-    newArr[lastPress] = _objectSpread(_objectSpread({}, newArr[lastPress]), {}, {
-      name: "fuck You",
-      position: position.newPosition
-    });
-    newArr[index] = _objectSpread(_objectSpread({}, newArr[index]), {}, {
-      name: "fuck You too",
-      position: position.oldPosition
-    });
-    console.log(newArr); //newArr[index].position = position.oldPosition;
+    /*const newArr = [...newOrder];
+    //console.log(_arr);
+     newArr[lastPress] = {
+        ...newArr[lastPress],
+        name: "fuck You",
+        position: position.newPosition
+    }
+     newArr[index] = {
+        ...newArr[index],
+        name: "fuck You too",
+        position: position.oldPosition
+    }
+     console.log(newArr);*/
+    //newArr[index].position = position.oldPosition;
     //setUserLinks(newArr);
 
     /*axios
@@ -6049,19 +6031,20 @@ var Links = function Links(_ref) {
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
                 className: "my_row",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
                   className: "switch_wrap",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_switch__WEBPACK_IMPORTED_MODULE_1__.default, {
+                  children: [console.log(Boolean(link.active_status)) || null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_switch__WEBPACK_IMPORTED_MODULE_1__.default, {
                     onChange: function onChange(e) {
-                      return handleChange(_LinkItems__WEBPACK_IMPORTED_MODULE_4__.default[key].id, _LinkItems__WEBPACK_IMPORTED_MODULE_4__.default[key].active_status);
+                      return handleChange(_LinkItems__WEBPACK_IMPORTED_MODULE_4__.default[key].id);
                     },
                     disabled: !_LinkItems__WEBPACK_IMPORTED_MODULE_4__.default[key].id,
                     height: 20,
-                    checked: Boolean(_LinkItems__WEBPACK_IMPORTED_MODULE_4__.default[key].active_status),
+                    checked: Boolean(_LinkItems__WEBPACK_IMPORTED_MODULE_4__.default[key].active_status) // checked={Boolean(link.active_status)}
+                    ,
                     onColor: "#424fcf",
                     uncheckedIcon: false,
                     checkedIcon: false
-                  })
+                  })]
                 })
               })]
             })]
@@ -7663,13 +7646,9 @@ var Preview = function Preview(_ref) {
                       src: icon || '/images/icon-placeholder-preview.png'
                     })
                   })
-                }, id || Math.random()) :
-                /*<div className="icon_col" key={ id || Math.random()}>
-                    <div className="column_content">
-                        <MdEdit />
-                    </div>
-                </div>*/
-                ""
+                }, id || Math.random()) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                  className: "icon_col"
+                }, id || Math.random())
               });
             })
           })]
