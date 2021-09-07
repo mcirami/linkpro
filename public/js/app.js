@@ -5795,22 +5795,23 @@ var Links = function Links(_ref) {
 
   var _ref2 = [getColWidth(), getColHeight()],
       width = _ref2[0],
-      height = _ref2[1]; // DND CODE
+      height = _ref2[1];
 
-  /*useEffect(() => {
-      const iconsWrap = document.querySelector('.icons_wrap');
-      const iconsColWidth = Math.floor(iconsWrap.offsetWidth / 3);
-      const iconCol = document.querySelectorAll('.icon_col:last-child');
-       iconsWrap.style.minHeight = getDivHeight(iconCol) + "px";
-       setColWidth(iconsColWidth);
-   }, [colWidth])
-   const getDivHeight = (iconCol) => {
-      const transformProp = iconCol[0].style.transform.split("translate3d(");
-      const transformValues = transformProp[1].split(" ");
-      const divHeight = transformValues[1].replace(",", "").replace("px", "");
-      return parseInt(divHeight) + 250 + 20;
-  }
-   console.log(colWidth);*/
+  var changeSize = function changeSize() {
+    var _ref3 = [getColWidth(), getColHeight()];
+    width = _ref3[0];
+    height = _ref3[1];
+  };
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    window.addEventListener('resize', changeSize);
+    console.log(width);
+    console.log(height);
+    console.log(window.innerWidth);
+    return function () {
+      window.removeEventListener('resize', changeSize);
+    };
+  });
 
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(_LinkItems__WEBPACK_IMPORTED_MODULE_4__.default),
       _useState4 = _slicedToArray(_useState3, 2),
@@ -5836,13 +5837,13 @@ var Links = function Links(_ref) {
     var col = index % 3;
     return [width * col, height * row];
   });
-  var handleMouseDown = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (key, _ref3, _ref4) {
-    var _ref5 = _slicedToArray(_ref3, 2),
-        pressX = _ref5[0],
-        pressY = _ref5[1];
+  var handleMouseDown = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (key, _ref4, _ref5) {
+    var _ref6 = _slicedToArray(_ref4, 2),
+        pressX = _ref6[0],
+        pressY = _ref6[1];
 
-    var pageX = _ref4.pageX,
-        pageY = _ref4.pageY;
+    var pageX = _ref5.pageX,
+        pageY = _ref5.pageY;
     setState(function (state) {
       return _objectSpread(_objectSpread({}, state), {}, {
         lastPress: key,
@@ -5855,9 +5856,9 @@ var Links = function Links(_ref) {
   var handleTouchStart = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (key, pressLocation, e) {
     handleMouseDown(key, pressLocation, e.touches[0]);
   }, [handleMouseDown]);
-  var handleMouseMove = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (_ref6) {
-    var pageX = _ref6.pageX,
-        pageY = _ref6.pageY;
+  var handleMouseMove = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (_ref7) {
+    var pageX = _ref7.pageX,
+        pageY = _ref7.pageY;
 
     var lastPress = state.lastPress,
         isPressed = state.isPressed,
@@ -6005,11 +6006,11 @@ var Links = function Links(_ref) {
 
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_motion__WEBPACK_IMPORTED_MODULE_3__.Motion, {
         style: style,
-        children: function children(_ref7) {
-          var translateX = _ref7.translateX,
-              translateY = _ref7.translateY,
-              scale = _ref7.scale,
-              boxShadow = _ref7.boxShadow;
+        children: function children(_ref8) {
+          var translateX = _ref8.translateX,
+              translateY = _ref8.translateY,
+              scale = _ref8.scale,
+              boxShadow = _ref8.boxShadow;
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             className: "icon_col",
             style: {

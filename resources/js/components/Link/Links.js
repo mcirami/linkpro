@@ -35,7 +35,7 @@ const Links = ({
 
     //const [size, setSize] = useState(window.innerWidth);
 
-    const getColWidth = (() => {
+    const getColWidth = () => {
         let colWidth;
         if (window.innerWidth  > 1399 ) {
             colWidth = 200;
@@ -46,9 +46,9 @@ const Links = ({
         }
 
         return colWidth;
-    });
+    };
 
-    const getColHeight = (() => {
+    const getColHeight = () => {
         let colHeight;
         if (window.innerWidth  > 1399 ) {
             colHeight = 220;
@@ -59,32 +59,24 @@ const Links = ({
         }
 
         return colHeight;
+    };
+
+    let [width, height] = [getColWidth(), getColHeight()];
+
+    const changeSize = (() => {
+        [width, height] = [getColWidth(), getColHeight()];
+    })
+
+    useEffect(() => {
+        window.addEventListener('resize', changeSize);
+        console.log(width);
+        console.log(height);
+        console.log(window.innerWidth);
+
+        return () => {
+            window.removeEventListener('resize', changeSize);
+        }
     });
-
-    const [width, height] = [getColWidth(), getColHeight()];
-
-    // DND CODE
-    /*useEffect(() => {
-        const iconsWrap = document.querySelector('.icons_wrap');
-        const iconsColWidth = Math.floor(iconsWrap.offsetWidth / 3);
-        const iconCol = document.querySelectorAll('.icon_col:last-child');
-
-        iconsWrap.style.minHeight = getDivHeight(iconCol) + "px";
-
-        setColWidth(iconsColWidth);
-
-    }, [colWidth])
-
-    const getDivHeight = (iconCol) => {
-        const transformProp = iconCol[0].style.transform.split("translate3d(");
-        const transformValues = transformProp[1].split(" ");
-        const divHeight = transformValues[1].replace(",", "").replace("px", "");
-        return parseInt(divHeight) + 250 + 20;
-    }
-
-    console.log(colWidth);*/
-
-
 
     const [originalArray, setOriginalArray] = useState(myLinksArray);
 
