@@ -5764,17 +5764,30 @@ var Links = function Links(_ref) {
       _useState2 = _slicedToArray(_useState, 2),
       switchStatus = _useState2[0],
       setSwitchStatus = _useState2[1]; //const  { userLinks, setUserLinks } = useContext(LinksContext);
-  //const [size, setSize] = useState(window.innerWidth);
 
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    height: window.innerHeight,
+    width: window.innerWidth
+  }),
+      _useState4 = _slicedToArray(_useState3, 2),
+      size = _useState4[0],
+      setSize = _useState4[1];
 
   var getColWidth = function getColWidth() {
     var colWidth;
+    var windowWidth = window.innerWidth;
 
-    if (window.innerWidth > 1399) {
-      colWidth = 200;
+    if (windowWidth < 550) {
+      colWidth = 3 * windowWidth / 11;
+    } else if (windowWidth < 992) {
+      colWidth = (3 * windowWidth - 25) / 10;
+    } else if (windowWidth < 1200) {
+      colWidth = (3 * windowWidth - 50) / 2 / 9.5;
+    } else if (windowWidth < 1400) {
+      colWidth = (3 * windowWidth - 50) / 2 / 10;
     } else {
-      //colWidth = (window.innerWidth / 2) / 3 - 15;
-      colWidth = (3 * window.innerWidth - 50) / 2 / 10;
+      colWidth = 200;
     }
 
     return colWidth;
@@ -5782,12 +5795,17 @@ var Links = function Links(_ref) {
 
   var getColHeight = function getColHeight() {
     var colHeight;
+    var windowWidth = window.innerWidth;
 
-    if (window.innerWidth > 1399) {
-      colHeight = 220;
-    } else {
+    if (windowWidth < 992) {
+      colHeight = (3 * windowWidth - 50) / 10 + 25;
+    } else if (windowWidth < 1200) {
+      colHeight = (3 * windowWidth - 50) / 2 / 8.75 + 20;
+    } else if (windowWidth < 1400) {
       //colWidth = (window.innerWidth / 2) / 3 - 15;
-      colHeight = (3 * window.innerWidth - 50) / 2 / 8.5;
+      colHeight = (3 * windowWidth - 50) / 2 / 10 + 20;
+    } else {
+      colHeight = 220;
     }
 
     return colHeight;
@@ -5795,30 +5813,29 @@ var Links = function Links(_ref) {
 
   var _ref2 = [getColWidth(), getColHeight()],
       width = _ref2[0],
-      height = _ref2[1];
-
-  var changeSize = function changeSize() {
-    var _ref3 = [getColWidth(), getColHeight()];
-    width = _ref3[0];
-    height = _ref3[1];
-  };
+      height = _ref2[1]; //console.log("width: " + size.width + " height: " + size.height)
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    window.addEventListener('resize', changeSize);
-    console.log(width);
-    console.log(height);
-    console.log(window.innerWidth);
+    function handleResize() {
+      setSize({
+        height: getColHeight(),
+        width: getColWidth()
+      });
+      /*[width, height] = [getColWidth(), getColHeight()];*/
+    }
+
+    window.addEventListener('resize', handleResize);
     return function () {
-      window.removeEventListener('resize', changeSize);
+      window.removeEventListener('resize', handleResize);
     };
   });
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(_LinkItems__WEBPACK_IMPORTED_MODULE_4__.default),
-      _useState4 = _slicedToArray(_useState3, 2),
-      originalArray = _useState4[0],
-      setOriginalArray = _useState4[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(_LinkItems__WEBPACK_IMPORTED_MODULE_4__.default),
+      _useState6 = _slicedToArray(_useState5, 2),
+      originalArray = _useState6[0],
+      setOriginalArray = _useState6[1];
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(function () {
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(function () {
     return {
       mouseXY: [0, 0],
       mouseCircleDelta: [0, 0],
@@ -5827,9 +5844,9 @@ var Links = function Links(_ref) {
       isPressed: false
     };
   }),
-      _useState6 = _slicedToArray(_useState5, 2),
-      state = _useState6[0],
-      setState = _useState6[1]; // indexed by visual position
+      _useState8 = _slicedToArray(_useState7, 2),
+      state = _useState8[0],
+      setState = _useState8[1]; // indexed by visual position
 
 
   var layout = userLinks.map(function (link, index) {
@@ -5837,13 +5854,13 @@ var Links = function Links(_ref) {
     var col = index % 3;
     return [width * col, height * row];
   });
-  var handleMouseDown = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (key, _ref4, _ref5) {
-    var _ref6 = _slicedToArray(_ref4, 2),
-        pressX = _ref6[0],
-        pressY = _ref6[1];
+  var handleMouseDown = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (key, _ref3, _ref4) {
+    var _ref5 = _slicedToArray(_ref3, 2),
+        pressX = _ref5[0],
+        pressY = _ref5[1];
 
-    var pageX = _ref5.pageX,
-        pageY = _ref5.pageY;
+    var pageX = _ref4.pageX,
+        pageY = _ref4.pageY;
     setState(function (state) {
       return _objectSpread(_objectSpread({}, state), {}, {
         lastPress: key,
@@ -5856,9 +5873,9 @@ var Links = function Links(_ref) {
   var handleTouchStart = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (key, pressLocation, e) {
     handleMouseDown(key, pressLocation, e.touches[0]);
   }, [handleMouseDown]);
-  var handleMouseMove = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (_ref7) {
-    var pageX = _ref7.pageX,
-        pageY = _ref7.pageY;
+  var handleMouseMove = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (_ref6) {
+    var pageX = _ref6.pageX,
+        pageY = _ref6.pageY;
 
     var lastPress = state.lastPress,
         isPressed = state.isPressed,
@@ -6006,11 +6023,11 @@ var Links = function Links(_ref) {
 
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_motion__WEBPACK_IMPORTED_MODULE_3__.Motion, {
         style: style,
-        children: function children(_ref8) {
-          var translateX = _ref8.translateX,
-              translateY = _ref8.translateY,
-              scale = _ref8.scale,
-              boxShadow = _ref8.boxShadow;
+        children: function children(_ref7) {
+          var translateX = _ref7.translateX,
+              translateY = _ref7.translateY,
+              scale = _ref7.scale,
+              boxShadow = _ref7.boxShadow;
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             className: "icon_col",
             style: {
@@ -7728,7 +7745,7 @@ jQuery(document).ready(function ($) {
   var innerContent = document.getElementById('preview_wrap');
   var iconsWrap = document.querySelector('.icons_wrap');
   var iconCol = document.querySelectorAll('.icon_col:last-child');
-  iconsWrap.style.minHeight = getDivHeight() + "px";
+  iconsWrap.style.minHeight = getDivHeight(iconCol) + "px";
 
   if (box) {
     if (windowWidth < 1200) {
@@ -7739,6 +7756,7 @@ jQuery(document).ready(function ($) {
 
     $(window).on('resize', function () {
       windowWidth = $(window).width();
+      var iconCol = document.querySelectorAll('.icon_col:last-child');
 
       if (windowWidth < 1200) {
         //const height = box.offsetHeight;
@@ -7748,15 +7766,15 @@ jQuery(document).ready(function ($) {
         innerContent.style.maxHeight = "860px";
       }
 
-      iconsWrap.style.minHeight = getDivHeight() + "px";
+      iconsWrap.style.minHeight = getDivHeight(iconCol) + "px";
     });
   }
 
-  function getDivHeight() {
-    var transformProp = iconCol[0].style.transform.split("translate3d(");
+  function getDivHeight(iconColValue) {
+    var transformProp = iconColValue[0].style.transform.split("translate3d(");
     var transformValues = transformProp[1].split(" ");
     var divHeight = transformValues[1].replace(",", "").replace("px", "");
-    return parseInt(divHeight) + 250 + 20;
+    return parseInt(divHeight) + 300;
   }
 });
 

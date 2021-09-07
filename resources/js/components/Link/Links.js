@@ -33,16 +33,25 @@ const Links = ({
     const [switchStatus, setSwitchStatus] = useState(null);
     //const  { userLinks, setUserLinks } = useContext(LinksContext);
 
-    //const [size, setSize] = useState(window.innerWidth);
+    const [size, setSize] = useState({
+        height: window.innerHeight,
+        width: window.innerWidth
+    });
 
     const getColWidth = () => {
         let colWidth;
-        if (window.innerWidth  > 1399 ) {
-            colWidth = 200;
+        const windowWidth = window.innerWidth;
 
+        if (windowWidth < 550 ) {
+            colWidth = ((3 * windowWidth)) / 11;
+        }else if (windowWidth < 992) {
+            colWidth = ((3 * windowWidth - 25)) / 10;
+        } else if (windowWidth < 1200) {
+            colWidth = ((3 * windowWidth - 50) / 2 ) / 9.5;
+        } else if (windowWidth < 1400) {
+            colWidth = ((3 * windowWidth - 50) / 2) / 10
         } else {
-            //colWidth = (window.innerWidth / 2) / 3 - 15;
-            colWidth = ((3 * window.innerWidth - 50) / 2) / 10
+            colWidth = 200;
         }
 
         return colWidth;
@@ -50,12 +59,17 @@ const Links = ({
 
     const getColHeight = () => {
         let colHeight;
-        if (window.innerWidth  > 1399 ) {
-            colHeight = 220;
+        const windowWidth = window.innerWidth;
 
-        } else {
+        if (windowWidth < 992 ) {
+            colHeight = (3 * windowWidth - 50) / 10 + 25;
+        } else if (windowWidth < 1200) {
+            colHeight = ((3 * windowWidth - 50) / 2 ) / 8.75 + 20;
+        } else if (windowWidth < 1400) {
             //colWidth = (window.innerWidth / 2) / 3 - 15;
-            colHeight = ((3 * window.innerWidth - 50) / 2) / 8.5
+            colHeight = ((3 * windowWidth - 50) / 2) / 10 + 20;
+        } else {
+            colHeight = 220;
         }
 
         return colHeight;
@@ -63,18 +77,19 @@ const Links = ({
 
     let [width, height] = [getColWidth(), getColHeight()];
 
-    const changeSize = (() => {
-        [width, height] = [getColWidth(), getColHeight()];
-    })
-
+    //console.log("width: " + size.width + " height: " + size.height)
     useEffect(() => {
-        window.addEventListener('resize', changeSize);
-        console.log(width);
-        console.log(height);
-        console.log(window.innerWidth);
+        function handleResize() {
+            setSize({
+                height: getColHeight(),
+                width: getColWidth(),
+            })
+            /*[width, height] = [getColWidth(), getColHeight()];*/
+        }
 
+        window.addEventListener('resize', handleResize);
         return () => {
-            window.removeEventListener('resize', changeSize);
+            window.removeEventListener('resize', handleResize);
         }
     });
 

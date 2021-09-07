@@ -197,12 +197,13 @@
             min-height: 800px;
 
             @media all and (max-width: 1199px) {
-                padding: 10px 5%;
+                padding: 10px 2%;
             }
 
-            @media all and (max-width: 550px) {
-                padding: 20px 10px;
+            @media all and (max-width: 768px) {
+                padding: 10px 1%;
             }
+
         }
 
         .edit_form {
