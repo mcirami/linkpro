@@ -8,7 +8,9 @@ const SubmitForm = ({
     editID,
     setEditID,
     setUserLinks,
-    userLinks
+    userLinks,
+    originalArray,
+    setOriginalArray
 }) => {
 
     //const  { userLinks, setUserLinks } = useContext(LinksContext);
@@ -81,6 +83,19 @@ const SubmitForm = ({
                     EventBus.dispatch("success", {message: returnMessage});
                     setUserLinks(
                         userLinks.map((item) => {
+                            if (item.id === editID) {
+                                return {
+                                    ...item,
+                                    name: currentLink.name,
+                                    url: currentLink.url,
+                                    icon: currentLink.icon
+                                }
+                            }
+                            return item;
+                        })
+                    )
+                    setOriginalArray(
+                        originalArray.map((item) => {
                             if (item.id === editID) {
                                 return {
                                     ...item,

@@ -5,6 +5,7 @@ import Switch from "react-switch";
 import EventBus from '../../Utils/Bus';
 import {Motion, spring} from 'react-motion';
 import myLinksArray from './LinkItems';
+import SubmitForm from './SubmitForm';
 
 const springSetting1 = { stiffness: 180, damping: 10 };
 const springSetting2 = { stiffness: 120, damping: 17 };
@@ -26,13 +27,10 @@ const [width, height] = [200, 250];
 const Links = ({
    userLinks,
    setUserLinks,
+   editID,
    setEditID,
 
 }) => {
-    const order = userLinks.map(link => link.name)
-
-    /*const newPositions = userLinks.map((link, index) => ({...link, position: index}));
-    console.log(newPositions);*/
 
     const [switchStatus, setSwitchStatus] = useState(null);
     //const  { userLinks, setUserLinks } = useContext(LinksContext);
@@ -60,15 +58,14 @@ const Links = ({
 
     console.log(colWidth);*/
 
+    const [originalArray, setOriginalArray] = useState(myLinksArray);
+
     const [state, setState] = useState(() => ({
         mouseXY: [0,0],
         mouseCircleDelta: [0,0], // difference between mouse and circle pos for x + y coords, for dragging
         lastPress: null,
         isPressed: false,
-        currentPosition: null,
     }));
-
-    //console.log(userLinks);
 
     // indexed by visual position
     const layout = userLinks.map((link, index) => {
@@ -122,8 +119,6 @@ const Links = ({
                     index,
                 );
                 setState((state) => ({ ...state, mouseXY }));
-
-                //console.log(linkAttr);
                 setUserLinks(newOrder);
                 handleSubmit();
             }
@@ -175,8 +170,6 @@ const Links = ({
         .then(
             (response) => {
                 console.log(JSON.stringify(response.data.message))
-                /*const returnMessage = JSON.stringify(response.data.message);
-                EventBus.dispatch("success", { message: returnMessage });*/
             }
         )
         .catch((error) => {
@@ -184,24 +177,34 @@ const Links = ({
         });
     }
 
-
-    const handleChange = (id, active_status) => {
-        const newStatus = !active_status;
+    const handleChange = (currentItem) => {
+        const newStatus = !currentItem.active_status;
 
         const packets = {
             active_status: newStatus,
         };
 
         axios
-        .post("/dashboard/links/status/" + id, packets)
+        .post("/dashboard/links/status/" + currentItem.id, packets)
         .then(
             (response) => {
                 //console.log(JSON.stringify(response.data))
                 const returnMessage = JSON.stringify(response.data.message);
                 EventBus.dispatch("success", { message: returnMessage });
+                setOriginalArray(
+                    originalArray.map((item) => {
+                        if (item.id === currentItem.id) {
+                            return {
+                                ...item,
+                                active_status: newStatus,
+                            };
+                        }
+                        return item;
+                    })
+                )
                 setUserLinks(
                     userLinks.map((item) => {
-                        if (item.id === id) {
+                        if (item.id === currentItem.id) {
                             return {
                                 ...item,
                                 active_status: newStatus,
@@ -213,7 +216,12 @@ const Links = ({
             }
         )
         .catch((error) => {
-            console.log("ERROR:: ", error.response.data);
+            if (error.response !== undefined) {
+                console.log("ERROR:: ", error.response.data);
+            } else {
+                console.log("ERROR:: ", error);
+            }
+
         });
     };
 
@@ -263,20 +271,20 @@ const Links = ({
                                     </span>
                                 }
                                 <div className="column_content">
-                                    <button className="edit_icon" onClick={(e) => { setEditID(myLinksArray[key].id) }} >
+                                    <button className="edit_icon" onClick={(e) => { setEditID(originalArray[key].id) }} >
                                         <MdEdit />
                                     </button>
                                     <div className="icon_wrap">
-                                        <img src={ myLinksArray[key].icon || '/images/icon-placeholder.png' } alt=""/>
+                                        <img src={ originalArray[key].icon || '/images/icon-placeholder.png' } alt=""/>
                                     </div>
                                     <div className="my_row">
                                         <div className="switch_wrap">
                                            {/* {console.log(Boolean(link.active_status)) || null}*/}
                                             <Switch
-                                                onChange={(e) => handleChange(myLinksArray[key].id)}
-                                                disabled={!myLinksArray[key].id}
+                                                onChange={(e) => handleChange(originalArray[key])}
+                                                disabled={!originalArray[key].id}
                                                 height={20}
-                                                checked={Boolean(myLinksArray[key].active_status)}
+                                                checked={Boolean(originalArray[key].active_status)}
                                                 // checked={Boolean(link.active_status)}
                                                 onColor="#424fcf"
                                                 uncheckedIcon={false}
@@ -290,6 +298,18 @@ const Links = ({
                     </Motion>
                 )
             })}
+            {editID ? (
+                <SubmitForm
+                    editID={editID}
+                    setEditID={setEditID}
+                    setUserLinks={setUserLinks}
+                    userLinks={userLinks}
+                    originalArray={originalArray}
+                    setOriginalArray={setOriginalArray}
+                />
+            ) : (
+                ""
+            )}
         </>
     );
 };
