@@ -22,8 +22,6 @@ function clamp(n, min, max) {
     return Math.max(Math.min(n, max), min);
 }
 
-const [width, height] = [200, 250];
-
 const Links = ({
    userLinks,
    setUserLinks,
@@ -35,7 +33,35 @@ const Links = ({
     const [switchStatus, setSwitchStatus] = useState(null);
     //const  { userLinks, setUserLinks } = useContext(LinksContext);
 
-    const [colWidth, setColWidth] = useState();
+    //const [size, setSize] = useState(window.innerWidth);
+
+    const getColWidth = (() => {
+        let colWidth;
+        if (window.innerWidth  > 1399 ) {
+            colWidth = 200;
+
+        } else {
+            //colWidth = (window.innerWidth / 2) / 3 - 15;
+            colWidth = ((3 * window.innerWidth - 50) / 2) / 10
+        }
+
+        return colWidth;
+    });
+
+    const getColHeight = (() => {
+        let colHeight;
+        if (window.innerWidth  > 1399 ) {
+            colHeight = 220;
+
+        } else {
+            //colWidth = (window.innerWidth / 2) / 3 - 15;
+            colHeight = ((3 * window.innerWidth - 50) / 2) / 8.5
+        }
+
+        return colHeight;
+    });
+
+    const [width, height] = [getColWidth(), getColHeight()];
 
     // DND CODE
     /*useEffect(() => {
@@ -57,6 +83,8 @@ const Links = ({
     }
 
     console.log(colWidth);*/
+
+
 
     const [originalArray, setOriginalArray] = useState(myLinksArray);
 
@@ -141,6 +169,12 @@ const Links = ({
             mouseCircleDelta: [0, 0]
         }));
     }, []);
+
+   /* useEffect(() => {
+        const iconsWrap = document.querySelector('.icons_wrap');
+        const iconsColWidth = Math.floor(iconsWrap.offsetWidth / 3);
+        setColWidth(iconsColWidth);
+    }, [width])*/
 
     useEffect(() => {
         window.addEventListener("touchmove", handleTouchMove);
@@ -245,7 +279,7 @@ const Links = ({
                     style = {
                         translateX: spring(x, springSetting2),
                         translateY: spring(y, springSetting2),
-                        scale: spring(.80, springSetting1),
+                        scale: spring(.75, springSetting1),
                         boxShadow: spring((x - (3 * width - 50) / 2) / 15, springSetting1)
                     };
                 }

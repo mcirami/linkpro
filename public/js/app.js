@@ -5754,9 +5754,6 @@ function clamp(n, min, max) {
   return Math.max(Math.min(n, max), min);
 }
 
-var width = 200,
-    height = 250;
-
 var Links = function Links(_ref) {
   var userLinks = _ref.userLinks,
       setUserLinks = _ref.setUserLinks,
@@ -5767,12 +5764,38 @@ var Links = function Links(_ref) {
       _useState2 = _slicedToArray(_useState, 2),
       switchStatus = _useState2[0],
       setSwitchStatus = _useState2[1]; //const  { userLinks, setUserLinks } = useContext(LinksContext);
+  //const [size, setSize] = useState(window.innerWidth);
 
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
-      _useState4 = _slicedToArray(_useState3, 2),
-      colWidth = _useState4[0],
-      setColWidth = _useState4[1]; // DND CODE
+  var getColWidth = function getColWidth() {
+    var colWidth;
+
+    if (window.innerWidth > 1399) {
+      colWidth = 200;
+    } else {
+      //colWidth = (window.innerWidth / 2) / 3 - 15;
+      colWidth = (3 * window.innerWidth - 50) / 2 / 10;
+    }
+
+    return colWidth;
+  };
+
+  var getColHeight = function getColHeight() {
+    var colHeight;
+
+    if (window.innerWidth > 1399) {
+      colHeight = 220;
+    } else {
+      //colWidth = (window.innerWidth / 2) / 3 - 15;
+      colHeight = (3 * window.innerWidth - 50) / 2 / 8.5;
+    }
+
+    return colHeight;
+  };
+
+  var _ref2 = [getColWidth(), getColHeight()],
+      width = _ref2[0],
+      height = _ref2[1]; // DND CODE
 
   /*useEffect(() => {
       const iconsWrap = document.querySelector('.icons_wrap');
@@ -5789,13 +5812,12 @@ var Links = function Links(_ref) {
   }
    console.log(colWidth);*/
 
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(_LinkItems__WEBPACK_IMPORTED_MODULE_4__.default),
+      _useState4 = _slicedToArray(_useState3, 2),
+      originalArray = _useState4[0],
+      setOriginalArray = _useState4[1];
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(_LinkItems__WEBPACK_IMPORTED_MODULE_4__.default),
-      _useState6 = _slicedToArray(_useState5, 2),
-      originalArray = _useState6[0],
-      setOriginalArray = _useState6[1];
-
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(function () {
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(function () {
     return {
       mouseXY: [0, 0],
       mouseCircleDelta: [0, 0],
@@ -5804,9 +5826,9 @@ var Links = function Links(_ref) {
       isPressed: false
     };
   }),
-      _useState8 = _slicedToArray(_useState7, 2),
-      state = _useState8[0],
-      setState = _useState8[1]; // indexed by visual position
+      _useState6 = _slicedToArray(_useState5, 2),
+      state = _useState6[0],
+      setState = _useState6[1]; // indexed by visual position
 
 
   var layout = userLinks.map(function (link, index) {
@@ -5814,13 +5836,13 @@ var Links = function Links(_ref) {
     var col = index % 3;
     return [width * col, height * row];
   });
-  var handleMouseDown = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (key, _ref2, _ref3) {
-    var _ref4 = _slicedToArray(_ref2, 2),
-        pressX = _ref4[0],
-        pressY = _ref4[1];
+  var handleMouseDown = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (key, _ref3, _ref4) {
+    var _ref5 = _slicedToArray(_ref3, 2),
+        pressX = _ref5[0],
+        pressY = _ref5[1];
 
-    var pageX = _ref3.pageX,
-        pageY = _ref3.pageY;
+    var pageX = _ref4.pageX,
+        pageY = _ref4.pageY;
     setState(function (state) {
       return _objectSpread(_objectSpread({}, state), {}, {
         lastPress: key,
@@ -5833,9 +5855,9 @@ var Links = function Links(_ref) {
   var handleTouchStart = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (key, pressLocation, e) {
     handleMouseDown(key, pressLocation, e.touches[0]);
   }, [handleMouseDown]);
-  var handleMouseMove = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (_ref5) {
-    var pageX = _ref5.pageX,
-        pageY = _ref5.pageY;
+  var handleMouseMove = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (_ref6) {
+    var pageX = _ref6.pageX,
+        pageY = _ref6.pageY;
 
     var lastPress = state.lastPress,
         isPressed = state.isPressed,
@@ -5872,6 +5894,12 @@ var Links = function Links(_ref) {
       });
     });
   }, []);
+  /* useEffect(() => {
+       const iconsWrap = document.querySelector('.icons_wrap');
+       const iconsColWidth = Math.floor(iconsWrap.offsetWidth / 3);
+       setColWidth(iconsColWidth);
+   }, [width])*/
+
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     window.addEventListener("touchmove", handleTouchMove);
     window.addEventListener("touchend", handleMouseUp);
@@ -5970,18 +5998,18 @@ var Links = function Links(_ref) {
         style = {
           translateX: (0,react_motion__WEBPACK_IMPORTED_MODULE_3__.spring)(x, springSetting2),
           translateY: (0,react_motion__WEBPACK_IMPORTED_MODULE_3__.spring)(y, springSetting2),
-          scale: (0,react_motion__WEBPACK_IMPORTED_MODULE_3__.spring)(.80, springSetting1),
+          scale: (0,react_motion__WEBPACK_IMPORTED_MODULE_3__.spring)(.75, springSetting1),
           boxShadow: (0,react_motion__WEBPACK_IMPORTED_MODULE_3__.spring)((x - (3 * width - 50) / 2) / 15, springSetting1)
         };
       }
 
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_motion__WEBPACK_IMPORTED_MODULE_3__.Motion, {
         style: style,
-        children: function children(_ref6) {
-          var translateX = _ref6.translateX,
-              translateY = _ref6.translateY,
-              scale = _ref6.scale,
-              boxShadow = _ref6.boxShadow;
+        children: function children(_ref7) {
+          var translateX = _ref7.translateX,
+              translateY = _ref7.translateY,
+              scale = _ref7.scale,
+              boxShadow = _ref7.boxShadow;
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             className: "icon_col",
             style: {
@@ -6145,16 +6173,6 @@ var SubmitForm = function SubmitForm(_ref) {
 
           return item;
         }));
-        /*const newElement = {
-            id: link_id,
-            name: currentLink.name,
-            url: currentLink.url,
-            icon: currentLink.icon,
-            active_status: 1,
-            page_id: pageSettings["id"]
-        };
-        setUserLinks(userLinks.concat(newElement));*/
-
         setEditID(null);
       })["catch"](function (error) {
         console.log("ERROR:: ", error.response.data);

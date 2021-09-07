@@ -58,15 +58,6 @@ const SubmitForm = ({
                             return item;
                         })
                     )
-                    /*const newElement = {
-                        id: link_id,
-                        name: currentLink.name,
-                        url: currentLink.url,
-                        icon: currentLink.icon,
-                        active_status: 1,
-                        page_id: pageSettings["id"]
-                    };
-                    setUserLinks(userLinks.concat(newElement));*/
                     setEditID(null);
                 })
             .catch(error => {
@@ -121,13 +112,6 @@ const SubmitForm = ({
             <form onSubmit={handleSubmit} className="link_form">
                 <div className="row">
                     <div className="col-12">
-                        {/*<img
-                            id="current_icon"
-                            src={currentLink[0].icon}
-                            name="link_icon"
-                            alt=""
-                        />*/}
-
                         <IconList currentLink={currentLink} setCurrentLink={setCurrentLink}/>
                     </div>
                 </div>
@@ -170,32 +154,6 @@ const SubmitForm = ({
                     </div>
                 </div>
             </form>
-            {/*<form>
-                <div className="my_row">
-                    <input
-                        type="text"
-                        defaultValue={name}
-                        onChange={(e) => setName(e.target.value)}
-                        onKeyPress={(event) => {
-                            if (event.key === "Enter") {
-                                handleSubmit(event, id);
-                            }
-                        }}
-                    />
-                </div>
-                <div className="my_row">
-                    <input
-                        type="text"
-                        defaultValue={url}
-                        onChange={(e) => setUrl(e.target.value)}
-                        onKeyPress={(event) => {
-                            if (event.key === "Enter") {
-                                handleSubmit(event, id);
-                            }
-                        }}
-                    />
-                </div>
-            </form>*/}
         </div>
     );
 };

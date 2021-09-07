@@ -11915,6 +11915,11 @@ header.guest_header .col.right {
 #links_page .content_wrap .top_section {
   padding: 0 50px;
 }
+@media all and (max-width: 1199px) {
+  #links_page .content_wrap .top_section {
+    padding: 0 5%;
+  }
+}
 @media all and (max-width: 550px) {
   #links_page .content_wrap .top_section {
     padding: 0 25px;
@@ -12026,6 +12031,11 @@ header.guest_header .col.right {
   grid-row-gap: 40px;*/
   padding: 20px 30px;
   min-height: 800px;
+}
+@media all and (max-width: 1199px) {
+  #links_page .icons_wrap.add_icons {
+    padding: 10px 5%;
+  }
 }
 @media all and (max-width: 550px) {
   #links_page .icons_wrap.add_icons {
