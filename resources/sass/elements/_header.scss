@@ -41,6 +41,13 @@
                 &:hover {
                     text-decoration: none;
                 }
+
+                &.dropdown-item {
+                    &:focus {
+                        color: $white !important;
+                        background: $blue;
+                    }
+                }
             }
         }
     }

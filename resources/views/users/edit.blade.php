@@ -2,40 +2,68 @@
 
 @section('content')
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12 card">
+        <div class="my_row form_page">
+            <div class="card">
+                <div>
+                    <h3>Edit Your Account Information</h3>
+                </div>
+
                 <div class="card-body">
-                    <h2>Edit Page Appearance</h2>
-                    <form action="/dashboard/appearance" method="POST">
-                        <div class="row">
-                            <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="background">Background</label>
-                                    <input type="text" id="background" name="background" class="form-control{{ $errors->first('background') ? ' is-invalid' : '' }}" value="{{ $user->background }}">
-                                    @if($errors->first('background'))
-                                        <div class="invalid-feedback">{{ $errors->first('background') }}</div>
-                                    @endif
-                                </div>
+                    <form method="POST" action="/update-account/{{$user->id}}">
+                        @csrf
+
+                        <div class="form-group row">
+                            {{--<label for="username" class="col-md-4 col-form-label text-md-right">{{ __('Username') }}</label>--}}
+
+                            <div class="col-sm-10 mx-auto">
+                                <input placeholder="Username" id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ $user->username }}" required autocomplete="username" autofocus>
+
+                                @if ($errors->has('username'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('username')  }}</strong>
+                                    </span>
+                                @endif
                             </div>
-                            <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="text_color">Text Color</label>
-                                    <input type="text" id="text_color" name="text_color" class="form-control{{ $errors->first('text_color') ? ' is-invalid' : '' }}"  value="{{ $user->text_color }}">
-                                    @if($errors->first('text_color'))
-                                        <div class="invalid-feedback">{{ $errors->first('text_color') }}</div>
-                                    @endif
-                                </div>
+                        </div>
+
+                        <div class="form-group row">
+                            {{--<label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>--}}
+
+                            <div class="col-sm-10 mx-auto">
+                                <input placeholder="E-mail Address" id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user->email }}" required autocomplete="email">
+
+                                @if ($errors->has('email'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('email')  }}</strong>
+                                </span>
+                                @endif
                             </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    @csrf
-                                    <button type="submit" class="btn btn-primary{{ session('success') ? ' is-valid' : '' }}">Save Settings</button>
-                                    @if(session('success'))
-                                        <div class="valid-feedback">
-                                            {{ session('success') }}
-                                        </div>
-                                    @endif
-                                </div>
+                        </div>
+
+                        {{--<div class="form-group row">
+                            --}}{{--<label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>--}}{{--
+
+                            <div class="col-sm-10 mx-auto">
+                                <input placeholder="Password" id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+
+                                @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('password')  }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-10 mx-auto">
+                                <input placeholder="Confirm Password" id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                            </div>
+                        </div>--}}
+                        <div class="form-group row mb-3">
+                            <div class="col-sm-10 mx-auto">
+                                <button type="submit" class="btn btn-primary text-uppercase">
+                                    {{ __('Update') }}
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -43,4 +71,13 @@
             </div>
         </div>
     </div>
+    @if (session()->has('success'))
+        <div class="display_message alert" id="laravel_flash">
+            <div class="icon_wrap">
+
+            </div>
+            <p>{{ session()->get('success')}}</p>
+            <span class="close"><strong>CLOSE</strong></span>
+        </div>
+    @endif
 @endsection

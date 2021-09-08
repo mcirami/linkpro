@@ -1,0 +1,63 @@
+.links_col {
+
+    .links_wrap {
+
+        &.live_page {
+            max-width: 450px;
+
+            @media all and (max-width: 768px) {
+                max-width: unset;
+            }
+
+            .icon_col {
+                box-shadow: unset !important;
+                -webkit-box-shadow: unset !important;
+                -moz-box-shadow: unset !important;
+                -o-box-shadow: unset !important;
+                padding: 20px;
+
+                img {
+                    @include boxShadowAlt;
+                    border-radius: 12px;
+                    -webkit-border-radius: 12px;
+                    -moz-border-radius: 12px;
+                }
+            }
+        }
+
+        .inner_content {
+
+            &.live_page {
+                padding: 0 0 20px 0;
+                min-height: 740px;
+
+                @media all and (max-width: 768px) {
+                    border-radius: 0;
+                    -webkit-border-radius: 0;
+                    -moz-border-radius: 0;
+                }
+
+                .page_header {
+                    padding: 30%;
+                    border-top-right-radius: 50px;
+                    -webkit-border-top-right-radius: 50px;
+                    -moz-border-radius-topright: 50px;
+                    border-top-left-radius: 50px;
+                    -webkit-border-top-left-radius: 50px;
+                    -moz-border-radius-topleft: 50px;
+
+                    @media all and (max-width: 768px) {
+                        border-radius: 0;
+                        -webkit-border-radius: 0;
+                        -moz-border-radius: 0;
+                    }
+
+                    &.default {
+                        padding: 75px 36%;
+                    }
+                }
+            }
+        }
+    }
+}
+

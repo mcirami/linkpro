@@ -50,7 +50,7 @@
                         @endif
                     @else
                         <li class="nav-item">
-                            <a href="#"><img src="{{ asset('images/icon-support.png') }}" alt="Link Pro"> Support</a>
+                            <a href="{{route('upgrade.get')}}">{{--<img src="{{ asset('images/icon-support.png') }}" alt="Link Pro"> --}}Upgrade</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -58,7 +58,7 @@
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                {{--<a class="dropdown-item" href="/dashboard/appearance">Appearance</a>--}}
+                                <a class="dropdown-item" href="{{route('user.edit')}}">Account</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

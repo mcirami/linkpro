@@ -1,3 +1,12 @@
+<footer>
+    <ul>
+        <li><a href="#">Contact</a></li>
+        <li><a href="{{ route('user.edit') }}">Account</a></li>
+        <li><a href="{{ route('upgrade.get') }}">Upgrade</a></li>
+    </ul>
+    <small>&copy; Copyright Link Pro LLC | All Rights Reserved</small>
+</footer>
+
 <script src="https://js.stripe.com/v3/"></script>
 <script>
     var stripe = Stripe('{{ env("STRIPE_KEY") }}', { locale: 'en' });

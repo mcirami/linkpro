@@ -10,7 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('/js/app.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -27,7 +27,7 @@
                 <a class="navbar-brand" href="{{ url('/dashboard') }}">
                     <h1><img src="{{ asset('images/logo.png') }}" alt="Link Pro"></h1>
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -50,7 +50,7 @@
                             @endif
                         @else
                             <li class="nav-item">
-                                <a href="#"><img src="{{ asset('images/icon-support.png') }}" alt="Link Pro"> Support</a>
+                                <a href="{{route('upgrade.get')}}">{{--<img src="{{ asset('images/icon-support.png') }}" alt="Link Pro"> --}}Upgrade</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -58,7 +58,7 @@
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    {{--<a class="dropdown-item" href="/dashboard/appearance">Appearance</a>--}}
+                                    <a class="dropdown-item" href="{{route('user.edit')}}">Account</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

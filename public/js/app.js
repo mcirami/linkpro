@@ -5017,11 +5017,10 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
  */
 
 
+__webpack_require__(/*! ./custom */ "./resources/js/custom.js");
+
 __webpack_require__(/*! ./components/Index */ "./resources/js/components/Index.js"); //require('./components/Example');
 //require('./components/Preview');
-
-
-__webpack_require__(/*! ./custom */ "./resources/js/custom.js");
 
 /***/ }),
 
@@ -7827,42 +7826,73 @@ jQuery(document).ready(function ($) {
   var windowWidth = $(window).width();
   var box = document.querySelector('.links_wrap.preview');
   var innerContent = document.getElementById('preview_wrap');
-  var iconsWrap = document.querySelector('.icons_wrap');
-  var iconCol = document.querySelectorAll('.add_icons .icon_col:last-child'); //iconsWrap.style.minHeight = getDivHeight(iconCol) + "px";
+  /*const iconsWrap = document.querySelector('.icons_wrap');
+  const iconCol = document.querySelectorAll('.add_icons .icon_col:last-child');
+  iconsWrap.style.minHeight = getDivHeight(iconCol) + "px";*/
 
   if (box) {
-    if (windowWidth < 1200) {
-      //const height = box.offsetHeight;
-      var width = box.offsetWidth;
+    var width = box.offsetWidth;
+
+    if (windowWidth < 551) {
+      var height = box.offsetHeight;
+      innerContent.style.maxHeight = height - 30 + "px";
+    } else if (windowWidth < 993) {
+      var _height = box.offsetHeight;
+      innerContent.style.maxHeight = _height - 25 + "px";
+    } else if (windowWidth < 1200) {
       innerContent.style.maxHeight = width * 2 + "px";
     }
 
     $(window).on('resize', function () {
       windowWidth = $(window).width();
+      var height = box.offsetHeight;
+      var width = box.offsetWidth;
       /* const iconCol = document.querySelectorAll('.add_icons .icon_col:last-child');
        iconsWrap.style.minHeight = getDivHeight(iconCol) + "px";*/
 
-      if (windowWidth < 1200) {
+      if (windowWidth < 551) {
+        innerContent.style.maxHeight = height - 30 + "px";
+      } else if (windowWidth < 993) {
+        innerContent.style.maxHeight = height - 25 + "px";
+      } else if (windowWidth < 1200) {
         //const height = box.offsetHeight;
-        var _width = box.offsetWidth;
-        innerContent.style.maxHeight = _width * 2 + "px";
+        innerContent.style.maxHeight = width * 2 + "px";
       } else {
         innerContent.style.maxHeight = "860px";
       }
     });
   }
+  /*function getDivHeight(iconColValue) {
+      const colHeight = iconColValue[0].offsetHeight;
+      console.log("col height: " + colHeight);
+      console.log("lenght: " + iconColValue.length);
+      const count = Math.ceil(iconColValue.length / 3);
+      const transformProp = iconColValue[iconColValue.length - 1].style.transform.split("translate3d(");
+      const transformValues = transformProp[1].split(" ");
+      const divHeight = transformValues[1].replace(",", "").replace("px", "");
+      console.log("div height: " + divHeight);
+      //return parseInt(colHeight) * count - 150;
+      return parseInt(divHeight) + colHeight;
+  }*/
 
-  function getDivHeight(iconColValue) {
-    var colHeight = iconColValue[0].offsetHeight;
-    console.log("col height: " + colHeight);
-    console.log("lenght: " + iconColValue.length);
-    var count = Math.ceil(iconColValue.length / 3);
-    var transformProp = iconColValue[iconColValue.length - 1].style.transform.split("translate3d(");
-    var transformValues = transformProp[1].split(" ");
-    var divHeight = transformValues[1].replace(",", "").replace("px", "");
-    console.log("div height: " + divHeight); //return parseInt(colHeight) * count - 150;
 
-    return parseInt(divHeight) + colHeight;
+  var flashMessage = document.getElementById('laravel_flash');
+
+  if (flashMessage) {
+    console.log("flash");
+    setTimeout(function () {
+      var fadeEffect = setInterval(function () {
+        if (!flashMessage.style.opacity) {
+          flashMessage.style.opacity = 1;
+        }
+
+        if (flashMessage.style.opacity > 0) {
+          flashMessage.style.opacity -= .1;
+        } else {
+          clearInterval(fadeEffect);
+        }
+      }, 200);
+    }, 3000);
   }
 });
 

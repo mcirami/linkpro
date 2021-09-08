@@ -62,6 +62,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/subscribe', [SubscriptionController::class, 'show']);
     Route::post('/subscribe', [SubscriptionController::class, 'store'])->name('subscribe.post');
 
+    Route::get('/edit-account', [UserController::class, 'edit'])->name('user.edit');
+    Route::post('/update-account/{user}', [UserController::class, 'update'])->name('user.update');
+
     Route::get('/email', [MailController::class, 'sendEmail']);
 });
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateUserRequest;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -12,19 +14,14 @@ class UserController extends Controller
     public function edit() {
 
         return view('users.edit', [
-           'user' => Auth::user()
+           'user' => Auth::user(),
+            'success' => "my message"
         ]);
     }
 
-    public function update(Request $request) {
+    public function update(UpdateUserRequest $request, UserService $userService, User $user) {
 
-        //always want full hex code
-        $request->validate([
-            'background' => 'required|size:7|starts_with:#',
-            'text_color' => 'required|size:7|starts_with:#',
-        ]);
-
-        Auth::user()->update($request->only(['background', 'text_color']));
+        $userService->updateUser($request, $user);
 
         return redirect()->back()->with(['success' => 'Changes saved successfully']);
     }

@@ -43,7 +43,7 @@
                                        target="_blank"
                                        rel="nofollow"
                                     >
-                                        <img src="{{ $link->icon }}" alt="" />
+                                        <img src="{{ $link->icon ? $link->icon : asset('/images/icon-placeholder-preview.png') }}" alt="" />
                                     </a>
                                     <p>{{ $link->name }}</p>
                                 </div>

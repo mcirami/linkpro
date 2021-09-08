@@ -11,9 +11,10 @@ require('./bootstrap');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+require('./custom');
 
 require('./components/Index');
 //require('./components/Example');
 //require('./components/Preview');
 
-require('./custom');
+
