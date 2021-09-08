@@ -5192,6 +5192,40 @@ function App() {
       profileFileName = _useState14[0],
       setProfileFileName = _useState14[1];
 
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
+      _useState16 = _slicedToArray(_useState15, 2),
+      wrapHeight = _useState16[0],
+      setWrapHeight = _useState16[1];
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    var iconsWrap = document.querySelector('.icons_wrap');
+    var iconCol = document.querySelectorAll('.add_icons .icon_col:last-child');
+    var colHeight = iconCol[0].offsetHeight;
+    var transformProp = iconCol[0].style.transform.split("translate3d(");
+    var transformValues = transformProp[1].split(" ");
+    var divHeight = transformValues[1].replace(",", "").replace("px", "");
+    var height = parseInt(divHeight) + colHeight + 150;
+    iconsWrap.style.minHeight = height + "px";
+    setWrapHeight(height);
+  }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    function handleResize() {
+      var iconsWrap = document.querySelector('.icons_wrap');
+      var iconCol = document.querySelectorAll('.add_icons .icon_col:last-child');
+      var colHeight = iconCol[0].offsetHeight;
+      var transformProp = iconCol[0].style.transform.split("translate3d(");
+      var transformValues = transformProp[1].split(" ");
+      var divHeight = transformValues[1].replace(",", "").replace("px", "");
+      var height = parseInt(divHeight) + colHeight + 75;
+      iconsWrap.style.minHeight = height + "px";
+      setWrapHeight(height);
+    }
+
+    window.addEventListener('resize', handleResize);
+    return function () {
+      window.removeEventListener('resize', handleResize);
+    };
+  });
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsxs)("div", {
     className: "my_row page_wrap",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_Flash__WEBPACK_IMPORTED_MODULE_14__.Flash, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsxs)(PageContext.Provider, {
@@ -5784,10 +5818,10 @@ var Links = function Links(_ref) {
       colWidth = (3 * windowWidth - 25) / 10;
     } else if (windowWidth < 1200) {
       colWidth = (3 * windowWidth - 50) / 2 / 9.5;
-    } else if (windowWidth < 1400) {
+    } else if (windowWidth < 1500) {
       colWidth = (3 * windowWidth - 50) / 2 / 10;
     } else {
-      colWidth = 200;
+      colWidth = 230;
     }
 
     return colWidth;
@@ -5801,11 +5835,11 @@ var Links = function Links(_ref) {
       colHeight = (3 * windowWidth - 50) / 10 + 25;
     } else if (windowWidth < 1200) {
       colHeight = (3 * windowWidth - 50) / 2 / 8.75 + 20;
-    } else if (windowWidth < 1400) {
+    } else if (windowWidth < 1500) {
       //colWidth = (window.innerWidth / 2) / 3 - 15;
       colHeight = (3 * windowWidth - 50) / 2 / 10 + 20;
     } else {
-      colHeight = 220;
+      colHeight = 250;
     }
 
     return colHeight;
@@ -7794,8 +7828,7 @@ jQuery(document).ready(function ($) {
   var box = document.querySelector('.links_wrap.preview');
   var innerContent = document.getElementById('preview_wrap');
   var iconsWrap = document.querySelector('.icons_wrap');
-  var iconCol = document.querySelectorAll('.icon_col:last-child');
-  iconsWrap.style.minHeight = getDivHeight(iconCol) + "px";
+  var iconCol = document.querySelectorAll('.add_icons .icon_col:last-child'); //iconsWrap.style.minHeight = getDivHeight(iconCol) + "px";
 
   if (box) {
     if (windowWidth < 1200) {
@@ -7806,7 +7839,8 @@ jQuery(document).ready(function ($) {
 
     $(window).on('resize', function () {
       windowWidth = $(window).width();
-      var iconCol = document.querySelectorAll('.icon_col:last-child');
+      /* const iconCol = document.querySelectorAll('.add_icons .icon_col:last-child');
+       iconsWrap.style.minHeight = getDivHeight(iconCol) + "px";*/
 
       if (windowWidth < 1200) {
         //const height = box.offsetHeight;
@@ -7815,16 +7849,20 @@ jQuery(document).ready(function ($) {
       } else {
         innerContent.style.maxHeight = "860px";
       }
-
-      iconsWrap.style.minHeight = getDivHeight(iconCol) + "px";
     });
   }
 
   function getDivHeight(iconColValue) {
-    var transformProp = iconColValue[0].style.transform.split("translate3d(");
+    var colHeight = iconColValue[0].offsetHeight;
+    console.log("col height: " + colHeight);
+    console.log("lenght: " + iconColValue.length);
+    var count = Math.ceil(iconColValue.length / 3);
+    var transformProp = iconColValue[iconColValue.length - 1].style.transform.split("translate3d(");
     var transformValues = transformProp[1].split(" ");
     var divHeight = transformValues[1].replace(",", "").replace("px", "");
-    return parseInt(divHeight) + 300;
+    console.log("div height: " + divHeight); //return parseInt(colHeight) * count - 150;
+
+    return parseInt(divHeight) + colHeight;
   }
 });
 

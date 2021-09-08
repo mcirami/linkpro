@@ -53,11 +53,7 @@
         -moz-border-radius-bottomleft: 20px;
 
         .top_section {
-            padding: 0 50px;
-
-            @media all and (max-width: 1199px) {
-                padding: 0 5%;
-            }
+            padding: 0 5%;
 
             @media all and (max-width: 550px) {
                 padding: 0 25px;
@@ -191,17 +187,23 @@
         }
 
         &.add_icons {
-            /*grid-column-gap: 40px;
-            grid-row-gap: 40px;*/
-            padding: 20px 30px;
+            padding: 20px 3%;
             min-height: 800px;
 
             @media all and (max-width: 1199px) {
+                padding: 10px 4%;
+            }
+
+            @media all and (max-width: 992px) {
                 padding: 10px 2%;
             }
 
             @media all and (max-width: 768px) {
-                padding: 10px 1%;
+                padding: 10px 3% 10px 1.5%;
+            }
+
+            @media all and (max-width: 550px) {
+                padding: 10px 3% 10px 3.5%;
             }
 
         }
@@ -363,7 +365,7 @@
 .add_more_icons {
     @include boxShadow;
     padding: 0 40px;
-    margin: 30px 50px 0 50px;
+    margin: 30px 5% 0 5%;
     border-radius: 20px;
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;

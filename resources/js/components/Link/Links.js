@@ -48,10 +48,10 @@ const Links = ({
             colWidth = ((3 * windowWidth - 25)) / 10;
         } else if (windowWidth < 1200) {
             colWidth = ((3 * windowWidth - 50) / 2 ) / 9.5;
-        } else if (windowWidth < 1400) {
+        } else if (windowWidth < 1500) {
             colWidth = ((3 * windowWidth - 50) / 2) / 10
         } else {
-            colWidth = 200;
+            colWidth = 230;
         }
 
         return colWidth;
@@ -65,11 +65,11 @@ const Links = ({
             colHeight = (3 * windowWidth - 50) / 10 + 25;
         } else if (windowWidth < 1200) {
             colHeight = ((3 * windowWidth - 50) / 2 ) / 8.75 + 20;
-        } else if (windowWidth < 1400) {
+        } else if (windowWidth < 1500) {
             //colWidth = (window.innerWidth / 2) / 3 - 15;
             colHeight = ((3 * windowWidth - 50) / 2) / 10 + 20;
         } else {
-            colHeight = 220;
+            colHeight = 250;
         }
 
         return colHeight;

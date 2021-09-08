@@ -52,6 +52,42 @@ function App() {
     const [completedProfileCrop, setCompletedProfileCrop] = useState(null);
     const [profileFileName, setProfileFileName] = useState(null);
 
+    const [wrapHeight, setWrapHeight] = useState();
+
+
+    useEffect(() => {
+        const iconsWrap = document.querySelector('.icons_wrap');
+        const iconCol = document.querySelectorAll('.add_icons .icon_col:last-child');
+        const colHeight = iconCol[0].offsetHeight;
+        const transformProp = iconCol[0].style.transform.split("translate3d(");
+        const transformValues = transformProp[1].split(" ");
+        const divHeight = transformValues[1].replace(",", "").replace("px", "");
+        const height = parseInt(divHeight) + colHeight + 150;
+        iconsWrap.style.minHeight = height + "px";
+        setWrapHeight(height);
+
+    }, [])
+
+    useEffect(() => {
+
+        function handleResize() {
+            const iconsWrap = document.querySelector('.icons_wrap');
+            const iconCol = document.querySelectorAll('.add_icons .icon_col:last-child');
+            const colHeight = iconCol[0].offsetHeight;
+            const transformProp = iconCol[0].style.transform.split("translate3d(");
+            const transformValues = transformProp[1].split(" ");
+            const divHeight = transformValues[1].replace(",", "").replace("px", "");
+            const height = parseInt(divHeight) + colHeight + 75;
+            iconsWrap.style.minHeight = height + "px";
+            setWrapHeight(height);
+        }
+
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        }
+    });
+
     return (
         <div className="my_row page_wrap">
             <Flash />

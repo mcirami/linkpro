@@ -5,8 +5,9 @@ jQuery(document).ready(function($) {
     const box = document.querySelector('.links_wrap.preview');
     const innerContent = document.getElementById('preview_wrap');
     const iconsWrap = document.querySelector('.icons_wrap');
-    const iconCol = document.querySelectorAll('.icon_col:last-child');
-    iconsWrap.style.minHeight = getDivHeight(iconCol) + "px";
+    const iconCol = document.querySelectorAll('.add_icons .icon_col:last-child');
+    //iconsWrap.style.minHeight = getDivHeight(iconCol) + "px";
+
 
     if (box) {
 
@@ -19,7 +20,8 @@ jQuery(document).ready(function($) {
         $(window).on('resize', function() {
 
             windowWidth = $(window).width();
-            const iconCol = document.querySelectorAll('.icon_col:last-child');
+           /* const iconCol = document.querySelectorAll('.add_icons .icon_col:last-child');
+            iconsWrap.style.minHeight = getDivHeight(iconCol) + "px";*/
 
             if (windowWidth < 1200) {
                 //const height = box.offsetHeight;
@@ -29,14 +31,19 @@ jQuery(document).ready(function($) {
                 innerContent.style.maxHeight = "860px";
             }
 
-            iconsWrap.style.minHeight = getDivHeight(iconCol) + "px";
         });
     }
 
     function getDivHeight(iconColValue) {
-        const transformProp = iconColValue[0].style.transform.split("translate3d(");
+        const colHeight = iconColValue[0].offsetHeight;
+        console.log("col height: " + colHeight);
+        console.log("lenght: " + iconColValue.length);
+        const count = Math.ceil(iconColValue.length / 3);
+        const transformProp = iconColValue[iconColValue.length - 1].style.transform.split("translate3d(");
         const transformValues = transformProp[1].split(" ");
         const divHeight = transformValues[1].replace(",", "").replace("px", "");
-        return parseInt(divHeight) + 300;
+        console.log("div height: " + divHeight);
+        //return parseInt(colHeight) * count - 150;
+        return parseInt(divHeight) + colHeight;
     }
 });
