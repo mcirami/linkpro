@@ -1,4 +1,4 @@
-import React, {useState, useReducer, createContext, createRef, useEffect} from 'react';
+import React, {useState, useReducer, createContext, createRef, useCallback, useEffect} from 'react';
 import Preview from './Preview/Preview';
 import Links from './Link/Links';
 import SubmitForm from './Link/SubmitForm';
@@ -13,6 +13,10 @@ import AddLink from './Link/AddLink';
 import PasswordProtect from './Page/PasswordProtect';
 import ShowPreviewButton from './Preview/ShowPreviewButton';
 import { Flash } from './Flash';
+import { Motion, spring} from "react-motion";
+import {MdDragHandle, MdEdit} from 'react-icons/md';
+import Switch from 'react-switch';
+import {icons} from 'react-icons';
 
 //import UserContext from './User/User';
 
@@ -35,6 +39,7 @@ function App() {
     //const myLinksArray = useContext(UserContext);
 
     const [userLinks, setUserLinks] = useState(myLinksArray);
+
     const [pageSettings, setPageSettings] = useReducer(pageReducer, page);
     const [allUserPages, setAllUserPages] = useState(userPages);
     const [editID, setEditID] = useState(null);
@@ -46,10 +51,6 @@ function App() {
     const profileRef = createRef(null)
     const [completedProfileCrop, setCompletedProfileCrop] = useState(null);
     const [profileFileName, setProfileFileName] = useState(null);
-
-    useEffect(() => {
-
-    })
 
     return (
         <div className="my_row page_wrap">
@@ -99,33 +100,14 @@ function App() {
                         <ShowPreviewButton />
 
                         <div className="icons_wrap add_icons icons">
-                            {/*{userLinks.map(( linkItem, index) => {
 
-                                    //let {id, name, link, link_icon} = linkItem;
-
-                                    return (
-                                        <>*/}
                             <Links
+                                editID={editID}
                                 setEditID={setEditID}
                                 userLinks={userLinks}
                                 setUserLinks={setUserLinks}
                             />
-                            {/*</>
 
-                                    )
-
-                                })}
-*/}
-                            {editID ? (
-                                <SubmitForm
-                                    editID={editID}
-                                    setEditID={setEditID}
-                                    setUserLinks={setUserLinks}
-                                    userLinks={userLinks}
-                                />
-                            ) : (
-                                ""
-                            )}
                         </div>
 
                         <AddLink

@@ -118,7 +118,6 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
                                             </div>
                                          :
                                             <div className="icon_col" key={ id || Math.random()}>
-
                                             </div>
                                         }
                                      </>

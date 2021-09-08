@@ -107,13 +107,7 @@ class LinkController extends Controller
             $link->update($request->only(['name', 'url', 'icon']));
         }
 
-
-
         return response()->json(['message' => 'Link Updated']);
-
-        //return redirect()->to('/dashboard/links');
-
-        //return response()->setStatusCode(201);
 
     }
 
@@ -130,6 +124,16 @@ class LinkController extends Controller
 
         //return response()->setStatusCode(201);
 
+    }
+
+    public function updatePositions(Request $request) {
+        $links = $request->all();
+
+        foreach($links["userLinks"] as $link) {
+            Link::where('id', $link["id"])->update(['position' => $link["position"]]);
+        }
+
+        return response()->json(['message' => "Links Position Updated"]);
     }
 
     public function destroy(Request $request, Link $link) {

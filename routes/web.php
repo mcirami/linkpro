@@ -36,6 +36,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
     //Route::get('/links/{link}', [LinkController::class, 'edit']);
     Route::post('/links/update/{link}', [LinkController::class, 'update']);
     Route::post('/links/status/{link}', [LinkController::class, 'updateStatus']);
+    Route::post('/links/update-positions', [LinkController::class, 'updatePositions']);
     Route::delete('/links/{link}', [LinkController::class, 'destroy']);
 
     Route::get('/pages/{page}', [PageController::class, 'edit'])->name('pages.edit');

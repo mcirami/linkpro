@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
+use function MongoDB\BSON\toJSON;
 
 class PageService {
 
@@ -74,6 +75,7 @@ class PageService {
                      ->with('latest_visit')
                      ->orderBy('position', 'asc')
                      ->get();
+
         $pageNames = Page::all()->pluck('name')->toArray();
 
         Javascript::put([
