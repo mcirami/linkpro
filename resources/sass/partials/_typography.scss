@@ -57,11 +57,11 @@
     font-style: normal;
 }
 
-h1, h2, h3, a {
+h1, h2, h3 {
     @include osbold;
 }
 
-label, button, h5 {
+label, button, h3, h5, a {
     @include ossemibold;
 }
 

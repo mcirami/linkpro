@@ -214,7 +214,7 @@
                 .inner_content_wrap {
                     height: 100%;
                     margin-right: -50px;
-                    padding-right: 50px;
+                    padding-right: 35px;
                     overflow-y: scroll;
 
                     @media all and (max-width: 1199px) {
@@ -263,7 +263,7 @@
                     -moz-box-shadow: none !important;
                     -o-box-shadow: none !important;
                     width: 33.3%;
-                    padding: 20px;
+                    padding: 10px 15px;
 
                     @media all and (max-width: 1199px) {
                         padding: 15px !important;

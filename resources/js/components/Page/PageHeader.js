@@ -19,7 +19,6 @@ export const cropStatus = createContext();
 const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileName}) => {
 
     const { pageSettings, setPageSettings } = useContext(PageContext);
-    const [isEditing, setIsEditing] = useState(false);
     const [previousImage, setPreviousImage] = useState(pageSettings['header_img']);
 
     const [upImg, setUpImg] = useState();
@@ -120,7 +119,6 @@ const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileN
                 setFileName(null)
                 setUpImg(null)
                 setCompletedCrop(false)
-                setIsEditing(false)
                 document.querySelector('form.header_img_form .bottom_section').classList.add('hidden');
             }
         ).catch(error => {
@@ -129,7 +127,7 @@ const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileN
     }
 
     const handleCancel = () => {
-        setIsEditing(false);
+        //setIsEditing(false);
         setFileName(null)
         setUpImg(null)
         setCompletedCrop(false)
@@ -145,48 +143,43 @@ const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileN
         <div className="row page_settings">
             <div className="col-12">
                 <div className="column_wrap">
-                    {isEditing ?
-                        <form onSubmit={handleSubmit}  className="header_img_form">
+                    <form onSubmit={handleSubmit}  className="header_img_form">
+                        {!fileName &&
                             <div className="top_section">
-                                <div>
-                                    <label htmlFor="header_file_upload" className="custom">
-                                        Choose File
-                                    </label>
-                                    <span>{fileName}</span>
-                                    <input className="custom" id="header_file_upload" type="file"
-                                           onChange={onSelectFile}
-                                    />
-                                </div>
-                                <div>
-                                    <button type="submit" disabled={!fileName && true}>
-                                        <MdFileUpload />
-                                    </button>
-                                    <a className="cancel_icon" href="#"
-                                       onClick={(e) => {
-                                           e.preventDefault();
-                                           handleCancel();
-                                       }}
-                                    ><MdCancel />
-                                    </a>
-                                </div>
-                            </div>
-                            <div className="bottom_section hidden">
-                                <ReactCrop
-                                    src={upImg}
-                                    onImageLoaded={onLoad}
-                                    crop={crop}
-                                    onChange={(c) => setCrop(c)}
-                                    onComplete={(c) => setCompletedCrop(c)}
+                                <label htmlFor="header_file_upload" className="custom">
+                                    Header Image
+                                    <span className="edit_icon">
+                                        <MdEdit/>
+                                    </span>
+                                </label>
+                                <input className="custom" id="header_file_upload" type="file"
+                                       onChange={onSelectFile}
                                 />
                             </div>
-                        </form>
-                        :
-                        <div className="column_content">
-                            <h3>Header Image</h3>
-                            <a className="edit_icon" onClick={(e) => {e.preventDefault(); setIsEditing(true) }} href="#"><MdEdit /></a>
+                        }
+                        <div className="bottom_section hidden">
+                            <ReactCrop
+                                src={upImg}
+                                onImageLoaded={onLoad}
+                                crop={crop}
+                                onChange={(c) => setCrop(c)}
+                                onComplete={(c) => setCompletedCrop(c)}
+                            />
+                            <div className="bottom_row">
+                                <button type="submit" className="button green" disabled={!fileName && true}>
+                                    Save
+                                </button>
+                                <a className="button red" href="#"
+                                   onClick={(e) => {
+                                       e.preventDefault();
+                                       handleCancel();
+                                   }}
+                                >
+                                    Cancel
+                                </a>
+                            </div>
                         </div>
-                    }
-
+                    </form>
                 </div>
 
             </div>

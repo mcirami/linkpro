@@ -40,6 +40,11 @@ main {
     flex-wrap: nowrap;;
 }
 
+button {
+    border: none;
+    color: $white;
+}
+
 .preview_button_wrap {
     display: none;
     text-align: center;
@@ -66,6 +71,8 @@ main {
     padding: 0 6px 4px;
     margin-left: 5px;
     border: none;
+    width: 28px;
+    height: 28px;
 
     @media all and (max-width: 768px) {
         padding: 0 4px 0;

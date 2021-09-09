@@ -15,7 +15,6 @@ import EventBus from '../../Utils/Bus';
 const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop, profileFileName, setProfileFileName}) => {
 
     const { pageSettings, setPageSettings } = useContext(PageContext);
-    const [isEditing, setIsEditing] = useState(false);
     const [previousImage, setPreviousImage] = useState(pageSettings['profile_img']);
 
     const [upImg, setUpImg] = useState();
@@ -116,7 +115,6 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
                 EventBus.dispatch("success", { message: returnMessage });
                 setProfileFileName("")
                 setUpImg("")
-                setIsEditing(false)
                 document.querySelector('form.profile_img_form .bottom_section').classList.add('hidden');
             }
         ).catch(error => {
@@ -124,7 +122,6 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
         });
     }
     const handleCancel = () => {
-        setIsEditing(false);
         setProfileFileName(null)
         setUpImg(null)
         setCompletedProfileCrop(false)
@@ -139,48 +136,46 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
         <div className="row page_settings">
             <div className="col-12">
                 <div className="column_wrap">
-                    { isEditing ?
-                        <form onSubmit={handleSubmit} className="profile_img_form">
+
+                    <form onSubmit={handleSubmit} className="profile_img_form">
+
+                        {!profileFileName &&
                             <div className="top_section">
-                                <div>
-                                    <label htmlFor="profile_file_upload" className="custom">
-                                        Choose File
-                                    </label>
-                                    <span>{profileFileName}</span>
-                                    <input className="custom" id="profile_file_upload" type="file"
-                                           onChange={onSelectFile}
-                                    />
-                                </div>
-                                <div>
-                                    <button type="submit">
-                                        <MdFileUpload />
-                                    </button>
-                                    <a className="cancel_icon" href="#"
-                                       onClick={(e) => {
-                                           e.preventDefault();
-                                           handleCancel();
-                                        }}
-                                    ><MdCancel />
-                                    </a>
-                                </div>
-                            </div>
-                            <div className="bottom_section hidden">
-                                <ReactCrop
-                                    src={upImg}
-                                    onImageLoaded={onLoad}
-                                    crop={crop}
-                                    onChange={(c) => setCrop(c)}
-                                    onComplete={(c) => setCompletedProfileCrop(c)}
+
+                                <label htmlFor="profile_file_upload" className="custom">
+                                    Profile Image
+                                    <span className="edit_icon">
+                                            <MdEdit/>
+                                        </span>
+                                </label>
+                                <input className="custom" id="profile_file_upload" type="file"
+                                       onChange={onSelectFile}
                                 />
                             </div>
-                        </form>
-                        :
-                        <div className="column_content">
-                            <h3>Profile Image </h3>
-                            <a className="edit_icon" onClick={(e) => {e.preventDefault(); setIsEditing(true) }} href="#"><MdEdit /></a>
+                        }
+                        <div className="bottom_section hidden">
+                            <ReactCrop
+                                src={upImg}
+                                onImageLoaded={onLoad}
+                                crop={crop}
+                                onChange={(c) => setCrop(c)}
+                                onComplete={(c) => setCompletedProfileCrop(c)}
+                            />
+                            <div className="bottom_row">
+                                <button type="submit" className="button green" disabled={!profileFileName && true}>
+                                    Save
+                                </button>
+                                <a className="button red" href="#"
+                                   onClick={(e) => {
+                                       e.preventDefault();
+                                       handleCancel();
+                                   }}
+                                >
+                                    Cancel
+                                </a>
+                            </div>
                         </div>
-                    }
-
+                    </form>
                 </div>
             </div>
         </div>

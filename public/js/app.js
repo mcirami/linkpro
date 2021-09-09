@@ -5929,7 +5929,7 @@ var Links = function Links(_ref) {
       var _mouseXY = [pageX - dx, pageY - dy];
       var col = clamp(Math.floor(_mouseXY[0] / width), 0, 2);
       var row = clamp(Math.floor(_mouseXY[1] / height), 0, Math.floor(userLinks.length / 3));
-      var index = row * 3 + col; //console.log(userLinks[index].id);
+      var index = row * 3 + col;
 
       if (!userLinks[index].id.toString().includes("new")) {
         var newOrder = reinsert(userLinks, userLinks.findIndex(function (link) {
@@ -6554,32 +6554,27 @@ var PageHeader = function PageHeader(_ref) {
       pageSettings = _useContext.pageSettings,
       setPageSettings = _useContext.setPageSettings;
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(pageSettings['header_img']),
       _useState2 = _slicedToArray(_useState, 2),
-      isEditing = _useState2[0],
-      setIsEditing = _useState2[1];
+      previousImage = _useState2[0],
+      setPreviousImage = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(pageSettings['header_img']),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState4 = _slicedToArray(_useState3, 2),
-      previousImage = _useState4[0],
-      setPreviousImage = _useState4[1];
-
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
-      _useState6 = _slicedToArray(_useState5, 2),
-      upImg = _useState6[0],
-      setUpImg = _useState6[1];
+      upImg = _useState4[0],
+      setUpImg = _useState4[1];
 
   var imgRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   var previewCanvasRef = setRef;
 
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     unit: '%',
     width: 30,
     aspect: 16 / 9
   }),
-      _useState8 = _slicedToArray(_useState7, 2),
-      crop = _useState8[0],
-      setCrop = _useState8[1];
+      _useState6 = _slicedToArray(_useState5, 2),
+      crop = _useState6[0],
+      setCrop = _useState6[1];
 
   var onSelectFile = function onSelectFile(e) {
     var files = e.target.files || e.dataTransfer.files;
@@ -6655,7 +6650,6 @@ var PageHeader = function PageHeader(_ref) {
       setFileName(null);
       setUpImg(null);
       setCompletedCrop(false);
-      setIsEditing(false);
       document.querySelector('form.header_img_form .bottom_section').classList.add('hidden');
     })["catch"](function (error) {
       console.log("ERROR:: ", error.response.data);
@@ -6663,7 +6657,7 @@ var PageHeader = function PageHeader(_ref) {
   };
 
   var handleCancel = function handleCancel() {
-    setIsEditing(false);
+    //setIsEditing(false);
     setFileName(null);
     setUpImg(null);
     setCompletedCrop(false);
@@ -6679,42 +6673,27 @@ var PageHeader = function PageHeader(_ref) {
       className: "col-12",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
         className: "column_wrap",
-        children: isEditing ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("form", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("form", {
           onSubmit: handleSubmit,
           className: "header_img_form",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          children: [!fileName && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             className: "top_section",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
-                htmlFor: "header_file_upload",
-                className: "custom",
-                children: "Choose File"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-                children: fileName
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
-                className: "custom",
-                id: "header_file_upload",
-                type: "file",
-                onChange: onSelectFile
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("label", {
+              htmlFor: "header_file_upload",
+              className: "custom",
+              children: ["Header Image", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                className: "edit_icon",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_7__.MdEdit, {})
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
-                type: "submit",
-                disabled: !fileName && true,
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_7__.MdFileUpload, {})
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
-                className: "cancel_icon",
-                href: "#",
-                onClick: function onClick(e) {
-                  e.preventDefault();
-                  handleCancel();
-                },
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_7__.MdCancel, {})
-              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+              className: "custom",
+              id: "header_file_upload",
+              type: "file",
+              onChange: onSelectFile
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             className: "bottom_section hidden",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)((react_image_crop__WEBPACK_IMPORTED_MODULE_3___default()), {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)((react_image_crop__WEBPACK_IMPORTED_MODULE_3___default()), {
               src: upImg,
               onImageLoaded: onLoad,
               crop: crop,
@@ -6724,20 +6703,23 @@ var PageHeader = function PageHeader(_ref) {
               onComplete: function onComplete(c) {
                 return setCompletedCrop(c);
               }
-            })
-          })]
-        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-          className: "column_content",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h3", {
-            children: "Header Image"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
-            className: "edit_icon",
-            onClick: function onClick(e) {
-              e.preventDefault();
-              setIsEditing(true);
-            },
-            href: "#",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_7__.MdEdit, {})
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+              className: "bottom_row",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+                type: "submit",
+                className: "button green",
+                disabled: !fileName && true,
+                children: "Save"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
+                className: "button red",
+                href: "#",
+                onClick: function onClick(e) {
+                  e.preventDefault();
+                  handleCancel();
+                },
+                children: "Cancel"
+              })]
+            })]
           })]
         })
       })
@@ -7123,32 +7105,27 @@ var PageProfile = function PageProfile(_ref) {
       pageSettings = _useContext.pageSettings,
       setPageSettings = _useContext.setPageSettings;
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(pageSettings['profile_img']),
       _useState2 = _slicedToArray(_useState, 2),
-      isEditing = _useState2[0],
-      setIsEditing = _useState2[1];
+      previousImage = _useState2[0],
+      setPreviousImage = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(pageSettings['profile_img']),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState4 = _slicedToArray(_useState3, 2),
-      previousImage = _useState4[0],
-      setPreviousImage = _useState4[1];
-
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
-      _useState6 = _slicedToArray(_useState5, 2),
-      upImg = _useState6[0],
-      setUpImg = _useState6[1];
+      upImg = _useState4[0],
+      setUpImg = _useState4[1];
 
   var imgRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   var previewCanvasRef = profileRef;
 
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     unit: '%',
     width: 30,
     aspect: 1
   }),
-      _useState8 = _slicedToArray(_useState7, 2),
-      crop = _useState8[0],
-      setCrop = _useState8[1];
+      _useState6 = _slicedToArray(_useState5, 2),
+      crop = _useState6[0],
+      setCrop = _useState6[1];
 
   var onSelectFile = function onSelectFile(e) {
     var files = e.target.files || e.dataTransfer.files;
@@ -7224,7 +7201,6 @@ var PageProfile = function PageProfile(_ref) {
       });
       setProfileFileName("");
       setUpImg("");
-      setIsEditing(false);
       document.querySelector('form.profile_img_form .bottom_section').classList.add('hidden');
     })["catch"](function (error) {
       console.log("ERROR:: ", error.response.data);
@@ -7232,7 +7208,6 @@ var PageProfile = function PageProfile(_ref) {
   };
 
   var handleCancel = function handleCancel() {
-    setIsEditing(false);
     setProfileFileName(null);
     setUpImg(null);
     setCompletedProfileCrop(false);
@@ -7248,41 +7223,27 @@ var PageProfile = function PageProfile(_ref) {
       className: "col-12",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
         className: "column_wrap",
-        children: isEditing ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("form", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("form", {
           onSubmit: handleSubmit,
           className: "profile_img_form",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          children: [!profileFileName && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             className: "top_section",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
-                htmlFor: "profile_file_upload",
-                className: "custom",
-                children: "Choose File"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-                children: profileFileName
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
-                className: "custom",
-                id: "profile_file_upload",
-                type: "file",
-                onChange: onSelectFile
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("label", {
+              htmlFor: "profile_file_upload",
+              className: "custom",
+              children: ["Profile Image", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                className: "edit_icon",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_7__.MdEdit, {})
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
-                type: "submit",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_7__.MdFileUpload, {})
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
-                className: "cancel_icon",
-                href: "#",
-                onClick: function onClick(e) {
-                  e.preventDefault();
-                  handleCancel();
-                },
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_7__.MdCancel, {})
-              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+              className: "custom",
+              id: "profile_file_upload",
+              type: "file",
+              onChange: onSelectFile
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             className: "bottom_section hidden",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)((react_image_crop__WEBPACK_IMPORTED_MODULE_3___default()), {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)((react_image_crop__WEBPACK_IMPORTED_MODULE_3___default()), {
               src: upImg,
               onImageLoaded: onLoad,
               crop: crop,
@@ -7292,20 +7253,23 @@ var PageProfile = function PageProfile(_ref) {
               onComplete: function onComplete(c) {
                 return setCompletedProfileCrop(c);
               }
-            })
-          })]
-        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-          className: "column_content",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h3", {
-            children: "Profile Image "
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
-            className: "edit_icon",
-            onClick: function onClick(e) {
-              e.preventDefault();
-              setIsEditing(true);
-            },
-            href: "#",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_icons_md__WEBPACK_IMPORTED_MODULE_7__.MdEdit, {})
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+              className: "bottom_row",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+                type: "submit",
+                className: "button green",
+                disabled: !profileFileName && true,
+                children: "Save"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
+                className: "button red",
+                href: "#",
+                onClick: function onClick(e) {
+                  e.preventDefault();
+                  handleCancel();
+                },
+                children: "Cancel"
+              })]
+            })]
           })]
         })
       })
@@ -7609,17 +7573,17 @@ var PasswordProtect = function PasswordProtect() {
         })
       }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
         className: "column_wrap",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("a", {
           className: "column_content",
+          href: "#",
+          onClick: function onClick(e) {
+            e.preventDefault();
+            setIsEditing(true);
+          },
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h3", {
             children: "Password Protect"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("a", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
             className: "lock_icon",
-            href: "#",
-            onClick: function onClick(e) {
-              e.preventDefault();
-              setIsEditing(true);
-            },
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_icons_io__WEBPACK_IMPORTED_MODULE_6__.IoIosLock, {})
           })]
         })

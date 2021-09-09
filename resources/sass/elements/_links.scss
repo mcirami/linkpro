@@ -285,7 +285,6 @@
 
     .column_wrap {
         border: 1px solid $borderGray;
-        padding: 8px 10px;
         border-radius: 12px;
         -webkit-border-radius: 12px;
         -moz-border-radius: 12px;
@@ -307,7 +306,7 @@
                 padding: 0 !important;
             }
 
-            button {
+            /*button {
                 background: none;
                 border: none;
                 color: $blue;
@@ -320,13 +319,33 @@
                     width: 25px;
                     height: 25px;
                 }
-            }
+            }*/
 
             .bottom_section {
                 height: auto;
+                margin: 0 auto;
+                padding: 40px;
+
+                .bottom_row {
+                    text-align: center;
+
+                    button, a {
+                        width: 150px;
+                        display:inline-block;
+
+                        &:first-child {
+                            margin-right: 20px;
+                        }
+                    }
+                }
 
                 &.hidden {
                     height: 0;
+                    padding: 0;
+
+                    .bottom_row {
+                        display: none;
+                    }
                 }
             }
         }
@@ -345,8 +364,10 @@
             -webkit-align-items: center;
             justify-content: space-between;
             -webkit-justify-content: space-between;
+            padding: 4px 10px;
 
             h3 {
+                color: $black;
                 margin: 0;
                 font-size: 16px;
             }

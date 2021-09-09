@@ -146,7 +146,6 @@ const Links = ({
                 );
                 let index = row * 3 + col;
 
-                //console.log(userLinks[index].id);
                 if (!userLinks[index].id.toString().includes("new")) {
                     const newOrder = reinsert(
                         userLinks,

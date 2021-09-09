@@ -138,10 +138,12 @@ const PasswordProtect = () => {
                         </div>
                         :
                     <div className="column_wrap">
-                        <div className="column_content">
+                        <a  className="column_content" href="#" onClick={(e) => { e.preventDefault(); setIsEditing(true)} }>
                             <h3>Password Protect</h3>
-                            <a className="lock_icon" href="#" onClick={(e) => { e.preventDefault(); setIsEditing(true)} }><IoIosLock/></a>
-                        </div>
+                            <span className="lock_icon">
+                                <IoIosLock/>
+                            </span>
+                        </a>
                     </div>
                 }
 
