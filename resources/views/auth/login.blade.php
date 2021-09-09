@@ -4,7 +4,7 @@
 <div class="container">
     <div class="my_row form_page">
         <div class="card">
-            <h3>{{ __('Sign in to your linkpro account') }}</h3>
+            <h3>{{ __('Log in to LinkPro') }}</h3>
 
             <div class="card-body">
                 <form method="POST" action="{{ route('login') }}">
@@ -60,7 +60,7 @@
                         <div class="form-group mb-0">
                             <div class="col-12 text-center">
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    {{ __('Forgot Your Password?') }}
+                                    {{ __('Need your password reset?') }}
                                 </a>
                             </div>
                         </div>
@@ -68,7 +68,7 @@
 
                     <div class="form-group row mb-0">
                         <div class="col-12 text-center">
-                           <p>Don't have an account? <a href="/register">Create one</a></p>
+                           <p>Not on LinkPro? <a href="{{ route('register') }}">Start Now Free!</a></p>
                         </div>
                     </div>
                 </form>

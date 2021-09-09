@@ -10,7 +10,7 @@ import SubmitForm from './SubmitForm';
 const springSetting1 = { stiffness: 180, damping: 10 };
 const springSetting2 = { stiffness: 120, damping: 17 };
 
-function reinsert(arr, from, to, oldPos, newPos) {
+function reinsert(arr, from, to) {
     const _arr = arr.slice(0);
     const val = _arr[from];
     _arr.splice(from, 1);
@@ -27,16 +27,23 @@ const Links = ({
    setUserLinks,
    editID,
    setEditID,
-
 }) => {
 
-    const [switchStatus, setSwitchStatus] = useState(null);
+
     //const  { userLinks, setUserLinks } = useContext(LinksContext);
 
+    const [originalArray, setOriginalArray] = useState(myLinksArray);
     const [size, setSize] = useState({
         height: window.innerHeight,
         width: window.innerWidth
     });
+
+    const [state, setState] = useState(() => ({
+        mouseXY: [0,0],
+        mouseCircleDelta: [0,0], // difference between mouse and circle pos for x + y coords, for dragging
+        lastPress: null,
+        isPressed: false,
+    }));
 
     const getColWidth = () => {
         let colWidth;
@@ -93,15 +100,6 @@ const Links = ({
         }
     });
 
-    const [originalArray, setOriginalArray] = useState(myLinksArray);
-
-    const [state, setState] = useState(() => ({
-        mouseXY: [0,0],
-        mouseCircleDelta: [0,0], // difference between mouse and circle pos for x + y coords, for dragging
-        lastPress: null,
-        isPressed: false,
-    }));
-
     // indexed by visual position
     const layout = userLinks.map((link, index) => {
         const row = Math.floor(index / 3);
@@ -146,16 +144,19 @@ const Links = ({
                     0,
                     Math.floor(userLinks.length / 3)
                 );
-                const index = row * 3 + col;
+                let index = row * 3 + col;
 
-                const newOrder = reinsert(
-                    userLinks,
-                    userLinks.findIndex((link) => link.position === lastPress),
-                    index,
-                );
-                setState((state) => ({ ...state, mouseXY }));
-                setUserLinks(newOrder);
-                handleSubmit();
+                //console.log(userLinks[index].id);
+                if (!userLinks[index].id.toString().includes("new")) {
+                    const newOrder = reinsert(
+                        userLinks,
+                        userLinks.findIndex((link) => link.position === lastPress),
+                        index,
+                    );
+                    setState((state) => ({ ...state, mouseXY }));
+                    setUserLinks(newOrder);
+                    handleSubmit();
+                }
             }
         },
         [state]
@@ -176,12 +177,6 @@ const Links = ({
             mouseCircleDelta: [0, 0]
         }));
     }, []);
-
-   /* useEffect(() => {
-        const iconsWrap = document.querySelector('.icons_wrap');
-        const iconsColWidth = Math.floor(iconsWrap.offsetWidth / 3);
-        setColWidth(iconsColWidth);
-    }, [width])*/
 
     useEffect(() => {
         window.addEventListener("touchmove", handleTouchMove);
@@ -272,6 +267,7 @@ const Links = ({
                 let style;
                 let x;
                 let y;
+
                 const visualPosition = userLinks.findIndex((link) => link.position === key);
                 if (key === lastPress && isPressed) {
                     [x, y] = mouseXY;
@@ -291,6 +287,8 @@ const Links = ({
                     };
                 }
 
+                const linkID = originalArray[key].id;
+
                 return (
                     <Motion key={key} style={style}>
                         {({ translateX, translateY, scale, boxShadow }) => (
@@ -303,16 +301,24 @@ const Links = ({
                                     userSelect: "none"
                                 }}
                             >
-                                {myLinksArray[key].id &&
+
+                                {linkID.toString().includes("new") ?
+                                    <span>
+                                        <MdDragHandle/>
+                                    </span>
+                                    :
                                     <span
-                                        onMouseDown={handleMouseDown.bind(null, key, [x, y])}
-                                        onTouchStart={handleTouchStart.bind(null, key, [x, y])}
+                                        onMouseDown={handleMouseDown.bind(null,
+                                            key, [x, y])}
+                                        onTouchStart={handleTouchStart.bind(
+                                            null, key, [x, y])}
                                     >
-                                        <MdDragHandle />
+                                        <MdDragHandle/>
                                     </span>
                                 }
+
                                 <div className="column_content">
-                                    <button className="edit_icon" onClick={(e) => { setEditID(originalArray[key].id) }} >
+                                    <button className="edit_icon" onClick={(e) => { setEditID(linkID) }} >
                                         <MdEdit />
                                     </button>
                                     <div className="icon_wrap">
@@ -323,7 +329,7 @@ const Links = ({
                                            {/* {console.log(Boolean(link.active_status)) || null}*/}
                                             <Switch
                                                 onChange={(e) => handleChange(originalArray[key])}
-                                                disabled={!originalArray[key].id}
+                                                disabled={linkID.toString().includes("new")}
                                                 height={20}
                                                 checked={Boolean(originalArray[key].active_status)}
                                                 // checked={Boolean(link.active_status)}

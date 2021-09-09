@@ -5,8 +5,8 @@
     <div class="my_row form_page">
         <div class="card">
             <div>
-                <h3>Create an account for free</h3>
-                <h4 class="text-center">Free forever. No payment needed.</h4>
+                <h3>Take control of your social sharing!</h3>
+                <h4 class="text-center">Grab a free account or get advanced features!</h4>
             </div>
 
             <div class="card-body">
@@ -16,8 +16,9 @@
                     <div class="form-group row">
                         {{--<label for="username" class="col-md-4 col-form-label text-md-right">{{ __('Username') }}</label>--}}
 
-                        <div class="col-sm-10 mx-auto">
-                            <input placeholder="Username" id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
+                        <div class="col-sm-10 mx-auto d-flex justify-content-center align-items-center link_name">
+                            <label>Link.pro/</label>
+                            <input placeholder="Link" id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
 
                             @error('username')
                                 <span class="invalid-feedback" role="alert">
@@ -59,7 +60,7 @@
                         {{--<label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
 --}}
                         <div class="col-sm-10 mx-auto">
-                            <input placeholder="Confirm Passworsd" id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                            <input placeholder="Confirm Password" id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -77,13 +78,13 @@
                     <div class="form-group row mb-3">
                         <div class="col-sm-10 mx-auto">
                             <button type="submit" class="btn btn-primary text-uppercase">
-                                {{ __('Sign Up With E-Mail') }}
+                                {{ __('Let\'s Do This') }}
                             </button>
                         </div>
                     </div>
-                    <div class="form-group row mb-0">
+                    <div class="form-group row mb-0 bottom_row">
                         <div class="col-12 text-center">
-                            <p><a href="/login">Already have an account?</a></p>
+                            <p><a href="{{ route('login') }}">Already on LinkPro? Login Now</a></p>
                         </div>
                     </div>
                 </form>

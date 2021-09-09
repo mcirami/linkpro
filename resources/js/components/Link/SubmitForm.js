@@ -38,30 +38,47 @@ const SubmitForm = ({
                     //console.log(JSON.stringify(response.data));
                     const returnMessage = JSON.stringify(response.data.message);
                     EventBus.dispatch("success", { message: returnMessage });
-                    const link_id = JSON.stringify(response.data.link_id);
-                    let count = 0;
-                    setUserLinks(
-                        userLinks.map((item) => {
-                            if (!item.id) {
-                                count++;
-                                if (count === 1) {
-                                    return {
-                                        id: link_id,
-                                        name: currentLink.name,
-                                        url: currentLink.url,
-                                        icon: currentLink.icon,
-                                        active_status: 1,
-                                        page_id: pageSettings["id"]
-                                    }
+                    const link_id = response.data.link_id;
+                    const position = response.data.position;
+                    setOriginalArray(
+                        originalArray.map((item) => {
+                            if (item.id === editID) {
+                                return {
+                                    id: link_id,
+                                    name: currentLink.name,
+                                    url: currentLink.url,
+                                    icon: currentLink.icon,
+                                    active_status: 1,
+                                    position: position,
                                 }
                             }
                             return item;
                         })
                     )
+                    setUserLinks(
+                        userLinks.map((item) => {
+                            if (item.id === editID) {
+                                return {
+                                    id: link_id,
+                                    name: currentLink.name,
+                                    url: currentLink.url,
+                                    icon: currentLink.icon,
+                                    active_status: 1,
+                                    position: position,
+                                }
+                            }
+                            return item;
+                        })
+                    )
+
                     setEditID(null);
                 })
             .catch(error => {
-                console.log("ERROR:: ", error.response.data);
+                if (error.response) {
+                    console.log("ERROR:: ", error.response.data);
+                } else {
+                    console.log("ERROR:: ", error);
+                }
 
             });
 
@@ -101,7 +118,11 @@ const SubmitForm = ({
                     setEditID(null)
                 }
             ).catch(error => {
-                console.log("ERROR:: ", error.response.data);
+                if (error.response) {
+                    console.log("ERROR:: ", error.response.data);
+                } else {
+                    console.log("ERROR:: ", error);
+                }
 
             });
         }

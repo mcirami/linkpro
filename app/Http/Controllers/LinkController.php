@@ -18,43 +18,14 @@ use Illuminate\Support\Facades\Storage;
 class LinkController extends Controller
 {
 
-    /*public function index(Request $request) {
-
-        $getPage = $request->input('page');
-        $page = Page::find($getPage);
-        $userID = Auth::id();
-
-        $userIcons = null;
-
-        $links = Auth::user()->links()
-            ->withCount('visits')
-            ->with('latest_visit')
-            ->get();
-
-        JavaScriptFacade::put([
-            'username' => Auth::user()->username,
-            'links' => $links,
-            'icons' => File::glob(public_path('images/icons').'/*'),
-            'userIcons' => $userIcons,
-            'page' => $page,
-        ]);
-
-        return view('links.index', [
-            'links' => $links,
-        ]);
-    }*/
-
-    /*public function create() {
-        return view('links.create');
-    }*/
-
     public function store(Request $request) {
+        $page = Page::findOrFail($request->page_id);
 
-        $highestPosition = Auth::user()->links()->max('position');
-        if ($highestPosition) {
-            $position = $highestPosition + 1;
+        $highestPosition = $page->links()->max('position');
+        if ($highestPosition === null) {
+            $position = 0;
         } else {
-            $position = 1;
+            $position = $highestPosition + 1;
         }
 
         $request->validate([
@@ -72,7 +43,7 @@ class LinkController extends Controller
             'active_status' => 1
         ]);
 
-        return response()->json(['message'=> 'Link Added', 'link_id' => $link->id]);
+        return response()->json(['message'=> 'Link Added', 'link_id' => $link->id, 'position' => $position]);
     }
 
     /*public function edit(Link $link) {

@@ -47,6 +47,19 @@ label.custom {
     }
 }
 
+form .link_name {
+    label {
+        @include ossemibold;
+        font-size: 20px;
+        padding-right: 5px;
+    }
+}
+
+form .bottom_row a {
+    @include osregular;
+    color: $darkGray;
+}
+
 .edit_form {
     display: -webkit-box;
     display: -ms-flexbox;

@@ -51,7 +51,6 @@ const PageTitle = () => {
                 <input name="title" type="text" defaultValue={pageSettings["title"]}
                        onChange={(e) => handleChange(e) }
                        onKeyPress={ event => {
-                           console.log(event);
                                if(event.key === 'Enter') {
                                    handleSubmit(event);
                                }

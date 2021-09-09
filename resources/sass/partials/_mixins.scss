@@ -1,26 +1,21 @@
 @mixin osregular {
     font-family: 'opensansregular', sans-serif;
-    font-weight: 300;
 }
 
 @mixin osbold {
     font-family: 'opensansbold', sans-serif;
-    font-weight: 700;
 }
 
 @mixin ossemibold {
     font-family: 'opensanssemibold', sans-serif;
-    font-weight: 500;
 }
 
 @mixin oslight {
     font-family: 'opensanslight', sans-serif;
-    font-weight: 200;
 }
 
 @mixin bebas {
     font-family: 'bebasneue', sans-serif;
-    font-weight: 500;
 }
 
 @mixin boxShadow {

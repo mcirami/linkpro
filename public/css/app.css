@@ -11305,17 +11305,14 @@ textarea.form-control-lg {
 }
 h1, .h1, h2, .h2, h3, .h3, a {
   font-family: "opensansbold", sans-serif;
-  font-weight: 700;
 }
 
 label, button, h5, .h5 {
   font-family: "opensanssemibold", sans-serif;
-  font-weight: 500;
 }
 
 h4, .h4, p {
   font-family: "opensansregular", sans-serif;
-  font-weight: 300;
 }
 
 img {
@@ -11598,7 +11595,6 @@ main {
 }
 .navbar ul li a {
   font-family: "opensanssemibold", sans-serif;
-  font-weight: 500;
   font-size: 16px;
 }
 .navbar ul li a:hover {
@@ -11677,7 +11673,6 @@ header.guest_header .button {
 }
 header.guest_header a {
   font-family: "opensansregular", sans-serif;
-  font-weight: 300;
 }
 header.guest_header a:hover {
   text-decoration: none;
@@ -11757,7 +11752,6 @@ header.guest_header .col.right {
 }
 .guest_home section.two_col.top h2, .guest_home section.two_col.top .h2 {
   font-family: "opensanslight", sans-serif;
-  font-weight: 200;
   font-size: 56px;
   margin: 0;
 }
@@ -12170,7 +12164,7 @@ header.guest_header .col.right {
 .add_more_icons {
   box-shadow: 0px 0px 35px 5px rgba(170, 170, 170, 0.18);
   padding: 0 40px;
-  margin: 30px 5% 0 5%;
+  margin: 30px 7% 0 7%;
   border-radius: 20px;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
@@ -12577,10 +12571,13 @@ header.guest_header .col.right {
   -moz-border-radius-bottomleft: 0;
 }
 .form_page .card .form-check-label {
+  font-family: "opensansregular", sans-serif;
   font-size: 14px;
   color: #7f7b7b;
 }
 .form_page .card .form-check-label a {
+  font-family: "opensanssemibold", sans-serif;
+  text-decoration: underline;
   color: #545656;
 }
 
@@ -12647,6 +12644,17 @@ label.custom:hover {
   cursor: pointer;
 }
 
+form .link_name label {
+  font-family: "opensanssemibold", sans-serif;
+  font-size: 20px;
+  padding-right: 5px;
+}
+
+form .bottom_row a {
+  font-family: "opensansregular", sans-serif;
+  color: #545656;
+}
+
 .edit_form {
   display: flex;
   flex-direction: row;
@@ -12658,7 +12666,6 @@ label.custom:hover {
 }
 .edit_form label {
   font-family: "opensansbold", sans-serif;
-  font-weight: 700;
   margin-bottom: 0;
 }
 .edit_form form {
@@ -12722,7 +12729,6 @@ label.custom:hover {
 }
 .edit_form .my_row.characters .char_count span {
   font-family: "opensanssemibold", sans-serif;
-  font-weight: 500;
   color: #0ba921;
 }
 .edit_form .my_row.characters .char_count span.over {
@@ -12907,7 +12913,6 @@ label.custom:hover {
 }
 .form_page.checkout ul p {
   font-family: "opensanssemibold", sans-serif;
-  font-weight: 500;
   font-size: 18px;
 }
 .form_page.checkout .plan_details {
@@ -13088,7 +13093,6 @@ label.custom:hover {
 }
 .pricing_plans .column h3, .pricing_plans .column .h3 {
   font-family: "bebasneue", sans-serif;
-  font-weight: 500;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -13110,7 +13114,6 @@ label.custom:hover {
 }
 .pricing_plans .column p, .pricing_plans .column h3 span, .pricing_plans .column .h3 span {
   font-family: "opensansregular", sans-serif;
-  font-weight: 300;
   font-size: 16px;
   color: #545656;
   text-transform: uppercase;
@@ -13122,7 +13125,6 @@ label.custom:hover {
 }
 .pricing_plans .column h2, .pricing_plans .column .h2 {
   font-family: "opensansregular", sans-serif;
-  font-weight: 300;
   text-transform: uppercase;
   margin: 0;
 }
@@ -13214,7 +13216,6 @@ label.custom:hover {
 }
 .pricing_plans .column.plan_items h2, .pricing_plans .column.plan_items .h2 {
   font-family: "opensansbold", sans-serif;
-  font-weight: 700;
 }
 .pricing_plans .column.plan_items h4, .pricing_plans .column.plan_items .h4 {
   display: block;
@@ -13229,7 +13230,6 @@ label.custom:hover {
 }
 .pricing_plans .column.plan_items .column_row {
   font-family: "opensanssemibold", sans-serif;
-  font-weight: 500;
   background: #d3dae0;
   text-align: left;
   align-items: flex-start;
