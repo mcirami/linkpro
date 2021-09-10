@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
-import {MdEdit} from "react-icons/md";
 import {LinksContext, PageContext} from '../App';
 import {MdCancel} from 'react-icons/md';
+import {IoIosLock} from 'react-icons/io';
 
 //const page_header_path  = user.page_header_path + "/";
 //const page_profile_path  = user.page_profile_path + "/";
@@ -63,6 +63,18 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
                         }
 
                         <div className="profile_content">
+                            {pageSettings["is_protected"] &&
+                                <span className="lock_icon">
+                                    <span className="tooltip_icon">
+                                        ?
+                                        <p className="tooltip">
+                                            Link is password protected
+                                        </p>
+                                    </span>
+                                    <IoIosLock/>
+
+                                </span>
+                            }
                             {!pageSettings["profile_img"] && !profileFileName ?
                                 <div className="profile_image default">
                                     <div className="image_wrap">

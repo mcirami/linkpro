@@ -1,7 +1,7 @@
 import React, {useContext, useState, useEffect} from 'react';
 import axios from "axios";
 import {PageContext} from '../App';
-import {MdCheckCircle} from 'react-icons/md';
+import {GiThumbDown, GiThumbUp} from 'react-icons/Gi';
 import EventBus from '../../Utils/Bus';
 
 const PageBio = () => {
@@ -50,7 +50,7 @@ const PageBio = () => {
 
         <div className="edit_form">
             <form onSubmit={handleSubmit} className="bio">
-                <textarea name="bio" id="" rows="5"
+                <textarea maxLength="65" name="bio" id="" rows="5"
                           defaultValue={pageSettings["bio"]}
                           onChange={(e) => handleChange(e) }
                           onKeyPress={ event => {
@@ -65,7 +65,7 @@ const PageBio = () => {
                     <a className="submit_circle" href="#"
                        onClick={(e) => handleSubmit(e)}
                     >
-                        <MdCheckCircle />
+                        <GiThumbUp />
                     </a>
                     :
                     ""
@@ -80,21 +80,7 @@ const PageBio = () => {
                         }
                     </p>
                 </div>
-
-                {/*<input name="bio" type="text" defaultValue={pageSettings["bio"]}
-                       onChange={(e) => handleChange(e) }
-                       onKeyPress={ event => {
-                               if(event.key === 'Enter') {
-                                   handleSubmit(event);
-                               }
-                           }
-                       }
-                />*/}
-               {/* <button className="button settings" type="submit"><MdCheckCircle /></button>*/}
-                {/*<a href="#" onClick={() => setIsEditing(false)}><MdCancel /></a>*/}
             </form>
-
-            {/*<p>{name}<a className="edit_icon" onClick={(e) => setIsEditing(true) }><MdEdit /></a></p>*/}
 
         </div>
 

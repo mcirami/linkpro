@@ -91,23 +91,37 @@ button {
 }
 
 .cancel_icon, .submit_circle {
-    color: $red;
-    padding-left: 5px;
-
-    &:hover {
-        background: none;
-        color: $darkGray;
-    }
 
     svg {
-        width: 25px;
-        height: 25px;
+        width: 30px;
+        height: 30px;
+        border-radius: 100%;
+        color: $white;
+        padding: 5px;
+    }
+
+    &button {
+        background: none;
     }
 }
 
 .submit_circle {
-    color: $green;
+
+    svg {
+        background: $green;
+    }
 }
+
+.cancel_icon {
+
+    svg {
+        background: $red;
+    }
+}
+
+
+
+
 
 .button {
     width: 150px;

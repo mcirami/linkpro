@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import {MdAddCircleOutline, MdCancel, MdCheckCircle} from 'react-icons/md';
+import {MdAddCircleOutline} from 'react-icons/md';
+import {GiThumbDown, GiThumbUp} from 'react-icons/Gi';
 import EventBus from '../../Utils/Bus';
 
 let pageNames = user.pageNames;
@@ -86,11 +87,11 @@ const PageNav = ({ allUserPages, setAllUserPages, currentPage }) => {
                                         }
                                 />
 
-                                {available ?
+                                { available ?
                                     <a className="submit_circle" href="#"
                                        onClick={(e) => handleSubmit(e)}
                                     >
-                                        <MdCheckCircle />
+                                        <GiThumbUp />
                                     </a>
                                 :
                                     <a className="cancel_icon" href="#"
@@ -99,7 +100,7 @@ const PageNav = ({ allUserPages, setAllUserPages, currentPage }) => {
                                            setIsEditing(false);
                                        }}
                                     >
-                                        <MdCancel />
+                                        <GiThumbDown />
                                     </a>
                                 }
                                 <p className="status">{available ? "Available" : <span className="status not_available">Not Available</span>}</p>

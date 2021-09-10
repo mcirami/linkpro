@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import axios from "axios";
 import {PageContext} from '../App';
-import {MdCheckCircle} from 'react-icons/md';
+import {GiThumbDown, GiThumbUp} from 'react-icons/Gi';
 import EventBus from '../../Utils/Bus';
 
 const PageTitle = () => {
@@ -48,7 +48,7 @@ const PageTitle = () => {
 
         <div className="edit_form">
             <form onSubmit={handleSubmit}>
-                <input name="title" type="text" defaultValue={pageSettings["title"]}
+                <input maxLength="30" name="title" type="text" defaultValue={pageSettings["title"]}
                        onChange={(e) => handleChange(e) }
                        onKeyPress={ event => {
                                if(event.key === 'Enter') {
@@ -61,7 +61,7 @@ const PageTitle = () => {
                     <a className="submit_circle" href="#"
                        onClick={(e) => handleSubmit(e)}
                     >
-                        <MdCheckCircle />
+                        <GiThumbUp />
                     </a>
                     :
                     ""
@@ -76,11 +76,7 @@ const PageTitle = () => {
                         }
                     </p>
                 </div>
-                {/*<button className="button settings" type="submit"><MdCheckCircle /></button>*/}
-                {/*<a href="#" onClick={() => setIsEditing(false)}><MdCancel /></a>*/}
             </form>
-
-            {/*<p>{name}<a className="edit_icon" onClick={(e) => setIsEditing(true) }><MdEdit /></a></p>*/}
 
         </div>
 

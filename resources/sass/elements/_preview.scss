@@ -101,7 +101,82 @@
             float: left;
             position: relative;
 
+            .lock_icon {
+                color: $green;
+                position: absolute;
+                right: 30px;
+                top: 0;
+                width: 35px;
+                height: 45px;
+
+                svg {
+                    width: 100%;
+                    height: 100%;
+                }
+
+                .tooltip_icon {
+                    @include osbold;
+                    position: absolute;
+                    right: 30px;
+                    color: $blue;
+                    border-radius: 100%;
+                    width: 18px;
+                    height: 18px;
+                    text-align: center;
+                    border: 2px solid $blue;
+                    font-size: 13px;
+                    top: 4px;
+                    display: -webkit-box;
+                    display: -ms-flexbox;
+                    display: flex;
+                    justify-content: center;
+                    -webkit-justify-content: center;
+                    align-items: center;
+                    -webkit-align-items: center;
+                    padding-right: 1px;
+
+                    .tooltip {
+                        @include boxShadow;
+                        @include osregular;
+                        transition: 1ms opacity linear;
+                        -webkit-transition: 1ms opacity linear;
+                        -moz-transition: 1ms opacity linear;
+                        -o-transition: 1ms opacity linear;
+                        background: #eaeaea;
+                        width: 180px;
+                        padding: 10px;
+                        top: 30px;
+                        right: -18px;
+                        color: $black;
+                        display: none;
+
+                        &:before {
+                            content: '';
+                            position: absolute;
+                            width: 0;
+                            height: 0;
+                            border-left: 8px solid transparent;
+                            border-right: 8px solid transparent;
+                            border-bottom: 10px solid;
+                            border-bottom-color: #eaeaea;
+                            top: -10px;
+                            right: 18px;
+                        }
+                    }
+
+                    &:hover {
+                        cursor: help;
+
+                        .tooltip {
+                            display: block;
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+
             .profile_image {
+                background: $white;
                 width: 28%;
                 border-radius: 100%;
                 -webkit-border-radius: 100%;

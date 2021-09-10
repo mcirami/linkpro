@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import EventBus from '../../Utils/Bus';
-import {MdCancel, MdCheckCircle} from 'react-icons/md';
+import {GiThumbDown, GiThumbUp} from 'react-icons/Gi';
 
 let pageNames = user.pageNames;
 
@@ -83,13 +83,12 @@ const PageName = ({allUserPages, setAllUserPages, page}) => {
                        <a className="submit_circle" href="#"
                           onClick={(e) => handleSubmit(e)}
                        >
-                           <MdCheckCircle />
+                           <GiThumbUp />
                        </a>
                        :
-                       /*<span className="cancel_icon">
-                           <MdCancel />
-                       </span>*/
-                        ""
+                       <span className="cancel_icon">
+                           <GiThumbDown />
+                       </span>
                    }
 
                    {available ?

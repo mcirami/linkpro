@@ -292,7 +292,7 @@ const Links = ({
                     <Motion key={key} style={style}>
                         {({ translateX, translateY, scale, boxShadow }) => (
                             <div
-                                className="icon_col"
+                                className={linkID.toString().includes("new") ? "icon_col disabled" : "icon_col"}
                                 style={{
                                     transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale})`,
                                     zIndex: key === lastPress ? 2 : 1,
@@ -306,7 +306,7 @@ const Links = ({
                                         <MdDragHandle/>
                                     </span>
                                     :
-                                    <span
+                                    <span className="drag_handle"
                                         onMouseDown={handleMouseDown.bind(null,
                                             key, [x, y])}
                                         onTouchStart={handleTouchStart.bind(
@@ -321,7 +321,9 @@ const Links = ({
                                         <MdEdit />
                                     </button>
                                     <div className="icon_wrap">
-                                        <img src={ originalArray[key].icon || '/images/icon-placeholder.png' } alt=""/>
+                                        <div className="image_wrap">
+                                            <img src={ originalArray[key].icon || '/images/icon-placeholder.png' } alt=""/>
+                                        </div>
                                     </div>
                                     <div className="my_row">
                                         <div className="switch_wrap">

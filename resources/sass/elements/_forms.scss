@@ -130,7 +130,7 @@ form .bottom_row a {
         .cancel_icon, .submit_circle {
             position: absolute;
             right: 12px;
-            top: 5px;
+            top: 4px;
         }
 
         input {
@@ -322,72 +322,7 @@ form .bottom_row a {
 
                 .checkbox {
                     display: flex;
-                    margin-left: 1%;
-
-                    /*&:hover {
-                         input {
-                             ~ .checkmark {
-                                 background-color: $lightGray;
-                             }
-                         }
-                    }
-
-                    input {
-                        position: absolute;
-                        opacity: 0;
-                        cursor: pointer;
-                        height: 0;
-                        width: 0;
-
-                        &:checked {
-
-                            ~ .checkmark {
-                                background-color: $lightGray;
-
-                                &:after {
-                                    display: block;
-                                }
-                            }
-                        }
-                    }
-
-                    .checkmark {
-                        position: absolute;
-                        top: 0;
-                        right: 0;
-                        height: 40px;
-                        width: 35px;
-                        border: 1px solid $borderGray;
-                        border-top-right-radius: 8px;
-                        -webkit-border-top-right-radius: 8px;
-                        -moz-border-radius-topright: 8px;
-                        border-top-left-radius: 8px;
-                        -webkit-border-top-left-radius: 8px;
-                        -moz-border-radius-topleft: 8px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-
-                        !*background-color: $blue;*!
-
-                        &:after {
-                            content: '';
-                            position: absolute;
-                            display: none;
-                        }
-                    }
-
-                    .checkmark:after {
-                        !*left: 9px;*!
-                        top: 5px;
-                        width: 12px;
-                        height: 24px;
-                        border: solid $green;
-                        border-width: 0 3px 3px 0;
-                        -webkit-transform: rotate(45deg);
-                        -ms-transform: rotate(45deg);
-                        transform: rotate(45deg);
-                    }*/
+                    margin-right: 1%;
                 }
             }
         }

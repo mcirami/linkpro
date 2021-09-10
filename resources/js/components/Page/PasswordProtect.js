@@ -1,7 +1,7 @@
 import {IoIosLock} from 'react-icons/io';
 import React, {useContext, useState} from 'react';
 import {PageContext} from '../App';
-import {MdCancel, MdCheckCircle } from 'react-icons/md';
+import {GiThumbDown, GiThumbUp} from 'react-icons/Gi';
 import Switch from "react-switch";
 import axios from 'axios';
 import EventBus from '../../Utils/Bus';
@@ -18,7 +18,7 @@ const PasswordProtect = () => {
         e.preventDefault();
 
         const packets = {
-            is_protected: checked,
+            is_protected: true,
             password: password
         };
 
@@ -33,7 +33,8 @@ const PasswordProtect = () => {
                     ...pageSettings,
                     password: password,
                 })
-                //setIsEditing(false)
+                setIsEditing(false);
+                setChecked(true);
             }
         ).catch(error => {
             if ( error.response ) {
@@ -82,6 +83,15 @@ const PasswordProtect = () => {
         })
     }
 
+    const handleClick = (e) => {
+        e.preventDefault();
+        setIsEditing(true);
+
+        if(!pageSettings["password"] && !pageSettings["is_protected"]) {
+            handleCheckedChange()
+        }
+    }
+
     return (
         <div className="row page_settings" key={ pageSettings['id'] }>
             <div className="col-12">
@@ -89,6 +99,19 @@ const PasswordProtect = () => {
                 { isEditing ?
                         <div className="edit_form password">
                             <form onSubmit={handleSubmit}>
+                                <div className="checkbox">
+                                    <Switch
+                                        id="password_enable"
+                                        name="is_protected"
+                                        height={20}
+                                        width={45}
+                                        checked={Boolean(checked)}
+                                        onColor="#424fcf"
+                                        onChange={handleCheckedChange}
+                                        uncheckedIcon={false}
+                                        checkedIcon={false}
+                                    />
+                                </div>
                                 <div className="input">
                                     <input id="password"
                                            type="text"
@@ -103,22 +126,10 @@ const PasswordProtect = () => {
                                                }
                                            }
                                     />
-                                    {/*<button className="button settings" type="submit">
-                                        <MdCheckCircle/>
-                                    </button>*/}
-                                </div>
-                                <div className="checkbox">
-                                    <Switch
-                                        id="password_enable"
-                                        name="is_protected"
-                                        height={20}
-                                        width={45}
-                                        checked={Boolean(checked)}
-                                        onColor="#424fcf"
-                                        onChange={handleCheckedChange}
-                                        uncheckedIcon={false}
-                                        checkedIcon={false}
-                                    />
+                                    <a className="submit_circle" href="#"
+                                       onClick={(e) => handleSubmit(e)}>
+                                        <GiThumbUp/>
+                                    </a>
                                 </div>
                                 {/*<div className="checkbox">
                                     <label htmlFor="password_enable">
@@ -138,9 +149,9 @@ const PasswordProtect = () => {
                         </div>
                         :
                     <div className="column_wrap">
-                        <a  className="column_content" href="#" onClick={(e) => { e.preventDefault(); setIsEditing(true)} }>
-                            <h3>Password Protect</h3>
-                            <span className="lock_icon">
+                        <a  className="column_content" href="#" onClick={(e) => handleClick(e) }>
+                            <h3>{checked ? "Link is Password Protected" : "Password Protect Your Link?"}</h3>
+                            <span className={checked ? "lock_icon" : "lock_icon disabled"}>
                                 <IoIosLock/>
                             </span>
                         </a>

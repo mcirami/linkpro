@@ -119,6 +119,39 @@
                 svg {
                     color: $blue;
                 }
+
+                &.drag_handle {
+                    &:hover {
+                        cursor: grab;
+                    }
+
+                    &:active {
+                        cursor: grabbing;
+                    }
+                }
+
+            }
+
+            &.disabled {
+
+               span svg {
+                    color: $borderGray;
+                }
+
+                .image_wrap {
+                    position: relative;
+
+                    &:before {
+                        content: '';
+                        height: 100%;
+                        WIDTH: 100%;
+                        background: rgba(155,155,155,.8);
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        border-radius: 32px;
+                    }
+                }
             }
 
             /*.delete_icon {
@@ -378,6 +411,10 @@
                 svg {
                     width: 30px;
                     height: 30px;
+                }
+
+                &.disabled  {
+                    color: $gray;
                 }
             }
         }
