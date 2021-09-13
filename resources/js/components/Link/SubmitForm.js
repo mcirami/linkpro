@@ -166,10 +166,10 @@ const SubmitForm = ({
                 </div>
                 <div className="row">
                     <div className="col-12 button_row">
-                        <button className="button red" type="submit">
+                        <button className="button green" type="submit">
                             Save
                         </button>
-                        <a href="#" onClick={(e) => {e.preventDefault(); setEditID(null); }}>
+                        <a href="#" className="button red" onClick={(e) => {e.preventDefault(); setEditID(null); }}>
                             Cancel
                         </a>
                     </div>

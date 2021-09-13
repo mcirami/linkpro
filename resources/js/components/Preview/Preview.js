@@ -63,7 +63,7 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
                         }
 
                         <div className="profile_content">
-                            {pageSettings["is_protected"] &&
+                            {pageSettings["is_protected"] ?
                                 <span className="lock_icon">
                                     <span className="tooltip_icon">
                                         ?
@@ -74,6 +74,8 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
                                     <IoIosLock/>
 
                                 </span>
+                                :
+                                ""
                             }
                             {!pageSettings["profile_img"] && !profileFileName ?
                                 <div className="profile_image default">
@@ -112,8 +114,8 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
                                 </div>
                             }
                             <div className="profile_text">
-                                <h2>{pageSettings["title"]}</h2>
-                                <p>{pageSettings["bio"]}</p>
+                                <h2>{pageSettings["title"] || "LinkPro"}</h2>
+                                <p>{pageSettings["bio"] || "Add Slogan/Intro Here"}</p>
                             </div>
                         </div>
                         <div className="icons_wrap">

@@ -7,16 +7,20 @@ import EventBus from '../../Utils/Bus';
 const PageTitle = () => {
 
     const { pageSettings, setPageSettings } = useContext(PageContext);
-    const [characterCount, setCharacterCount] = useState();
+    const [charactersLeft, setCharactersLeft] = useState();
 
     useEffect(() => {
-        setCharacterCount(30 - pageSettings["title"].length);
-    },[characterCount])
+        if(pageSettings["title"]) {
+            setCharactersLeft(30 - pageSettings["title"].length);
+        } else {
+            setCharactersLeft(30);
+        }
+    },[charactersLeft])
 
     const handleChange = (e) => {
         const value = e.target.value;
 
-        setCharacterCount(30 - value.length);
+        setCharactersLeft(30 - value.length);
 
         setPageSettings({
             ...pageSettings,
@@ -48,7 +52,9 @@ const PageTitle = () => {
 
         <div className="edit_form">
             <form onSubmit={handleSubmit}>
-                <input maxLength="30" name="title" type="text" defaultValue={pageSettings["title"]}
+                <input maxLength="30" name="title" type="text"
+                       placeholder="LinkPro"
+                       defaultValue={pageSettings["title"] || ""}
                        onChange={(e) => handleChange(e) }
                        onKeyPress={ event => {
                                if(event.key === 'Enter') {
@@ -57,22 +63,24 @@ const PageTitle = () => {
                            }
                        }
                 />
-                {characterCount > -1 ?
+                {charactersLeft < 30 ?
                     <a className="submit_circle" href="#"
                        onClick={(e) => handleSubmit(e)}
                     >
                         <GiThumbUp />
                     </a>
                     :
-                    ""
+                    <span className="cancel_icon">
+                        <GiThumbDown />
+                    </span>
                 }
                 <div className="my_row characters title">
                     <p className="char_max">Max 30 Characters</p>
                     <p className="char_count">
-                        {characterCount < 0 ?
+                        {charactersLeft < 0 ?
                             <span className="over">Over Character Limit</span>
                             :
-                            "Characters Left: " + characterCount
+                            "Characters Left: " + charactersLeft
                         }
                     </p>
                 </div>

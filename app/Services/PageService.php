@@ -32,8 +32,8 @@ class PageService {
 
         $page = $user->pages()->create([
             'name' => $name,
-            'title' => 'LinkPro',
-            'bio' => 'Add Slogan/Intro Here',
+            'title' => null,
+            'bio' => null,
             'is_protected' => false
         ]);
 

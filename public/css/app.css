@@ -11878,9 +11878,10 @@ header.guest_header .col.right {
   flex-wrap: nowrap;
 }
 #links_page .left_column {
+  position: relative;
   width: 55%;
   float: left;
-  padding-right: 3rem;
+  margin-right: 3rem;
 }
 @media all and (max-width: 1199px) {
   #links_page .left_column {
@@ -11890,7 +11891,7 @@ header.guest_header .col.right {
 @media all and (max-width: 992px) {
   #links_page .left_column {
     width: 100%;
-    padding-right: 0;
+    margin-right: 0;
   }
 }
 #links_page .right_column {
@@ -12025,6 +12026,12 @@ header.guest_header .col.right {
     top: 6px;
   }
 }
+#links_page .icons_wrap .icon_col .edit_icon.disabled {
+  background: #d4d2d2;
+}
+#links_page .icons_wrap .icon_col .edit_icon.disabled:hover {
+  background: #d4d2d2;
+}
 #links_page .icons_wrap .icon_col .icon_wrap {
   width: 100%;
   float: left;
@@ -12114,7 +12121,7 @@ header.guest_header .col.right {
   display: grid;
   overflow-y: scroll;
   overflow-x: hidden;
-  height: 150px;
+  height: 185px;
   --n:6;
   grid-template-columns: repeat(auto-fill, minmax(max(50px, 100% / var(--n)), 1fr));
   grid-column-gap: 20px;
@@ -12821,7 +12828,6 @@ form .bottom_row a {
 }
 .edit_form form {
   width: 100%;
-  margin-left: 5px;
 }
 .edit_form form .cancel_icon, .edit_form form .submit_circle {
   position: absolute;
@@ -12837,7 +12843,7 @@ form .bottom_row a {
 .edit_form form.link_name .status {
   height: 15px;
 }
-.edit_form form.bio .submit_circle {
+.edit_form form.bio .submit_circle, .edit_form form.bio .cancel_icon {
   top: auto;
   bottom: 35px;
 }
@@ -12897,7 +12903,6 @@ form .bottom_row a {
   height: 100%;
   align-items: center;
   justify-content: center;
-  border: 3px solid #d2d2d2;
   border-radius: 12px;
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
@@ -12946,6 +12951,23 @@ form .bottom_row a {
   width: 100%;
   background: #ffffff;
   padding: 20px;
+  border-radius: 12px;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+}
+#links_page .edit_form.popup.new_page_form {
+  top: -14px;
+  height: 600px;
+}
+#links_page .edit_form.popup.new_page_form h3, #links_page .edit_form.popup.new_page_form .h3 {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+#links_page .edit_form.popup.new_page_form .form_wrap {
+  width: 100%;
+  background: #ffffff;
+  padding: 30px 20px 20px;
+  background: #ffffff;
   border-radius: 12px;
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;

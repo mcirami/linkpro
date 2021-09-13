@@ -8,16 +8,18 @@ const PageBio = () => {
 
 
     const { pageSettings, setPageSettings } = useContext(PageContext);
-    const [characterCount, setCharacterCount] = useState();
+    const [charactersLeft, setCharactersLeft] = useState();
 
     useEffect(() => {
-        setCharacterCount(65 - pageSettings["bio"].length);
-    },[characterCount])
+        if(pageSettings["bio"]) {
+            setCharactersLeft(65 - pageSettings["bio"].length);
+        }
+    },[charactersLeft])
 
     const handleChange = (e) => {
         const value = e.target.value;
 
-        setCharacterCount(65 - value.length);
+        setCharactersLeft(65 - value.length);
         setPageSettings({
             ...pageSettings,
             bio: value,
@@ -44,14 +46,13 @@ const PageBio = () => {
         });
     }
 
-
-
     return (
 
         <div className="edit_form">
             <form onSubmit={handleSubmit} className="bio">
                 <textarea maxLength="65" name="bio" id="" rows="5"
-                          defaultValue={pageSettings["bio"]}
+                          placeholder="Add Slogan/Intro Here"
+                          defaultValue={pageSettings["bio"] || ""}
                           onChange={(e) => handleChange(e) }
                           onKeyPress={ event => {
                                   if(event.key === 'Enter') {
@@ -61,22 +62,24 @@ const PageBio = () => {
                           }
                 >
                 </textarea>
-                {characterCount > -1 ?
+                {charactersLeft < 62  ?
                     <a className="submit_circle" href="#"
                        onClick={(e) => handleSubmit(e)}
                     >
                         <GiThumbUp />
                     </a>
                     :
-                    ""
+                    <span className="cancel_icon">
+                        <GiThumbDown />
+                    </span>
                 }
                 <div className="my_row characters">
                     <p className="char_max">Max 65 Characters</p>
                     <p className="char_count">
-                        {characterCount < 0 ?
+                        {charactersLeft < 0 ?
                             <span className="over">Over Character Limit</span>
                             :
-                            "Characters Left: " + characterCount
+                            `Characters Left: ${pageSettings["bio"] ? charactersLeft : "65"}`
                         }
                     </p>
                 </div>

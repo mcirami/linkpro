@@ -39,7 +39,7 @@ function App() {
     //const myLinksArray = useContext(UserContext);
 
     const [userLinks, setUserLinks] = useState(myLinksArray);
-
+    const [originalArray, setOriginalArray] = useState(myLinksArray);
     const [pageSettings, setPageSettings] = useReducer(pageReducer, page);
     const [allUserPages, setAllUserPages] = useState(userPages);
     const [editID, setEditID] = useState(null);
@@ -142,6 +142,8 @@ function App() {
                                 setEditID={setEditID}
                                 userLinks={userLinks}
                                 setUserLinks={setUserLinks}
+                                originalArray={originalArray}
+                                setOriginalArray={setOriginalArray}
                             />
 
                         </div>
@@ -149,6 +151,8 @@ function App() {
                         <AddLink
                             userLinks={userLinks}
                             setUserLinks={setUserLinks}
+                            originalArray={originalArray}
+                            setOriginalArray={setOriginalArray}
                         />
                     </div>
                 </div>

@@ -59,61 +59,79 @@ const PageNav = ({ allUserPages, setAllUserPages, currentPage }) => {
     }
 
     return (
-        <ul className="page_nav_menu">
-            { allUserPages.map((page) => {
+        <>
+            <ul className="page_nav_menu">
+                { allUserPages.map((page) => {
 
-                return (
+                    return (
 
-                    <li id={page["id"]} key={page["id"]}>
-                        <a className={page["id"] === currentPage ? "active" : ""} href={"/dashboard/pages/" + page["id"]}>{page["name"]}</a>
+                        <li id={page["id"]} key={page["id"]}>
+                            <a className={page["id"] === currentPage ? "active" : ""} href={"/dashboard/pages/" + page["id"]}>{page["name"]}</a>
+                        </li>
+
+                    )
+                })}
+
+                { pageCount < 5 ?
+                    <li id={"new_" + pageCount + 1 } className="edit_form new_page">
+                        { isEditing ?
+                            ""
+                            :
+                            <a key={"new_" + pageCount + 1} className="add_new_page" onClick={(e) => {e.preventDefault(); setIsEditing(true) }} href="#"><MdAddCircleOutline/></a>
+                        }
                     </li>
+                    : ""
+                }
+            </ul>
+            {isEditing ?
+                <div className="edit_form popup new_page_form">
+                    <div className="form_wrap">
+                        <h3>Choose Your Link Name</h3>
+                        <form className="new_page" onSubmit={handleSubmit}>
+                            <input name="name" type="text"
+                                   placeholder="Link Name"
+                                   onChange={ checkPageName }
+                                   onKeyPress={ event => {
+                                       if(event.key === 'Enter') {
+                                           handleSubmit(event);
+                                       }
+                                   }
+                                   }
+                            />
 
-                )
-            })}
-
-            { pageCount < 5 ?
-                <li id={"new_" + pageCount + 1 } className="edit_form new_page">
-                    { isEditing ?
-                        <div>
-                            <form className="new_page">
-                                <input name="name" type="text"
-                                       placeholder="Link Name"
-                                       onChange={ checkPageName }
-                                       onKeyPress={ event => {
-                                            if(event.key === 'Enter') {
-                                                handleSubmit(event);
-                                                }
-                                            }
-                                        }
-                                />
-
-                                { available ?
-                                    <a className="submit_circle" href="#"
-                                       onClick={(e) => handleSubmit(e)}
-                                    >
-                                        <GiThumbUp />
-                                    </a>
+                            { available ?
+                                <a className="submit_circle" href="#"
+                                   onClick={(e) => handleSubmit(e)}
+                                >
+                                    <GiThumbUp />
+                                </a>
                                 :
-                                    <a className="cancel_icon" href="#"
-                                       onClick={(e) => {
-                                           e.preventDefault();
-                                           setIsEditing(false);
-                                       }}
-                                    >
-                                        <GiThumbDown />
-                                    </a>
-                                }
-                                <p className="status">{available ? "Available" : <span className="status not_available">Not Available</span>}</p>
-                            </form>
+                                <a className="cancel_icon" href="#"
+                                   onClick={(e) => {
+                                       e.preventDefault();
+                                       setIsEditing(false);
+                                   }}
+                                >
+                                    <GiThumbDown />
+                                </a>
+                            }
+                            <p className="status">{available ? "Available" : <span className="status not_available">Not Available</span>}</p>
+                            <div className="my_row button_row">
+                                <button className="button green" type="submit">
+                                    Save
+                                </button>
+                                <a href="#" className="button red" onClick={(e) => {e.preventDefault(); setIsEditing(false); }}>
+                                    Cancel
+                                </a>
+                            </div>
+                        </form>
+                    </div>
 
-                        </div>
-                        :
-                        <a key={"new_" + pageCount + 1} className="add_new_page" onClick={(e) => {e.preventDefault(); setIsEditing(true) }} href="#"><MdAddCircleOutline/></a>
-                    }
-                </li>
-                : ""
+                </div>
+                :
+                ""
             }
-        </ul>
+        </>
     );
 }
 

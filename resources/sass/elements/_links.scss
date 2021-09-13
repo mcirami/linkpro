@@ -13,9 +13,10 @@
     }
 
     .left_column {
+        position: relative;
         width: 55%;
         float: left;
-        padding-right: 3rem;
+        margin-right: 3rem;
 
         @media all and (max-width: 1199px) {
             width: 60%;
@@ -23,7 +24,7 @@
 
         @media all and (max-width: 992px) {
             width: 100%;
-            padding-right: 0;
+            margin-right: 0;
         }
     }
 
@@ -183,6 +184,14 @@
                     right: 6px;
                     top: 6px;
                 }
+
+                &.disabled {
+                    background: $gray;
+
+                    &:hover {
+                        background: $gray;
+                    }
+                }
             }
 
             .icon_wrap {
@@ -285,7 +294,7 @@
             display: grid;
             overflow-y: scroll;
             overflow-x: hidden;
-            height: 150px;
+            height: 185px;
             --n:6;
             grid-template-columns: repeat(auto-fill, minmax(max(50px,100%/var(--n)), 1fr));
             grid-column-gap: 20px;

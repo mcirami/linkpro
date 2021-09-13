@@ -4,7 +4,6 @@ import Switch from "react-switch";
 //import {LinksContext, PageContext} from '../App';
 import EventBus from '../../Utils/Bus';
 import {Motion, spring} from 'react-motion';
-import myLinksArray from './LinkItems';
 import SubmitForm from './SubmitForm';
 
 const springSetting1 = { stiffness: 180, damping: 10 };
@@ -27,12 +26,16 @@ const Links = ({
    setUserLinks,
    editID,
    setEditID,
+   originalArray,
+   setOriginalArray
+
 }) => {
 
 
     //const  { userLinks, setUserLinks } = useContext(LinksContext);
+    //const [newLinkCount, setNewLinkCount] = useState(0);
 
-    const [originalArray, setOriginalArray] = useState(myLinksArray);
+    let newLinkCount = 0;
     const [size, setSize] = useState({
         height: window.innerHeight,
         width: window.innerWidth
@@ -84,7 +87,6 @@ const Links = ({
 
     let [width, height] = [getColWidth(), getColHeight()];
 
-    //console.log("width: " + size.width + " height: " + size.height)
     useEffect(() => {
         function handleResize() {
             setSize({
@@ -274,7 +276,7 @@ const Links = ({
                         translateX: x,
                         translateY: y,
                         scale: spring(1.2, springSetting1),
-                        boxShadow: spring((x - (3 * width - 50) / 2) / 15, springSetting1)
+                        //boxShadow: spring((x - (3 * width - 50) / 2) / 15, springSetting1)
                     };
                 } else {
                     [x, y] = layout[visualPosition];
@@ -282,15 +284,16 @@ const Links = ({
                         translateX: spring(x, springSetting2),
                         translateY: spring(y, springSetting2),
                         scale: spring(.75, springSetting1),
-                        boxShadow: spring((x - (3 * width - 50) / 2) / 15, springSetting1)
+                        //boxShadow: spring((x - (3 * width - 50) / 2) / 15, springSetting1)
                     };
                 }
 
                 const linkID = originalArray[key].id;
+                const found = userLinks.filter(element => element.id.toString().includes("new"));
 
                 return (
                     <Motion key={key} style={style}>
-                        {({ translateX, translateY, scale, boxShadow }) => (
+                        {({ translateX, translateY, scale }) => (
                             <div
                                 className={linkID.toString().includes("new") ? "icon_col disabled" : "icon_col"}
                                 style={{
@@ -317,7 +320,10 @@ const Links = ({
                                 }
 
                                 <div className="column_content">
-                                    <button className="edit_icon" onClick={(e) => { setEditID(linkID) }} >
+                                    <button className={9 - found.length < key  ? "edit_icon disabled" : "edit_icon"}
+                                            onClick={(e) => { setEditID(linkID) }}
+                                            disabled={9 - found.length < key  ? "disabled" : ""}
+                                    >
                                         <MdEdit />
                                     </button>
                                     <div className="icon_wrap">
@@ -327,7 +333,6 @@ const Links = ({
                                     </div>
                                     <div className="my_row">
                                         <div className="switch_wrap">
-                                           {/* {console.log(Boolean(link.active_status)) || null}*/}
                                             <Switch
                                                 onChange={(e) => handleChange(originalArray[key])}
                                                 disabled={linkID.toString().includes("new")}

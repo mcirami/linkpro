@@ -125,7 +125,6 @@ form .bottom_row a {
 
     form {
         width: 100%;
-        margin-left: 5px;
 
         .cancel_icon, .submit_circle {
             position: absolute;
@@ -146,7 +145,7 @@ form .bottom_row a {
         }
 
         &.bio {
-            .submit_circle {
+            .submit_circle, .cancel_icon {
                 top: auto;
                 bottom: 35px;
             }
@@ -229,7 +228,6 @@ form .bottom_row a {
             height: 100%;
             align-items: center;
             justify-content: center;
-            border: 3px solid $borderGray;
             border-radius: 12px;
             -webkit-border-radius: 12px;
             -moz-border-radius: 12px;
@@ -295,6 +293,26 @@ form .bottom_row a {
                 border-radius: 12px;
                 -webkit-border-radius: 12px;
                 -moz-border-radius: 12px;
+            }
+
+            &.new_page_form {
+                top: -14px;
+                height: 600px;
+
+                h3 {
+                    font-size: 24px;
+                    margin-bottom: 15px;
+                }
+
+                .form_wrap {
+                    width: 100%;
+                    background: $white;
+                    padding: 30px 20px 20px;
+                    background: $white;
+                    border-radius: 12px;
+                    -webkit-border-radius: 12px;
+                    -moz-border-radius: 12px;
+                }
             }
         }
 
