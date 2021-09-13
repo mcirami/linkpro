@@ -125,10 +125,10 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
                                     <>
                                         { active_status ?
                                             <div className="icon_col" key={ id || Math.random()}>
-                                                <a target="_blank" href={url}>
-                                                    <img src={icon || '/images/icon-placeholder-preview.png'} />
+                                                <a target="_blank" href={ url || "https://link.pro"}>
+                                                    <img src={ icon || '/images/icon-placeholder-preview.png'} />
                                                 </a>
-                                                <p>{ name }</p>
+                                                <p>{ name || "Link Name" }</p>
                                             </div>
                                          :
                                             <div className="icon_col" key={ id || Math.random()}>

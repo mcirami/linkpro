@@ -289,7 +289,7 @@ const Links = ({
                 }
 
                 const linkID = originalArray[key].id;
-                const found = userLinks.filter(element => element.id.toString().includes("new"));
+                const found = userLinks.filter(element => element.id.toString().includes("new"));;
 
                 return (
                     <Motion key={key} style={style}>
@@ -320,9 +320,9 @@ const Links = ({
                                 }
 
                                 <div className="column_content">
-                                    <button className={9 - found.length < key  ? "edit_icon disabled" : "edit_icon"}
+                                    <button className={(9 - found.length < key) && found.length !== 0   ? "edit_icon disabled" : "edit_icon"}
                                             onClick={(e) => { setEditID(linkID) }}
-                                            disabled={9 - found.length < key  ? "disabled" : ""}
+                                            disabled={(9 - found.length < key) && found.length !== 0  ? "disabled" : ""}
                                     >
                                         <MdEdit />
                                     </button>

@@ -20,8 +20,8 @@
                             </div>
                         </div>
                         <div class="profile_text">
-                            <h2>{{ $page->title }}</h2>
-                            <p>{{ $page->bio }}</p>
+                            <h2>@if ($page->title) {{$page->title}} @else LinkPro @endif</h2>
+                            <p>@if ($page->bio ) {{ $page->bio }} @else Add Slogan/Intro Here @endif</p>
                         </div>
                     </div>
                     @if ($page->is_protected && !$authorized)
@@ -39,13 +39,13 @@
                         <div class="icons_wrap">
                             @foreach($links as $link)
                                 <div class="icon_col">
-                                    <a href="{{ $link->url }}"
+                                    <a href="@if ($link->url) {{$link->url}} @else https://link.pro @endif"
                                        target="_blank"
                                        rel="nofollow"
                                     >
                                         <img src="{{ $link->icon ? $link->icon : asset('/images/icon-placeholder-preview.png') }}" alt="" />
                                     </a>
-                                    <p>{{ $link->name }}</p>
+                                    <p>@if ($link->name) {{$link->name}} @else Link Name @endif</p>
                                 </div>
                             @endforeach
                         </div>

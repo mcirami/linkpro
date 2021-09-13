@@ -232,6 +232,7 @@ form .bottom_row a {
             -webkit-border-radius: 12px;
             -moz-border-radius: 12px;
             padding: 8%;
+            min-height: 660px;
 
             .icons_wrap {
                 --n: 12;
@@ -298,6 +299,7 @@ form .bottom_row a {
             &.new_page_form {
                 top: -14px;
                 height: 600px;
+                min-height: unset;
 
                 h3 {
                     font-size: 24px;

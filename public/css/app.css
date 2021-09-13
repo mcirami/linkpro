@@ -12907,6 +12907,7 @@ form .bottom_row a {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
   padding: 8%;
+  min-height: 660px;
 }
 #links_page .edit_form.popup .icons_wrap {
   --n: 12;
@@ -12958,6 +12959,7 @@ form .bottom_row a {
 #links_page .edit_form.popup.new_page_form {
   top: -14px;
   height: 600px;
+  min-height: unset;
 }
 #links_page .edit_form.popup.new_page_form h3, #links_page .edit_form.popup.new_page_form .h3 {
   font-size: 24px;

@@ -13,10 +13,6 @@ import AddLink from './Link/AddLink';
 import PasswordProtect from './Page/PasswordProtect';
 import ShowPreviewButton from './Preview/ShowPreviewButton';
 import { Flash } from './Flash';
-import { Motion, spring} from "react-motion";
-import {MdDragHandle, MdEdit} from 'react-icons/md';
-import Switch from 'react-switch';
-import {icons} from 'react-icons';
 
 //import UserContext from './User/User';
 

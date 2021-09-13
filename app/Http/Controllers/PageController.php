@@ -6,6 +6,7 @@ use App\Http\Requests\PageBioRequest;
 use App\Http\Requests\PageNameRequest;
 use App\Http\Requests\PageTitleRequest;
 use App\Models\Page;
+use App\Services\LinkService;
 use App\Services\PageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -32,9 +33,11 @@ class PageController extends Controller
         ]);
     }
 
-    public function store(PageNameRequest $request, PageService $newPage) {
+    public function store(PageNameRequest $request, PageService $pageService, LinkService $linkService) {
 
-        $page = $newPage->createNewPage($request);
+        $page = $pageService->createNewPage($request);
+
+        $linkService->addLink($page);
 
         return response()->json(['message'=> 'New Page Added', 'page_id' => $page->id]);
     }

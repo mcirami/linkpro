@@ -8,7 +8,7 @@ const myLinksArray = userLinks.map(({ id, name, icon, url, active_status, positi
     position
 }));
 
-for (let n = 0; n < 9; n++) {
+/*for (let n = 0; n < 9; n++) {
     if (!myLinksArray[n]) {
         let position;
         if (myLinksArray[n-1]) {
@@ -25,6 +25,6 @@ for (let n = 0; n < 9; n++) {
             position: position
         };
     }
-}
+}*/
 
 export default myLinksArray;
