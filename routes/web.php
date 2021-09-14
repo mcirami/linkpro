@@ -60,7 +60,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/subscribe', [SubscriptionController::class, 'store'])->name('subscribe.post');
 
     Route::get('/edit-account', [UserController::class, 'edit'])->name('user.edit');
-    Route::post('/update-account/{user}', [UserController::class, 'update'])->name('user.update');
+    Route::post('/edit-account/update-avatar', [UserController::class, 'updateAvatar'])->name('user.update.avatar');
+    Route::post('/update-account/{user}', [UserController::class, 'updateAccountInfo'])->name('user.update.info');
 
     Route::get('/email', [MailController::class, 'sendEmail']);
 });

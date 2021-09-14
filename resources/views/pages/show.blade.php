@@ -16,12 +16,12 @@
                     <div class="profile_content">
                         <div class="profile_image @if (!$page->profile_img) default @endif">
                             <div class="image_wrap">
-                                <img src={{ $page->profile_img ? $page->profile_img : asset( 'images/default-img.png' ) }} alt=""/>
+                                <img src={{ $page->profile_img ? : asset( 'images/default-img.png' ) }} alt=""/>
                             </div>
                         </div>
                         <div class="profile_text">
-                            <h2>@if ($page->title) {{$page->title}} @else LinkPro @endif</h2>
-                            <p>@if ($page->bio ) {{ $page->bio }} @else Add Slogan/Intro Here @endif</p>
+                            <h2>{{ $page->title ? : "LinkPro" }}</h2>
+                            <p>{{ $page->bio  ?  : "Add Slogan/Intro Here" }}</p>
                         </div>
                     </div>
                     @if ($page->is_protected && !$authorized)
@@ -39,13 +39,13 @@
                         <div class="icons_wrap">
                             @foreach($links as $link)
                                 <div class="icon_col">
-                                    <a href="@if ($link->url) {{$link->url}} @else https://link.pro @endif"
+                                    <a href="{{ $link->url ? : 'https://link.pro' }}"
                                        target="_blank"
                                        rel="nofollow"
                                     >
-                                        <img src="{{ $link->icon ? $link->icon : asset('/images/icon-placeholder-preview.png') }}" alt="" />
+                                        <img src="{{ $link->icon ? : asset('/images/icon-placeholder-preview.png') }}" alt="" />
                                     </a>
-                                    <p>@if ($link->name) {{$link->name}} @else Link Name @endif</p>
+                                    <p>{{ $link->name ? : "Link Name" }}</p>
                                 </div>
                             @endforeach
                         </div>

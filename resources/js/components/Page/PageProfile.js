@@ -6,7 +6,7 @@ import React, {
     useEffect,
 } from 'react';
 import axios from "axios";
-import {MdCancel, MdEdit, MdFileUpload} from 'react-icons/md';
+import {MdEdit} from 'react-icons/md';
 import {PageContext} from '../App';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';

@@ -4,10 +4,34 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
+use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
 
 class UserService {
 
-    public function updateUser($request, $user) {
+    public function getUserInfo() {
+
+        $user = Auth::user();
+
+        if ($user->hasDefaultPaymentMethod()) {
+            $paymentMethod = $user->defaultPaymentMethod();
+        }
+
+        $data = [
+            'user' => $user,
+            'payment_method' => $paymentMethod
+        ];
+
+        Javascript::put([
+            'user_info' => $user,
+        ]);
+
+        return $data;
+    }
+
+    public function updateUserInfo($request, $user) {
 
         $currentUser = Auth::user();
 
@@ -21,4 +45,16 @@ class UserService {
         $currentUser->save();
     }
 
+    public function updateUserAvatar($request, $user) {
+
+        if($request->get('profile_img')) {
+            $image = $request->get('profile_img');
+            $name = time() . '.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+            $img = Image::make($request->get('profile_img'));
+            $path = "/avatars/" . $request->user_id . "/" . $name;
+            Storage::put('/public' . $path, $img->stream());
+        }
+
+        $user->update(['avatar' => "/storage" . $path]);
+    }
 }

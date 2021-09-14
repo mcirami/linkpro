@@ -38,7 +38,7 @@
                                 @csrf
                                 <div class="form-group row">
                                     <div class="col-12">
-                                        <input type="text" id="cardholder-name" name="cardholder-name" placeholder="Cardholder Name">
+                                        <input type="text" id="cardholder-name" name="cardholderName" placeholder="Cardholder Name">
                                     </div>
                                 </div>
                                 <div id="card-element">

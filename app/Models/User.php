@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Link as Link;
 use App\Models\Page as Page;
+use function Illuminate\Events\queueable;
 
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
@@ -25,6 +26,7 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
+        'avatar'
     ];
 
     /**
@@ -45,6 +47,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     * @noinspection PhpParamsInspection
+     */
+    protected static function booted()
+    {
+        static::updated(queueable(function ($customer) {
+            $customer->syncStripeCustomerDetails();
+        }));
+    }
 
     public function pages(){
         return $this->hasMany(Page::class);

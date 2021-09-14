@@ -12,9 +12,12 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 require('./custom');
-
-require('./components/Index');
-//require('./components/Example');
+if (document.getElementById('root')) {
+    require('./components/Index');
+}
+if (document.getElementById('avatar')) {
+    require('./components/Avatar/Index');
+}
 //require('./components/Preview');
 
 

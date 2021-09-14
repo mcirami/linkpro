@@ -11349,7 +11349,7 @@ main {
   max-width: 1500px;
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
 }
 
 button {
@@ -13161,6 +13161,11 @@ form .bottom_row a {
   }
 }
 
+.form_page.edit_profile .card {
+  width: 100%;
+  max-width: unset;
+}
+
 .pricing_plans {
   display: flex;
   flex-direction: row;
@@ -13374,6 +13379,31 @@ form .bottom_row a {
   .pricing_plans .column .column_footer h5, .pricing_plans .column .column_footer .h5 {
     font-size: 20px;
   }
+}
+
+.form_page.edit_profile .page_settings {
+  border-right: 1px solid #d2d2d2;
+  border-radius: 0px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+}
+.form_page.edit_profile .page_settings .column_wrap {
+  border: none;
+}
+.form_page.edit_profile .page_settings .column_wrap .profile_image {
+  margin-bottom: 20px;
+}
+.form_page.edit_profile .page_settings .column_wrap .profile_image .image_wrap {
+  max-width: 25%;
+  margin: 0 auto;
+}
+.form_page.edit_profile .page_settings .column_wrap .profile_image .image_wrap img {
+  border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+}
+.form_page.edit_profile .page_settings .column_wrap label.custom {
+  border: 1px solid #d2d2d2;
 }
 
 footer {

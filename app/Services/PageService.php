@@ -119,7 +119,7 @@ class PageService {
             $image = $request->get('profile_img');
             $name = time() . '.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
             $img = Image::make($request->get('profile_img'));
-            $path = "/profile-images/" . $userID . "/" . $page->id . "/" . $name;
+            $path = "/page-profile-images/" . $userID . "/" . $page->id . "/" . $name;
             Storage::put('/public' . $path, $img->stream());
         }
 

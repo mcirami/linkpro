@@ -24,7 +24,8 @@ class SubscriptionController extends Controller
         $page = $user->pages()->firstWhere('user_id', $user["id"]);
 
         $request->user()->newSubscription(
-            $request->level , $request->plan
+            $request->level,
+            $request->plan
         )->create($request->paymentMethod);
 
         return redirect('/dashboard/pages/' .  $page->id);

@@ -1,0 +1,32 @@
+.form_page.edit_profile {
+
+    .page_settings {
+        border-right: 1px solid $borderGray;
+        border-radius: 0px;
+        -webkit-border-radius: 0px;
+        -moz-border-radius: 0px;
+
+        .column_wrap {
+            border: none;
+
+            .profile_image {
+                margin-bottom: 20px;
+
+                .image_wrap {
+                    max-width: 25%;
+                    margin: 0 auto;
+
+                    img {
+                        border-radius: 100%;
+                        -webkit-border-radius: 100%;
+                        -moz-border-radius: 100%;
+                    }
+                }
+            }
+
+            label.custom {
+                border: 1px solid $borderGray;
+            }
+        }
+    }
+}
