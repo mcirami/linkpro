@@ -1,6 +1,7 @@
 @extends('layouts.subscribe.header')
 
 @section('content')
+
     <div class="my_row form_page checkout">
         <div class="container">
             <div class="card">

@@ -83,7 +83,7 @@
                     <form method="POST" action="">
                         @csrf
 
-                        @if ($payment_method->type == "card")
+                        @if ($payment_method && $payment_method->type == "card")
                             <div class="form-group row">
                                 <div class="col-12 mx-auto">
                                     <p>{{$payment_method->card["brand"]}}</p>

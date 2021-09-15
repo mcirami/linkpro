@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\SubscriptionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Cashier\Billable;
@@ -11,38 +12,49 @@ class SubscriptionController extends Controller
 {
     use Billable;
 
-    public function show() {
+    protected $user;
 
-        $plan = $_GET["plan"];
+    public function __construct() {
 
-        return view('subscription.index', ['intent' => auth()->user()->createSetupIntent(), 'plan' => $plan]);
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::user();
+
+            return $next($request);
+        });
     }
 
-    public function store(Request $request) {
+    public function show(SubscriptionService $subscriptionService) {
 
-        $user = Auth::user();
-        $page = $user->pages()->firstWhere('user_id', $user["id"]);
+        $plan = $subscriptionService->showSubscription();
 
-        $request->user()->newSubscription(
-            $request->level,
-            $request->plan
-        )->create($request->paymentMethod);
-
-        return redirect('/dashboard/pages/' .  $page->id);
-
+        return view('subscription.index', [ 'intent' => auth()->user()->createSetupIntent(), 'plan' => $plan ]);
     }
 
-    public function upgrade() {
-        $user = Auth::user();
-        $page = $user->pages()->firstWhere('user_id', $user["id"]);
+    public function store(Request $request, SubscriptionService $subscriptionService) {
+
+        $message = $subscriptionService->newSubscription($request);
+
+        return view('subscription.confirmation', ['message' => $message]);
+    }
+
+    public function changePlan(Request $request, SubscriptionService $subscriptionService) {
+
+        $message = $subscriptionService->updateSubscription($request);
+
+        return view('subscription.confirmation', ['message' => $message]);
+    }
+
+    public function plans() {
+
+        /*$page = $this->user->pages()->firstWhere('user_id', $this->user["id"]);*/
 
         $subscription = null;
 
-        if ($user->subscribed('pro') || $user->subscribed('corporate') ){
-            $getSubscription = $user->subscriptions()->first()->pluck("name");
+        if ($this->user->subscribed('pro') || $this->user->subscribed('corporate') ){
+            $getSubscription = $this->user->subscriptions()->first()->pluck("name");
             $subscription = $getSubscription[0];
         }
 
-        return view('subscription.upgrade', ['page_id' => $page->id, 'subscription' => $subscription]);
+        return view('subscription.plans', ['subscription' => $subscription]);
     }
 }

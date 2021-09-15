@@ -8,6 +8,8 @@
     flex-direction: row;
     -ms-flex-wrap: nowrap;
     flex-wrap: nowrap;
+    justify-content: center;
+    -webkit-justify-content: center;
 
     @media all and (max-width: 768px) {
         display: block;
@@ -247,6 +249,10 @@
             -webkit-justify-content: center;
             align-items: center;
             -webkit-align-items: center;
+
+            form {
+                width: 100%;
+            }
 
             h5 {
                 color: $darkGray;

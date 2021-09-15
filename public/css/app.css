@@ -13170,6 +13170,8 @@ form .bottom_row a {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  justify-content: center;
+  -webkit-justify-content: center;
 }
 @media all and (max-width: 768px) {
   .pricing_plans {
@@ -13370,6 +13372,9 @@ form .bottom_row a {
   -webkit-justify-content: center;
   align-items: center;
   -webkit-align-items: center;
+}
+.pricing_plans .column .column_footer form {
+  width: 100%;
 }
 .pricing_plans .column .column_footer h5, .pricing_plans .column .column_footer .h5 {
   color: #545656;

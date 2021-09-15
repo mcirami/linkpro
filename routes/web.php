@@ -55,9 +55,10 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
 });
 
 Route::group(['middleware' => 'auth'], function() {
-    Route::get('/upgrade', [SubscriptionController::class, 'upgrade'])->name('upgrade.get');
+    Route::get('/plans', [SubscriptionController::class, 'plans'])->name('plans.get');
     Route::get('/subscribe', [SubscriptionController::class, 'show']);
     Route::post('/subscribe', [SubscriptionController::class, 'store'])->name('subscribe.post');
+    Route::post('/change-plan', [SubscriptionController::class, 'changePlan'])->name('subscribe.change.plan');
 
     Route::get('/edit-account', [UserController::class, 'edit'])->name('user.edit');
     Route::post('/edit-account/update-avatar', [UserController::class, 'updateAvatar'])->name('user.update.avatar');

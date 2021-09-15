@@ -50,7 +50,7 @@
                         @endif
                     @else
                         <li class="nav-item">
-                            <a href="{{route('upgrade.get')}}">{{--<img src="{{ asset('images/icon-support.png') }}" alt="Link Pro"> --}}Upgrade</a>
+                            <a href="{{route('plans.get')}}">{{--<img src="{{ asset('images/icon-support.png') }}" alt="Link Pro"> --}}Upgrade</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
