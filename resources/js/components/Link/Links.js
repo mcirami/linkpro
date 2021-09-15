@@ -289,7 +289,7 @@ const Links = ({
                 }
 
                 const linkID = originalArray[key].id;
-                const found = userLinks.filter(element => element.id.toString().includes("new"));;
+                const found = userLinks.filter(element => element.id.toString().includes("new"));
 
                 return (
                     <Motion key={key} style={style}>

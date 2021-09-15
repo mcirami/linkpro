@@ -1,17 +1,21 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import axios from 'axios';
 import {MdAddCircleOutline} from 'react-icons/md';
 import {GiThumbDown, GiThumbUp} from 'react-icons/Gi';
 import EventBus from '../../Utils/Bus';
+import {PageContext} from '../App';
 
 let pageNames = user.pageNames;
 
-const PageNav = ({ allUserPages, setAllUserPages, currentPage }) => {
+const PageNav = ({ allUserPages, setAllUserPages }) => {
 
     //const [pages, setPages] = useState(userPages);
+    const { pageSettings, setPageSettings } = useContext(PageContext);
+
     const [isEditing, setIsEditing] = useState(false);
-    const [newPageName, setNewPageName] = useState();
+    const [newPageName, setNewPageName] = useState(null);
     const [available, setAvailability] = useState(false);
+
 
     const pageCount = allUserPages.length;
 
@@ -58,31 +62,38 @@ const PageNav = ({ allUserPages, setAllUserPages, currentPage }) => {
         setNewPageName(value)
     }
 
+    const pageList = allUserPages.filter(element => element.id !== pageSettings["id"]);
+
     return (
-        <>
-            <ul className="page_nav_menu">
-                { allUserPages.map((page) => {
+        <div className="page_menu_row">
+            <div className="current_page" id={pageSettings["id"]} key={pageSettings["id"]}>
+                <p>{pageSettings["name"]}</p>
+            </div>
+            <div className="menu_wrap">
 
-                    return (
+                <div className="menu_icon">
+                    <MdAddCircleOutline/>
+                    <div className="menu_content">
+                        <ul className="page_menu">
+                            <li>
+                                <a onClick={(e) => {e.preventDefault(); setIsEditing(true) }} href="#">Add New Link</a>
+                            </li>
+                            { pageList.map((page) => {
 
-                        <li id={page["id"]} key={page["id"]}>
-                            <a className={page["id"] === currentPage ? "active" : ""} href={"/dashboard/pages/" + page["id"]}>{page["name"]}</a>
-                        </li>
+                                return (
 
-                    )
-                })}
+                                    <li id={page["id"]} key={page["id"]}>
+                                        <a href={"/dashboard/pages/" + page["id"]}>{page["name"]}</a>
+                                    </li>
 
-                { pageCount < 5 ?
-                    <li id={"new_" + pageCount + 1 } className="edit_form new_page">
-                        { isEditing ?
-                            ""
-                            :
-                            <a key={"new_" + pageCount + 1} className="add_new_page" onClick={(e) => {e.preventDefault(); setIsEditing(true) }} href="#"><MdAddCircleOutline/></a>
-                        }
-                    </li>
-                    : ""
-                }
-            </ul>
+                                )
+                            })}
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
             {isEditing ?
                 <div className="edit_form popup new_page_form">
                     <div className="form_wrap">
@@ -131,7 +142,7 @@ const PageNav = ({ allUserPages, setAllUserPages, currentPage }) => {
                 :
                 ""
             }
-        </>
+        </div>
     );
 }
 

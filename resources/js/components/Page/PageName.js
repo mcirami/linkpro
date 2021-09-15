@@ -1,17 +1,21 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import axios from 'axios';
 import EventBus from '../../Utils/Bus';
 import {GiThumbDown, GiThumbUp} from 'react-icons/Gi';
+import {PageContext} from '../App';
 
 let pageNames = user.pageNames;
 
 const PageName = ({allUserPages, setAllUserPages, page}) => {
 
-    const [name, setName] = useState(page['name']);
+    const { pageSettings, setPageSettings } = useContext(PageContext);
+
+    const [name, setName] = useState(pageSettings['name']);
     //const [isEditing, setIsEditing] = useState(false);
+
     const [available, setAvailability] = useState(true);
     const [currentMatch, setCurrentMatch] = useState(true);
-    const currentName = page['name'];
+    //const currentName = page['name'];
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -20,7 +24,7 @@ const PageName = ({allUserPages, setAllUserPages, page}) => {
             name: name,
         };
 
-        axios.post('/dashboard/page/update-name/' + page['id'], packets)
+        axios.post('/dashboard/page/update-name/' + pageSettings['id'], packets)
         .then(
             (response) => {
                 const returnMessage = JSON.stringify(response.data.message);
@@ -38,10 +42,10 @@ const PageName = ({allUserPages, setAllUserPages, page}) => {
         let value = e.target.value.toLowerCase().replace(/\s/g, '-');
         const match = pageNames.indexOf(value);
 
-        if (match < 0 && value !== "" || value === currentName) {
+        if (match < 0 && value !== "" || value === pageSettings["name"]) {
             setAvailability(true);
 
-            if (value !== currentName) {
+            if (value !== pageSettings["name"]) {
                 setCurrentMatch(false);
             } else{
                 setCurrentMatch(true);
@@ -51,7 +55,7 @@ const PageName = ({allUserPages, setAllUserPages, page}) => {
         }
 
         setName(value)
-        setAllUserPages(
+        /*setAllUserPages(
             allUserPages.map((item) => {
                 if (item.id === page['id']) {
                     return {
@@ -61,6 +65,11 @@ const PageName = ({allUserPages, setAllUserPages, page}) => {
                 }
                 return item;
             })
+        )*/
+        setPageSettings({
+                ...pageSettings,
+                name: value
+            }
         )
     }
 

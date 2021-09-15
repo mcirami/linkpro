@@ -93,7 +93,6 @@ function App() {
                     <PageNav
                         allUserPages={allUserPages}
                         setAllUserPages={setAllUserPages}
-                        currentPage={page["id"]}
                     />
 
                     <div className="content_wrap">
