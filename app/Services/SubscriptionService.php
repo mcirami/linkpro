@@ -25,7 +25,7 @@ class SubscriptionService {
 
     public function showPurchasePage() {
 
-        $plan = $_GET["plan"];
+        $plan = isset($_GET["plan"]) ? $_GET["plan"] : null;
 
         return $plan;
     }
