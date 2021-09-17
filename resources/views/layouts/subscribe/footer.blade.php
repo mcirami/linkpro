@@ -18,6 +18,30 @@
         }
     };
 
+    var paymentRequest = stripe.paymentRequest({
+        country: 'US',
+        currency: 'usd',
+        total: {
+            label: 'Demo total',
+            amount: 1099,
+        },
+        requestPayerName: true,
+        requestPayerEmail: true,
+    });
+
+    var prButton = elements.create('paymentRequestButton', {
+        paymentRequest: paymentRequest,
+    });
+
+    // Check the availability of the Payment Request API first.
+    paymentRequest.canMakePayment().then(function(result) {
+        if (result) {
+            prButton.mount('#payment-request-button');
+        } else {
+            document.getElementById('payment-request-button').style.display = 'none';
+        }
+    });
+
     var card = elements.create("card", { style: style });
     card.mount("#card-element");
 
@@ -87,5 +111,7 @@
         // Submit the form
         form.submit();
     }
+
+
 
 </script>

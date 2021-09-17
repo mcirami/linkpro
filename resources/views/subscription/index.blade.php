@@ -45,6 +45,9 @@
                                 <div id="card-element">
                                     <!-- Elements will create input elements here -->
                                 </div>
+                                <div id="payment-request-button">
+                                    <!-- A Stripe Element will be inserted here. -->
+                                </div>
                                 <div class="form-group row">
                                     <div class="col-12 radio_buttons">
                                         <div>

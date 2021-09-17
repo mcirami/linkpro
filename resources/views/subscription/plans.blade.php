@@ -140,9 +140,9 @@
                     <img src="{{ asset('images/x-circle-pink.png') }}" alt="">
                 </div>
                 <div class="my_row column_footer">
-                    @if ($subscription && $subscription == "pro")
+                    @if ($subscription && $subscription->name == "pro" && $subscription->stripe_status == "active")
                         <span class='button disabled'>Current</span>
-                    @elseif ($subscription)
+                    @elseif ($subscription && $subscription->stripe_status == "active")
                         <form method="post" action="{{ url('/change-plan') }}">
                             @csrf
                             <input type="hidden" name="level" value="pro">
@@ -198,9 +198,9 @@
                     <img src="{{ asset('images/check-circle-blue.png') }}" alt="">
                 </div>
                 <div class="my_row column_footer">
-                    @if ($subscription && $subscription == "corporate")
+                    @if ($subscription && $subscription->name == "corporate" && $subscription->stripe_status == "active")
                         <span class='button disabled'>Current</span>
-                    @elseif ($subscription)
+                    @elseif ($subscription && $subscription->stripe_status == "active")
                         <form method="post" action="{{ url('/change-plan') }}">
                             @csrf
                             <input type="hidden" name="level" value="corporate">

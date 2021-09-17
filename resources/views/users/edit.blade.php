@@ -84,13 +84,34 @@
                     @else
                         <p>Free</p>
                     @endif
+                    @if($subscription && $subscription->stripe_status == "active")
+                        @if($subscription->name == "pro")
+                            <form method="post" action="{{ url('/change-plan') }}">
+                                @csrf
+                                <input type="hidden" name="level" value="corporate">
+                                <input type="hidden" name="plan" data-level="corporate" id="corporate" value="price_1JS1qkGIBktjIJUPVSjN20LH">
+                                <button class='button pink_gradient' type="submit">
+                                    Upgrade
+                                </button>
+                            </form>
+                        @else
+                            <form method="post" action="{{ url('/change-plan') }}">
+                                @csrf
+                                <input type="hidden" name="level" value="pro">
+                                <input type="hidden" name="plan" data-level="pro" id="pro" value="price_1JS1p5GIBktjIJUPjG5ksGFb">
+                                <button class='button pink_gradient' type="submit">
+                                    Downgrade
+                                </button>
+                            </form>
+                        @endif
+                    @endif
 
-                    @if(($subscription && $subscription->name == "pro" && $subscription->stripe_status == "active") || !$subscription)
+                    {{--@if(($subscription && $subscription->name == "pro" && $subscription->stripe_status == "active") || !$subscription)
                         <h3>Upgrade your plan to get all the benefits</h3>
                         <div class="text-center m-5">
                             <a class="button blue" href="{{route('plans.get')}}">Upgrade Now</a>
                         </div>
-                    @endif
+                    @endif--}}
                 </div>
             </div>
         </div>

@@ -36,8 +36,7 @@ class SubscriptionService {
         $user = Auth::user();
 
         if ($user->subscribed('pro') || $user->subscribed('corporate') ){
-            $getSubscription = $user->subscriptions()->first()->pluck("name");
-            $subscription = $getSubscription[0];
+            $subscription = $user->subscriptions()->first();
         }
 
         return $subscription;
