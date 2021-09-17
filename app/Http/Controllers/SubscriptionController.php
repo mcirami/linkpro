@@ -12,20 +12,9 @@ class SubscriptionController extends Controller
 {
     use Billable;
 
-    protected $user;
+    public function purchase(SubscriptionService $subscriptionService) {
 
-    public function __construct() {
-
-        $this->middleware(function ($request, $next) {
-            $this->user = Auth::user();
-
-            return $next($request);
-        });
-    }
-
-    public function show(SubscriptionService $subscriptionService) {
-
-        $plan = $subscriptionService->showSubscription();
+        $plan = $subscriptionService->showPurchasePage();
 
         return view('subscription.index', [ 'intent' => auth()->user()->createSetupIntent(), 'plan' => $plan ]);
     }
@@ -44,17 +33,25 @@ class SubscriptionController extends Controller
         return view('subscription.confirmation', ['message' => $message]);
     }
 
-    public function plans() {
+    public function plans(SubscriptionService $subscriptionService) {
 
-        /*$page = $this->user->pages()->firstWhere('user_id', $this->user["id"]);*/
-
-        $subscription = null;
-
-        if ($this->user->subscribed('pro') || $this->user->subscribed('corporate') ){
-            $getSubscription = $this->user->subscriptions()->first()->pluck("name");
-            $subscription = $getSubscription[0];
-        }
+        $subscription = $subscriptionService->showPlansPage();
 
         return view('subscription.plans', ['subscription' => $subscription]);
+    }
+
+    public function cancel(Request $request, SubscriptionService $subscriptionService) {
+
+        $subscriptionService->cancelSubscription($request);
+
+        return redirect()->back()->with(['success' => 'Your Subscription Has Been Cancelled']);
+
+    }
+
+    public function resume(Request $request, SubscriptionService $subscriptionService) {
+
+        $subscriptionService->resumeSubscription($request);
+
+        return redirect()->back()->with(['success' => 'Your Subscription Has Been Reactivated']);
     }
 }

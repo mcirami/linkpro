@@ -129,6 +129,13 @@ function App() {
 
                         <ShowPreviewButton />
 
+                        <AddLink
+                            userLinks={userLinks}
+                            setUserLinks={setUserLinks}
+                            originalArray={originalArray}
+                            setOriginalArray={setOriginalArray}
+                        />
+
                         <div className="icons_wrap add_icons icons">
 
                             <Links
@@ -141,13 +148,6 @@ function App() {
                             />
 
                         </div>
-
-                        <AddLink
-                            userLinks={userLinks}
-                            setUserLinks={setUserLinks}
-                            originalArray={originalArray}
-                            setOriginalArray={setOriginalArray}
-                        />
                     </div>
                 </div>
                 <div className="right_column links_col preview">

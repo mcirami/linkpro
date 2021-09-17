@@ -49,12 +49,14 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item">
-                                <a href="{{route('plans.get')}}">{{--<img src="{{ asset('images/icon-support.png') }}" alt="Link Pro"> --}}Upgrade</a>
-                            </li>
+                            @if(!Auth::user()->subscription('corporate'))
+                                <li class="nav-item">
+                                    <a href="{{route('plans.get')}}">Upgrade</a>
+                                </li>
+                            @endif
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="{{ asset('images/profile-placeholder-img.png') }}" alt="User Profile"> {{ Auth::user()->username }}
+                                    <img src="{{ Auth::user()->avatar ? : asset('images/profile-placeholder-img.png') }}" alt="User Profile"> {{ Auth::user()->username }}
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -81,7 +83,13 @@
             @yield('content')
         </main>
 
-        @include ('footer')
+        @if(Route::is('subscribe.get'))
+            @include ('layouts.subscribe.footer')
+        @else
+            @include('footer')
+        @endif
+
+
     </div>
 </body>
 </html>

@@ -1,4 +1,4 @@
-@extends('layouts.subscribe.header')
+@extends('layouts.app')
 
 @section('content')
 

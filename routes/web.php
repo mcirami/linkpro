@@ -56,8 +56,10 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
 
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/plans', [SubscriptionController::class, 'plans'])->name('plans.get');
-    Route::get('/subscribe', [SubscriptionController::class, 'show']);
+    Route::get('/subscribe', [SubscriptionController::class, 'purchase'])->name('subscribe.get');
     Route::post('/subscribe', [SubscriptionController::class, 'store'])->name('subscribe.post');
+    Route::post('/subscribe/cancel', [SubscriptionController::class, 'cancel'])->name('subscribe.cancel');
+    Route::post('/subscribe/resume', [SubscriptionController::class, 'resume'])->name('subscribe.resume');
     Route::post('/change-plan', [SubscriptionController::class, 'changePlan'])->name('subscribe.change.plan');
 
     Route::get('/edit-account', [UserController::class, 'edit'])->name('user.edit');

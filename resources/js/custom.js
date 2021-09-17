@@ -61,7 +61,6 @@ jQuery(document).ready(function($) {
 
     if (flashMessage) {
 
-        console.log("flash");
         setTimeout(function() {
             let fadeEffect = setInterval(function() {
                 if (!flashMessage.style.opacity) {
@@ -74,7 +73,31 @@ jQuery(document).ready(function($) {
                 }
             },200)
         }, 3000)
-
     }
+
+    //const openPopup = document.getElementById('open_popup');
+    const confirmPopup = document.getElementById('confirm_popup');
+
+    if (confirmPopup) {
+        document.querySelector('.open_popup').addEventListener('click', function(e) {
+            e.preventDefault();
+            const planName = e.target.dataset.plan;
+            const type = e.target.dataset.type;
+            confirmPopup.classList.add('open');
+            document.querySelector('#confirm_popup .plan_name').value = planName;
+            if(type === "cancel") {
+                document.querySelector('#popup_form').action = '/subscribe/cancel';
+            } else if (type === "resume") {
+                document.querySelector('#popup_form').action = '/subscribe/resume';
+            }
+
+        });
+
+        document.querySelector('#confirm_popup .close_popup').addEventListener('click', function(e) {
+            e.preventDefault();
+            confirmPopup.classList.remove('open');
+        })
+    }
+
 
 });

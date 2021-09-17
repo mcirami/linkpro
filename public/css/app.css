@@ -11596,8 +11596,11 @@ button {
   -webkit-justify-content: center;
 }
 .navbar ul li img {
-  width: 35px;
+  width: 40px;
   padding-right: 5px;
+  border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
 }
 .navbar ul li.dropdown a {
   color: #424fcf !important;
@@ -12296,7 +12299,7 @@ header.guest_header .col.right {
 .add_more_icons {
   box-shadow: 0px 0px 35px 5px rgba(170, 170, 170, 0.18);
   padding: 0 40px;
-  margin: 30px 7% 0 7%;
+  margin: 40px 7% 0 7%;
   border-radius: 20px;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
@@ -12329,6 +12332,7 @@ header.guest_header .col.right {
   color: #424fcf;
   margin-left: 20px;
   margin-bottom: 0;
+  font-size: 20px;
 }
 @media all and (max-width: 550px) {
   .add_more_icons .col_left h3, .add_more_icons .col_left .h3 {
@@ -12340,7 +12344,7 @@ header.guest_header .col.right {
   border-radius: 20px;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
-  padding: 8%;
+  padding: 5%;
   color: #ffffff;
 }
 .add_more_icons .col_left .icon_wrap:hover {
@@ -13477,6 +13481,33 @@ form .bottom_row a {
 }
 .form_page.edit_profile .page_settings .column_wrap label.custom {
   border: 1px solid #d2d2d2;
+}
+
+#confirm_popup {
+  display: none;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  transition: 100ms opacity linear;
+  -webkit-transition: 100ms opacity linear;
+  -moz-transition: 100ms opacity linear;
+  -o-transition: 100ms opacity linear;
+}
+#confirm_popup.open {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  -webkit-justify-content: center;
+  align-items: center;
+  -webkit-align-items: center;
+  opacity: 1;
 }
 
 footer {

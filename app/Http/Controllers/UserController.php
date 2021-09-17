@@ -24,9 +24,9 @@ class UserController extends Controller
         $data = $userService->getUserInfo();
 
         return view('users.edit', [
-            'user' => $data["user"],
+            'user' => $data['user'],
+            'subscription' => $data["subscription"],
             'payment_method' => $data["payment_method"],
-            'success' => "my message"
         ]);
     }
 

@@ -15,12 +15,12 @@ class UserService {
 
         $user = Auth::user();
 
-        if ($user->hasDefaultPaymentMethod()) {
-            $paymentMethod = $user->defaultPaymentMethod();
-        }
+        $subscription = $user->subscriptions()->first() ? : null;
+        $paymentMethod = $user->defaultPaymentMethod() ? : null;
 
         $data = [
             'user' => $user,
+            'subscription' => $subscription,
             'payment_method' => $paymentMethod
         ];
 

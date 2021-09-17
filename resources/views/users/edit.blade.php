@@ -4,19 +4,13 @@
     <div class="container">
         <div class="my_row form_page edit_profile">
             <div class="card">
-                <div>
-                    <h3>Update Account Information</h3>
-                </div>
-
+                <h3>Update Account Information</h3>
                 <div class="card-body">
-                    <form method="POST" action="/update-account/{{$user->id}}">
+                    <form method="POST" action="/update-account/{{ $user->id }}">
                         @csrf
                         <div class="row">
                             <div class="col-12 col-md-4 page_settings">
                                 <div id="avatar"></div>
-                                {{--<div class="image_wrap">
-                                    <img src="{{ $user->profile_image ? : asset('images/profile-placeholder-img.png') }}" alt="User Profile">
-                                </div>--}}
                             </div>
                             <div class="col-12 col-md-8">
                                 <div class="form-group row">
@@ -75,39 +69,66 @@
         </div>
         <div class="my_row form_page edit_profile mt-5">
             <div class="card">
-                <div>
-                    <h3>Update Billing Information</h3>
-                </div>
-
+                <h3>Your Plan Information</h3>
                 <div class="card-body">
-                    <form method="POST" action="">
-                        @csrf
-
-                        @if ($payment_method && $payment_method->type == "card")
-                            <div class="form-group row">
-                                <div class="col-12 mx-auto">
-                                    <p>{{$payment_method->card["brand"]}}</p>
-                                    <input type="text" value="" placeholder="xxxx xxxx xxxx {{$payment_method->card["last4"]}}">
-                                    @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('password')  }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="form-group row mb-3">
-                                <div class="col-12 mx-auto">
-                                    <button type="submit" class="btn btn-primary text-uppercase">
-                                        {{ __('Update') }}
-                                    </button>
-                                </div>
-                            </div>
+                    <h4>Plan Level: </h4>
+                    @if($subscription && $subscription->stripe_status == "active")
+                        <p>{{ $subscription->name }}</p>
+                        @if($subscription->ends_at)
+                            <p>Your subscrition has been cancelled. It will end on:</p>
+                            <p>{{$subscription->ends_at->format('F j, Y')}}</p>
+                            <a href="#" class="open_popup" data-plan="{{ $subscription->name }}" data-type="resume">Resume Subscription</a>
+                        @else
+                            <a href="#" class="open_popup" data-plan="{{ $subscription->name }}" data-type="cancel">Cancel Subscription</a>
                         @endif
-                    </form>
+                    @else
+                        <p>Free</p>
+                    @endif
+
+                    @if(($subscription && $subscription->name == "pro" && $subscription->stripe_status == "active") || !$subscription)
+                        <h3>Upgrade your plan to get all the benefits</h3>
+                        <div class="text-center m-5">
+                            <a class="button blue" href="{{route('plans.get')}}">Upgrade Now</a>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
+        @if ($subscription)
+            <div class="my_row form_page edit_profile mt-5">
+                <div class="card">
+                    <h3>Update Billing Information</h3>
+                    <div class="card-body">
+                        <form method="POST" action="">
+                            @csrf
+
+                            @if ($payment_method->type == "card")
+                                <div class="form-group row">
+                                    <div class="col-12 mx-auto">
+                                        <p>{{$payment_method->card["brand"]}}</p>
+                                        <input type="text" value="" placeholder="xxxx xxxx xxxx {{$payment_method->card["last4"]}}">
+                                        @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('password')  }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-3">
+                                    <div class="col-12 mx-auto">
+                                        <button type="submit" class="btn btn-primary text-uppercase">
+                                            {{ __('Update') }}
+                                        </button>
+                                    </div>
+                                </div>
+                            @endif
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
+
     @if (session()->has('success'))
         <div class="display_message alert" id="laravel_flash">
             <div class="icon_wrap">
@@ -117,4 +138,7 @@
             <span class="close"><strong>CLOSE</strong></span>
         </div>
     @endif
+
+    @include('layouts.popup')
+
 @endsection

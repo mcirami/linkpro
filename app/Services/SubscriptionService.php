@@ -12,27 +12,35 @@ class SubscriptionService {
 
     use Billable;
 
-    public function showSubscription() {
+    /*protected $user;
 
-        $user = Auth::user();
+    public function __construct() {
+
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::user();
+
+            return $next($request);
+        });
+    }*/
+
+    public function showPurchasePage() {
 
         $plan = $_GET["plan"];
 
-       /* $activeSubs = $user->subscriptions()->active()->get();
+        return $plan;
+    }
 
-        if($activeSubs->isEmpty()) {
-            $sub = null;
-        } else {
-            $sub = $activeSubs[0]->name;
+    public function showPlansPage() {
+        $subscription = null;
+
+        $user = Auth::user();
+
+        if ($user->subscribed('pro') || $user->subscribed('corporate') ){
+            $getSubscription = $user->subscriptions()->first()->pluck("name");
+            $subscription = $getSubscription[0];
         }
 
-        $data = [
-            'plan' => $plan,
-            'sub_name' => $sub
-        ];*/
-
-        return $plan;
-
+        return $subscription;
     }
 
     public function newSubscription($request) {
@@ -64,7 +72,17 @@ class SubscriptionService {
         return $message;
     }
 
-    public function cancelSubscription() {
+    public function cancelSubscription($request) {
+        $user = Auth::user();
+
+        $user->subscription($request->plan_name)->cancel();
+
+    }
+
+    public function resumeSubscription($request) {
+        $user = Auth::user();
+
+        $user->subscription($request->plan_name)->resume();
 
     }
 }
