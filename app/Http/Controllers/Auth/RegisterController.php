@@ -72,11 +72,20 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        $user->pages()->create([
+        $page = $user->pages()->create([
             'name' => $user->username,
             'title' => "LinkPro",
             'bio' => 'Add Slogan/Intro Here',
             'is_protected' => false,
+        ]);
+
+        $user->links()->create([
+            'name' => null,
+            'url' => null,
+            'icon' => null,
+            'page_id' => $page->id,
+            'position' => 0,
+            'active_status' => 1
         ]);
 
         $userData = ([
@@ -99,6 +108,6 @@ class RegisterController extends Controller
     protected function registered(Request $request, $user)
     {
         //$userPages = $user->pages()->get();
-        return redirect('/upgrade');
+        return redirect('/plans');
     }
 }
