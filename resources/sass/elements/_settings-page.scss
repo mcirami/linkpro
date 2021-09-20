@@ -1,31 +1,182 @@
-.form_page.edit_profile {
+.form_page.three_columns {
 
-    .page_settings {
-        border-right: 1px solid $borderGray;
-        border-radius: 0px;
-        -webkit-border-radius: 0px;
-        -moz-border-radius: 0px;
+    .card {
+        width: 100%;
+        max-width: unset;
+        padding: 60px 40px;
 
-        .column_wrap {
-            border: none;
+        @media all and (max-width: 992px) {
+            padding: 40px 20px;
+        }
+    }
 
-            .profile_image {
+    h2 {
+        text-align: center;
+
+        &.page_title {
+            margin-bottom: 40px;
+            font-size: 34px;
+
+            @media all and (max-width: 1199px) {
+                font-size: 28px;
+            }
+
+            @media all and (max-width: 992px) {
                 margin-bottom: 20px;
+            }
+        }
+    }
 
-                .image_wrap {
-                    max-width: 25%;
-                    margin: 0 auto;
+    .my_row {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
 
-                    img {
-                        border-radius: 100%;
-                        -webkit-border-radius: 100%;
-                        -moz-border-radius: 100%;
-                    }
+        .column {
+            width: 30.5%;
+            margin-right: 4%;
+            border: 6px solid $blue;
+            border-radius: 30px;
+            -webkit-border-radius: 30px;
+            -moz-border-radius: 30px;
+            padding: 40px;
+            background: #edeef2;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -ms-flex-wrap: nowrap;
+            flex-wrap: nowrap;
+
+            @media all and (max-width: 1199px) {
+                padding: 24px;
+            }
+
+            @media all and (max-width: 992px) {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 40px;
+            }
+
+            &:last-child {
+                margin-right: 0;
+            }
+
+            h2 {
+                margin-bottom: 30px;
+                padding-bottom: 30px;
+                border-bottom: 1px solid $borderGray;
+
+                @media all and (max-width: 1199px) {
+                    font-size: 22px;
                 }
             }
 
-            label.custom {
-                border: 1px solid $borderGray;
+            h4 {
+                @include osbold;
+                color: $black;
+                text-align: center;
+            }
+
+            .plan_name {
+               /* background: url('/images/plan-type-bg.png') no-repeat;
+                background-position: center;
+                background-size: contain;*/
+                position: relative;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-orient: vertical;
+                -webkit-box-direction: normal;
+                -ms-flex-direction: column;
+                flex-direction: column;
+                -ms-flex-wrap: nowrap;
+                flex-wrap: nowrap;
+                align-items: center;
+                -webkit-align-items: center;
+                justify-content: center;
+                -webkit-justify-content: center;
+                height: 100%;
+
+                p {
+                    @include osbold;
+                    position: absolute;
+                    margin: 0;
+                    padding: 0;
+                    font-size: 28px;
+                    text-transform: uppercase;
+                    width: 100%;
+                    text-align: center;
+
+                    @media all and (max-width: 1199px) {
+                        font-size: 22px
+                    }
+                }
+
+                img {
+                    max-width: 210px;
+                }
+            }
+
+            a {
+                color: $red;
+                text-align: center;
+                margin-top: auto;
+                margin-bottom: 10px;
+            }
+
+            form {
+                height: 100%;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-orient: vertical;
+                -webkit-box-direction: normal;
+                -ms-flex-direction: column;
+                flex-direction: column;
+                -ms-flex-wrap: nowrap;
+                flex-wrap: nowrap;
+                justify-content: center;
+                -webkit-justify-content: center;
+
+                .form_inputs {
+                    width: 100%;
+                    margin: auto;
+
+                    input {
+                        width: 100%;
+                    }
+                }
+
+                .form_buttons {
+                    justify-self: flex-end;
+                    margin-bottom: 0;
+                    margin-top: auto;
+
+                }
+
+                &.plan {
+                    height: auto;
+                    justify-content: flex-end;
+                }
+            }
+
+            .canceled_text {
+                p {
+
+                    span {
+                        @include ossemibold;
+                    }
+                }
             }
         }
     }
@@ -62,6 +213,44 @@
         align-items: center;
         -webkit-align-items: center;
         opacity: 1;
+    }
+
+    .box {
+        @include boxShadow;
+        width: 100%;
+        max-width: 400px;
+        background: $white;
+        border-radius: 20px;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+
+        h3 {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid $borderGray;
+        }
+
+        .text_wrap {
+            padding: 20px 20px 30px;
+
+            p {
+                margin-bottom: 20px;
+            }
+        }
+
+        form {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            -ms-flex-wrap: nowrap;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            -webkit-justify-content: space-between;
+        }
 
     }
 }

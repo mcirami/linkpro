@@ -79,19 +79,34 @@ jQuery(document).ready(function($) {
     const confirmPopup = document.getElementById('confirm_popup');
 
     if (confirmPopup) {
-        document.querySelector('.open_popup').addEventListener('click', function(e) {
-            e.preventDefault();
-            const planName = e.target.dataset.plan;
-            const type = e.target.dataset.type;
-            confirmPopup.classList.add('open');
-            document.querySelector('#confirm_popup .plan_name').value = planName;
-            if(type === "cancel") {
-                document.querySelector('#popup_form').action = '/subscribe/cancel';
-            } else if (type === "resume") {
-                document.querySelector('#popup_form').action = '/subscribe/resume';
-            }
+        const openPopupButton = document.querySelectorAll('.open_popup');
+        openPopupButton.forEach((button) => {
+            button.addEventListener('click', function(e) {
+                console.log("clicked");
+                e.preventDefault();
+                const planName = e.target.dataset.plan;
+                const type = e.target.dataset.type;
+                const level = e.target.dataset.level;
+                confirmPopup.classList.add('open');
 
-        });
+                document.querySelector('#confirm_popup .plan').value = planName;
+                document.querySelector('#confirm_popup .level').value = level;
+                if(type === "cancel") {
+                    document.querySelector('#popup_form').action = '/subscribe/cancel';
+                    document.querySelector('#confirm_popup #text_type').textContent = 'cancel';
+                } else if (type === "resume") {
+                    document.querySelector('#popup_form').action = '/subscribe/resume';
+                    document.querySelector('#confirm_popup #text_type').textContent = 'resume';
+                } else if (type === "upgrade") {
+                    document.querySelector('#popup_form').action = '/change-plan';
+                    document.querySelector('#confirm_popup #text_type').textContent = 'upgrade';
+                } else if (type === "downgrade") {
+                    document.querySelector('#popup_form').action = '/change-plan';
+                    document.querySelector('#confirm_popup #text_type').textContent = 'downgrade';
+                }
+
+            });
+        })
 
         document.querySelector('#confirm_popup .close_popup').addEventListener('click', function(e) {
             e.preventDefault();

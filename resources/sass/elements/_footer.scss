@@ -1,9 +1,9 @@
 footer {
+    @include boxShadow;
     width: 100%;
     float: left;
     text-align: center;
     padding: 20px;
-    border-top: 1px solid #666666;
     background: $white;
 
     ul {

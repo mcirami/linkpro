@@ -11327,7 +11327,7 @@ a {
 main {
   width: 100%;
   float: left;
-  padding: 80px 0;
+  padding: 125px 0;
 }
 @media all and (max-width: 768px) {
   main {
@@ -11579,6 +11579,9 @@ button {
   text-transform: uppercase;
 }
 
+.navbar {
+  box-shadow: 0px 0px 35px 5px rgba(170, 170, 170, 0.18);
+}
 .navbar .navbar-collapse {
   justify-content: flex-end;
 }
@@ -12750,7 +12753,7 @@ header.guest_header .col.right {
   border-radius: 6px;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
-  padding: 12px 20px;
+  padding: 12px 10px;
   font-size: 16px;
   border: none;
 }
@@ -13233,11 +13236,6 @@ form .bottom_row a {
   }
 }
 
-.form_page.edit_profile .card {
-  width: 100%;
-  max-width: unset;
-}
-
 .pricing_plans {
   display: flex;
   flex-direction: row;
@@ -13458,29 +13456,145 @@ form .bottom_row a {
   }
 }
 
-.form_page.edit_profile .page_settings {
-  border-right: 1px solid #d2d2d2;
-  border-radius: 0px;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
+.form_page.three_columns .card {
+  width: 100%;
+  max-width: unset;
+  padding: 60px 40px;
 }
-.form_page.edit_profile .page_settings .column_wrap {
-  border: none;
+@media all and (max-width: 992px) {
+  .form_page.three_columns .card {
+    padding: 40px 20px;
+  }
 }
-.form_page.edit_profile .page_settings .column_wrap .profile_image {
-  margin-bottom: 20px;
+.form_page.three_columns h2, .form_page.three_columns .h2 {
+  text-align: center;
 }
-.form_page.edit_profile .page_settings .column_wrap .profile_image .image_wrap {
-  max-width: 25%;
-  margin: 0 auto;
+.form_page.three_columns h2.page_title, .form_page.three_columns .page_title.h2 {
+  margin-bottom: 40px;
+  font-size: 34px;
 }
-.form_page.edit_profile .page_settings .column_wrap .profile_image .image_wrap img {
-  border-radius: 100%;
-  -webkit-border-radius: 100%;
-  -moz-border-radius: 100%;
+@media all and (max-width: 1199px) {
+  .form_page.three_columns h2.page_title, .form_page.three_columns .page_title.h2 {
+    font-size: 28px;
+  }
 }
-.form_page.edit_profile .page_settings .column_wrap label.custom {
-  border: 1px solid #d2d2d2;
+@media all and (max-width: 992px) {
+  .form_page.three_columns h2.page_title, .form_page.three_columns .page_title.h2 {
+    margin-bottom: 20px;
+  }
+}
+.form_page.three_columns .my_row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.form_page.three_columns .my_row .column {
+  width: 30.5%;
+  margin-right: 4%;
+  border: 6px solid #424fcf;
+  border-radius: 30px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  padding: 40px;
+  background: #edeef2;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+@media all and (max-width: 1199px) {
+  .form_page.three_columns .my_row .column {
+    padding: 24px;
+  }
+}
+@media all and (max-width: 992px) {
+  .form_page.three_columns .my_row .column {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 40px;
+  }
+}
+.form_page.three_columns .my_row .column:last-child {
+  margin-right: 0;
+}
+.form_page.three_columns .my_row .column h2, .form_page.three_columns .my_row .column .h2 {
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #d2d2d2;
+}
+@media all and (max-width: 1199px) {
+  .form_page.three_columns .my_row .column h2, .form_page.three_columns .my_row .column .h2 {
+    font-size: 22px;
+  }
+}
+.form_page.three_columns .my_row .column h4, .form_page.three_columns .my_row .column .h4 {
+  font-family: "opensansbold", sans-serif;
+  color: #000;
+  text-align: center;
+}
+.form_page.three_columns .my_row .column .plan_name {
+  /* background: url('/images/plan-type-bg.png') no-repeat;
+   background-position: center;
+   background-size: contain;*/
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+  -webkit-align-items: center;
+  justify-content: center;
+  -webkit-justify-content: center;
+  height: 100%;
+}
+.form_page.three_columns .my_row .column .plan_name p {
+  font-family: "opensansbold", sans-serif;
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  font-size: 28px;
+  text-transform: uppercase;
+  width: 100%;
+  text-align: center;
+}
+@media all and (max-width: 1199px) {
+  .form_page.three_columns .my_row .column .plan_name p {
+    font-size: 22px;
+  }
+}
+.form_page.three_columns .my_row .column .plan_name img {
+  max-width: 210px;
+}
+.form_page.three_columns .my_row .column a {
+  color: #f24d1d;
+  text-align: center;
+  margin-top: auto;
+  margin-bottom: 10px;
+}
+.form_page.three_columns .my_row .column form {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  -webkit-justify-content: center;
+}
+.form_page.three_columns .my_row .column form .form_inputs {
+  width: 100%;
+  margin: auto;
+}
+.form_page.three_columns .my_row .column form .form_inputs input {
+  width: 100%;
+}
+.form_page.three_columns .my_row .column form .form_buttons {
+  justify-self: flex-end;
+  margin-bottom: 0;
+  margin-top: auto;
+}
+.form_page.three_columns .my_row .column form.plan {
+  height: auto;
+  justify-content: flex-end;
+}
+.form_page.three_columns .my_row .column .canceled_text p span {
+  font-family: "opensanssemibold", sans-serif;
 }
 
 #confirm_popup {
@@ -13509,13 +13623,40 @@ form .bottom_row a {
   -webkit-align-items: center;
   opacity: 1;
 }
+#confirm_popup .box {
+  box-shadow: 0px 0px 35px 5px rgba(170, 170, 170, 0.18);
+  width: 100%;
+  max-width: 400px;
+  background: #ffffff;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+}
+#confirm_popup .box h3, #confirm_popup .box .h3 {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #d2d2d2;
+}
+#confirm_popup .box .text_wrap {
+  padding: 20px 20px 30px;
+}
+#confirm_popup .box .text_wrap p {
+  margin-bottom: 20px;
+}
+#confirm_popup .box form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+}
 
 footer {
+  box-shadow: 0px 0px 35px 5px rgba(170, 170, 170, 0.18);
   width: 100%;
   float: left;
   text-align: center;
   padding: 20px;
-  border-top: 1px solid #666666;
   background: #ffffff;
 }
 footer ul {

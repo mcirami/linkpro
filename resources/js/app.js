@@ -15,9 +15,9 @@ require('./custom');
 if (document.getElementById('root')) {
     require('./components/Index');
 }
-if (document.getElementById('avatar')) {
+/*if (document.getElementById('avatar')) {
     require('./components/Avatar/Index');
-}
+}*/
 //require('./components/Preview');
 
 

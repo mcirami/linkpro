@@ -74,14 +74,14 @@ class SubscriptionService {
     public function cancelSubscription($request) {
         $user = Auth::user();
 
-        $user->subscription($request->plan_name)->cancel();
+        $user->subscription($request->plan)->cancel();
 
     }
 
     public function resumeSubscription($request) {
         $user = Auth::user();
 
-        $user->subscription($request->plan_name)->resume();
+        $user->subscription($request->plan)->resume();
 
     }
 }

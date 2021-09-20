@@ -1,4 +1,5 @@
 .navbar {
+    @include boxShadow;
 
     .navbar-collapse {
         justify-content: flex-end;
