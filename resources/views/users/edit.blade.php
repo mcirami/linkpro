@@ -2,11 +2,11 @@
 
 @section('content')
     <div class="container">
-        <div class="my_row form_page three_columns">
+        <div class="my_row form_page">
             <div class="card">
                 <h2 class="page_title">Update Account Settings</h2>
                 <div class="card-body">
-                    <div class="my_row">
+                    <div class="my_row three_columns">
                         <div class="column">
                             <h2 class="text-uppercase">Account Info</h2>
                             <form method="POST" action="/update-account/{{ $user->id }}">
@@ -56,7 +56,7 @@
                                     </div>
                                     <div class="form-group row form_buttons">
                                         <div class="col-12">
-                                            <button type="submit" class="btn btn-primary text-uppercase">
+                                            <button type="submit" class="button blue text-uppercase">
                                                 {{ __('Update My Info') }}
                                             </button>
                                         </div>
@@ -147,7 +147,9 @@
     @if (session()->has('success'))
         <div class="display_message alert" id="laravel_flash">
             <div class="icon_wrap">
-
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                </svg>
             </div>
             <p>{{ session()->get('success')}}</p>
             <span class="close"><strong>CLOSE</strong></span>

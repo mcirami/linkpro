@@ -30,7 +30,9 @@ class SubscriptionController extends Controller
 
         $message = $subscriptionService->updateSubscription($request);
 
-        return view('subscription.confirmation', ['message' => $message]);
+        //return view('subscription.confirmation', ['message' => $message]);
+
+        return redirect()->back()->with(['success' => $message]);
     }
 
     public function plans(SubscriptionService $subscriptionService) {

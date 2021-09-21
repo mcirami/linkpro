@@ -77,7 +77,7 @@
                     </div>
                     <div class="form-group row mb-3">
                         <div class="col-sm-10 mx-auto">
-                            <button type="submit" class="btn btn-primary text-uppercase">
+                            <button type="submit" class="button blue text-uppercase">
                                 {{ __('Let\'s Do This') }}
                             </button>
                         </div>

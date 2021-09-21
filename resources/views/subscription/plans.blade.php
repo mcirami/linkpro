@@ -1,222 +1,192 @@
 @extends('layouts.app')
 
 @section('content')
-
     <div class="container">
-        <div class="my_row pricing_plans">
-            <div class="mobile_header column plan_items my_row d-block d-md-none">
-                <div class="my_row column_sub_header">
-                    <p>Choose Your</p>
-                    <h2>Pricing Plan</h2>
-                </div>
-            </div>
-            <div class="column plan_items d-none d-md-block">
-                <div class="my_row column_header">
-                    <img src="{{ asset('images/logo.png') }}" alt="">
-                </div>
-                <div class="my_row column_sub_header">
-                    <p>Choose Your</p>
-                    <h2>Pricing Plan</h2>
-                </div>
-                <div class="my_row column_row">
-                    <h4>1 Unique Link</h4>
-                </div>
-                <div class="my_row column_row alt">
-                    <h4>up to 9 icons</h4>
-                </div>
-                <div class="my_row column_row">
-                    <h4>Choose Default Icons</h4>
-                </div>
-                <div class="my_row column_row alt">
-                    <h4>Custom Icon Links</h4>
-                </div>
-                <div class="my_row column_row">
-                    <h4>Custom Icons</h4>
-                </div>
-                <div class="my_row column_row alt">
-                    <h4>Unlimited Icons</h4>
-                </div>
-                <div class="my_row column_row">
-                    <h4>Up to 5 Unique Links</h4>
-                </div>
-                <div class="my_row column_row alt">
-                    <h4>Password Protected Links</h4>
-                </div>
-                <div class="my_row column_footer">
-                    <h5>Questions?</h5>
-                    <h5>Contact Us!</h5>
-                </div>
-            </div>
+        <div class="my_row form_page plans">
+            <div class="card">
+                <h2 class="page_title">Welcome to Link Pro!</h2>
+                <p class="sub_title">Continue free forever or upgrade for advanced features!</p>
+                <div class="card-body">
+                    <div class="my_row three_columns">
+                        <div class="column pro">
+                            <h2 class="text-uppercase">Pro</h2>
+                            <ul>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                        <path d="M13.485 1.431a1.473 1.473 0 0 1 2.104 2.062l-7.84 9.801a1.473 1.473 0 0 1-2.12.04L.431 8.138a1.473 1.473 0 0 1 2.084-2.083l4.111 4.112 6.82-8.69a.486.486 0 0 1 .04-.045z"/>
+                                    </svg>
+                                    <p>Free Features PLUS</p>
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                        <path d="M13.485 1.431a1.473 1.473 0 0 1 2.104 2.062l-7.84 9.801a1.473 1.473 0 0 1-2.12.04L.431 8.138a1.473 1.473 0 0 1 2.084-2.083l4.111 4.112 6.82-8.69a.486.486 0 0 1 .04-.045z"/>
+                                    </svg>
+                                    <p>Unlimited Icons</p>
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                        <path d="M13.485 1.431a1.473 1.473 0 0 1 2.104 2.062l-7.84 9.801a1.473 1.473 0 0 1-2.12.04L.431 8.138a1.473 1.473 0 0 1 2.084-2.083l4.111 4.112 6.82-8.69a.486.486 0 0 1 .04-.045z"/>
+                                    </svg>
+                                    <p>Custom Icons</p>
+                                </li>
+                            </ul>
+                            <div class="pricing">
+                                <h3><sup>$</sup>4.99<span>/ mo</span></h3>
+                            </div>
+                            <div class="button_row">
+                                @if ($subscription && $subscription->name == "pro" && $subscription->stripe_status == "active")
+                                    <span class='button disabled'>Current</span>
+                                @elseif ($subscription && $subscription->stripe_status == "active")
+                                    <button class='button blue open_popup' data-type="downgrade" data-level="pro" data-plan="price_1JS1p5GIBktjIJUPjG5ksGFb">
+                                        Downgrade My Plan
+                                    </button>
+                                   {{-- <form method="post" action="{{ url('/change-plan') }}">
+                                        @csrf
+                                        <input type="hidden" name="level" value="pro">
+                                        <input type="hidden" name="plan" data-level="pro" id="pro" value="price_1JS1p5GIBktjIJUPjG5ksGFb">
+                                        <button class='button blue_gradient' type="submit">
+                                            Downgrade
+                                        </button>
+                                    </form>--}}
+                                @else
+                                    <a class='button blue_gradient' href="{{ url('/subscribe?plan=pro') }}">
+                                        Get Pro
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="column corp">
+                            <h2 class="text-uppercase">Corporate</h2>
+                            <ul>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                        <path d="M13.485 1.431a1.473 1.473 0 0 1 2.104 2.062l-7.84 9.801a1.473 1.473 0 0 1-2.12.04L.431 8.138a1.473 1.473 0 0 1 2.084-2.083l4.111 4.112 6.82-8.69a.486.486 0 0 1 .04-.045z"/>
+                                    </svg>
+                                    <p>Pro Features PLUS</p>
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                        <path d="M13.485 1.431a1.473 1.473 0 0 1 2.104 2.062l-7.84 9.801a1.473 1.473 0 0 1-2.12.04L.431 8.138a1.473 1.473 0 0 1 2.084-2.083l4.111 4.112 6.82-8.69a.486.486 0 0 1 .04-.045z"/>
+                                    </svg>
+                                    <p>Up to 5 Unique Links</p>
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                        <path d="M13.485 1.431a1.473 1.473 0 0 1 2.104 2.062l-7.84 9.801a1.473 1.473 0 0 1-2.12.04L.431 8.138a1.473 1.473 0 0 1 2.084-2.083l4.111 4.112 6.82-8.69a.486.486 0 0 1 .04-.045z"/>
+                                    </svg>
+                                    <p>Password Protected Links</p>
+                                </li>
+                            </ul>
+                            <div class="pricing">
+                                <h3><sup>$</sup>19.99<span>/ mo</span></h3>
+                            </div>
+                            <div class="button_row">
+                                @if ($subscription && $subscription->name == "corporate" && $subscription->stripe_status == "active")
+                                    <span class='button disabled'>Current</span>
+                                @elseif ($subscription && $subscription->stripe_status == "active")
+                                    <button class="open_popup button black_gradient" data-type="upgrade" data-level="corporate" data-plan="price_1JS1qkGIBktjIJUPVSjN20LH">
+                                        Go Corporate
+                                    </button>
+                                    {{--<form method="post" action="{{ url('/change-plan') }}">
+                                        @csrf
+                                        <input type="hidden" name="level" value="corporate">
+                                        <input type="hidden" name="plan" data-level="corporate" id="corporate" value="price_1JS1qkGIBktjIJUPVSjN20LH">
+                                        <button class='button black_gradient' type="submit">
+                                            Go Corporate
+                                        </button>
+                                    </form>--}}
+                                @else
+                                    <a class='button black_gradient' href='{{ url('/subscribe?plan=corp') }}'>
+                                        Go Corporate
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="column custom">
+                            <h2 class="text-uppercase">Custom</h2>
+                            <ul>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                        <path d="M13.485 1.431a1.473 1.473 0 0 1 2.104 2.062l-7.84 9.801a1.473 1.473 0 0 1-2.12.04L.431 8.138a1.473 1.473 0 0 1 2.084-2.083l4.111 4.112 6.82-8.69a.486.486 0 0 1 .04-.045z"/>
+                                    </svg>
+                                    <p>Unlimited Links</p>
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                        <path d="M13.485 1.431a1.473 1.473 0 0 1 2.104 2.062l-7.84 9.801a1.473 1.473 0 0 1-2.12.04L.431 8.138a1.473 1.473 0 0 1 2.084-2.083l4.111 4.112 6.82-8.69a.486.486 0 0 1 .04-.045z"/>
+                                    </svg>
+                                    <p>Group Icons In Folders</p>
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                        <path d="M13.485 1.431a1.473 1.473 0 0 1 2.104 2.062l-7.84 9.801a1.473 1.473 0 0 1-2.12.04L.431 8.138a1.473 1.473 0 0 1 2.084-2.083l4.111 4.112 6.82-8.69a.486.486 0 0 1 .04-.045z"/>
+                                    </svg>
+                                    <p>Dedicated Account Manager</p>
+                                </li>
+                            </ul>
+                            <div class="pricing">
+                                <h3>ASK</h3>
+                            </div>
+                            <div class="button_row">
+                                <a class="button gray_gradient" href="mailto:admin@link.pro">Contact Us</a>
+                            </div>
+                        </div>
 
-            @if(!$subscription)
-                <div class="column">
-                    <div class="my_row column_header basic">
-                        <h2>Basic</h2>
-                    </div>
-                    <div class="my_row column_sub_header">
-                        <h3>$0 <span>/ month</span></h3>
-                    </div>
-                    <div class="my_row column_row">
-                        <h4>1 Unique Link</h4>
-                        <img src="{{ asset('images/check-circle-pink.png') }}" alt="">
-                    </div>
-                    <div class="my_row column_row alt">
-                        <h4>up to 9 icons</h4>
-                        <img src="{{ asset('images/check-circle-pink.png') }}" alt="">
-                    </div>
-                    <div class="my_row column_row">
-                        <h4>Choose Default Icons</h4>
-                        <img src="{{ asset('images/check-circle-pink.png') }}" alt="">
-                    </div>
-                    <div class="my_row column_row alt">
-                        <h4>Custom Icon Links</h4>
-                        <img src="{{ asset('images/check-circle-pink.png') }}" alt="">
-                    </div>
-                    <div class="my_row column_row">
-                        <h4>Custom Icons</h4>
-                        <img src="{{ asset('images/x-circle-pink.png') }}" alt="">
-                    </div>
-                    <div class="my_row column_row alt">
-                        <h4>Unlimited Icons</h4>
-                        <img src="{{ asset('images/x-circle-pink.png') }}" alt="">
-                    </div>
-                    <div class="my_row column_row">
-                        <h4>Up to 5 Unique Links</h4>
-                        <img src="{{ asset('images/x-circle-pink.png') }}" alt="">
-                    </div>
-                    <div class="my_row column_row alt">
-                        <h4>Password Protected Links</h4>
-                        <img src="{{ asset('images/x-circle-pink.png') }}" alt="">
-                    </div>
-                    <div class="my_row column_footer">
-                        @if(!$subscription)
-                            <a class="button green" href="{{ url('/dashboard') }}">
-                                Continue
-                            </a>
-                        @else
-                            <h5>Free</h5>
-                            <a href="#">Cancel Subscription</a>
+                        @if (!$subscription)
+                            <div class="column free">
+                                <h2 class="text-uppercase">Free</h2>
+                                <div class="my_row three_columns">
+                                    <div class="column">
+                                        <h4>Having trouble choosing?</h4>
+                                        <p>No Problem! Continue now free and upgrade later!</p>
+                                    </div>
+                                    <div class="column">
+                                        <ul>
+                                            <li>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                                    <path d="M13.485 1.431a1.473 1.473 0 0 1 2.104 2.062l-7.84 9.801a1.473 1.473 0 0 1-2.12.04L.431 8.138a1.473 1.473 0 0 1 2.084-2.083l4.111 4.112 6.82-8.69a.486.486 0 0 1 .04-.045z"/>
+                                                </svg>
+                                                <p>1 Unique Link</p>
+                                            </li>
+                                            <li>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                                    <path d="M13.485 1.431a1.473 1.473 0 0 1 2.104 2.062l-7.84 9.801a1.473 1.473 0 0 1-2.12.04L.431 8.138a1.473 1.473 0 0 1 2.084-2.083l4.111 4.112 6.82-8.69a.486.486 0 0 1 .04-.045z"/>
+                                                </svg>
+                                                <p>Up To 9 Icons</p>
+                                            </li>
+                                            <li>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                                    <path d="M13.485 1.431a1.473 1.473 0 0 1 2.104 2.062l-7.84 9.801a1.473 1.473 0 0 1-2.12.04L.431 8.138a1.473 1.473 0 0 1 2.084-2.083l4.111 4.112 6.82-8.69a.486.486 0 0 1 .04-.045z"/>
+                                                </svg>
+                                                <p>Add Social Links</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="column">
+                                        <a class="button green_gradient" href="{{ route('dashboard') }}">Continue</a>
+                                    </div>
+                                </div>
+                            </div>
                         @endif
+
                     </div>
-                </div>
-            @endif
-            <div class="column">
-                <div class="my_row column_header pro">
-                    <h2>Pro</h2>
-                </div>
-                <div class="my_row column_sub_header">
-                    <h3>$4.99 <span>/ month</span></h3>
-                </div>
-                <div class="my_row column_row">
-                    <h4>1 Unique Link</h4>
-                    <img src="{{ asset('images/check-circle-violet.png') }}" alt="">
-                </div>
-                <div class="my_row column_row alt">
-                    <h4>up to 9 icons</h4>
-                    <img src="{{ asset('images/check-circle-violet.png') }}" alt="">
-                </div>
-                <div class="my_row column_row">
-                    <h4>Choose Default Icons</h4>
-                    <img src="{{ asset('images/check-circle-violet.png') }}" alt="">
-                </div>
-                <div class="my_row column_row alt">
-                    <h4>Custom Icon Links</h4>
-                    <img src="{{ asset('images/check-circle-violet.png') }}" alt="">
-                </div>
-                <div class="my_row column_row">
-                    <h4>Custom Icons</h4>
-                    <img src="{{ asset('images/check-circle-violet.png') }}" alt="">
-                </div>
-                <div class="my_row column_row alt">
-                    <h4>Unlimited Icons</h4>
-                    <img src="{{ asset('images/check-circle-violet.png') }}" alt="">
-                </div>
-                <div class="my_row column_row">
-                    <h4>Up to 5 Unique Links</h4>
-                    <img src="{{ asset('images/x-circle-pink.png') }}" alt="">
-                </div>
-                <div class="my_row column_row alt">
-                    <h4>Password Protected Links</h4>
-                    <img src="{{ asset('images/x-circle-pink.png') }}" alt="">
-                </div>
-                <div class="my_row column_footer">
-                    @if ($subscription && $subscription->name == "pro" && $subscription->stripe_status == "active")
-                        <span class='button disabled'>Current</span>
-                    @elseif ($subscription && $subscription->stripe_status == "active")
-                        <form method="post" action="{{ url('/change-plan') }}">
-                            @csrf
-                            <input type="hidden" name="level" value="pro">
-                            <input type="hidden" name="plan" data-level="pro" id="pro" value="price_1JS1p5GIBktjIJUPjG5ksGFb">
-                            <button class='button pink_gradient' type="submit">
-                                Downgrade
-                            </button>
-                        </form>
-                    @else
-                        <a class='button pink_gradient' href="{{ url('/subscribe?plan=pro') }}">
-                            Order Now
-                        </a>
-                    @endif
-                </div>
-            </div>
-            <div class="column">
-                <div class="my_row column_header corp">
-                    <h2>Corporate</h2>
-                </div>
-                <div class="my_row column_sub_header">
-                    <h3>$19.99 <span>/ month</span></h3>
-                </div>
-                <div class="my_row column_row">
-                    <h4>1 Unique Link</h4>
-                    <img src="{{ asset('images/check-circle-blue.png') }}" alt="">
-                </div>
-                <div class="my_row column_row alt">
-                    <h4>up to 9 icons</h4>
-                    <img src="{{ asset('images/check-circle-blue.png') }}" alt="">
-                </div>
-                <div class="my_row column_row">
-                    <h4>Choose Default Icons</h4>
-                    <img src="{{ asset('images/check-circle-blue.png') }}" alt="">
-                </div>
-                <div class="my_row column_row alt">
-                    <h4>Custom Icon Links</h4>
-                    <img src="{{ asset('images/check-circle-blue.png') }}" alt="">
-                </div>
-                <div class="my_row column_row">
-                    <h4>Custom Icons</h4>
-                    <img src="{{ asset('images/check-circle-blue.png') }}" alt="">
-                </div>
-                <div class="my_row column_row alt">
-                    <h4>Unlimited Icons</h4>
-                    <img src="{{ asset('images/check-circle-blue.png') }}" alt="">
-                </div>
-                <div class="my_row column_row">
-                    <h4>Up to 5 Unique Links</h4>
-                    <img src="{{ asset('images/check-circle-blue.png') }}" alt="">
-                </div>
-                <div class="my_row column_row alt">
-                    <h4>Password Protected Links</h4>
-                    <img src="{{ asset('images/check-circle-blue.png') }}" alt="">
-                </div>
-                <div class="my_row column_footer">
-                    @if ($subscription && $subscription->name == "corporate" && $subscription->stripe_status == "active")
-                        <span class='button disabled'>Current</span>
-                    @elseif ($subscription && $subscription->stripe_status == "active")
-                        <form method="post" action="{{ url('/change-plan') }}">
-                            @csrf
-                            <input type="hidden" name="level" value="corporate">
-                            <input type="hidden" name="plan" data-level="corporate" id="corporate" value="price_1JS1qkGIBktjIJUPVSjN20LH">
-                            <button class='button pink_gradient' type="submit">
-                                Upgrade
-                            </button>
-                        </form>
-                    @else
-                        <a class='button pink_gradient' href='{{ url('/subscribe?plan=corp') }}'>
-                            Order Now
-                        </a>
-                    @endif
                 </div>
             </div>
         </div>
     </div>
+
+    @if (session()->has('success'))
+        <div class="display_message alert" id="laravel_flash">
+            <div class="icon_wrap">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                </svg>
+            </div>
+            <p>{{ session()->get('success')}}</p>
+            <span class="close"><strong>CLOSE</strong></span>
+        </div>
+    @endif
+
+    @include('layouts.popup')
 
 @endsection

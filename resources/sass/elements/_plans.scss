@@ -1,0 +1,111 @@
+.form_page.plans {
+
+    h2.page_title {
+        margin-bottom: 10px;
+    }
+
+    .sub_title {
+        color: $blue;
+        text-align: center;
+        font-size: 18px;
+    }
+
+    ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+
+        @media all and (max-width: 992px) {
+            margin: 0 auto;
+        }
+
+        li {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            -ms-flex-wrap: nowrap;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            -webkit-justify-content: flex-start;
+            align-items: center;
+            -webkit-align-items: center;
+            column-gap: 10px;
+            -moz-column-gap: 10px;
+            -webkit-column-gap: 10px;
+            margin-bottom: 10px;
+
+            p {
+                margin: 0;
+            }
+        }
+    }
+
+    .my_row.three_columns .column {
+
+        .pricing {
+            margin: 30px 0;
+
+            h3 {
+                @include osbold;
+                font-size: 50px;
+
+                sup {
+                    @include osregular;
+                    font-size: 16px;
+                    top: -35px;
+                    left: 6px;
+                }
+
+                span {
+                    @include osregular;
+                    font-size: 16px;
+                }
+            }
+        }
+
+        &.pro {
+
+            svg {
+                color: $blue;
+            }
+        }
+
+        &.corp {
+            border-color: $black;
+
+            svg {
+                color: $black;
+            }
+        }
+
+        &.custom {
+            border-color: $grayBlue;
+
+            svg {
+                color: $grayBlue;
+            }
+        }
+
+        &.free {
+            grid-column-end: span 3;
+            border-color: $limeGreen;
+
+            .column {
+                padding: 0;
+                border: none;
+                justify-content: center;
+                -webkit-justify-content: center;
+                align-items: center;
+                -webkit-align-items: center;
+
+                svg {
+                  color: $limeGreen;
+                }
+            }
+        }
+    }
+}

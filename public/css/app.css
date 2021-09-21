@@ -11420,7 +11420,7 @@ button {
   background: #f24d1d;
 }
 
-.button {
+.button, button {
   width: 150px;
   padding: 10px;
   text-align: center;
@@ -11431,34 +11431,34 @@ button {
   text-transform: uppercase;
 }
 @media all and (max-width: 768px) {
-  .button {
+  .button, button {
     width: 138px;
   }
 }
-.button:hover {
+.button:hover, button:hover {
   cursor: pointer;
 }
-.button.red {
+.button.red, button.red {
   background: #f24d1d;
   color: #ffffff;
 }
-.button.red:hover {
+.button.red:hover, button.red:hover {
   background: #424fcf;
   text-decoration: none;
 }
-.button.blue {
+.button.blue, button.blue {
   background: #424fcf;
   color: #ffffff;
 }
-.button.blue:hover {
+.button.blue:hover, button.blue:hover {
   background: #f24d1d;
   text-decoration: none;
 }
-.button.transparent {
+.button.transparent, button.transparent {
   border: 1px solid #424fcf;
   color: #424fcf;
 }
-.button.settings {
+.button.settings, button.settings {
   position: absolute;
   right: 10px;
   background: none;
@@ -11468,64 +11468,115 @@ button {
   top: 4px;
   color: #0ba921;
 }
-.button.settings:hover {
+.button.settings:hover, button.settings:hover {
   color: #545656;
 }
-.button.settings svg {
+.button.settings svg, button.settings svg {
   width: 100%;
   height: 100%;
 }
-.button.green {
+.button.green, button.green {
   background: #2ac77a;
 }
-.button.green:hover {
+.button.green:hover, button.green:hover {
   background: #424fcf;
 }
-.button.pink_gradient {
-  /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#bf73dc+0,c971d5+24,e06ec5+50,f26cb9+76,fd6ab1+100 */
-  background: #bf73dc;
+.button.blue_gradient, button.blue_gradient {
+  /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#4a56ec+0,2d38cc+100 */
+  background: #4a56ec;
   /* Old browsers */
   /* FF3.6-15 */
   /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to right, #bf73dc 0%, #c971d5 24%, #e06ec5 50%, #f26cb9 76%, #fd6ab1 100%);
+  background: linear-gradient(to bottom, #4a56ec 0%, #2d38cc 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#bf73dc", endColorstr="#fd6ab1",GradientType=1 );
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#4a56ec", endColorstr="#2d38cc",GradientType=0 );
   /* IE6-9 */
 }
-.button.pink_gradient:hover {
-  background: #fd6ab1;
-  /* Old browsers */
-  /* FF3.6-15 */
-  /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to right, #fd6ab1 0%, #f26cb9 24%, #e06ec5 50%, #c971d5 76%, #bf73dc 100%);
-  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#fd6ab1", endColorstr="#bf73dc",GradientType=1 );
-  /* IE6-9 */
-}
-.button.blue_gradient {
-  /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#79b6e2+0,6799dd+25,4e6ed6+50,384acf+75,2d38cc+100 */
-  background: #79b6e2;
-  /* Old browsers */
-  /* FF3.6-15 */
-  /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to right, #79b6e2 0%, #6799dd 25%, #4e6ed6 50%, #384acf 75%, #2d38cc 100%);
-  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#79b6e2", endColorstr="#2d38cc",GradientType=1 );
-  /* IE6-9 */
-}
-.button.blue_gradient:hover {
-  /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#79b6e2+0,6799dd+25,4e6ed6+50,384acf+75,2d38cc+100 */
+.button.blue_gradient:hover, button.blue_gradient:hover {
+  /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#4a56ec+0,2d38cc+100 */
   background: #2d38cc;
   /* Old browsers */
   /* FF3.6-15 */
   /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to right, #2d38cc 0%, #384acf 25%, #4e6ed6 50%, #6799dd 75%, #79b6e2 100%);
+  background: linear-gradient(to bottom, #2d38cc 0%, #4a56ec 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#2d38cc", endColorstr="#79b6e2",GradientType=1 );
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#2d38cc", endColorstr="#4a56ec",GradientType=0 );
   /* IE6-9 */
 }
-.button.disabled {
+.button.black_gradient, button.black_gradient {
+  /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#343434+0,000000+100 */
+  background: #343434;
+  /* Old browsers */
+  /* FF3.6-15 */
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #343434 0%, black 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#343434", endColorstr="#000000",GradientType=0 );
+  /* IE6-9 */
+}
+.button.black_gradient:hover, button.black_gradient:hover {
+  /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#000000+0,343434+100 */
+  background: black;
+  /* Old browsers */
+  /* FF3.6-15 */
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, black 0%, #343434 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#000000", endColorstr="#343434",GradientType=0 );
+  /* IE6-9 */
+}
+.button.gray_gradient, button.gray_gradient {
+  color: #ffffff !important;
+  /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#797d80+0,696969+100 */
+  background: #797d80;
+  /* Old browsers */
+  /* FF3.6-15 */
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #797d80 0%, dimgray 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#797d80", endColorstr="#696969",GradientType=0 );
+  /* IE6-9 */
+}
+.button.gray_gradient:hover, button.gray_gradient:hover {
+  /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#696969+0,797d80+100 */
+  background: dimgray;
+  /* Old browsers */
+  /* FF3.6-15 */
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, dimgray 0%, #797d80 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#696969", endColorstr="#797d80",GradientType=0 );
+  /* IE6-9 */
+}
+.button.green_gradient, button.green_gradient {
+  color: #ffffff !important;
+  /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#2bc875+0,1cb8a9+100 */
+  background: #2bc875;
+  /* Old browsers */
+  /* FF3.6-15 */
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #2bc875 0%, #1cb8a9 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#2bc875", endColorstr="#1cb8a9",GradientType=0 );
+  /* IE6-9 */
+}
+.button.green_gradient:hover, button.green_gradient:hover {
+  /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#1cb8a9+0,2bc875+100 */
+  background: #1cb8a9;
+  /* Old browsers */
+  /* FF3.6-15 */
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #1cb8a9 0%, #2bc875 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#1cb8a9", endColorstr="#2bc875",GradientType=0 );
+  /* IE6-9 */
+}
+.button.disabled, button.disabled {
   background: #d4d2d2;
+}
+.button.disabled:hover, button.disabled:hover {
+  background: #d4d2d2 !important;
+  cursor: unset;
 }
 
 .display_message {
@@ -12747,7 +12798,7 @@ header.guest_header .col.right {
   font-size: 16px;
   color: #424fcf;
 }
-.form_page .card button {
+.form_page .card button, .form_page .card .button {
   width: 100%;
   display: block;
   border-radius: 6px;
@@ -12756,9 +12807,6 @@ header.guest_header .col.right {
   padding: 12px 10px;
   font-size: 16px;
   border: none;
-}
-.form_page .card button:hover {
-  background: #f24d1d;
 }
 .form_page .card input {
   border: 1px solid #d2d2d2;
@@ -13236,302 +13284,169 @@ form .bottom_row a {
   }
 }
 
-.pricing_plans {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: center;
-  -webkit-justify-content: center;
+.form_page.plans h2.page_title, .form_page.plans .page_title.h2 {
+  margin-bottom: 10px;
 }
-@media all and (max-width: 768px) {
-  .pricing_plans {
-    display: block;
-  }
-}
-.pricing_plans .column {
-  width: 23%;
-  float: left;
+.form_page.plans .sub_title {
+  color: #424fcf;
   text-align: center;
-  border-radius: 30px;
-  -webkit-border-radius: 30px;
-  -moz-border-radius: 30px;
-  box-shadow: 0px 0px 35px 5px rgba(170, 170, 170, 0.18);
+  font-size: 18px;
 }
-@media all and (max-width: 768px) {
-  .pricing_plans .column {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-}
-.pricing_plans .column .button {
-  width: 75%;
-  padding: 12px;
-  font-size: 24px;
-  color: #ffffff;
-  text-transform: none;
-  border-radius: 50px;
-  -webkit-border-radius: 50px;
-  -moz-border-radius: 50px;
-}
-@media all and (max-width: 992px) {
-  .pricing_plans .column .button {
-    font-size: 20px;
-    width: 80%;
-  }
-}
-.pricing_plans .column h3, .pricing_plans .column .h3 {
-  font-family: "bebasneue", sans-serif;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-items: center;
-  -webkit-align-items: center;
-  justify-content: center;
-  -webkit-justify-content: center;
-  font-size: 70px;
-}
-@media all and (max-width: 1199px) {
-  .pricing_plans .column h3, .pricing_plans .column .h3 {
-    font-size: 55px;
-  }
-}
-@media all and (max-width: 992px) {
-  .pricing_plans .column h3, .pricing_plans .column .h3 {
-    font-size: 35px;
-  }
-}
-.pricing_plans .column p, .pricing_plans .column h3 span, .pricing_plans .column .h3 span {
-  font-family: "opensansregular", sans-serif;
-  font-size: 16px;
-  color: #545656;
-  text-transform: uppercase;
-  margin-bottom: 0;
-}
-.pricing_plans .column h3 span, .pricing_plans .column .h3 span {
-  margin-left: 5px;
-  text-transform: none;
-}
-.pricing_plans .column h2, .pricing_plans .column .h2 {
-  font-family: "opensansregular", sans-serif;
-  text-transform: uppercase;
+.form_page.plans ul {
+  list-style: none;
+  padding-left: 0;
   margin: 0;
 }
 @media all and (max-width: 992px) {
-  .pricing_plans .column h2, .pricing_plans .column .h2 {
-    font-size: 22px;
+  .form_page.plans ul {
+    margin: 0 auto;
   }
 }
-.pricing_plans .column h4, .pricing_plans .column .h4 {
-  display: none;
-}
-@media all and (max-width: 768px) {
-  .pricing_plans .column h4, .pricing_plans .column .h4 {
-    display: block;
-    font-size: 18px;
-  }
-}
-.pricing_plans .column img {
-  width: 30px;
-}
-@media all and (max-width: 992px) {
-  .pricing_plans .column img {
-    width: 25px;
-  }
-}
-.pricing_plans .column .column_row {
-  background: #e0e7ed;
-  min-height: 65px;
+.form_page.plans ul li {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: nowrap;
-  justify-content: center;
-  -webkit-justify-content: center;
+  justify-content: flex-start;
+  -webkit-justify-content: flex-start;
   align-items: center;
   -webkit-align-items: center;
+  column-gap: 10px;
+  -moz-column-gap: 10px;
+  -webkit-column-gap: 10px;
+  margin-bottom: 10px;
 }
-@media all and (max-width: 768px) {
-  .pricing_plans .column .column_row {
-    padding: 10px 20px;
-    flex-direction: row;
-    justify-content: space-between;
-    -webkit-justify-content: space-between;
-  }
+.form_page.plans ul li p {
+  margin: 0;
 }
-.pricing_plans .column .column_row.alt {
-  background: #d1d8df;
+.form_page.plans .my_row.three_columns .column .pricing {
+  margin: 30px 0;
 }
-.pricing_plans .column .column_header {
-  color: white;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 85px;
-  border-top-left-radius: 30px;
-  -webkit-border-top-left-radius: 30px;
-  -moz-border-radius-topleft: 30px;
-  border-top-right-radius: 30px;
-  -webkit-border-top-right-radius: 30px;
-  -moz-border-radius-topright: 30px;
-}
-.pricing_plans .column .column_header.basic {
-  background: radial-gradient(circle farthest-corner at 115% 720%, #1cb8a9 10%, #26c386 90%, #57d19d 90%, #58d398 0%);
-}
-.pricing_plans .column .column_header.pro {
-  background: radial-gradient(circle farthest-corner at 115% 720%, #fa6ab3 10%, #d070d0 90%, #d590de 90%, #cb92e4 0%);
-}
-.pricing_plans .column .column_header.corp {
-  background: radial-gradient(circle farthest-corner at 115% 720%, #2d38cc 10%, #4a69d5 90%, #7d9de1 90%, #7d9de1 100%, #7d9de1 100%);
-}
-.pricing_plans .column .column_sub_header {
-  min-height: 95px;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: center;
-  -webkit-justify-content: center;
-  align-items: center;
-  -webkit-align-items: center;
-}
-.pricing_plans .column.plan_items {
-  width: 31%;
-}
-@media all and (max-width: 768px) {
-  .pricing_plans .column.plan_items {
-    width: 100%;
-    background: #f1f1f1;
-  }
-}
-.pricing_plans .column.plan_items h2, .pricing_plans .column.plan_items .h2 {
+.form_page.plans .my_row.three_columns .column .pricing h3, .form_page.plans .my_row.three_columns .column .pricing .h3 {
   font-family: "opensansbold", sans-serif;
+  font-size: 50px;
 }
-.pricing_plans .column.plan_items h4, .pricing_plans .column.plan_items .h4 {
-  display: block;
+.form_page.plans .my_row.three_columns .column .pricing h3 sup, .form_page.plans .my_row.three_columns .column .pricing .h3 sup {
+  font-family: "opensansregular", sans-serif;
+  font-size: 16px;
+  top: -35px;
+  left: 6px;
 }
-@media all and (max-width: 1199px) {
-  .pricing_plans .column.plan_items h4, .pricing_plans .column.plan_items .h4 {
-    font-size: 18px;
-  }
+.form_page.plans .my_row.three_columns .column .pricing h3 span, .form_page.plans .my_row.three_columns .column .pricing .h3 span {
+  font-family: "opensansregular", sans-serif;
+  font-size: 16px;
 }
-.pricing_plans .column.plan_items img {
-  width: 120px;
+.form_page.plans .my_row.three_columns .column.pro svg {
+  color: #424fcf;
 }
-.pricing_plans .column.plan_items .column_row {
-  font-family: "opensanssemibold", sans-serif;
-  background: #d3dae0;
-  text-align: left;
-  align-items: flex-start;
-  -webkit-align-items: flex-start;
-  padding: 0 10%;
+.form_page.plans .my_row.three_columns .column.corp {
+  border-color: #000;
 }
-.pricing_plans .column.plan_items .column_row.alt {
-  background: #c0cad3;
+.form_page.plans .my_row.three_columns .column.corp svg {
+  color: #000;
 }
-.pricing_plans .column:last-child .column_row {
-  background: #e5ecf3;
+.form_page.plans .my_row.three_columns .column.custom {
+  border-color: #76797b;
 }
-.pricing_plans .column:last-child .column_row.alt {
-  background: #dbe4ec;
+.form_page.plans .my_row.three_columns .column.custom svg {
+  color: #76797b;
 }
-.pricing_plans .column .column_footer {
-  min-height: 140px;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
+.form_page.plans .my_row.three_columns .column.free {
+  grid-column-end: span 3;
+  border-color: #2ac77a;
+}
+.form_page.plans .my_row.three_columns .column.free .column {
+  padding: 0;
+  border: none;
   justify-content: center;
   -webkit-justify-content: center;
   align-items: center;
   -webkit-align-items: center;
 }
-.pricing_plans .column .column_footer form {
-  width: 100%;
-}
-.pricing_plans .column .column_footer h5, .pricing_plans .column .column_footer .h5 {
-  color: #545656;
-  font-size: 24px;
-}
-@media all and (max-width: 992px) {
-  .pricing_plans .column .column_footer h5, .pricing_plans .column .column_footer .h5 {
-    font-size: 20px;
-  }
+.form_page.plans .my_row.three_columns .column.free .column svg {
+  color: #2ac77a;
 }
 
-.form_page.three_columns .card {
+.form_page .card {
   width: 100%;
   max-width: unset;
   padding: 60px 40px;
 }
 @media all and (max-width: 992px) {
-  .form_page.three_columns .card {
+  .form_page .card {
     padding: 40px 20px;
   }
 }
-.form_page.three_columns h2, .form_page.three_columns .h2 {
+.form_page h2, .form_page .h2 {
   text-align: center;
 }
-.form_page.three_columns h2.page_title, .form_page.three_columns .page_title.h2 {
+.form_page h2.page_title, .form_page .page_title.h2 {
   margin-bottom: 40px;
   font-size: 34px;
 }
 @media all and (max-width: 1199px) {
-  .form_page.three_columns h2.page_title, .form_page.three_columns .page_title.h2 {
+  .form_page h2.page_title, .form_page .page_title.h2 {
     font-size: 28px;
   }
 }
 @media all and (max-width: 992px) {
-  .form_page.three_columns h2.page_title, .form_page.three_columns .page_title.h2 {
+  .form_page h2.page_title, .form_page .page_title.h2 {
     margin-bottom: 20px;
   }
 }
-.form_page.three_columns .my_row {
+.form_page .my_row.three_columns {
+  /*display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
   flex-direction: row;
-  flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;*/
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 40px;
+  grid-row-gap: 40px;
 }
-.form_page.three_columns .my_row .column {
-  width: 30.5%;
-  margin-right: 4%;
+@media all and (max-width: 992px) {
+  .form_page .my_row.three_columns {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+.form_page .my_row.three_columns .column {
+  /*width: 30.5%;
+  margin-right: 4%;*/
   border: 6px solid #424fcf;
   border-radius: 30px;
   -webkit-border-radius: 30px;
   -moz-border-radius: 30px;
-  padding: 40px;
+  padding: 30px 40px;
   background: #edeef2;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
 }
 @media all and (max-width: 1199px) {
-  .form_page.three_columns .my_row .column {
+  .form_page .my_row.three_columns .column {
     padding: 24px;
   }
 }
-@media all and (max-width: 992px) {
-  .form_page.three_columns .my_row .column {
-    width: 100%;
-    margin-right: 0;
-    margin-bottom: 40px;
-  }
-}
-.form_page.three_columns .my_row .column:last-child {
-  margin-right: 0;
-}
-.form_page.three_columns .my_row .column h2, .form_page.three_columns .my_row .column .h2 {
-  margin-bottom: 30px;
-  padding-bottom: 30px;
+.form_page .my_row.three_columns .column h2, .form_page .my_row.three_columns .column .h2 {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
   border-bottom: 1px solid #d2d2d2;
 }
 @media all and (max-width: 1199px) {
-  .form_page.three_columns .my_row .column h2, .form_page.three_columns .my_row .column .h2 {
+  .form_page .my_row.three_columns .column h2, .form_page .my_row.three_columns .column .h2 {
     font-size: 22px;
   }
 }
-.form_page.three_columns .my_row .column h4, .form_page.three_columns .my_row .column .h4 {
+.form_page .my_row.three_columns .column h4, .form_page .my_row.three_columns .column .h4 {
   font-family: "opensansbold", sans-serif;
   color: #000;
   text-align: center;
 }
-.form_page.three_columns .my_row .column .plan_name {
+.form_page .my_row.three_columns .column .plan_name {
   /* background: url('/images/plan-type-bg.png') no-repeat;
    background-position: center;
    background-size: contain;*/
@@ -13545,7 +13460,7 @@ form .bottom_row a {
   -webkit-justify-content: center;
   height: 100%;
 }
-.form_page.three_columns .my_row .column .plan_name p {
+.form_page .my_row.three_columns .column .plan_name p {
   font-family: "opensansbold", sans-serif;
   position: absolute;
   margin: 0;
@@ -13556,20 +13471,20 @@ form .bottom_row a {
   text-align: center;
 }
 @media all and (max-width: 1199px) {
-  .form_page.three_columns .my_row .column .plan_name p {
+  .form_page .my_row.three_columns .column .plan_name p {
     font-size: 22px;
   }
 }
-.form_page.three_columns .my_row .column .plan_name img {
+.form_page .my_row.three_columns .column .plan_name img {
   max-width: 210px;
 }
-.form_page.three_columns .my_row .column a {
+.form_page .my_row.three_columns .column a {
   color: #f24d1d;
   text-align: center;
   margin-top: auto;
   margin-bottom: 10px;
 }
-.form_page.three_columns .my_row .column form {
+.form_page .my_row.three_columns .column form {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -13577,23 +13492,23 @@ form .bottom_row a {
   justify-content: center;
   -webkit-justify-content: center;
 }
-.form_page.three_columns .my_row .column form .form_inputs {
+.form_page .my_row.three_columns .column form .form_inputs {
   width: 100%;
   margin: auto;
 }
-.form_page.three_columns .my_row .column form .form_inputs input {
+.form_page .my_row.three_columns .column form .form_inputs input {
   width: 100%;
 }
-.form_page.three_columns .my_row .column form .form_buttons {
+.form_page .my_row.three_columns .column form .form_buttons {
   justify-self: flex-end;
   margin-bottom: 0;
   margin-top: auto;
 }
-.form_page.three_columns .my_row .column form.plan {
+.form_page .my_row.three_columns .column form.plan {
   height: auto;
   justify-content: flex-end;
 }
-.form_page.three_columns .my_row .column .canceled_text p span {
+.form_page .my_row.three_columns .column .canceled_text p span {
   font-family: "opensanssemibold", sans-serif;
 }
 

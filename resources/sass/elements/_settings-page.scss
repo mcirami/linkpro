@@ -1,4 +1,4 @@
-.form_page.three_columns {
+.form_page {
 
     .card {
         width: 100%;
@@ -27,8 +27,8 @@
         }
     }
 
-    .my_row {
-        display: -webkit-box;
+    .my_row.three_columns {
+        /*display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
         -webkit-box-orient: horizontal;
@@ -36,16 +36,24 @@
         -ms-flex-direction: row;
         flex-direction: row;
         -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
+        flex-wrap: wrap;*/
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-column-gap: 40px;
+        grid-row-gap: 40px;
+
+        @media all and (max-width: 992px) {
+            grid-template-columns: repeat(1, 1fr);
+        }
 
         .column {
-            width: 30.5%;
-            margin-right: 4%;
+            /*width: 30.5%;
+            margin-right: 4%;*/
             border: 6px solid $blue;
             border-radius: 30px;
             -webkit-border-radius: 30px;
             -moz-border-radius: 30px;
-            padding: 40px;
+            padding: 30px 40px;
             background: #edeef2;
             display: -webkit-box;
             display: -ms-flexbox;
@@ -61,19 +69,9 @@
                 padding: 24px;
             }
 
-            @media all and (max-width: 992px) {
-                width: 100%;
-                margin-right: 0;
-                margin-bottom: 40px;
-            }
-
-            &:last-child {
-                margin-right: 0;
-            }
-
             h2 {
-                margin-bottom: 30px;
-                padding-bottom: 30px;
+                margin-bottom: 20px;
+                padding-bottom: 20px;
                 border-bottom: 1px solid $borderGray;
 
                 @media all and (max-width: 1199px) {
