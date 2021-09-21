@@ -24,12 +24,9 @@
 
         for (i = 0; i < radios.length; i++) {
             radios[i].addEventListener('change', function() {
-                planAmount = parseInt(this.dataset.price);
-                console.log(planAmount);
+                //planAmount = parseInt(this.dataset.price);
+                paymentRequest.amount = parseInt(this.dataset.price);
             })
-           /* if (radios[i].checked) {
-                planAmount = radios[i].dataset.amount;
-            }*/
         }
 
         // Set up Stripe.js and Elements to use in checkout form

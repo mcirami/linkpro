@@ -1,7 +1,7 @@
 import React, {useContext, useState, useEffect} from 'react';
 import axios from "axios";
 import {PageContext} from '../App';
-import {GiThumbDown, GiThumbUp} from 'react-icons/Gi';
+import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import EventBus from '../../Utils/Bus';
 
 const PageBio = () => {
@@ -66,11 +66,11 @@ const PageBio = () => {
                     <a className="submit_circle" href="#"
                        onClick={(e) => handleSubmit(e)}
                     >
-                        <GiThumbUp />
+                        <FiThumbsUp />
                     </a>
                     :
                     <span className="cancel_icon">
-                        <GiThumbDown />
+                        <FiThumbsDown />
                     </span>
                 }
                 <div className="my_row characters">

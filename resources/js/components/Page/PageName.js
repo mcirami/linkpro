@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import axios from 'axios';
 import EventBus from '../../Utils/Bus';
-import {GiThumbDown, GiThumbUp} from 'react-icons/Gi';
+import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import {PageContext} from '../App';
 
 let pageNames = user.pageNames;
@@ -92,11 +92,11 @@ const PageName = ({allUserPages, setAllUserPages, page}) => {
                        <a className="submit_circle" href="#"
                           onClick={(e) => handleSubmit(e)}
                        >
-                           <GiThumbUp />
+                           <FiThumbsUp />
                        </a>
                        :
                        <span className="cancel_icon">
-                           <GiThumbDown />
+                           <FiThumbsDown />
                        </span>
                    }
 

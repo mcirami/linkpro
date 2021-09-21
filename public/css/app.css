@@ -11406,7 +11406,7 @@ button {
   height: 30px;
   border-radius: 100%;
   color: #ffffff;
-  padding: 5px;
+  padding: 0 5px;
 }
 .cancel_iconbutton, .submit_circlebutton {
   background: none;

@@ -1,7 +1,7 @@
 import {IoIosLock} from 'react-icons/io';
 import React, {useContext, useState} from 'react';
 import {PageContext} from '../App';
-import {GiThumbDown, GiThumbUp} from 'react-icons/Gi';
+import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import Switch from "react-switch";
 import axios from 'axios';
 import EventBus from '../../Utils/Bus';
@@ -128,7 +128,7 @@ const PasswordProtect = () => {
                                     />
                                     <a className="submit_circle" href="#"
                                        onClick={(e) => handleSubmit(e)}>
-                                        <GiThumbUp/>
+                                        <FiThumbsUp/>
                                     </a>
                                 </div>
                                 {/*<div className="checkbox">
