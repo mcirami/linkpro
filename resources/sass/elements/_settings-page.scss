@@ -28,17 +28,8 @@
     }
 
     .my_row.three_columns {
-        /*display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-orient: horizontal;
-        -webkit-box-direction: normal;
-        -ms-flex-direction: row;
-        flex-direction: row;
-        -ms-flex-wrap: wrap;
-        flex-wrap: wrap;*/
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(auto-fit, minmax(250px,3fr));
         grid-column-gap: 40px;
         grid-row-gap: 40px;
 
@@ -47,8 +38,6 @@
         }
 
         .column {
-            /*width: 30.5%;
-            margin-right: 4%;*/
             border: 6px solid $blue;
             border-radius: 30px;
             -webkit-border-radius: 30px;
@@ -86,9 +75,6 @@
             }
 
             .plan_name {
-               /* background: url('/images/plan-type-bg.png') no-repeat;
-                background-position: center;
-                background-size: contain;*/
                 position: relative;
                 display: -webkit-box;
                 display: -ms-flexbox;
@@ -128,8 +114,10 @@
             a {
                 color: $red;
                 text-align: center;
-                margin-top: auto;
-                margin-bottom: 10px;
+
+                &.cancel_link {
+                    margin-bottom: 10px;
+                }
             }
 
             form {

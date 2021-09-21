@@ -77,7 +77,7 @@
                                     </div>
                                     <button class="open_popup button green" data-plan="{{ $subscription->name }}" data-type="resume">Resume Subscription</button>
                                 @else
-                                    <a href="#" class="open_popup" data-plan="{{ $subscription->name }}" data-type="cancel">Cancel Subscription</a>
+                                    <a href="#" class="open_popup cancel_link" data-plan="{{ $subscription->name }}" data-type="cancel">Cancel Subscription</a>
                                 @endif
                             @else
                                 <div class="plan_name">
@@ -90,24 +90,15 @@
                                     <button class="open_popup button blue" data-type="upgrade" data-level="corporate" data-plan="price_1JS1qkGIBktjIJUPVSjN20LH">
                                         Upgrade My Plan
                                     </button>
-
-                                   {{-- <form class="plan" method="post" action="{{ url('/change-plan') }}">
-                                        @csrf
-                                        <input type="hidden" name="level" value="corporate">
-                                        <input type="hidden" name="plan" data-level="corporate" id="corporate" value="price_1JS1qkGIBktjIJUPVSjN20LH">
-
-                                    </form>--}}
                                 @elseif($subscription->name == "corporate")
                                     <button class='button blue open_popup' data-type="downgrade" data-level="pro" data-plan="price_1JS1p5GIBktjIJUPjG5ksGFb">
                                         Downgrade My Plan
                                     </button>
-                                    {{--<form class="plan" method="post" action="{{ url('/change-plan') }}">
-                                        @csrf
-                                        <input type="hidden" name="level" value="pro">
-                                        <input type="hidden" name="plan" data-level="pro" id="pro" value="price_1JS1p5GIBktjIJUPjG5ksGFb">
-
-                                    </form>--}}
                                 @endif
+                            @else
+                                <a class="button blue" href="{{ route('plans.get') }}">
+                                    Change My Plan
+                                </a>
                             @endif
                         </div>
                         @if ($subscription)

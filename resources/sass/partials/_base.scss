@@ -119,11 +119,8 @@ button {
     }
 }
 
-
-
-
-
 .button, button {
+    color: $white !important;
     width: 150px;
     padding: 10px;
     text-align: center;
@@ -143,7 +140,6 @@ button {
 
     &.red {
         background: $red;
-        color: $white;
 
         &:hover {
             background: $blue;
@@ -153,7 +149,6 @@ button {
 
     &.blue {
         background: $blue;
-        color: $white;
 
         &:hover {
             background: $red;
@@ -233,7 +228,6 @@ button {
     }
 
     &.gray_gradient {
-        color: $white !important;
         /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#797d80+0,696969+100 */
         background: rgb(121,125,128); /* Old browsers */
         background: -moz-linear-gradient(top,  rgba(121,125,128,1) 0%, rgba(105,105,105,1) 100%); /* FF3.6-15 */
@@ -253,7 +247,6 @@ button {
     }
 
     &.green_gradient {
-        color: $white !important;
         /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#2bc875+0,1cb8a9+100 */
         background: rgb(43,200,117); /* Old browsers */
         background: -moz-linear-gradient(top,  rgba(43,200,117,1) 0%, rgba(28,184,169,1) 100%); /* FF3.6-15 */

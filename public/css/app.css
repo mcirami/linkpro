@@ -11421,6 +11421,7 @@ button {
 }
 
 .button, button {
+  color: #ffffff !important;
   width: 150px;
   padding: 10px;
   text-align: center;
@@ -11440,7 +11441,6 @@ button {
 }
 .button.red, button.red {
   background: #f24d1d;
-  color: #ffffff;
 }
 .button.red:hover, button.red:hover {
   background: #424fcf;
@@ -11448,7 +11448,6 @@ button {
 }
 .button.blue, button.blue {
   background: #424fcf;
-  color: #ffffff;
 }
 .button.blue:hover, button.blue:hover {
   background: #f24d1d;
@@ -11526,7 +11525,6 @@ button {
   /* IE6-9 */
 }
 .button.gray_gradient, button.gray_gradient {
-  color: #ffffff !important;
   /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#797d80+0,696969+100 */
   background: #797d80;
   /* Old browsers */
@@ -11549,7 +11547,6 @@ button {
   /* IE6-9 */
 }
 .button.green_gradient, button.green_gradient {
-  color: #ffffff !important;
   /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#2bc875+0,1cb8a9+100 */
   background: #2bc875;
   /* Old browsers */
@@ -13394,17 +13391,8 @@ form .bottom_row a {
   }
 }
 .form_page .my_row.three_columns {
-  /*display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;*/
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 3fr));
   grid-column-gap: 40px;
   grid-row-gap: 40px;
 }
@@ -13414,8 +13402,6 @@ form .bottom_row a {
   }
 }
 .form_page .my_row.three_columns .column {
-  /*width: 30.5%;
-  margin-right: 4%;*/
   border: 6px solid #424fcf;
   border-radius: 30px;
   -webkit-border-radius: 30px;
@@ -13447,9 +13433,6 @@ form .bottom_row a {
   text-align: center;
 }
 .form_page .my_row.three_columns .column .plan_name {
-  /* background: url('/images/plan-type-bg.png') no-repeat;
-   background-position: center;
-   background-size: contain;*/
   position: relative;
   display: flex;
   flex-direction: column;
@@ -13481,7 +13464,8 @@ form .bottom_row a {
 .form_page .my_row.three_columns .column a {
   color: #f24d1d;
   text-align: center;
-  margin-top: auto;
+}
+.form_page .my_row.three_columns .column a.cancel_link {
   margin-bottom: 10px;
 }
 .form_page .my_row.three_columns .column form {
