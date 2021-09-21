@@ -7,7 +7,6 @@
             <div class="card">
                 <div>
                     <h3>Upgrade Now to Get All The Benefits!</h3>
-                    {{$plan}}
                 </div>
 
                 <div class="card-body">

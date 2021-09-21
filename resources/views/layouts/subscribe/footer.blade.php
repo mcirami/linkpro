@@ -25,7 +25,7 @@
         for (i = 0; i < radios.length; i++) {
             radios[i].addEventListener('change', function() {
                 //planAmount = parseInt(this.dataset.price);
-                paymentRequest.amount = parseInt(this.dataset.price);
+                paymentRequest.total.amount = parseInt(this.dataset.price);
             })
         }
 
@@ -46,6 +46,8 @@
             requestPayerName: true,
             requestPayerEmail: true,
         });
+
+        console.log(paymentRequest);
 
         var prButton = elements.create('paymentRequestButton', {
             paymentRequest: paymentRequest,
