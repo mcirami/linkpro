@@ -11455,7 +11455,10 @@ button {
 }
 .button.transparent, button.transparent {
   border: 1px solid #424fcf;
-  color: #424fcf;
+  color: #424fcf !important;
+}
+.button.transparent:hover, button.transparent:hover {
+  color: #ffffff !important;
 }
 .button.settings, button.settings {
   position: absolute;
@@ -11787,6 +11790,7 @@ button {
 }
 
 header.guest_header {
+  box-shadow: 0px 0px 35px 5px rgba(170, 170, 170, 0.18);
   width: 100%;
   float: left;
   padding: 20px 5%;
@@ -11809,7 +11813,7 @@ header.guest_header a:hover {
   text-decoration: none;
 }
 header.guest_header a:not(.button) {
-  color: #d4d2d2;
+  color: #545656;
 }
 header.guest_header a:not(.button):hover {
   color: #424fcf;
@@ -12779,8 +12783,10 @@ header.guest_header .col.right {
   border-radius: 12px;
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
-  max-width: 800px;
   margin: 0 auto;
+}
+.form_page .card.guest {
+  max-width: 800px;
 }
 .form_page .card h3, .form_page .card .h3 {
   text-align: center;
@@ -13322,6 +13328,11 @@ form .bottom_row a {
   font-family: "opensansbold", sans-serif;
   font-size: 50px;
 }
+@media all and (max-width: 1199px) {
+  .form_page.plans .my_row.three_columns .column .pricing h3, .form_page.plans .my_row.three_columns .column .pricing .h3 {
+    font-size: 40px;
+  }
+}
 .form_page.plans .my_row.three_columns .column .pricing h3 sup, .form_page.plans .my_row.three_columns .column .pricing .h3 sup {
   font-family: "opensansregular", sans-serif;
   font-size: 16px;
@@ -13351,16 +13362,38 @@ form .bottom_row a {
   grid-column-end: span 3;
   border-color: #2ac77a;
 }
-.form_page.plans .my_row.three_columns .column.free .column {
+@media all and (max-width: 992px) {
+  .form_page.plans .my_row.three_columns .column.free {
+    grid-column-end: unset;
+  }
+}
+.form_page.plans .my_row.three_columns .column.free .my_row.three_columns {
+  grid-template-columns: repeat(3, 1fr);
+}
+@media all and (max-width: 768px) {
+  .form_page.plans .my_row.three_columns .column.free .my_row.three_columns {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+.form_page.plans .my_row.three_columns .column.free .my_row.three_columns .column {
   padding: 0;
   border: none;
   justify-content: center;
   -webkit-justify-content: center;
+}
+.form_page.plans .my_row.three_columns .column.free .my_row.three_columns .column:nth-child(2) {
   align-items: center;
   -webkit-align-items: center;
 }
-.form_page.plans .my_row.three_columns .column.free .column svg {
+.form_page.plans .my_row.three_columns .column.free .my_row.three_columns .column svg {
   color: #2ac77a;
+}
+.form_page.plans .my_row.three_columns .column.free .my_row.three_columns .column p {
+  margin: 0;
+}
+.form_page.plans .my_row.three_columns .column.free .my_row.three_columns .column h4, .form_page.plans .my_row.three_columns .column.free .my_row.three_columns .column .h4 {
+  color: #2ac77a;
+  text-align: left;
 }
 
 .form_page .card {

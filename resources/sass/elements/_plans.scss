@@ -53,6 +53,10 @@
                 @include osbold;
                 font-size: 50px;
 
+                @media all and (max-width: 1199px) {
+                    font-size: 40px;
+                }
+
                 sup {
                     @include osregular;
                     font-size: 16px;
@@ -94,18 +98,44 @@
             grid-column-end: span 3;
             border-color: $limeGreen;
 
-            .column {
-                padding: 0;
-                border: none;
-                justify-content: center;
-                -webkit-justify-content: center;
-                align-items: center;
-                -webkit-align-items: center;
+            @media all and (max-width: 992px) {
+                grid-column-end: unset;
+            }
 
-                svg {
-                  color: $limeGreen;
+            .my_row.three_columns {
+                grid-template-columns: repeat(3, 1fr);
+
+                @media all and (max-width: 768px) {
+                    grid-template-columns: repeat(1,1fr);
+                }
+
+                .column {
+                    padding: 0;
+                    border: none;
+                    justify-content: center;
+                    -webkit-justify-content: center;
+
+                    &:nth-child(2) {
+                        align-items: center;
+                        -webkit-align-items: center;
+                    }
+
+                    svg {
+                        color: $limeGreen;
+                    }
+
+                    p {
+                        margin: 0;
+                    }
+
+                    h4 {
+                        color: $limeGreen;
+                        text-align: left;
+                    }
                 }
             }
+
+
         }
     }
 }

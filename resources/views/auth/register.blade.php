@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="my_row form_page">
-        <div class="card">
+        <div class="card guest">
             <div>
                 <h3>Take control of your social sharing!</h3>
                 <h4 class="text-center">Grab a free account or get advanced features!</h4>

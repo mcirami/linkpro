@@ -210,6 +210,7 @@
 
 
 header.guest_header {
+    @include boxShadow;
     width: 100%;
     float:left;
     padding: 20px 5%;
@@ -233,7 +234,7 @@ header.guest_header {
         }
 
         &:not(.button) {
-            color: $gray;
+            color: $darkGray;
 
             &:hover {
                 color: $blue;

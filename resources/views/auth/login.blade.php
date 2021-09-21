@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="my_row form_page">
-        <div class="card">
+        <div class="card guest">
             <h3>{{ __('Log in to LinkPro') }}</h3>
 
             <div class="card-body">
