@@ -46,7 +46,7 @@
         paymentRequest.canMakePayment().then(function(result) {
             if (result) {
                 prButton.mount('#payment-request-button');
-                buttonForm.addEventListener('submit');
+                //buttonForm.addEventListener('submit');
             } else {
                 document.getElementById('payment-request-button').style.display = 'none';
             }
@@ -55,7 +55,6 @@
         paymentRequest.on('paymentmethod', function(ev) {
             // Confirm the PaymentIntent without handling potential next actions (yet).
 
-            console.log(ev.paymentMethod);
             stripe.confirmCardPayment(
                 buttonClientSecret,
                 {payment_method: ev.paymentMethod.id},
@@ -80,20 +79,28 @@
                                 // The payment failed -- ask your customer for a new payment method.
                             } else {
                                 // The payment has succeeded.
+                                var hiddenInput = document.createElement('input');
+                                hiddenInput.setAttribute('type', 'hidden');
+                                hiddenInput.setAttribute('name', 'paymentMethod');
+                                hiddenInput.setAttribute('value', ev.paymentMethod.id);
+                                buttonForm.appendChild(hiddenInput);
+
+                                buttonForm.submit();
                             }
                         });
                     } else {
                         // The payment has succeeded.
+                        var hiddenInput = document.createElement('input');
+                        hiddenInput.setAttribute('type', 'hidden');
+                        hiddenInput.setAttribute('name', 'paymentMethod');
+                        hiddenInput.setAttribute('value', ev.paymentMethod.id);
+                        buttonForm.appendChild(hiddenInput);
+
+                        buttonForm.submit();
                     }
 
                     // The payment has succeeded.
-                    /*var hiddenInput = document.createElement('input');
-                    hiddenInput.setAttribute('type', 'hidden');
-                    hiddenInput.setAttribute('name', 'paymentMethod');
-                    hiddenInput.setAttribute('value', ev.paymentMethod.id);
-                    buttonForm.appendChild(hiddenInput);*/
 
-                    buttonForm.submit();
                 }
             });
         });
