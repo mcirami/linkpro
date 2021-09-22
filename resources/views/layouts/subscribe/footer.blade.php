@@ -88,7 +88,7 @@
                     var hiddenInput = document.createElement('input');
                     hiddenInput.setAttribute('type', 'hidden');
                     hiddenInput.setAttribute('name', 'paymentMethod');
-                    hiddenInput.setAttribute('value', ev.paymentMethod.id);
+                    hiddenInput.setAttribute('value', ev.paymentMethod);
                     buttonForm.appendChild(hiddenInput);
 
                     buttonForm.submit();
