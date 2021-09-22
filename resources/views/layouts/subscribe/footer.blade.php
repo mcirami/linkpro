@@ -88,7 +88,7 @@
                     var hiddenInput = document.createElement('input');
                     hiddenInput.setAttribute('type', 'hidden');
                     hiddenInput.setAttribute('name', 'paymentMethod');
-                    hiddenInput.setAttribute('value', stripe.payment_method);
+                    hiddenInput.setAttribute('value', ev.paymentMethod.id);
                     buttonForm.appendChild(hiddenInput);
 
                     buttonForm.submit();
