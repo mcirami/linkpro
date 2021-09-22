@@ -96,7 +96,7 @@
                                         </button>
                                     </form>--}}
                                 @else
-                                    <a class='button black_gradient' href='{{ url('/subscribe?plan=corp') }}'>
+                                    <a class='button black_gradient' href='{{ url('/subscribe?plan=corporate') }}'>
                                         Go Corporate
                                     </a>
                                 @endif

@@ -31,7 +31,7 @@
         </div>
     </header>
 
-    <main>
+    <main class="@if(Route::is('guest-home')) guest_home @endif">
         @yield('content')
     </main>
 

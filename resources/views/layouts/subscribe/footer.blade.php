@@ -16,25 +16,16 @@
         const cardHolderName = document.getElementById('cardholder-name');
         const clientSecret = form.dataset.secret;
 
-        const radios = document.getElementsByName('plan');
-
-        let planAmount = getPlanAmount();
-
-        let buttonForm = document.getElementById('payment-button-form');
-
-        for (i = 0; i < radios.length; i++) {
-            radios[i].addEventListener('change', function() {
-                //planAmount = parseInt(this.dataset.price);
-                paymentRequest.total.amount = parseInt(this.dataset.price);
-            })
-        }
-
         // Set up Stripe.js and Elements to use in checkout form
         var style = {
             base: {
                 color: "#32325d",
             }
         };
+
+        let planAmount = document.getElementById('#amount').value;
+        let buttonForm = document.getElementById('payment-button-form');
+        let buttonClientSecret = buttonForm.dataset.secret;
 
         var paymentRequest = stripe.paymentRequest({
             country: 'US',
@@ -46,8 +37,6 @@
             requestPayerName: true,
             requestPayerEmail: true,
         });
-
-        console.log(paymentRequest);
 
         var prButton = elements.create('paymentRequestButton', {
             paymentRequest: paymentRequest,
@@ -65,8 +54,9 @@
 
         paymentRequest.on('paymentmethod', function(ev) {
             // Confirm the PaymentIntent without handling potential next actions (yet).
-            const setupIntent =  stripe.confirmCardPayment(
-                clientSecret,
+
+            stripe.confirmCardPayment(
+                buttonClientSecret,
                 {payment_method: ev.paymentMethod.id},
                 {handleActions: false}
             ).then(function(confirmResult) {
@@ -84,7 +74,7 @@
                     // instead check for: `paymentIntent.status === "requires_source_action"`.
                     if (confirmResult.paymentIntent.status === "requires_action") {
                         // Let Stripe.js handle the rest of the payment flow.
-                        stripe.confirmCardPayment(clientSecret).then(function(result) {
+                        stripe.confirmCardPayment(buttonClientSecret).then(function(result) {
                             if (result.error) {
                                 // The payment failed -- ask your customer for a new payment method.
                             } else {
@@ -92,10 +82,10 @@
                                 var hiddenInput = document.createElement('input');
                                 hiddenInput.setAttribute('type', 'hidden');
                                 hiddenInput.setAttribute('name', 'paymentMethod');
-                                hiddenInput.setAttribute('value', setupIntent.payment_method);
+                                hiddenInput.setAttribute('value', stripe.payment_method);
                                 buttonForm.appendChild(hiddenInput);
 
-                                let planLevel = getPlanLevel();
+                               /* let planLevel = getPlanLevel();
 
                                 var hiddenInputLevel = document.createElement('input');
                                 hiddenInputLevel.setAttribute('type', 'hidden');
@@ -107,7 +97,7 @@
                                 hiddenInput.setAttribute('type', 'hidden');
                                 hiddenInput.setAttribute('name', 'plan');
                                 hiddenInput.setAttribute('value', planAmount);
-                                buttonForm.appendChild(hiddenPlanInput);
+                                buttonForm.appendChild(hiddenPlanInput);*/
 
                                 buttonForm.submit();
                             }
@@ -117,10 +107,10 @@
                         var hiddenInput = document.createElement('input');
                         hiddenInput.setAttribute('type', 'hidden');
                         hiddenInput.setAttribute('name', 'paymentMethod');
-                        hiddenInput.setAttribute('value', setupIntent.payment_method);
+                        hiddenInput.setAttribute('value', stripe.payment_method);
                         buttonForm.appendChild(hiddenInput);
 
-                        let planLevel = getPlanLevel();
+                        /*let planLevel = getPlanLevel();
 
                         var hiddenInputLevel = document.createElement('input');
                         hiddenInputLevel.setAttribute('type', 'hidden');
@@ -132,7 +122,7 @@
                         hiddenInput.setAttribute('type', 'hidden');
                         hiddenInput.setAttribute('name', 'plan');
                         hiddenInput.setAttribute('value', planAmount);
-                        buttonForm.appendChild(hiddenPlanInput);
+                        buttonForm.appendChild(hiddenPlanInput);*/
 
                         buttonForm.submit();
                     }
@@ -187,7 +177,7 @@
             hiddenInput.setAttribute('value', setupIntent.payment_method);
             form.appendChild(hiddenInput);
 
-            let planLevel = getPlanLevel();
+            /*let planLevel = document.querySelector('#cc_plan').value;
 
             var hiddenInputLevel = document.createElement('input');
             hiddenInputLevel.setAttribute('type', 'hidden');
@@ -199,31 +189,10 @@
             hiddenInput.setAttribute('type', 'hidden');
             hiddenInput.setAttribute('name', 'plan');
             hiddenInput.setAttribute('value', planAmount);
-            buttonForm.appendChild(hiddenPlanInput);
+            buttonForm.appendChild(hiddenPlanInput);*/
 
             // Submit the form
             form.submit();
-        }
-
-        function getPlanLevel() {
-            let planLevel;
-            for (i = 0; i < radios.length; i++) {
-                if (radios[i].checked) {
-                    planLevel = radios[i].dataset.level;
-                }
-            }
-
-            return planLevel;
-        }
-
-        function getPlanAmount() {
-            let amount;
-            for (i = 0; i < radios.length; i++) {
-                if (radios[i].checked) {
-                    amount = radios[i].dataset.price;
-                }
-            }
-            return parseInt(amount);
         }
     }
 

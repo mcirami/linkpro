@@ -21,7 +21,7 @@ use App\Http\Controllers\MailController;
 
 Route::get('/', function () {
     return view('home');
-});
+})->name('guest-home');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

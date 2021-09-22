@@ -14,16 +14,16 @@ class SubscriptionController extends Controller
 
     public function purchase(SubscriptionService $subscriptionService) {
 
-        $plan = $subscriptionService->showPurchasePage();
+        $data = $subscriptionService->showPurchasePage();
 
-        return view('subscription.index', [ 'intent' => auth()->user()->createSetupIntent(), 'plan' => $plan ]);
+        return view('subscription.index', [ 'intent' => $data['intent'], 'plan' => $data['plan'], 'paymentIntent' => $data['paymentIntent'] ]);
     }
 
     public function store(Request $request, SubscriptionService $subscriptionService) {
 
         $message = $subscriptionService->newSubscription($request);
 
-        return view('subscription.confirmation', ['message' => $message]);
+        return view('pages.edit', ['success' => $message]);
     }
 
     public function changePlan(Request $request, SubscriptionService $subscriptionService) {

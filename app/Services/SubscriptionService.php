@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Cashier\Billable;
+use Stripe\Stripe;
 
 class SubscriptionService {
 
@@ -25,9 +26,29 @@ class SubscriptionService {
 
     public function showPurchasePage() {
 
-        $plan = isset($_GET["plan"]) ? $_GET["plan"] : null;
+        Stripe::setApiKey(env("STRIPE_SECRET"));
 
-        return $plan;
+        $plan = isset($_GET["plan"]) ? $_GET["plan"] : null;
+        $intent = auth()->user()->createSetupIntent();
+
+        if ($plan == "pro") {
+            $amount = '499';
+        } else {
+            $amount = '1999';
+        }
+
+        $paymentIntent = \Stripe\PaymentIntent::create([
+            'amount' => $amount,
+            'currency' => 'usd',
+        ]);
+
+        $data = [
+            'plan' => $plan,
+            'intent' => $intent,
+            'paymentIntent' => $paymentIntent,
+        ];
+
+        return $data;
     }
 
     public function showPlansPage() {
@@ -49,7 +70,7 @@ class SubscriptionService {
             $request->plan
         )->create($request->paymentMethod, ['name' => $request->cardholderName]);
 
-        return "Thank you for subscribing!";
+        return "Your plan has been changed to " . $request->level;
     }
 
     public function updateSubscription($request) {
