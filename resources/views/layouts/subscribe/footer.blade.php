@@ -79,53 +79,19 @@
                                 // The payment failed -- ask your customer for a new payment method.
                             } else {
                                 // The payment has succeeded.
-                                var hiddenInput = document.createElement('input');
-                                hiddenInput.setAttribute('type', 'hidden');
-                                hiddenInput.setAttribute('name', 'paymentMethod');
-                                hiddenInput.setAttribute('value', stripe.payment_method);
-                                buttonForm.appendChild(hiddenInput);
-
-                               /* let planLevel = getPlanLevel();
-
-                                var hiddenInputLevel = document.createElement('input');
-                                hiddenInputLevel.setAttribute('type', 'hidden');
-                                hiddenInputLevel.setAttribute('name', 'level');
-                                hiddenInputLevel.setAttribute('value', planLevel);
-                                buttonForm.appendChild(hiddenInputLevel);
-
-                                var hiddenPlanInput = document.createElement('input');
-                                hiddenInput.setAttribute('type', 'hidden');
-                                hiddenInput.setAttribute('name', 'plan');
-                                hiddenInput.setAttribute('value', planAmount);
-                                buttonForm.appendChild(hiddenPlanInput);*/
-
-                                buttonForm.submit();
                             }
                         });
                     } else {
                         // The payment has succeeded.
-                        var hiddenInput = document.createElement('input');
-                        hiddenInput.setAttribute('type', 'hidden');
-                        hiddenInput.setAttribute('name', 'paymentMethod');
-                        hiddenInput.setAttribute('value', stripe.payment_method);
-                        buttonForm.appendChild(hiddenInput);
-
-                        /*let planLevel = getPlanLevel();
-
-                        var hiddenInputLevel = document.createElement('input');
-                        hiddenInputLevel.setAttribute('type', 'hidden');
-                        hiddenInputLevel.setAttribute('name', 'level');
-                        hiddenInputLevel.setAttribute('value', planLevel);
-                        buttonForm.appendChild(hiddenInputLevel);
-
-                        var hiddenPlanInput = document.createElement('input');
-                        hiddenInput.setAttribute('type', 'hidden');
-                        hiddenInput.setAttribute('name', 'plan');
-                        hiddenInput.setAttribute('value', planAmount);
-                        buttonForm.appendChild(hiddenPlanInput);*/
-
-                        buttonForm.submit();
                     }
+
+                    var hiddenInput = document.createElement('input');
+                    hiddenInput.setAttribute('type', 'hidden');
+                    hiddenInput.setAttribute('name', 'paymentMethod');
+                    hiddenInput.setAttribute('value', stripe.payment_method);
+                    buttonForm.appendChild(hiddenInput);
+
+                    buttonForm.submit();
                 }
             });
         });
@@ -143,7 +109,7 @@
         });
 
         form.addEventListener('submit', async function(ev) {
-           ev.preventDefault();
+            ev.preventDefault();
             document.querySelector("#spinner").classList.remove("hidden");
 
             const { setupIntent, error } = await stripe.confirmCardSetup(

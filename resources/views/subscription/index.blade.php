@@ -72,7 +72,7 @@
                                 <div id="card-errors" role="alert"></div>
 
                                 <button class="button blue">
-                                    <span class="spinner hidden" id="spinner"></span>
+                                    <div class="spinner hidden" id="spinner"></div>
                                     Pay With Credit Card
                                 </button>
                             </form>

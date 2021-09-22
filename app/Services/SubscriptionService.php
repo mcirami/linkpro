@@ -68,7 +68,7 @@ class SubscriptionService {
         $request->user()->newSubscription(
             $request->level,
             $request->plan
-        )->create($request->paymentMethod, ['name' => $request->cardholderName]);
+        )->create($request->paymentMethod);
 
         return "Your plan has been changed to " . $request->level;
     }
