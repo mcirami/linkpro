@@ -55,7 +55,7 @@
         paymentRequest.on('paymentmethod', function(ev) {
             // Confirm the PaymentIntent without handling potential next actions (yet).
 
-            const setupIntent = stripe.confirmCardPayment(
+            stripe.confirmCardPayment(
                 buttonClientSecret,
                 {payment_method: ev.paymentMethod.id},
                 {handleActions: false}
@@ -89,7 +89,7 @@
                     var hiddenInput = document.createElement('input');
                     hiddenInput.setAttribute('type', 'hidden');
                     hiddenInput.setAttribute('name', 'paymentMethod');
-                    hiddenInput.setAttribute('value', setupIntent.payment_method);
+                    hiddenInput.setAttribute('value', stripe.payment_method);
                     buttonForm.appendChild(hiddenInput);
 
                     buttonForm.submit();
