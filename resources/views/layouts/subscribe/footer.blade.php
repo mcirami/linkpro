@@ -23,7 +23,7 @@
             }
         };
 
-        let planAmount = document.getElementById('#amount').value;
+        let planAmount = document.getElementById('amount').value;
         let buttonForm = document.getElementById('payment-button-form');
         let buttonClientSecret = buttonForm.dataset.secret;
 
