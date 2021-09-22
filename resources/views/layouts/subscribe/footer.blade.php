@@ -79,25 +79,20 @@
                                 // The payment failed -- ask your customer for a new payment method.
                             } else {
                                 // The payment has succeeded.
-                                var hiddenInput = document.createElement('input');
-                                hiddenInput.setAttribute('type', 'hidden');
-                                hiddenInput.setAttribute('name', 'paymentMethod');
-                                hiddenInput.setAttribute('value', setupIntent.payment_method);
-                                buttonForm.appendChild(hiddenInput);
-
-                                buttonForm.submit();
                             }
                         });
                     } else {
                         // The payment has succeeded.
-                        var hiddenInput = document.createElement('input');
-                        hiddenInput.setAttribute('type', 'hidden');
-                        hiddenInput.setAttribute('name', 'paymentMethod');
-                        hiddenInput.setAttribute('value', setupIntent.payment_method);
-                        buttonForm.appendChild(hiddenInput);
-
-                        buttonForm.submit();
                     }
+
+                    // The payment has succeeded.
+                    var hiddenInput = document.createElement('input');
+                    hiddenInput.setAttribute('type', 'hidden');
+                    hiddenInput.setAttribute('name', 'paymentMethod');
+                    hiddenInput.setAttribute('value', setupIntent.payment_method);
+                    buttonForm.appendChild(hiddenInput);
+
+                    buttonForm.submit();
                 }
             });
         });
