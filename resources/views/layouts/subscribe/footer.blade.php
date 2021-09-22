@@ -55,6 +55,7 @@
         paymentRequest.on('paymentmethod', function(ev) {
             // Confirm the PaymentIntent without handling potential next actions (yet).
 
+            console.log(ev.paymentMethod);
             stripe.confirmCardPayment(
                 buttonClientSecret,
                 {payment_method: ev.paymentMethod.id},
@@ -86,11 +87,11 @@
                     }
 
                     // The payment has succeeded.
-                    var hiddenInput = document.createElement('input');
+                    /*var hiddenInput = document.createElement('input');
                     hiddenInput.setAttribute('type', 'hidden');
                     hiddenInput.setAttribute('name', 'paymentMethod');
-                    hiddenInput.setAttribute('value', stripe.payment_method);
-                    buttonForm.appendChild(hiddenInput);
+                    hiddenInput.setAttribute('value', ev.paymentMethod.id);
+                    buttonForm.appendChild(hiddenInput);*/
 
                     buttonForm.submit();
                 }

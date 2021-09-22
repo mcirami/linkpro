@@ -5,6 +5,7 @@
     <div class="my_row form_page checkout">
         <div class="container">
             <div class="card">
+                {{$paymentIntent}}
                 <div>
                     <h3>Upgrade Now to Get All The Benefits!</h3>
                 </div>
