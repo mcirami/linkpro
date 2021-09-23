@@ -9,12 +9,7 @@ use App\Models\Page;
 use App\Services\LinkService;
 use App\Services\PageService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
-use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
 
 class PageController extends Controller
 {

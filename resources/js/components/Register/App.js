@@ -1,11 +1,21 @@
 import CreatePageForm from './CreatePageForm';
 import React from 'react';
-let pageNames = user.pageNames;
 
 function App() {
 
     return (
-        <CreatePageForm allUserPages={pageNames}/>
+
+        <div className="card guest">
+            <h3>Choose Your Link Name</h3>
+            <div className="card-body">
+                <div className="form_wrap">
+
+                    <CreatePageForm />
+
+                </div>
+            </div>
+        </div>
+
     )
 }
 

@@ -1,9 +1,9 @@
-@extends('layouts.guest.header')
+@extends('layouts.register.header')
 
 @section('content')
 <div class="container">
 
-    <div id="create_page"></div>
+    <div id="create_page" class="my_row form_page edit_form"></div>
 
 </div>
 @endsection
