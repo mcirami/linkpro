@@ -32,9 +32,9 @@ class SubscriptionService {
         $intent = auth()->user()->createSetupIntent();
 
         if ($plan == "pro") {
-            $amount = '499';
+            $amount = 499;
         } else {
-            $amount = '1999';
+            $amount = 1999;
         }
 
         $paymentIntent = \Stripe\PaymentIntent::create([

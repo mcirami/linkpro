@@ -90,6 +90,20 @@ class PageService {
         return $links;
     }
 
+    /*
+     *
+     * Show Create Page Name at Register
+     *
+     */
+    public function showCreatePage() {
+
+        $pageNames = Page::all()->pluck('name')->toArray();
+
+        Javascript::put([
+            'pageNames' => $pageNames
+        ]);
+    }
+
     /**
      * Update Page Header Image
      *

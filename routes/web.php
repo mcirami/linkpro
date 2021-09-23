@@ -55,6 +55,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
 });
 
 Route::group(['middleware' => 'auth'], function() {
+
+    Route::get('/register/step-two', [PageController::class, 'showCreatePage'])->name('create.page');
+
     Route::get('/plans', [SubscriptionController::class, 'plans'])->name('plans.get');
     Route::get('/subscribe', [SubscriptionController::class, 'purchase'])->name('subscribe.get');
     Route::post('/subscribe', [SubscriptionController::class, 'store'])->name('subscribe.post');

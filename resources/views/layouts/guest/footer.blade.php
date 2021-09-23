@@ -1,3 +1,5 @@
+<?php
+?>
 <footer>
     <ul>
         <li><a class="open_popup" href="#">How It Works</a></li>

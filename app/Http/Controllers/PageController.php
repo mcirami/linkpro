@@ -33,6 +33,13 @@ class PageController extends Controller
         ]);
     }
 
+    public function showCreatePage(PageService $pageService) {
+
+        $pageService->showCreatePage();
+
+        return view('pages.create');
+    }
+
     public function store(PageNameRequest $request, PageService $pageService, LinkService $linkService) {
 
         $page = $pageService->createNewPage($request);

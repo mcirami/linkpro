@@ -5022,10 +5022,10 @@ __webpack_require__(/*! ./custom */ "./resources/js/custom.js");
 if (document.getElementById('root')) {
   __webpack_require__(/*! ./components/Index */ "./resources/js/components/Index.js");
 }
-/*if (document.getElementById('avatar')) {
-    require('./components/Avatar/Index');
-}*/
-//require('./components/Preview');
+
+if (document.getElementById('create_page')) {
+  __webpack_require__(/*! ./components/Register/Index */ "./resources/js/components/Register/Index.js");
+} //require('./components/Preview');
 
 /***/ }),
 
@@ -7968,6 +7968,197 @@ var ShowPreviewButton = function ShowPreviewButton() {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ShowPreviewButton);
+
+/***/ }),
+
+/***/ "./resources/js/components/Register/App.js":
+/*!*************************************************!*\
+  !*** ./resources/js/components/Register/App.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _CreatePageForm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CreatePageForm */ "./resources/js/components/Register/CreatePageForm.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+var pageNames = user.pageNames;
+
+function App() {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_CreatePageForm__WEBPACK_IMPORTED_MODULE_0__.default, {
+    allUserPages: pageNames
+  });
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
+
+/***/ }),
+
+/***/ "./resources/js/components/Register/CreatePageForm.js":
+/*!************************************************************!*\
+  !*** ./resources/js/components/Register/CreatePageForm.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_icons_Fi__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-icons/Fi */ "./node_modules/react-icons/Fi/index.esm.js");
+/* harmony import */ var _Utils_Bus__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Utils/Bus */ "./resources/js/Utils/Bus.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+
+var CreatePageForm = function CreatePageForm(_ref) {
+  var allUserPages = _ref.allUserPages;
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState2 = _slicedToArray(_useState, 2),
+      newPageName = _useState2[0],
+      setNewPageName = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      available = _useState4[0],
+      setAvailability = _useState4[1];
+
+  var pageCount = allUserPages.length;
+
+  var handleSubmit = function handleSubmit(e) {
+    e.preventDefault();
+    var packets = {
+      name: newPageName
+    };
+    axios__WEBPACK_IMPORTED_MODULE_1___default().post('/dashboard/page/new', packets).then(function (response) {
+      //console.log(JSON.stringify(response.data));
+      var page_id = JSON.stringify(response.data.page_id);
+      var returnMessage = JSON.stringify(response.data.message);
+      _Utils_Bus__WEBPACK_IMPORTED_MODULE_2__.default.dispatch("success", {
+        message: returnMessage
+      });
+      var newElement = {
+        id: page_id,
+        name: newPageName
+      };
+    })["catch"](function (error) {
+      console.log("ERROR:: ", error.response.data);
+    });
+  };
+
+  var checkPageName = function checkPageName(e) {
+    var value = e.target.value.toLowerCase().replace(/\s/g, '-');
+    var match = pageNames.indexOf(value);
+
+    if (match < 0 && value !== "") {
+      setAvailability(true);
+    } else {
+      setAvailability(false);
+    }
+
+    setNewPageName(value);
+  };
+
+  var pageList = allUserPages.filter(function (element) {
+    return element.id !== pageSettings["id"];
+  });
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    className: "edit_form new_page_form",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      className: "form_wrap",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h3", {
+        children: "Choose Your Link Name"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
+        className: "new_page",
+        onSubmit: handleSubmit,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+          name: "name",
+          type: "text",
+          placeholder: "Link Name",
+          onChange: checkPageName,
+          onKeyPress: function onKeyPress(event) {
+            if (event.key === 'Enter') {
+              handleSubmit(event);
+            }
+          }
+        }), available ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+          className: "submit_circle",
+          href: "#",
+          onClick: function onClick(e) {
+            return handleSubmit(e);
+          },
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_Fi__WEBPACK_IMPORTED_MODULE_4__.FiThumbsUp, {})
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_Fi__WEBPACK_IMPORTED_MODULE_4__.FiThumbsDown, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+          className: "status",
+          children: available ? "Available" : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+            className: "status not_available",
+            children: "Not Available"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "my_row button_row",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+            className: "button green",
+            type: "submit",
+            children: "Submit"
+          })
+        })]
+      })]
+    })
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CreatePageForm);
+
+/***/ }),
+
+/***/ "./resources/js/components/Register/Index.js":
+/*!***************************************************!*\
+  !*** ./resources/js/components/Register/Index.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./App */ "./resources/js/components/Register/App.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+if (document.getElementById('create_page')) {
+  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react__WEBPACK_IMPORTED_MODULE_0__.StrictMode, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_App__WEBPACK_IMPORTED_MODULE_2__.default, {})
+  }), document.getElementById('create_page'));
+}
 
 /***/ }),
 
