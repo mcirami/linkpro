@@ -72,22 +72,6 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        /*$page = $user->pages()->create([
-            'name' => $user->username,
-            'title' => null,
-            'bio' => null,
-            'is_protected' => false,
-        ]);
-
-        $user->links()->create([
-            'name' => null,
-            'url' => null,
-            'icon' => null,
-            'page_id' => $page->id,
-            'position' => 0,
-            'active_status' => 1
-        ]);*/
-
         $userData = ([
             'email' => $user->email,
             'username' => $user->username
@@ -107,7 +91,6 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
-        //$userPages = $user->pages()->get();
         return redirect('/register/step-two');
     }
 }
