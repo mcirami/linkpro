@@ -88,6 +88,12 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user) {
         $userPages = $user->pages()->get();
-        return redirect('/dashboard/pages/' . $userPages[0]["id"]);
+
+        if ($userPages->isEmpty()) {
+            return redirect('/register/step-two');
+        } else {
+            return redirect('/dashboard/pages/' . $userPages[0]["id"]);
+        }
+
     }
 }
