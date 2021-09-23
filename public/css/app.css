@@ -12836,6 +12836,9 @@ header.guest_header .col.right {
   text-decoration: underline;
   color: #545656;
 }
+.form_page .card .input_wrap {
+  width: 100%;
+}
 
 .live_page form {
   width: 100%;

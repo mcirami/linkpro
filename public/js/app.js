@@ -8090,32 +8090,41 @@ var CreatePageForm = function CreatePageForm() {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
     className: "new_page",
     onSubmit: handleSubmit,
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-      name: "name",
-      type: "text",
-      placeholder: "Link Name",
-      onChange: checkPageName,
-      onKeyPress: function onKeyPress(event) {
-        if (event.key === 'Enter') {
-          handleSubmit(event);
-        }
-      }
-    }), available ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
-      className: "submit_circle",
-      href: "#",
-      onClick: function onClick(e) {
-        return handleSubmit(e);
-      },
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_Fi__WEBPACK_IMPORTED_MODULE_4__.FiThumbsUp, {})
-    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-      className: "cancel_icon",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_Fi__WEBPACK_IMPORTED_MODULE_4__.FiThumbsDown, {})
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-      className: "status",
-      children: available ? "Available" : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-        className: "status not_available",
-        children: "Not Available"
-      })
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      className: "d-flex justify-content-center align-items-flex-start link_name",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
+        className: "pt-1",
+        children: "Link.pro/"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        className: "input_wrap",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+          name: "name",
+          type: "text",
+          placeholder: "Link Name",
+          onChange: checkPageName,
+          onKeyPress: function onKeyPress(event) {
+            if (event.key === 'Enter') {
+              handleSubmit(event);
+            }
+          }
+        }), available ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+          className: "submit_circle",
+          href: "#",
+          onClick: function onClick(e) {
+            return handleSubmit(e);
+          },
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_Fi__WEBPACK_IMPORTED_MODULE_4__.FiThumbsUp, {})
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+          className: "cancel_icon",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_icons_Fi__WEBPACK_IMPORTED_MODULE_4__.FiThumbsDown, {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+          className: "status",
+          children: available ? "Available" : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+            className: "status not_available",
+            children: "Not Available"
+          })
+        })]
+      })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "my_row button_row",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {

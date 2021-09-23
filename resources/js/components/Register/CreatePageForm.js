@@ -51,30 +51,34 @@ const CreatePageForm = () => {
     return (
 
         <form className="new_page" onSubmit={handleSubmit}>
-            <input name="name" type="text"
-                   placeholder="Link Name"
-                   onChange={ checkPageName }
-                   onKeyPress={ event => {
-                       if(event.key === 'Enter') {
-                           handleSubmit(event);
-                       }
-                   }
-                   }
-            />
+            <div className="d-flex justify-content-center align-items-flex-start link_name">
+                <label className="pt-1">Link.pro/</label>
+                <div className="input_wrap">
+                    <input name="name" type="text"
+                           placeholder="Link Name"
+                           onChange={ checkPageName }
+                           onKeyPress={ event => {
+                               if(event.key === 'Enter') {
+                                   handleSubmit(event);
+                               }
+                           }
+                           }
+                    />
+                    { available ?
+                        <a className="submit_circle" href="#"
+                           onClick={(e) => handleSubmit(e)}
+                        >
+                            <FiThumbsUp />
+                        </a>
+                        :
+                        <span className="cancel_icon">
+                         <FiThumbsDown />
+                    </span>
 
-            { available ?
-                <a className="submit_circle" href="#"
-                   onClick={(e) => handleSubmit(e)}
-                >
-                    <FiThumbsUp />
-                </a>
-                :
-                <span className="cancel_icon">
-                     <FiThumbsDown />
-                </span>
-
-            }
-            <p className="status">{available ? "Available" : <span className="status not_available">Not Available</span>}</p>
+                    }
+                    <p className="status">{available ? "Available" : <span className="status not_available">Not Available</span>}</p>
+                </div>
+            </div>
             <div className="my_row button_row">
                 <button className="button blue" type="submit">
                     Submit
