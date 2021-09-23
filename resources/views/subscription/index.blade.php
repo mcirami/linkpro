@@ -2,50 +2,84 @@
 
 @section('content')
 
-    <div class="my_row form_page checkout">
+    <div class="my_row form_page plans checkout">
         <div class="container">
             <div class="card">
-                <div>
-                    <h3>Upgrade Now to Get All The Benefits!</h3>
+                <h2 class="page_title mb-0">Upgrade to <span class="text-capitalize">{{$plan}}</span> For Only </h2>
+                <div class="pricing m-0">
+                    <h3><sup>$</sup>{{ $plan == "pro" ? '4.99' : '19.99'}}<span>/ mo</span></h3>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12 col-md-6 plan_details order-md-0 order-1 ">
                             <div class="row">
-                                <div class="col-12 col-lg-6">
-                                    <h2>Pro</h2>
-                                    <ul>
-                                        <li><p><img src="{{ asset('images/check-circle-violet.png') }}" alt="">1 Unique Link</p></li>
-                                        <li><p><img src="{{ asset('images/check-circle-violet.png') }}" alt="">Up to 9 icons</p></li>
-                                        <li><p><img src="{{ asset('images/check-circle-violet.png') }}" alt="">Choose Default Icons</p></li>
-                                        <li><p><img src="{{ asset('images/check-circle-violet.png') }}" alt="">Custom Icon Links</p></li>
-                                        <li><p><img src="{{ asset('images/check-circle-violet.png') }}" alt="">Custom Icons</p></li>
-                                        <li><p><img src="{{ asset('images/check-circle-violet.png') }}" alt="">Unlimited Icons</p></li>
-                                    </ul>
-                                </div>
-                                <div class="col-12 col-lg-6">
-                                    <h2>Corporate</h2>
-                                    <h4>All The Benefits of the Pro Plan Plus:</h4>
-                                    <ul>
-                                        <li><p><img src="{{ asset('images/check-circle-blue.png') }}" alt="">Up to 5 Unique Links</p></li>
-                                        <li><p><img src="{{ asset('images/check-circle-blue.png') }}" alt="">Password Protected Links</p></li>
-                                    </ul>
+                                <div class="col-12 my_row three_columns">
+                                    <div class="column {{$plan}}">
+                                        <h2 class="text-uppercase"><span>{{$plan}} Plan</span> Includes</h2>
+                                        <ul>
+                                            @if($plan == "pro")
+                                                <li>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                                        <path d="M13.485 1.431a1.473 1.473 0 0 1 2.104 2.062l-7.84 9.801a1.473 1.473 0 0 1-2.12.04L.431 8.138a1.473 1.473 0 0 1 2.084-2.083l4.111 4.112 6.82-8.69a.486.486 0 0 1 .04-.045z"/>
+                                                    </svg>
+                                                    <p>1 Unique Link</p>
+                                                </li>
+                                                <li>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                                        <path d="M13.485 1.431a1.473 1.473 0 0 1 2.104 2.062l-7.84 9.801a1.473 1.473 0 0 1-2.12.04L.431 8.138a1.473 1.473 0 0 1 2.084-2.083l4.111 4.112 6.82-8.69a.486.486 0 0 1 .04-.045z"/>
+                                                    </svg>
+                                                    <p>Unlimited Icons</p>
+                                                </li>
+                                                <li>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                                        <path d="M13.485 1.431a1.473 1.473 0 0 1 2.104 2.062l-7.84 9.801a1.473 1.473 0 0 1-2.12.04L.431 8.138a1.473 1.473 0 0 1 2.084-2.083l4.111 4.112 6.82-8.69a.486.486 0 0 1 .04-.045z"/>
+                                                    </svg>
+                                                    <p>Custom Icons</p>
+                                                </li>
+                                                <li>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                                        <path d="M13.485 1.431a1.473 1.473 0 0 1 2.104 2.062l-7.84 9.801a1.473 1.473 0 0 1-2.12.04L.431 8.138a1.473 1.473 0 0 1 2.084-2.083l4.111 4.112 6.82-8.69a.486.486 0 0 1 .04-.045z"/>
+                                                    </svg>
+                                                    <p>Add Social Links</p>
+                                                </li>
+                                            @else
+                                                <li>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                                        <path d="M13.485 1.431a1.473 1.473 0 0 1 2.104 2.062l-7.84 9.801a1.473 1.473 0 0 1-2.12.04L.431 8.138a1.473 1.473 0 0 1 2.084-2.083l4.111 4.112 6.82-8.69a.486.486 0 0 1 .04-.045z"/>
+                                                    </svg>
+                                                    <p>Up to 5 Unique Links</p>
+                                                </li>
+                                                <li>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                                        <path d="M13.485 1.431a1.473 1.473 0 0 1 2.104 2.062l-7.84 9.801a1.473 1.473 0 0 1-2.12.04L.431 8.138a1.473 1.473 0 0 1 2.084-2.083l4.111 4.112 6.82-8.69a.486.486 0 0 1 .04-.045z"/>
+                                                    </svg>
+                                                    <p>Unlimited Icons</p>
+                                                </li>
+                                                <li>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                                        <path d="M13.485 1.431a1.473 1.473 0 0 1 2.104 2.062l-7.84 9.801a1.473 1.473 0 0 1-2.12.04L.431 8.138a1.473 1.473 0 0 1 2.084-2.083l4.111 4.112 6.82-8.69a.486.486 0 0 1 .04-.045z"/>
+                                                    </svg>
+                                                    <p>Custom Icons</p>
+                                                </li>
+                                                <li>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                                        <path d="M13.485 1.431a1.473 1.473 0 0 1 2.104 2.062l-7.84 9.801a1.473 1.473 0 0 1-2.12.04L.431 8.138a1.473 1.473 0 0 1 2.084-2.083l4.111 4.112 6.82-8.69a.486.486 0 0 1 .04-.045z"/>
+                                                    </svg>
+                                                    <p>Password Protected Links</p>
+                                                </li>
+                                                <li>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                                        <path d="M13.485 1.431a1.473 1.473 0 0 1 2.104 2.062l-7.84 9.801a1.473 1.473 0 0 1-2.12.04L.431 8.138a1.473 1.473 0 0 1 2.084-2.083l4.111 4.112 6.82-8.69a.486.486 0 0 1 .04-.045z"/>
+                                                    </svg>
+                                                    <p>Add Social Links</p>
+                                                </li>
+                                            @endif
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 col-md-6 credit_card_form order-md-1 order-0">
-                            <div class="form-group row">
-                                {{--<div class="col-12 radio_buttons">
-                                    <div>
-                                        <input type="radio" name="plan" data-level="pro" id="pro" data-price="499" value="price_1JS1p5GIBktjIJUPjG5ksGFb" {{$plan == "pro" || $plan == null ? "checked" : ""}}>
-                                        <label for="pro">Pro - $4.99/month</label>
-                                    </div>
-                                    <div>
-                                        <input type="radio" name="plan" data-level="corporate" data-price="1999" id="corporate" value="price_1JS1qkGIBktjIJUPVSjN20LH" {{$plan == "corp" ? "checked" : ""}}>
-                                        <label for="corporate">Corporate - $19.99/month</label>
-                                    </div>
-                                </div>--}}
-                            </div>
                             <form id="payment-button-form" action="{{ route('subscribe.post') }}" method="post" data-secret="{{ $paymentIntent->client_secret }}">
                                 @csrf
                                 <input type="hidden" id="amount" name="amount" value="{{ $paymentIntent->amount }}">

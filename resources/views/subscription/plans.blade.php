@@ -55,7 +55,7 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="column corp">
+                        <div class="column corporate">
                             <h2 class="text-uppercase">Corporate</h2>
                             <ul>
                                 <li>

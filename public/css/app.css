@@ -13290,6 +13290,28 @@ form .bottom_row a {
   }
 }
 
+.form_page .pricing {
+  margin: 30px 0;
+}
+.form_page .pricing h3, .form_page .pricing .h3 {
+  font-family: "opensansbold", sans-serif;
+  font-size: 50px;
+}
+@media all and (max-width: 1199px) {
+  .form_page .pricing h3, .form_page .pricing .h3 {
+    font-size: 40px;
+  }
+}
+.form_page .pricing h3 sup, .form_page .pricing .h3 sup {
+  font-family: "opensansregular", sans-serif;
+  font-size: 16px;
+  top: -35px;
+  left: 6px;
+}
+.form_page .pricing h3 span, .form_page .pricing .h3 span {
+  font-family: "opensansregular", sans-serif;
+  font-size: 16px;
+}
 .form_page.plans h2.page_title, .form_page.plans .page_title.h2 {
   margin-bottom: 10px;
 }
@@ -13324,35 +13346,13 @@ form .bottom_row a {
 .form_page.plans ul li p {
   margin: 0;
 }
-.form_page.plans .my_row.three_columns .column .pricing {
-  margin: 30px 0;
-}
-.form_page.plans .my_row.three_columns .column .pricing h3, .form_page.plans .my_row.three_columns .column .pricing .h3 {
-  font-family: "opensansbold", sans-serif;
-  font-size: 50px;
-}
-@media all and (max-width: 1199px) {
-  .form_page.plans .my_row.three_columns .column .pricing h3, .form_page.plans .my_row.three_columns .column .pricing .h3 {
-    font-size: 40px;
-  }
-}
-.form_page.plans .my_row.three_columns .column .pricing h3 sup, .form_page.plans .my_row.three_columns .column .pricing .h3 sup {
-  font-family: "opensansregular", sans-serif;
-  font-size: 16px;
-  top: -35px;
-  left: 6px;
-}
-.form_page.plans .my_row.three_columns .column .pricing h3 span, .form_page.plans .my_row.three_columns .column .pricing .h3 span {
-  font-family: "opensansregular", sans-serif;
-  font-size: 16px;
-}
 .form_page.plans .my_row.three_columns .column.pro svg {
   color: #424fcf;
 }
-.form_page.plans .my_row.three_columns .column.corp {
+.form_page.plans .my_row.three_columns .column.corporate {
   border-color: #000;
 }
-.form_page.plans .my_row.three_columns .column.corp svg {
+.form_page.plans .my_row.three_columns .column.corporate svg {
   color: #000;
 }
 .form_page.plans .my_row.three_columns .column.custom {

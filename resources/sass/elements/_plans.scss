@@ -1,141 +1,142 @@
-.form_page.plans {
+.form_page {
 
-    h2.page_title {
-        margin-bottom: 10px;
-    }
+    .pricing {
+        margin: 30px 0;
 
-    .sub_title {
-        color: $blue;
-        text-align: center;
-        font-size: 18px;
-    }
+        h3 {
+            @include osbold;
+            font-size: 50px;
 
-    ul {
-        list-style: none;
-        padding-left: 0;
-        margin: 0;
+            @media all and (max-width: 1199px) {
+                font-size: 40px;
+            }
 
-        @media all and (max-width: 992px) {
-            margin: 0 auto;
+            sup {
+                @include osregular;
+                font-size: 16px;
+                top: -35px;
+                left: 6px;
+            }
+
+            span {
+                @include osregular;
+                font-size: 16px;
+            }
         }
+    }
 
-        li {
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex;
-            -webkit-box-orient: horizontal;
-            -webkit-box-direction: normal;
-            -ms-flex-direction: row;
-            flex-direction: row;
-            -ms-flex-wrap: nowrap;
-            flex-wrap: nowrap;
-            justify-content: flex-start;
-            -webkit-justify-content: flex-start;
-            align-items: center;
-            -webkit-align-items: center;
-            column-gap: 10px;
-            -moz-column-gap: 10px;
-            -webkit-column-gap: 10px;
+    &.plans {
+
+        h2.page_title {
             margin-bottom: 10px;
-
-            p {
-                margin: 0;
-            }
-        }
-    }
-
-    .my_row.three_columns .column {
-
-        .pricing {
-            margin: 30px 0;
-
-            h3 {
-                @include osbold;
-                font-size: 50px;
-
-                @media all and (max-width: 1199px) {
-                    font-size: 40px;
-                }
-
-                sup {
-                    @include osregular;
-                    font-size: 16px;
-                    top: -35px;
-                    left: 6px;
-                }
-
-                span {
-                    @include osregular;
-                    font-size: 16px;
-                }
-            }
         }
 
-        &.pro {
-
-            svg {
-                color: $blue;
-            }
+        .sub_title {
+            color: $blue;
+            text-align: center;
+            font-size: 18px;
         }
 
-        &.corp {
-            border-color: $black;
-
-            svg {
-                color: $black;
-            }
-        }
-
-        &.custom {
-            border-color: $grayBlue;
-
-            svg {
-                color: $grayBlue;
-            }
-        }
-
-        &.free {
-            grid-column-end: span 3;
-            border-color: $limeGreen;
+        ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
 
             @media all and (max-width: 992px) {
-                grid-column-end: unset;
+                margin: 0 auto;
             }
 
-            .my_row.three_columns {
-                grid-template-columns: repeat(3, 1fr);
+            li {
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-orient: horizontal;
+                -webkit-box-direction: normal;
+                -ms-flex-direction: row;
+                flex-direction: row;
+                -ms-flex-wrap: nowrap;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                -webkit-justify-content: flex-start;
+                align-items: center;
+                -webkit-align-items: center;
+                column-gap: 10px;
+                -moz-column-gap: 10px;
+                -webkit-column-gap: 10px;
+                margin-bottom: 10px;
 
-                @media all and (max-width: 768px) {
-                    grid-template-columns: repeat(1,1fr);
+                p {
+                    margin: 0;
                 }
+            }
+        }
 
-                .column {
-                    padding: 0;
-                    border: none;
-                    justify-content: center;
-                    -webkit-justify-content: center;
+        .my_row.three_columns .column {
 
-                    &:nth-child(2) {
-                        align-items: center;
-                        -webkit-align-items: center;
-                    }
+            &.pro {
 
-                    svg {
-                        color: $limeGreen;
-                    }
-
-                    p {
-                        margin: 0;
-                    }
-
-                    h4 {
-                        color: $limeGreen;
-                        text-align: left;
-                    }
+                svg {
+                    color: $blue;
                 }
             }
 
+            &.corporate {
+                border-color: $black;
 
+                svg {
+                    color: $black;
+                }
+            }
+
+            &.custom {
+                border-color: $grayBlue;
+
+                svg {
+                    color: $grayBlue;
+                }
+            }
+
+            &.free {
+                grid-column-end: span 3;
+                border-color: $limeGreen;
+
+                @media all and (max-width: 992px) {
+                    grid-column-end: unset;
+                }
+
+                .my_row.three_columns {
+                    grid-template-columns: repeat(3, 1fr);
+
+                    @media all and (max-width: 768px) {
+                        grid-template-columns: repeat(1, 1fr);
+                    }
+
+                    .column {
+                        padding: 0;
+                        border: none;
+                        justify-content: center;
+                        -webkit-justify-content: center;
+
+                        &:nth-child(2) {
+                            align-items: center;
+                            -webkit-align-items: center;
+                        }
+
+                        svg {
+                            color: $limeGreen;
+                        }
+
+                        p {
+                            margin: 0;
+                        }
+
+                        h4 {
+                            color: $limeGreen;
+                            text-align: left;
+                        }
+                    }
+                }
+            }
         }
     }
 }
