@@ -24,7 +24,7 @@ class AddLinkRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'max:255',
+            'name' => 'max:255|nullable',
             'id' => 'required|integer'
         ];
     }

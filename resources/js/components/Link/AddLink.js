@@ -80,6 +80,8 @@ const AddLink = ({userLinks, setUserLinks, originalArray, setOriginalArray }) =>
                     setUserLinks(prevArray)
                 }
 
+                updateContentHeight();
+
             })
         .catch(error => {
             console.log("ERROR:: ", error.response.data);
@@ -87,6 +89,20 @@ const AddLink = ({userLinks, setUserLinks, originalArray, setOriginalArray }) =>
         });
 
     };
+
+    const updateContentHeight = () => {
+
+        if ((originalArray.length + 1) % 3 === 1 ) {
+            const iconsWrap = document.querySelector('.icons_wrap');
+            const iconCol = document.querySelectorAll('.add_icons .icon_col:last-child');
+            const colHeight = iconCol[0].offsetHeight;
+            const transformProp = iconCol[0].style.transform.split("translate3d(");
+            const transformValues = transformProp[1].split(" ");
+            const divHeight = transformValues[1].replace(",", "").replace("px", "");
+            const height = parseInt(divHeight) + colHeight + 25;
+            iconsWrap.style.minHeight = height + "px";
+        }
+    }
 
     return (
         <div className="add_more_icons">
