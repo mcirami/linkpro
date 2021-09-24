@@ -28,18 +28,27 @@ class SubscriptionController extends Controller
 
     public function changePlan(Request $request, SubscriptionService $subscriptionService) {
 
+        $path = $request->session()->get('_previous');
+
         $message = $subscriptionService->updateSubscription($request);
 
-        //return view('subscription.confirmation', ['message' => $message]);
+        if(str_contains($path["url"], '/plans')) {
+            $user = Auth::user();
+            $page = $user->pages()->firstWhere('user_id', $user["id"]);
+            return redirect()->route('pages.edit', [$page])->with(['success' => $message]);
+        } else {
+            return redirect()->back()->with(['success' => $message]);
+        }
 
-        return redirect()->back()->with(['success' => $message]);
     }
 
-    public function plans(SubscriptionService $subscriptionService) {
+    public function plans(Request $request, SubscriptionService $subscriptionService) {
+
+        $path = $request->session()->get('_previous');
 
         $subscription = $subscriptionService->showPlansPage();
 
-        return view('subscription.plans', ['subscription' => $subscription]);
+        return view('subscription.plans', ['subscription' => $subscription, 'path' => $path["url"]]);
     }
 
     public function cancel(Request $request, SubscriptionService $subscriptionService) {
