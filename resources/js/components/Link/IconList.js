@@ -1,14 +1,14 @@
 import React, {useContext, useState, useEffect} from 'react';
 //import {LinksContext} from './App';
 
-const iconPaths = user.icons;
+//const iconPaths = user.icons;
 const customIcons = user.userIcons;
 
-const IconList = ({currentLink, setCurrentLink}) => {
+const IconList = ({currentLink, setCurrentLink, iconArray}) => {
 
     //const  { userLinks, setUserLinks } = useContext(LinksContext);
 
-    let iconArray = [];
+    /*let iconArray = [];
 
     iconPaths.map((iconPath) => {
         const end = iconPath.lastIndexOf("/");
@@ -17,13 +17,13 @@ const IconList = ({currentLink, setCurrentLink}) => {
         const iconName = newArray[0].replace("/", "");
         const tmp = {"name": iconName, "path" : iconPath}
         iconArray.push(tmp);
-    });
+    });*/
 
-    const [customIcon, setCustomIcon] = useState(null);
-    const [preview, setPreview] = useState();
+    //const [customIcon, setCustomIcon] = useState(null);
+    //const [preview, setPreview] = useState();
     //let [icons, setIcons] = useState(iconArray);
 
-    const [input, setInput] = useState("");
+    /*const [input, setInput] = useState("");
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -34,20 +34,20 @@ const IconList = ({currentLink, setCurrentLink}) => {
         iconArray = iconArray.filter((i) => {
             return i.name.match(input);
         });
-    }
+    }*/
 
-    useEffect(() => {
+ /*   useEffect(() => {
         if (!customIcon) {
-            setPreview(undefined)
+            //setPreview(undefined)
             return
         }
         //setPageHeader(selectedFile["name"]);
         const objectUrl = URL.createObjectURL(customIcon)
-        setPreview(objectUrl)
+        //setPreview(objectUrl)
         // free memory when ever this component is unmounted
         return () => URL.revokeObjectURL(objectUrl)
     }, [customIcon])
-
+*/
     const selectIcon = (e, source) => {
         const el = e.target;
 
@@ -65,7 +65,7 @@ const IconList = ({currentLink, setCurrentLink}) => {
         }
     }
 
-    const selectCustomIcon = (e) => {
+    /*const selectCustomIcon = (e) => {
 
         let files = e.target.files || e.dataTransfer.files;
 
@@ -90,59 +90,46 @@ const IconList = ({currentLink, setCurrentLink}) => {
         reader.readAsDataURL(file);
 
     }
-
+*/
     return (
-        <div className="icon_row">
-            <div className="icon_box">
-                <div className="my_row top">
-                    <input type="text" placeholder="Search Icons"
-                           onChange={handleChange}
-                    />
-                    <div className="uploader">
-                        <label htmlFor="header_file_upload" className="custom text-uppercase button blue">
-                            Custom Icon
-                        </label>
-                        <input id="header_file_upload" type="file" className="custom" onChange={selectCustomIcon}/>
-                    </div>
+
+        <div className="icons_wrap my_row">
+            {/*{preview ?
+                <div className="custom_icons">
+                    <img className="img-fluid icon_image active" src={preview} name="custom_icon" alt="" onClick={(e) => {e.preventDefault(); selectIcon(e, customIcon)} } />
                 </div>
-                <div className="icons_wrap my_row">
-                    {preview ?
-                        <div className="custom_icons">
-                            <img className="img-fluid icon_image active" src={preview} name="custom_icon" alt="" onClick={(e) => {e.preventDefault(); selectIcon(e, customIcon)} } />
+                : ""
+            }*/}
+
+            {customIcons ?
+                customIcons.map((iconPath, index) => {
+                    const newPath = iconPath.replace("public",
+                        "/storage");
+                    return (
+                        <div key={index} className="icon_col">
+                            <img className="img-fluid icon_image" src={newPath} onClick={(e) => {
+                                e.preventDefault();
+                                selectIcon(e, newPath)
+                            }}/>
                         </div>
-                        : ""
-                    }
+                    )
 
-                    {customIcons ?
-                        customIcons.map((iconPath, index) => {
-                            const newPath = iconPath.replace("public",
-                                "/storage");
-                            return (
-                                <div key={index} className="icon_col">
-                                    <img className="img-fluid icon_image" src={newPath} onClick={(e) => {
-                                        e.preventDefault();
-                                        selectIcon(e, newPath)
-                                    }}/>
-                                </div>
-                            )
+                })
+            :
+            ""
+            }
 
-                        })
-                    :
-                    ""
-                    }
-
-                    {iconArray.map((icon, index) => {
-                        /*let end = iconPath.search("/images");
-                        let newPath = iconPath.slice(end);*/
-                        return (
-                            <div key={index} className="icon_col">
-                                <img className="img-fluid icon_image" src={'/' + icon.path } onClick={(e) => {e.preventDefault(); selectIcon(e, "/" + icon.path)} } alt=""/>
-                            </div>
-                        )
-                    })}
-                </div>
-            </div>
+            {iconArray.map((icon, index) => {
+                /*let end = iconPath.search("/images");
+                let newPath = iconPath.slice(end);*/
+                return (
+                    <div key={index} className="icon_col">
+                        <img className="img-fluid icon_image" src={'/' + icon.path } onClick={(e) => {e.preventDefault(); selectIcon(e, "/" + icon.path)} } alt=""/>
+                    </div>
+                )
+            })}
         </div>
+
 
     );
 }

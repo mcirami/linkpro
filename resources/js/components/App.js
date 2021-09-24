@@ -12,6 +12,7 @@ import AddLink from './Link/AddLink';
 import PasswordProtect from './Page/PasswordProtect';
 import ShowPreviewButton from './Preview/ShowPreviewButton';
 import { Flash } from './Flash';
+import SubmitForm from './Link/SubmitForm';
 
 //import UserContext from './User/User';
 
@@ -148,6 +149,18 @@ function App() {
                             />
 
                         </div>
+                        {editID ? (
+                            <SubmitForm
+                                editID={editID}
+                                setEditID={setEditID}
+                                setUserLinks={setUserLinks}
+                                userLinks={userLinks}
+                                originalArray={originalArray}
+                                setOriginalArray={setOriginalArray}
+                            />
+                        ) : (
+                            ""
+                        )}
                     </div>
                 </div>
                 <div className="right_column links_col preview">

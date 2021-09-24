@@ -12410,6 +12410,26 @@ header.guest_header .col.right {
   height: 30px;
 }
 
+.crop_section {
+  width: 100%;
+  text-align: center;
+  padding-bottom: 20px;
+}
+.crop_section.hidden {
+  height: 0;
+}
+.crop_section .ReactCrop {
+  min-width: 40%;
+}
+.crop_section p {
+  margin: 0;
+  font-size: 14px;
+}
+.crop_section .icon_col {
+  width: 125px;
+  margin: 0 auto;
+}
+
 .links_col.preview {
   background: url("/images/preview-device-bg.png") no-repeat;
   background-size: 100%;
@@ -13086,9 +13106,8 @@ form .bottom_row a {
   -moz-border-radius: 12px;
 }
 #links_page .edit_form.popup.new_page_form {
-  top: -14px;
-  height: 600px;
-  min-height: unset;
+  align-items: flex-start;
+  -webkit-align-items: flex-start;
 }
 #links_page .edit_form.popup.new_page_form h3, #links_page .edit_form.popup.new_page_form .h3 {
   font-size: 24px;

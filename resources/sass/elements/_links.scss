@@ -497,3 +497,26 @@
     }
 }
 
+.crop_section {
+    width: 100%;
+    text-align: center;
+    padding-bottom: 20px;
+
+    &.hidden {
+        height: 0;
+    }
+
+    .ReactCrop {
+        min-width: 40%;
+    }
+
+    p {
+        margin: 0;
+        font-size: 14px;
+    }
+
+    .icon_col {
+        width: 125px;
+        margin: 0 auto;
+    }
+}

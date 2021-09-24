@@ -4,7 +4,6 @@ import Switch from "react-switch";
 //import {LinksContext, PageContext} from '../App';
 import EventBus from '../../Utils/Bus';
 import {Motion, spring} from 'react-motion';
-import SubmitForm from './SubmitForm';
 
 const springSetting1 = { stiffness: 180, damping: 10 };
 const springSetting2 = { stiffness: 120, damping: 17 };
@@ -351,18 +350,6 @@ const Links = ({
                     </Motion>
                 )
             })}
-            {editID ? (
-                <SubmitForm
-                    editID={editID}
-                    setEditID={setEditID}
-                    setUserLinks={setUserLinks}
-                    userLinks={userLinks}
-                    originalArray={originalArray}
-                    setOriginalArray={setOriginalArray}
-                />
-            ) : (
-                ""
-            )}
         </>
     );
 };

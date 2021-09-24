@@ -9,9 +9,6 @@ use Illuminate\Http\Request;
 use App\Models\Link;
 use Illuminate\Support\Facades\Auth;
 
-use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Storage;
-
 class LinkController extends Controller
 {
 

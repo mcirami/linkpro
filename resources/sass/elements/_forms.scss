@@ -297,9 +297,8 @@ form .bottom_row a {
             }
 
             &.new_page_form {
-                top: -14px;
-                height: 600px;
-                min-height: unset;
+                align-items: flex-start;
+                -webkit-align-items: flex-start;
 
                 h3 {
                     font-size: 24px;

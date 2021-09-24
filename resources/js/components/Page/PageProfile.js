@@ -154,13 +154,15 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
                             </div>
                         }
                         <div className="bottom_section hidden">
-                            <ReactCrop
-                                src={upImg}
-                                onImageLoaded={onLoad}
-                                crop={crop}
-                                onChange={(c) => setCrop(c)}
-                                onComplete={(c) => setCompletedProfileCrop(c)}
-                            />
+                            <div className="crop_section">
+                                <ReactCrop
+                                    src={upImg}
+                                    onImageLoaded={onLoad}
+                                    crop={crop}
+                                    onChange={(c) => setCrop(c)}
+                                    onComplete={(c) => setCompletedProfileCrop(c)}
+                                />
+                            </div>
                             <div className="bottom_row">
                                 <button type="submit" className="button green" disabled={!profileFileName && true}>
                                     Save

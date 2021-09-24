@@ -6,7 +6,7 @@ import {IoIosLock} from 'react-icons/io';
 //const page_header_path  = user.page_header_path + "/";
 //const page_profile_path  = user.page_profile_path + "/";
 
-const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, completedProfileCrop, profileRef }) => {
+const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, completedProfileCrop, profileRef, iconRef, completedIconCrop}) => {
 
     //const { userLinks } = useContext(LinksContext);
     const { pageSettings, setPageSettings } = useContext(PageContext);

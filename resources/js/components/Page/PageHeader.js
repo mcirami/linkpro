@@ -158,13 +158,15 @@ const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileN
                             </div>
                         }
                         <div className="bottom_section hidden">
-                            <ReactCrop
-                                src={upImg}
-                                onImageLoaded={onLoad}
-                                crop={crop}
-                                onChange={(c) => setCrop(c)}
-                                onComplete={(c) => setCompletedCrop(c)}
-                            />
+                            <div className="crop_section">
+                                <ReactCrop
+                                    src={upImg}
+                                    onImageLoaded={onLoad}
+                                    crop={crop}
+                                    onChange={(c) => setCrop(c)}
+                                    onComplete={(c) => setCompletedCrop(c)}
+                                />
+                            </div>
                             <div className="bottom_row">
                                 <button type="submit" className="button green" disabled={!fileName && true}>
                                     Save

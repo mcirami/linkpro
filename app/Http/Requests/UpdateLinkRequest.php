@@ -24,8 +24,8 @@ class UpdateLinkRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'max:255',
-            'url' => 'url',
+            'name' => 'max:255|nullable',
+            'url' => 'url|nullable',
         ];
     }
 }
