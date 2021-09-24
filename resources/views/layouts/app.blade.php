@@ -54,9 +54,10 @@
                                     <a href="{{route('plans.get')}}">Upgrade</a>
                                 </li>
                             @endif
+                            @php $page = Auth::user()->pages()->firstWhere('user_id', Auth::user()->id); $image = $page['profile_img'];  @endphp
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="{{ Auth::user()->avatar ? : asset('images/profile-placeholder-img.png') }}" alt="User Profile"> {{ Auth::user()->username }}
+                                    <img src="{{ $image ? : asset('images/profile-placeholder-img.png') }}" alt="User Profile"> {{ Auth::user()->username }}
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">

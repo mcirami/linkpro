@@ -18,6 +18,10 @@ if (document.getElementById('root')) {
 if (document.getElementById('create_page')) {
     require('./components/Register/Index');
 }
+
+/*if (document.getElementById('profile_img')) {
+    require('./components/ProfileImage/Index');
+}*/
 //require('./components/Preview');
 
 
