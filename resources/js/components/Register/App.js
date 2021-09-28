@@ -1,5 +1,6 @@
 import CreatePageForm from './CreatePageForm';
 import React from 'react';
+import {Flash} from '../Flash';
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
 
                 </div>
             </div>
+            <Flash />
         </div>
 
     )

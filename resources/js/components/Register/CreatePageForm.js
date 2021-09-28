@@ -28,7 +28,10 @@ const CreatePageForm = () => {
             },
 
         ).catch(error => {
-            console.log("ERROR:: ", error.response.data);
+            const errorMessage = error.response.data.errors['name'][0];
+            EventBus.dispatch("error", {message: errorMessage});
+            //console.log("ERROR:: ", error.response.data.errors['name']);
+            //console.log(errorMessage);
 
         });
     };

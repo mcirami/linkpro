@@ -6,20 +6,28 @@
 <meta name="color-scheme" content="light">
 <meta name="supported-color-schemes" content="light">
 <style>
-@media only screen and (max-width: 600px) {
-.inner-body {
-width: 100% !important;
+
+@media only screen and (max-width: 768px) {
+    .inner-body {
+        max-width: 700px !important;
+    }
 }
 
-.footer {
-width: 100% !important;
-}
+@media only screen and (max-width: 600px) {
+
+    .inner-body {
+        max-width: 475px !important;
+    }
+
+    .footer {
+        width: 100% !important;
+    }
 }
 
 @media only screen and (max-width: 500px) {
-.button {
-width: 100% !important;
-}
+    .button {
+        width: 100% !important;
+    }
 }
 </style>
 </head>

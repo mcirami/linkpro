@@ -5,12 +5,12 @@ namespace App\Services;
 
 
 use App\Models\Page;
+use App\Notifications\WelcomeNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
-use function MongoDB\BSON\toJSON;
 
 class PageService {
 
@@ -23,10 +23,7 @@ class PageService {
     public function createNewPage($request) {
 
         $user = Auth::user();
-
-/*        $request->validate([
-            'name' => 'required|max:255|unique:pages',
-        ]);*/
+        $path = $request->session()->get('_previous');
 
         $name = preg_replace("/[\s_]/", "-", strtolower($request->name));
 
@@ -36,6 +33,16 @@ class PageService {
             'bio' => null,
             'is_protected' => false
         ]);
+
+        if(str_contains($path["url"], 'step-two')) {
+            $userData = ([
+                'username' => $user->username,
+                'link' => $name,
+                'siteUrl' => \URL::to('/') . "/"
+            ]);
+
+            $user->notify(new WelcomeNotification($userData));
+        }
 
         return $page;
     }

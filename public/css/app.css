@@ -11281,7 +11281,7 @@ textarea.form-control-lg {
 }
 @font-face {
   font-family: "opensansbold";
-  src: url("/css/fonts/opensans-bold-webfont.eot"), url("/css/fonts/opensans-bold-webfont.ttf") format("truetype"), url("/css/fonts/opensans-bold-webfont.woff2") format("woff2"), url("/css/fonts/opensans-bold-webfontt.woff") format("woff"), url("/css/fonts/opensans-bold-webfont.svg#opensansbold") format("svg");
+  src: url("/css/fonts/opensans-bold-webfont.eot"), url("/css/fonts/opensans-bold-webfont.ttf") format("truetype"), url("/css/fonts/opensans-bold-webfont.woff2") format("woff2"), url("/css/fonts/opensans-bold-webfont.woff") format("woff"), url("/css/fonts/opensans-bold-webfont.svg#opensansbold") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -11608,6 +11608,9 @@ button {
 .display_message .icon_wrap svg {
   width: 50px;
   height: 50px;
+}
+.display_message .icon_wrap .error {
+  color: #f24d1d;
 }
 .display_message .close {
   border-top: 1px solid #d2d2d2;

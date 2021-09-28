@@ -14,7 +14,7 @@ class MailController extends Controller
 
         return (new MailMessage)
             ->subject('Welcome To Link Pro!')
-            ->markdown('emails.welcome', ['data' => ['email' => 'mcirami@gmail.com', 'username' => 'mcirami'] ]);
+            ->markdown('emails.share', ['data' => ['username' => 'mcirami', 'link' => 'mcirmai', 'siteUrl' => 'http://0.0.0.0/'] ]);
         //return new WelcomeMail();
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Console\Commands\EmailInactiveUsers;
+use App\Console\Commands\EmailSocialShare;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -13,7 +15,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        EmailInactiveUsers::class,
+        EmailSocialShare::class,
     ];
 
     /**
@@ -24,7 +27,18 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        //$schedule->command('inspire')->hourly();
+        $schedule->command('emails:EmailInactiveUsers')
+            ->weekdays()
+            ->everyMinute()
+            ->emailOutputTo('mcirami@gmail.com');
+        //dailyAt('5:30');
+
+        $schedule->command('emails:EmailSocialShare')
+                 ->weekdays()
+                 ->everyMinute()
+                 ->emailOutputTo('mcirami@gmail.com');
+        //dailyAt('6:00');
     }
 
     /**

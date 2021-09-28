@@ -1,16 +1,17 @@
 @component('mail::message')
 # Welcome To Link Pro!
 
-We are glad you joined us. Get started now!
+<p class="sub_title">You're on your way to becoming a social icon!</p>
 
-Email: {{ $data['email'] }}
+<p>Keep your account details handy:</p>
+<p class="username">Username: <span>{{ $data['username'] }}</span></p>
 <br>
-Username: {{ $data['username'] }}
+Link: <a href="{{ $data['siteUrl'] }}{{ $data['link'] }}">link.pro/{{ $data['link'] }}</a>
 
-@component('mail::button', ['url' => 'https://link.pro'])
-Visit Site
+@component('mail::button', ['url' => $data['siteUrl'] ])
+Visit WebSite
 @endcomponent
 
 Thanks,<br>
-{{ config('app.name') }}
+<p class="signature">{{ config('app.name') }}</p>
 @endcomponent
