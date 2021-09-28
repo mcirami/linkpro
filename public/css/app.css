@@ -13345,12 +13345,7 @@ form .bottom_row a {
 .form_page.plans ul {
   list-style: none;
   padding-left: 0;
-  margin: 0;
-}
-@media all and (max-width: 992px) {
-  .form_page.plans ul {
-    margin: 0 auto;
-  }
+  margin: 0 auto;
 }
 .form_page.plans ul li {
   display: flex;

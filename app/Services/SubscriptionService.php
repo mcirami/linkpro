@@ -5,6 +5,9 @@ namespace App\Services;
 
 
 use App\Models\User;
+use App\Notifications\NotifyAboutCancelation;
+use App\Notifications\NotifyAboutUpgrade;
+use App\Notifications\WelcomeNotification;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Cashier\Billable;
 use Stripe\Stripe;
@@ -65,10 +68,25 @@ class SubscriptionService {
 
     public function newSubscription($request) {
 
+        $user = Auth::user();
+
         $request->user()->newSubscription(
             $request->level,
             $request->plan
         )->create($request->paymentMethod);
+
+        if ($request->level == "pro") {
+            $plan = "PRO";
+        } else {
+            $plan = "Corporate";
+        }
+
+        $userData = ([
+            'siteUrl' => \URL::to('/') . "/",
+            'plan' => $plan,
+        ]);
+
+        $user->notify(new NotifyAboutUpgrade($userData));
 
         return "Your plan has been changed to " . $request->level;
     }
@@ -84,9 +102,15 @@ class SubscriptionService {
         if($request->level == "corporate") {
             $message = "Your plan has been upgraded to the Corporate level";
             $user->subscriptions($activeSubs[0]->name)->update(['name' => "corporate"]);
+
+            $userData = ([
+                'siteUrl' => \URL::to('/') . "/",
+                'plan' => 'Corporate',
+            ]);
+            $user->notify(new NotifyAboutUpgrade($userData));
+
         } else {
             $message = "Your plan has been downgraded to the Pro level";
-            $user->subscriptions($activeSubs[0]->name)->update(['name' => "pro"]);
         }
 
         return $message;
@@ -96,6 +120,11 @@ class SubscriptionService {
         $user = Auth::user();
 
         $user->subscription($request->plan)->cancel();
+
+        $subscription = $user->subscriptions()->first();
+        $userData = (['end_data' => $subscription->ends_at->format('F j, Y')]);
+
+        $user->notify(new NotifyAboutCancelation($userData));
 
     }
 

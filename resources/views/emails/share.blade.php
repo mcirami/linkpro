@@ -1,19 +1,14 @@
 @component('mail::message')
-# Hi {{ $data['username'] }}!
+# Heya {{ $data['username'] }}!
 
-Thanks for using LinkPro!
+Are you taking advantage of the cool new link you created? <br>Make sure to post your unique LinkPro link:
 <br>
-We Just wanted to give you some tips on how to utilize your link as much as possible.
-We suggest you share your link on Facebook, Instagram, Tiktok and any other social media you use.
-<br>
-<br>
-Copy your link below and start sharing:
-<p>Link: <a href="{{ $data['siteUrl'] }}{{ $data['link'] }}">link.pro/{{ $data['link'] }}</a></p>
-
-@component('mail::button', ['url' => $data['siteUrl'] ])
-    Visit WebSite
+<p><a href="{{ $data['siteUrl'] }}{{ $data['link'] }}">{{ $data['siteUrl'] }}{{ $data['link'] }}</a></p>
+On all of your social pages.<br> Let your fans know where you are and what you are up to at all times!
+@component('mail::button', ['url' => $data['siteUrl'] . "login" ])
+    Login Now
 @endcomponent
 
-Thanks,<br>
-<p class="signature">{{ config('app.name') }}</p>
+<p class="sign_off">To your success!</p>
+<p class="signature">The LinkPro Team</p>
 @endcomponent

@@ -8,10 +8,10 @@
 <br>
 Link: <a href="{{ $data['siteUrl'] }}{{ $data['link'] }}">link.pro/{{ $data['link'] }}</a>
 
-@component('mail::button', ['url' => $data['siteUrl'] ])
-Visit WebSite
+@component('mail::button', ['url' => $data['siteUrl'] . "login" ])
+Login Now
 @endcomponent
 
-Thanks,<br>
-<p class="signature">{{ config('app.name') }}</p>
+<p class="sign_off">To your success!</p>
+<p class="signature">The LinkPro Team</p
 @endcomponent

@@ -1,18 +1,22 @@
 @component('mail::message')
-# Hi {{ $data['username'] }}!
-
-Looks like you created your link on LinkPro but you forgot to add icons. That was silly of you! ;p
+# Hey there fellow LinkPro Icon!
+<br>
+We don’t want to bug you but we noticed you haven’t published any of your social links in your account. Need some help? Follow the link below to learn the process!
+<br>
+<a href="{{ $data['siteUrl'] }}setup">{{ $data['siteUrl'] }}setup</a>
+<br>
 <br>
 To refresh your memory, here are your account details:
+<br>
 <p class="username">Username: <span>{{ $data['username'] }}</span></p>
-<p>Link: <a href="{{ $data['siteUrl'] }}{{ $data['link'] }}">link.pro/{{ $data['link'] }}</a></p>
+<p>Link: <a href="{{ $data['siteUrl'] }}{{ $data['link'] }}">{{ $data['siteUrl'] }}{{ $data['link'] }}</a></p>
 
-We hope to see you in there soon to put your awesome link to use!
+Happy page building!
 
-@component('mail::button', ['url' => $data['siteUrl'] ])
-    Visit WebSite
+@component('mail::button', ['url' => $data['siteUrl'] . "login" ])
+    Login Now
 @endcomponent
 
-Thanks,<br>
-<p class="signature">{{ config('app.name') }}</p>
+<p class="sign_off">To your success!</p>
+<p class="signature">The LinkPro Team</p>
 @endcomponent

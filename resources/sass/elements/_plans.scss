@@ -40,11 +40,7 @@
         ul {
             list-style: none;
             padding-left: 0;
-            margin: 0;
-
-            @media all and (max-width: 992px) {
-                margin: 0 auto;
-            }
+            margin: 0 auto;
 
             li {
                 display: -webkit-box;
