@@ -351,6 +351,15 @@ form .bottom_row a {
 
 .form_page.checkout {
 
+    #payment-form {
+        padding: 0 40px;
+
+        .braintree-sheet__content--form .braintree-form__field-group label {
+            width: 100%;
+        }
+
+    }
+
     h3 {
         margin-bottom: 40px;
 
@@ -396,7 +405,24 @@ form .bottom_row a {
         }
     }
 
-    .credit_card_form {
+    .braintree-options-list {
+        @include boxShadow;
+        padding-bottom: 0;
+    }
+
+    .braintree-option {
+        background: $white;
+        border: none;
+        margin-bottom: 10px;
+    }
+
+    .braintree-sheet {
+        @include boxShadow;
+        border: none;
+    }
+
+
+    /*.credit_card_form {
         padding-left: 50px;
 
         @media all and (max-width: 768px) {
@@ -474,7 +500,7 @@ form .bottom_row a {
         cursor: default;
     }
 
-    /* spinner/processing state, errors */
+    !* spinner/processing state, errors *!
     .spinner,
     .spinner:before,
     .spinner:after {
@@ -542,6 +568,6 @@ form .bottom_row a {
             -webkit-transform: rotate(360deg);
             transform: rotate(360deg);
         }
-    }
+    }*/
 
 }

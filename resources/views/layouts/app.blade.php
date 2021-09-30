@@ -11,7 +11,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('/js/app.js') }}" defer></script>
-
+    <script src="https://js.braintreegateway.com/web/dropin/1.31.2/js/dropin.min.js"></script>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -49,11 +49,11 @@
                                 </li>
                             @endif
                         @else
-                            @if(!Auth::user()->subscription('corporate'))
+                            {{--@if(!Auth::user()->subscription('corporate'))
                                 <li class="nav-item">
                                     <a href="{{route('plans.get')}}">Upgrade</a>
                                 </li>
-                            @endif
+                            @endif--}}
                             @php $page = Auth::user()->pages()->firstWhere('user_id', Auth::user()->id); $image = $page['profile_img'];  @endphp
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

@@ -9,12 +9,13 @@ use App\Notifications\NotifyAboutCancelation;
 use App\Notifications\NotifyAboutUpgrade;
 use App\Notifications\WelcomeNotification;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Cashier\Billable;
-use Stripe\Stripe;
+//use Laravel\Cashier\Billable;
+//use Stripe\Stripe;
+use Braintree\Gateway;
 
 class SubscriptionService {
 
-    use Billable;
+    //use Billable;
 
     /*protected $user;
 
@@ -29,7 +30,16 @@ class SubscriptionService {
 
     public function showPurchasePage() {
 
-        Stripe::setApiKey(env("STRIPE_SECRET"));
+        $gateway = new Gateway([
+            'environment' => config('services.braintree.environment'),
+            'merchantId' => config('services.braintree.merchantId'),
+            'publicKey' => config('services.braintree.publicKey'),
+            'privateKey' => config('services.braintree.privateKey')
+        ]);
+
+        $token = $gateway->ClientToken()->generate();
+
+        /*Stripe::setApiKey(env("STRIPE_SECRET"));
 
         $plan = isset($_GET["plan"]) ? $_GET["plan"] : null;
         $intent = auth()->user()->createSetupIntent();
@@ -49,6 +59,20 @@ class SubscriptionService {
             'plan' => $plan,
             'intent' => $intent,
             'paymentIntent' => $paymentIntent,
+        ];*/
+
+        $plan = isset($_GET["plan"]) ? $_GET["plan"] : null;
+
+        if ($plan == "pro") {
+            $amount = 4.99;
+        } else {
+            $amount = 19.99;
+        }
+
+        $data = [
+            'plan' => $plan,
+            'token' => $token,
+            'amount' => $amount
         ];
 
         return $data;
@@ -70,25 +94,116 @@ class SubscriptionService {
 
         $user = Auth::user();
 
-        $request->user()->newSubscription(
+       /* $request->user()->newSubscription(
             $request->level,
             $request->plan
-        )->create($request->paymentMethod);
+        )->create($request->paymentMethod);*/
 
-        if ($request->level == "pro") {
-            $plan = "PRO";
-        } else {
-            $plan = "Corporate";
-        }
 
-        $userData = ([
-            'siteUrl' => \URL::to('/') . "/",
-            'plan' => $plan,
+        $gateway = new Gateway([
+            'environment' => config('services.braintree.environment'),
+            'merchantId' => config('services.braintree.merchantId'),
+            'publicKey' => config('services.braintree.publicKey'),
+            'privateKey' => config('services.braintree.privateKey')
         ]);
 
-        $user->notify(new NotifyAboutUpgrade($userData));
+        $nonce = $request->payment_method_nonce;
 
-        return "Your plan has been changed to " . $request->level;
+        $customer = $gateway->customer()->create([
+           'firstName' => 'Billy',
+           'lastName' => "Bob",
+           'email' => $user->email,
+           'paymentMethodNonce' => $nonce
+        ]);
+
+        if ($customer->success) {
+
+            $result = $gateway->subscription()->create([
+                'paymentMethodToken' => $customer->customer->paymentMethods[0]->token,
+                'planId' => $request->planId,
+            ]);
+
+            if ($result->success) {
+                //$transaction = $result->transaction;
+                // header("Location: transaction.php?id=" . $transaction->id);
+
+                //return back()->with('success_message', 'Transaction successful. The ID is:'. $transaction->id);
+                $message = "Your plan has been changed to " . $request->level;
+
+                $user->subscriptions()->create([
+                    'name' => $result->subscription->planId,
+                    'braintree_id' => $result->subscription->id,
+                    'braintree_status' => $result->subscription->status,
+                ]);
+
+                $paymentClass = strtolower(get_class($customer->customer->paymentMethods[0]));
+
+                if (str_contains($paymentClass, "creditcard")) {
+                    $paymentMethod = $customer->customer->paymentMethods[0]->cardType;
+                    $user->pm_last_four = $customer->customer->paymentMethods[0]->last4;
+                } elseif (str_contains($paymentClass, "paypal")) {
+                    $paymentMethod = "paypal";
+                    $user->pm_last_four = NULL;
+                }
+
+                $user->pm_type = $paymentMethod;
+                $user->braintree_id = $result->subscription->id;
+                $user->save();
+
+                if ($request->level == "pro") {
+                    $plan = "PRO";
+                } else {
+                    $plan = "Corporate";
+                }
+
+                $userData = ([
+                    'siteUrl' => \URL::to('/') . "/",
+                    'plan' => $plan,
+                ]);
+
+                $user->notify(new NotifyAboutUpgrade($userData));
+
+                return $message;
+
+            } else {
+                $errorString = "";
+
+                foreach ($result->errors->deepAll() as $error) {
+                    $errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
+                }
+
+                // $_SESSION["errors"] = $errorString;
+                // header("Location: index.php");
+                return back()->withErrors('An error occurred with the message: '. $result->message);
+            }
+
+        } else {
+            foreach($customer->errors->deepAll() AS $error) {
+                echo($error->code . ": " . $error->message . "\n");
+            }
+        }
+
+        /***
+         *
+         * $customer->paymentMethods[0]->token;
+        *  $customer->paymentMethods[0]->last4;
+         *
+         */
+
+
+        /*$result = $gateway->transaction()->sale([
+            'amount' => $amount,
+            'paymentMethodNonce' => $nonce,
+            'customer' => [
+                'firstName' => 'Tony',
+                'lastName' => 'Stark',
+                'email' => $user->email,
+            ],
+            'options' => [
+                'submitForSettlement' => true
+            ]
+        ]);*/
+
     }
 
     public function updateSubscription($request) {

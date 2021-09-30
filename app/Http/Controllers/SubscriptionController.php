@@ -5,25 +5,29 @@ namespace App\Http\Controllers;
 use App\Services\SubscriptionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Cashier\Billable;
+//use Laravel\Cashier\Billable;
 
 
 class SubscriptionController extends Controller
 {
-    use Billable;
+    //use Billable;
 
     public function purchase(SubscriptionService $subscriptionService) {
 
         $data = $subscriptionService->showPurchasePage();
 
-        return view('subscription.index', [ 'intent' => $data['intent'], 'plan' => $data['plan'], 'paymentIntent' => $data['paymentIntent'] ]);
+        //return view('subscription.index', [ 'intent' => $data['intent'], 'plan' => $data['plan'], 'paymentIntent' => $data['paymentIntent'] ]);
+
+        return view('subscription.index', [ 'plan' => $data['plan'], 'token' => $data['token'], 'amount' => $data["amount"] ]);
     }
 
     public function store(Request $request, SubscriptionService $subscriptionService) {
 
         $message = $subscriptionService->newSubscription($request);
 
-        return view('pages.edit', ['success' => $message]);
+        $user = Auth::user();
+        $page = $user->pages()->firstWhere('user_id', $user["id"]);
+        return redirect()->route('pages.edit', [$page])->with(['success' => $message]);
     }
 
     public function changePlan(Request $request, SubscriptionService $subscriptionService) {

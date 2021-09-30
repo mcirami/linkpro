@@ -7,10 +7,13 @@
     <small>&copy; Copyright Link Pro LLC | All Rights Reserved</small>
 </footer>
 
-<script src="https://js.stripe.com/v3/"></script>
+{{--<script src="https://js.stripe.com/v3/"></script>--}}
+
+
 <script>
     window.onload = function() {
-        var stripe = Stripe('{{ env("STRIPE_KEY") }}', { locale: 'en' });
+
+        /*var stripe = Stripe('{{ env("STRIPE_KEY") }}', { locale: 'en' });
         var elements = stripe.elements();
         let form = document.getElementById('payment-form');
         const cardHolderName = document.getElementById('cardholder-name');
@@ -152,7 +155,7 @@
             hiddenInput.setAttribute('value', setupIntent.payment_method);
             form.appendChild(hiddenInput);
 
-            /*let planLevel = document.querySelector('#cc_plan').value;
+            /!*let planLevel = document.querySelector('#cc_plan').value;
 
             var hiddenInputLevel = document.createElement('input');
             hiddenInputLevel.setAttribute('type', 'hidden');
@@ -164,11 +167,13 @@
             hiddenInput.setAttribute('type', 'hidden');
             hiddenInput.setAttribute('name', 'plan');
             hiddenInput.setAttribute('value', planAmount);
-            buttonForm.appendChild(hiddenPlanInput);*/
+            buttonForm.appendChild(hiddenPlanInput);*!/
 
             // Submit the form
             form.submit();
-        }
+        }*/
+
+
     }
 
 </script>

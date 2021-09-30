@@ -7,7 +7,7 @@
             <div class="card">
                 <h2 class="page_title mb-0">Upgrade to <span class="text-capitalize">{{$plan}}</span> For Only </h2>
                 <div class="pricing m-0">
-                    <h3><sup>$</sup>{{ $plan == "pro" ? '4.99' : '19.99'}}<span>/ mo</span></h3>
+                    <h3><sup>$</sup>{{ $amount ?? '' }}<span>/ mo</span></h3>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -80,7 +80,60 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-6 credit_card_form order-md-1 order-0">
-                            <form id="payment-button-form" action="{{ route('subscribe.post') }}" method="post" data-secret="{{ $paymentIntent->client_secret }}">
+                            @if (count($errors) > 0)
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            <form method="post" id="payment-form" action="{{ route('subscribe.post') }}">
+                                @csrf
+                                <section>
+                                    <input type="hidden" name="level" value="{{ $plan }}">
+                                    <input type="hidden" name="planId" value="{{ $plan == 'pro' ?  'LP_PRO' : 'LP_CORP'}}">
+                                    <div class="bt-drop-in-wrapper">
+                                        <div id="bt-dropin"></div>
+                                    </div>
+                                </section>
+
+                                <input id="nonce" name="payment_method_nonce" type="hidden" />
+                                <button class="button blue" type="submit"><span>Submit</span></button>
+                            </form>
+
+                            <script>
+                                var form = document.querySelector('#payment-form');
+                                var client_token = "{{ $token }}";
+                                braintree.dropin.create({
+                                    authorization: client_token,
+                                    selector: '#bt-dropin',
+                                    paypal: {
+                                        flow: 'vault'
+                                    }
+                                }, function (createErr, instance) {
+                                    if (createErr) {
+                                        console.log('Create Error', createErr);
+                                        return;
+                                    }
+                                    form.addEventListener('submit', function (event) {
+                                        event.preventDefault();
+                                        instance.requestPaymentMethod(function (err, payload) {
+                                            if (err) {
+                                                console.log('Request Payment Method Error', err);
+                                                return;
+                                            }
+                                            // Add the nonce to the form and submit
+                                            document.querySelector('#nonce').value = payload.nonce;
+                                            form.submit();
+                                        });
+                                    });
+                                });
+                            </script>
+
+                            {{--<form id="payment-button-form" action="{{ route('subscribe.post') }}" method="post" data-secret="{{ $paymentIntent->client_secret }}">
                                 @csrf
                                 <input type="hidden" id="amount" name="amount" value="{{ $paymentIntent->amount }}">
                                 <input type="hidden" name="plan" value="{{ $plan == "pro" ? 'price_1JS1p5GIBktjIJUPjG5ksGFb' : 'price_1JS1qkGIBktjIJUPVSjN20LH' }}">
@@ -109,7 +162,7 @@
                                     <div class="spinner hidden" id="spinner"></div>
                                     Pay With Credit Card
                                 </button>
-                            </form>
+                            </form>--}}
                         </div>
                     </div>
 

@@ -50,7 +50,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/register/step-two', [PageController::class, 'showCreatePage'])->name('create.page');
     Route::get('/email', [MailController::class, 'sendEmail']);
 
-    Route::post('/subscribe', [SubscriptionController::class, 'store'])->name('subscribe.post');
+    Route::post('/subscribe/create', [SubscriptionController::class, 'store'])->name('subscribe.post');
     Route::post('/subscribe/cancel', [SubscriptionController::class, 'cancel'])->name('subscribe.cancel');
     Route::post('/subscribe/resume', [SubscriptionController::class, 'resume'])->name('subscribe.resume');
     Route::post('/change-plan', [SubscriptionController::class, 'changePlan'])->name('subscribe.change.plan');

@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Services\LinkService;
-use App\Services\PageService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,12 +10,12 @@ use App\Models\Link as Link;
 use App\Models\Page as Page;
 use function Illuminate\Events\queueable;
 
-use Laravel\Cashier\Billable;
+//use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasApiTokens, Billable;
+    use HasFactory, Notifiable, HasApiTokens; //Billable;
 
     /**
      * The attributes that are mass assignable.
@@ -58,9 +56,9 @@ class User extends Authenticatable
      */
     protected static function booted()
     {
-        static::updated(queueable(function ($customer) {
+        /*static::updated(queueable(function ($customer) {
             $customer->syncStripeCustomerDetails();
-        }));
+        }));*/
 
     }
 
@@ -79,6 +77,11 @@ class User extends Authenticatable
     public function visits() {
         return $this->hasManyThrough(Visit::class, Link::class);
     }
+
+    public function subscriptions() {
+        return $this->hasOne(Subscription::class);
+    }
+
 
     /*public function getRouteKeyName() {
         return 'username';
