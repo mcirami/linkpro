@@ -106,10 +106,8 @@ const AddLink = ({userLinks, setUserLinks, originalArray, setOriginalArray }) =>
 
     return (
         <div className="add_more_icons">
-            <div className="col_left">
-                <div className="icon_wrap" onClick={handleClick}>
-                    <ImPlus />
-                </div>
+            <div className="icon_wrap" onClick={handleClick}>
+                <ImPlus />
                 <h3>Add More Icons</h3>
             </div>
         </div>

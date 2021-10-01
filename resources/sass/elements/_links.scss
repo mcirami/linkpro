@@ -230,23 +230,23 @@
         }
 
         &.add_icons {
-            padding: 20px 3%;
+            padding: 0 3%;
             min-height: 800px;
 
             @media all and (max-width: 1199px) {
-                padding: 10px 4%;
+                padding: 0 4%;
             }
 
             @media all and (max-width: 992px) {
-                padding: 10px 2%;
+                padding: 0 2%;
             }
 
             @media all and (max-width: 768px) {
-                padding: 10px 3% 10px 1.5%;
+                padding: 0 3% 0 1.5%;
             }
 
             @media all and (max-width: 550px) {
-                padding: 10px 3% 10px 3.5%;
+                padding: 0 3% 0 3.5%;
             }
 
         }
@@ -431,21 +431,28 @@
 }
 
 .add_more_icons {
-    @include boxShadow;
     padding: 0 40px;
-    margin: 40px 7% 0 7%;
-    border-radius: 20px;
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
+    width: 100%;
+    margin-top: 20px;
+    display: inline-block;
 
     @media all and (max-width: 550px) {
         padding: 0 30px;
-        margin: 15px 25px 0 25px;
     }
 
-    .col_left {
-        width: 90%;
-        padding: 40px 0;
+    h3 {
+        color: $blue;
+        margin-left: 10px;
+        margin-bottom: 0;
+        font-size: 18px;
+
+        @media all and (max-width: 550px) {
+            font-size: 16px;
+        }
+    }
+
+    .icon_wrap {
+        width: 100%;
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
@@ -459,42 +466,18 @@
         -webkit-align-items: center;
         justify-content: flex-start;
         -webkit-justify-content: flex-start;
-        border-right: 1px solid $lightGray;
+        color: $blue;
 
-        @media all and (max-width: 550px) {
-            width: 95%;
-            padding: 25px 0;
+        &:hover {
+            cursor: pointer;
         }
 
-        h3 {
-            color: $blue;
-            margin-left: 20px;
-            margin-bottom: 0;
-            font-size: 20px;
-
-            @media all and (max-width: 550px) {
-                font-size: 20px;
-            }
-        }
-
-        .icon_wrap {
-            background: $darkGray;
-            border-radius: 20px;
-            -webkit-border-radius: 20px;
-            -moz-border-radius: 20px;
-            padding: 5%;
-            color: $white;
-
-            &:hover {
-                cursor: pointer;
-            }
-
-            svg {
-                width: 30px;
-                height: 30px;
-            }
+        svg {
+            width: 15px;
+            height: 15px;
         }
     }
+
 }
 
 .crop_section {
