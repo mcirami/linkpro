@@ -13627,6 +13627,9 @@ form .bottom_row a {
   height: auto;
   justify-content: flex-end;
 }
+.form_page .my_row.three_columns .column .canceled_text p {
+  color: #f24d1d;
+}
 .form_page .my_row.three_columns .column .canceled_text p span {
   font-family: "opensanssemibold", sans-serif;
 }

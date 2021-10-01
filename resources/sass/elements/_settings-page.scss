@@ -159,6 +159,7 @@
 
             .canceled_text {
                 p {
+                    color:$red;
 
                     span {
                         @include ossemibold;

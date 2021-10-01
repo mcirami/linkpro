@@ -11,7 +11,15 @@
                 @else
                     <h2 class="page_title">Upgrade Now For Advanced Features!</h2>
                 @endif
-
+                @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="card-body">
                     <div class="my_row three_columns">
                         <div class="column pro">

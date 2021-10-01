@@ -5,6 +5,15 @@
         <div class="my_row form_page plans">
             <div class="card">
                 <h2 class="page_title">Update Account Settings</h2>
+                @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="card-body">
                     <div class="my_row three_columns {{!$subscription ? "two_columns" : ""}}">
                         <div class="column">
@@ -71,14 +80,15 @@
                                     <p class="text-capitalize">{{ $subscription->name }}</p>
                                     <img src="{{ asset('../images/plan-type-bg.png') }}" alt="">
                                 </div>
-                                @if($subscription->ends_at)
-                                    <div class="canceled_text">
-                                        <p>Your subscrition has been cancelled. It will end on: <span>{{$subscription->ends_at->format('F j, Y')}}</span></p>
-                                    </div>
-                                    <button class="open_popup button green" data-plan="{{ $subscription->name }}" data-type="resume">Resume Subscription</button>
-                                @else
-                                    <a href="#" class="open_popup cancel_link" data-plan="{{ $subscription->name }}" data-type="cancel">Cancel Subscription</a>
-                                @endif
+                                <a href="#" class="open_popup cancel_link" data-plan="{{ $subscription->braintree_id }}" data-type="cancel">Cancel Subscription</a>
+                            @elseif($subscription->ends_at > \Carbon\Carbon::now())
+                                <div class="plan_name">
+                                    <p class="text-capitalize">{{ $subscription->name }}</p>
+                                    <img src="{{ asset('../images/plan-type-bg.png') }}" alt="">
+                                </div>
+                                <div class="canceled_text">
+                                    <p>Your subscrition has been cancelled. It will end on: <span>{{ \Carbon\Carbon::createFromDate($subscription->ends_at)->format('F j, Y') }}</span></p>
+                                </div>
                             @else
                                 <div class="plan_name">
                                     <p>Free</p>
@@ -95,7 +105,7 @@
                                         Downgrade My Plan
                                     </button>
                                 @endif
-                            @else
+                            @elseif ($subscription->braintree_status != "cancelled")
                                 <a class="button blue" href="{{ route('plans.get') }}">
                                     Change My Plan
                                 </a>
@@ -108,7 +118,7 @@
                                     @csrf
                                     <h4>Your current payment type is</h4>
                                     @if ($payment_method == "card")
-                                        <div class="form-group row form_inputs">
+                                        <div class="form-group row form_inputs mt-0">
                                             <div class="col-12 p-0">
                                                 <input type="text" value="" placeholder="xxxx xxxx xxxx {{$user["pm_last_four"]}}">
                                                 @error('password')

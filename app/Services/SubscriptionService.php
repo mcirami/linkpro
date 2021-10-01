@@ -135,7 +135,7 @@ class SubscriptionService {
                 $user->subscriptions()->create([
                     'name' => $result->subscription->planId,
                     'braintree_id' => $result->subscription->id,
-                    'braintree_status' => $result->subscription->status,
+                    'braintree_status' => strtolower($result->subscription->status),
                 ]);
 
                 $paymentClass = strtolower(get_class($customer->customer->paymentMethods[0]));
@@ -241,6 +241,16 @@ class SubscriptionService {
                 ]);
 
                 $user->notify(new NotifyAboutUpgrade($userData));
+            } else {
+                $errorString = "";
+
+                foreach ($result->errors->deepAll() as $error) {
+                    $errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
+                }
+
+                // $_SESSION["errors"] = $errorString;
+                // header("Location: index.php");
+                return back()->withErrors('An error occurred with the message: '. $result->message);
             }
 
             $message = "Your plan has been upgraded to the Corporate level";
@@ -261,6 +271,16 @@ class SubscriptionService {
                 ]);
 
                 $user->notify(new NotifyAboutUpgrade($userData));*/
+            } else {
+                $errorString = "";
+
+                foreach ($result->errors->deepAll() as $error) {
+                    $errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
+                }
+
+                // $_SESSION["errors"] = $errorString;
+                // header("Location: index.php");
+                return back()->withErrors('An error occurred with the message: '. $result->message);
             }
 
             $message = "Your plan has been downgraded to the Pro level";
@@ -272,12 +292,42 @@ class SubscriptionService {
     public function cancelSubscription($request) {
         $user = Auth::user();
 
-        $user->subscription($request->plan)->cancel();
+        $gateway = new Gateway([
+            'environment' => config('services.braintree.environment'),
+            'merchantId' => config('services.braintree.merchantId'),
+            'publicKey' => config('services.braintree.publicKey'),
+            'privateKey' => config('services.braintree.privateKey')
+        ]);
 
-        $subscription = $user->subscriptions()->first();
-        $userData = (['end_data' => $subscription->ends_at->format('F j, Y')]);
+        $result = $gateway->subscription()->cancel($request->plan);
 
-        $user->notify(new NotifyAboutCancelation($userData));
+        if ($result->success) {
+            $subscription = $user->subscriptions()->first();
+            $subscription->braintree_status = strtolower($result->subscription->status);
+            $subscription->ends_at = $result->subscription->billingPeriodEndDate;
+            $subscription->save();
+
+            $userData = (['end_data' => $result->subscription->billingPeriodEndDate->format('F j, Y')]);
+
+            $user->notify(new NotifyAboutCancelation($userData));
+
+            /*$userData = ([
+                'siteUrl' => \URL::to('/') . "/",
+                'plan' => 'Corporate',
+            ]);
+
+            $user->notify(new NotifyAboutUpgrade($userData));*/
+        } else {
+            $errorString = "";
+
+            foreach ($result->errors->deepAll() as $error) {
+                $errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
+            }
+
+            // $_SESSION["errors"] = $errorString;
+            // header("Location: index.php");
+            return back()->withErrors('An error occurred with the message: '. $result->message);
+        }
 
     }
 
