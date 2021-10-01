@@ -6,7 +6,7 @@ import {PageContext} from '../App';
 
 let pageNames = user.pageNames;
 
-const PageName = ({allUserPages, setAllUserPages, page}) => {
+const PageName = () => {
 
     const { pageSettings, setPageSettings } = useContext(PageContext);
 
@@ -30,6 +30,11 @@ const PageName = ({allUserPages, setAllUserPages, page}) => {
                 const returnMessage = JSON.stringify(response.data.message);
                 EventBus.dispatch("success", { message: returnMessage });
                 //setIsEditing(false)
+                setPageSettings({
+                        ...pageSettings,
+                        name: name
+                    }
+                )
             }
         )
         .catch( (error) => {
@@ -42,36 +47,20 @@ const PageName = ({allUserPages, setAllUserPages, page}) => {
         let value = e.target.value.toLowerCase().replace(/\s/g, '-');
         const match = pageNames.indexOf(value);
 
-        if (match < 0 && value !== "" || value === pageSettings["name"]) {
+        if (value.length > 2 && value === pageSettings["name"]) {
             setAvailability(true);
-
-            if (value !== pageSettings["name"]) {
-                setCurrentMatch(false);
-            } else{
-                setCurrentMatch(true);
-            }
+            setCurrentMatch(true);
+        } else if (match < 0 && value.length > 2) {
+            setAvailability(true);
+            setCurrentMatch(false);
         } else {
             setAvailability(false);
+            setCurrentMatch(false);
         }
 
-        setName(value)
-        /*setAllUserPages(
-            allUserPages.map((item) => {
-                if (item.id === page['id']) {
-                    return {
-                        ...item,
-                        name: value,
-                    };
-                }
-                return item;
-            })
-        )*/
-        setPageSettings({
-                ...pageSettings,
-                name: value
-            }
-        )
+        setName(value);
     }
+    console.log(currentMatch);
 
     return (
 
@@ -89,21 +78,27 @@ const PageName = ({allUserPages, setAllUserPages, page}) => {
                     />
 
                    {available ?
-                       <a className="submit_circle" href="#"
-                          onClick={(e) => handleSubmit(e)}
-                       >
-                           <FiThumbsUp />
-                       </a>
+                       <div>
+                           {currentMatch ?
+                               <p className="status">Current</p>
+                               :
+                               <div>
+                                   <a className="submit_circle" href="#"
+                                      onClick={(e) => handleSubmit(e)}
+                                   >
+                                       <FiThumbsUp />
+                                   </a>
+                                   <p className="status">Available</p>
+                               </div>
+                           }
+                       </div>
                        :
-                       <span className="cancel_icon">
-                           <FiThumbsDown />
-                       </span>
-                   }
-
-                   {available ?
-                       <p className="status" >{currentMatch ? "" : "Available"}</p>
-                       :
-                       <p className="status not_available">Not Available</p>
+                       <div>
+                           <span className="cancel_icon">
+                               <FiThumbsDown />
+                           </span>
+                           <p className="status not_available">Not Available</p>
+                       </div>
                    }
 
                </form>

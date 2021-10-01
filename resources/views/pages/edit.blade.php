@@ -13,7 +13,6 @@
                     </svg>
                 </div>
                 <p>{{ session()->get('success')}}</p>
-                <span class="close"><strong>CLOSE</strong></span>
             </div>
         @endif
 

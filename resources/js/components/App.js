@@ -98,11 +98,7 @@ function App() {
 
                     <div className="content_wrap">
                         <div className="top_section">
-                            <PageName
-                                allUserPages={allUserPages}
-                                setAllUserPages={setAllUserPages}
-                                page={page}
-                            />
+                            <PageName />
 
                             <PasswordProtect />
 

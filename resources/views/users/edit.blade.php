@@ -97,11 +97,11 @@
                             @endif
                             @if($subscription && $subscription->braintree_status == "active")
                                 @if($subscription->name == "pro")
-                                    <button class="open_popup button blue" data-type="upgrade" data-level="corporate" data-plan="price_1JS1qkGIBktjIJUPVSjN20LH">
+                                    <button class="open_popup button blue" data-type="upgrade" data-level="corporate">
                                         Upgrade My Plan
                                     </button>
                                 @elseif($subscription->name == "corporate")
-                                    <button class='button blue open_popup' data-type="downgrade" data-level="pro" data-plan="price_1JS1p5GIBktjIJUPjG5ksGFb">
+                                    <button class='button blue open_popup_choose' data-plan="{{ $subscription->braintree_id }}">
                                         Downgrade My Plan
                                     </button>
                                 @endif
@@ -159,10 +159,11 @@
                 </svg>
             </div>
             <p>{{ session()->get('success')}}</p>
-            <span class="close"><strong>CLOSE</strong></span>
         </div>
     @endif
 
-    @include('layouts.popup')
+    @include('layouts.popup');
+
+    @include('layouts.popupChooseLevel');
 
 @endsection

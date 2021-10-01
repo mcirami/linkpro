@@ -96,12 +96,6 @@ class SubscriptionService {
 
         $user = Auth::user();
 
-       /* $request->user()->newSubscription(
-            $request->level,
-            $request->plan
-        )->create($request->paymentMethod);*/
-
-
         $gateway = new Gateway([
             'environment' => config('services.braintree.environment'),
             'merchantId' => config('services.braintree.merchantId'),
@@ -112,8 +106,6 @@ class SubscriptionService {
         $nonce = $request->payment_method_nonce;
 
         $customer = $gateway->customer()->create([
-           'firstName' => 'Billy',
-           'lastName' => "Bob",
            'email' => $user->email,
            'paymentMethodNonce' => $nonce
         ]);
@@ -130,7 +122,6 @@ class SubscriptionService {
                 // header("Location: transaction.php?id=" . $transaction->id);
 
                 //return back()->with('success_message', 'Transaction successful. The ID is:'. $transaction->id);
-                $message = "Your plan has been changed to " . $request->level;
 
                 $user->subscriptions()->create([
                     'name' => $result->subscription->planId,
@@ -166,7 +157,7 @@ class SubscriptionService {
 
                 $user->notify(new NotifyAboutUpgrade($userData));
 
-                return $message;
+                $message = "Your plan has been changed to " . $request->level;
 
             } else {
                 $errorString = "";
@@ -184,28 +175,11 @@ class SubscriptionService {
             foreach($customer->errors->deepAll() AS $error) {
                 echo($error->code . ": " . $error->message . "\n");
             }
+
+            return back()->withErrors('An error occurred with the message: '. $customer->message);
         }
 
-        /***
-         *
-         * $customer->paymentMethods[0]->token;
-        *  $customer->paymentMethods[0]->last4;
-         *
-         */
-
-
-        /*$result = $gateway->transaction()->sale([
-            'amount' => $amount,
-            'paymentMethodNonce' => $nonce,
-            'customer' => [
-                'firstName' => 'Tony',
-                'lastName' => 'Stark',
-                'email' => $user->email,
-            ],
-            'options' => [
-                'submitForSettlement' => true
-            ]
-        ]);*/
+       return $message;
 
     }
 
@@ -223,8 +197,6 @@ class SubscriptionService {
             'privateKey' => config('services.braintree.privateKey')
         ]);
 
-
-
         if($request->level == "corporate") {
 
             $result = $gateway->subscription()->update($activeSubs->braintree_id, [
@@ -241,6 +213,7 @@ class SubscriptionService {
                 ]);
 
                 $user->notify(new NotifyAboutUpgrade($userData));
+
             } else {
                 $errorString = "";
 
@@ -307,7 +280,10 @@ class SubscriptionService {
             $subscription->ends_at = $result->subscription->billingPeriodEndDate;
             $subscription->save();
 
-            $userData = (['end_date' => $result->subscription->billingPeriodEndDate->format('F j, Y')]);
+            $userData = ([
+                'siteUrl' => \URL::to('/') . "/",
+                'end_date' => $result->subscription->billingPeriodEndDate->format('F j, Y'),
+            ]);
 
             $user->notify(new NotifyAboutCancelation($userData));
 

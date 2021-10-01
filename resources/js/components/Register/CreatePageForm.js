@@ -40,7 +40,7 @@ const CreatePageForm = () => {
         let value = e.target.value.toLowerCase().replace(/\s/g, '-');
         const match = pageNames.indexOf(value);
 
-        if (match < 0 && value !== "") {
+        if (match < 0 && value.length > 2) {
             setAvailability(true);
         } else {
             setAvailability(false);

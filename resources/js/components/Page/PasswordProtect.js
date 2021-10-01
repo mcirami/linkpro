@@ -69,6 +69,7 @@ const PasswordProtect = () => {
                     returnMessage = "Page Password Enabled";
                 } else {
                     returnMessage = "Page Password Disabled";
+                    setIsEditing(false);
                 }
                 EventBus.dispatch("success", { message: returnMessage });
                 setPageSettings({
