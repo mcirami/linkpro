@@ -81,7 +81,7 @@
                                     <img src="{{ asset('../images/plan-type-bg.png') }}" alt="">
                                 </div>
                                 <a href="#" class="open_popup cancel_link" data-plan="{{ $subscription->braintree_id }}" data-type="cancel">Cancel Subscription</a>
-                            @elseif($subscription->ends_at > \Carbon\Carbon::now())
+                            @elseif($subscription && $subscription->ends_at > \Carbon\Carbon::now())
                                 <div class="plan_name">
                                     <p class="text-capitalize">{{ $subscription->name }}</p>
                                     <img src="{{ asset('../images/plan-type-bg.png') }}" alt="">
@@ -96,7 +96,7 @@
                                 </div>
                             @endif
                             @if($subscription && $subscription->braintree_status == "active")
-                                @if($subscription->name == "pro" && !$subscription->ends_at)
+                                @if($subscription->name == "pro")
                                     <button class="open_popup button blue" data-type="upgrade" data-level="corporate" data-plan="price_1JS1qkGIBktjIJUPVSjN20LH">
                                         Upgrade My Plan
                                     </button>
@@ -105,7 +105,8 @@
                                         Downgrade My Plan
                                     </button>
                                 @endif
-                            @elseif ($subscription->braintree_status != "cancelled")
+                            @elseif($subscription && $subscription->braintree_status == "cancelled")
+                            @else
                                 <a class="button blue" href="{{ route('plans.get') }}">
                                     Change My Plan
                                 </a>
