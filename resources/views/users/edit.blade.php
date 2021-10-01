@@ -2,11 +2,11 @@
 
 @section('content')
     <div class="container">
-        <div class="my_row form_page">
+        <div class="my_row form_page plans">
             <div class="card">
                 <h2 class="page_title">Update Account Settings</h2>
                 <div class="card-body">
-                    <div class="my_row three_columns">
+                    <div class="my_row three_columns {{!$subscription ? "two_columns" : ""}}">
                         <div class="column">
                             <h2 class="text-uppercase">Account Info</h2>
                             <form method="POST" action="/update-account/{{ $user->id }}">
@@ -66,9 +66,9 @@
                         <div class="column">
                             <h2 class="text-uppercase">Plan Type</h2>
                             <h4>Your Current Plan is</h4>
-                            @if($subscription && $subscription->stripe_status == "active")
+                            @if($subscription && $subscription->braintree_status == "active")
                                 <div class="plan_name">
-                                    <p>{{ $subscription->name }}</p>
+                                    <p class="text-capitalize">{{ $subscription->name }}</p>
                                     <img src="{{ asset('../images/plan-type-bg.png') }}" alt="">
                                 </div>
                                 @if($subscription->ends_at)
@@ -85,7 +85,7 @@
                                     <img src="{{ asset('../images/plan-type-bg.png') }}" alt="">
                                 </div>
                             @endif
-                            @if($subscription && $subscription->stripe_status == "active")
+                            @if($subscription && $subscription->braintree_status == "active")
                                 @if($subscription->name == "pro" && !$subscription->ends_at)
                                     <button class="open_popup button blue" data-type="upgrade" data-level="corporate" data-plan="price_1JS1qkGIBktjIJUPVSjN20LH">
                                         Upgrade My Plan
@@ -106,11 +106,11 @@
                                 <h2 class="text-uppercase">Billing Info</h2>
                                 <form method="POST" action="">
                                     @csrf
-                                    @if ($payment_method->type == "card")
+                                    <h4>Your current payment type is</h4>
+                                    @if ($payment_method == "card")
                                         <div class="form-group row form_inputs">
                                             <div class="col-12 p-0">
-                                                <h4>Your current payment type is</h4>
-                                                <input type="text" value="" placeholder="xxxx xxxx xxxx {{$payment_method->card["last4"]}}">
+                                                <input type="text" value="" placeholder="xxxx xxxx xxxx {{$user["pm_last_four"]}}">
                                                 @error('password')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $errors->first('password')  }}</strong>
@@ -118,14 +118,18 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="form-group row form_buttons">
-                                            <div class="col-12">
-                                                <button type="submit" class="button blue text-uppercase">
-                                                    {{ __('Change Payment Method') }}
-                                                </button>
-                                            </div>
-                                        </div>
+                                    @elseif ($payment_method == "paypal")
+                                        <a href="https://paypal.com">
+                                            PayPal
+                                        </a>
                                     @endif
+                                    <div class="form-group row form_buttons">
+                                        <div class="col-12">
+                                            <button type="submit" class="button blue text-uppercase">
+                                                {{ __('Change Payment Method') }}
+                                            </button>
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                         @endif

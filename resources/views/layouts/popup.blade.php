@@ -3,7 +3,7 @@
         <div class="content_wrap">
             <h3>Confirm</h3>
             <div class="text_wrap">
-                <p>Are you sure you want to <span id="text_type"></span> your subscription?</p>
+                <p>Are you sure you want to <span id="text_type"></span> your plan?</p>
                 <form action="" method="post" id="popup_form">
                     @csrf
                     <input class="level" name="level" type="hidden" value="">

@@ -14,9 +14,8 @@ class UserService {
     public function getUserInfo() {
 
         $user = Auth::user();
-
         $subscription = $user->subscriptions()->first() ? : null;
-        $paymentMethod = $user->defaultPaymentMethod() ? : null;
+        $paymentMethod = $user["pm_type"] ? : null;
 
         $data = [
             'user' => $user,

@@ -40,9 +40,10 @@
                                 <h3><sup>$</sup>4.99<span>/ mo</span></h3>
                             </div>
                             <div class="button_row">
-                                @if ($subscription && $subscription->name == "pro" && $subscription->stripe_status == "active")
+
+                                @if ($subscription && $subscription->name == "pro" && $subscription->braintree_status == "active")
                                     <span class='button disabled'>Current</span>
-                                @elseif ($subscription && $subscription->stripe_status == "active")
+                                @elseif ($subscription && $subscription->braintree_status === "active")
                                     <button class='button blue open_popup' data-type="downgrade" data-level="pro" data-plan="price_1JS1p5GIBktjIJUPjG5ksGFb">
                                         Downgrade My Plan
                                     </button>
@@ -87,9 +88,9 @@
                                 <h3><sup>$</sup>19.99<span>/ mo</span></h3>
                             </div>
                             <div class="button_row">
-                                @if ($subscription && $subscription->name == "corporate" && $subscription->stripe_status == "active")
+                                @if ($subscription && $subscription->name == "corporate" && $subscription->braintree_status == "active")
                                     <span class='button disabled'>Current</span>
-                                @elseif ($subscription && $subscription->stripe_status == "active")
+                                @elseif ($subscription && $subscription->braintree_status == "active")
                                     <button class="open_popup button black_gradient" data-type="upgrade" data-level="corporate" data-plan="price_1JS1qkGIBktjIJUPVSjN20LH">
                                         Go Corporate
                                     </button>
@@ -138,7 +139,7 @@
                             </div>
                         </div>
 
-                        @if (!$subscription)
+                        @if (str_contains($path, '/step-two'))
                             <div class="column free">
                                 <h2 class="text-uppercase">Free</h2>
                                 <div class="my_row three_columns">

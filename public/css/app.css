@@ -13294,6 +13294,9 @@ form .bottom_row a {
       }
   }*/
 }
+.form_page.checkout .zoid-outlet {
+  width: 100% !important;
+}
 .form_page.checkout #payment-form {
   padding: 0 40px;
 }
@@ -13309,8 +13312,7 @@ form .bottom_row a {
   }
 }
 .form_page.checkout .card {
-  width: 100%;
-  max-width: unset;
+  max-width: 1200px;
 }
 @media all and (max-width: 768px) {
   .form_page.checkout .card {
@@ -13378,6 +13380,14 @@ form .bottom_row a {
   font-family: "opensansregular", sans-serif;
   font-size: 16px;
 }
+.form_page.plans .card {
+  max-width: 1200px;
+}
+@media all and (max-width: 992px) {
+  .form_page.plans .card {
+    max-width: 600px;
+  }
+}
 .form_page.plans h2.page_title, .form_page.plans .page_title.h2 {
   margin-bottom: 10px;
 }
@@ -13406,6 +13416,20 @@ form .bottom_row a {
 }
 .form_page.plans ul li p {
   margin: 0;
+}
+@media all and (max-width: 992px) {
+  .form_page.plans .my_row.three_columns {
+    justify-items: center;
+  }
+}
+.form_page.plans .my_row.three_columns .column h4, .form_page.plans .my_row.three_columns .column .h4 {
+  margin-top: auto;
+}
+@media all and (max-width: 992px) {
+  .form_page.plans .my_row.three_columns .column {
+    width: 100%;
+    max-width: 350px;
+  }
 }
 .form_page.plans .my_row.three_columns .column.pro svg {
   color: #424fcf;
@@ -13459,6 +13483,19 @@ form .bottom_row a {
   color: #2ac77a;
   text-align: left;
 }
+.form_page.plans .my_row.three_columns.two_columns {
+  justify-items: center;
+}
+.form_page.plans .my_row.three_columns.two_columns .column {
+  width: 100%;
+  max-width: 400px;
+}
+.form_page.plans .my_row.three_columns.two_columns .column:first-child {
+  margin-left: auto;
+}
+.form_page.plans .my_row.three_columns.two_columns .column:last-child {
+  margin-right: auto;
+}
 
 .form_page .card {
   width: 100%;
@@ -13485,6 +13522,7 @@ form .bottom_row a {
 @media all and (max-width: 992px) {
   .form_page h2.page_title, .form_page .page_title.h2 {
     margin-bottom: 20px;
+    font-size: 24px;
   }
 }
 .form_page .my_row.three_columns {

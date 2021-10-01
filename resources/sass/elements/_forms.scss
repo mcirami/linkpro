@@ -351,6 +351,10 @@ form .bottom_row a {
 
 .form_page.checkout {
 
+    .zoid-outlet {
+        width: 100% !important;
+    }
+
     #payment-form {
         padding: 0 40px;
 
@@ -368,8 +372,7 @@ form .bottom_row a {
         }
     }
     .card {
-        width: 100%;
-        max-width: unset;
+        max-width: 1200px;
 
         @media all and (max-width: 768px) {
             padding: 20px;

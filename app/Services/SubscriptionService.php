@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 //use Laravel\Cashier\Billable;
 //use Stripe\Stripe;
 use Braintree\Gateway;
+use function PHPUnit\Framework\isEmpty;
 
 class SubscriptionService {
 
@@ -79,12 +80,13 @@ class SubscriptionService {
     }
 
     public function showPlansPage() {
-        $subscription = null;
 
         $user = Auth::user();
 
-        if ($user->subscribed('pro') || $user->subscribed('corporate') ){
-            $subscription = $user->subscriptions()->first();
+        $subscription = $user->subscriptions()->first();
+
+        if (empty($subscription)) {
+            $subscription = null;
         }
 
         return $subscription;
@@ -139,7 +141,8 @@ class SubscriptionService {
                 $paymentClass = strtolower(get_class($customer->customer->paymentMethods[0]));
 
                 if (str_contains($paymentClass, "creditcard")) {
-                    $paymentMethod = $customer->customer->paymentMethods[0]->cardType;
+                    //$paymentMethod = $customer->customer->paymentMethods[0]->cardType;
+                    $paymentMethod = "card";
                     $user->pm_last_four = $customer->customer->paymentMethods[0]->last4;
                 } elseif (str_contains($paymentClass, "paypal")) {
                     $paymentMethod = "paypal";
@@ -210,21 +213,56 @@ class SubscriptionService {
 
         $user = Auth::user();
 
-        $activeSubs = $user->subscriptions()->active()->get();
+        $activeSubs = $user->subscriptions()->first();
 
-        $user->subscription($activeSubs[0]->name)->noProrate()->swap($request->plan);
+        //$user->subscription($activeSubs[0]->name)->noProrate()->swap($request->plan);
+        $gateway = new Gateway([
+            'environment' => config('services.braintree.environment'),
+            'merchantId' => config('services.braintree.merchantId'),
+            'publicKey' => config('services.braintree.publicKey'),
+            'privateKey' => config('services.braintree.privateKey')
+        ]);
+
+
 
         if($request->level == "corporate") {
-            $message = "Your plan has been upgraded to the Corporate level";
-            $user->subscriptions($activeSubs[0]->name)->update(['name' => "corporate"]);
 
-            $userData = ([
-                'siteUrl' => \URL::to('/') . "/",
-                'plan' => 'Corporate',
+            $result = $gateway->subscription()->update($activeSubs->braintree_id, [
+                'price' => '19.99',
+                'planId' => 'corporate'
             ]);
-            $user->notify(new NotifyAboutUpgrade($userData));
+
+            if ($result->success) {
+                $activeSubs->update(['name' => "corporate"]);
+
+                $userData = ([
+                    'siteUrl' => \URL::to('/') . "/",
+                    'plan' => 'Corporate',
+                ]);
+
+                $user->notify(new NotifyAboutUpgrade($userData));
+            }
+
+            $message = "Your plan has been upgraded to the Corporate level";
+
 
         } else {
+            $result = $gateway->subscription()->update($activeSubs->braintree_id, [
+                'price' => '4.99',
+                'planId' => 'pro'
+            ]);
+
+            if ($result->success) {
+                $activeSubs->update(['name' => "pro"]);
+
+                /*$userData = ([
+                    'siteUrl' => \URL::to('/') . "/",
+                    'plan' => 'Corporate',
+                ]);
+
+                $user->notify(new NotifyAboutUpgrade($userData));*/
+            }
+
             $message = "Your plan has been downgraded to the Pro level";
         }
 

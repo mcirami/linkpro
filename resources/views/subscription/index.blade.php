@@ -94,7 +94,7 @@
                                 @csrf
                                 <section>
                                     <input type="hidden" name="level" value="{{ $plan }}">
-                                    <input type="hidden" name="planId" value="{{ $plan == 'pro' ?  'LP_PRO' : 'LP_CORP'}}">
+                                    <input type="hidden" name="planId" value="{{ $plan == 'pro' ?  'pro' : 'corporate'}}">
                                     <div class="bt-drop-in-wrapper">
                                         <div id="bt-dropin"></div>
                                     </div>

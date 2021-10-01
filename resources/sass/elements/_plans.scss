@@ -27,6 +27,14 @@
 
     &.plans {
 
+        .card {
+            max-width: 1200px;
+
+            @media all and (max-width: 992px) {
+                max-width: 600px;
+            }
+        }
+
         h2.page_title {
             margin-bottom: 10px;
         }
@@ -67,69 +75,103 @@
             }
         }
 
-        .my_row.three_columns .column {
+        .my_row.three_columns {
 
-            &.pro {
-
-                svg {
-                    color: $blue;
-                }
+            @media all and (max-width: 992px) {
+                justify-items: center;
             }
 
-            &.corporate {
-                border-color: $black;
+            .column {
 
-                svg {
-                    color: $black;
+                h4 {
+                    margin-top: auto;
                 }
-            }
-
-            &.custom {
-                border-color: $grayBlue;
-
-                svg {
-                    color: $grayBlue;
-                }
-            }
-
-            &.free {
-                grid-column-end: span 3;
-                border-color: $limeGreen;
 
                 @media all and (max-width: 992px) {
-                    grid-column-end: unset;
+                    width: 100%;
+                    max-width: 350px;
                 }
 
-                .my_row.three_columns {
-                    grid-template-columns: repeat(3, 1fr);
+                &.pro {
 
-                    @media all and (max-width: 768px) {
-                        grid-template-columns: repeat(1, 1fr);
+                    svg {
+                        color: $blue;
+                    }
+                }
+
+                &.corporate {
+                    border-color: $black;
+
+                    svg {
+                        color: $black;
+                    }
+                }
+
+                &.custom {
+                    border-color: $grayBlue;
+
+                    svg {
+                        color: $grayBlue;
+                    }
+                }
+
+                &.free {
+                    grid-column-end: span 3;
+                    border-color: $limeGreen;
+
+                    @media all and (max-width: 992px) {
+                        grid-column-end: unset;
                     }
 
-                    .column {
-                        padding: 0;
-                        border: none;
-                        justify-content: center;
-                        -webkit-justify-content: center;
+                    .my_row.three_columns {
+                        grid-template-columns: repeat(3, 1fr);
 
-                        &:nth-child(2) {
-                            align-items: center;
-                            -webkit-align-items: center;
+                        @media all and (max-width: 768px) {
+                            grid-template-columns: repeat(1, 1fr);
                         }
 
-                        svg {
-                            color: $limeGreen;
-                        }
+                        .column {
+                            padding: 0;
+                            border: none;
+                            justify-content: center;
+                            -webkit-justify-content: center;
 
-                        p {
-                            margin: 0;
-                        }
+                            &:nth-child(2) {
+                                align-items: center;
+                                -webkit-align-items: center;
+                            }
 
-                        h4 {
-                            color: $limeGreen;
-                            text-align: left;
+                            svg {
+                                color: $limeGreen;
+                            }
+
+                            p {
+                                margin: 0;
+                            }
+
+                            h4 {
+                                color: $limeGreen;
+                                text-align: left;
+                            }
                         }
+                    }
+                }
+            }
+
+            &.two_columns {
+                justify-items: center;
+
+                .column {
+                    width: 100%;
+                    max-width: 400px;
+
+                    &:first-child {
+                        margin-left: auto;
+                    }
+
+                    &:last-child{
+
+                        margin-right: auto;
                     }
                 }
             }
