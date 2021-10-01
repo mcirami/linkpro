@@ -307,7 +307,7 @@ class SubscriptionService {
             $subscription->ends_at = $result->subscription->billingPeriodEndDate;
             $subscription->save();
 
-            $userData = (['end_data' => $result->subscription->billingPeriodEndDate->format('F j, Y')]);
+            $userData = (['end_date' => $result->subscription->billingPeriodEndDate->format('F j, Y')]);
 
             $user->notify(new NotifyAboutCancelation($userData));
 
