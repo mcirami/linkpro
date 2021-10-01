@@ -6,8 +6,6 @@ Your subscription is set to end on <span class="date">{{ $data["end_date"] }}</s
 <br>
 <br>
 Take advantage of the rest of the time you have!
-<br>
-You can always resume your subscription at any time before it expires.
 
 @component('mail::button', ['url' => $data['siteUrl'] . "login" ])
     Login Now

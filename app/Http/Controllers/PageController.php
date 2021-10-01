@@ -43,7 +43,7 @@ class PageController extends Controller
 
         $linkService->addLink($page);
 
-        return response()->json(['message'=> 'New Page Added', 'page_id' => $page->id]);
+        return response()->json(['message'=> 'New Link Added', 'page_id' => $page->id]);
     }
 
     public function updateName(PageNameRequest $request, PageService $pageService, Page $page) {

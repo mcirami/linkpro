@@ -141,7 +141,7 @@ class SubscriptionService {
                 }
 
                 $user->pm_type = $paymentMethod;
-                $user->braintree_id = $result->subscription->id;
+                $user->braintree_id = $customer->customer->id;
                 $user->save();
 
                 if ($request->level == "pro") {
@@ -157,7 +157,7 @@ class SubscriptionService {
 
                 $user->notify(new NotifyAboutUpgrade($userData));
 
-                $message = "Your plan has been changed to " . $request->level;
+                $message = "Your plan has been changed to the " . $request->level . " level";
 
             } else {
                 $errorString = "";

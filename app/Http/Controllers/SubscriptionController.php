@@ -36,7 +36,7 @@ class SubscriptionController extends Controller
 
         $message = $subscriptionService->updateSubscription($request);
 
-        if(str_contains($path["url"], '/subscribe')) {
+        if(str_contains($path["url"], '/subscribe') || str_contains($path["url"], '/plans') ) {
             $user = Auth::user();
             $page = $user->pages()->firstWhere('user_id', $user["id"]);
             return redirect()->route('pages.edit', [$page])->with(['success' => $message]);
