@@ -105,7 +105,8 @@
                                         Downgrade My Plan
                                     </button>
                                 @endif
-                            @elseif($subscription && $subscription->braintree_status == "cancelled")
+                            @elseif($subscription && $subscription->braintree_status == "canceled")
+
                             @else
                                 <a class="button blue" href="{{ route('plans.get') }}">
                                     Change My Plan
