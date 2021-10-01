@@ -42,7 +42,7 @@ class NotifyAboutCancelation extends Notification
     {
         return (new MailMessage)
             ->subject('Your Plan Has Been Cancelled')
-            ->markdown('emails.cancel', [$this->userData]);
+            ->markdown('emails.cancel', ['data' => $this->userData]);
     }
 
     /**
