@@ -40,28 +40,6 @@ class SubscriptionService {
 
         $token = $gateway->ClientToken()->generate();
 
-        /*Stripe::setApiKey(env("STRIPE_SECRET"));
-
-        $plan = isset($_GET["plan"]) ? $_GET["plan"] : null;
-        $intent = auth()->user()->createSetupIntent();
-
-        if ($plan == "pro") {
-            $amount = 499;
-        } else {
-            $amount = 1999;
-        }
-
-        $paymentIntent = \Stripe\PaymentIntent::create([
-            'amount' => $amount,
-            'currency' => 'usd',
-        ]);
-
-        $data = [
-            'plan' => $plan,
-            'intent' => $intent,
-            'paymentIntent' => $paymentIntent,
-        ];*/
-
         $plan = isset($_GET["plan"]) ? $_GET["plan"] : null;
 
         if ($plan == "pro") {

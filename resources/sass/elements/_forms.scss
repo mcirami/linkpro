@@ -30,7 +30,7 @@
 
 
 
-input[type="text"], #card-element, input[type="email"], input[type="password"], textarea {
+input[type="text"], #card-element, input[type="email"], input[type="password"], textarea, #card-number, #expiration-date, #cvv, #postal-code {
     border: 1px solid $borderGray;
     border-top-right-radius: 8px;
     -webkit-border-top-right-radius: 8px;

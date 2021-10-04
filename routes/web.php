@@ -54,19 +54,20 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/subscribe/cancel', [SubscriptionController::class, 'cancel'])->name('subscribe.cancel');
     Route::post('/subscribe/resume', [SubscriptionController::class, 'resume'])->name('subscribe.resume');
     Route::post('/change-plan', [SubscriptionController::class, 'changePlan'])->name('subscribe.change.plan');
-    Route::post('/edit-account/update-avatar', [UserController::class, 'updateAvatar'])->name('user.update.avatar');
+
     Route::post('/update-account/{user}', [UserController::class, 'updateAccountInfo'])->name('user.update.info');
+    Route::post('/update-card', [UserController::class, 'updateCard'])->name('user.update.card');
 
 });
 
 Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated'], 'prefix' => 'dashboard'], function() {
-    Route::get('/edit-account', [UserController::class, 'edit'])->name('user.edit');
     Route::get('/pages/{page}', [PageController::class, 'edit'])->name('pages.edit');
     Route::get('/pages', [PageController::class, 'redirect']);
     Route::get('/', [PageController::class, 'redirect'])->name('dashboard');
 });
 
 Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated']], function() {
+    Route::get('/edit-account', [UserController::class, 'edit'])->name('user.edit');
     Route::get('/plans', [SubscriptionController::class, 'plans'])->name('plans.get');
     Route::get('/subscribe', [SubscriptionController::class, 'purchase'])->name('subscribe.get');
 });

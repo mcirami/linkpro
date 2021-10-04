@@ -12882,7 +12882,7 @@ header.guest_header .col.right {
   margin-left: -15px !important;
 }
 
-input[type=text], #card-element, input[type=email], input[type=password], textarea {
+input[type=text], #card-element, input[type=email], input[type=password], textarea, #card-number, #expiration-date, #cvv, #postal-code {
   border: 1px solid #d2d2d2;
   border-top-right-radius: 8px;
   -webkit-border-top-right-radius: 8px;
@@ -13593,17 +13593,12 @@ form .bottom_row a {
   justify-content: center;
   -webkit-justify-content: center;
 }
-.form_page .my_row.three_columns .column form .form_inputs {
-  width: 100%;
-  margin: auto;
+.form_page .my_row.three_columns .column form label {
+  font-size: 12px;
 }
-.form_page .my_row.three_columns .column form .form_inputs input {
-  width: 100%;
-}
-.form_page .my_row.three_columns .column form .form_buttons {
-  justify-self: flex-end;
-  margin-bottom: 0;
-  margin-top: auto;
+.form_page .my_row.three_columns .column form label span {
+  font-size: 10px;
+  color: #76797b;
 }
 .form_page .my_row.three_columns .column form.plan {
   height: auto;

@@ -27,6 +27,7 @@ class UserController extends Controller
             'user' => $data['user'],
             'subscription' => $data["subscription"],
             'payment_method' => $data["payment_method"],
+            'token' => $data['token'],
         ]);
     }
 
@@ -37,16 +38,16 @@ class UserController extends Controller
         return redirect()->back()->with(['success' => 'Changes saved successfully']);
     }
 
-    public function updateAvatar(Request $request, UserService $userService) {
-        $user = Auth::user();
+    public function updateCard(Request $request, UserService $userService) {
 
-        if ($request->user_id != $user["id"]) {
+
+        /*if ($request->user_id != $user["id"]) {
             return abort(404);
-        }
+        }*/
 
-        $userService->updateUserAvatar($request, $user);
+        $userService->updateCard($request);
 
-        return redirect()->back()->with(['success' => 'Avatar Updated']);
+        return redirect()->back()->with(['success' => 'Credit Card Updated']);
 
     }
 

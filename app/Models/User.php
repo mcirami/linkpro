@@ -26,7 +26,9 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
-        'avatar'
+        'pm_last_four',
+        'pm_type',
+        'braintree_id',
     ];
 
     /**
