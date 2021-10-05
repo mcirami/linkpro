@@ -141,4 +141,20 @@ jQuery(document).ready(function($) {
     }
 
 
+
+    const paymentMethodPopup = document.getElementById('popup_payment_method');
+
+    if (paymentMethodPopup) {
+        document.querySelector('.open_payment_method').addEventListener('click', function(e){
+            e.preventDefault();
+            paymentMethodPopup.classList.add('open');
+        });
+
+        document.querySelector('#popup_payment_method .close_popup').addEventListener('click', function(e) {
+            e.preventDefault();
+            paymentMethodPopup.classList.remove('open');
+        })
+    }
+
+
 });

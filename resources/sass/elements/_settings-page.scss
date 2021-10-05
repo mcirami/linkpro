@@ -75,6 +75,13 @@
                 text-align: center;
             }
 
+            &.update_info {
+                .form_buttons {
+                    margin-top: auto;
+                    margin-bottom: 0;
+                }
+            }
+
             .plan_name {
                 position: relative;
                 display: -webkit-box;
@@ -163,7 +170,7 @@
     }
 }
 
-#confirm_popup, #popup_choose_level {
+#confirm_popup, #popup_choose_level, #popup_payment_method {
     display: none;
     opacity: 0;
     position: fixed;
@@ -251,7 +258,7 @@
     }
 }
 
-#popup_choose_level .close_popup {
+#popup_choose_level .close_popup, #popup_payment_method .close_popup {
     position: absolute;
     right: 30px;
     top: 30px;
@@ -265,3 +272,29 @@
     }
 }
 
+#popup_payment_method {
+
+    .bt-drop-in-wrapper {
+        padding: 0 10%;
+
+        .braintree-options-list {
+            text-align: left;
+        }
+    }
+
+    .box {
+        max-width: 600px;
+
+        h3 {
+            margin-bottom: 0;
+        }
+
+        .text_wrap.form_wrap {
+            display: block;
+        }
+
+        form {
+            display: block;
+        }
+    }
+}

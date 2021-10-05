@@ -69,7 +69,6 @@ class UserService {
 
         $customer = $gateway->customer()->find($customerID);
 
-
         if ($customer) {
 
             $token = $customer->paymentMethods[0]->token;
@@ -119,5 +118,75 @@ class UserService {
 
             return back()->withErrors('An error occurred with the message: '. $customer->message);
         }
+    }
+
+    public function updatePaymentMethod($request) {
+
+        $user = Auth::user();
+
+        $customerID = $user->braintree_id;
+        $subscriptionID = $user->subscriptions()->first()->pluck('braintree_id');
+
+        $gateway = new Gateway([
+            'environment' => config('services.braintree.environment'),
+            'merchantId' => config('services.braintree.merchantId'),
+            'publicKey' => config('services.braintree.publicKey'),
+            'privateKey' => config('services.braintree.privateKey')
+        ]);
+
+        //$customer = $gateway->customer()->find($customerID);
+       // $postalCode = $customer->addresses[0]->postalCode;
+
+        //$token = $customer->paymentMethods[0]->token;
+
+        $updateResult = $gateway->paymentMethod()->create([
+            'customerId' => $customerID,
+            'paymentMethodNonce' => $request->payment_method_nonce,
+            'options' => [
+                'makeDefault' => true
+            ]
+        ]);
+
+        if ($updateResult->success) {
+
+            $paymentClass = strtolower(get_class($updateResult->paymentMethod));
+            $paymentToken = $updateResult->paymentMethod->token;
+
+            $subscriptionID = $user->subscriptions()->first();
+
+            $result = $gateway->subscription()->update($subscriptionID->braintree_id, [
+                'paymentMethodToken' => $paymentToken,
+            ]);
+
+            if ($result->success) {
+
+                if ( str_contains( $paymentClass, "creditcard" ) ) {
+                    //$paymentMethod = $customer->customer->paymentMethods[0]->cardType;
+                    $paymentMethod      = "card";
+                    $user->pm_last_four = $updateResult->paymentMethod->last4;;
+                } elseif ( str_contains( $paymentClass, "paypal" ) ) {
+                    $paymentMethod      = "paypal";
+                    $user->pm_last_four = null;
+                }
+
+                $user->pm_type = $paymentMethod;
+                $user->save();
+            } else {
+                foreach($result->errors->deepAll() AS $error) {
+                    echo($error->code . ": " . $error->message . "\n");
+                }
+
+                return back()->withErrors('An error occurred with the message: '. $result->message);
+            }
+
+        } else {
+
+            foreach($updateResult->errors->deepAll() AS $error) {
+                echo($error->code . ": " . $error->message . "\n");
+            }
+
+            return back()->withErrors('An error occurred with the message: '. $updateResult->message);
+        }
+
     }
 }

@@ -51,4 +51,10 @@ class UserController extends Controller
 
     }
 
+    public function updateMethod(Request $request, UserService $userService) {
+
+        $userService->updatePaymentMethod($request);
+
+        return redirect()->back()->with(['success' => 'Payment Method Updated']);
+    }
 }

@@ -16,7 +16,7 @@
                 @endif
                 <div class="card-body">
                     <div class="my_row three_columns {{!$subscription ? "two_columns" : ""}}">
-                        <div class="column">
+                        <div class="column update_info">
                             <h2 class="text-uppercase">Account Info</h2>
                             <form method="POST" action="/update-account/{{ $user->id }}">
                                 @csrf
@@ -27,8 +27,8 @@
 
                                                 @if ($errors->has('username'))
                                                     <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('username')  }}</strong>
-                                            </span>
+                                                        <strong>{{ $errors->first('username')  }}</strong>
+                                                    </span>
                                                 @endif
                                             </div>
                                         </div>
@@ -39,8 +39,8 @@
 
                                                 @if ($errors->has('email'))
                                                     <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('email')  }}</strong>
-                                            </span>
+                                                        <strong>{{ $errors->first('email')  }}</strong>
+                                                    </span>
                                                 @endif
                                             </div>
                                         </div>
@@ -48,11 +48,11 @@
 
                                             <div class="col-12">
                                                 <input placeholder="Password" id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="new-password">
-                                                <small>(Enter password only if you want to change it)</small>
-                                                @error('password')
-                                                <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('password')  }}</strong>
-                                        </span>
+                                                <small>(Enter password to change it)</small>
+                                                @error($errors->has('password'))
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $errors->first('password')  }}</strong>
+                                                    </span>
                                                 @enderror
                                             </div>
                                         </div>
@@ -116,56 +116,59 @@
                         @if ($subscription)
                             <div class="column">
                                 <h2 class="text-uppercase">Billing Info</h2>
-                                <form id="payment-form" method="post" action="{{ route('user.update.card') }}">
-                                    @csrf
-                                    <h4>Your current payment type is</h4>
-                                    <input id="nonce" name="payment_method_nonce" type="hidden" />
-                                    @if ($payment_method == "card")
-                                        <div class="form-group row form_inputs mt-0 mb-1">
-                                            <div class="col-12">
-                                                <label for="card-number">Card Number</label>
-                                                <div class="form-group" id="card-number"></div>
-                                                {{--<input type="text" value="" placeholder="xxxx xxxx xxxx {{$user["pm_last_four"]}}">--}}
+                                @if ($payment_method == "card")
+                                    <form id="update-cc-form" method="post" action="{{ route('user.update.card') }}">
+                                        @csrf
+                                        <h4>Your current payment type is</h4>
+                                        <input id="nonce" name="payment_method_nonce" type="hidden" />
+                                            <div class="form-group row form_inputs mt-0 mb-1">
+                                                <div class="col-12">
+                                                    <label for="card-number">Card Number</label>
+                                                    <div class="form-group" id="card-number"></div>
+                                                    {{--<input type="text" value="" placeholder="xxxx xxxx xxxx {{$user["pm_last_four"]}}">--}}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group row form_inputs mb-1">
-                                            <div class="col-7">
-                                                <label for="expiration-date">Expiration Date</label>
-                                                <div class="form-group" id="expiration-date"></div>
+                                            <div class="form-group row form_inputs mb-1">
+                                                <div class="col-7">
+                                                    <label for="expiration-date">Expiration Date</label>
+                                                    <div class="form-group" id="expiration-date"></div>
+                                                </div>
+                                                <div class="col-5">
+                                                    <label for="cvv">CVV <span>(3 digits)</span></label>
+                                                    <div class="form-group" id="cvv"></div>
+                                                </div>
                                             </div>
-                                            <div class="col-5">
-                                                <label for="cvv">CVV <span>(3 digits)</span></label>
-                                                <div class="form-group" id="cvv"></div>
+                                            <div class="form-group row form_inputs">
+                                                <div class="col-12">
+                                                    <label for="postal-code">Postal Code</label>
+                                                    <div id="postal-code" class="hosted-field"></div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group row form_inputs">
-                                            <div class="col-12">
-                                                <label for="postal-code">Postal Code</label>
-                                                <div id="postal-code" class="hosted-field"></div>
+                                            @error('card')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first('card')  }}</strong>
+                                                </span>
+                                            @enderror
+                                            <div class="form-group row form_buttons">
+                                                <div class="col-12">
+                                                    <button type="submit" class="button blue text-uppercase">
+                                                        {{ __('Update Card') }}
+                                                    </button>
+                                                </div>
                                             </div>
-                                        </div>
-                                        @error('card')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('card')  }}</strong>
-                                            </span>
-                                        @enderror
-                                    @elseif ($payment_method == "paypal")
+                                    </form>
+                                @elseif ($payment_method == "paypal")
+
+                                    <div class="other_methods text-center my-auto">
+                                        <h4>Your current payment type is</h4>
                                         <a href="https://paypal.com">
                                             PayPal
                                         </a>
-                                    @endif
-                                    @if ($payment_method == "card")
-                                        <div class="form-group row form_buttons">
-                                            <div class="col-12">
-                                                <button type="submit" class="button blue text-uppercase">
-                                                    {{ __('Update Card') }}
-                                                </button>
-                                            </div>
-                                        </div>
-                                    @endif
-                                </form>
+                                    </div>
 
-                                <a href="#" class="button blue text-uppercase">
+                                @endif
+
+                                <a href="#" class="button blue text-uppercase open_payment_method">
                                     {{ __('Change Payment Method') }}
                                 </a>
                             </div>
@@ -191,6 +194,8 @@
 
     @include('layouts.popupChooseLevel');
 
+    @include('layouts.popupPaymentMethod');
+
     <script src="https://js.braintreegateway.com/web/3.38.1/js/client.min.js"></script>
     <script src="https://js.braintreegateway.com/web/3.38.1/js/hosted-fields.min.js"></script>
 
@@ -200,7 +205,7 @@
     <!-- Load the PayPal Checkout component. -->
     <script src="https://js.braintreegateway.com/web/3.38.1/js/paypal-checkout.min.js"></script>
     <script>
-        var form = document.querySelector('#payment-form');
+        var updateForm = document.querySelector('#update-cc-form');
         var submit = document.querySelector('input[type="submit"]');
         braintree.client.create({
             authorization: '{{ $token }}'
@@ -240,7 +245,7 @@
                     },
                     postalCode: {
                         selector: '#postal-code',
-                        placeholder: 'xxxxx'
+                        placeholder: 'xxxxx',
                     }
                 }
             }, function(hostedFieldsErr, hostedFieldsInstance) {
@@ -249,7 +254,7 @@
                     return;
                 }
                 // submit.removeAttribute('disabled');
-                form.addEventListener('submit', function(event) {
+                updateForm.addEventListener('submit', function(event) {
                     event.preventDefault();
                     hostedFieldsInstance.tokenize(function(tokenizeErr, payload) {
                         if (tokenizeErr) {
@@ -260,7 +265,7 @@
                         // send the nonce to your server.
                         // console.log('Got a nonce: ' + payload.nonce);
                         document.querySelector('#nonce').value = payload.nonce;
-                        form.submit();
+                        updateForm.submit();
                     });
                 }, false);
             });

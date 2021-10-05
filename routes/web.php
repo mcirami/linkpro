@@ -57,6 +57,7 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::post('/update-account/{user}', [UserController::class, 'updateAccountInfo'])->name('user.update.info');
     Route::post('/update-card', [UserController::class, 'updateCard'])->name('user.update.card');
+    Route::post('/update-payment-method', [UserController::class, 'updateMethod'])->name('user.update.payment');
 
 });
 
