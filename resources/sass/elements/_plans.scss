@@ -30,6 +30,10 @@
         .card {
             max-width: 1200px;
 
+            @media all and (max-width: 1199px) {
+                max-width: 1000px;
+            }
+
             @media all and (max-width: 992px) {
                 max-width: 600px;
             }
@@ -172,6 +176,12 @@
                     &:last-child{
 
                         margin-right: auto;
+                    }
+                }
+
+                &.popup {
+                    .column.free {
+                        grid-column-end: unset;
                     }
                 }
             }

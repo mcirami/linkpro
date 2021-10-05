@@ -1,7 +1,7 @@
 <div id="confirm_popup">
     <div class="box">
         <div class="content_wrap">
-            <h3>Confirm</h3>
+            <h3 class="popup_title">Confirm</h3>
             <div class="text_wrap">
                 <p>Are you sure you want to <span id="text_type"></span> your plan?</p>
                 <form action="" method="post" id="popup_form">

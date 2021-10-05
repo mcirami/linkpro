@@ -95,7 +95,7 @@
                                     <img src="{{ asset('../images/plan-type-bg.png') }}" alt="">
                                 </div>
                             @endif
-                            @if($subscription && $subscription->braintree_status == "active")
+                           {{-- @if($subscription && $subscription->braintree_status == "active")
                                 @if($subscription->name == "pro")
                                     <button class="open_popup button blue" data-type="upgrade" data-level="corporate">
                                         Upgrade My Plan
@@ -111,7 +111,10 @@
                                 <a class="button blue" href="{{ route('plans.get') }}">
                                     Change My Plan
                                 </a>
-                            @endif
+                            @endif--}}
+                            <button class='button blue open_popup_choose'>
+                                Change My Plan
+                            </button>
                         </div>
                         @if ($subscription)
                             <div class="column">
@@ -189,8 +192,6 @@
             <p>{{ session()->get('success')}}</p>
         </div>
     @endif
-
-    @include('layouts.popup');
 
     @include('layouts.popupChooseLevel');
 

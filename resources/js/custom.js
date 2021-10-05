@@ -95,18 +95,10 @@ jQuery(document).ready(function($) {
                         document.querySelector('#popup_form').action = '/subscribe/cancel';
                         document.querySelector('#confirm_popup #text_type').textContent = 'cancel';
                         break;
-/*                    case 'resume':
-                        document.querySelector('#popup_form').action = '/subscribe/resume';
-                        document.querySelector('#confirm_popup #text_type').textContent = 'resume';
-                        break;*/
                     case 'upgrade':
                         document.querySelector('#popup_form').action = '/change-plan';
                         document.querySelector('#confirm_popup #text_type').textContent = 'upgrade';
                         break;
-                    /*case 'downgrade':
-                        document.querySelector('#popup_form').action = '/change-plan';
-                        document.querySelector('#confirm_popup #text_type').textContent = 'downgrade';
-                        break;*/
                     default:
                         console.log('Default');
                 }
@@ -123,24 +115,16 @@ jQuery(document).ready(function($) {
     const chooseLevelPopup = document.getElementById('popup_choose_level');
 
     if (chooseLevelPopup) {
-        const openLevelPopup = document.querySelectorAll('.open_popup_choose');
-        openLevelPopup.forEach((button) => {
-            button.addEventListener('click', function(e) {
+        document.querySelector('.open_popup_choose').addEventListener('click', function(e) {
                 e.preventDefault();
-                const plan = e.target.dataset.plan;
                 chooseLevelPopup.classList.add('open');
-
-                document.querySelector('#popup_cancel_form .plan').value = plan;
-            })
         });
 
         document.querySelector('#popup_choose_level .close_popup').addEventListener('click', function(e) {
             e.preventDefault();
             chooseLevelPopup.classList.remove('open');
-        })
+        });
     }
-
-
 
     const paymentMethodPopup = document.getElementById('popup_payment_method');
 
