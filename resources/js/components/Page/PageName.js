@@ -4,7 +4,7 @@ import EventBus from '../../Utils/Bus';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import {PageContext} from '../App';
 
-let pageNames = user.pageNames;
+let pageNames = user.allPageNames;
 
 const PageName = () => {
 
@@ -60,7 +60,6 @@ const PageName = () => {
 
         setName(value);
     }
-    console.log(currentMatch);
 
     return (
 

@@ -7,7 +7,7 @@
     </a>
     <div class="box">
         <div class="content_wrap">
-            <h3>Change Your Payment Method</h3>
+            <h3 class="popup_title">Change Your Payment Method</h3>
             <div class="text_wrap form_wrap">
                 <form id="update_payment_method_form" action="{{ route('user.update.payment') }}" method="post" >
                     @csrf

@@ -5,9 +5,9 @@ import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import EventBus from '../../Utils/Bus';
 import {PageContext} from '../App';
 
-let pageNames = user.pageNames;
+let pageNames = user.allPageNames;
 
-const PageNav = ({ allUserPages, setAllUserPages }) => {
+const PageNav = ({ allUserPages, setAllUserPages, userSub, setShowPopup, setPopupText }) => {
 
     //const [pages, setPages] = useState(userPages);
     const { pageSettings, setPageSettings } = useContext(PageContext);
@@ -15,7 +15,6 @@ const PageNav = ({ allUserPages, setAllUserPages }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [newPageName, setNewPageName] = useState(null);
     const [available, setAvailability] = useState(false);
-
 
     const pageCount = allUserPages.length;
 
@@ -64,6 +63,52 @@ const PageNav = ({ allUserPages, setAllUserPages }) => {
 
     const pageList = allUserPages.filter(element => element.id !== pageSettings["id"]);
 
+    const handleClick = (e) => {
+        e.preventDefault();
+
+        if (userSub) {
+            const {braintree_status, ends_at, name} = {...userSub};
+            const currentDate = new Date().valueOf();
+            const endsAt = new Date(ends_at).valueOf();
+
+            if ((braintree_status === 'active' && name === "corporate") || endsAt > currentDate && name === "corporate") {
+                setIsEditing(true);
+            } else {
+                setPopupText((popupText) => ({
+                    ...popupText,
+                    levelText: "Corporate",
+                    optionText: "add more links",
+                }));
+
+                setShowPopup(true);
+                document.querySelector('#upgrade_popup').classList.add('open');
+                setTimeout(() => {
+                    document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
+                        e.preventDefault();
+                        setShowPopup(false);
+                        document.querySelector('#upgrade_popup').classList.remove('open');
+                    });
+                }, 500);
+            }
+
+        } else {
+            setShowPopup(true);
+            document.querySelector('#upgrade_popup').classList.add('open');
+            setPopupText({
+                levelText: "Corporate",
+                optionText: "add more links"
+            });
+
+            setTimeout(() => {
+                document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    setShowPopup(false);
+                    document.querySelector('#upgrade_popup').classList.remove('open');
+                });
+            }, 500);
+        }
+    }
+
     return (
         <div className="page_menu_row">
             <div className="current_page" id={pageSettings["id"]} key={pageSettings["id"]}>
@@ -76,7 +121,7 @@ const PageNav = ({ allUserPages, setAllUserPages }) => {
                     <div className="menu_content">
                         <ul className="page_menu">
                             <li>
-                                <a onClick={(e) => {e.preventDefault(); setIsEditing(true) }} href="#">Add New Link</a>
+                                <a onClick={(e) => { handleClick(e) }} href="#">Add New Link</a>
                             </li>
                             { pageList.map((page) => {
 

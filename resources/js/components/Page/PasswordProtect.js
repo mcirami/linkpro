@@ -6,7 +6,7 @@ import Switch from "react-switch";
 import axios from 'axios';
 import EventBus from '../../Utils/Bus';
 
-const PasswordProtect = () => {
+const PasswordProtect = ({ userSub, setShowPopup, setPopupText }) => {
 
     const { pageSettings, setPageSettings } = useContext(PageContext);
 
@@ -76,7 +76,9 @@ const PasswordProtect = () => {
                     ...pageSettings,
                     is_protected: !checked,
                 })
-                //setIsEditing(false)
+
+                setIsEditing(false);
+
             }
         ).catch(error => {
             console.log("ERROR:: ", error.response.data);
@@ -86,11 +88,49 @@ const PasswordProtect = () => {
 
     const handleClick = (e) => {
         e.preventDefault();
-        setIsEditing(true);
 
-        if(!pageSettings["password"] && !pageSettings["is_protected"]) {
-            handleCheckedChange()
+        if (userSub) {
+            const {braintree_status, ends_at, name} = {...userSub};
+            const currentDate = new Date().valueOf();
+            const endsAt = new Date(ends_at).valueOf();
+            const popup = document.querySelector('#upgrade_popup');
+
+            if ((braintree_status === 'active' && name === "corporate") || endsAt > currentDate && name === "corporate") {
+                setIsEditing(true);
+            } else if (name === "pro") {
+                setShowPopup(true);
+                popup.classList.add('open');
+                setPopupText({
+                    levelText: "Corporate",
+                    optionText: "password protect your page"
+                });
+
+                setTimeout(() => {
+                    document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function() {
+                        e.preventDefault();
+                        setShowPopup(false);
+                        popup.classList.remove('open');
+                    });
+                }, 500);
+            }
+
+        } else {
+            setShowPopup(true);
+            setPopupText({
+                levelText: "Corporate",
+                optionText: "password protect your page"
+            });
+            document.querySelector('#upgrade_popup').classList.add('open');
+
+            setTimeout(() => {
+                document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    setShowPopup(false);
+                    document.querySelector('#upgrade_popup').classList.remove('open');
+                });
+            }, 500);
         }
+
     }
 
     return (

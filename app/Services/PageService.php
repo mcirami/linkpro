@@ -85,13 +85,16 @@ class PageService {
 
         $pageNames = Page::all()->pluck('name')->toArray();
 
+        $userSubscription = $user->subscriptions()->first();
+
         Javascript::put([
             'links' => $links,
             'icons' => File::glob('images/icons'.'/*'),
             'page' => $page,
             'user_pages' => $userPages,
             'userIcons' => $userIcons,
-            'pageNames' => $pageNames
+            'allPageNames' => $pageNames,
+            'userSub'   => $userSubscription
         ]);
 
         return $links;

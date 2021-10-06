@@ -13,11 +13,12 @@ import PasswordProtect from './Page/PasswordProtect';
 import ShowPreviewButton from './Preview/ShowPreviewButton';
 import { Flash } from './Flash';
 import SubmitForm from './Link/SubmitForm';
-
+import { UpgradePopup } from './UpgradePopup';
 //import UserContext from './User/User';
 
 const page = user.page;
 const userPages = user.user_pages;
+const userSub = user.userSub;
 
 //export const LinksContext = createContext();
 export const PageContext = createContext();
@@ -39,6 +40,11 @@ function App() {
     const [pageSettings, setPageSettings] = useReducer(pageReducer, page);
     const [allUserPages, setAllUserPages] = useState(userPages);
     const [editID, setEditID] = useState(null);
+    const [showPopup, setShowPopup] = useState(false);
+    const [ popupText, setPopupText ] = useState(() => ({
+        levelText: "",
+        optionText: "",
+    }));
 
     const ref = createRef(null);
     const [completedCrop, setCompletedCrop] = useState(null);
@@ -58,7 +64,7 @@ function App() {
         const transformProp = iconCol[0].style.transform.split("translate3d(");
         const transformValues = transformProp[1].split(" ");
         const divHeight = transformValues[1].replace(",", "").replace("px", "");
-        const height = parseInt(divHeight) + colHeight + 150;
+        const height = parseInt(divHeight) + colHeight + 120;
         iconsWrap.style.minHeight = height + "px";
         setWrapHeight(height);
 
@@ -88,19 +94,34 @@ function App() {
         <div className="my_row page_wrap">
             <Flash />
 
+            <div id="upgrade_popup">
+                {showPopup &&
+                    <UpgradePopup
+                        popupText={popupText}
+                    />
+                }
+            </div>
+
             {/*<LinksContext.Provider value={{ userLinks, setUserLinks}} >*/}
             <PageContext.Provider value={{ pageSettings, setPageSettings }}>
                 <div className="left_column">
                     <PageNav
                         allUserPages={allUserPages}
                         setAllUserPages={setAllUserPages}
+                        userSub={userSub}
+                        setShowPopup={setShowPopup}
+                        setPopupText={setPopupText}
                     />
 
                     <div className="content_wrap">
                         <div className="top_section">
                             <PageName />
 
-                            <PasswordProtect />
+                            <PasswordProtect
+                                userSub={userSub}
+                                setShowPopup={setShowPopup}
+                                setPopupText={setPopupText}
+                            />
 
                             <PageHeader
                                 setRef={ref}
@@ -131,6 +152,9 @@ function App() {
                             setUserLinks={setUserLinks}
                             originalArray={originalArray}
                             setOriginalArray={setOriginalArray}
+                            userSub={userSub}
+                            setShowPopup={setShowPopup}
+                            setPopupText={setPopupText}
                         />
 
                         <div className="icons_wrap add_icons icons">

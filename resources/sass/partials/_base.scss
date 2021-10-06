@@ -283,7 +283,7 @@ button {
     @include boxShadow;
     text-align: center;
     width: 300px;
-    height: 250px;
+    min-height: 200px;
     background: $white;
     margin: 0 auto;
     position: fixed;

@@ -170,7 +170,7 @@
     }
 }
 
-#popup_choose_level, #popup_payment_method, #confirm_popup {
+#popup_choose_level, #popup_payment_method, #confirm_popup, #upgrade_popup {
     display: none;
     opacity: 0;
     position: fixed;
@@ -185,6 +185,7 @@
     -webkit-transition: 100ms opacity linear;
     -moz-transition: 100ms opacity linear;
     -o-transition: 100ms opacity linear;
+    z-index: 999;
 
     &.open {
         display: -webkit-box;
@@ -258,7 +259,7 @@
     }
 }
 
-#popup_choose_level, #popup_payment_method {
+#popup_choose_level, #popup_payment_method, #upgrade_popup {
     .close_popup {
         position: absolute;
         right: 30px;
@@ -360,6 +361,21 @@
                     }
                 }
             }
+        }
+    }
+}
+
+#upgrade_popup {
+    .box {
+        max-width: 550px;
+
+        .button {
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        h4 {
+            font-size: 18px;
         }
     }
 }
