@@ -12098,6 +12098,12 @@ header.guest_header .col.right {
       }
   }*/
 }
+#links_page .icons_wrap .icon_col img {
+  border-radius: 20%;
+  -webkit-border-radius: 20%;
+  -moz-border-radius: 20%;
+  border: 1px solid #f4f4f4;
+}
 #links_page .icons_wrap .icon_col span {
   background: #ffffff;
   border-bottom: 2px solid #f4f4f4;
@@ -12165,6 +12171,11 @@ header.guest_header .col.right {
   width: 100%;
   float: left;
   padding: 0 14% 5px;
+}
+#links_page .icons_wrap .icon_col .icon_wrap img {
+  border-radius: 20%;
+  -webkit-border-radius: 20%;
+  -moz-border-radius: 20%;
 }
 #links_page .icons_wrap .icon_col .my_row {
   width: 100%;
@@ -12246,6 +12257,28 @@ header.guest_header .col.right {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
 }
+#links_page .icon_row .icon_box .my_row.top {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+  -webkit-justify-content: space-around;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #d2d2d2;
+}
+#links_page .icon_row .icon_box .my_row.top .radio_wrap {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  -webkit-align-items: center;
+}
+#links_page .icon_row .icon_box .my_row.top .radio_wrap input {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
 #links_page .icon_row .icons_wrap {
   display: grid;
   overflow-y: scroll;
@@ -12259,6 +12292,11 @@ header.guest_header .col.right {
 #links_page .icon_row .icons_wrap .icon_col {
   background: none;
   width: auto;
+}
+#links_page .icon_row .icons_wrap .icon_col img {
+  border-radius: 25%;
+  -webkit-border-radius: 25%;
+  -moz-border-radius: 25%;
 }
 #links_page .icon_row .icon_image {
   border: 2px solid transparent;
@@ -12402,6 +12440,7 @@ header.guest_header .col.right {
 }
 .crop_section.hidden {
   height: 0;
+  padding: 0;
 }
 .crop_section .ReactCrop {
   min-width: 40%;
@@ -13043,10 +13082,22 @@ form .bottom_row a {
   padding: 8%;
   min-height: 660px;
 }
+#links_page .edit_form.popup .uploader {
+  margin-bottom: 20px;
+}
+#links_page .edit_form.popup label.custom {
+  justify-content: center;
+  -webkit-justify-content: center;
+}
 #links_page .edit_form.popup .icons_wrap {
   --n: 12;
   grid-column-gap: 10px;
   grid-row-gap: 10px;
+  border: 1px solid #d2d2d2;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  padding: 10px;
 }
 #links_page .edit_form.popup .icons_wrap .icon_col {
   position: relative;

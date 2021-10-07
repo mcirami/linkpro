@@ -4,7 +4,7 @@ import React, {useContext, useState, useEffect} from 'react';
 //const iconPaths = user.icons;
 const customIcons = user.userIcons;
 
-const IconList = ({currentLink, setCurrentLink, iconArray}) => {
+const IconList = ({currentLink, setCurrentLink, iconArray, radioValue}) => {
 
     //const  { userLinks, setUserLinks } = useContext(LinksContext);
 
@@ -55,8 +55,11 @@ const IconList = ({currentLink, setCurrentLink, iconArray}) => {
             $('.icon_image').removeClass('active');
             el.classList.add('active');
 
+            const name = el.dataset.name;
+
             setCurrentLink({
                 ...currentLink,
+                name: name,
                 icon: source
             })
 
@@ -101,33 +104,43 @@ const IconList = ({currentLink, setCurrentLink, iconArray}) => {
                 : ""
             }*/}
 
-            {customIcons ?
-                customIcons.map((iconPath, index) => {
-                    const newPath = iconPath.replace("public",
-                        "/storage");
-                    return (
-                        <div key={index} className="icon_col">
-                            <img className="img-fluid icon_image" src={newPath} onClick={(e) => {
-                                e.preventDefault();
-                                selectIcon(e, newPath)
-                            }}/>
-                        </div>
-                    )
+            {
+                radioValue === "custom" ?
+                    customIcons &&
+                    customIcons.map((iconPath, index) => {
+                        const newPath = iconPath.replace("public",
+                            "/storage");
+                        return (
+                            <div key={index} className="icon_col">
+                                <img alt="" className="img-fluid icon_image" src={newPath} onClick={(e) => {
+                                    e.preventDefault();
+                                    selectIcon(e, newPath)
+                                }}/>
+                            </div>
+                        )
 
-                })
-            :
-            ""
+                    })
+
+                :
+
+                    iconArray.map((icon, index) => {
+                        /*let end = iconPath.search("/images");
+                        let newPath = iconPath.slice(end);*/
+                        return (
+                            <div key={index} className="icon_col">
+                                <img
+                                    className="img-fluid icon_image"
+                                    src={'/' + icon.path} onClick={(e) => {
+                                                e.preventDefault();
+                                                selectIcon(e, "/" + icon.path)
+                                            }}
+                                    data-name={icon.name}
+                                    alt=""/>
+                            </div>
+                        )
+                    })
+
             }
-
-            {iconArray.map((icon, index) => {
-                /*let end = iconPath.search("/images");
-                let newPath = iconPath.slice(end);*/
-                return (
-                    <div key={index} className="icon_col">
-                        <img className="img-fluid icon_image" src={'/' + icon.path } onClick={(e) => {e.preventDefault(); selectIcon(e, "/" + icon.path)} } alt=""/>
-                    </div>
-                )
-            })}
         </div>
 
 

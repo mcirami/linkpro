@@ -37,11 +37,13 @@ const SubmitForm = ({
     const previewCanvasRef = iconRef;
     const [crop, setCrop] = useState({ unit: '%', width: 30, aspect: 1 });
     const [customIcon, setCustomIcon] = useState(null);
+    const [radioValue, setRadioValue] = useState("standard");
 
     const [ currentLink, setCurrentLink ] = useState(
         userLinks.find(function(e) {
             return e.id === editID
         }) || null );
+
 
     let iconArray = [];
 
@@ -50,7 +52,7 @@ const SubmitForm = ({
         const newPath = iconPath.slice(end);
         const newArray = newPath.split(".")
         const iconName = newArray[0].replace("/", "");
-        const tmp = {"name": iconName, "path" : iconPath}
+        const tmp = {"name": iconName.replace("-", " "), "path" : iconPath}
         iconArray.push(tmp);
     });
 
@@ -61,7 +63,9 @@ const SubmitForm = ({
     }
     if (input.length > 0 ) {
         iconArray = iconArray.filter((i) => {
-            return i.name.match(input);
+            const iconName = i.name.toLowerCase().replace(" ", "");
+            const userInput = input.toLowerCase().replace(" ", "");
+            return iconName.match(userInput);
         });
     }
 
@@ -257,51 +261,89 @@ const SubmitForm = ({
         });
     }
 
+    const onChangeValue = e => {
+        document.getElementsByName('name').forEach((el) => {
+            el.value = "";
+        });
+        document.getElementsByName('search').forEach((el) => {
+            el.value = "";
+        });
+        setInput("");
+        setRadioValue(e.target.value);
+    }
+
+    console.log(currentLink);
+
     return (
         <div className="edit_form popup" key={editID}>
             <form onSubmit={handleSubmit} className="link_form">
                 <div className="row">
                     <div className="col-12">
-                        <div className={ !iconSelected ? "crop_section hidden" : "crop_section"}>
-                            {iconSelected ? <p>Crop Icon</p> : ""}
-                            <ReactCrop
-                                src={upImg}
-                                onImageLoaded={onLoad}
-                                crop={crop}
-                                onChange={(c) => setCrop(c)}
-                                onComplete={(c) => setCompletedIconCrop(c)}
-                            />
-                            <div className="icon_col">
-                                {iconSelected ? <p>Icon Preview</p> : ""}
-                                <canvas
-                                    ref={iconRef}
-                                    // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
-                                    style={{
-                                        backgroundImage: iconRef,
-                                        backgroundSize: `cover`,
-                                        backgroundRepeat: `no-repeat`,
-                                        width: completedIconCrop ? `100%` : 0,
-                                        height: completedIconCrop ? `100%` : 0,
-                                        borderRadius: `20px`,
-                                    }}
+                        {radioValue === "custom" ?
+                            <div className={!iconSelected ?
+                                "crop_section hidden" :
+                                "crop_section"}>
+                                {iconSelected ? <p>Crop Icon</p> : ""}
+                                <ReactCrop
+                                    src={upImg}
+                                    onImageLoaded={onLoad}
+                                    crop={crop}
+                                    onChange={(c) => setCrop(c)}
+                                    onComplete={(c) => setCompletedIconCrop(c)}
                                 />
+                                <div className="icon_col">
+                                    {iconSelected ? <p>Icon Preview</p> : ""}
+                                    <canvas
+                                        ref={iconRef}
+                                        // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
+                                        style={{
+                                            backgroundImage: iconRef,
+                                            backgroundSize: `cover`,
+                                            backgroundRepeat: `no-repeat`,
+                                            width: completedIconCrop ?
+                                                `100%` :
+                                                0,
+                                            height: completedIconCrop ?
+                                                `100%` :
+                                                0,
+                                            borderRadius: `20px`,
+                                        }}
+                                    />
+                                </div>
                             </div>
-                        </div>
+                            :
+                            ""
+                        }
                         <div className="icon_row">
                             <div className="icon_box">
                                 <div className="my_row top">
-                                    <input type="text" placeholder="Search Icons"
-                                           onChange={handleChange}
-                                    />
-                                    <div className="uploader">
-                                        <label htmlFor="custom_icon_upload" className="custom text-uppercase button blue">
-                                            Custom Icon
-                                        </label>
-                                        <input id="custom_icon_upload" type="file" className="custom" onChange={selectCustomIcon}/>
+                                    <div className="radio_wrap">
+                                        <input type="radio" value="standard" name="icon_type" defaultChecked onChange={onChangeValue}/>
+                                        <label htmlFor="icon_type">Standard Icons</label>
+                                    </div>
+                                    <div className="radio_wrap">
+                                        <input type="radio" value="custom" name="icon_type" onChange={onChangeValue}/>
+                                        <label htmlFor="icon_type">Custom Icons</label>
                                     </div>
                                 </div>
 
-                                <IconList currentLink={currentLink} setCurrentLink={setCurrentLink} iconArray={iconArray}/>
+                                {radioValue === "custom" ?
+                                    <div className="uploader">
+                                        <label htmlFor="custom_icon_upload" className="custom text-uppercase button blue">
+                                            Upload Icon
+                                        </label>
+                                        <input id="custom_icon_upload" type="file" className="custom" onChange={selectCustomIcon}/>
+                                    </div>
+                                    :
+                                    ""
+                                }
+
+                                <IconList
+                                    currentLink={currentLink}
+                                    setCurrentLink={setCurrentLink}
+                                    iconArray={iconArray}
+                                    radioValue={radioValue}
+                                />
 
                             </div>
                         </div>
@@ -309,16 +351,20 @@ const SubmitForm = ({
                 </div>
                 <div className="row">
                     <div className="col-12">
-                        <input
-                            name="name"
-                            type="text"
-                            defaultValue={ editID.toString().includes("new") ? "" : currentLink.name}
-                            placeholder="Link Name"
-                            onChange={(e) => setCurrentLink({
-                                ...currentLink,
-                                name: e.target.value
-                            }) }
-                        />
+                        {radioValue === "custom" ?
+                            <input
+                                name="name"
+                                type="text"
+                                //defaultValue={currentLink.name}
+                                placeholder="Link Name"
+                                onChange={(e) => setCurrentLink({
+                                    ...currentLink,
+                                    name: e.target.value
+                                })}
+                            />
+                            :
+                            <input name="search" type="text" placeholder="Search Icons" onChange={handleChange} />
+                        }
                     </div>
                 </div>
                 <div className="row">
@@ -326,7 +372,7 @@ const SubmitForm = ({
                         <input
                             name="url"
                             type="text"
-                            defaultValue={editID.toString().includes("new") ? "" : currentLink.url }
+                            defaultValue={currentLink.url}
                             placeholder="https://linkurl.com"
                             onChange={(e) => setCurrentLink({
                                 ...currentLink,

@@ -104,6 +104,13 @@
             -ms-flex-wrap: nowrap;
             flex-wrap: nowrap;
 
+            img {
+                border-radius: 20%;
+                -webkit-border-radius: 20%;
+                -moz-border-radius: 20%;
+                border: 1px solid $lightGray;
+            }
+
 
             span {
                 background: $white;
@@ -135,7 +142,7 @@
 
             &.disabled {
 
-               span svg {
+                span svg {
                     color: $borderGray;
                 }
 
@@ -198,6 +205,12 @@
                 width: 100%;
                 float: left;
                 padding: 0 14% 5px;
+
+                img {
+                    border-radius: 20%;
+                    -webkit-border-radius: 20%;
+                    -moz-border-radius: 20%;
+                }
             }
 
             .my_row {
@@ -288,6 +301,43 @@
             border-radius: 10px;
             -webkit-border-radius: 10px;
             -moz-border-radius: 10px;
+
+            .my_row.top {
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-orient: horizontal;
+                -webkit-box-direction: normal;
+                -ms-flex-direction: row;
+                flex-direction: row;
+                -ms-flex-wrap: nowrap;
+                flex-wrap: nowrap;
+                justify-content: space-evenly;
+                -webkit-justify-content: space-around;
+                margin-bottom: 25px;
+                padding-bottom: 15px;
+                border-bottom: 1px solid $borderGray;
+
+                .radio_wrap {
+                    display: -webkit-box;
+                    display: -ms-flexbox;
+                    display: flex;
+                    -webkit-box-orient: horizontal;
+                    -webkit-box-direction: normal;
+                    -ms-flex-direction: row;
+                    flex-direction: row;
+                    -ms-flex-wrap: nowrap;
+                    flex-wrap: nowrap;
+                    align-items: center;
+                    -webkit-align-items: center;
+
+                    input {
+                        width: 20px;
+                        height: 20px;
+                        margin-right: 10px;
+                    }
+                }
+            }
         }
 
         .icons_wrap {
@@ -303,6 +353,12 @@
             .icon_col {
                 background: none;
                 width: auto;
+
+                img {
+                    border-radius: 25%;
+                    -webkit-border-radius: 25%;
+                    -moz-border-radius: 25%;
+                }
             }
         }
 
@@ -487,6 +543,7 @@
 
     &.hidden {
         height: 0;
+        padding: 0;
     }
 
     .ReactCrop {

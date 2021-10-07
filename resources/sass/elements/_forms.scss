@@ -234,10 +234,24 @@ form .bottom_row a {
             padding: 8%;
             min-height: 660px;
 
+            .uploader {
+                margin-bottom: 20px;
+            }
+
+            label.custom {
+                justify-content: center;
+                -webkit-justify-content: center;
+            }
+
             .icons_wrap {
                 --n: 12;
                 grid-column-gap: 10px;
                 grid-row-gap: 10px;
+                border: 1px solid $borderGray;
+                border-radius: 10px;
+                -webkit-border-radius: 10px;
+                -moz-border-radius: 10px;
+                padding: 10px;
 
                 .icon_col {
                     position: relative;
