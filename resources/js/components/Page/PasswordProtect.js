@@ -106,7 +106,7 @@ const PasswordProtect = ({ userSub, setShowPopup, setPopupText }) => {
                 });
 
                 setTimeout(() => {
-                    document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function() {
+                    document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
                         e.preventDefault();
                         setShowPopup(false);
                         popup.classList.remove('open');

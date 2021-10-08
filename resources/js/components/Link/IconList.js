@@ -4,7 +4,7 @@ import React, {useContext, useState, useEffect} from 'react';
 //const iconPaths = user.icons;
 const customIcons = user.userIcons;
 
-const IconList = ({currentLink, setCurrentLink, iconArray, radioValue}) => {
+const IconList = ({currentLink, setCurrentLink, iconArray, radioValue, setCharactersLeft}) => {
 
     //const  { userLinks, setUserLinks } = useContext(LinksContext);
 
@@ -55,7 +55,13 @@ const IconList = ({currentLink, setCurrentLink, iconArray, radioValue}) => {
             $('.icon_image').removeClass('active');
             el.classList.add('active');
 
-            const name = el.dataset.name;
+            let name;
+            if(el.dataset.name) {
+                name = el.dataset.name;
+                setCharactersLeft(13 - name.length);
+            } else {
+                name = currentLink.name;
+            }
 
             setCurrentLink({
                 ...currentLink,

@@ -9,7 +9,7 @@
                 <p>Connect your followers across all platforms.</p>
                 <p>Use LinkPro to cross-promote your offers and get paid!</p>
                 <div class="bottom_row">
-                    <a class="button red open_popup" href="/regsiter">Sign up to get started for free</a>
+                    <a class="button red open_popup" href="/regsiter">Sign up free</a>
                     <p><em><strong>Already on LinkPro?</strong></em> <a href="/login">Log In</a></p>
                 </div>
             </div>

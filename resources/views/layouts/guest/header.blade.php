@@ -27,7 +27,7 @@
         </div>
         <div class="col right">
             <a href="/login">Log In</a>
-            <a class="button transparent" href="/register">Sign Up Free</a>
+            <a class="button transparent" href="/register">Sign Up</a>
         </div>
     </header>
 

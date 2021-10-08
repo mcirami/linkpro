@@ -177,6 +177,9 @@ function App() {
                                 userLinks={userLinks}
                                 originalArray={originalArray}
                                 setOriginalArray={setOriginalArray}
+                                setShowPopup={setShowPopup}
+                                setPopupText={setPopupText}
+                                userSub={userSub}
                             />
                         ) : (
                             ""

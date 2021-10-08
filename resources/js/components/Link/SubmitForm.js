@@ -20,6 +20,9 @@ const SubmitForm = ({
     userLinks,
     originalArray,
     setOriginalArray,
+    setShowPopup,
+    setPopupText,
+    userSub
 }) => {
 
     //const  { userLinks, setUserLinks } = useContext(LinksContext);
@@ -38,6 +41,14 @@ const SubmitForm = ({
     const [crop, setCrop] = useState({ unit: '%', width: 30, aspect: 1 });
     const [customIcon, setCustomIcon] = useState(null);
     const [radioValue, setRadioValue] = useState("standard");
+    const [subStatus, setSubStatus] = useState(false);
+
+    useEffect (() => {
+        if (!userSub || userSub["ends_at"] && new Date(userSub["ends_at"]).valueOf() < new Date().valueOf()) {
+            setSubStatus(true);
+        }
+
+    }, [setSubStatus]);
 
     const [ currentLink, setCurrentLink ] = useState(
         userLinks.find(function(e) {
@@ -55,6 +66,16 @@ const SubmitForm = ({
         const tmp = {"name": iconName.replace("-", " "), "path" : iconPath}
         iconArray.push(tmp);
     });
+
+    const [charactersLeft, setCharactersLeft] = useState();
+
+    useEffect(() => {
+        if(currentLink.name) {
+            setCharactersLeft(13 - currentLink.name.length);
+        } else {
+            setCharactersLeft(13);
+        }
+    },[charactersLeft])
 
     const [input, setInput] = useState("");
     const handleChange = (e) => {
@@ -94,6 +115,7 @@ const SubmitForm = ({
     const onLoad = useCallback((img) => {
         imgRef.current = img;
     }, []);
+
 
     useEffect(() => {
         if (!customIcon) {
@@ -261,18 +283,45 @@ const SubmitForm = ({
         });
     }
 
-    const onChangeValue = e => {
-        document.getElementsByName('name').forEach((el) => {
-            el.value = "";
-        });
-        document.getElementsByName('search').forEach((el) => {
-            el.value = "";
-        });
-        setInput("");
-        setRadioValue(e.target.value);
+    const handleOnClick = e => {
+        if (subStatus) {
+
+            let text;
+            if (e.target.dataset.type === "custom" ) {
+                text = "add custom icons"
+            } else {
+                text = "change link name"
+            }
+
+            const popup = document.querySelector('#upgrade_popup');
+            setShowPopup(true);
+            popup.classList.add('open');
+            setPopupText({
+                levelText: "Pro",
+                optionText: text
+            });
+
+            setTimeout(() => {
+                document.querySelector('#upgrade_popup .close_popup').
+                    addEventListener('click', function(e) {
+                        e.preventDefault();
+                        setShowPopup(false);
+                        popup.classList.remove('open');
+                    });
+            }, 500);
+        }
     }
 
-    console.log(currentLink);
+    const handleLinkName = (e) => {
+        const value = e.target.value;
+
+        setCharactersLeft(13 - value.length);
+
+        setCurrentLink({
+            ...currentLink,
+            name: value
+        })
+    }
 
     return (
         <div className="edit_form popup" key={editID}>
@@ -318,24 +367,30 @@ const SubmitForm = ({
                             <div className="icon_box">
                                 <div className="my_row top">
                                     <div className="radio_wrap">
-                                        <input type="radio" value="standard" name="icon_type" defaultChecked onChange={onChangeValue}/>
+                                        <input type="radio" value="standard" name="icon_type" defaultChecked onChange={(e) => {setRadioValue(e.target.value) }}/>
                                         <label htmlFor="icon_type">Standard Icons</label>
                                     </div>
                                     <div className="radio_wrap">
-                                        <input type="radio" value="custom" name="icon_type" onChange={onChangeValue}/>
+                                        <input type="radio" value="custom" name="icon_type"
+                                               onChange={(e) => {setRadioValue(e.target.value) }}
+                                               disabled={subStatus}
+                                        />
                                         <label htmlFor="icon_type">Custom Icons</label>
+                                        {subStatus && <span className="disabled_wrap" data-type="custom" onClick={(e) => handleOnClick(e)} />}
                                     </div>
                                 </div>
 
                                 {radioValue === "custom" ?
                                     <div className="uploader">
                                         <label htmlFor="custom_icon_upload" className="custom text-uppercase button blue">
-                                            Upload Icon
+                                            Upload Image
                                         </label>
                                         <input id="custom_icon_upload" type="file" className="custom" onChange={selectCustomIcon}/>
                                     </div>
                                     :
-                                    ""
+                                    <div className="uploader">
+                                        <input name="search" type="text" placeholder="Search Icons" onChange={handleChange} />
+                                    </div>
                                 }
 
                                 <IconList
@@ -343,6 +398,7 @@ const SubmitForm = ({
                                     setCurrentLink={setCurrentLink}
                                     iconArray={iconArray}
                                     radioValue={radioValue}
+                                    setCharactersLeft={setCharactersLeft}
                                 />
 
                             </div>
@@ -351,20 +407,29 @@ const SubmitForm = ({
                 </div>
                 <div className="row">
                     <div className="col-12">
-                        {radioValue === "custom" ?
+                        <div className="input_wrap">
                             <input
+                                maxLength="13"
                                 name="name"
                                 type="text"
-                                //defaultValue={currentLink.name}
+                                value={currentLink.name || ""}
                                 placeholder="Link Name"
-                                onChange={(e) => setCurrentLink({
-                                    ...currentLink,
-                                    name: e.target.value
-                                })}
+                                onChange={(e) => handleLinkName(e)}
+                                disabled={subStatus}
+                                className={subStatus ? "disabled" : ""}
                             />
-                            :
-                            <input name="search" type="text" placeholder="Search Icons" onChange={handleChange} />
-                        }
+                            {subStatus && <span className="disabled_wrap" data-type="name" onClick={(e) => handleOnClick(e)}> </span>}
+                        </div>
+                        <div className="my_row characters title">
+                            <p className="char_max">Max 13 Characters</p>
+                            <p className="char_count">
+                                {charactersLeft < 0 ?
+                                    <span className="over">Over Character Limit</span>
+                                    :
+                                    "Characters Left: " + charactersLeft
+                                }
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div className="row">
@@ -372,12 +437,12 @@ const SubmitForm = ({
                         <input
                             name="url"
                             type="text"
-                            defaultValue={currentLink.url}
+                            value={currentLink.url || ""}
                             placeholder="https://linkurl.com"
                             onChange={(e) => setCurrentLink({
                                 ...currentLink,
                                 url: e.target.value
-                            }) }
+                            })}
                         />
                     </div>
                 </div>
