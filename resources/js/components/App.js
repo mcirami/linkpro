@@ -19,7 +19,7 @@ import { UpgradePopup } from './UpgradePopup';
 const page = user.page;
 const userPages = user.user_pages;
 const userSub = user.userSub;
-
+const customIcons = user.userIcons;
 //export const LinksContext = createContext();
 export const PageContext = createContext();
 
@@ -45,6 +45,7 @@ function App() {
         levelText: "",
         optionText: "",
     }));
+    const [customIconArray, setCustomIconArray] = useState(customIcons);
 
     const ref = createRef(null);
     const [completedCrop, setCompletedCrop] = useState(null);
@@ -180,6 +181,8 @@ function App() {
                                 setShowPopup={setShowPopup}
                                 setPopupText={setPopupText}
                                 userSub={userSub}
+                                customIconArray={customIconArray}
+                                setCustomIconArray={setCustomIconArray}
                             />
                         ) : (
                             ""

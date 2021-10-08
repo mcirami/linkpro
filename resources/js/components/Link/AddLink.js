@@ -129,7 +129,7 @@ const AddLink = ({userLinks, setUserLinks, originalArray, setOriginalArray, user
         <div className="add_more_icons">
             <div className="icon_wrap" onClick={handleClick}>
                 <ImPlus />
-                <h3>Add More Icons</h3>
+                <h3>Add Icon</h3>
             </div>
         </div>
     )

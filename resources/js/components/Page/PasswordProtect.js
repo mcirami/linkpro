@@ -33,20 +33,20 @@ const PasswordProtect = ({ userSub, setShowPopup, setPopupText }) => {
                     ...pageSettings,
                     password: password,
                 })
+                setPageSettings({
+                    ...pageSettings,
+                    is_protected: true,
+                })
                 setIsEditing(false);
                 setChecked(true);
             }
         ).catch(error => {
             if ( error.response ) {
-                console.log("ERROR:: ", error.response.data);
+                EventBus.dispatch("error", { message: error.response.data.errors.is_protected[0] });
             } else {
                 console.log("ERROR:: ", error);
             }
         })
-    }
-
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
     }
 
     const handleCheckedChange = (e) => {
@@ -81,8 +81,12 @@ const PasswordProtect = ({ userSub, setShowPopup, setPopupText }) => {
 
             }
         ).catch(error => {
-            console.log("ERROR:: ", error.response.data);
-
+            //console.log("ERROR:: ", error.response.data);
+            if (error.response) {
+                EventBus.dispatch("error", { message: error.response.data.errors.is_protected[0] });
+            } else {
+                console.log("ERROR:: ", error);
+            }
         })
     }
 
@@ -159,7 +163,7 @@ const PasswordProtect = ({ userSub, setShowPopup, setPopupText }) => {
                                            name="password"
                                            defaultValue={password || "" }
                                            placeholder="Enter Password"
-                                           onChange={(e) => handlePasswordChange(e) }
+                                           onChange={(e) => setPassword(e.target.value) }
                                            onKeyPress={ event => {
                                                    if(event.key === 'Enter') {
                                                        handleSubmit(event);

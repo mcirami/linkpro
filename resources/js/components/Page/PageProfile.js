@@ -167,7 +167,7 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
                                 <button type="submit" className="button green" disabled={!profileFileName && true}>
                                     Save
                                 </button>
-                                <a className="button red" href="#"
+                                <a className="button transparent gray" href="#"
                                    onClick={(e) => {
                                        e.preventDefault();
                                        handleCancel();
@@ -175,6 +175,7 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
                                 >
                                     Cancel
                                 </a>
+                                <a className="help_link" href="mailto:help@link.pro">Need Help?</a>
                             </div>
                         </div>
                     </form>

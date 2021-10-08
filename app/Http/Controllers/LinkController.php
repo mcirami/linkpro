@@ -25,9 +25,9 @@ class LinkController extends Controller
             return abort(403);
         }
 
-        $linkService->updateLink($request, $link);
+        $path = $linkService->updateLink($request, $link);
 
-        return response()->json(['message' => 'Link Updated']);
+        return response()->json(['message' => 'Icon Updated', 'path' => $path]);
 
     }
 

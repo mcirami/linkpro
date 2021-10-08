@@ -171,7 +171,7 @@ const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileN
                                 <button type="submit" className="button green" disabled={!fileName && true}>
                                     Save
                                 </button>
-                                <a className="button red" href="#"
+                                <a className="button transparent gray" href="#"
                                    onClick={(e) => {
                                        e.preventDefault();
                                        handleCancel();
@@ -179,6 +179,7 @@ const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileN
                                 >
                                     Cancel
                                 </a>
+                                <a className="help_link" href="mailto:help@link.pro">Need Help?</a>
                             </div>
                         </div>
                     </form>

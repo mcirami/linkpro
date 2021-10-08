@@ -12,6 +12,7 @@ import EventBus from '../../Utils/Bus';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
 const iconPaths = user.icons;
+const customIcons = user.userIcons;
 
 const SubmitForm = ({
     editID,
@@ -22,7 +23,9 @@ const SubmitForm = ({
     setOriginalArray,
     setShowPopup,
     setPopupText,
-    userSub
+    userSub,
+    customIconArray,
+    setCustomIconArray
 }) => {
 
     //const  { userLinks, setUserLinks } = useContext(LinksContext);
@@ -34,12 +37,12 @@ const SubmitForm = ({
     const [iconSelected, setIconSelected] = useState(false);
 
     //image cropping
-
     const [upImg, setUpImg] = useState();
     const imgRef = useRef(null);
     const previewCanvasRef = iconRef;
     const [crop, setCrop] = useState({ unit: '%', width: 30, aspect: 1 });
     const [customIcon, setCustomIcon] = useState(null);
+
     const [radioValue, setRadioValue] = useState("standard");
     const [subStatus, setSubStatus] = useState(false);
 
@@ -49,6 +52,11 @@ const SubmitForm = ({
         }
 
     }, [setSubStatus]);
+
+    /*useEffect (() => {
+        setCustomIconArray(customIcons);
+        console.log("Fuck");
+    }, []);*/
 
     const [ currentLink, setCurrentLink ] = useState(
         userLinks.find(function(e) {
@@ -222,7 +230,7 @@ const SubmitForm = ({
                 }
             ).catch(error => {
                 if (error.response) {
-                    console.log("ERROR:: ", error.response.data);
+                    EventBus.dispatch("error", { message: error.response.data.errors });
                 } else {
                     console.log("ERROR:: ", error);
                 }
@@ -245,6 +253,7 @@ const SubmitForm = ({
             (response) => {
                 const returnMessage = JSON.stringify(response.data.message);
                 EventBus.dispatch("success", {message: returnMessage});
+                const iconPath = response.data.path;
                 setUserLinks(
                     userLinks.map((item) => {
                         if (item.id === editID) {
@@ -271,11 +280,18 @@ const SubmitForm = ({
                         return item;
                     })
                 )
+
+                const newIconPath = "public" + iconPath;
+                setCustomIconArray( customIconArray => [
+                    ...customIconArray,
+                    newIconPath
+                ]);
+
                 setEditID(null)
             }
         ).catch(error => {
             if (error.response) {
-                console.log("ERROR:: ", error.response.data);
+                EventBus.dispatch("error", { message: error.response.data.errors });
             } else {
                 console.log("ERROR:: ", error);
             }
@@ -366,11 +382,11 @@ const SubmitForm = ({
                         <div className="icon_row">
                             <div className="icon_box">
                                 <div className="my_row top">
-                                    <div className="radio_wrap">
+                                    <div className={radioValue === "standard" ? "radio_wrap active" : "radio_wrap" }>
                                         <input type="radio" value="standard" name="icon_type" defaultChecked onChange={(e) => {setRadioValue(e.target.value) }}/>
                                         <label htmlFor="icon_type">Standard Icons</label>
                                     </div>
-                                    <div className="radio_wrap">
+                                    <div className={radioValue === "custom" ? "radio_wrap active" : "radio_wrap" }>
                                         <input type="radio" value="custom" name="icon_type"
                                                onChange={(e) => {setRadioValue(e.target.value) }}
                                                disabled={subStatus}
@@ -399,6 +415,7 @@ const SubmitForm = ({
                                     iconArray={iconArray}
                                     radioValue={radioValue}
                                     setCharactersLeft={setCharactersLeft}
+                                    customIconArray={customIconArray}
                                 />
 
                             </div>
@@ -454,7 +471,7 @@ const SubmitForm = ({
                         <a href="#" className="button transparent gray" onClick={(e) => {e.preventDefault(); setEditID(null); }}>
                             Cancel
                         </a>
-
+                        <a className="help_link" href="mailto:help@link.pro">Need Help?</a>
                     </div>
                 </div>
             </form>

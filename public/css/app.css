@@ -12298,8 +12298,6 @@ header.guest_header .col.right {
   justify-content: space-evenly;
   -webkit-justify-content: space-around;
   margin-bottom: 25px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #d2d2d2;
 }
 #links_page .icon_row .icon_box .my_row.top .radio_wrap {
   position: relative;
@@ -12308,6 +12306,23 @@ header.guest_header .col.right {
   flex-wrap: nowrap;
   align-items: center;
   -webkit-align-items: center;
+  justify-content: center;
+  -webkit-justify-content: center;
+  padding: 20px 10px;
+  width: 50%;
+  border-bottom: 1px solid #d2d2d2;
+}
+#links_page .icon_row .icon_box .my_row.top .radio_wrap.active {
+  border-top: 1px solid #d2d2d2;
+  border-right: 1px solid #d2d2d2;
+  border-left: 1px solid #d2d2d2;
+  border-top-right-radius: 10px;
+  -webkit-border-top-right-radius: 10px;
+  -moz-border-radius-topright: 10px;
+  border-top-left-radius: 10px;
+  -webkit-border-top-left-radius: 10px;
+  -moz-border-radius-topleft: 10px;
+  border-bottom: none;
 }
 #links_page .icon_row .icon_box .my_row.top .radio_wrap input {
   width: 20px;
@@ -12385,7 +12400,21 @@ header.guest_header .col.right {
   padding: 40px;
 }
 .page_settings .column_wrap form .bottom_section .bottom_row {
-  text-align: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  align-items: center;
+  -webkit-align-items: center;
+}
+.page_settings .column_wrap form .bottom_section .bottom_row .help_link {
+  font-family: "opensanssemibold", sans-serif;
+  justify-self: flex-end;
+  margin-left: auto;
+  color: #424fcf;
+  font-size: 18px;
+  width: auto;
 }
 .page_settings .column_wrap form .bottom_section .bottom_row button, .page_settings .column_wrap form .bottom_section .bottom_row a {
   width: 150px;
@@ -13184,10 +13213,16 @@ form .bottom_row a {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  justify-content: space-between;
-  -webkit-justify-content: space-between;
+  justify-content: flex-start;
+  -webkit-justify-content: flex-start;
   align-items: center;
   -webkit-align-items: center;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+}
+#links_page .edit_form.popup .button_row .help_link {
+  justify-self: flex-end;
+  margin-left: auto;
 }
 #links_page .edit_form.popup .link_form {
   width: 100%;

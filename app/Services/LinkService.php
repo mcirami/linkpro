@@ -43,6 +43,7 @@ class LinkService {
             $path = "/icons/" . $link->user_id . "/" . $name;
             Storage::put('/public' . $path , $img->stream());
             $link->update(['name' => $request->name, 'url' => $request->url, 'icon' => "/storage" . $path]);
+            return $path;
         } else {
             $link->update($request->only(['name', 'url', 'icon']));
         }

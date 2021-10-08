@@ -338,8 +338,6 @@
                 justify-content: space-evenly;
                 -webkit-justify-content: space-around;
                 margin-bottom: 25px;
-                padding-bottom: 15px;
-                border-bottom: 1px solid $borderGray;
 
                 .radio_wrap {
                     position: relative;
@@ -354,6 +352,25 @@
                     flex-wrap: nowrap;
                     align-items: center;
                     -webkit-align-items: center;
+                    justify-content: center;
+                    -webkit-justify-content: center;
+                    padding: 20px 10px;
+                    width: 50%;
+                    border-bottom: 1px solid $borderGray;
+
+                    &.active {
+                        border-top: 1px solid $borderGray;
+                        border-right: 1px solid $borderGray;
+                        border-left: 1px solid $borderGray;
+                        border-top-right-radius: 10px;
+                        -webkit-border-top-right-radius: 10px;
+                        -moz-border-radius-topright: 10px;
+                        border-top-left-radius: 10px;
+                        -webkit-border-top-left-radius: 10px;
+                        -moz-border-radius-topleft: 10px;
+                        border-bottom: none;
+
+                    }
 
                     input {
                         width: 20px;
@@ -449,7 +466,28 @@
                 padding: 40px;
 
                 .bottom_row {
-                    text-align: center;
+                    display: -webkit-box;
+                    display: -ms-flexbox;
+                    display: flex;
+                    -webkit-box-orient: horizontal;
+                    -webkit-box-direction: normal;
+                    -ms-flex-direction: row;
+                    flex-direction: row;
+                    -ms-flex-wrap: nowrap;
+                    flex-wrap: nowrap;
+                    justify-content: flex-start;
+                    -webkit-justify-content: flex-start;
+                    align-items: center;
+                    -webkit-align-items: center;
+
+                    .help_link {
+                        @include ossemibold;
+                        justify-self: flex-end;
+                        margin-left: auto;
+                        color: $blue;
+                        font-size: 18px;
+                        width: auto;
+                    }
 
                     button, a {
                         width: 150px;
