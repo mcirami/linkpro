@@ -11421,7 +11421,7 @@ button {
 }
 
 .button, button {
-  color: #ffffff !important;
+  color: #ffffff;
   width: 150px;
   padding: 10px;
   text-align: center;
@@ -11450,15 +11450,24 @@ button {
   background: #424fcf;
 }
 .button.blue:hover, button.blue:hover {
-  background: #f24d1d;
+  color: #ffffff;
+  background: #2b37ab;
   text-decoration: none;
 }
 .button.transparent, button.transparent {
   border: 1px solid #424fcf;
-  color: #424fcf !important;
+  color: #424fcf;
 }
 .button.transparent:hover, button.transparent:hover {
-  color: #ffffff !important;
+  color: #ffffff;
+}
+.button.transparent.gray, button.transparent.gray {
+  border: 1px solid #545656;
+  color: #545656;
+}
+.button.transparent.gray:hover, button.transparent.gray:hover {
+  background: #545656;
+  color: #ffffff;
 }
 .button.settings, button.settings {
   position: absolute;
@@ -11471,7 +11480,7 @@ button {
   color: #0ba921;
 }
 .button.settings:hover, button.settings:hover {
-  color: #545656;
+  color: #077216;
 }
 .button.settings svg, button.settings svg {
   width: 100%;
@@ -11481,7 +11490,7 @@ button {
   background: #2ac77a;
 }
 .button.green:hover, button.green:hover {
-  background: #424fcf;
+  background: #20965c;
 }
 .button.blue_gradient, button.blue_gradient {
   /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#4a56ec+0,2d38cc+100 */
@@ -12086,6 +12095,27 @@ header.guest_header .col.right {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
+  /*&.disabled {
+
+      span svg {
+          color: $borderGray;
+      }
+
+      .image_wrap {
+          position: relative;
+
+          &:before {
+              content: '';
+              height: 100%;
+              WIDTH: 100%;
+              background: rgba(155,155,155,.8);
+              position: absolute;
+              left: 0;
+              top: 0;
+              border-radius: 32px;
+          }
+      }
+  }*/
   /*.delete_icon {
       position: absolute;
       right: 8px;
@@ -12095,6 +12125,24 @@ header.guest_header .col.right {
       svg {
           width: 20px;
           height: 20px;
+      }
+  }*/
+  /*.edit_icon {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+
+      @media all and (max-width: 550px) {
+          right: 6px;
+          top: 6px;
+      }
+
+      &.disabled {
+          background: $gray;
+
+          &:hover {
+              background: $gray;
+          }
       }
   }*/
 }
@@ -12127,22 +12175,6 @@ header.guest_header .col.right {
   cursor: -webkit-grabbing;
   cursor: grabbing;
 }
-#links_page .icons_wrap .icon_col.disabled span svg {
-  color: #d2d2d2;
-}
-#links_page .icons_wrap .icon_col.disabled .image_wrap {
-  position: relative;
-}
-#links_page .icons_wrap .icon_col.disabled .image_wrap:before {
-  content: "";
-  height: 100%;
-  WIDTH: 100%;
-  background: rgba(155, 155, 155, 0.8);
-  position: absolute;
-  left: 0;
-  top: 0;
-  border-radius: 32px;
-}
 #links_page .icons_wrap .icon_col .column_content {
   padding: 20px;
   border-radius: 20px;
@@ -12150,32 +12182,34 @@ header.guest_header .col.right {
   -moz-border-radius: 20px;
   position: relative;
 }
-#links_page .icons_wrap .icon_col .edit_icon {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-}
-@media all and (max-width: 550px) {
-  #links_page .icons_wrap .icon_col .edit_icon {
-    right: 6px;
-    top: 6px;
-  }
-}
-#links_page .icons_wrap .icon_col .edit_icon.disabled {
-  background: #d4d2d2;
-}
-#links_page .icons_wrap .icon_col .edit_icon.disabled:hover {
-  background: #d4d2d2;
-}
 #links_page .icons_wrap .icon_col .icon_wrap {
   width: 100%;
   float: left;
   padding: 0 14% 5px;
 }
+#links_page .icons_wrap .icon_col .icon_wrap .image_wrap {
+  overflow: hidden;
+  border-radius: 20%;
+  -webkit-border-radius: 20%;
+  -moz-border-radius: 20%;
+}
+#links_page .icons_wrap .icon_col .icon_wrap .image_wrap:hover {
+  cursor: pointer;
+}
+#links_page .icons_wrap .icon_col .icon_wrap .image_wrap:hover img {
+  transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  -o-transform: scale(1.1);
+}
 #links_page .icons_wrap .icon_col .icon_wrap img {
   border-radius: 20%;
   -webkit-border-radius: 20%;
   -moz-border-radius: 20%;
+  transition: 0.5s all linear;
+  -moz-transition: 0.5s all linear;
+  -webkit-transition: 0.5s all linear;
+  -o-transition: 0.5s all linear;
 }
 #links_page .icons_wrap .icon_col .my_row {
   width: 100%;

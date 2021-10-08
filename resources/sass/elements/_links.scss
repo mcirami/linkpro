@@ -140,7 +140,7 @@
 
             }
 
-            &.disabled {
+            /*&.disabled {
 
                 span svg {
                     color: $borderGray;
@@ -160,7 +160,7 @@
                         border-radius: 32px;
                     }
                 }
-            }
+            }*/
 
             /*.delete_icon {
                 position: absolute;
@@ -182,7 +182,7 @@
                 position: relative;
             }
 
-            .edit_icon {
+            /*.edit_icon {
                 position: absolute;
                 right: 10px;
                 top: 10px;
@@ -199,17 +199,40 @@
                         background: $gray;
                     }
                 }
-            }
+            }*/
 
             .icon_wrap {
                 width: 100%;
                 float: left;
                 padding: 0 14% 5px;
 
+                .image_wrap {
+                    overflow: hidden;
+                    border-radius: 20%;
+                    -webkit-border-radius: 20%;
+                    -moz-border-radius: 20%;
+
+                    &:hover {
+                        cursor: pointer;
+
+                        img {
+                            transform: scale(1.1);
+                            -moz-transform: scale(1.1);
+                            -webkit-transform:  scale(1.1);
+                            -o-transform:  scale(1.1);
+                        }
+                    }
+                }
+
+
                 img {
                     border-radius: 20%;
                     -webkit-border-radius: 20%;
                     -moz-border-radius: 20%;
+                    transition: .5s all linear;
+                    -moz-transition: .5s all linear;
+                    -webkit-transition: .5s all linear;
+                    -o-transition: .5s all linear;
                 }
             }
 

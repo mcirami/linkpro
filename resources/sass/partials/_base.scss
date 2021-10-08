@@ -120,7 +120,7 @@ button {
 }
 
 .button, button {
-    color: $white !important;
+    color: $white;
     width: 150px;
     padding: 10px;
     text-align: center;
@@ -151,17 +151,28 @@ button {
         background: $blue;
 
         &:hover {
-            background: $red;
+            color: $white;
+            background: $hoverBlue;
             text-decoration: none;
         }
     }
 
     &.transparent {
         border: 1px solid $blue;
-        color: $blue !important;
+        color: $blue;
 
         &:hover {
-            color: $white !important;
+            color: $white;
+        }
+
+        &.gray {
+            border: 1px solid $darkGray;
+            color: $darkGray;
+
+            &:hover {
+                background: $darkGray;
+                color: $white;
+            }
         }
     }
 
@@ -176,7 +187,7 @@ button {
         color: $green;
 
         &:hover {
-            color: $darkGray;
+            color: $hoverGreen;
         }
 
         svg {
@@ -189,7 +200,7 @@ button {
         background: $limeGreen;
 
         &:hover {
-            background: $blue;
+            background: $hoverLimeGreen;
         }
     }
 

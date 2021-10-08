@@ -294,7 +294,7 @@ const Links = ({
                     <Motion key={key} style={style}>
                         {({ translateX, translateY, scale }) => (
                             <div
-                                className={linkID.toString().includes("new") ? "icon_col disabled" : "icon_col"}
+                                className="icon_col"
                                 style={{
                                     transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale})`,
                                     zIndex: key === lastPress ? 2 : 1,
@@ -302,41 +302,34 @@ const Links = ({
                                     userSelect: "none"
                                 }}
                             >
-
-                                {linkID.toString().includes("new") ?
-                                    <span>
-                                        <MdDragHandle/>
-                                    </span>
-                                    :
-                                    <span className="drag_handle"
-                                        onMouseDown={handleMouseDown.bind(null,
-                                            key, [x, y])}
-                                        onTouchStart={handleTouchStart.bind(
-                                            null, key, [x, y])}
-                                    >
-                                        <MdDragHandle/>
-                                    </span>
-                                }
+                                <span className="drag_handle"
+                                    onMouseDown={handleMouseDown.bind(null,
+                                        key, [x, y])}
+                                    onTouchStart={handleTouchStart.bind(
+                                        null, key, [x, y])}
+                                >
+                                    <MdDragHandle/>
+                                </span>
 
                                 <div className="column_content">
-                                    <button className="edit_icon"
+                                    {/*<button className="edit_icon"
                                             onClick={(e) => { setEditID(linkID) }}
                                     >
                                         <MdEdit />
-                                    </button>
+                                    </button>*/}
                                     <div className="icon_wrap">
                                         <div className="image_wrap">
-                                            <img src={ originalArray[key].icon || '/images/icon-placeholder.png' } alt=""/>
+                                            <img src={ originalArray[key].icon || '/images/icon-placeholder.png' } alt=""
+                                                 onClick={(e) => { setEditID(linkID) }}
+                                            />
                                         </div>
                                     </div>
                                     <div className="my_row">
                                         <div className="switch_wrap">
                                             <Switch
                                                 onChange={(e) => handleChange(originalArray[key])}
-                                                disabled={linkID.toString().includes("new")}
                                                 height={20}
                                                 checked={Boolean(originalArray[key].active_status)}
-                                                // checked={Boolean(link.active_status)}
                                                 onColor="#424fcf"
                                                 uncheckedIcon={false}
                                                 checkedIcon={false}
