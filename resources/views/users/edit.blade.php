@@ -164,8 +164,8 @@
 
                                     <div class="other_methods text-center my-auto">
                                         <h4>Your current payment type is</h4>
-                                        <a href="https://paypal.com">
-                                            PayPal
+                                        <a href="https://paypal.com" class="px-5 d-block" target="_blank">
+                                            <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_200x51.png" alt="PayPal" />
                                         </a>
                                     </div>
 
@@ -193,6 +193,8 @@
         </div>
     @endif
 
+    @include('layouts.popup');
+
     @include('layouts.popupChooseLevel');
 
     @include('layouts.popupPaymentMethod');
@@ -207,70 +209,72 @@
     <script src="https://js.braintreegateway.com/web/3.38.1/js/paypal-checkout.min.js"></script>
     <script>
         var updateForm = document.querySelector('#update-cc-form');
-        var submit = document.querySelector('input[type="submit"]');
-        braintree.client.create({
-            authorization: '{{ $token }}'
-        }, function (clientErr, clientInstance) {
-            if (clientErr) {
-                console.error(clientErr);
-                return;
-            }
-            // This example shows Hosted Fields, but you can also use this
-            // client instance to create additional components here, such as
-            // PayPal or Data Collector.
-            braintree.hostedFields.create({
-                client: clientInstance,
-                styles: {
-                    'input': {
-                        'font-size': '14px'
-                    },
-                    'input.invalid': {
-                        'color': 'red'
-                    },
-                    'input.valid': {
-                        'color': 'green'
-                    }
-                },
-                fields: {
-                    number: {
-                        selector: '#card-number',
-                        placeholder: 'xxxx xxxx xxxx ' + '{{ $user["pm_last_four"] }}',
-                    },
-                    cvv: {
-                        selector: '#cvv',
-                        placeholder: 'xxx'
-                    },
-                    expirationDate: {
-                        selector: '#expiration-date',
-                        placeholder: 'MM/YYYY'
-                    },
-                    postalCode: {
-                        selector: '#postal-code',
-                        placeholder: 'xxxxx',
-                    }
-                }
-            }, function(hostedFieldsErr, hostedFieldsInstance) {
-                if (hostedFieldsErr) {
-                    console.error(hostedFieldsErr);
+        if(updateForm) {
+            var submit = document.querySelector('input[type="submit"]');
+            braintree.client.create({
+                authorization: '{{ $token }}'
+            }, function(clientErr, clientInstance) {
+                if (clientErr) {
+                    console.error(clientErr);
                     return;
                 }
-                // submit.removeAttribute('disabled');
-                updateForm.addEventListener('submit', function(event) {
-                    event.preventDefault();
-                    hostedFieldsInstance.tokenize(function(tokenizeErr, payload) {
-                        if (tokenizeErr) {
-                            console.error(tokenizeErr);
-                            return;
+                // This example shows Hosted Fields, but you can also use this
+                // client instance to create additional components here, such as
+                // PayPal or Data Collector.
+                braintree.hostedFields.create({
+                    client: clientInstance,
+                    styles: {
+                        'input': {
+                            'font-size': '14px'
+                        },
+                        'input.invalid': {
+                            'color': 'red'
+                        },
+                        'input.valid': {
+                            'color': 'green'
                         }
-                        // If this was a real integration, this is where you would
-                        // send the nonce to your server.
-                        // console.log('Got a nonce: ' + payload.nonce);
-                        document.querySelector('#nonce').value = payload.nonce;
-                        updateForm.submit();
-                    });
-                }, false);
+                    },
+                    fields: {
+                        number: {
+                            selector: '#card-number',
+                            placeholder: 'xxxx xxxx xxxx ' + '{{ $user["pm_last_four"] }}',
+                        },
+                        cvv: {
+                            selector: '#cvv',
+                            placeholder: 'xxx'
+                        },
+                        expirationDate: {
+                            selector: '#expiration-date',
+                            placeholder: 'MM/YYYY'
+                        },
+                        postalCode: {
+                            selector: '#postal-code',
+                            placeholder: 'xxxxx',
+                        }
+                    }
+                }, function(hostedFieldsErr, hostedFieldsInstance) {
+                    if (hostedFieldsErr) {
+                        console.error(hostedFieldsErr);
+                        return;
+                    }
+                    // submit.removeAttribute('disabled');
+                    updateForm.addEventListener('submit', function(event) {
+                        event.preventDefault();
+                        hostedFieldsInstance.tokenize(function(tokenizeErr, payload) {
+                            if (tokenizeErr) {
+                                console.error(tokenizeErr);
+                                return;
+                            }
+                            // If this was a real integration, this is where you would
+                            // send the nonce to your server.
+                            // console.log('Got a nonce: ' + payload.nonce);
+                            document.querySelector('#nonce').value = payload.nonce;
+                            updateForm.submit();
+                        });
+                    }, false);
+                });
             });
-        });
+        }
     </script>
 
 @endsection

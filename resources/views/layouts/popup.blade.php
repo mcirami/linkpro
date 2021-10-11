@@ -9,7 +9,7 @@
                     <input class="level" name="level" type="hidden" value="">
                     <input class="plan" name="plan" type="hidden" value="">
                     <button type="submit" class="button green">Yes</button>
-                    <a class="close_popup button red" href="#">No</a>
+                    <a class="close_popup button transparent gray" href="#">No</a>
                 </form>
             </div>
         </div>

@@ -61,13 +61,15 @@ class LinkService {
         return $message;
     }
 
-    public function updateLinksPositions($request) {
+    public function updateLinksPositions($linksArray) {
 
-        $links = $request->all();
-
-        foreach($links["userLinks"] as $link) {
-            Link::where('id', $link["id"])->update(['position' => $link["position"]]);
+        foreach($linksArray["userLinks"] as $index => $link) {
+            Link::where('id', $link["id"])->update(['position' => $index ]);
         }
 
+    }
+
+    public function deleteLink($link) {
+        $link->delete();
     }
 }

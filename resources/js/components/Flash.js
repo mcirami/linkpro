@@ -12,7 +12,7 @@ export const Flash = () => {
         EventBus.on('success', (data) => {
            setVisibility(true);
            setMessageType('success');
-           setMessage(data.message.replace(/\"/g, ""));
+           setMessage(data.message.replace(/"/g, ""));
 
            setTimeout(() => {
                setVisibility(false);
@@ -26,7 +26,7 @@ export const Flash = () => {
         EventBus.on('error', (data) => {
             setVisibility(true);
             setMessageType('error');
-            setMessage(data.message.replace(/\"/g, ""));
+            setMessage(data.message.replace(/"/g, ""));
 
             setTimeout(() => {
                 setVisibility(false);

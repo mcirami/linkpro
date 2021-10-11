@@ -6,6 +6,7 @@ import React, {
     useState,
 } from 'react';
 import IconList from "./IconList";
+import {MdDeleteForever} from 'react-icons/md';
 import axios from "axios";
 import { LinksContext, PageContext } from '../App';
 import EventBus from '../../Utils/Bus';
@@ -104,7 +105,7 @@ const SubmitForm = ({
             return;
         }
         setIconSelected(true);
-        //document.querySelector('form.profile_img_form .bottom_section').classList.remove('hidden');
+
         createImage(files[0]);
     }
 
@@ -122,6 +123,9 @@ const SubmitForm = ({
 
     const onLoad = useCallback((img) => {
         imgRef.current = img;
+        const linkFormHeight = document.getElementsByClassName('link_form')[0].offsetHeight;
+        console.log(linkFormHeight);
+        document.getElementById('left_col_wrap').style.height = linkFormHeight + 160 + "px";
     }, []);
 
 
@@ -339,9 +343,44 @@ const SubmitForm = ({
         })
     }
 
+    const deleteItem = (e) => {
+        e.preventDefault();
+
+        const newArray = userLinks.filter(element => element.id !== editID)
+        const packets = {
+            userLinks: newArray
+        }
+
+        axios.post('/dashboard/links/delete/' + editID, packets).then(
+            (response) => {
+                //response => console.log(JSON.stringify(response.data)),
+                const returnMessage = JSON.stringify(response.data.message);
+                EventBus.dispatch("success", {message: returnMessage});
+                setUserLinks(
+                    newArray.map((link, index) => ({...link, position: index}))
+                )
+
+                setOriginalArray(
+                    newArray.map((link, index) => ({...link, position: index}))
+                )
+                setEditID(null)
+            }
+
+        ).catch(error => {
+            if (error.response) {
+                console.log(error.response.data.message);
+                EventBus.dispatch("error", { message: error.response.data.message });
+            } else {
+                console.log("ERROR:: ", error);
+            }
+        });
+
+    }
+
     return (
         <div className="edit_form popup" key={editID}>
             <form onSubmit={handleSubmit} className="link_form">
+                <a className="delete" href="#" onClick={(e) => deleteItem(e) }><MdDeleteForever /></a>
                 <div className="row">
                     <div className="col-12">
                         {radioValue === "custom" ?

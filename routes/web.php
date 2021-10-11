@@ -34,7 +34,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
     Route::post('/links/update/{link}', [LinkController::class, 'update']);
     Route::post('/links/status/{link}', [LinkController::class, 'updateStatus']);
     Route::post('/links/update-positions', [LinkController::class, 'updatePositions']);
-    //Route::delete('/links/{link}', [LinkController::class, 'destroy']);
+    Route::post('/links/delete/{link}', [LinkController::class, 'destroy']);
     Route::post('/page/new', [PageController::class, 'store'])->name('page.new');
     Route::post('/page/update-header-image/{page}', [PageController::class, 'updateHeaderImage'])->name('page.header.update');
     Route::post('/page/update-profile-image/{page}', [PageController::class, 'updateProfileImage'])->name('page.profile.update');

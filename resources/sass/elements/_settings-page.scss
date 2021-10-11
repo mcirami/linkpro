@@ -119,7 +119,7 @@
                 }
             }
 
-            a {
+            a:not(.button) {
                 color: $red;
                 text-align: center;
 
@@ -305,6 +305,10 @@
 
         form {
             display: block;
+
+            label {
+                width: 100%;
+            }
         }
     }
 }

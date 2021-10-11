@@ -44,19 +44,24 @@ class LinkController extends Controller
 
     public function updatePositions(Request $request, LinkService $linkService) {
 
-        $linkService->updateLinksPositions($request);
+        $linksArray = $request->all();
+
+        $linkService->updateLinksPositions($linksArray);
 
         return response()->json(['message' => "Links Position Updated"]);
     }
 
-    /*public function destroy(Request $request, Link $link) {
+    public function destroy(Request $request, Link $link, LinkService $linkService) {
         if ($link->user_id != Auth::id()) {
             return abort(403);
         }
 
-        $link->delete();
+
+        $linksArray = $request->all();
+
+        $linkService->deleteLink($link);
+        $linkService->updateLinksPositions($linksArray);
 
         return response()->json(['message' => 'Link Has Been Deleted']);
-        //return response()->json(null, 204);
-    }*/
+    }
 }

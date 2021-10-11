@@ -114,7 +114,7 @@ function App() {
                         setPopupText={setPopupText}
                     />
 
-                    <div className="content_wrap">
+                    <div className="content_wrap" id="left_col_wrap">
                         <div className="top_section">
                             <PageName />
 

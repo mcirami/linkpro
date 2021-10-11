@@ -147,16 +147,15 @@ const Links = ({
                 );
                 let index = row * 3 + col;
 
-                if (!userLinks[index].id.toString().includes("new")) {
-                    const newOrder = reinsert(
-                        userLinks,
-                        userLinks.findIndex((link) => link.position === lastPress),
-                        index,
-                    );
-                    setState((state) => ({ ...state, mouseXY }));
-                    setUserLinks(newOrder);
-                    handleSubmit();
-                }
+                const newOrder = reinsert(
+                    userLinks,
+                    userLinks.findIndex((link) => link.position === lastPress),
+                    index,
+                );
+                setState((state) => ({ ...state, mouseXY }));
+                setUserLinks(newOrder);
+                handleSubmit();
+
             }
         },
         [state]
@@ -195,10 +194,10 @@ const Links = ({
     const {lastPress, isPressed, mouseXY } = state;
 
     const handleSubmit = () => {
-        const newPostionsArray = userLinks.map((link, index) => ({...link, position: index}));
-
+        //const newPostionsArray = userLinks.map((link, index) => ({...link, position: index}));
+        //const newArray = userLinks.filter(element => element.id !== editID)
         const packets = {
-            userLinks: newPostionsArray,
+            userLinks: userLinks,
         }
 
         axios
