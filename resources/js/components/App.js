@@ -41,10 +41,7 @@ function App() {
     const [allUserPages, setAllUserPages] = useState(userPages);
     const [editID, setEditID] = useState(null);
     const [showPopup, setShowPopup] = useState(false);
-    const [ popupText, setPopupText ] = useState(() => ({
-        levelText: "",
-        optionText: "",
-    }));
+    const [optionText, setOptionText] = useState("");
     const [customIconArray, setCustomIconArray] = useState(customIcons);
 
     const ref = createRef(null);
@@ -98,7 +95,7 @@ function App() {
             <div id="upgrade_popup">
                 {showPopup &&
                     <UpgradePopup
-                        popupText={popupText}
+                        optionText={optionText}
                     />
                 }
             </div>
@@ -111,7 +108,7 @@ function App() {
                         setAllUserPages={setAllUserPages}
                         userSub={userSub}
                         setShowPopup={setShowPopup}
-                        setPopupText={setPopupText}
+                        setOptionText={setOptionText}
                     />
 
                     <div className="content_wrap" id="left_col_wrap">
@@ -121,7 +118,7 @@ function App() {
                             <PasswordProtect
                                 userSub={userSub}
                                 setShowPopup={setShowPopup}
-                                setPopupText={setPopupText}
+                                setOptionText={setOptionText}
                             />
 
                             <PageHeader
@@ -155,7 +152,7 @@ function App() {
                             setOriginalArray={setOriginalArray}
                             userSub={userSub}
                             setShowPopup={setShowPopup}
-                            setPopupText={setPopupText}
+                            setOptionText={setOptionText}
                         />
 
                         <div className="icons_wrap add_icons icons">
@@ -179,7 +176,7 @@ function App() {
                                 originalArray={originalArray}
                                 setOriginalArray={setOriginalArray}
                                 setShowPopup={setShowPopup}
-                                setPopupText={setPopupText}
+                                setOptionText={setOptionText}
                                 userSub={userSub}
                                 customIconArray={customIconArray}
                                 setCustomIconArray={setCustomIconArray}

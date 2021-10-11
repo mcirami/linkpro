@@ -1,8 +1,6 @@
 import React from 'react';
-
-export const UpgradePopup = ({popupText}) => {
-
-    const {levelText, optionText} = {...popupText};
+import { GrUpgrade } from 'react-icons/gr';
+export const UpgradePopup = ({optionText}) => {
 
     return (
 
@@ -14,12 +12,12 @@ export const UpgradePopup = ({popupText}) => {
                 </svg>
             </a>
             <div className="box">
-                <h3 className="popup_title">Upgrade Now</h3>
-                <div className="text_wrap">
-                    <h3>Looks like you need more features!</h3>
-                    <h4>Upgrade to <span className="level_text">{ levelText }</span> to <span className="option_text">{ optionText }</span>.</h4>
-                    <a className="button blue" href='/plans'>Learn More</a>
+                <div className="svg_wrap">
+                    <GrUpgrade />
                 </div>
+                <h3>Upgrade Now</h3>
+                <h4>Upgrade to <span className="option_text">{ optionText }</span> and much more!</h4>
+                <a className="button blue" href='/plans'>Learn More</a>
             </div>
         </>
 

@@ -30,7 +30,6 @@ const IconList = ({currentLink, setCurrentLink, iconArray, radioValue, setCharac
         }
     }
 
-
     return (
 
         <div className="icons_wrap my_row">
@@ -73,7 +72,13 @@ const IconList = ({currentLink, setCurrentLink, iconArray, radioValue, setCharac
                                                 selectIcon(e, "/" + icon.path)
                                             }}
                                     data-name={icon.name}
-                                    alt=""/>
+                                    alt=""
+                                />
+                                <div className="hover_text">
+                                    <p>
+                                        {icon.name}
+                                    </p>
+                                </div>
                             </div>
                         )
                     })

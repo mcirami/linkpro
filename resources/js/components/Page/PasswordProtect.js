@@ -6,7 +6,7 @@ import Switch from "react-switch";
 import axios from 'axios';
 import EventBus from '../../Utils/Bus';
 
-const PasswordProtect = ({ userSub, setShowPopup, setPopupText }) => {
+const PasswordProtect = ({ userSub, setShowPopup, setOptionText }) => {
 
     const { pageSettings, setPageSettings } = useContext(PageContext);
 
@@ -104,10 +104,7 @@ const PasswordProtect = ({ userSub, setShowPopup, setPopupText }) => {
             } else if (name === "pro") {
                 setShowPopup(true);
                 popup.classList.add('open');
-                setPopupText({
-                    levelText: "Corporate",
-                    optionText: "password protect your page"
-                });
+                setOptionText("password protect your page");
 
                 setTimeout(() => {
                     document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
@@ -120,10 +117,7 @@ const PasswordProtect = ({ userSub, setShowPopup, setPopupText }) => {
 
         } else {
             setShowPopup(true);
-            setPopupText({
-                levelText: "Corporate",
-                optionText: "password protect your page"
-            });
+            setOptionText("password protect your page");
             document.querySelector('#upgrade_popup').classList.add('open');
 
             setTimeout(() => {

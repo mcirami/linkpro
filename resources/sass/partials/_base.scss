@@ -349,3 +349,37 @@ button {
         text-transform: uppercase;
     }
 }
+
+.hover_text {
+    position: absolute;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    /*justify-content: flex-end;
+    -webkit-justify-content: flex-end;*/
+    align-items: center;
+    -webkit-align-items: center;
+    width: 100%;
+    height: 0;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: .3s opacity linear;
+    -webkit-transition: .3s opacity linear;
+
+    p {
+        margin: 0;
+        font-size: 12px;
+        background: $lightGray;
+        padding: 2px 5px;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+    }
+}

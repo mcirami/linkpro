@@ -308,6 +308,7 @@ const Links = ({
                                         null, key, [x, y])}
                                 >
                                     <MdDragHandle/>
+                                    <div className="hover_text"><p>Move Icon</p></div>
                                 </span>
 
                                 <div className="column_content">
@@ -321,6 +322,7 @@ const Links = ({
                                             <img src={ originalArray[key].icon || '/images/icon-placeholder.png' } alt=""
                                                  onClick={(e) => { setEditID(linkID) }}
                                             />
+                                            <div className="hover_text"><p>Edit Icon</p></div>
                                         </div>
                                     </div>
                                     <div className="my_row">
@@ -333,6 +335,7 @@ const Links = ({
                                                 uncheckedIcon={false}
                                                 checkedIcon={false}
                                             />
+                                            <div className="hover_text"><p>{Boolean(originalArray[key].active_status) ? "Deactivate" : "Active"} Icon</p></div>
                                         </div>
                                     </div>
                                 </div>

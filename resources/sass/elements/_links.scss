@@ -131,6 +131,16 @@
                 &.drag_handle {
                     &:hover {
                         cursor: grab;
+
+                        .hover_text {
+                            top: -20px;
+                            opacity: 1;
+                            height: 100%;
+                             p {
+                                 font-size: 18px;
+                             }
+                        }
+
                     }
 
                     &:active {
@@ -214,6 +224,15 @@
 
                     &:hover {
                         cursor: pointer;
+
+                        .hover_text {
+                            opacity: 1;
+                            height: auto;
+
+                            p {
+                                font-size: 18px;
+                            }
+                        }
 
                         img {
                             transform: scale(1.1);
@@ -301,23 +320,6 @@
         justify-content: center;
         align-items: center;
 
-        /*.close_popup {
-            position: absolute;
-            right: 20px;
-            top: 20px;
-
-            svg {
-                width: 40px;
-                height: 40px;
-                background: $black;
-                color: $white;
-                border-radius: 50px;
-                -webkit-border-radius: 50px;
-                -moz-border-radius: 50px;
-            }
-
-        }*/
-
         .icon_box {
             width: 100%;
             background: #fff;
@@ -399,6 +401,13 @@
                     border-radius: 25%;
                     -webkit-border-radius: 25%;
                     -moz-border-radius: 25%;
+                }
+
+                &:hover {
+                    .hover_text {
+                        opacity: 1;
+                        height: 100%;
+                    }
                 }
             }
         }
@@ -620,5 +629,23 @@
     .icon_col {
         width: 125px;
         margin: 0 auto;
+    }
+}
+
+
+.switch_wrap {
+    position: relative;
+
+    &:hover {
+
+        .hover_text {
+            opacity: 1;
+            height: auto;
+            top: -35px;
+
+            p {
+                font-size: 18px;
+            }
+        }
     }
 }

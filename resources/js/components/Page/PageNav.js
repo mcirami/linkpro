@@ -7,7 +7,7 @@ import {PageContext} from '../App';
 
 let pageNames = user.allPageNames;
 
-const PageNav = ({ allUserPages, setAllUserPages, userSub, setShowPopup, setPopupText }) => {
+const PageNav = ({ allUserPages, setAllUserPages, userSub, setShowPopup, setOptionText }) => {
 
     //const [pages, setPages] = useState(userPages);
     const { pageSettings, setPageSettings } = useContext(PageContext);
@@ -74,11 +74,7 @@ const PageNav = ({ allUserPages, setAllUserPages, userSub, setShowPopup, setPopu
             if ((braintree_status === 'active' && name === "corporate") || endsAt > currentDate && name === "corporate") {
                 setIsEditing(true);
             } else {
-                setPopupText((popupText) => ({
-                    ...popupText,
-                    levelText: "Corporate",
-                    optionText: "add more links",
-                }));
+                setOptionText("add more links");
 
                 setShowPopup(true);
                 document.querySelector('#upgrade_popup').classList.add('open');
@@ -94,10 +90,7 @@ const PageNav = ({ allUserPages, setAllUserPages, userSub, setShowPopup, setPopu
         } else {
             setShowPopup(true);
             document.querySelector('#upgrade_popup').classList.add('open');
-            setPopupText({
-                levelText: "Corporate",
-                optionText: "add more links"
-            });
+            setOptionText("add more links");
 
             setTimeout(() => {
                 document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
