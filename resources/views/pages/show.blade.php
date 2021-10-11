@@ -39,13 +39,15 @@
                         <div class="icons_wrap">
                             @foreach($links as $link)
                                 <div class="icon_col">
-                                    <a href="{{ $link->url ? : 'https://link.pro' }}"
-                                       target="_blank"
-                                       rel="nofollow"
-                                    >
-                                        <img src="{{ $link->icon ? : asset('/images/icon-placeholder-preview.png') }}" alt="" />
-                                    </a>
-                                    <p>{{ $link->name ? : "Link Name" }}</p>
+                                    @if($link->active_status)
+                                        <a href="{{ $link->url ? : 'https://link.pro' }}"
+                                           target="_blank"
+                                           rel="nofollow"
+                                        >
+                                            <img src="{{ $link->icon ? : asset('/images/icon-placeholder-preview.png') }}" alt="" />
+                                        </a>
+                                        <p>{{ $link->name ? : "Link Name" }}</p>
+                                    @endif
                                 </div>
                             @endforeach
                         </div>
