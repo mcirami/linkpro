@@ -12,8 +12,8 @@ export const UpgradePopup = ({optionText}) => {
                 </svg>
             </a>
             <div className="box">
-                <div className="svg_wrap">
-                    <GrUpgrade />
+                <div className="icon_wrap">
+                    <img src="/images/icon_uparrow.png" alt=""/>
                 </div>
                 <h3>Upgrade Now</h3>
                 <h4>Upgrade to <span className="option_text">{ optionText }</span> and much more!</h4>
