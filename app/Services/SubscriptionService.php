@@ -96,10 +96,6 @@ class SubscriptionService {
             ]);
 
             if ($result->success) {
-                //$transaction = $result->transaction;
-                // header("Location: transaction.php?id=" . $transaction->id);
-
-                //return back()->with('success_message', 'Transaction successful. The ID is:'. $transaction->id);
 
                 $user->subscriptions()->create([
                     'name' => $result->subscription->planId,
@@ -288,7 +284,13 @@ class SubscriptionService {
     public function resumeSubscription($request) {
         $user = Auth::user();
 
-        $user->subscription($request->plan)->resume();
+        $activeSubs = $user->subscriptions()->first();
+
+        $activeSubs->name             = $result->subscription->planId;
+        $activeSubs->braintree_id     = $result->subscription->id;
+        $activeSubs->braintree_status = strtolower( $result->subscription->status );
+        $activeSubs->save();
+
 
     }
 }

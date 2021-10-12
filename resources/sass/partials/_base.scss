@@ -214,6 +214,7 @@ button {
 
 
         &:hover {
+            color: $white;
             /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#4a56ec+0,2d38cc+100 */
             background: rgba(45,56,204,1); /* Old browsers */
             background: -moz-linear-gradient(top,  rgba(45,56,204,1) 0%, rgba(74,86,236,1) 100%); /* FF3.6-15 */
@@ -232,6 +233,7 @@ button {
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#343434', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
 
         &:hover {
+            color: $white;
             /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#000000+0,343434+100 */
             background: rgb(0,0,0); /* Old browsers */
             background: -moz-linear-gradient(top,  rgba(0,0,0,1) 0%, rgba(52,52,52,1) 100%); /* FF3.6-15 */
@@ -251,6 +253,7 @@ button {
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#797d80', endColorstr='#696969',GradientType=0 ); /* IE6-9 */
 
         &:hover {
+            color: $white;
             /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#696969+0,797d80+100 */
             background: rgb(105,105,105); /* Old browsers */
             background: -moz-linear-gradient(top,  rgba(105,105,105,1) 0%, rgba(121,125,128,1) 100%); /* FF3.6-15 */
@@ -270,6 +273,7 @@ button {
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2bc875', endColorstr='#1cb8a9',GradientType=0 ); /* IE6-9 */
 
         &:hover {
+            color: $white;
             /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#1cb8a9+0,2bc875+100 */
             background: rgb(28,184,169); /* Old browsers */
             background: -moz-linear-gradient(top,  rgba(28,184,169,1) 0%, rgba(43,200,117,1) 100%); /* FF3.6-15 */

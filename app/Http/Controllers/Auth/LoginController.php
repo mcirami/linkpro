@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -92,6 +93,21 @@ class LoginController extends Controller
         if ($userPages->isEmpty()) {
             return redirect('/register/step-two');
         } else {
+
+            $subscription = $user->subscriptions()->first();
+
+            if ($subscription && $subscription->name == "corporate" && $subscription->braintree_status == 'canceled') {
+                if ($subscription->ends_at < Carbon::now()) {
+                    foreach ($userPages as $userPage) {
+                        if ($userPage->is_protected) {
+                            $userPage->is_protected = 0;
+                            $userPage->password = null;
+                            $userPage->save();
+                        }
+                    }
+                }
+            }
+
             return redirect('/dashboard/pages/' . $userPages[0]["id"]);
         }
 

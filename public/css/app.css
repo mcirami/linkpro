@@ -11504,6 +11504,7 @@ button {
   /* IE6-9 */
 }
 .button.blue_gradient:hover, button.blue_gradient:hover {
+  color: #ffffff;
   /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#4a56ec+0,2d38cc+100 */
   background: #2d38cc;
   /* Old browsers */
@@ -11526,6 +11527,7 @@ button {
   /* IE6-9 */
 }
 .button.black_gradient:hover, button.black_gradient:hover {
+  color: #ffffff;
   /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#000000+0,343434+100 */
   background: black;
   /* Old browsers */
@@ -11548,6 +11550,7 @@ button {
   /* IE6-9 */
 }
 .button.gray_gradient:hover, button.gray_gradient:hover {
+  color: #ffffff;
   /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#696969+0,797d80+100 */
   background: dimgray;
   /* Old browsers */
@@ -11570,6 +11573,7 @@ button {
   /* IE6-9 */
 }
 .button.green_gradient:hover, button.green_gradient:hover {
+  color: #ffffff;
   /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#1cb8a9+0,2bc875+100 */
   background: #1cb8a9;
   /* Old browsers */

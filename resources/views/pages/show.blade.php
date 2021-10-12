@@ -2,6 +2,10 @@
 
 @section('content')
 
+    @php
+        $subscription = \App\Models\Subscription::where('user_id', $page->user_id)->get();
+    @endphp
+
     <div id="links_page">
         <div class="links_col">
             <div class="links_wrap live_page">
@@ -24,18 +28,10 @@
                             <p>{{ $page->bio  ?  : "Add Slogan/Intro Here" }}</p>
                         </div>
                     </div>
-                    @if ($page->is_protected && !$authorized)
-                        <form method="post" action="{{ url('/check-page-auth/' . $page->id)  }}" >
-                            @csrf
-                            <h2>Page Secure</h2>
-                            <p>Enter your pin to continue</p>
-                            @if($errors->any())
-                                <p class="alert-warning">{{ $errors->first() }}</p>
-                            @endif
-                            <input name="pin" type="text">
-                            <button type="submit" class="button blue">Enter</button>
-                        </form>
-                    @elseif ($page->is_protected && $authorized || !$page->is_protected)
+                    @if ( $page->is_protected && $authorized ||
+                            !$page->is_protected ||
+                            ( $subscription[0]["braintree_status"] == "canceled" && $subscription[0]["ends_at"] < \Carbon\Carbon::now())
+                            )
                         <div class="icons_wrap">
                             @foreach($links as $link)
                                 <div class="icon_col">
@@ -51,10 +47,20 @@
                                 </div>
                             @endforeach
                         </div>
+                    @elseif ($page->is_protected && !$authorized)
+                        <form method="post" action="{{ url('/check-page-auth/' . $page->id)  }}" >
+                            @csrf
+                            <h2>Page Secure</h2>
+                            <p>Enter your pin to continue</p>
+                            @if($errors->any())
+                                <p class="alert-warning">{{ $errors->first() }}</p>
+                            @endif
+                            <input name="pin" type="text">
+                            <button type="submit" class="button blue">Enter</button>
+                        </form>
                     @endif
                 </div>
             </div>
-
         </div>
     </div>
 

@@ -97,38 +97,32 @@ const PasswordProtect = ({ userSub, setShowPopup, setOptionText }) => {
             const {braintree_status, ends_at, name} = {...userSub};
             const currentDate = new Date().valueOf();
             const endsAt = new Date(ends_at).valueOf();
-            const popup = document.querySelector('#upgrade_popup');
 
             if ((braintree_status === 'active' && name === "corporate") || endsAt > currentDate && name === "corporate") {
                 setIsEditing(true);
-            } else if (name === "pro") {
-                setShowPopup(true);
-                popup.classList.add('open');
-                setOptionText("password protect your page");
-
-                setTimeout(() => {
-                    document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
-                        e.preventDefault();
-                        setShowPopup(false);
-                        popup.classList.remove('open');
-                    });
-                }, 500);
+            } else if (name === "pro" || endsAt < currentDate) {
+                showPopup();
             }
 
         } else {
-            setShowPopup(true);
-            setOptionText("password protect your page");
-            document.querySelector('#upgrade_popup').classList.add('open');
-
-            setTimeout(() => {
-                document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
-                    e.preventDefault();
-                    setShowPopup(false);
-                    document.querySelector('#upgrade_popup').classList.remove('open');
-                });
-            }, 500);
+            showPopup();
         }
+    }
 
+    const showPopup = () => {
+        const popup = document.querySelector('#upgrade_popup');
+
+        setShowPopup(true);
+        popup.classList.add('open');
+        setOptionText("password protect your page");
+
+        setTimeout(() => {
+            document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
+                e.preventDefault();
+                setShowPopup(false);
+                popup.classList.remove('open');
+            });
+        }, 500);
     }
 
     return (
@@ -188,7 +182,7 @@ const PasswordProtect = ({ userSub, setShowPopup, setOptionText }) => {
                         </div>
                         :
                     <div className="column_wrap">
-                        <a  className="column_content" href="#" onClick={(e) => handleClick(e) }>
+                        <a className="column_content" href="#" onClick={(e) => handleClick(e) }>
                             <h3>{checked ? "Link is Password Protected" : "Password Protect Your Link?"}</h3>
                             <span className={checked ? "lock_icon" : "lock_icon disabled"}>
                                 <IoIosLock/>

@@ -112,9 +112,11 @@
                                     Change My Plan
                                 </a>
                             @endif--}}
-                            <button class='button blue open_popup_choose'>
-                                Change My Plan
-                            </button>
+                            @if (!$subscription || $subscription && !$subscription->ends_at)
+                                <button class='button blue open_popup_choose'>
+                                    Change My Plan
+                                </button>
+                            @endif
                         </div>
                         @if ($subscription)
                             <div class="column">
