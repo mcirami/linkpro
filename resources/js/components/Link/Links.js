@@ -26,7 +26,8 @@ const Links = ({
    editID,
    setEditID,
    originalArray,
-   setOriginalArray
+   setOriginalArray,
+   userSub
 
 }) => {
 
@@ -260,12 +261,17 @@ const Links = ({
         });
     };
 
+    let count = 0;
+
     return (
         <>
             {userLinks.map((link, key) => {
                 let style;
                 let x;
                 let y;
+                ++count;
+
+                {count > 9 ? console.log("fuck") : ""}
 
                 const visualPosition = userLinks.findIndex((link) => link.position === key);
                 if (key === lastPress && isPressed) {

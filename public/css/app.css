@@ -11360,8 +11360,7 @@ button {
 .preview_button_wrap {
   display: none;
   text-align: center;
-  margin: 20px 0 10px;
-  padding: 0 30px;
+  margin: 20px 0;
 }
 @media all and (max-width: 992px) {
   .preview_button_wrap {
@@ -12486,16 +12485,41 @@ header.guest_header .col.right {
   width: 15px;
   height: 15px;
 }
-.add_more_icons .icon_message {
+
+.icon_message {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  -webkit-align-items: center;
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   padding: 10px;
   background: #fffde7;
+  margin-top: 10px;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
 }
-.add_more_icons .icon_message p {
+@media all and (max-width: 992px) {
+  .icon_message {
+    justify-content: center;
+    -webkit-justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+.icon_message p {
   margin: 0;
   font-size: 12px;
+}
+.icon_message a {
+  margin-left: auto;
+}
+@media all and (max-width: 992px) {
+  .icon_message a {
+    margin-left: unset;
+    margin-top: 10px;
+  }
 }
 
 .crop_section {

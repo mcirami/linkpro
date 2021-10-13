@@ -48,8 +48,7 @@ button {
 .preview_button_wrap {
     display: none;
     text-align: center;
-    margin: 20px 0 10px;
-    padding: 0 30px;
+    margin: 20px 0;
 
     @media all and (max-width: 992px) {
         display: block;

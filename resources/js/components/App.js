@@ -169,9 +169,17 @@ function App() {
 
                             <PageTitle />
                             <PageBio />
+
+                            <ShowPreviewButton />
+
+                            {subStatus ? "" :
+                                <div className="icon_message">
+                                    <p>Your plan has been downgraded to Free. Your link will only display up to 9 icons max.</p>
+                                    <a className="button blue" href="/plans">Upgrade</a>
+                                </div>
+                            }
                         </div>
 
-                        <ShowPreviewButton />
                         <div className="add_more_icons">
                             <AddLink
                                 userLinks={userLinks}
@@ -182,12 +190,6 @@ function App() {
                                 setShowUpgradePopup={setShowUpgradePopup}
                                 setOptionText={setOptionText}
                             />
-                            {subStatus ? "" :
-                                <div className="icon_message">
-                                    <p>Your plan has been downgraded to Free.</p>
-                                    <p>Your link will only display up to 9 icons max.</p>
-                                </div>
-                            }
                         </div>
 
                         <div className="icons_wrap add_icons icons">
@@ -199,6 +201,7 @@ function App() {
                                 setUserLinks={setUserLinks}
                                 originalArray={originalArray}
                                 setOriginalArray={setOriginalArray}
+                                userSub={userSub}
                             />
 
                         </div>
