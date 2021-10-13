@@ -11490,6 +11490,7 @@ button {
   background: #2ac77a;
 }
 .button.green:hover, button.green:hover {
+  color: #ffffff;
   background: #20965c;
 }
 .button.blue_gradient, button.blue_gradient {
@@ -12126,56 +12127,6 @@ header.guest_header .col.right {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  /*&.disabled {
-
-      span svg {
-          color: $borderGray;
-      }
-
-      .image_wrap {
-          position: relative;
-
-          &:before {
-              content: '';
-              height: 100%;
-              WIDTH: 100%;
-              background: rgba(155,155,155,.8);
-              position: absolute;
-              left: 0;
-              top: 0;
-              border-radius: 32px;
-          }
-      }
-  }*/
-  /*.delete_icon {
-      position: absolute;
-      right: 8px;
-      top: 4px;
-      color: $red;
-
-      svg {
-          width: 20px;
-          height: 20px;
-      }
-  }*/
-  /*.edit_icon {
-      position: absolute;
-      right: 10px;
-      top: 10px;
-
-      @media all and (max-width: 550px) {
-          right: 6px;
-          top: 6px;
-      }
-
-      &.disabled {
-          background: $gray;
-
-          &:hover {
-              background: $gray;
-          }
-      }
-  }*/
 }
 #links_page .icons_wrap .icon_col img {
   border-radius: 20%;
@@ -12380,7 +12331,7 @@ header.guest_header .col.right {
 }
 #links_page .icon_row .icons_wrap .icon_col:hover .hover_text {
   opacity: 1;
-  height: 100%;
+  height: auto;
 }
 #links_page .icon_row .icon_image {
   border: 2px solid transparent;
@@ -12677,10 +12628,17 @@ header.guest_header .col.right {
 .links_col .links_wrap .profile_content .lock_icon {
   color: #0ba921;
   position: absolute;
-  right: 30px;
-  top: 0;
+  left: 16%;
+  top: 50px;
   width: 35px;
   height: 45px;
+}
+@media all and (max-width: 992px) {
+  .links_col .links_wrap .profile_content .lock_icon {
+    top: 75px;
+    width: 30px;
+    height: 40px;
+  }
 }
 .links_col .links_wrap .profile_content .lock_icon svg {
   width: 100%;
@@ -12705,6 +12663,14 @@ header.guest_header .col.right {
   -webkit-align-items: center;
   padding-right: 1px;
 }
+@media all and (max-width: 992px) {
+  .links_col .links_wrap .profile_content .lock_icon .tooltip_icon {
+    width: 15px;
+    height: 15px;
+    padding-right: 0;
+    font-size: 12px;
+  }
+}
 .links_col .links_wrap .profile_content .lock_icon .tooltip_icon .tooltip {
   box-shadow: 0px 0px 35px 5px rgba(170, 170, 170, 0.18);
   font-family: "opensansregular", sans-serif;
@@ -12715,8 +12681,8 @@ header.guest_header .col.right {
   background: #eaeaea;
   width: 180px;
   padding: 10px;
-  top: 30px;
-  right: -18px;
+  top: 28px;
+  left: -14px;
   color: #000;
   display: none;
 }
@@ -12730,7 +12696,7 @@ header.guest_header .col.right {
   border-bottom: 10px solid;
   border-bottom-color: #eaeaea;
   top: -10px;
-  right: 18px;
+  left: 10px;
 }
 .links_col .links_wrap .profile_content .lock_icon .tooltip_icon:hover {
   cursor: help;
@@ -12888,7 +12854,7 @@ header.guest_header .col.right {
 }
 @media all and (max-width: 1199px) {
   .links_col .links_wrap.preview .inner_content .icon_col {
-    padding: 15px !important;
+    padding: 10px;
   }
 }
 
@@ -13300,12 +13266,10 @@ form .bottom_row a {
   }
 }
 #links_page .edit_form.popup .link_form .delete {
-  position: absolute;
-  right: 10px;
-  top: 5px;
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   color: #f24d1d;
+  margin-left: -8px;
 }
 #links_page .edit_form.popup .link_form .delete:hover {
   color: #d4d2d2;
@@ -13847,7 +13811,7 @@ form .bottom_row a {
   font-family: "opensanssemibold", sans-serif;
 }
 
-#popup_choose_level, #popup_payment_method, #confirm_popup, #upgrade_popup {
+#popup_choose_level, #popup_payment_method, #confirm_popup, #upgrade_popup, #confirm_popup_link {
   display: none;
   opacity: 0;
   position: fixed;
@@ -13864,7 +13828,7 @@ form .bottom_row a {
   -o-transition: 100ms opacity linear;
   z-index: 999;
 }
-#popup_choose_level.open, #popup_payment_method.open, #confirm_popup.open, #upgrade_popup.open {
+#popup_choose_level.open, #popup_payment_method.open, #confirm_popup.open, #upgrade_popup.open, #confirm_popup_link.open {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -13874,12 +13838,12 @@ form .bottom_row a {
   -webkit-align-items: center;
   opacity: 1;
 }
-#popup_choose_level h3.popup_title, #popup_choose_level .popup_title.h3, #popup_payment_method h3.popup_title, #popup_payment_method .popup_title.h3, #confirm_popup h3.popup_title, #confirm_popup .popup_title.h3, #upgrade_popup h3.popup_title, #upgrade_popup .popup_title.h3 {
+#popup_choose_level h3.popup_title, #popup_choose_level .popup_title.h3, #popup_payment_method h3.popup_title, #popup_payment_method .popup_title.h3, #confirm_popup h3.popup_title, #confirm_popup .popup_title.h3, #upgrade_popup h3.popup_title, #upgrade_popup .popup_title.h3, #confirm_popup_link h3.popup_title, #confirm_popup_link .popup_title.h3 {
   padding: 10px;
   text-align: center;
   border-bottom: 1px solid #d2d2d2;
 }
-#popup_choose_level .box, #popup_payment_method .box, #confirm_popup .box, #upgrade_popup .box {
+#popup_choose_level .box, #popup_payment_method .box, #confirm_popup .box, #upgrade_popup .box, #confirm_popup_link .box {
   box-shadow: 0px 0px 35px 5px rgba(170, 170, 170, 0.18);
   position: relative;
   width: 100%;
@@ -13889,21 +13853,21 @@ form .bottom_row a {
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
 }
-#popup_choose_level .box .text_wrap, #popup_payment_method .box .text_wrap, #confirm_popup .box .text_wrap, #upgrade_popup .box .text_wrap {
+#popup_choose_level .box .text_wrap, #popup_payment_method .box .text_wrap, #confirm_popup .box .text_wrap, #upgrade_popup .box .text_wrap, #confirm_popup_link .box .text_wrap {
   text-align: center;
   padding: 20px 20px 30px;
 }
-#popup_choose_level .box .text_wrap p, #popup_payment_method .box .text_wrap p, #confirm_popup .box .text_wrap p, #upgrade_popup .box .text_wrap p {
+#popup_choose_level .box .text_wrap p, #popup_payment_method .box .text_wrap p, #confirm_popup .box .text_wrap p, #upgrade_popup .box .text_wrap p, #confirm_popup_link .box .text_wrap p {
   margin-bottom: 20px;
 }
-#popup_choose_level .box .text_wrap.form_wrap, #popup_payment_method .box .text_wrap.form_wrap, #confirm_popup .box .text_wrap.form_wrap, #upgrade_popup .box .text_wrap.form_wrap {
+#popup_choose_level .box .text_wrap.form_wrap, #popup_payment_method .box .text_wrap.form_wrap, #confirm_popup .box .text_wrap.form_wrap, #upgrade_popup .box .text_wrap.form_wrap, #confirm_popup_link .box .text_wrap.form_wrap {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-evenly;
   -webkit-justify-content: space-around;
 }
-#popup_choose_level .box form, #popup_payment_method .box form, #confirm_popup .box form, #upgrade_popup .box form {
+#popup_choose_level .box form, #popup_payment_method .box form, #confirm_popup .box form, #upgrade_popup .box form, #confirm_popup_link .box form {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;

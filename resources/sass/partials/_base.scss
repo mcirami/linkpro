@@ -200,6 +200,7 @@ button {
         background: $limeGreen;
 
         &:hover {
+            color: $white;
             background: $hoverLimeGreen;
         }
     }

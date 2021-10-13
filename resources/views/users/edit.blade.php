@@ -195,11 +195,11 @@
         </div>
     @endif
 
-    @include('layouts.popup');
+    @include('layouts.popup')
 
-    @include('layouts.popupChooseLevel');
+    @include('layouts.popupChooseLevel')
 
-    @include('layouts.popupPaymentMethod');
+    @include('layouts.popupPaymentMethod')
 
     <script src="https://js.braintreegateway.com/web/3.38.1/js/client.min.js"></script>
     <script src="https://js.braintreegateway.com/web/3.38.1/js/hosted-fields.min.js"></script>

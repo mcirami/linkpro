@@ -4,7 +4,7 @@ import {useContext} from 'react';
 import {PageContext} from '../App';
 import EventBus from '../../Utils/Bus';
 
-const AddLink = ({userLinks, setUserLinks, originalArray, setOriginalArray, userSub, setShowPopup, setOptionText }) => {
+const AddLink = ({userLinks, setUserLinks, originalArray, setOriginalArray, userSub, setShowUpgradePopup, setOptionText }) => {
 
     const  { pageSettings, setPageSettings } = useContext(PageContext);
 
@@ -51,14 +51,14 @@ const AddLink = ({userLinks, setUserLinks, originalArray, setOriginalArray, user
             });
         } else {
             const popup = document.querySelector('#upgrade_popup');
-            setShowPopup(true);
+            setShowUpgradePopup(true);
             popup.classList.add('open');
             setOptionText("add more icons");
 
             setTimeout(() => {
                 document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
                     e.preventDefault();
-                    setShowPopup(false);
+                    setShowUpgradePopup(false);
                     popup.classList.remove('open');
                 });
             }, 500);

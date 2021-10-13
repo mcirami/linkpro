@@ -7,7 +7,7 @@ import {PageContext} from '../App';
 
 let pageNames = user.allPageNames;
 
-const PageNav = ({ allUserPages, setAllUserPages, userSub, setShowPopup, setOptionText }) => {
+const PageNav = ({ allUserPages, setAllUserPages, userSub, setShowUpgradePopup, setOptionText }) => {
 
     //const [pages, setPages] = useState(userPages);
     const { pageSettings, setPageSettings } = useContext(PageContext);
@@ -76,26 +76,26 @@ const PageNav = ({ allUserPages, setAllUserPages, userSub, setShowPopup, setOpti
             } else {
                 setOptionText("add more links");
 
-                setShowPopup(true);
+                setShowUpgradePopup(true);
                 document.querySelector('#upgrade_popup').classList.add('open');
                 setTimeout(() => {
                     document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
                         e.preventDefault();
-                        setShowPopup(false);
+                        setShowUpgradePopup(false);
                         document.querySelector('#upgrade_popup').classList.remove('open');
                     });
                 }, 500);
             }
 
         } else {
-            setShowPopup(true);
+            setShowUpgradePopup(true);
             document.querySelector('#upgrade_popup').classList.add('open');
             setOptionText("add more links");
 
             setTimeout(() => {
                 document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
                     e.preventDefault();
-                    setShowPopup(false);
+                    setShowUpgradePopup(false);
                     document.querySelector('#upgrade_popup').classList.remove('open');
                 });
             }, 500);

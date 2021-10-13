@@ -14,6 +14,7 @@ import ShowPreviewButton from './Preview/ShowPreviewButton';
 import { Flash } from './Flash';
 import SubmitForm from './Link/SubmitForm';
 import { UpgradePopup } from './UpgradePopup';
+import { ConfirmPopup } from './ConfirmPopup';
 //import UserContext from './User/User';
 
 const page = user.page;
@@ -40,7 +41,8 @@ function App() {
     const [pageSettings, setPageSettings] = useReducer(pageReducer, page);
     const [allUserPages, setAllUserPages] = useState(userPages);
     const [editID, setEditID] = useState(null);
-    const [showPopup, setShowPopup] = useState(false);
+    const [showUpgradePopup, setShowUpgradePopup] = useState(false);
+    const [showConfirmPopup, setShowConfirmPopup] = useState(false);
     const [optionText, setOptionText] = useState("");
     const [customIconArray, setCustomIconArray] = useState(customIcons);
 
@@ -105,10 +107,24 @@ function App() {
             <Flash />
 
             <div id="upgrade_popup">
-                {showPopup &&
+                {showUpgradePopup &&
                     <UpgradePopup
                         optionText={optionText}
                     />
+                }
+            </div>
+
+            <div id="confirm_popup_link">
+                {showConfirmPopup &&
+                <ConfirmPopup
+                    editID={editID}
+                    setEditID={setEditID}
+                    userLinks={userLinks}
+                    setUserLinks={setUserLinks}
+                    originalArray={originalArray}
+                    setOriginalArray={setOriginalArray}
+                    setShowConfirmPopup={setShowConfirmPopup}
+                />
                 }
             </div>
 
@@ -119,7 +135,7 @@ function App() {
                         allUserPages={allUserPages}
                         setAllUserPages={setAllUserPages}
                         userSub={userSub}
-                        setShowPopup={setShowPopup}
+                        setShowUpgradePopup={setShowUpgradePopup}
                         setOptionText={setOptionText}
                     />
 
@@ -129,7 +145,7 @@ function App() {
 
                             <PasswordProtect
                                 userSub={userSub}
-                                setShowPopup={setShowPopup}
+                                setShowUpgradePopup={setShowUpgradePopup}
                                 setOptionText={setOptionText}
                             />
 
@@ -163,7 +179,7 @@ function App() {
                                 originalArray={originalArray}
                                 setOriginalArray={setOriginalArray}
                                 userSub={userSub}
-                                setShowPopup={setShowPopup}
+                                setShowUpgradePopup={setShowUpgradePopup}
                                 setOptionText={setOptionText}
                             />
                             {subStatus ? "" :
@@ -194,7 +210,8 @@ function App() {
                                 userLinks={userLinks}
                                 originalArray={originalArray}
                                 setOriginalArray={setOriginalArray}
-                                setShowPopup={setShowPopup}
+                                setShowUpgradePopup={setShowUpgradePopup}
+                                setShowConfirmPopup={setShowConfirmPopup}
                                 setOptionText={setOptionText}
                                 userSub={userSub}
                                 customIconArray={customIconArray}

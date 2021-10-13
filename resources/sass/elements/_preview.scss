@@ -104,10 +104,16 @@
             .lock_icon {
                 color: $green;
                 position: absolute;
-                right: 30px;
-                top: 0;
+                left: 16%;
+                top: 50px;
                 width: 35px;
                 height: 45px;
+
+                @media all and (max-width: 992px) {
+                    top: 75px;
+                    width: 30px;
+                    height: 40px;
+                }
 
                 svg {
                     width: 100%;
@@ -135,6 +141,13 @@
                     -webkit-align-items: center;
                     padding-right: 1px;
 
+                    @media all and (max-width: 992px) {
+                        width: 15px;
+                        height: 15px;
+                        padding-right: 0;
+                        font-size: 12px;
+                    }
+
                     .tooltip {
                         @include boxShadow;
                         @include osregular;
@@ -145,8 +158,8 @@
                         background: #eaeaea;
                         width: 180px;
                         padding: 10px;
-                        top: 30px;
-                        right: -18px;
+                        top: 28px;
+                        left: -14px;
                         color: $black;
                         display: none;
 
@@ -160,7 +173,7 @@
                             border-bottom: 10px solid;
                             border-bottom-color: #eaeaea;
                             top: -10px;
-                            right: 18px;
+                            left: 10px;
                         }
                     }
 
@@ -341,7 +354,7 @@
                     padding: 10px 15px;
 
                     @media all and (max-width: 1199px) {
-                        padding: 15px !important;
+                        padding: 10px;
                     }
                 }
             }

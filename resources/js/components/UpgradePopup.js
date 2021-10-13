@@ -1,5 +1,4 @@
 import React from 'react';
-import { GrUpgrade } from 'react-icons/gr';
 export const UpgradePopup = ({optionText}) => {
 
     return (

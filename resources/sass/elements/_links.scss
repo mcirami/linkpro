@@ -150,40 +150,6 @@
 
             }
 
-            /*&.disabled {
-
-                span svg {
-                    color: $borderGray;
-                }
-
-                .image_wrap {
-                    position: relative;
-
-                    &:before {
-                        content: '';
-                        height: 100%;
-                        WIDTH: 100%;
-                        background: rgba(155,155,155,.8);
-                        position: absolute;
-                        left: 0;
-                        top: 0;
-                        border-radius: 32px;
-                    }
-                }
-            }*/
-
-            /*.delete_icon {
-                position: absolute;
-                right: 8px;
-                top: 4px;
-                color: $red;
-
-                svg {
-                    width: 20px;
-                    height: 20px;
-                }
-            }*/
-
             .column_content {
                 padding: 20px;
                 border-radius: 20px;
@@ -191,25 +157,6 @@
                 -moz-border-radius: 20px;
                 position: relative;
             }
-
-            /*.edit_icon {
-                position: absolute;
-                right: 10px;
-                top: 10px;
-
-                @media all and (max-width: 550px) {
-                    right: 6px;
-                    top: 6px;
-                }
-
-                &.disabled {
-                    background: $gray;
-
-                    &:hover {
-                        background: $gray;
-                    }
-                }
-            }*/
 
             .icon_wrap {
                 width: 100%;
@@ -406,7 +353,7 @@
                 &:hover {
                     .hover_text {
                         opacity: 1;
-                        height: 100%;
+                        height: auto;
                     }
                 }
             }
