@@ -51,11 +51,7 @@
                         @else
                             @php $userSub = Auth::user()->subscriptions()->first(); @endphp
 
-                            @if(empty($userSub))
-                                <li class="nav-item">
-                                    <a href="{{route('plans.get')}}">Upgrade</a>
-                                </li>
-                            @elseif ($userSub->name != "corporate")
+                            @if( empty($userSub) || $userSub->name != "corporate" || $userSub->ends_at < \Carbon\Carbon::now())
                                 <li class="nav-item">
                                     <a href="{{route('plans.get')}}">Upgrade</a>
                                 </li>

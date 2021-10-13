@@ -30,21 +30,25 @@
                     </div>
                     @if ( $page->is_protected && $authorized ||
                             !$page->is_protected ||
-                            ( $subscription[0]["braintree_status"] == "canceled" && $subscription[0]["ends_at"] < \Carbon\Carbon::now())
+                            ( !$subscription->isEmpty() && $subscription[0]["braintree_status"] == "canceled" && $subscription[0]["ends_at"] < \Carbon\Carbon::now())
                             )
                         <div class="icons_wrap">
+                            @php $count = 0; @endphp
                             @foreach($links as $link)
-                                <div class="icon_col">
-                                    @if($link->active_status)
-                                        <a href="{{ $link->url ? : 'https://link.pro' }}"
-                                           target="_blank"
-                                           rel="nofollow"
-                                        >
-                                            <img src="{{ $link->icon ? : asset('/images/icon-placeholder-preview.png') }}" alt="" />
-                                        </a>
-                                        <p>{{ $link->name ? : "Link Name" }}</p>
-                                    @endif
-                                </div>
+                                @php ++$count @endphp
+                                @if ( $count < 10 || ($count > 9 && !$subscription->isEmpty() && $subscription[0]["braintree_status"] == "active") || (!$subscription->isEmpty() && $subscription[0]["ends_at"] > \Carbon\Carbon::now()) )
+                                    <div class="icon_col">
+                                        @if($link->active_status)
+                                            <a href="{{ $link->url ? : 'https://link.pro' }}"
+                                               target="_blank"
+                                               rel="nofollow"
+                                            >
+                                                <img src="{{ $link->icon ? : asset('/images/icon-placeholder-preview.png') }}" alt="" />
+                                            </a>
+                                            <p>{{ $link->name ? : "Link Name" }}</p>
+                                        @endif
+                                    </div>
+                                @endif
                             @endforeach
                         </div>
                     @elseif ($page->is_protected && !$authorized)

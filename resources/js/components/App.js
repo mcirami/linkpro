@@ -52,8 +52,9 @@ function App() {
     const [completedProfileCrop, setCompletedProfileCrop] = useState(null);
     const [profileFileName, setProfileFileName] = useState(null);
 
-    const [wrapHeight, setWrapHeight] = useState();
+    const [wrapHeight, setWrapHeight] = useState(null);
 
+    const [subStatus, setSubStatus] = useState(true);
 
     useEffect(() => {
         const iconsWrap = document.querySelector('.icons_wrap');
@@ -87,6 +88,17 @@ function App() {
             window.removeEventListener('resize', handleResize);
         }
     });
+
+    useEffect(() => {
+
+        const count = userLinks.length;
+        if ( count > 9 && userSub && userSub["braintree_status"] === "canceled" && new Date(userSub["ends_at"]).valueOf() < new Date().valueOf() )   {
+            setSubStatus(false);
+        } else {
+            setSubStatus(true)
+        }
+
+    }, [userLinks])
 
     return (
         <div className="my_row page_wrap">
@@ -144,16 +156,23 @@ function App() {
                         </div>
 
                         <ShowPreviewButton />
-
-                        <AddLink
-                            userLinks={userLinks}
-                            setUserLinks={setUserLinks}
-                            originalArray={originalArray}
-                            setOriginalArray={setOriginalArray}
-                            userSub={userSub}
-                            setShowPopup={setShowPopup}
-                            setOptionText={setOptionText}
-                        />
+                        <div className="add_more_icons">
+                            <AddLink
+                                userLinks={userLinks}
+                                setUserLinks={setUserLinks}
+                                originalArray={originalArray}
+                                setOriginalArray={setOriginalArray}
+                                userSub={userSub}
+                                setShowPopup={setShowPopup}
+                                setOptionText={setOptionText}
+                            />
+                            {subStatus ? "" :
+                                <div className="icon_message">
+                                    <p>Your plan has been downgraded to Free.</p>
+                                    <p>Your link will only display up to 9 icons max.</p>
+                                </div>
+                            }
+                        </div>
 
                         <div className="icons_wrap add_icons icons">
 
@@ -195,6 +214,7 @@ function App() {
                         userLinks={userLinks}
                         fileName={fileName}
                         profileFileName={profileFileName}
+                        userSub={userSub}
                     />
                 </div>
             </PageContext.Provider>

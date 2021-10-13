@@ -96,15 +96,19 @@ class LoginController extends Controller
 
             $subscription = $user->subscriptions()->first();
 
-            if ($subscription && $subscription->name == "corporate" && $subscription->braintree_status == 'canceled') {
+            if ($subscription && $subscription->braintree_status == 'canceled') {
                 if ($subscription->ends_at < Carbon::now()) {
-                    foreach ($userPages as $userPage) {
-                        if ($userPage->is_protected) {
-                            $userPage->is_protected = 0;
-                            $userPage->password = null;
-                            $userPage->save();
+                    if( $subscription->name == "corporate") {
+                        foreach ( $userPages as $userPage ) {
+                            if ( $userPage->is_protected ) {
+                                $userPage->is_protected = 0;
+                                $userPage->password = null;
+                                $userPage->save();
+                            }
                         }
                     }
+
+                    $subscription->update(['name', 'free']);
                 }
             }
 

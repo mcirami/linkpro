@@ -91,7 +91,7 @@
                                 </div>
                             @else
                                 <div class="plan_name">
-                                    <p>Free</p>
+                                    <p>{{ $subscription->name }}</p>
                                     <img src="{{ asset('../images/plan-type-bg.png') }}" alt="">
                                 </div>
                             @endif
@@ -112,7 +112,7 @@
                                     Change My Plan
                                 </a>
                             @endif--}}
-                            @if (!$subscription || $subscription && !$subscription->ends_at)
+                            @if (!$subscription || !$subscription->ends_at || $subscription->ends_at < \Carbon\Carbon::now())
                                 <button class='button blue open_popup_choose'>
                                     Change My Plan
                                 </button>

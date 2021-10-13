@@ -212,12 +212,24 @@ class SubscriptionService {
             if ($result->success) {
                 $activeSubs->update(['name' => "pro"]);
 
+                $userPages = $user->pages()->get();
+
+                foreach ($userPages as $userPage) {
+                    if ($userPage->is_protected) {
+                        $userPage->is_protected = 0;
+                        $userPage->password = null;
+                        $userPage->save();
+                    }
+                }
+
                 /*$userData = ([
                     'siteUrl' => \URL::to('/') . "/",
                     'plan' => 'Corporate',
                 ]);
 
                 $user->notify(new NotifyAboutUpgrade($userData));*/
+
+                $message = "Your plan has been downgraded to the Pro level";
             } else {
                 $errorString = "";
 
@@ -230,7 +242,7 @@ class SubscriptionService {
                 return back()->withErrors('An error occurred with the message: '. $result->message);
             }
 
-            $message = "Your plan has been downgraded to the Pro level";
+
         }
 
         return $message;

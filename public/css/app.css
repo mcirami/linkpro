@@ -13,7 +13,7 @@
   --bs-pink: #f66d9b;
   --bs-red: #f24d1d;
   --bs-orange: #f6993f;
-  --bs-yellow: #ffed4a;
+  --bs-yellow: #fffde7;
   --bs-green: #0ba921;
   --bs-teal: #4dc0b5;
   --bs-cyan: #6cb2eb;
@@ -33,7 +33,7 @@
   --bs-secondary: #6c757d;
   --bs-success: #0ba921;
   --bs-info: #6cb2eb;
-  --bs-warning: #ffed4a;
+  --bs-warning: #fffde7;
   --bs-danger: #f24d1d;
   --bs-light: #f8f9fa;
   --bs-dark: #212529;
@@ -41,7 +41,7 @@
   --bs-secondary-rgb: 108, 117, 125;
   --bs-success-rgb: 11, 169, 33;
   --bs-info-rgb: 108, 178, 235;
-  --bs-warning-rgb: 255, 237, 74;
+  --bs-warning-rgb: 255, 253, 231;
   --bs-danger-rgb: 242, 77, 29;
   --bs-light-rgb: 248, 249, 250;
   --bs-dark-rgb: 33, 37, 41;
@@ -2065,15 +2065,15 @@ progress {
 }
 
 .table-warning {
-  --bs-table-bg: #fffbdb;
-  --bs-table-striped-bg: #f2eed0;
+  --bs-table-bg: #fffffa;
+  --bs-table-striped-bg: #f2f2ee;
   --bs-table-striped-color: #000;
-  --bs-table-active-bg: #e6e2c5;
+  --bs-table-active-bg: #e6e6e1;
   --bs-table-active-color: #000;
-  --bs-table-hover-bg: #ece8cb;
+  --bs-table-hover-bg: #ecece7;
   --bs-table-hover-color: #000;
   color: #000;
-  border-color: #e6e2c5;
+  border-color: #e6e6e1;
 }
 
 .table-danger {
@@ -3140,32 +3140,32 @@ textarea.form-control-lg {
 
 .btn-warning {
   color: #000;
-  background-color: #ffed4a;
-  border-color: #ffed4a;
+  background-color: #fffde7;
+  border-color: #fffde7;
 }
 .btn-warning:hover {
   color: #000;
-  background-color: #fff065;
-  border-color: #ffef5c;
+  background-color: #fffdeb;
+  border-color: #fffde9;
 }
 .btn-check:focus + .btn-warning, .btn-warning:focus {
   color: #000;
-  background-color: #fff065;
-  border-color: #ffef5c;
-  box-shadow: 0 0 0 0.25rem rgba(217, 201, 63, 0.5);
+  background-color: #fffdeb;
+  border-color: #fffde9;
+  box-shadow: 0 0 0 0.25rem rgba(217, 215, 196, 0.5);
 }
 .btn-check:checked + .btn-warning, .btn-check:active + .btn-warning, .btn-warning:active, .btn-warning.active, .show > .btn-warning.dropdown-toggle {
   color: #000;
-  background-color: #fff16e;
-  border-color: #ffef5c;
+  background-color: #fffdec;
+  border-color: #fffde9;
 }
 .btn-check:checked + .btn-warning:focus, .btn-check:active + .btn-warning:focus, .btn-warning:active:focus, .btn-warning.active:focus, .show > .btn-warning.dropdown-toggle:focus {
-  box-shadow: 0 0 0 0.25rem rgba(217, 201, 63, 0.5);
+  box-shadow: 0 0 0 0.25rem rgba(217, 215, 196, 0.5);
 }
 .btn-warning:disabled, .btn-warning.disabled {
   color: #000;
-  background-color: #ffed4a;
-  border-color: #ffed4a;
+  background-color: #fffde7;
+  border-color: #fffde7;
 }
 
 .btn-danger {
@@ -3359,27 +3359,27 @@ textarea.form-control-lg {
 }
 
 .btn-outline-warning {
-  color: #ffed4a;
-  border-color: #ffed4a;
+  color: #fffde7;
+  border-color: #fffde7;
 }
 .btn-outline-warning:hover {
   color: #000;
-  background-color: #ffed4a;
-  border-color: #ffed4a;
+  background-color: #fffde7;
+  border-color: #fffde7;
 }
 .btn-check:focus + .btn-outline-warning, .btn-outline-warning:focus {
-  box-shadow: 0 0 0 0.25rem rgba(255, 237, 74, 0.5);
+  box-shadow: 0 0 0 0.25rem rgba(255, 253, 231, 0.5);
 }
 .btn-check:checked + .btn-outline-warning, .btn-check:active + .btn-outline-warning, .btn-outline-warning:active, .btn-outline-warning.active, .btn-outline-warning.dropdown-toggle.show {
   color: #000;
-  background-color: #ffed4a;
-  border-color: #ffed4a;
+  background-color: #fffde7;
+  border-color: #fffde7;
 }
 .btn-check:checked + .btn-outline-warning:focus, .btn-check:active + .btn-outline-warning:focus, .btn-outline-warning:active:focus, .btn-outline-warning.active:focus, .btn-outline-warning.dropdown-toggle.show:focus {
-  box-shadow: 0 0 0 0.25rem rgba(255, 237, 74, 0.5);
+  box-shadow: 0 0 0 0.25rem rgba(255, 253, 231, 0.5);
 }
 .btn-outline-warning:disabled, .btn-outline-warning.disabled {
-  color: #ffed4a;
+  color: #fffde7;
   background-color: transparent;
 }
 
@@ -4962,12 +4962,12 @@ textarea.form-control-lg {
 }
 
 .alert-warning {
-  color: #665f1e;
-  background-color: #fffbdb;
-  border-color: #fffac9;
+  color: #66655c;
+  background-color: #fffffa;
+  border-color: #fffef8;
 }
 .alert-warning .alert-link {
-  color: #524c18;
+  color: #52514a;
 }
 
 .alert-danger {
@@ -5329,17 +5329,17 @@ textarea.form-control-lg {
 }
 
 .list-group-item-warning {
-  color: #665f1e;
-  background-color: #fffbdb;
+  color: #66655c;
+  background-color: #fffffa;
 }
 .list-group-item-warning.list-group-item-action:hover, .list-group-item-warning.list-group-item-action:focus {
-  color: #665f1e;
-  background-color: #e6e2c5;
+  color: #66655c;
+  background-color: #e6e6e1;
 }
 .list-group-item-warning.list-group-item-action.active {
   color: #ffffff;
-  background-color: #665f1e;
-  border-color: #665f1e;
+  background-color: #66655c;
+  border-color: #66655c;
 }
 
 .list-group-item-danger {
@@ -6455,10 +6455,10 @@ textarea.form-control-lg {
 }
 
 .link-warning {
-  color: #ffed4a;
+  color: #fffde7;
 }
 .link-warning:hover, .link-warning:focus {
-  color: #fff16e;
+  color: #fffdec;
 }
 
 .link-danger {
@@ -6889,7 +6889,7 @@ textarea.form-control-lg {
 }
 
 .border-warning {
-  border-color: #ffed4a !important;
+  border-color: #fffde7 !important;
 }
 
 .border-danger {
@@ -12494,7 +12494,13 @@ header.guest_header .col.right {
   padding: 0 40px;
   width: 100%;
   margin-top: 20px;
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+  align-items: center;
+  -webkit-align-items: center;
 }
 @media all and (max-width: 550px) {
   .add_more_icons {
@@ -12513,7 +12519,6 @@ header.guest_header .col.right {
   }
 }
 .add_more_icons .icon_wrap {
-  width: 100%;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -12529,6 +12534,17 @@ header.guest_header .col.right {
 .add_more_icons .icon_wrap svg {
   width: 15px;
   height: 15px;
+}
+.add_more_icons .icon_message {
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  padding: 10px;
+  background: #fffde7;
+}
+.add_more_icons .icon_message p {
+  margin: 0;
+  font-size: 12px;
 }
 
 .crop_section {

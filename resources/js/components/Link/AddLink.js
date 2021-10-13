@@ -15,14 +15,6 @@ const AddLink = ({userLinks, setUserLinks, originalArray, setOriginalArray, user
 
         if (count < 9 || (userSub && userSub["braintree_status"] === "active") || (userSub && new Date(userSub["ends_at"]).valueOf()) > new Date().valueOf() ) {
 
-            const found = userLinks.filter(
-                element => element.id.toString().includes("new"));
-            let insertID = null;
-
-            if (found.length > 0) {
-                insertID = found[0].id;
-            }
-
             const packets = {
                 id: pageSettings["id"],
             };
@@ -34,40 +26,6 @@ const AddLink = ({userLinks, setUserLinks, originalArray, setOriginalArray, user
                     EventBus.dispatch("success", {message: returnMessage});
                     const link_id = JSON.stringify(response.data.link_id);
                     const position = response.data.position;
-                    if (insertID) {
-                        setOriginalArray(
-                            originalArray.map((item) => {
-                                if (item.id === insertID) {
-                                    return {
-                                        id: link_id,
-                                        name: null,
-                                        url: null,
-                                        icon: null,
-                                        active_status: 1,
-                                        position: position,
-                                    }
-                                }
-                                return item;
-                            })
-                        )
-                        setUserLinks(
-                            userLinks.map((item) => {
-
-                                if (item.id === insertID) {
-                                    return {
-                                        id: link_id,
-                                        name: null,
-                                        url: null,
-                                        icon: null,
-                                        active_status: 1,
-                                        position: position,
-                                    }
-                                }
-
-                                return item;
-                            })
-                        )
-                    } else {
                         let prevArray = [...originalArray];
                         prevArray = [
                             ...prevArray,
@@ -83,7 +41,7 @@ const AddLink = ({userLinks, setUserLinks, originalArray, setOriginalArray, user
 
                         setOriginalArray(prevArray);
                         setUserLinks(prevArray)
-                    }
+
 
                     updateContentHeight();
 
@@ -123,12 +81,12 @@ const AddLink = ({userLinks, setUserLinks, originalArray, setOriginalArray, user
     }
 
     return (
-        <div className="add_more_icons">
-            <div className="icon_wrap" onClick={handleClick}>
-                <ImPlus />
-                <h3>Add Icon</h3>
-            </div>
+
+        <div className="icon_wrap" onClick={handleClick}>
+            <ImPlus />
+            <h3>Add Icon</h3>
         </div>
+
     )
 }
 export default AddLink;

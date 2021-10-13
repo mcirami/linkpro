@@ -62,6 +62,6 @@ class LinkController extends Controller
         $linkService->deleteLink($link);
         $linkService->updateLinksPositions($linksArray);
 
-        return response()->json(['message' => 'Link Has Been Deleted']);
+        return response()->json(['message' => 'Icon Has Been Deleted']);
     }
 }

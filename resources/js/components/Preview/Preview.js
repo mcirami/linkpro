@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {LinksContext, PageContext} from '../App';
 import {MdCancel} from 'react-icons/md';
 import {IoIosLock} from 'react-icons/io';
@@ -6,10 +6,11 @@ import {IoIosLock} from 'react-icons/io';
 //const page_header_path  = user.page_header_path + "/";
 //const page_profile_path  = user.page_profile_path + "/";
 
-const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, completedProfileCrop, profileRef, iconRef, completedIconCrop}) => {
+const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, completedProfileCrop, profileRef, userSub }) => {
 
     //const { userLinks } = useContext(LinksContext);
     const { pageSettings, setPageSettings } = useContext(PageContext);
+    const [ iconCount, setIconCount ] = useState(null);
 
     const myStyle = {
         background: "url(" + pageSettings["header_img"] + ") no-repeat",
@@ -20,12 +21,31 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
         document.querySelector('.links_col.preview').classList.remove('show');
     }
 
+    useEffect(()=> {
+
+        if (userSub) {
+            const {braintree_status, ends_at, name} = {...userSub};
+            const currentDate = new Date().valueOf();
+            const endsAt = new Date(ends_at).valueOf();
+
+            if (braintree_status === 'active' || endsAt > currentDate) {
+                setIconCount(userLinks.length)
+            } else {
+                setIconCount(9)
+            }
+        } else {
+            setIconCount(9)
+        }
+
+    }, [userLinks])
+
     return (
 
         <>
             <div className="close_preview" onClick={ClosePreview}>
                 <MdCancel />
             </div>
+
             <div className="links_wrap preview">
                 <div className="inner_content" id="preview_wrap">
                     <div className="inner_content_wrap">
@@ -119,22 +139,23 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
                             </div>
                         </div>
                         <div className="icons_wrap">
-                            {userLinks.map((linkItem) => {
+
+                            {userLinks.slice(0, iconCount).map((linkItem) => {
+
                                 const { id, name, url, icon, active_status } = linkItem;
                                 return (
-                                    <>
+                                    <div className="icon_col" key={id.toString()}>
                                         { active_status ?
-                                            <div className="icon_col" key={ id || Math.random()}>
+                                            <>
                                                 <a target="_blank" href={ url || "https://link.pro"}>
-                                                    <img src={ icon || '/images/icon-placeholder-preview.png'} />
+                                                    <img src={ icon || '/images/icon-placeholder-preview.png'} alt=""/>
                                                 </a>
                                                 <p>{ name || "Link Name" }</p>
-                                            </div>
+                                            </>
                                          :
-                                            <div className="icon_col" key={ id || Math.random()}>
-                                            </div>
+                                           ""
                                         }
-                                     </>
+                                    </div>
                                 )
                             })}
                         </div>
