@@ -97,10 +97,13 @@ jQuery(document).ready(function($) {
     const chooseLevelPopup = document.getElementById('popup_choose_level');
 
     if (chooseLevelPopup) {
-        document.querySelector('.open_popup_choose').addEventListener('click', function(e) {
-                e.preventDefault();
-                chooseLevelPopup.classList.add('open');
-        });
+        if (document.querySelector('.open_popup_choose')) {
+            document.querySelector('.open_popup_choose').
+                addEventListener('click', function(e) {
+                    e.preventDefault();
+                    chooseLevelPopup.classList.add('open');
+                });
+        }
 
         document.querySelector('#popup_choose_level .close_popup').addEventListener('click', function(e) {
             e.preventDefault();

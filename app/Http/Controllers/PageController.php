@@ -17,6 +17,10 @@ class PageController extends Controller
 {
     public function show(Page $page) {
 
+        if ($page->disabled) {
+            return abort(404);
+        }
+
         $value = session('authorized');
 
         $links = $page->links()
@@ -63,6 +67,10 @@ class PageController extends Controller
         $user = Auth::user();
 
         if ($page->user_id != $user["id"]) {
+            return abort(404);
+        }
+
+        if ( $page->disabled ) {
             return abort(404);
         }
 
@@ -146,7 +154,8 @@ class PageController extends Controller
 
     public function redirect() {
         $user = Auth::user();
-        $page = $user->pages()->firstWhere('user_id', $user["id"]);
-        return redirect('/dashboard/pages/' . $page->id);
+        $page = $user->pages()->where('user_id', $user["id"])->where('default', true)->get();
+
+        return redirect('/dashboard/pages/' . $page[0]->id);
     }
 }

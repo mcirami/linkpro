@@ -218,8 +218,18 @@ class SubscriptionService {
                     if ($userPage->is_protected) {
                         $userPage->is_protected = 0;
                         $userPage->password = null;
-                        $userPage->save();
                     }
+
+                    if ($request->defaultPage) {
+                        if ($request->defaultPage == $userPage->id) {
+                            $userPage->default = true;
+                        } else {
+                            $userPage->default = false;
+                            $userPage->disabled = true;
+                        }
+                    }
+
+                    $userPage->save();
                 }
 
                 /*$userData = ([

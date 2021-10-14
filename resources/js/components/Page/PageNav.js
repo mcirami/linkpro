@@ -66,40 +66,43 @@ const PageNav = ({ allUserPages, setAllUserPages, userSub, setShowUpgradePopup, 
     const handleClick = (e) => {
         e.preventDefault();
 
-        if (userSub) {
+        const type = e.target.dataset.type
+
+        if (type !== undefined && type === 'disabled') {
+
+            enablePopup("access this link");
+
+        } else if (userSub) {
+
             const {braintree_status, ends_at, name} = {...userSub};
             const currentDate = new Date().valueOf();
             const endsAt = new Date(ends_at).valueOf();
 
-            if ((braintree_status === 'active' && name === "corporate") || endsAt > currentDate && name === "corporate") {
+            if ((braintree_status === 'active' && name === "corporate") ||
+                endsAt > currentDate && name === "corporate") {
                 setIsEditing(true);
             } else {
-                setOptionText("add more links");
-
-                setShowUpgradePopup(true);
-                document.querySelector('#upgrade_popup').classList.add('open');
-                setTimeout(() => {
-                    document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
-                        e.preventDefault();
-                        setShowUpgradePopup(false);
-                        document.querySelector('#upgrade_popup').classList.remove('open');
-                    });
-                }, 500);
+                enablePopup("add more links");
             }
 
         } else {
-            setShowUpgradePopup(true);
-            document.querySelector('#upgrade_popup').classList.add('open');
-            setOptionText("add more links");
-
-            setTimeout(() => {
-                document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
-                    e.preventDefault();
-                    setShowUpgradePopup(false);
-                    document.querySelector('#upgrade_popup').classList.remove('open');
-                });
-            }, 500);
+            enablePopup("add more links");
         }
+    }
+
+    const enablePopup = (text) => {
+
+        setShowUpgradePopup(true);
+        document.querySelector('#upgrade_popup').classList.add('open');
+        setOptionText(text);
+
+        setTimeout(() => {
+            document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
+                e.preventDefault();
+                setShowUpgradePopup(false);
+                document.querySelector('#upgrade_popup').classList.remove('open');
+            });
+        }, 500);
     }
 
     return (
@@ -119,11 +122,14 @@ const PageNav = ({ allUserPages, setAllUserPages, userSub, setShowUpgradePopup, 
                             { pageList.map((page) => {
 
                                 return (
-
-                                    <li id={page["id"]} key={page["id"]}>
-                                        <a href={"/dashboard/pages/" + page["id"]}>{page["name"]}</a>
-                                    </li>
-
+                                    page["disabled"] ?
+                                        <li key={page["id"]} className="disabled_link" data-type="disabled" onClick={(e) => { handleClick(e) }} >
+                                            {page["name"]}
+                                        </li>
+                                        :
+                                        <li id={page["id"]} key={page["id"]}>
+                                            <a href={"/dashboard/pages/" + page["id"]}>{page["name"]}</a>
+                                        </li>
                                 )
                             })}
                         </ul>

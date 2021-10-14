@@ -103,8 +103,11 @@ class LoginController extends Controller
                             if ( $userPage->is_protected ) {
                                 $userPage->is_protected = 0;
                                 $userPage->password = null;
-                                $userPage->save();
                             }
+                            if (!$userPage->default) {
+                                $userPage->disabled = true;
+                            }
+                            $userPage->save();
                         }
                     }
 

@@ -180,6 +180,18 @@
                         color: $white;
                     }
                 }
+
+                &.disabled_link {
+                    display: block;
+                    padding: 15px 20px;
+                    color: $darkGray;
+                    background: $lightGray;
+
+                    &:hover {
+                        cursor: pointer;
+                        background: $lightGray;
+                    }
+                }
             }
         }
 

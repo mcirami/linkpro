@@ -91,31 +91,18 @@
                                 </div>
                             @else
                                 <div class="plan_name">
-                                    <p>{{ $subscription->name }}</p>
+                                    <p>Free</p>
                                     <img src="{{ asset('../images/plan-type-bg.png') }}" alt="">
                                 </div>
                             @endif
-                           {{-- @if($subscription && $subscription->braintree_status == "active")
-                                @if($subscription->name == "pro")
-                                    <button class="open_popup button blue" data-type="upgrade" data-level="corporate">
-                                        Upgrade My Plan
-                                    </button>
-                                @elseif($subscription->name == "corporate")
-                                    <button class='button blue open_popup_choose' data-plan="{{ $subscription->braintree_id }}">
-                                        Downgrade My Plan
-                                    </button>
-                                @endif
-                            @elseif($subscription && $subscription->braintree_status == "canceled")
-
-                            @else
-                                <a class="button blue" href="{{ route('plans.get') }}">
-                                    Change My Plan
-                                </a>
-                            @endif--}}
-                            @if (!$subscription || !$subscription->ends_at || $subscription->ends_at < \Carbon\Carbon::now())
+                            @if ($subscription->braintree_status == "active")
                                 <button class='button blue open_popup_choose'>
                                     Change My Plan
                                 </button>
+                            @else
+                                <a class='button blue' href="{{ route('plans.get') }}">
+                                    Change My Plan
+                                </a>
                             @endif
                         </div>
                         @if ($subscription)
@@ -201,82 +188,85 @@
 
     @include('layouts.popupPaymentMethod')
 
-    <script src="https://js.braintreegateway.com/web/3.38.1/js/client.min.js"></script>
-    <script src="https://js.braintreegateway.com/web/3.38.1/js/hosted-fields.min.js"></script>
+    @if ($payment_method == "card")
 
-    <!-- Load PayPal's checkout.js Library. -->
-    <script src="https://www.paypalobjects.com/api/checkout.js" data-version-4 log-level="warn"></script>
+        <script src="https://js.braintreegateway.com/web/3.38.1/js/client.min.js"></script>
+        <script src="https://js.braintreegateway.com/web/3.38.1/js/hosted-fields.min.js"></script>
 
-    <!-- Load the PayPal Checkout component. -->
-    <script src="https://js.braintreegateway.com/web/3.38.1/js/paypal-checkout.min.js"></script>
-    <script>
-        var updateForm = document.querySelector('#update-cc-form');
-        if(updateForm) {
-            var submit = document.querySelector('input[type="submit"]');
-            braintree.client.create({
-                authorization: '{{ $token }}'
-            }, function(clientErr, clientInstance) {
-                if (clientErr) {
-                    console.error(clientErr);
-                    return;
-                }
-                // This example shows Hosted Fields, but you can also use this
-                // client instance to create additional components here, such as
-                // PayPal or Data Collector.
-                braintree.hostedFields.create({
-                    client: clientInstance,
-                    styles: {
-                        'input': {
-                            'font-size': '14px'
-                        },
-                        'input.invalid': {
-                            'color': 'red'
-                        },
-                        'input.valid': {
-                            'color': 'green'
-                        }
-                    },
-                    fields: {
-                        number: {
-                            selector: '#card-number',
-                            placeholder: 'xxxx xxxx xxxx ' + '{{ $user["pm_last_four"] }}',
-                        },
-                        cvv: {
-                            selector: '#cvv',
-                            placeholder: 'xxx'
-                        },
-                        expirationDate: {
-                            selector: '#expiration-date',
-                            placeholder: 'MM/YYYY'
-                        },
-                        postalCode: {
-                            selector: '#postal-code',
-                            placeholder: 'xxxxx',
-                        }
-                    }
-                }, function(hostedFieldsErr, hostedFieldsInstance) {
-                    if (hostedFieldsErr) {
-                        console.error(hostedFieldsErr);
+        <!-- Load PayPal's checkout.js Library. -->
+        <script src="https://www.paypalobjects.com/api/checkout.js" data-version-4 log-level="warn"></script>
+
+        <!-- Load the PayPal Checkout component. -->
+        <script src="https://js.braintreegateway.com/web/3.38.1/js/paypal-checkout.min.js"></script>
+        <script>
+            var updateForm = document.querySelector('#update-cc-form');
+            if(updateForm) {
+                var submit = document.querySelector('input[type="submit"]');
+                braintree.client.create({
+                    authorization: '{{ $token }}'
+                }, function(clientErr, clientInstance) {
+                    if (clientErr) {
+                        console.error(clientErr);
                         return;
                     }
-                    // submit.removeAttribute('disabled');
-                    updateForm.addEventListener('submit', function(event) {
-                        event.preventDefault();
-                        hostedFieldsInstance.tokenize(function(tokenizeErr, payload) {
-                            if (tokenizeErr) {
-                                console.error(tokenizeErr);
-                                return;
+                    // This example shows Hosted Fields, but you can also use this
+                    // client instance to create additional components here, such as
+                    // PayPal or Data Collector.
+                    braintree.hostedFields.create({
+                        client: clientInstance,
+                        styles: {
+                            'input': {
+                                'font-size': '14px'
+                            },
+                            'input.invalid': {
+                                'color': 'red'
+                            },
+                            'input.valid': {
+                                'color': 'green'
                             }
-                            // If this was a real integration, this is where you would
-                            // send the nonce to your server.
-                            // console.log('Got a nonce: ' + payload.nonce);
-                            document.querySelector('#nonce').value = payload.nonce;
-                            updateForm.submit();
-                        });
-                    }, false);
+                        },
+                        fields: {
+                            number: {
+                                selector: '#card-number',
+                                placeholder: 'xxxx xxxx xxxx ' + '{{ $user["pm_last_four"] }}',
+                            },
+                            cvv: {
+                                selector: '#cvv',
+                                placeholder: 'xxx'
+                            },
+                            expirationDate: {
+                                selector: '#expiration-date',
+                                placeholder: 'MM/YYYY'
+                            },
+                            postalCode: {
+                                selector: '#postal-code',
+                                placeholder: 'xxxxx',
+                            }
+                        }
+                    }, function(hostedFieldsErr, hostedFieldsInstance) {
+                        if (hostedFieldsErr) {
+                            console.error(hostedFieldsErr);
+                            return;
+                        }
+                        // submit.removeAttribute('disabled');
+                        updateForm.addEventListener('submit', function(event) {
+                            event.preventDefault();
+                            hostedFieldsInstance.tokenize(function(tokenizeErr, payload) {
+                                if (tokenizeErr) {
+                                    console.error(tokenizeErr);
+                                    return;
+                                }
+                                // If this was a real integration, this is where you would
+                                // send the nonce to your server.
+                                // console.log('Got a nonce: ' + payload.nonce);
+                                document.querySelector('#nonce').value = payload.nonce;
+                                updateForm.submit();
+                            });
+                        }, false);
+                    });
                 });
-            });
-        }
-    </script>
+            }
+        </script>
+    @endif
 
 @endsection

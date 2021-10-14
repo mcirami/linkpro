@@ -22,7 +22,8 @@ class Page extends Model
         'title',
         'bio',
         'is_protected',
-        'password'
+        'password',
+        'default'
     ];
 
     public function user() {

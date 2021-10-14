@@ -144,7 +144,11 @@
 #popup_choose_level {
     .card {
         max-width: 1000px;
+        height: 100%;
+        max-height: none;
         padding: 10px 0 20px;
+        transition: 1s all ease-in-out;
+        -webkit-transition: 1s all ease-in-out;
 
         @media all and (max-width: 992px) {
             max-width: 500px;
@@ -152,6 +156,15 @@
 
         @media all and (max-width: 550px) {
             max-width: 350px;
+        }
+
+        &.size_adjust {
+            max-height: 450px;
+            overflow: hidden;
+
+            @media all and (max-width: 550px) {
+                max-height: 500px;
+            }
         }
     }
 
@@ -223,4 +236,96 @@
             margin: 0 auto 20px;
         }
     }
+}
+
+#confirm_change_plan_details {
+    display: block;
+    opacity: 0;
+    background: $white;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    text-align:center;
+    transition: .4s all ease-in-out;
+    -webkit-transition: .4s all ease-in-out;
+    z-index: -1;
+
+    &.open {
+        opacity: 1;
+        z-index: 1;
+    }
+
+    form {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+        align-items: center;
+        -webkit-align-items: center;
+        padding: 40px;
+
+        h3 {
+            font-size: 22px;
+            margin-bottom: 20px;
+
+            @media all and (max-width: 768px) {
+                font-size: 18px;
+            }
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        label {
+            margin-bottom: 5px;
+        }
+
+        select {
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 20px;
+        }
+
+        .button_row {
+            width: 100%;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            -ms-flex-wrap: nowrap;
+            flex-wrap: nowrap;
+            justify-content:center;
+            -webkit-justify-content: center;
+            align-items: center;
+            -webkit-align-items: center;
+            column-gap: 20px;
+            -webkit-column-gap: 20px;
+            -moz-column-gap: 20px;
+        }
+
+        .button, button {
+            width: 150px;
+
+            @media all and (max-width: 768px) {
+                width: 138px;
+            }
+
+            &.gray {
+                border: 1px solid $darkGray;
+            }
+        }
+    }
+
+
 }
