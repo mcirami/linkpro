@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
+use function PHPUnit\Framework\isEmpty;
 
 class PageService {
 
@@ -27,11 +28,19 @@ class PageService {
 
         $name = preg_replace("/[\s_]/", "-", strtolower($request->name));
 
+        $userPages = $user->pages()->get();
+
+        $default = false;
+        if( isEmpty($userPages) ) {
+            $default = true;
+        }
+
         $page = $user->pages()->create([
             'name' => $name,
             'title' => null,
             'bio' => null,
-            'is_protected' => false
+            'is_protected' => false,
+            'default' => $default,
         ]);
 
         if(str_contains($path["url"], 'step-two')) {

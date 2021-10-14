@@ -35,7 +35,7 @@
                         <div class="pricing">
                             <h3><sup>$</sup>0</h3>
                         </div>
-                        <a href="#" class="button green confirm_change_plan" data-type="downgrade" data-level="free" >Downgrade To Free</a>
+                        <a href="#" class="button green confirm_change_plan" data-type="cancel" data-level="free" >Downgrade To Free</a>
                     </div>
                     @if (!$subscription || ($subscription && $subscription->name == "corporate"))
                         <div class="column pro">
@@ -116,14 +116,16 @@
                             @php $pages = $user->pages()->get() @endphp
                             <h3>By downgrading your account to Pro you will lose access to password protect your links and you will be limited to 1 unique link.</h3>
                             @if( count($pages) > 1 )
-                                <p>You currently have {{count($pages)}} pages.</p>
-                                <label for="defaultPage">Select which page you would like to stay active:</label>
-                                <select name="defaultPage" id="defaultPage">
+                                <p>You currently have {{count($pages)}} links.</p>
+                                <label for="defaultPage">Select which link you would like to stay active:</label>
+                                <select name="defaultPage">
                                     @foreach($pages as $page)
                                         <option value="{{ $page->id }}">{{ $page->name }}</option>
                                     @endforeach
                                 </select>
                             @endif
+                        @else
+                            <h3>By downgrading your account to Free your subscription will be cancelled, your icons will be limited to 9 and you will no longer be able to use custom icons.</h3>
                         @endif
                         <p>Do you want to continue?</p>
                         <div class="button_row">
@@ -135,26 +137,62 @@
                     </form>
                 </div>
 
+                <div id="confirm_cancel" class="change_plan_message">
+                    <h3 class="popup_title">Confirm</h3>
+                    <form action="" method="post">
+                        @csrf
+                        <input class="plan" name="plan" type="hidden" value="{{ $subscription->braintree_id }}">
+                        @if ($subscription->name == "corporate")
+                            @php $pages = $user->pages()->get() @endphp
+                            <h3>By downgrading your plan to Free your subscription will be cancelled. You will lose access to password protect your links, you will be limited to 1 unique link, your icons will be limited to 9 and you will no longer be able to use custom icons..</h3>
+                            @if( count($pages) > 1 )
+                                <p>You currently have {{count($pages)}} links.</p>
+                                <label for="defaultPage">Select which link you would like to keep active:</label>
+                                <select name="defaultPage">
+                                    @foreach($pages as $page)
+                                        <option value="{{ $page->id }}">{{ $page->name }}</option>
+                                    @endforeach
+                                </select>
+                            @endif
+                        @else
+                            <h3>By downgrading your plan to Free your subscription will be cancelled, your icons will be limited to 9 and you will no longer be able to use custom icons.</h3>
+                        @endif
+                        <p>Do you want to continue?</p>
+                        <div class="button_row">
+                            <button type="submit" class='button green'>
+                                Yes
+                            </button>
+                            <a class="close_cancel_details button transparent gray" href="#">No</a>
+                        </div>
+                    </form>
+                </div>
+
             </div><!-- card-body -->
         </div><!-- card -->
     </div><!-- form_page plans -->
 </div><!-- popup_choose_level -->
 
 <script>
-    const confirm_change_plan = document.querySelectorAll('.confirm_change_plan');
+    const confirmChangePlan = document.querySelectorAll('.confirm_change_plan');
     const confirmPlanDetails = document.querySelector('#confirm_change_plan_details');
     const popupCard = document.querySelector('#popup_choose_level .card');
+    const confirmCancelDetails = document.querySelector('#confirm_cancel');
 
-    confirm_change_plan.forEach((button) => {
+    confirmChangePlan.forEach((button) => {
         button.addEventListener('click', function(e) {
             e.preventDefault();
 
-            confirmPlanDetails.classList.add("open");
-            popupCard.classList.add("size_adjust");
             const type = e.target.dataset.type;
             const plan = e.target.dataset.level;
             const form = document.querySelector('#confirm_change_plan_details form');
-            document.querySelector('#confirm_change_plan_details .level').value = plan;
+            popupCard.classList.add("size_adjust");
+
+            if (type === "cancel") {
+                confirmCancelDetails.classList.add("open");
+            } else {
+                confirmPlanDetails.classList.add("open");
+                document.querySelector('#confirm_change_plan_details .level').value = plan;
+            }
 
             switch (plan) {
 
@@ -174,6 +212,12 @@
     document.querySelector('.close_details').addEventListener('click', function(e) {
         e.preventDefault();
         confirmPlanDetails.classList.remove("open");
+        popupCard.classList.remove("size_adjust");
+    });
+
+    document.querySelector('.close_cancel_details').addEventListener('click', function(e) {
+        e.preventDefault();
+        confirmCancelDetails.classList.remove("open");
         popupCard.classList.remove("size_adjust");
     });
 

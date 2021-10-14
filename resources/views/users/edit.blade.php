@@ -80,7 +80,7 @@
                                     <p class="text-capitalize">{{ $subscription->name }}</p>
                                     <img src="{{ asset('../images/plan-type-bg.png') }}" alt="">
                                 </div>
-                                <a href="#" class="open_popup cancel_link" data-plan="{{ $subscription->braintree_id }}" data-type="cancel">Cancel Subscription</a>
+                                <a href="#" class="cancel_popup cancel_link" data-plan="{{ $subscription->braintree_id }}" data-type="cancel">Cancel Subscription</a>
                             @elseif($subscription && $subscription->ends_at > \Carbon\Carbon::now())
                                 <div class="plan_name">
                                     <p class="text-capitalize">{{ $subscription->name }}</p>
@@ -182,7 +182,7 @@
         </div>
     @endif
 
-    @include('layouts.popup')
+    @include('layouts.popupCancel')
 
     @include('layouts.popupChooseLevel')
 

@@ -115,7 +115,7 @@ class LoginController extends Controller
                 }
             }
 
-            return redirect('/dashboard/pages/' . $userPages[0]["id"]);
+            return redirect('/dashboard');
         }
 
     }

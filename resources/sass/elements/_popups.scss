@@ -1,4 +1,4 @@
-#popup_choose_level, #popup_payment_method, #confirm_popup, #upgrade_popup, #confirm_popup_link {
+#popup_choose_level, #popup_payment_method, #confirm_popup, #upgrade_popup, #confirm_popup_link, #confirm_cancel_popup {
     display: none;
     opacity: 0;
     position: fixed;
@@ -145,10 +145,10 @@
     .card {
         max-width: 1000px;
         height: 100%;
-        max-height: none;
+        max-height: 1000px;
         padding: 10px 0 20px;
-        transition: 1s all ease-in-out;
-        -webkit-transition: 1s all ease-in-out;
+        transition: max-height .2s ease-in-out;
+        -webkit-transition: max-height .2s ease-in-out;
 
         @media all and (max-width: 992px) {
             max-width: 500px;
@@ -159,6 +159,7 @@
         }
 
         &.size_adjust {
+
             max-height: 450px;
             overflow: hidden;
 
@@ -238,7 +239,7 @@
     }
 }
 
-#confirm_change_plan_details {
+#confirm_change_plan_details, #confirm_cancel {
     display: block;
     opacity: 0;
     background: $white;
@@ -272,16 +273,22 @@
         padding: 40px;
 
         h3 {
-            font-size: 22px;
+            font-size: 18px;
             margin-bottom: 20px;
+            line-height: 1.6;
 
             @media all and (max-width: 768px) {
-                font-size: 18px;
+                font-size: 16px;
             }
         }
 
         p {
             margin-bottom: 10px;
+            font-size: 18px;
+
+            @media all and (max-width: 768px) {
+                font-size: 16px;
+            }
         }
 
         label {
@@ -326,6 +333,81 @@
             }
         }
     }
+}
 
+#confirm_cancel_popup {
+
+    .card {
+        padding: 0;
+        max-width: 800px;
+
+        .card-body {
+            padding: 40px;
+        }
+
+        form {
+            text-align: center;
+
+            label {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            select {
+                width: 100%;
+                max-width: 300px;
+                margin-bottom: 20px;
+            }
+
+            h3 {
+                font-size: 18px;
+                line-height: 1.6;
+
+                @media all and (max-width: 768px) {
+                    font-size: 16px;
+                }
+            }
+
+            p {
+                font-size: 18px;
+
+                @media all and (max-width: 768px) {
+                    font-size: 16px;
+                }
+            }
+
+            .button_row {
+                width: 100%;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-orient: horizontal;
+                -webkit-box-direction: normal;
+                -ms-flex-direction: row;
+                flex-direction: row;
+                -ms-flex-wrap: nowrap;
+                flex-wrap: nowrap;
+                justify-content:center;
+                -webkit-justify-content: center;
+                align-items: center;
+                -webkit-align-items: center;
+                column-gap: 20px;
+                -webkit-column-gap: 20px;
+                -moz-column-gap: 20px;
+            }
+
+            .button, button {
+                width: 150px;
+
+                @media all and (max-width: 768px) {
+                    width: 138px;
+                }
+
+                &.gray {
+                    border: 1px solid $darkGray;
+                }
+            }
+        }
+    }
 
 }

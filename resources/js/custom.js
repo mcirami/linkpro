@@ -107,7 +107,20 @@ jQuery(document).ready(function($) {
 
         document.querySelector('#popup_choose_level .close_popup').addEventListener('click', function(e) {
             e.preventDefault();
+
+            const changePlanDetails = document.querySelector('#confirm_change_plan_details');
+            const confirmCancelDetails = document.querySelector('#confirm_cancel');
+
+            if(changePlanDetails.classList.contains("open")) {
+                changePlanDetails.classList.remove('open');
+            }
+
+            if(confirmCancelDetails.classList.contains('open')) {
+                confirmCancelDetails.classList.remove('open');
+            }
+
             chooseLevelPopup.classList.remove('open');
+            document.querySelector('#popup_choose_level .card').classList.remove('size_adjust');
         });
     }
 
@@ -125,5 +138,19 @@ jQuery(document).ready(function($) {
         })
     }
 
+    const confirmCancelPopup = document.getElementById('confirm_cancel_popup');
+
+    if (confirmCancelPopup) {
+        document.querySelector('.cancel_popup').addEventListener('click', function(e) {
+            e.preventDefault();
+            confirmCancelPopup.classList.add('open');
+        });
+
+        document.querySelector('#confirm_cancel_popup .close_popup').addEventListener('click', function(e) {
+            e.preventDefault();
+            confirmCancelPopup.classList.remove('open');
+        });
+
+    }
 
 });

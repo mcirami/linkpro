@@ -181,6 +181,17 @@ class SubscriptionService {
             if ($result->success) {
                 $activeSubs->update(['name' => "corporate"]);
 
+                $userPages = $user->pages()->get();
+
+                if (count($userPages) > 1) {
+                    foreach ($userPages as $userPage) {
+                        if ( $userPage->disabled ) {
+                            $userPage->disabled = false;
+                            $userPage->save();
+                        }
+                    }
+                }
+
                 $userData = ([
                     'siteUrl' => \URL::to('/') . "/",
                     'plan' => 'Corporate',
@@ -220,12 +231,16 @@ class SubscriptionService {
                         $userPage->password = null;
                     }
 
-                    if ($request->defaultPage) {
-                        if ($request->defaultPage == $userPage->id) {
-                            $userPage->default = true;
-                        } else {
-                            $userPage->default = false;
-                            $userPage->disabled = true;
+                    if (count($userPages) > 1) {
+
+                        if ( $request->defaultPage ) {
+                            if ( $request->defaultPage == $userPage->id ) {
+                                $userPage->default  = true;
+                                $userPage->disabled = false;
+                            } else {
+                                $userPage->default  = false;
+                                $userPage->disabled = true;
+                            }
                         }
                     }
 
