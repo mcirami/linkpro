@@ -31,11 +31,6 @@ const Links = ({
 
 }) => {
 
-
-    //const  { userLinks, setUserLinks } = useContext(LinksContext);
-    //const [newLinkCount, setNewLinkCount] = useState(0);
-
-    let newLinkCount = 0;
     const [size, setSize] = useState({
         height: window.innerHeight,
         width: window.innerWidth
@@ -261,6 +256,20 @@ const Links = ({
         });
     };
 
+    const handleOnClick = (linkID) => {
+        setEditID(linkID);
+
+        setTimeout(function(){
+            document.querySelector('.link_form').scrollIntoView({
+                behavior: 'smooth',
+                block: "center",
+                inline: "center"
+            });
+
+        }, 200)
+
+    }
+
     return (
         <>
             {userLinks.map((link, key) => {
@@ -318,7 +327,7 @@ const Links = ({
                                     >
                                         <MdEdit />
                                     </button>*/}
-                                    <div className="icon_wrap" onClick={(e) => { setEditID(linkID) }}>
+                                    <div className="icon_wrap" onClick={(e) => { handleOnClick(linkID) }}>
                                         <div className="image_wrap">
                                             <img src={ originalArray[key].icon || '/images/icon-placeholder.png' } alt=""/>
                                             {/*<div className="hover_text"><p><img src='/images/icon-placeholder.png' alt=""/></p></div>*/}
