@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PageBioRequest;
 use App\Http\Requests\PageNameRequest;
+use App\Http\Requests\PagePassword;
 use App\Http\Requests\PageTitleRequest;
 use App\Models\Page;
 use App\Models\User;
@@ -58,7 +59,7 @@ class PageController extends Controller
 
         $pageService->updatePageName($request, $page);
 
-        return response()->json(['message' => 'Page Name Updated']);
+        return response()->json(['message' => 'Link Name Updated']);
 
     }
 
@@ -118,7 +119,7 @@ class PageController extends Controller
 
         $pageService->updatePageTitle($request, $page);
 
-        return response()->json(['message' => 'Page Title Updated']);
+        return response()->json(['message' => 'Link Title Updated']);
 
     }
 
@@ -130,11 +131,11 @@ class PageController extends Controller
 
         $pageService->updatePageBio($request, $page);
 
-        return response()->json(['message' => 'Page Bio Updated']);
+        return response()->json(['message' => 'Link Bio Updated']);
 
     }
 
-    public function updatePassword(Request $request, Page $page, PageService $pageService) {
+    public function updatePassword(PagePassword $request, Page $page, PageService $pageService) {
 
         if ($page->user_id != Auth::id()) {
             return abort(404);
@@ -142,7 +143,7 @@ class PageController extends Controller
 
         $pageService->updatePagePassword($request, $page);
 
-        return response()->json(['message' => 'Page Password Updated']);
+        return response()->json(['message' => 'Link Password Updated']);
     }
 
     public function pageAuth(Request $request, Page $page, PageService $pageService) {

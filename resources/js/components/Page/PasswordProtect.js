@@ -1,5 +1,5 @@
 import {IoIosLock} from 'react-icons/io';
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {PageContext} from '../App';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import Switch from "react-switch";
@@ -13,48 +13,62 @@ const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [checked, setChecked] = useState(pageSettings['is_protected']);
     const [password, setPassword] = useState(pageSettings['password']);
+    const [enableSubmit, setEnableSubmit] = useState();
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const packets = {
-            is_protected: true,
-            password: password
-        };
+        if(password.length > 3) {
 
-        axios.post('/dashboard/page/update-password/' + pageSettings['id'], packets)
-        .then(
-            (response) => {
-                //console.log(JSON.stringify(response.data))
-                const returnMessage = JSON.stringify(response.data.message);
-                //const message = returnMessage.toString();
-                EventBus.dispatch("success", { message: returnMessage });
-                setPageSettings({
-                    ...pageSettings,
-                    password: password,
-                })
-                setPageSettings({
-                    ...pageSettings,
-                    is_protected: true,
-                })
-                setIsEditing(false);
-                setChecked(true);
-            }
-        ).catch(error => {
-            if ( error.response ) {
-                EventBus.dispatch("error", { message: error.response.data.errors.is_protected[0] });
-            } else {
-                console.log("ERROR:: ", error);
-            }
-        })
+            const packets = {
+                is_protected: true,
+                password: password
+            };
+
+            axios.post('/dashboard/page/update-password/' + pageSettings['id'],
+                packets).then(
+                (response) => {
+                    //console.log(JSON.stringify(response.data))
+                    const returnMessage = JSON.stringify(response.data.message);
+                    //const message = returnMessage.toString();
+                    EventBus.dispatch("success", {message: returnMessage});
+                    setPageSettings({
+                        ...pageSettings,
+                        password: password,
+                        is_protected: true,
+                    })
+                    setIsEditing(false);
+                    setChecked(true);
+                }
+            ).catch(error => {
+                if (error.response) {
+                    EventBus.dispatch("error",
+                        {message: error.response.data.errors.password[0]});
+                } else {
+                    console.log("ERROR:: ", error);
+                }
+            })
+        } else {
+            EventBus.dispatch("error", {message: "Password must be at least 4 characters"});
+        }
     }
 
-    const handleCheckedChange = (e) => {
+    const handleCheckedChange = (type) => {
 
-        setChecked(!checked);
+        let passProtected;
+
+        if (type === "enable") {
+            passProtected = true;
+        } else if (type === "disable") {
+            passProtected = false;
+        } else {
+            passProtected = !checked;
+        }
+
+        setChecked(passProtected);
 
         const packets = {
-            is_protected: !checked,
+            is_protected: passProtected,
             password: password
         };
 
@@ -65,19 +79,23 @@ const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
                 //const returnMessage = JSON.stringify(response.data.message);
                 let returnMessage;
 
-                if(!checked) {
-                    returnMessage = "Page Password Enabled";
-                } else {
-                    returnMessage = "Page Password Disabled";
+                if (type === true || type === false) {
+                    if (!checked) {
+                        returnMessage = "Page Password Enabled";
+                    } else {
+                        returnMessage = "Page Password Disabled";
+                    }
+
+                    EventBus.dispatch("success", {message: returnMessage});
                     setIsEditing(false);
                 }
-                EventBus.dispatch("success", { message: returnMessage });
+
                 setPageSettings({
                     ...pageSettings,
-                    is_protected: !checked,
+                    is_protected: passProtected,
                 })
 
-                setIsEditing(false);
+
 
             }
         ).catch(error => {
@@ -125,6 +143,28 @@ const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
         }, 500);
     }
 
+    const handleCharMin = (e) => {
+        let value = e.target.value;
+
+        if (value.length > 3) {
+            setEnableSubmit(true);
+            handleCheckedChange("enable");
+        } else {
+            setEnableSubmit(false);
+            handleCheckedChange("disable");
+        }
+
+        setPassword(value);
+    }
+
+    useEffect(() => {
+
+        if (password.length > 3) {
+            setEnableSubmit(true);
+        }
+
+    }, [])
+
     return (
         <div className="row page_settings" key={ pageSettings['id'] }>
             <div className="col-12">
@@ -151,7 +191,7 @@ const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
                                            name="password"
                                            defaultValue={password || "" }
                                            placeholder="Enter Password"
-                                           onChange={(e) => setPassword(e.target.value) }
+                                           onChange={(e) => handleCharMin(e) }
                                            onKeyPress={ event => {
                                                    if(event.key === 'Enter') {
                                                        handleSubmit(event);
@@ -159,10 +199,16 @@ const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
                                                }
                                            }
                                     />
-                                    <a className="submit_circle" href="#"
-                                       onClick={(e) => handleSubmit(e)}>
-                                        <FiThumbsUp/>
-                                    </a>
+                                    {enableSubmit === true ?
+                                        <a className="submit_circle" href="#"
+                                           onClick={(e) => handleSubmit(e)}>
+                                            <FiThumbsUp/>
+                                        </a>
+                                        :
+                                        <span className="cancel_icon">
+                                           <FiThumbsDown />
+                                       </span>
+                                    }
                                 </div>
                                 {/*<div className="checkbox">
                                     <label htmlFor="password_enable">

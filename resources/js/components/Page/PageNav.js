@@ -16,8 +16,6 @@ const PageNav = ({ allUserPages, setAllUserPages, userSub, setShowUpgradePopup, 
     const [newPageName, setNewPageName] = useState(null);
     const [available, setAvailability] = useState(false);
 
-    const pageCount = allUserPages.length;
-
     const handleSubmit = (e) => {
         e.preventDefault();
 
