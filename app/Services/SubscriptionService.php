@@ -121,7 +121,7 @@ class SubscriptionService {
                 if ($request->level == "pro") {
                     $plan = "PRO";
                 } else {
-                    $plan = "Corporate";
+                    $plan = "Premier";
                 }
 
                 $userData = ([
@@ -171,15 +171,15 @@ class SubscriptionService {
             'privateKey' => config('services.braintree.privateKey')
         ]);
 
-        if($request->level == "corporate") {
+        if($request->level == "premier") {
 
             $result = $gateway->subscription()->update($activeSubs->braintree_id, [
                 'price' => '19.99',
-                'planId' => 'corporate'
+                'planId' => 'premier'
             ]);
 
             if ($result->success) {
-                $activeSubs->update(['name' => "corporate"]);
+                $activeSubs->update(['name' => "premier"]);
 
                 $userPages = $user->pages()->get();
 
@@ -194,7 +194,7 @@ class SubscriptionService {
 
                 $userData = ([
                     'siteUrl' => \URL::to('/') . "/",
-                    'plan' => 'Corporate',
+                    'plan' => 'Premier',
                 ]);
 
                 $user->notify(new NotifyAboutUpgrade($userData));
@@ -211,7 +211,7 @@ class SubscriptionService {
                 return back()->withErrors('An error occurred with the message: '. $result->message);
             }
 
-            $message = "Your plan has been upgraded to the Corporate level";
+            $message = "Your plan has been upgraded to the Premier level";
 
 
         } else {
@@ -249,7 +249,7 @@ class SubscriptionService {
 
                 /*$userData = ([
                     'siteUrl' => \URL::to('/') . "/",
-                    'plan' => 'Corporate',
+                    'plan' => 'Premier',
                 ]);
 
                 $user->notify(new NotifyAboutUpgrade($userData));*/
@@ -300,7 +300,7 @@ class SubscriptionService {
 
             /*$userData = ([
                 'siteUrl' => \URL::to('/') . "/",
-                'plan' => 'Corporate',
+                'plan' => 'Premier',
             ]);
 
             $user->notify(new NotifyAboutUpgrade($userData));*/

@@ -70,8 +70,8 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="column corporate">
-                            <h2 class="text-uppercase">Corporate</h2>
+                        <div class="column premier">
+                            <h2 class="text-uppercase">Premier</h2>
                             <ul>
                                 <li>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
@@ -96,23 +96,23 @@
                                 <h3><sup>$</sup>19.99<span>/ mo</span></h3>
                             </div>
                             <div class="button_row">
-                                @if ($subscription && $subscription->name == "corporate" && $subscription->braintree_status == "active")
+                                @if ($subscription && $subscription->name == "premier" && $subscription->braintree_status == "active")
                                     <span class='button disabled'>Current</span>
                                 @elseif ($subscription && $subscription->braintree_status == "active")
-                                    <button class="open_popup button black_gradient" data-type="upgrade" data-level="corporate" data-plan="price_1JS1qkGIBktjIJUPVSjN20LH">
-                                        Go Corporate
+                                    <button class="open_popup button black_gradient" data-type="upgrade" data-level="premier" data-plan="price_1JS1qkGIBktjIJUPVSjN20LH">
+                                        Go Premier
                                     </button>
                                     {{--<form method="post" action="{{ url('/change-plan') }}">
                                         @csrf
-                                        <input type="hidden" name="level" value="corporate">
+                                        <input type="hidden" name="level" value="premier">
                                         <input type="hidden" name="plan" data-level="corporate" id="corporate" value="price_1JS1qkGIBktjIJUPVSjN20LH">
                                         <button class='button black_gradient' type="submit">
                                             Go Corporate
                                         </button>
                                     </form>--}}
                                 @else
-                                    <a class='button black_gradient' href='{{ url('/subscribe?plan=corporate') }}'>
-                                        Go Corporate
+                                    <a class='button black_gradient' href='{{ url('/subscribe?plan=premier') }}'>
+                                        Go Premier
                                     </a>
                                 @endif
                             </div>

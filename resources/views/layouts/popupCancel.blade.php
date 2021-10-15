@@ -6,7 +6,7 @@
                 <form action="{{route('subscribe.cancel')}}" method="post">
                     @csrf
                     <input class="plan" name="plan" type="hidden" value="{{ $subscription->braintree_id }}">
-                    @if ($subscription->name == "corporate")
+                    @if ($subscription->name == "premier")
                         @php $pages = $user->pages()->get() @endphp
                         <h3>By downgrading your account to Free your subscription will be cancelled. You will lose access to password protect your links, you will be limited to 1 unique link, your icons will be limited to 9 and you will no longer be able to use custom icons..</h3>
                         @if( count($pages) > 1 )

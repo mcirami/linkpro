@@ -37,7 +37,7 @@
                         </div>
                         <a href="#" class="button green confirm_change_plan" data-type="cancel" data-level="free" >Downgrade To Free</a>
                     </div>
-                    @if (!$subscription || ($subscription && $subscription->name == "corporate"))
+                    @if (!$subscription || ($subscription && $subscription->name == "premier"))
                         <div class="column pro">
                             <h2 class="text-uppercase">Pro</h2>
                             <ul>
@@ -69,8 +69,8 @@
 
                     @if (!$subscription || ($subscription && $subscription->name == "pro") )
 
-                        <div class="column corporate">
-                            <h2 class="text-uppercase">Corporate</h2>
+                        <div class="column premier">
+                            <h2 class="text-uppercase">Premier</h2>
                             <ul>
                                 <li>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
@@ -96,9 +96,9 @@
                             </div>
                             <form action="{{ route('subscribe.change.plan') }}" method="post" id="popup_pro_level_form">
                                 @csrf
-                                <input class="level" name="level" type="hidden" value="corporate">
+                                <input class="level" name="level" type="hidden" value="premier">
                                 <button class='button blue'>
-                                    Upgrade To Corporate
+                                    Upgrade To Premier
                                 </button>
                             </form>
                         </div>
@@ -112,7 +112,7 @@
                     <form action="" method="post">
                         @csrf
                         <input class="level" name="level" type="hidden" value="">
-                        @if ($subscription->name == "corporate")
+                        @if ($subscription->name == "premier")
                             @php $pages = $user->pages()->get() @endphp
                             <h3>By downgrading your account to Pro you will lose access to password protect your links and you will be limited to 1 unique link.</h3>
                             @if( count($pages) > 1 )
@@ -142,7 +142,7 @@
                     <form action="" method="post">
                         @csrf
                         <input class="plan" name="plan" type="hidden" value="{{ $subscription->braintree_id }}">
-                        @if ($subscription->name == "corporate")
+                        @if ($subscription->name == "premier")
                             @php $pages = $user->pages()->get() @endphp
                             <h3>By downgrading your plan to Free your subscription will be cancelled. You will lose access to password protect your links, you will be limited to 1 unique link, your icons will be limited to 9 and you will no longer be able to use custom icons..</h3>
                             @if( count($pages) > 1 )

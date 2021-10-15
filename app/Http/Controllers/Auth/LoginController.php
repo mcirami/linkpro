@@ -98,7 +98,7 @@ class LoginController extends Controller
 
             if ($subscription && $subscription->braintree_status == 'canceled') {
                 if ($subscription->ends_at < Carbon::now()) {
-                    if( $subscription->name == "corporate") {
+                    if( $subscription->name == "premier") {
                         foreach ( $userPages as $userPage ) {
                             if ( $userPage->is_protected ) {
                                 $userPage->is_protected = 0;

@@ -318,12 +318,10 @@ const Links = ({
                                     >
                                         <MdEdit />
                                     </button>*/}
-                                    <div className="icon_wrap">
+                                    <div className="icon_wrap" onClick={(e) => { setEditID(linkID) }}>
                                         <div className="image_wrap">
-                                            <img src={ originalArray[key].icon || '/images/icon-placeholder.png' } alt=""
-                                                 onClick={(e) => { setEditID(linkID) }}
-                                            />
-                                            <div className="hover_text"><p>Edit Icon</p></div>
+                                            <img src={ originalArray[key].icon || '/images/icon-placeholder.png' } alt=""/>
+                                            {/*<div className="hover_text"><p><img src='/images/icon-placeholder.png' alt=""/></p></div>*/}
                                         </div>
                                     </div>
                                     <div className="my_row">

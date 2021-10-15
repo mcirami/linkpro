@@ -116,7 +116,7 @@ const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
             const currentDate = new Date().valueOf();
             const endsAt = new Date(ends_at).valueOf();
 
-            if ((braintree_status === 'active' && name === "corporate") || endsAt > currentDate && name === "corporate") {
+            if ((braintree_status === 'active' && name === "premier") || endsAt > currentDate && name === "premier") {
                 setIsEditing(true);
             } else if (name === "pro" || endsAt < currentDate) {
                 showPopup();
