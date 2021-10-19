@@ -90,12 +90,12 @@
                                 </div>
                             @endif
 
-                            <form method="post" id="payment-form" action="{{ route('subscribe.post') }}">
+                            <form method="post" id="payment-form" action="{{ $existing ? route('subscribe.resume') : route('subscribe.post') }}">
                                 @csrf
                                 <section>
                                     <input type="hidden" name="level" value="{{ $plan }}">
                                     <input type="hidden" name="planId" value="{{ $plan == 'pro' ?  'pro' : 'premier'}}">
-                                    <a class="discount_link" href="#">Got a Promo Code?</a>
+                                    <a class="discount_link" href="#">Have a Promo Code?</a>
                                     <div class="discount_wrap">
                                         <input type="text" name="discountCode">
                                     </div>

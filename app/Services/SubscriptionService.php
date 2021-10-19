@@ -33,6 +33,13 @@ class SubscriptionService {
 
         $user = Auth::user();
 
+        $activeSubs = $user->subscriptions()->first();
+        if (empty($activeSubs)) {
+            $existing = null;
+        } else {
+            $existing = true;
+        }
+
         $gateway = new Gateway([
             'environment' => config('services.braintree.environment'),
             'merchantId' => config('services.braintree.merchantId'),
@@ -50,8 +57,6 @@ class SubscriptionService {
             $token = $gateway->ClientToken()->generate();
         }
 
-
-
         $plan = isset($_GET["plan"]) ? $_GET["plan"] : null;
 
         if ($plan == "pro") {
@@ -63,7 +68,8 @@ class SubscriptionService {
         $data = [
             'plan' => $plan,
             'token' => $token,
-            'amount' => $amount
+            'amount' => $amount,
+            'existing' => $existing
         ];
 
         return $data;
@@ -85,15 +91,16 @@ class SubscriptionService {
     public function newSubscription($request) {
 
         $user = Auth::user();
-        $code = null;
+        $code     = null;
         $userCode = $request->discountCode;
-        $planID = $request->planId;
+        $planID   = $request->planId;
 
-        if ($userCode) {
 
-            if ($planID == "premier" && strtolower($userCode) ==  "premier6months" ) {
+        if ( $userCode ) {
+
+            if ( $planID == "premier" && strtolower( $userCode ) == "premier6months" ) {
                 $code = "Premier6Months";
-            } elseif ($planID == "pro" && strtolower($userCode) ==  "pro6months" ) {
+            } elseif ( $planID == "pro" && strtolower( $userCode ) == "pro6months" ) {
                 $code = "Pro6Months";
             } else {
                 $data = [
@@ -105,23 +112,23 @@ class SubscriptionService {
             }
         }
 
-        $gateway = new Gateway([
-            'environment' => config('services.braintree.environment'),
-            'merchantId' => config('services.braintree.merchantId'),
-            'publicKey' => config('services.braintree.publicKey'),
-            'privateKey' => config('services.braintree.privateKey')
-        ]);
+        $gateway = new Gateway( [
+            'environment' => config( 'services.braintree.environment' ),
+            'merchantId'  => config( 'services.braintree.merchantId' ),
+            'publicKey'   => config( 'services.braintree.publicKey' ),
+            'privateKey'  => config( 'services.braintree.privateKey' )
+        ] );
 
         $nonce = $request->payment_method_nonce;
 
-        $customer = $gateway->customer()->create([
-           'email' => $user->email,
-           'paymentMethodNonce' => $nonce
-        ]);
+        $customer = $gateway->customer()->create( [
+            'email'              => $user->email,
+            'paymentMethodNonce' => $nonce
+        ] );
 
-        if ($customer->success) {
+        if ( $customer->success ) {
 
-            if ($code) {
+            if ( $code ) {
                 $result = $gateway->subscription()->create( [
                     'paymentMethodToken' => $customer->customer->paymentMethods[0]->token,
                     'planId'             => $request->planId,
@@ -140,41 +147,41 @@ class SubscriptionService {
                 ] );
             }
 
-            if ($result->success) {
+            if ( $result->success ) {
 
-                $user->subscriptions()->create([
-                    'name' => $result->subscription->planId,
-                    'braintree_id' => $result->subscription->id,
-                    'braintree_status' => strtolower($result->subscription->status),
-                ]);
+                $user->subscriptions()->create( [
+                    'name'             => $result->subscription->planId,
+                    'braintree_id'     => $result->subscription->id,
+                    'braintree_status' => strtolower( $result->subscription->status ),
+                ] );
 
-                $paymentClass = strtolower(get_class($customer->customer->paymentMethods[0]));
+                $paymentClass = strtolower( get_class( $customer->customer->paymentMethods[0] ) );
 
-                if (str_contains($paymentClass, "creditcard")) {
+                if ( str_contains( $paymentClass, "creditcard" ) ) {
                     //$paymentMethod = $customer->customer->paymentMethods[0]->cardType;
-                    $paymentMethod = "card";
+                    $paymentMethod      = "card";
                     $user->pm_last_four = $customer->customer->paymentMethods[0]->last4;
-                } elseif (str_contains($paymentClass, "paypal")) {
-                    $paymentMethod = "paypal";
-                    $user->pm_last_four = NULL;
+                } elseif ( str_contains( $paymentClass, "paypal" ) ) {
+                    $paymentMethod      = "paypal";
+                    $user->pm_last_four = null;
                 }
 
-                $user->pm_type = $paymentMethod;
+                $user->pm_type      = $paymentMethod;
                 $user->braintree_id = $customer->customer->id;
                 $user->save();
 
-                if ($request->level == "pro") {
+                if ( $request->level == "pro" ) {
                     $plan = "PRO";
                 } else {
                     $plan = "Premier";
                 }
 
-                $userData = ([
-                    'siteUrl' => \URL::to('/') . "/",
-                    'plan' => $plan,
-                ]);
+                $userData = ( [
+                    'siteUrl' => \URL::to( '/' ) . "/",
+                    'plan'    => $plan,
+                ] );
 
-                $user->notify(new NotifyAboutUpgrade($userData));
+                $user->notify( new NotifyAboutUpgrade( $userData ) );
 
                 $data = [
                     "success" => true,
@@ -186,7 +193,7 @@ class SubscriptionService {
             } else {
                 $errorString = "";
 
-                foreach ($result->errors->deepAll() as $error) {
+                foreach ( $result->errors->deepAll() as $error ) {
                     $errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
                 }
 
@@ -194,25 +201,25 @@ class SubscriptionService {
                 // header("Location: index.php");
                 $data = [
                     "success" => false,
-                    "message" => 'An error occurred with the message: '. $result->message
+                    "message" => 'An error occurred with the message: ' . $result->message
                 ];
                 //return back()->withErrors('An error occurred with the message: '. $result->message);
             }
 
         } else {
-            foreach($customer->errors->deepAll() AS $error) {
-                echo($error->code . ": " . $error->message . "\n");
+            foreach ( $customer->errors->deepAll() as $error ) {
+                echo( $error->code . ": " . $error->message . "\n" );
             }
 
             $data = [
                 "success" => false,
-                "message" => 'An error occurred with the message: '. $customer->message
+                "message" => 'An error occurred with the message: ' . $customer->message
             ];
 
             //return back()->withErrors('An error occurred with the message: '. $customer->message);
         }
 
-       return $data;
+        return $data;
 
     }
 
@@ -398,16 +405,130 @@ class SubscriptionService {
 
     }
 
-    /*public function resumeSubscription($request) {
+    public function resumeSubscription($request) {
+
         $user = Auth::user();
-
+        $code     = null;
         $activeSubs = $user->subscriptions()->first();
+        $userCode = $request->discountCode;
+        $planID   = $request->planId;
+        $nonce = $request->payment_method_nonce;
 
-        $activeSubs->name             = $result->subscription->planId;
-        $activeSubs->braintree_id     = $result->subscription->id;
-        $activeSubs->braintree_status = strtolower( $result->subscription->status );
-        $activeSubs->save();
+        $gateway = new Gateway([
+            'environment' => config('services.braintree.environment'),
+            'merchantId' => config('services.braintree.merchantId'),
+            'publicKey' => config('services.braintree.publicKey'),
+            'privateKey' => config('services.braintree.privateKey')
+        ]);
 
+        $customer = $gateway->customer()->find($user->braintree_id);
 
-    }*/
+        foreach($customer->paymentMethods as $method) {
+            if($method->default) {
+                $token = $method->token;
+                $paymentClass = strtolower( get_class( $method ) );
+            }
+        }
+
+        if ( $userCode ) {
+
+            if ( $planID == "premier" && strtolower( $userCode ) == "premier6months" ) {
+                $code = "Premier6Months";
+            } elseif ( $planID == "pro" && strtolower( $userCode ) == "pro6months" ) {
+                $code = "Pro6Months";
+            } else {
+                $data = [
+                    "success" => false,
+                    "message" => "Sorry, discount code does not match"
+                ];
+
+                return $data;
+            }
+        }
+
+        if ( $code ) {
+            $result = $gateway->subscription()->create( [
+                'paymentMethodToken' => $token,
+                'planId'             => $planID,
+                'discounts'          => [
+                    'add' => [
+                        [
+                            'inheritedFromId' => $code,
+                        ]
+                    ]
+                ]
+            ] );
+        } else {
+            $result = $gateway->subscription()->create( [
+                'paymentMethodToken' => $token,
+                'planId'             => $planID,
+            ] );
+        }
+
+        if ( $result->success ) {
+
+            /*$user->subscriptions()->create( [
+                'name'             => $result->subscription->planId,
+                'braintree_id'     => $result->subscription->id,
+                'braintree_status' => strtolower( $result->subscription->status ),
+            ] );*/
+
+            $activeSubs->name             = $result->subscription->planId;
+            $activeSubs->braintree_id     = $result->subscription->id;
+            $activeSubs->braintree_status = strtolower( $result->subscription->status );
+            $activeSubs->ends_at          = NULL;
+            $activeSubs->save();
+
+            if ( str_contains( $paymentClass, "creditcard" ) ) {
+                //$paymentMethod = $customer->customer->paymentMethods[0]->cardType;
+                $paymentMethod      = "card";
+                $user->pm_last_four = $customer->customer->paymentMethods[0]->last4;
+            } elseif ( str_contains( $paymentClass, "paypal" ) ) {
+                $paymentMethod      = "paypal";
+                $user->pm_last_four = null;
+            }
+
+            $user->pm_type      = $paymentMethod;
+            //$user->braintree_id = $customer->customer->id;
+            $user->save();
+
+            if ( $request->level == "pro" ) {
+                $plan = "PRO";
+            } else {
+                $plan = "Premier";
+            }
+
+            $userData = ( [
+                'siteUrl' => \URL::to( '/' ) . "/",
+                'plan'    => $plan,
+            ] );
+
+            $user->notify( new NotifyAboutUpgrade( $userData ) );
+
+            $data = [
+                "success" => true,
+                "message" => "Your plan has been changed to the " . $request->level . " level"
+            ];
+
+            //$message = "Your plan has been changed to the " . $request->level . " level";
+
+        } else {
+            $errorString = "";
+
+            foreach ( $result->errors->deepAll() as $error ) {
+                $errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
+            }
+
+            // $_SESSION["errors"] = $errorString;
+            // header("Location: index.php");
+            $data = [
+                "success" => false,
+                "message" => 'An error occurred with the message: ' . $result->message
+            ];
+            //return back()->withErrors('An error occurred with the message: '. $result->message);
+        }
+
+        return $data;
+
+    }
 }

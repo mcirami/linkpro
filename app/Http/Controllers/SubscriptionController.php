@@ -18,10 +18,11 @@ class SubscriptionController extends Controller
 
         //return view('subscription.index', [ 'intent' => $data['intent'], 'plan' => $data['plan'], 'paymentIntent' => $data['paymentIntent'] ]);
 
-        return view('subscription.index', [ 'plan' => $data['plan'], 'token' => $data['token'], 'amount' => $data["amount"] ]);
+        return view('subscription.index', [ 'plan' => $data['plan'], 'token' => $data['token'], 'amount' => $data["amount"], 'existing' => $data["existing"] ]);
     }
 
     public function store(Request $request, SubscriptionService $subscriptionService) {
+
 
         $data = $subscriptionService->newSubscription($request);
 
@@ -33,7 +34,6 @@ class SubscriptionController extends Controller
         } else {
             return back()->withErrors($data["message"]);
         }
-
     }
 
     public function changePlan(Request $request, SubscriptionService $subscriptionService) {
@@ -81,8 +81,13 @@ class SubscriptionController extends Controller
 
     public function resume(Request $request, SubscriptionService $subscriptionService) {
 
-        $subscriptionService->resumeSubscription($request);
+        $data = $subscriptionService->resumeSubscription($request);
 
-        return redirect()->back()->with(['success' => 'Your Subscription Has Been Reactivated']);
+        if ($data["success"] == true) {
+            return redirect()->back()->with(['success' => 'Your Subscription Has Been Reactivated']);
+        } else {
+            return back()->withErrors($data["message"]);
+        }
+
     }
 }
