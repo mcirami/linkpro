@@ -23,26 +23,39 @@ class SubscriptionController extends Controller
 
     public function store(Request $request, SubscriptionService $subscriptionService) {
 
-        $message = $subscriptionService->newSubscription($request);
+        $data = $subscriptionService->newSubscription($request);
 
         $user = Auth::user();
-        $page = $user->pages()->firstWhere('user_id', $user["id"]);
-        return redirect()->route('pages.edit', [$page])->with(['success' => $message]);
+        $page = $user->pages()->where('user_id', $user["id"])->where('default', true)->get();
+
+        if ($data["success"] == true) {
+            return redirect()->route('pages.edit', [$page])->with( ['success' => $data["message"]] );
+        } else {
+            return back()->withErrors($data["message"]);
+        }
+
     }
 
     public function changePlan(Request $request, SubscriptionService $subscriptionService) {
 
         $path = $request->session()->get('_previous');
 
-        $message = $subscriptionService->updateSubscription($request);
+        $data = $subscriptionService->updateSubscription($request);
 
-        if(str_contains($path["url"], '/subscribe') || str_contains($path["url"], '/plans') ) {
+        if( (str_contains($path["url"], '/subscribe') || str_contains($path["url"], '/plans') ) && $data["success"] == true ) {
             $user = Auth::user();
-            $page = $user->pages()->firstWhere('user_id', $user["id"]);
-            return redirect()->route('pages.edit', [$page])->with(['success' => $message]);
+            $page = $user->pages()->where('user_id', $user["id"])->where('default', true)->get();
+
+            return redirect()->route('pages.edit', [$page])->with(['success' => $data["message"]]);
+
+
         } else {
-            return redirect()->back()->with(['success' => $message]);
+            if ($data["success"] == true) {
+                return redirect()->back()->with(['success' => $data["message"]]);
+            }
         }
+
+        return back()->withErrors($data["message"]);
 
     }
 
@@ -57,10 +70,13 @@ class SubscriptionController extends Controller
 
     public function cancel(Request $request, SubscriptionService $subscriptionService) {
 
-        $subscriptionService->cancelSubscription($request);
+        $data = $subscriptionService->cancelSubscription($request);
 
-        return redirect()->back()->with(['success' => 'Your Subscription Has Been Cancelled']);
-
+        if ($data["success"] == true) {
+            return redirect()->back()->with(['success' => $data["message"]]);
+        } else {
+            return back()->withErrors($data["message"]);
+        }
     }
 
     public function resume(Request $request, SubscriptionService $subscriptionService) {

@@ -31,6 +31,8 @@ class SubscriptionService {
 
     public function showPurchasePage() {
 
+        $user = Auth::user();
+
         $gateway = new Gateway([
             'environment' => config('services.braintree.environment'),
             'merchantId' => config('services.braintree.merchantId'),
@@ -38,7 +40,17 @@ class SubscriptionService {
             'privateKey' => config('services.braintree.privateKey')
         ]);
 
-        $token = $gateway->ClientToken()->generate();
+        $customerID = $user->braintree_id;
+
+        if ($customerID) {
+            $token = $gateway->ClientToken()->generate([
+                'customerId' => $customerID
+            ]);
+        } else {
+            $token = $gateway->ClientToken()->generate();
+        }
+
+
 
         $plan = isset($_GET["plan"]) ? $_GET["plan"] : null;
 
@@ -73,6 +85,25 @@ class SubscriptionService {
     public function newSubscription($request) {
 
         $user = Auth::user();
+        $code = null;
+        $userCode = $request->discountCode;
+        $planID = $request->planId;
+
+        if ($userCode) {
+
+            if ($planID == "premier" && strtolower($userCode) ==  "premier6months" ) {
+                $code = "Premier6Months";
+            } elseif ($planID == "pro" && strtolower($userCode) ==  "pro6months" ) {
+                $code = "Pro6Months";
+            } else {
+                $data = [
+                    "success" => false,
+                    "message" => "Sorry, discount code does not match"
+                ];
+
+                return $data;
+            }
+        }
 
         $gateway = new Gateway([
             'environment' => config('services.braintree.environment'),
@@ -90,10 +121,24 @@ class SubscriptionService {
 
         if ($customer->success) {
 
-            $result = $gateway->subscription()->create([
-                'paymentMethodToken' => $customer->customer->paymentMethods[0]->token,
-                'planId' => $request->planId,
-            ]);
+            if ($code) {
+                $result = $gateway->subscription()->create( [
+                    'paymentMethodToken' => $customer->customer->paymentMethods[0]->token,
+                    'planId'             => $request->planId,
+                    'discounts'          => [
+                        'add' => [
+                            [
+                                'inheritedFromId' => $code,
+                            ]
+                        ]
+                    ]
+                ] );
+            } else {
+                $result = $gateway->subscription()->create( [
+                    'paymentMethodToken' => $customer->customer->paymentMethods[0]->token,
+                    'planId'             => $request->planId,
+                ] );
+            }
 
             if ($result->success) {
 
@@ -131,7 +176,12 @@ class SubscriptionService {
 
                 $user->notify(new NotifyAboutUpgrade($userData));
 
-                $message = "Your plan has been changed to the " . $request->level . " level";
+                $data = [
+                    "success" => true,
+                    "message" => "Your plan has been changed to the " . $request->level . " level"
+                ];
+
+                //$message = "Your plan has been changed to the " . $request->level . " level";
 
             } else {
                 $errorString = "";
@@ -142,7 +192,11 @@ class SubscriptionService {
 
                 // $_SESSION["errors"] = $errorString;
                 // header("Location: index.php");
-                return back()->withErrors('An error occurred with the message: '. $result->message);
+                $data = [
+                    "success" => false,
+                    "message" => 'An error occurred with the message: '. $result->message
+                ];
+                //return back()->withErrors('An error occurred with the message: '. $result->message);
             }
 
         } else {
@@ -150,10 +204,15 @@ class SubscriptionService {
                 echo($error->code . ": " . $error->message . "\n");
             }
 
-            return back()->withErrors('An error occurred with the message: '. $customer->message);
+            $data = [
+                "success" => false,
+                "message" => 'An error occurred with the message: '. $customer->message
+            ];
+
+            //return back()->withErrors('An error occurred with the message: '. $customer->message);
         }
 
-       return $message;
+       return $data;
 
     }
 
@@ -199,6 +258,11 @@ class SubscriptionService {
 
                 $user->notify(new NotifyAboutUpgrade($userData));
 
+                $data = [
+                    "success" => true,
+                    "message" => "Your plan has been upgraded to the Premier level"
+                ];
+
             } else {
                 $errorString = "";
 
@@ -208,10 +272,13 @@ class SubscriptionService {
 
                 // $_SESSION["errors"] = $errorString;
                 // header("Location: index.php");
-                return back()->withErrors('An error occurred with the message: '. $result->message);
-            }
 
-            $message = "Your plan has been upgraded to the Premier level";
+                $data = [
+                    "success" => false,
+                    "message" => 'An error occurred with the message: '. $result->message
+                ];
+                //return back()->withErrors('An error occurred with the message: '. $result->message);
+            }
 
 
         } else {
@@ -253,8 +320,11 @@ class SubscriptionService {
                 ]);
 
                 $user->notify(new NotifyAboutUpgrade($userData));*/
+                $data = [
+                    "success" => true,
+                    "message" => "Your plan has been downgraded to the Pro level"
+                ];
 
-                $message = "Your plan has been downgraded to the Pro level";
             } else {
                 $errorString = "";
 
@@ -264,13 +334,17 @@ class SubscriptionService {
 
                 // $_SESSION["errors"] = $errorString;
                 // header("Location: index.php");
-                return back()->withErrors('An error occurred with the message: '. $result->message);
+                $data = [
+                    "success" => false,
+                    "message" => 'An error occurred with the message: '. $result->message
+                ];
+                //return back()->withErrors('An error occurred with the message: '. $result->message);
             }
 
 
         }
 
-        return $message;
+        return $data;
     }
 
     public function cancelSubscription($request) {
@@ -298,12 +372,11 @@ class SubscriptionService {
 
             $user->notify(new NotifyAboutCancelation($userData));
 
-            /*$userData = ([
-                'siteUrl' => \URL::to('/') . "/",
-                'plan' => 'Premier',
-            ]);
+            $data = [
+                "success" => true,
+                "message" => "Your Subscription Has Been Cancelled"
+            ];
 
-            $user->notify(new NotifyAboutUpgrade($userData));*/
         } else {
             $errorString = "";
 
@@ -313,12 +386,19 @@ class SubscriptionService {
 
             // $_SESSION["errors"] = $errorString;
             // header("Location: index.php");
-            return back()->withErrors('An error occurred with the message: '. $result->message);
+            $data = [
+                "success" => false,
+                "message" => 'An error occurred with the message: '. $result->message
+            ];
+
+            //return back()->withErrors('An error occurred with the message: '. $result->message);
         }
+
+        return $data;
 
     }
 
-    public function resumeSubscription($request) {
+    /*public function resumeSubscription($request) {
         $user = Auth::user();
 
         $activeSubs = $user->subscriptions()->first();
@@ -329,5 +409,5 @@ class SubscriptionService {
         $activeSubs->save();
 
 
-    }
+    }*/
 }

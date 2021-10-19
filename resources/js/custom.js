@@ -150,7 +150,15 @@ jQuery(document).ready(function($) {
             e.preventDefault();
             confirmCancelPopup.classList.remove('open');
         });
+    }
 
+    const discountLink = document.querySelector('.discount_link');
+
+    if (discountLink) {
+        discountLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('.discount_wrap').classList.add('open');
+        });
     }
 
 });

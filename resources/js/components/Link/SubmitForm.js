@@ -482,7 +482,11 @@ const SubmitForm = ({
                         <a href="#" className="button transparent gray" onClick={(e) => {e.preventDefault(); setEditID(null); }}>
                             Cancel
                         </a>
-                        <a className="delete" href="#" onClick={handleDeleteClick}><MdDeleteForever /></a>
+                        {userLinks.length > 1 ?
+                            <a className="delete" href="#" onClick={handleDeleteClick}><MdDeleteForever /></a>
+                            :
+                            ""
+                        }
                         <a className="help_link" href="mailto:help@link.pro">Need Help?</a>
                     </div>
                 </div>

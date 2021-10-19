@@ -417,8 +417,43 @@ form .bottom_row a {
         width: 100% !important;
     }
 
+    .discount_wrap {
+        margin-bottom: 20px;
+        height: 0;
+        transition: .5s all linear;
+        -webkit-transition: .5s all linear;
+        -moz-transition: .5s all linear;
+        -o-transition: .5s all linear;
+
+        input {
+            width: 100%;
+            height: 40px;
+            padding: 0;
+            border: none;
+            transition: .5s all linear;
+            -webkit-transition: .5s all linear;
+            -moz-transition: .5s all linear;
+            -o-transition: .5s all linear;
+        }
+
+        &.open {
+            height: 40px;
+
+            input {
+                height: 40px;
+                padding: 10px;
+                border: 1px solid $borderGray;
+            }
+        }
+    }
+
     #payment-form {
         padding: 0 40px;
+
+        @media all and (max-width: 992px) {
+            padding: 0;
+            margin-bottom: 40px;
+        }
 
         .braintree-sheet__content--form .braintree-form__field-group label {
             width: 100%;
@@ -461,7 +496,7 @@ form .bottom_row a {
         border-right: 1px solid $gray;
 
         @media all and (max-width: 768px) {
-            padding-right: 0;
+            padding: 0;
             border: none;
         }
 

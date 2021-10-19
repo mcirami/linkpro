@@ -11,7 +11,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-12 col-md-6 plan_details order-md-0 order-1 ">
+                        <div class="col-12 col-lg-6 plan_details order-lg-0 order-1 ">
                             <div class="row">
                                 <div class="col-12 my_row three_columns">
                                     <div class="column {{$plan}}">
@@ -79,7 +79,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-6 credit_card_form order-md-1 order-0">
+                        <div class="col-12 col-lg-6 credit_card_form order-lg-1 order-0">
                             @if (count($errors) > 0)
                                 <div class="alert alert-danger">
                                     <ul>
@@ -95,6 +95,10 @@
                                 <section>
                                     <input type="hidden" name="level" value="{{ $plan }}">
                                     <input type="hidden" name="planId" value="{{ $plan == 'pro' ?  'pro' : 'premier'}}">
+                                    <a class="discount_link" href="#">Got a Promo Code?</a>
+                                    <div class="discount_wrap">
+                                        <input type="text" name="discountCode">
+                                    </div>
                                     <div class="bt-drop-in-wrapper">
                                         <div id="bt-dropin"></div>
                                     </div>

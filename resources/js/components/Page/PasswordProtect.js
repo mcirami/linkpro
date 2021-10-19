@@ -18,7 +18,7 @@ const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if(password.length > 3) {
+        if(password && password.length > 3) {
 
             const packets = {
                 is_protected: true,
@@ -159,7 +159,7 @@ const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
 
     useEffect(() => {
 
-        if (password.length > 3) {
+        if (password && password.length > 3) {
             setEnableSubmit(true);
         }
 
