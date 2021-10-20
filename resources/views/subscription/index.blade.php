@@ -119,7 +119,7 @@
                                     },
                                     googlePay: {
                                         googlePayVersion: 2,
-                                        merchantId: 'merchant-id-from-google',
+                                        merchantId: '0764-6991-5982',
                                         transactionInfo: {
                                             totalPriceStatus: 'FINAL',
                                             totalPrice: "{{ $amount }}",

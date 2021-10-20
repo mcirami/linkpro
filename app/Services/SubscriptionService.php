@@ -458,8 +458,6 @@ class SubscriptionService {
             ] );
         }
 
-        dd($result);
-
         if ( $result->success ) {
 
             $activeSubs->name             = $result->subscription->planId;
@@ -499,6 +497,106 @@ class SubscriptionService {
             ];
 
             //$message = "Your plan has been changed to the " . $request->level . " level";
+
+        } elseif( str_contains($result->message, "un-vaulted payment") ) {
+
+            $newPaymentMethod = $gateway->paymentMethod()->create([
+                'customerId' => $user->braintree_id,
+                'paymentMethodNonce' => $nonce,
+                'options' => [
+                    'makeDefault' => true
+                ]
+            ]);
+
+            if ($newPaymentMethod->success) {
+
+                //$paymentClass = strtolower(get_class($newPaymentMethod->paymentMethod));
+                $paymentToken = $newPaymentMethod->paymentMethod->token;
+
+                if ( $code ) {
+                    $newResult = $gateway->subscription()->create( [
+                        'paymentMethodToken' => $paymentToken,
+                        'planId'             => $planID,
+                        'discounts'          => [
+                            'add' => [
+                                [
+                                    'inheritedFromId' => $code,
+                                ]
+                            ]
+                        ]
+                    ] );
+                } else {
+                    $newResult = $gateway->subscription()->create( [
+                        'paymentMethodToken' => $paymentToken,
+                        'planId'             => $planID,
+                    ] );
+                }
+
+                if($newResult->success) {
+
+                    $activeSubs->name             = $newResult->subscription->planId;
+                    $activeSubs->braintree_id     = $newResult->subscription->id;
+                    $activeSubs->braintree_status = strtolower( $newResult->subscription->status );
+                    $activeSubs->ends_at          = null;
+                    $activeSubs->save();
+
+                    $paymentMethod = $newResult->subscription->transactions[0]->paymentInstrumentType;
+
+                    if ( $paymentMethod === "credit_card" ) {
+                        $user->pm_last_four = $newResult->subscription->transactions[0]->paymentReceipt->cardLast4;
+                    } else {
+                        $user->pm_last_four = null;
+                    }
+
+                    $user->pm_type = $paymentMethod;
+                    //$user->braintree_id = $customer->customer->id;
+                    $user->save();
+
+                    if ( $request->level == "pro" ) {
+                        $plan = "PRO";
+                    } else {
+                        $plan = "Premier";
+                    }
+
+                    $userData = ( [
+                        'siteUrl' => \URL::to( '/' ) . "/",
+                        'plan'    => $plan,
+                    ] );
+
+                    $user->notify( new NotifyAboutUpgrade( $userData ) );
+
+                    $data = [
+                        "success" => true,
+                        "message" => "Your plan has been changed to the " . $request->level . " level"
+                    ];
+                } else {
+                    $errorString = "";
+
+                    foreach ( $result->errors->deepAll() as $error ) {
+                        $errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
+                    }
+
+                    // $_SESSION["errors"] = $errorString;
+                    // header("Location: index.php");
+                    $data = [
+                        "success" => false,
+                        "message" => 'An error occurred with the message: ' . $result->message
+                    ];
+                }
+            } else {
+                $errorString = "";
+
+                foreach ( $result->errors->deepAll() as $error ) {
+                    $errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
+                }
+
+                // $_SESSION["errors"] = $errorString;
+                // header("Location: index.php");
+                $data = [
+                    "success" => false,
+                    "message" => 'An error occurred with the message: ' . $result->message
+                ];
+            }
 
         } else {
             $errorString = "";
