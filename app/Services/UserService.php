@@ -156,8 +156,6 @@ class UserService {
             ]
         ]);
 
-        dd($updateResult);
-
         if ($updateResult->success) {
 
             $paymentMethod = strtolower(get_class($updateResult->paymentMethod));
@@ -168,6 +166,8 @@ class UserService {
             $result = $gateway->subscription()->update($subscription->braintree_id, [
                 'paymentMethodToken' => $paymentToken,
             ]);
+
+            dd($result);
 
             if ($result->success) {
 
