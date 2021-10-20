@@ -35,7 +35,7 @@
                         <div class="pricing">
                             <h3><sup>$</sup>0</h3>
                         </div>
-                        <a href="#" class="button green confirm_change_plan" data-type="cancel" data-level="free" >Downgrade To Free</a>
+                        <a href="#" class="button green confirm_change_plan" data-type="cancel" data-level="free-cancel" >Downgrade To Free</a>
                     </div>
                     @if (!$subscription || ($subscription && $subscription->name == "premier"))
                         <div class="column pro">
@@ -185,6 +185,7 @@
             const type = e.target.dataset.type;
             const plan = e.target.dataset.level;
             const form = document.querySelector('#confirm_change_plan_details form');
+            const cancelForm = document.querySelector('#confirm_cancel form')
             popupCard.classList.add("size_adjust");
 
             if (type === "cancel") {
@@ -201,6 +202,9 @@
                     break;
                 case 'free':
                     form.action = '/subscribe/cancel'
+                    break;
+                case 'free-cancel' :
+                    cancelForm.action = '/subscribe/cancel'
                     break;
                 case 'default':
                     console.log('default')
