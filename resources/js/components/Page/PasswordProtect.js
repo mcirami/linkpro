@@ -55,6 +55,7 @@ const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
 
     const handleCheckedChange = (type) => {
 
+
         let passProtected;
 
         if (type === "enable") {
@@ -65,47 +66,50 @@ const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
             passProtected = !checked;
         }
 
-        setChecked(passProtected);
+        if(password && password.length > 3) {
 
-        const packets = {
-            is_protected: passProtected,
-            password: password
-        };
+            setChecked(passProtected);
 
-        axios.post('/dashboard/page/update-password/' + pageSettings['id'], packets)
-        .then(
-            (response) => {
-                //console.log(JSON.stringify(response.data))
-                //const returnMessage = JSON.stringify(response.data.message);
-                let returnMessage;
+            const packets = {
+                is_protected: passProtected,
+                password: password
+            };
 
-                if (type === true || type === false) {
-                    if (!checked) {
-                        returnMessage = "Page Password Enabled";
-                    } else {
-                        returnMessage = "Page Password Disabled";
+            axios.post('/dashboard/page/update-password/' + pageSettings['id'],
+                packets).then(
+                (response) => {
+                    //console.log(JSON.stringify(response.data))
+                    //const returnMessage = JSON.stringify(response.data.message);
+                    let returnMessage;
+
+                    if (type === true || type === false) {
+                        if (!checked) {
+                            returnMessage = "Page Password Enabled";
+                        } else {
+                            returnMessage = "Page Password Disabled";
+                        }
+
+                        EventBus.dispatch("success", {message: returnMessage});
+                        setIsEditing(false);
                     }
 
-                    EventBus.dispatch("success", {message: returnMessage});
-                    setIsEditing(false);
+                    setPageSettings({
+                        ...pageSettings,
+                        is_protected: passProtected,
+                    })
+
                 }
+            ).catch(error => {
+                //console.log("ERROR:: ", error.response.data);
+                if (error.response) {
+                    EventBus.dispatch("error",
+                        {message: error.response.data.errors.is_protected[0]});
+                } else {
+                    console.log("ERROR:: ", error);
+                }
+            })
+        }
 
-                setPageSettings({
-                    ...pageSettings,
-                    is_protected: passProtected,
-                })
-
-
-
-            }
-        ).catch(error => {
-            //console.log("ERROR:: ", error.response.data);
-            if (error.response) {
-                EventBus.dispatch("error", { message: error.response.data.errors.is_protected[0] });
-            } else {
-                console.log("ERROR:: ", error);
-            }
-        })
     }
 
     const handleClick = (e) => {
@@ -149,6 +153,7 @@ const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
         if (value.length > 3) {
             setEnableSubmit(true);
             handleCheckedChange("enable");
+            setChecked(true);
         } else {
             setEnableSubmit(false);
             handleCheckedChange("disable");
@@ -166,7 +171,7 @@ const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
     }, [])
 
     return (
-        <div className="row page_settings" key={ pageSettings['id'] }>
+        <div className={isEditing ? "row page_settings mb-0" : "row page_settings" } key={ pageSettings['id'] }>
             <div className="col-12">
 
                 { isEditing ?
@@ -208,6 +213,9 @@ const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
                                         <span className="cancel_icon">
                                            <FiThumbsDown />
                                        </span>
+                                    }
+                                    {!enableSubmit &&
+                                        <p className="char_max red">Your password must be at least 4 characters</p>
                                     }
                                 </div>
                                 {/*<div className="checkbox">

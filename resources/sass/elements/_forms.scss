@@ -173,6 +173,10 @@ form .bottom_row a {
         margin-bottom: 0;
         font-size: 12px;
         color: #908e8e;
+
+        &.red {
+            color: $red;
+        }
     }
 
     .status {
@@ -399,11 +403,15 @@ form .bottom_row a {
                 .input {
                     width: 93%;
                     position: relative;
+                    min-height: 59px;
                 }
 
                 .checkbox {
                     display: flex;
                     margin-right: 1%;
+                    align-self: flex-start;
+                    -webkit-align-self: flex-start;
+                    padding-top: 10px;
                 }
             }
         }

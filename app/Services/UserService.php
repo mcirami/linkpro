@@ -24,7 +24,17 @@ class UserService {
             'publicKey' => config('services.braintree.publicKey'),
             'privateKey' => config('services.braintree.privateKey')
         ]);
-        $token = $gateway->ClientToken()->generate();
+
+        $customerID = $user->braintree_id;
+
+        if ($customerID) {
+            $token = $gateway->ClientToken()->generate([
+                'customerId' => $customerID
+            ]);
+        } else {
+            $token = $gateway->ClientToken()->generate();
+        }
+        //$token = $gateway->ClientToken()->generate();
 
         $data = [
             'user' => $user,

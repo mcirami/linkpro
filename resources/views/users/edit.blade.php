@@ -149,7 +149,7 @@
                                                 </div>
                                             </div>
                                     </form>
-                                @elseif ($payment_method == "paypal")
+                                @elseif ($payment_method == "paypal" || $payment_method == "paypal_account")
 
                                     <div class="other_methods text-center my-auto">
                                         <h4>Your current payment type is</h4>
