@@ -125,7 +125,6 @@ class UserService {
         $user = Auth::user();
 
         $customerID = $user->braintree_id;
-        $subscriptionID = $user->subscriptions()->first()->pluck('braintree_id');
 
         $gateway = new Gateway([
             'environment' => config('services.braintree.environment'),
@@ -152,9 +151,9 @@ class UserService {
             $paymentClass = strtolower(get_class($updateResult->paymentMethod));
             $paymentToken = $updateResult->paymentMethod->token;
 
-            $subscriptionID = $user->subscriptions()->first();
+            $subscription = $user->subscriptions()->first();
 
-            $result = $gateway->subscription()->update($subscriptionID->braintree_id, [
+            $result = $gateway->subscription()->update($subscription->braintree_id, [
                 'paymentMethodToken' => $paymentToken,
             ]);
 

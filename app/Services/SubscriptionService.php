@@ -32,7 +32,6 @@ class SubscriptionService {
     public function showPurchasePage() {
 
         $user = Auth::user();
-
         $activeSubs = $user->subscriptions()->first();
         if (empty($activeSubs)) {
             $existing = null;
@@ -421,15 +420,6 @@ class SubscriptionService {
             'privateKey' => config('services.braintree.privateKey')
         ]);
 
-        $customer = $gateway->customer()->find($user->braintree_id);
-
-        foreach($customer->paymentMethods as $method) {
-            if($method->default) {
-                $token = $method->token;
-                $paymentClass = strtolower( get_class( $method ) );
-            }
-        }
-
         if ( $userCode ) {
 
             if ( $planID == "premier" && strtolower( $userCode ) == "premier6months" ) {
@@ -448,7 +438,7 @@ class SubscriptionService {
 
         if ( $code ) {
             $result = $gateway->subscription()->create( [
-                'paymentMethodToken' => $token,
+                'paymentMethodNonce' => $nonce,
                 'planId'             => $planID,
                 'discounts'          => [
                     'add' => [
@@ -460,18 +450,12 @@ class SubscriptionService {
             ] );
         } else {
             $result = $gateway->subscription()->create( [
-                'paymentMethodToken' => $token,
+                'paymentMethodNonce' => $nonce,
                 'planId'             => $planID,
             ] );
         }
 
         if ( $result->success ) {
-
-            /*$user->subscriptions()->create( [
-                'name'             => $result->subscription->planId,
-                'braintree_id'     => $result->subscription->id,
-                'braintree_status' => strtolower( $result->subscription->status ),
-            ] );*/
 
             $activeSubs->name             = $result->subscription->planId;
             $activeSubs->braintree_id     = $result->subscription->id;
@@ -479,12 +463,11 @@ class SubscriptionService {
             $activeSubs->ends_at          = NULL;
             $activeSubs->save();
 
-            if ( str_contains( $paymentClass, "creditcard" ) ) {
-                //$paymentMethod = $customer->customer->paymentMethods[0]->cardType;
-                $paymentMethod      = "card";
-                $user->pm_last_four = $customer->customer->paymentMethods[0]->last4;
-            } elseif ( str_contains( $paymentClass, "paypal" ) ) {
-                $paymentMethod      = "paypal";
+            $paymentMethod = $result->subscription->transactions[0]->paymentInstrumentType;
+
+            if ( $paymentMethod === "credit_card" ) {
+                $user->pm_last_four = $result->subscription->transactions[0]->paymentReceipt->cardLast4;
+            } else {
                 $user->pm_last_four = null;
             }
 
