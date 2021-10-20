@@ -95,7 +95,7 @@
                                     <img src="{{ asset('../images/plan-type-bg.png') }}" alt="">
                                 </div>
                             @endif
-                            @if ($subscription->braintree_status == "active")
+                            @if ($subscription && $subscription->braintree_status == "active")
                                 <button class='button blue open_popup_choose'>
                                     Change My Plan
                                 </button>
