@@ -94,7 +94,6 @@ class SubscriptionService {
         $userCode = $request->discountCode;
         $planID   = $request->planId;
 
-
         if ( $userCode ) {
 
             if ( $planID == "premier" && strtolower( $userCode ) == "premier6months" ) {
@@ -163,6 +162,10 @@ class SubscriptionService {
                 } elseif ( str_contains( $paymentClass, "paypal" ) ) {
                     $paymentMethod      = "paypal";
                     $user->pm_last_four = null;
+                } elseif ( str_contains( $paymentClass, "google" ) ) {
+                    $paymentMethod      = "googlepay";
+                } else {
+                    $paymentMethod = "something else";
                 }
 
                 $user->pm_type      = $paymentMethod;
@@ -454,6 +457,8 @@ class SubscriptionService {
                 'planId'             => $planID,
             ] );
         }
+
+        dd($result);
 
         if ( $result->success ) {
 

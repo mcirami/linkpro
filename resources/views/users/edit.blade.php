@@ -149,13 +149,19 @@
                                                 </div>
                                             </div>
                                     </form>
-                                @elseif ($payment_method == "paypal" || $payment_method == "paypal_account")
+                                @else
 
                                     <div class="other_methods text-center my-auto">
                                         <h4>Your current payment type is</h4>
-                                        <a href="https://paypal.com" class="px-5 d-block" target="_blank">
-                                            <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_200x51.png" alt="PayPal" />
-                                        </a>
+                                        @if($payment_method == "paypal" || $payment_method == "paypal_account")
+                                            <a href="https://paypal.com" class="px-5 d-block" target="_blank">
+                                                <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_200x51.png" alt="PayPal" />
+                                            </a>
+                                        @elseif(strtolower($payment_method) === "googlepay")
+                                            <a href="https://pay.google.com/" class="px-5 d-block" target="_blank">
+                                                <img src="{{ asset('../images/googlepay.png') }}" alt="PayPal" />
+                                            </a>
+                                        @endif
                                     </div>
 
                                 @endif
