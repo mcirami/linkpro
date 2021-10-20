@@ -156,9 +156,11 @@ class UserService {
             ]
         ]);
 
+        dd($updateResult);
+
         if ($updateResult->success) {
 
-            $paymentClass = strtolower(get_class($updateResult->paymentMethod));
+            $paymentMethod = strtolower(get_class($updateResult->paymentMethod));
             $paymentToken = $updateResult->paymentMethod->token;
 
             $subscription = $user->subscriptions()->first();
@@ -169,12 +171,10 @@ class UserService {
 
             if ($result->success) {
 
-                if ( str_contains( $paymentClass, "creditcard" ) ) {
+                if ( str_contains( $paymentMethod, "creditcard" ) ) {
                     //$paymentMethod = $customer->customer->paymentMethods[0]->cardType;
-                    $paymentMethod      = "card";
                     $user->pm_last_four = $updateResult->paymentMethod->last4;;
-                } elseif ( str_contains( $paymentClass, "paypal" ) ) {
-                    $paymentMethod      = "paypal";
+                } else {
                     $user->pm_last_four = null;
                 }
 
