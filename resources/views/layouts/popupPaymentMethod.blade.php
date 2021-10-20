@@ -28,7 +28,7 @@
 <script>
     const updatePaymentForm = document.querySelector('#update_payment_method_form');
     const client_token = "{{ $token }}";
-    const subscriptionName = {{$subscription->name}};
+    const subscriptionName = "{{$subscription->name}}";
     let amount;
     if (subscriptionName === "pro") {
         amount = '4.99'
