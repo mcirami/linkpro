@@ -153,7 +153,7 @@ class SubscriptionService {
                 //$paymentClass = strtolower( get_class( $customer->customer->paymentMethods[0] ) );
                 $paymentMethod = $result->subscription->transactions[0]->paymentInstrumentType;
 
-                if ($paymentMethod == "creditcard") {
+                if ($paymentMethod == "credit_card") {
                     //$paymentMethod = $customer->customer->paymentMethods[0]->cardType;
                     $user->pm_last_four = $customer->customer->paymentMethods[0]->last4;
                 } else {
