@@ -158,20 +158,19 @@ class UserService {
 
         if ($updateResult->success) {
 
-            $paymentMethod = strtolower(get_class($updateResult->paymentMethod));
             $paymentToken = $updateResult->paymentMethod->token;
-
             $subscription = $user->subscriptions()->first();
 
             $result = $gateway->subscription()->update($subscription->braintree_id, [
                 'paymentMethodToken' => $paymentToken,
             ]);
 
-            dd($result);
-
             if ($result->success) {
 
-                if ( str_contains( $paymentMethod, "creditcard" ) ) {
+                $paymentMethod = $result->subscription->transactions[0]->paymentInstrumentType;
+
+
+                if ( $paymentMethod == "credit_card" ) {
                     //$paymentMethod = $customer->customer->paymentMethods[0]->cardType;
                     $user->pm_last_four = $updateResult->paymentMethod->last4;;
                 } else {
