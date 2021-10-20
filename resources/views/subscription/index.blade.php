@@ -116,6 +116,15 @@
                                     selector: '#bt-dropin',
                                     paypal: {
                                         flow: 'vault'
+                                    },
+                                    googlePay: {
+                                        googlePayVersion: 2,
+                                        merchantId: 'merchant-id-from-google',
+                                        transactionInfo: {
+                                            totalPriceStatus: 'FINAL',
+                                            totalPrice: "{{ $amount }}",
+                                            currencyCode: 'USD'
+                                        },
                                     }
                                 }, function (createErr, instance) {
                                     if (createErr) {
