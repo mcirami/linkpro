@@ -31,7 +31,7 @@ class PageService {
         $userPages = $user->pages()->get();
 
         $default = false;
-        if( isEmpty($userPages) ) {
+        if( empty($userPages) ) {
             $default = true;
         }
 

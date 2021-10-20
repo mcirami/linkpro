@@ -14025,7 +14025,6 @@ form .bottom_row a {
 }
 #popup_choose_level .card.size_adjust {
   max-height: 450px;
-  overflow: hidden;
 }
 @media all and (max-width: 550px) {
   #popup_choose_level .card.size_adjust {
@@ -14065,26 +14064,26 @@ form .bottom_row a {
   margin: 15px 0;
 }
 
-#upgrade_popup .box {
+#upgrade_popup h3, #upgrade_popup .h3, #popup_choose_level h3, #popup_choose_level .h3, #confirm_cancel_popup h3, #confirm_cancel_popup .h3, #confirm_change_plan_details h3, #confirm_change_plan_details .h3 {
+  font-family: "opensansbold", sans-serif;
+  font-size: 30px;
+}
+#upgrade_popup h4, #upgrade_popup .h4, #popup_choose_level h4, #popup_choose_level .h4, #confirm_cancel_popup h4, #confirm_cancel_popup .h4, #confirm_change_plan_details h4, #confirm_change_plan_details .h4 {
+  font-family: "opensanssemibold", sans-serif;
+  font-size: 18px;
+}
+#upgrade_popup .icon_wrap, #popup_choose_level .icon_wrap, #confirm_cancel_popup .icon_wrap, #confirm_change_plan_details .icon_wrap {
+  width: 50px;
+  margin: 0 auto 20px;
+}
+#upgrade_popup .box, #popup_choose_level .box, #confirm_cancel_popup .box, #confirm_change_plan_details .box {
   max-width: 550px;
   text-align: center;
   padding: 40px 20px;
 }
-#upgrade_popup .box .button {
+#upgrade_popup .box .button, #popup_choose_level .box .button, #confirm_cancel_popup .box .button, #confirm_change_plan_details .box .button {
   display: inline-block;
   margin-top: 20px;
-}
-#upgrade_popup .box h3, #upgrade_popup .box .h3 {
-  font-family: "opensansbold", sans-serif;
-  font-size: 30px;
-}
-#upgrade_popup .box h4, #upgrade_popup .box .h4 {
-  font-family: "opensanssemibold", sans-serif;
-  font-size: 18px;
-}
-#upgrade_popup .box .icon_wrap {
-  width: 50px;
-  margin: 0 auto 20px;
 }
 
 #confirm_change_plan_details, #confirm_cancel {
@@ -14093,7 +14092,7 @@ form .bottom_row a {
   background: #ffffff;
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: auto;
   left: 0;
   top: 0;
   text-align: center;
@@ -14105,15 +14104,19 @@ form .bottom_row a {
   opacity: 1;
   z-index: 1;
 }
+#confirm_change_plan_details.adjust_height, #confirm_cancel.adjust_height {
+  height: 100%;
+}
 #confirm_change_plan_details form, #confirm_cancel form {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   align-items: center;
   -webkit-align-items: center;
-  padding: 40px;
+  padding: 20px;
 }
 #confirm_change_plan_details form h3, #confirm_change_plan_details form .h3, #confirm_cancel form h3, #confirm_cancel form .h3 {
+  font-family: "opensanssemibold", sans-serif;
   font-size: 18px;
   margin-bottom: 20px;
   line-height: 1.6;
@@ -14167,7 +14170,7 @@ form .bottom_row a {
 
 #confirm_cancel_popup .card {
   padding: 0;
-  max-width: 800px;
+  max-width: 1000px;
 }
 #confirm_cancel_popup .card .card-body {
   padding: 40px;
@@ -14185,6 +14188,7 @@ form .bottom_row a {
   margin-bottom: 20px;
 }
 #confirm_cancel_popup .card form h3, #confirm_cancel_popup .card form .h3 {
+  font-family: "opensanssemibold", sans-serif;
   font-size: 18px;
   line-height: 1.6;
 }
@@ -14224,6 +14228,21 @@ form .bottom_row a {
 }
 #confirm_cancel_popup .card form .button.gray, #confirm_cancel_popup .card form button.gray {
   border: 1px solid #545656;
+}
+
+#confirm_cancel, #confirm_change_plan_details, #confirm_cancel_popup {
+  padding: 40px 20px;
+}
+#confirm_cancel svg, #confirm_change_plan_details svg, #confirm_cancel_popup svg {
+  color: #0ba921;
+  width: 100%;
+  height: 100%;
+}
+#confirm_cancel .card, #confirm_change_plan_details .card, #confirm_cancel_popup .card {
+  padding: 40px 20px;
+}
+#confirm_cancel .card .card-body, #confirm_change_plan_details .card .card-body, #confirm_cancel_popup .card .card-body {
+  padding: 20px;
 }
 
 footer {

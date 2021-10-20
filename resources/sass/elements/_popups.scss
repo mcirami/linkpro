@@ -161,7 +161,7 @@
         &.size_adjust {
 
             max-height: 450px;
-            overflow: hidden;
+            //overflow: hidden;
 
             @media all and (max-width: 550px) {
                 max-height: 500px;
@@ -211,7 +211,23 @@
     }
 }
 
-#upgrade_popup {
+#upgrade_popup, #popup_choose_level, #confirm_cancel_popup, #confirm_change_plan_details  {
+
+    h3 {
+        @include osbold;
+        font-size: 30px;
+    }
+
+    h4 {
+        @include ossemibold;
+        font-size: 18px;
+    }
+
+    .icon_wrap {
+        width: 50px;
+        margin: 0 auto 20px;
+    }
+
     .box {
         max-width: 550px;
         text-align: center;
@@ -220,21 +236,6 @@
         .button {
             display: inline-block;
             margin-top: 20px;
-        }
-
-        h3 {
-            @include osbold;
-            font-size: 30px;
-        }
-
-        h4 {
-            @include ossemibold;
-            font-size: 18px;
-        }
-
-        .icon_wrap {
-            width: 50px;
-            margin: 0 auto 20px;
         }
     }
 }
@@ -245,7 +246,7 @@
     background: $white;
     position: absolute;
     width: 100%;
-    height: 100%;
+    height: auto;
     left: 0;
     top: 0;
     text-align:center;
@@ -256,6 +257,10 @@
     &.open {
         opacity: 1;
         z-index: 1;
+    }
+
+    &.adjust_height {
+        height: 100%;
     }
 
     form {
@@ -270,9 +275,10 @@
         flex-wrap: nowrap;
         align-items: center;
         -webkit-align-items: center;
-        padding: 40px;
+        padding: 20px;
 
         h3 {
+            @include ossemibold;
             font-size: 18px;
             margin-bottom: 20px;
             line-height: 1.6;
@@ -339,7 +345,7 @@
 
     .card {
         padding: 0;
-        max-width: 800px;
+        max-width: 1000px;
 
         .card-body {
             padding: 40px;
@@ -360,6 +366,7 @@
             }
 
             h3 {
+                @include ossemibold;
                 font-size: 18px;
                 line-height: 1.6;
 
@@ -409,5 +416,22 @@
             }
         }
     }
+}
 
+#confirm_cancel, #confirm_change_plan_details, #confirm_cancel_popup {
+    padding: 40px 20px;
+
+    svg {
+        color: $green;
+        width: 100%;
+        height: 100%;
+    }
+
+    .card {
+        padding: 40px 20px;
+
+        .card-body {
+            padding: 20px;
+        }
+    }
 }
