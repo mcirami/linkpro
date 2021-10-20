@@ -26,13 +26,30 @@
 </div>
 
 <script>
-    var updatePaymentForm = document.querySelector('#update_payment_method_form');
-    var client_token = "{{ $token }}";
+    const updatePaymentForm = document.querySelector('#update_payment_method_form');
+    const client_token = "{{ $token }}";
+    const subscriptionName = {{$subscription->name}};
+    let amount;
+    if (subscriptionName === "pro") {
+        amount = '4.99'
+    } else {
+        amount = '19.99'
+    }
+
     braintree.dropin.create({
         authorization: client_token,
         selector: '#bt-dropin-update',
         paypal: {
             flow: 'vault'
+        },
+        googlePay: {
+            googlePayVersion: 2,
+            merchantId: '0764-6991-5982',
+            transactionInfo: {
+                totalPriceStatus: 'FINAL',
+                totalPrice: amount,
+                currencyCode: 'USD'
+            },
         }
     }, function (createErr, instance) {
         if (createErr) {

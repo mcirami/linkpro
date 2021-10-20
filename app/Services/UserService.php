@@ -179,6 +179,7 @@ class UserService {
 
                 $user->pm_type = $paymentMethod;
                 $user->save();
+
             } else {
                 foreach($result->errors->deepAll() AS $error) {
                     echo($error->code . ": " . $error->message . "\n");
