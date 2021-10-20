@@ -9,10 +9,7 @@ use App\Notifications\NotifyAboutCancelation;
 use App\Notifications\NotifyAboutUpgrade;
 use App\Notifications\WelcomeNotification;
 use Illuminate\Support\Facades\Auth;
-//use Laravel\Cashier\Billable;
-//use Stripe\Stripe;
 use Braintree\Gateway;
-use function PHPUnit\Framework\isEmpty;
 
 class SubscriptionService {
 
@@ -153,19 +150,14 @@ class SubscriptionService {
                     'braintree_status' => strtolower( $result->subscription->status ),
                 ] );
 
-                $paymentClass = strtolower( get_class( $customer->customer->paymentMethods[0] ) );
+                //$paymentClass = strtolower( get_class( $customer->customer->paymentMethods[0] ) );
+                $paymentMethod = $result->subscription->transactions[0]->paymentInstrumentType;
 
-                if ( str_contains( $paymentClass, "creditcard" ) ) {
+                if ($paymentMethod == "creditcard") {
                     //$paymentMethod = $customer->customer->paymentMethods[0]->cardType;
-                    $paymentMethod      = "card";
                     $user->pm_last_four = $customer->customer->paymentMethods[0]->last4;
-                } elseif ( str_contains( $paymentClass, "paypal" ) ) {
-                    $paymentMethod      = "paypal";
-                    $user->pm_last_four = null;
-                } elseif ( str_contains( $paymentClass, "google" ) ) {
-                    $paymentMethod      = "googlepay";
                 } else {
-                    $paymentMethod = "something else";
+                    $user->pm_last_four = null;
                 }
 
                 $user->pm_type      = $paymentMethod;
