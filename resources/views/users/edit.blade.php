@@ -182,11 +182,13 @@
         </div>
     @endif
 
-    @include('layouts.popupCancel')
+    @if($subscription)
+        @include('layouts.popupCancel')
 
-    @include('layouts.popupChooseLevel')
+        @include('layouts.popupChooseLevel')
 
-    @include('layouts.popupPaymentMethod')
+        @include('layouts.popupPaymentMethod')
+    @endif
 
     @if ($payment_method == "card")
 
