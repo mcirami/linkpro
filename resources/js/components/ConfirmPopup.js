@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import EventBus from '../Utils/Bus';
+import {MdCheckCircle} from 'react-icons/md';
 export const ConfirmPopup = ({editID, setEditID, userLinks, setUserLinks, originalArray, setOriginalArray, setShowConfirmPopup }) => {
 
     const deleteItem = (e) => {
@@ -64,7 +65,10 @@ export const ConfirmPopup = ({editID, setEditID, userLinks, setUserLinks, origin
 
         <>
             <div className="box">
-                <h3 className="popup_title">Confirm</h3>
+                <div className="icon_wrap">
+                    <MdCheckCircle/>
+                </div>
+                <h3>Confirm</h3>
                 <div className="text_wrap">
                     <p>Are you sure you want to delete this icon?</p>
                     <form action="">
