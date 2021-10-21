@@ -452,6 +452,8 @@ class SubscriptionService {
 
         if ( $result->success ) {
 
+
+
             $activeSubs->name             = $result->subscription->planId;
             $activeSubs->braintree_id     = $result->subscription->id;
             $activeSubs->braintree_status = strtolower( $result->subscription->status );
@@ -461,7 +463,7 @@ class SubscriptionService {
             $paymentMethod = $result->subscription->transactions[0]->paymentInstrumentType;
 
             if ( $paymentMethod === "credit_card" ) {
-                $user->pm_last_four = $result->subscription->transactions[0]->paymentReceipt->cardLast4;
+                $user->pm_last_four = $result->subscription->transactions[0]->paymentReceipt["cardLast4"];
             } else {
                 $user->pm_last_four = null;
             }
@@ -535,7 +537,7 @@ class SubscriptionService {
                     $paymentMethod = $newResult->subscription->transactions[0]->paymentInstrumentType;
 
                     if ( $paymentMethod === "credit_card" ) {
-                        $user->pm_last_four = $newResult->subscription->transactions[0]->paymentReceipt->cardLast4;
+                        $user->pm_last_four = $newResult->subscription->transactions[0]->paymentReceipt["cardLast4"];
                     } else {
                         $user->pm_last_four = null;
                     }

@@ -52,7 +52,7 @@
                                 @if ($subscription && $subscription->name == "pro" && $subscription->braintree_status == "active")
                                     <span class='button disabled'>Current</span>
                                 @elseif ($subscription && $subscription->braintree_status === "active")
-                                    <button class='button blue open_popup' data-type="downgrade" data-level="pro" data-plan="price_1JS1p5GIBktjIJUPjG5ksGFb">
+                                    <button class='button blue open_popup' data-type="downgrade" data-level="pro">
                                         Downgrade My Plan
                                     </button>
                                    {{-- <form method="post" action="{{ url('/change-plan') }}">
