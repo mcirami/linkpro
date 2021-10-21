@@ -10,15 +10,16 @@ use Illuminate\Notifications\Notification;
 class NotifyAboutFreeTrial extends Notification
 {
     use Queueable;
+    private $userData;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($userData)
     {
-        //
+        $this->userData = $userData;
     }
 
     /**
@@ -41,9 +42,8 @@ class NotifyAboutFreeTrial extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->subject('Get A FREE Month Of PRO')
+            ->markdown('emails.free-trial', ['data' => $this->userData]);
     }
 
     /**

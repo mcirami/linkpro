@@ -83,11 +83,8 @@ class SubscriptionController extends Controller
 
         $data = $subscriptionService->resumeSubscription($request);
 
-        $user = Auth::user();
-        $page = $user->pages()->where('user_id', $user["id"])->where('default', true)->get();
-
         if ($data["success"] == true) {
-            return redirect()->route('pages.edit', [$page[0]->id])->with( ['success' => $data["message"]] );
+            return redirect()->back()->with(['success' => $data["message"]]);
         } else {
             return back()->withErrors($data["message"]);
         }

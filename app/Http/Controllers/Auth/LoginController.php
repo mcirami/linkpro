@@ -8,6 +8,9 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 
 class LoginController extends Controller
 {
@@ -38,6 +41,8 @@ class LoginController extends Controller
      */
     public function __construct()
     {
+
+        //Session::put('previous_url', ($this->redirectPath()));
         $this->middleware('guest')->except('logout');
     }
 
@@ -90,8 +95,8 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user) {
         $userPages = $user->pages()->get();
 
-        if ($userPages->isEmpty()) {
-            return redirect('/register/step-two');
+        if ( $userPages->isEmpty() ) {
+            return redirect( '/register/step-two' );
         } else {
 
             $subscription = $user->subscriptions()->first();
@@ -115,7 +120,12 @@ class LoginController extends Controller
                 }
             }
 
-            return redirect('/dashboard');
+            $previousURL = Session::get('url.intended');
+            if ($previousURL) {
+                return Redirect::intended();
+            } else {
+                return redirect('/dashboard');
+            }
         }
 
     }
