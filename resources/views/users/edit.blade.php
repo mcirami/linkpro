@@ -200,14 +200,12 @@
 
     @if($subscription)
 
+        @include('layouts.popupPaymentMethod')
+
         @if ($subscription->braintree_status == "active" || $subscription->braintree_status == "pending")
 
             @include('layouts.popupCancel')
             @include('layouts.popupChooseLevel')
-
-        @else
-
-            @include('layouts.popupPaymentMethod')
 
         @endif
 

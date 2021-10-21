@@ -211,7 +211,7 @@
     }
 }
 
-#upgrade_popup, #popup_choose_level, #confirm_cancel_popup, #confirm_change_plan_details, #confirm_popup, #confirm_popup_link  {
+#upgrade_popup, #popup_choose_level, #confirm_cancel_popup, #confirm_change_plan_details, #confirm_popup, #confirm_popup_link, #popup_payment_method {
 
     h3 {
         @include osbold;
@@ -418,13 +418,15 @@
     }
 }
 
-#confirm_cancel, #confirm_change_plan_details, #confirm_cancel_popup, #confirm_popup, #confirm_popup_link {
+#confirm_cancel, #confirm_change_plan_details, #confirm_cancel_popup, #confirm_popup, #confirm_popup_link, #popup_payment_method {
     padding: 40px 20px;
 
-    svg {
-        color: $green;
-        width: 100%;
-        height: 100%;
+    .icon_wrap {
+        svg {
+            color: $green;
+            width: 100%;
+            height: 100%;
+        }
     }
 
     .card {
@@ -460,5 +462,18 @@
 #confirm_popup_link {
     .box .text_wrap {
         padding-top: 0;
+    }
+}
+
+#popup_payment_method {
+
+    .box {
+        max-width: 650px;
+    }
+
+    .icon_wrap {
+        svg {
+            color: $blue;
+        }
     }
 }

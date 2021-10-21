@@ -13,7 +13,7 @@
                     <input class="plan" name="plan" type="hidden" value="{{ $subscription->braintree_id }}">
                     @if ($subscription->name == "premier")
                         @php $pages = $user->pages()->get() @endphp
-                        <h3>By downgrading your account to Free your subscription will be cancelled. You will lose access to password protect your links, you will be limited to 1 unique link, your icons will be limited to 9 and you will no longer be able to use custom icons..</h3>
+                        <h3>By cancelling your subscription you will lose access to password protect your links, you will be limited to 1 unique link, your icons will be limited to 9 and you will no longer be able to use custom icons.</h3>
                         @if( count($pages) > 1 )
                             <p>You currently have {{count($pages)}} links.</p>
                             <label for="defaultPage">Select which link you would like to keep active:</label>
@@ -24,7 +24,7 @@
                             </select>
                         @endif
                     @else
-                        <h3>By downgrading your account to Free your subscription will be cancelled, your icons will be limited to 9 and you will no longer be able to use custom icons.</h3>
+                        <h3>By cancelling your subscription, you will be limited to 9 icons and you will no longer be able to use custom icons.</h3>
                     @endif
                     <p>Do you want to continue?</p>
                     <div class="button_row">
