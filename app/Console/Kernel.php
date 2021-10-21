@@ -37,6 +37,11 @@ class Kernel extends ConsoleKernel
                  ->weekdays()
                  ->dailyAt('6:00')
                  ->emailOutputTo('mcirami@gmail.com');
+
+        $schedule->command('emails:EmailFreeTrial')
+                 ->weekdays()
+                 ->dailyAt('6:30')
+                 ->emailOutputTo('mcirami@gmail.com');
     }
 
     /**
