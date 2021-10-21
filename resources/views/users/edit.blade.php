@@ -75,7 +75,7 @@
                         <div class="column">
                             <h2 class="text-uppercase">Plan Type</h2>
                             <h4>Your Current Plan is</h4>
-                            @if($subscription && $subscription->braintree_status == "active")
+                            @if( ($subscription && $subscription->braintree_status == "active") || ($subscription && $subscription->braintree_status == "pending") )
                                 <div class="plan_name">
                                     <p class="text-capitalize">{{ $subscription->name }}</p>
                                     <img src="{{ asset('../images/plan-type-bg.png') }}" alt="">
@@ -95,10 +95,20 @@
                                     <img src="{{ asset('../images/plan-type-bg.png') }}" alt="">
                                 </div>
                             @endif
-                            @if ($subscription && $subscription->braintree_status == "active")
+                            @if (($subscription && $subscription->braintree_status == "active") || ($subscription && $subscription->braintree_status == "pending"))
                                 <button class='button blue open_popup_choose'>
                                     Change My Plan
                                 </button>
+                            @elseif($subscription && $subscription->ends_at > \Carbon\Carbon::now())
+                                <form action="{{ route('subscribe.resume') }}" method="post">
+                                    @csrf
+                                    <input name="payment_method_token" type="hidden" value="{{$payment_method_token}}"/>
+                                    <input class="level" name="planId" type="hidden" value="{{$subscription->name}}">
+                                    <button type="submit" class='button blue'>
+                                        Resume
+                                    </button>
+                                </form>
+
                             @else
                                 <a class='button blue' href="{{ route('plans.get') }}">
                                     Change My Plan
@@ -189,11 +199,18 @@
     @endif
 
     @if($subscription)
-        @include('layouts.popupCancel')
 
-        @include('layouts.popupChooseLevel')
+        @if ($subscription->braintree_status == "active" || $subscription->braintree_status == "pending")
 
-        @include('layouts.popupPaymentMethod')
+            @include('layouts.popupCancel')
+            @include('layouts.popupChooseLevel')
+
+        @else
+
+            @include('layouts.popupPaymentMethod')
+
+        @endif
+
     @endif
 
     @if ($payment_method == "card")

@@ -6,7 +6,6 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -28,6 +27,7 @@ class UserController extends Controller
             'subscription' => $data["subscription"],
             'payment_method' => $data["payment_method"],
             'token' => $data['token'],
+            'payment_method_token' => $data['payment_method_token']
         ]);
     }
 
@@ -39,11 +39,6 @@ class UserController extends Controller
     }
 
     public function updateCard(Request $request, UserService $userService) {
-
-
-        /*if ($request->user_id != $user["id"]) {
-            return abort(404);
-        }*/
 
         $userService->updateCard($request);
 

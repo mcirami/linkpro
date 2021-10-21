@@ -4,10 +4,8 @@
 namespace App\Services;
 
 use Braintree\Gateway;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
 
 class UserService {
@@ -17,6 +15,7 @@ class UserService {
         $user = Auth::user();
         $subscription = $user->subscriptions()->first() ? : null;
         $paymentMethod = $user["pm_type"] ? : null;
+        $paymentMethodToken = null;
 
         $gateway = new Gateway([
             'environment' => config('services.braintree.environment'),
@@ -31,16 +30,28 @@ class UserService {
             $token = $gateway->ClientToken()->generate([
                 'customerId' => $customerID
             ]);
+
+            if ($subscription->ends_at && $subscription->ends_at > Carbon::now()) {
+
+                $customer = $gateway->customer()->find( $customerID );
+
+                foreach ( $customer->paymentMethods as $payment_method ) {
+                    if ( $payment_method->default ) {
+                        $paymentMethodToken = $payment_method->token;
+                    }
+                }
+            }
+
         } else {
             $token = $gateway->ClientToken()->generate();
         }
-        //$token = $gateway->ClientToken()->generate();
 
         $data = [
             'user' => $user,
             'subscription' => $subscription,
             'payment_method' => $paymentMethod,
             'token' => $token,
+            'payment_method_token' => $paymentMethodToken
         ];
 
         Javascript::put([
@@ -115,8 +126,6 @@ class UserService {
                     $errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
                 }
 
-                // $_SESSION["errors"] = $errorString;
-                // header("Location: index.php");
                 return back()->withErrors('An error occurred with the message: '. $result->message);
             }
 
@@ -143,11 +152,6 @@ class UserService {
             'privateKey' => config('services.braintree.privateKey')
         ]);
 
-        //$customer = $gateway->customer()->find($customerID);
-       // $postalCode = $customer->addresses[0]->postalCode;
-
-        //$token = $customer->paymentMethods[0]->token;
-
         $updateResult = $gateway->paymentMethod()->create([
             'customerId' => $customerID,
             'paymentMethodNonce' => $request->payment_method_nonce,
@@ -171,7 +175,6 @@ class UserService {
 
 
                 if ( $paymentMethod == "credit_card" ) {
-                    //$paymentMethod = $customer->customer->paymentMethods[0]->cardType;
                     $user->pm_last_four = $updateResult->paymentMethod->last4;;
                 } else {
                     $user->pm_last_four = null;

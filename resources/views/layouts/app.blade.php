@@ -51,7 +51,7 @@
                         @else
                             @php $userSub = Auth::user()->subscriptions()->first(); @endphp
 
-                            @if( empty($userSub) || $userSub->name != "premier" || $userSub->ends_at && $userSub->ends_at < \Carbon\Carbon::now())
+                            @if( empty($userSub) || ($userSub->name != "premier" && !$userSub->ends_at) || ($userSub->ends_at && $userSub->ends_at < \Carbon\Carbon::now()) )
                                 <li class="nav-item">
                                     <a href="{{route('plans.get')}}">Upgrade</a>
                                 </li>
