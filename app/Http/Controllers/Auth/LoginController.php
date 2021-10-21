@@ -127,6 +127,5 @@ class LoginController extends Controller
                 return redirect('/dashboard');
             }
         }
-
     }
 }

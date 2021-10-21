@@ -55,7 +55,6 @@ const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
 
     const handleCheckedChange = (type) => {
 
-
         let passProtected;
 
         if (type === "enable") {
@@ -120,7 +119,7 @@ const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
             const currentDate = new Date().valueOf();
             const endsAt = new Date(ends_at).valueOf();
 
-            if ((braintree_status === 'active' && name === "premier") || endsAt > currentDate && name === "premier") {
+            if (( (braintree_status === 'active' || braintree_status === 'pending') && name === "premier") || endsAt > currentDate && name === "premier") {
                 setIsEditing(true);
             } else if (name === "pro" || endsAt < currentDate) {
                 showPopup();
@@ -218,20 +217,6 @@ const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
                                         <p className="char_max red">Your password must be at least 4 characters</p>
                                     }
                                 </div>
-                                {/*<div className="checkbox">
-                                    <label htmlFor="password_enable">
-                                        <input
-                                            id="password_enable"
-                                            name="is_protected"
-                                            type="checkbox"
-                                            checked={checked}
-                                            onChange={handleCheckedChange}
-                                        />
-                                        <span className="checkmark">
-
-                                        </span>
-                                    </label>
-                                </div>*/}
                             </form>
                         </div>
                         :

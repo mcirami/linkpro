@@ -16,18 +16,18 @@ const iconPaths = user.icons;
 const customIcons = user.userIcons;
 
 const SubmitForm = ({
-    editID,
-    setEditID,
-    setUserLinks,
-    userLinks,
-    originalArray,
-    setOriginalArray,
-    setShowUpgradePopup,
-    setShowConfirmPopup,
-    setPopupText,
-    userSub,
-    customIconArray,
-    setCustomIconArray
+        editID,
+        setEditID,
+        setUserLinks,
+        userLinks,
+        originalArray,
+        setOriginalArray,
+        setShowUpgradePopup,
+        setShowConfirmPopup,
+        setOptionText,
+        userSub,
+        customIconArray,
+        setCustomIconArray
 }) => {
 
     //const  { userLinks, setUserLinks } = useContext(LinksContext);
@@ -317,10 +317,7 @@ const SubmitForm = ({
             const popup = document.querySelector('#upgrade_popup');
             setShowUpgradePopup(true);
             popup.classList.add('open');
-            setPopupText({
-                levelText: "Pro",
-                optionText: text
-            });
+            setOptionText(text);
 
             setTimeout(() => {
                 document.querySelector('#upgrade_popup .close_popup').

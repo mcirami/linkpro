@@ -23,7 +23,6 @@ function clamp(n, min, max) {
 const Links = ({
    userLinks,
    setUserLinks,
-   editID,
    setEditID,
    originalArray,
    setOriginalArray,
@@ -270,6 +269,25 @@ const Links = ({
 
     }
 
+    const checkSubStatus = (icon) => {
+
+        if (icon && icon.toString().includes('storage')) {
+            if (userSub) {
+                const {braintree_status, ends_at} = {...userSub};
+                const currentDate = new Date().valueOf();
+                const endsAt = new Date(ends_at).valueOf();
+
+                if ((braintree_status === 'active' || braintree_status === 'pending') || endsAt > currentDate) {
+                    return icon;
+                } else {
+                    return null;
+                }
+            }
+        } else {
+            return icon;
+        }
+    }
+
     return (
         <>
             {userLinks.map((link, key) => {
@@ -297,7 +315,8 @@ const Links = ({
                 }
 
                 const linkID = originalArray[key].id;
-                //const found = userLinks.filter(element => element.id.toString().includes("new"));
+                const displayIcon = checkSubStatus(originalArray[key].icon);
+                console.log(displayIcon);
 
                 return (
                     <Motion key={key} style={style}>
@@ -329,7 +348,7 @@ const Links = ({
                                     </button>*/}
                                     <div className="icon_wrap" onClick={(e) => { handleOnClick(linkID) }}>
                                         <div className="image_wrap">
-                                            <img src={ originalArray[key].icon || '/images/icon-placeholder.png' } alt=""/>
+                                            <img src={ displayIcon || '/images/icon-placeholder.png' } alt=""/>
                                             {/*<div className="hover_text"><p><img src='/images/icon-placeholder.png' alt=""/></p></div>*/}
                                         </div>
                                     </div>

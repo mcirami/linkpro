@@ -13,7 +13,7 @@ const AddLink = ({userLinks, setUserLinks, originalArray, setOriginalArray, user
 
         const count = userLinks.length;
 
-        if (count < 9 || (userSub && userSub["braintree_status"] === "active") || (userSub && new Date(userSub["ends_at"]).valueOf()) > new Date().valueOf() ) {
+        if (count < 9 || ( (userSub && userSub["braintree_status"] === "active") || (userSub && userSub["braintree_status"] === "pending") ) || (userSub && new Date(userSub["ends_at"]).valueOf()) > new Date().valueOf() ) {
 
             const packets = {
                 id: pageSettings["id"],

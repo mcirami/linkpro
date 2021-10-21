@@ -195,7 +195,6 @@ function App() {
                         <div className="icons_wrap add_icons icons">
 
                             <Links
-                                editID={editID}
                                 setEditID={setEditID}
                                 userLinks={userLinks}
                                 setUserLinks={setUserLinks}
