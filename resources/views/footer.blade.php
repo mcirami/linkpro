@@ -16,7 +16,7 @@
             <li><a href="{{ route('user.edit') }}">Settings</a></li>
             @php $userSub = Auth::user()->subscriptions()->first(); @endphp
 
-            @if( empty($userSub) || $userSub->name != "premier" || $userSub->ends_at && $userSub->ends_at < \Carbon\Carbon::now())
+            @if( empty($userSub) || ($userSub->name != "premier" && !$userSub->ends_at) || ($userSub->ends_at && $userSub->ends_at < \Carbon\Carbon::now()) )
                 <li><a href="{{ route('plans.get') }}">Upgrade</a></li>
             @endif
         </ul>
