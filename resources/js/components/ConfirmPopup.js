@@ -65,13 +65,13 @@ export const ConfirmPopup = ({editID, setEditID, userLinks, setUserLinks, origin
 
         <>
             <div className="box">
-                <div className="icon_wrap">
+                <div className="icon_wrap check">
                     <MdCheckCircle/>
                 </div>
-                <h3>Confirm</h3>
+                <h2>Confirm</h2>
                 <div className="text_wrap">
-                    <p>Are you sure you want to delete this icon?</p>
-                    <form action="">
+                    <p className="confirm_text">Are you sure you want to delete this icon?</p>
+                    <form action="" className="button_row">
                         <a className="button green" href="#" onClick={deleteItem}>Yes</a>
                         <a className="button transparent gray" href="#" onClick={handleCancel}>No</a>
                     </form>

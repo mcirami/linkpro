@@ -169,7 +169,7 @@
                                             </a>
                                         @elseif(strtolower($payment_method) === "android_pay_card" || strtolower($payment_method) === "googlepay")
                                             <a href="https://pay.google.com/" class="px-5 d-block" target="_blank">
-                                                <img src="{{ asset('../images/googlepay.png') }}" alt="PayPal" />
+                                                <img src="{{ asset('../images/googlepay.png') }}" alt="GooglePay" />
                                             </a>
                                         @endif
                                     </div>

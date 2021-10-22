@@ -31,47 +31,94 @@
         -webkit-align-items: center;
         opacity: 1;
     }
+}
 
-    h3.popup_title {
-        padding: 10px;
+#popup_choose_level, #popup_payment_method, #confirm_popup, #upgrade_popup, #confirm_popup_link, #confirm_cancel_popup, #confirm_change_plan_details, #confirm_cancel_details {
+
+    h2 {
+        @include osbold;
+        font-size: 30px;
         text-align: center;
-        border-bottom: 1px solid $borderGray;
+
+        @media all and (max-width: 768px) {
+            font-size: 24px;
+        }
+    }
+
+    h3:not(.price) {
+        @include ossemibold;
+        font-size: 18px;
+        line-height: 1.6;
+
+        @media all and (max-width: 768px) {
+            font-size: 16px;
+        }
+    }
+
+    p {
+        font-size: 18px;
+
+        @media all and (max-width: 768px) {
+            font-size: 16px;
+        }
     }
 
     .box {
         @include boxShadow;
         position: relative;
         width: 100%;
-        max-width: 400px;
+        max-width: 1000px;
         background: $white;
         border-radius: 20px;
         -webkit-border-radius: 20px;
         -moz-border-radius: 20px;
+        padding: 40px;
+        text-align: center;
+
+        .icon_wrap {
+            width: 50px;
+            margin: 0 auto 20px;
+
+            svg {
+                width: 100%;
+                height: 100%;
+            }
+
+            &.check {
+                color: $green;
+            }
+
+            &.blue_icon {
+                color: $blue;
+            }
+        }
+
+        form {
+
+            label {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            select {
+                width: 100%;
+                max-width: 300px;
+                margin-bottom: 20px;
+            }
+        }
+
 
         .text_wrap {
             text-align: center;
             padding: 20px 20px 30px;
 
-            p {
-                margin-bottom: 20px;
+            .confirm_text {
+                margin-bottom: 10px;
             }
 
-            &.form_wrap {
-                display: -webkit-box;
-                display: -ms-flexbox;
-                display: flex;
-                -webkit-box-orient: horizontal;
-                -webkit-box-direction: normal;
-                -ms-flex-direction: row;
-                flex-direction: row;
-                -ms-flex-wrap: nowrap;
-                flex-wrap: nowrap;
-                justify-content: space-evenly;
-                -webkit-justify-content: space-around;
-            }
         }
 
-        form {
+        .button_row {
             display: -webkit-box;
             display: -ms-flexbox;
             display: flex;
@@ -81,13 +128,21 @@
             flex-direction: row;
             -ms-flex-wrap: nowrap;
             flex-wrap: nowrap;
-            justify-content: space-evenly;
-            -webkit-justify-content: space-around;
+            justify-content: center;
+            -webkit-justify-content: center;
+            column-gap: 20px;
+            -webkit-column-gap: 20px;
+            -moz-column-gap: 20px;
+        }
+
+        .button.confirm_change_plan, button.black_gradient {
+            width: auto;
         }
     }
 }
 
 #popup_choose_level, #popup_payment_method, #upgrade_popup {
+
     .close_popup {
         position: absolute;
         right: 30px;
@@ -121,32 +176,13 @@
     }
 
     .box {
-        max-width: 600px;
-
-        h3 {
-            margin-bottom: 0;
-        }
-
-        .text_wrap.form_wrap {
-            display: block;
-        }
-
-        form {
-            display: block;
-
-            label {
-                width: 100%;
-            }
-        }
+        max-width: 800px;
     }
 }
 
 #popup_choose_level {
-    .card {
-        max-width: 1000px;
-        height: 100%;
+    .box {
         max-height: 1000px;
-        padding: 10px 0 20px;
         transition: max-height .2s ease-in-out;
         -webkit-transition: max-height .2s ease-in-out;
 
@@ -159,9 +195,11 @@
         }
 
         &.size_adjust {
-
             max-height: 450px;
-            //overflow: hidden;
+
+            &.adjust_overflow {
+                overflow-y: hidden;
+            }
 
             @media all and (max-width: 550px) {
                 max-height: 500px;
@@ -204,6 +242,7 @@
 
                     .pricing {
                         margin: 15px 0;
+                        text-align: center;
                     }
                 }
             }
@@ -211,36 +250,7 @@
     }
 }
 
-#upgrade_popup, #popup_choose_level, #confirm_cancel_popup, #confirm_change_plan_details, #confirm_popup, #confirm_popup_link, #popup_payment_method {
-
-    h3 {
-        @include osbold;
-        font-size: 30px;
-    }
-
-    h4 {
-        @include ossemibold;
-        font-size: 18px;
-    }
-
-    .icon_wrap {
-        width: 50px;
-        margin: 0 auto 20px;
-    }
-
-    .box {
-        max-width: 550px;
-        text-align: center;
-        padding: 40px 20px;
-
-        .button {
-            display: inline-block;
-            margin-top: 20px;
-        }
-    }
-}
-
-#confirm_change_plan_details, #confirm_cancel {
+#confirm_change_plan_details, #confirm_cancel_details {
     display: block;
     opacity: 0;
     background: $white;
@@ -253,6 +263,10 @@
     transition: .4s all ease-in-out;
     -webkit-transition: .4s all ease-in-out;
     z-index: -1;
+    padding: 20px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
 
     &.open {
         opacity: 1;
@@ -341,139 +355,15 @@
     }
 }
 
-#confirm_cancel_popup {
-
-    .card {
-        padding: 0;
-        max-width: 1000px;
-
-        .card-body {
-            padding: 40px;
-        }
-
-        form {
-            text-align: center;
-
-            label {
-                width: 100%;
-                margin-bottom: 10px;
-            }
-
-            select {
-                width: 100%;
-                max-width: 300px;
-                margin-bottom: 20px;
-            }
-
-            h3 {
-                @include ossemibold;
-                font-size: 18px;
-                line-height: 1.6;
-
-                @media all and (max-width: 768px) {
-                    font-size: 16px;
-                }
-            }
-
-            p {
-                font-size: 18px;
-
-                @media all and (max-width: 768px) {
-                    font-size: 16px;
-                }
-            }
-
-            .button_row {
-                width: 100%;
-                display: -webkit-box;
-                display: -ms-flexbox;
-                display: flex;
-                -webkit-box-orient: horizontal;
-                -webkit-box-direction: normal;
-                -ms-flex-direction: row;
-                flex-direction: row;
-                -ms-flex-wrap: nowrap;
-                flex-wrap: nowrap;
-                justify-content:center;
-                -webkit-justify-content: center;
-                align-items: center;
-                -webkit-align-items: center;
-                column-gap: 20px;
-                -webkit-column-gap: 20px;
-                -moz-column-gap: 20px;
-            }
-
-            .button, button {
-                width: 150px;
-
-                @media all and (max-width: 768px) {
-                    width: 138px;
-                }
-
-                &.gray {
-                    border: 1px solid $darkGray;
-                }
-            }
-        }
-    }
-}
-
-#confirm_cancel, #confirm_change_plan_details, #confirm_cancel_popup, #confirm_popup, #confirm_popup_link, #popup_payment_method {
-    padding: 40px 20px;
-
-    .icon_wrap {
-        svg {
-            color: $green;
-            width: 100%;
-            height: 100%;
-        }
-    }
-
-    .card {
-        padding: 40px 20px;
-
-        .card-body {
-            padding: 20px;
-        }
-    }
+#upgrade_popup, #confirm_popup_link, #confirm_popup {
 
     .box {
-        max-width: 450px;
-        padding: 20px;
+        max-width: 550px;
 
-        .text_wrap {
-            padding: 20px;
-
-            p {
-                margin-bottom: 0;
-            }
-
-            form {
-                justify-content: center;
-                -webkit-justify-content: center;
-                column-gap: 20px;
-                -moz-column-gap: 20px;
-                -webkit-column-gap: 20px;
-            }
+        .button {
+            display: inline-block;
+            margin-top: 10px;
         }
     }
 }
 
-#confirm_popup_link {
-    .box .text_wrap {
-        padding-top: 0;
-    }
-}
-
-#popup_payment_method {
-
-    .box {
-        max-width: 650px;
-    }
-
-    .icon_wrap {
-        svg {
-            color: $blue;
-        }
-    }
-}

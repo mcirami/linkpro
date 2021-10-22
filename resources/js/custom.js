@@ -109,7 +109,7 @@ jQuery(document).ready(function($) {
             e.preventDefault();
 
             const changePlanDetails = document.querySelector('#confirm_change_plan_details');
-            const confirmCancelDetails = document.querySelector('#confirm_cancel');
+            const confirmCancelDetails = document.querySelector('#confirm_cancel_details');
 
             if(changePlanDetails.classList.contains("open")) {
                 changePlanDetails.classList.remove('open');

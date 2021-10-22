@@ -14,8 +14,8 @@ export const UpgradePopup = ({optionText}) => {
                 <div className="icon_wrap">
                     <img src="/images/icon_uparrow.png" alt=""/>
                 </div>
-                <h3>Upgrade Now</h3>
-                <h4>Upgrade to <span className="option_text">{ optionText }</span> and much more!</h4>
+                <h2>Upgrade Now</h2>
+                <h3>Upgrade to <span className="option_text">{ optionText }</span> and much more!</h3>
                 <a className="button blue" href='/plans'>Learn More</a>
             </div>
         </>
