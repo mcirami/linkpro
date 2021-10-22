@@ -24,6 +24,7 @@ class PageService {
     public function createNewPage($request) {
 
         $user = Auth::user();
+
         $path = $request->session()->get('_previous');
 
         $name = preg_replace("/[\s_]/", "-", strtolower($request->name));
@@ -31,7 +32,7 @@ class PageService {
         $userPages = $user->pages()->get();
 
         $default = false;
-        if( empty($userPages) ) {
+        if( $userPages->isEmpty() ) {
             $default = true;
         }
 
