@@ -55,6 +55,10 @@
                 totalPrice: amount,
                 currencyCode: 'USD'
             },
+        },
+        venmo: {
+            allowDesktop: true,
+            paymentMethodUsage: 'multi_use',
         }
     }, function (createErr, instance) {
         if (createErr) {
