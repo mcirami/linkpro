@@ -27,17 +27,16 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //$schedule->command('inspire')->hourly();
         $schedule->command('emails:EmailInactiveUsers')
-            ->dailyAt('5:30')
+            ->everyFiveMinutes()
             ->emailOutputTo('mcirami@gmail.com');
 
         $schedule->command('emails:EmailSocialShare')
-                 ->dailyAt('6:00')
+                 ->everyFiveMinutes()
                  ->emailOutputTo('mcirami@gmail.com');
 
         $schedule->command('emails:EmailFreeTrial')
-                 ->dailyAt('6:30')
+                 ->everyFiveMinutes()
                  ->emailOutputTo('mcirami@gmail.com');
     }
 
