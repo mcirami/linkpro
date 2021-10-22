@@ -167,9 +167,13 @@
                                             <a href="https://paypal.com" class="px-5 d-block" target="_blank">
                                                 <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_200x51.png" alt="PayPal" />
                                             </a>
-                                        @elseif(strtolower($payment_method) === "android_pay_card" || strtolower($payment_method) === "googlepay")
+                                        @elseif(strtolower($payment_method) == "android_pay_card" || strtolower($payment_method) == "googlepay")
                                             <a href="https://pay.google.com/" class="px-5 d-block" target="_blank">
                                                 <img src="{{ asset('../images/googlepay.png') }}" alt="GooglePay" />
+                                            </a>
+                                        @elseif(strtolower($payment_method) == "venmo_account")
+                                            <a href="https://venmo.com/" class="px-5 d-block" target="_blank">
+                                                <img src="{{ asset('../images/venmo.png') }}" alt="Venmo" />
                                             </a>
                                         @endif
                                     </div>
