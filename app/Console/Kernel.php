@@ -29,18 +29,15 @@ class Kernel extends ConsoleKernel
     {
         //$schedule->command('inspire')->hourly();
         $schedule->command('emails:EmailInactiveUsers')
-            //->dailyAt('5:30')
-            ->everyFiveMinutes()
+            ->dailyAt('5:30')
             ->emailOutputTo('mcirami@gmail.com');
 
         $schedule->command('emails:EmailSocialShare')
-                 //->dailyAt('6:00')
-                 ->everyFiveMinutes()
+                 ->dailyAt('6:00')
                  ->emailOutputTo('mcirami@gmail.com');
 
         $schedule->command('emails:EmailFreeTrial')
-                 //->dailyAt('6:30')
-                 ->everyFiveMinutes()
+                 ->dailyAt('6:30')
                  ->emailOutputTo('mcirami@gmail.com');
     }
 
