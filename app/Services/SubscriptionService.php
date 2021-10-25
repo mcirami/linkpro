@@ -157,7 +157,7 @@ class SubscriptionService {
                 if ($user->email_subscription) {
 
                     $userData = ( [
-                        'siteUrl' => \URL::to( '/' ) . "/",
+                        'siteUrl' => \URL::to( '/' ),
                         'plan'    => $plan,
                         'userID'  => $user["id"],
                     ] );
@@ -236,7 +236,7 @@ class SubscriptionService {
                 if ($user->email_subscription) {
 
                     $userData = ( [
-                        'siteUrl' => \URL::to( '/' ) . "/",
+                        'siteUrl' => \URL::to( '/' ),
                         'plan'    => 'Premier',
                         'userID'  => $user["id"],
                     ] );
@@ -342,7 +342,7 @@ class SubscriptionService {
             if ($user->email_subscription) {
 
                 $userData = ( [
-                    'siteUrl'  => \URL::to( '/' ) . "/",
+                    'siteUrl'  => \URL::to( '/' ),
                     'end_date' => $result->subscription->billingPeriodEndDate->format( 'F j, Y' ),
                     'userID'   => $user["id"],
                 ] );
@@ -416,7 +416,7 @@ class SubscriptionService {
             if ($user->email_subscription) {
 
                 $userData = ( [
-                    'siteUrl' => \URL::to( '/' ) . "/",
+                    'siteUrl' => \URL::to( '/' ),
                     'plan'    => $plan,
                     'userID'  => $user["id"],
                 ] );
