@@ -9,6 +9,7 @@ let pageNames = user.allPageNames;
 const PageName = () => {
 
     const { pageSettings, setPageSettings } = useContext(PageContext);
+    const [allPageNames, setAllPageNames] = useState(pageNames);
 
     const [name, setName] = useState(pageSettings['name']);
     //const [isEditing, setIsEditing] = useState(false);
@@ -20,32 +21,43 @@ const PageName = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const packets = {
-            name: name,
-        };
+        if (!currentMatch) {
 
-        axios.post('/dashboard/page/update-name/' + pageSettings['id'], packets)
-        .then(
-            (response) => {
-                const returnMessage = JSON.stringify(response.data.message);
-                EventBus.dispatch("success", { message: returnMessage });
-                //setIsEditing(false)
-                setPageSettings({
-                        ...pageSettings,
-                        name: name
-                    }
-                )
-            }
-        )
-        .catch( (error) => {
-            console.log("ERROR:: ", error.response.data);
+            const packets = {
+                name: name,
+            };
 
-        });
+            axios.post('/dashboard/page/update-name/' + pageSettings['id'],
+                packets).then(
+                (response) => {
+                    const returnMessage = JSON.stringify(response.data.message);
+                    EventBus.dispatch("success", {message: returnMessage});
+                    //setIsEditing(false)
+                    setAllPageNames(
+                        allPageNames.map((item, index) => {
+                            if (item === pageSettings['name']) {
+                                item = name
+                            }
+                            return item;
+                        })
+                    )
+                    setPageSettings({
+                            ...pageSettings,
+                            name: name
+                        }
+                    )
+                    setCurrentMatch(true);
+                }
+            ).catch((error) => {
+                console.log("ERROR:: ", error.response.data);
+
+            });
+        }
     };
 
     const checkPageName = (e) => {
         let value = e.target.value.toLowerCase().replace(/\s/g, '-');
-        const match = pageNames.indexOf(value);
+        const match = allPageNames.indexOf(value);
 
         if (value.length > 2 && value === pageSettings["name"]) {
             setAvailability(true);
@@ -74,6 +86,7 @@ const PageName = () => {
                                    }
                                }
                            }
+                           onBlur={(e) => handleSubmit(e)}
                     />
 
                    {available ?

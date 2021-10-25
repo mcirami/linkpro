@@ -61,6 +61,7 @@ const PageBio = () => {
                                   }
                               }
                           }
+                          onBlur={(e) => handleSubmit(e)}
                 >
                 </textarea>
                 {charactersLeft < 62  ?

@@ -62,6 +62,7 @@ const PageTitle = () => {
                                }
                            }
                        }
+                       onBlur={(e) => handleSubmit(e)}
                 />
                 {charactersLeft < 30 ?
                     <a className="submit_circle" href="#"

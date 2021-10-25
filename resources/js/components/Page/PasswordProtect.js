@@ -202,6 +202,7 @@ const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
                                                    }
                                                }
                                            }
+                                           onBlur={(e) => handleSubmit(e)}
                                     />
                                     {enableSubmit === true ?
                                         <a className="submit_circle" href="#"
