@@ -91,3 +91,40 @@
         }
     }
 }
+
+.email_subscription_page {
+    text-align: center;
+    padding-bottom: 5%;
+
+    .card {
+        @include boxShadow;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px;
+        border: none;
+        border-radius: 20px;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+    }
+
+    h2 {
+        margin-bottom: 40px;
+    }
+
+    p {
+        font-size: 18px;
+    }
+
+    .link_wrap {
+        margin-bottom: 20px;
+
+        a {
+            font-size: 18px;
+            text-decoration: underline;
+        }
+    }
+
+    .button_wrap {
+        margin-top: 20px;
+    }
+}

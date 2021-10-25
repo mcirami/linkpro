@@ -154,12 +154,16 @@ class SubscriptionService {
                     $plan = "Premier";
                 }
 
-                $userData = ( [
-                    'siteUrl' => \URL::to( '/' ) . "/",
-                    'plan'    => $plan,
-                ] );
+                if ($user->email_subscription) {
 
-                $user->notify( new NotifyAboutUpgrade( $userData ) );
+                    $userData = ( [
+                        'siteUrl' => \URL::to( '/' ) . "/",
+                        'plan'    => $plan,
+                        'userID'  => $user["id"],
+                    ] );
+
+                    $user->notify( new NotifyAboutUpgrade( $userData ) );
+                }
 
                 $data = [
                     "success" => true,
@@ -229,12 +233,16 @@ class SubscriptionService {
                     }
                 }
 
-                $userData = ([
-                    'siteUrl' => \URL::to('/') . "/",
-                    'plan' => 'Premier',
-                ]);
+                if ($user->email_subscription) {
 
-                $user->notify(new NotifyAboutUpgrade($userData));
+                    $userData = ( [
+                        'siteUrl' => \URL::to( '/' ) . "/",
+                        'plan'    => 'Premier',
+                        'userID'  => $user["id"],
+                    ] );
+
+                    $user->notify( new NotifyAboutUpgrade( $userData ) );
+                }
 
                 $data = [
                     "success" => true,
@@ -331,12 +339,16 @@ class SubscriptionService {
             $subscription->ends_at = $result->subscription->billingPeriodEndDate;
             $subscription->save();
 
-            $userData = ([
-                'siteUrl' => \URL::to('/') . "/",
-                'end_date' => $result->subscription->billingPeriodEndDate->format('F j, Y'),
-            ]);
+            if ($user->email_subscription) {
 
-            $user->notify(new NotifyAboutCancelation($userData));
+                $userData = ( [
+                    'siteUrl'  => \URL::to( '/' ) . "/",
+                    'end_date' => $result->subscription->billingPeriodEndDate->format( 'F j, Y' ),
+                    'userID'   => $user["id"],
+                ] );
+
+                $user->notify( new NotifyAboutCancelation( $userData ) );
+            }
 
             $data = [
                 "success" => true,
@@ -401,12 +413,16 @@ class SubscriptionService {
                 $plan = "Premier";
             }
 
-            $userData = ( [
-                'siteUrl' => \URL::to( '/' ) . "/",
-                'plan'    => $plan,
-            ] );
+            if ($user->email_subscription) {
 
-            $user->notify( new NotifyAboutUpgrade( $userData ) );
+                $userData = ( [
+                    'siteUrl' => \URL::to( '/' ) . "/",
+                    'plan'    => $plan,
+                    'userID'  => $user["id"],
+                ] );
+
+                $user->notify( new NotifyAboutUpgrade( $userData ) );
+            }
 
             $data = [
                 "success" => true,

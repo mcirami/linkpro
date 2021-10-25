@@ -3,6 +3,7 @@
 
 namespace App\Services;
 
+use App\Notifications\NotifyAboutUnsubscribe;
 use Braintree\Gateway;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -199,6 +200,41 @@ class UserService {
 
             return back()->withErrors('An error occurred with the message: '. $updateResult->message);
         }
+
+    }
+
+    public function handleEmailSubscription($user) {
+
+        $action = $_GET["action"];
+
+       if ($action == "unsubscribe") {
+           $user->email_subscription = false;
+           $user->save();
+
+           $data = [
+               "subscribed" => false,
+               "message" => "You have been unsubscribed from our email notifications..."
+           ];
+
+           $userData = ([
+               'siteUrl' => \URL::to('/'),
+               'subject' => 'You have been UnSubscribed',
+               'userID'  => $user["id"],
+           ]);
+
+           $user->notify(new NotifyAboutUnsubscribe($userData));
+
+       } else {
+           $user->email_subscription = true;
+           $user->save();
+
+           $data = [
+               "subscribed" => true,
+               "message" => "Thank you for subscribing!"
+           ];
+       }
+
+       return $data;
 
     }
 }

@@ -58,6 +58,7 @@ class EmailSocialShare extends Command
                     'username' => $user->username,
                     'link'     => $page->name,
                     'siteUrl'  => \URL::to( '/' ) . "/",
+                    'userID'  => $user["id"],
                 ] );
 
                 $user->notify( new NotifyAboutSocialShare( $userData ) );

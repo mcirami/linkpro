@@ -13039,6 +13039,37 @@ header.guest_header .col.right {
   float: left;
 }
 
+.email_subscription_page {
+  text-align: center;
+  padding-bottom: 5%;
+}
+.email_subscription_page .card {
+  box-shadow: 0px 0px 35px 5px rgba(170, 170, 170, 0.18);
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px;
+  border: none;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+}
+.email_subscription_page h2, .email_subscription_page .h2 {
+  margin-bottom: 40px;
+}
+.email_subscription_page p {
+  font-size: 18px;
+}
+.email_subscription_page .link_wrap {
+  margin-bottom: 20px;
+}
+.email_subscription_page .link_wrap a {
+  font-size: 18px;
+  text-decoration: underline;
+}
+.email_subscription_page .button_wrap {
+  margin-top: 20px;
+}
+
 .ReactCrop__drag-handle::after {
   width: 35px !important;
   height: 35px !important;

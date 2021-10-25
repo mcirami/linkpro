@@ -56,7 +56,8 @@ class EmailInactiveUsers extends Command
                 $userData = ([
                     'username' => $user->username,
                     'link' => $page->name,
-                    'siteUrl' => \URL::to('/') . "/"
+                    'siteUrl' => \URL::to('/') . "/",
+                    'userID'  => $user["id"],
                 ]);
 
                 $user->notify(new NotifyInactiveUser($userData));

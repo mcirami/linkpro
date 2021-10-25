@@ -48,7 +48,8 @@ class PageService {
             $userData = ([
                 'username' => $user->username,
                 'link' => $name,
-                'siteUrl' => \URL::to('/') . "/"
+                'siteUrl' => \URL::to('/') . "/",
+                'userID'  => $user["id"],
             ]);
 
             $user->notify(new WelcomeNotification($userData));

@@ -58,6 +58,7 @@ class EmailFreeTrialCode extends Command
                     'username' => $user->username,
                     //'link'     => $page->name,
                     'siteUrl'  => \URL::to( '/' ) . "/",
+                    'userID'  => $user["id"],
                 ] );
 
                 $user->notify( new NotifyAboutFreeTrial( $userData ) );

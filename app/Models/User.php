@@ -29,6 +29,7 @@ class User extends Authenticatable
         'pm_last_four',
         'pm_type',
         'braintree_id',
+        'email_subscription'
     ];
 
     /**
