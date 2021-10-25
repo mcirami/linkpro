@@ -1,4 +1,4 @@
-@component('mail::message')
+@component('mail::message', ['id' => $data['userID'], 'url' => $data['siteUrl']])
     # Heya {{ $data['username'] }}!
 
     We want to offer you a FREE month when you upgrade to our PRO plan!

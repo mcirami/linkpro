@@ -1,4 +1,4 @@
-@component('mail::message')
+@component('mail::message', ['id' => $data['userID'], 'url' => $data['siteUrl']])
 # Congrats on going {{ $data["plan"] }}!
 
 @if ($data["plan"] == "PRO")

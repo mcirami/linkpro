@@ -1,4 +1,4 @@
-@component('mail::message')
+@component('mail::message', ['id' => $data['userID'], 'url' => $data['siteUrl']])
 # Heya {{ $data['username'] }}!
 
 Are you taking advantage of the cool new link you created? <br>Make sure to post your unique LinkPro link:

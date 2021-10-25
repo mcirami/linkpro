@@ -316,7 +316,6 @@ const Links = ({
 
                 const linkID = originalArray[key].id;
                 const displayIcon = checkSubStatus(originalArray[key].icon);
-                console.log(displayIcon);
 
                 return (
                     <Motion key={key} style={style}>

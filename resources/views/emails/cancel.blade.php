@@ -1,4 +1,4 @@
-@component('mail::message')
+@component('mail::message', ['id' => $data['userID'], 'url' => $data['siteUrl']])
 We are certainly sad to see you go but want to thank you for your participation! If there is anything we can do to make you reconsider, please let us know! If not, make sure to stay out there crushing it!
 <br>
 <br>

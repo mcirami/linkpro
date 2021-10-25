@@ -1,4 +1,4 @@
-@component('mail::message')
+@component('mail::message', ['id' => $data['userID'], 'url' => $data['siteUrl']])
 # Welcome To Link Pro!
 
 <p class="sub_title">You're on your way to becoming a social icon!</p>

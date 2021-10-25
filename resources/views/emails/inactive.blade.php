@@ -1,4 +1,4 @@
-@component('mail::message')
+@component('mail::message', ['id' => $data['userID'], 'url' => $data['siteUrl']])
 # Hey there fellow LinkPro Icon!
 <br>
 We don’t want to bug you but we noticed you haven’t published any of your social links in your account. Need some help? Follow the link below to learn the process!
