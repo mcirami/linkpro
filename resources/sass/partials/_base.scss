@@ -387,3 +387,15 @@ button {
         -moz-border-radius: 5px;
     }
 }
+
+.error_page.form_page {
+
+    h2.page_title {
+        margin-bottom: 0;
+    }
+
+    .card {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+}
