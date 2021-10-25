@@ -74,7 +74,7 @@ const IconList = ({currentLink, setCurrentLink, iconArray, radioValue, setCharac
                                     data-name={icon.name}
                                     alt=""
                                 />
-                                <div className="hover_text">
+                                <div className="hover_text icon_text">
                                     <p>
                                         {icon.name}
                                     </p>

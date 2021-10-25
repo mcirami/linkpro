@@ -102,6 +102,9 @@ function App() {
 
     }, [userLinks])
 
+    const host = window.location.origin;
+
+
     return (
         <div className="my_row page_wrap">
             <Flash />
@@ -180,17 +183,23 @@ function App() {
                             }
                         </div>
 
-                        <div className="add_more_icons">
-                            <AddLink
-                                userLinks={userLinks}
-                                setUserLinks={setUserLinks}
-                                originalArray={originalArray}
-                                setOriginalArray={setOriginalArray}
-                                userSub={userSub}
-                                setShowUpgradePopup={setShowUpgradePopup}
-                                setOptionText={setOptionText}
-                            />
+                        <div className="my_row link_row">
+                            <div className="add_more_icons">
+                                <AddLink
+                                    userLinks={userLinks}
+                                    setUserLinks={setUserLinks}
+                                    originalArray={originalArray}
+                                    setOriginalArray={setOriginalArray}
+                                    userSub={userSub}
+                                    setShowUpgradePopup={setShowUpgradePopup}
+                                    setOptionText={setOptionText}
+                                />
+                            </div>
+                            <div className="view_live_link">
+                                <a className="button green" target="_blank" href={ host + '/' + pageSettings['name'] }>Open Live Page</a>
+                            </div>
                         </div>
+
 
                         <div className="icons_wrap add_icons icons">
 

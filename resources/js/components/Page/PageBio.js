@@ -52,7 +52,7 @@ const PageBio = () => {
         <div className="edit_form">
             <form onSubmit={handleSubmit} className="bio">
                 <textarea maxLength="65" name="bio" id="" rows="5"
-                          placeholder="Add Slogan/Intro Here"
+                          placeholder="Add Slogan/Bio Intro Here"
                           defaultValue={pageSettings["bio"] || ""}
                           onChange={(e) => handleChange(e) }
                           onKeyPress={ event => {
@@ -69,6 +69,7 @@ const PageBio = () => {
                        onClick={(e) => handleSubmit(e)}
                     >
                         <FiThumbsUp />
+                        <div className="hover_text submit_button"><p>Submit Bio Text</p></div>
                     </a>
                     :
                     <span className="cancel_icon">

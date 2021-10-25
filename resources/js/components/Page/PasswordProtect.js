@@ -226,6 +226,7 @@ const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
                             <h3>{checked ? "Link is Password Protected" : "Password Protect Your Link?"}</h3>
                             <span className={checked ? "lock_icon" : "lock_icon disabled"}>
                                 <IoIosLock/>
+                                <div className="hover_text password"><p>Edit Password</p></div>
                             </span>
                         </a>
                     </div>

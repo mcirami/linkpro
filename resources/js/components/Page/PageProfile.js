@@ -146,7 +146,8 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
                                     Profile Image
                                     <span className="edit_icon">
                                             <MdEdit/>
-                                        </span>
+                                        <div className="hover_text edit_image"><p>Edit Profile Image</p></div>
+                                    </span>
                                 </label>
                                 <input className="custom" id="profile_file_upload" type="file"
                                        onChange={onSelectFile}

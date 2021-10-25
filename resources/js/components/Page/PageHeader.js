@@ -150,6 +150,7 @@ const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileN
                                     Header Image
                                     <span className="edit_icon">
                                         <MdEdit/>
+                                        <div className="hover_text edit_image"><p>Edit Header Image</p></div>
                                     </span>
                                 </label>
                                 <input className="custom" id="header_file_upload" type="file"

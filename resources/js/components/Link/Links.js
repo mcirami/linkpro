@@ -361,7 +361,7 @@ const Links = ({
                                                 uncheckedIcon={false}
                                                 checkedIcon={false}
                                             />
-                                            <div className="hover_text"><p>{Boolean(originalArray[key].active_status) ? "Deactivate" : "Active"} Icon</p></div>
+                                            <div className="hover_text switch"><p>{Boolean(originalArray[key].active_status) ? "Deactivate" : "Active"} Icon</p></div>
                                         </div>
                                     </div>
                                 </div>

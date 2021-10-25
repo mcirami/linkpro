@@ -11374,6 +11374,7 @@ button {
 }
 
 .edit_icon {
+  position: relative;
   background: #88c3d7;
   color: #ffffff;
   border-radius: 50px;
@@ -11395,6 +11396,14 @@ button {
   background: #545656;
   color: #ffffff;
 }
+.edit_icon:hover .hover_text {
+  opacity: 1;
+}
+@media all and (max-width: 768px) {
+  .edit_icon:hover .hover_text {
+    opacity: 0;
+  }
+}
 .edit_icon svg {
   width: 100%;
   height: 100%;
@@ -11413,6 +11422,14 @@ button {
 
 .submit_circle svg {
   background: #0ba921;
+}
+.submit_circle:hover .hover_text {
+  opacity: 1;
+}
+@media all and (max-width: 768px) {
+  .submit_circle:hover .hover_text {
+    opacity: 0;
+  }
 }
 
 .cancel_icon svg {
@@ -11651,26 +11668,49 @@ button {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  /*justify-content: flex-end;
-  -webkit-justify-content: flex-end;*/
   align-items: center;
   -webkit-align-items: center;
-  width: 100%;
-  height: 0;
-  top: 0;
-  left: 0;
   opacity: 0;
   transition: 0.3s opacity linear;
   -webkit-transition: 0.3s opacity linear;
+  top: -20px;
+  width: 100%;
 }
 .hover_text p {
   margin: 0;
-  font-size: 12px;
+  font-size: 18px;
   background: #f4f4f4;
   padding: 2px 5px;
   border-radius: 5px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
+}
+.hover_text.switch {
+  top: -35px;
+}
+.hover_text.password {
+  top: -34px;
+  right: -12px;
+  width: 105px;
+}
+.hover_text.password p {
+  color: #000;
+  font-size: 14px;
+}
+.hover_text.edit_image, .hover_text.submit_button {
+  top: -32px;
+  width: 150px;
+  right: -20px;
+}
+.hover_text.edit_image p, .hover_text.submit_button p {
+  color: #000;
+  font-size: 14px;
+}
+.hover_text.icon_text {
+  top: 0;
+}
+.hover_text.icon_text p {
+  font-size: 12px;
 }
 
 .error_page.form_page h2.page_title, .error_page.form_page .page_title.h2 {
@@ -12171,12 +12211,12 @@ header.guest_header .col.right {
   cursor: grab;
 }
 #links_page .icons_wrap .icon_col span.drag_handle:hover .hover_text {
-  top: -20px;
   opacity: 1;
-  height: 100%;
 }
-#links_page .icons_wrap .icon_col span.drag_handle:hover .hover_text p {
-  font-size: 18px;
+@media all and (max-width: 768px) {
+  #links_page .icons_wrap .icon_col span.drag_handle:hover .hover_text {
+    opacity: 0;
+  }
 }
 #links_page .icons_wrap .icon_col span.drag_handle:active {
   cursor: -webkit-grabbing;
@@ -12203,14 +12243,6 @@ header.guest_header .col.right {
 }
 #links_page .icons_wrap .icon_col .icon_wrap .image_wrap:hover {
   cursor: pointer;
-  /*.hover_text {
-      opacity: 1;
-      height: auto;
-
-      p {
-          font-size: 18px;
-      }
-  }*/
 }
 #links_page .icons_wrap .icon_col .icon_wrap .image_wrap:hover:before {
   content: "";
@@ -12362,7 +12394,11 @@ header.guest_header .col.right {
 }
 #links_page .icon_row .icons_wrap .icon_col:hover .hover_text {
   opacity: 1;
-  height: auto;
+}
+@media all and (max-width: 768px) {
+  #links_page .icon_row .icons_wrap .icon_col:hover .hover_text {
+    opacity: 0;
+  }
 }
 #links_page .icon_row .icon_image {
   border: 2px solid transparent;
@@ -12463,6 +12499,7 @@ header.guest_header .col.right {
 }
 .page_settings .column_wrap .column_content .lock_icon {
   color: #0ba921;
+  position: relative;
 }
 .page_settings .column_wrap .column_content .lock_icon svg {
   width: 30px;
@@ -12471,11 +12508,16 @@ header.guest_header .col.right {
 .page_settings .column_wrap .column_content .lock_icon.disabled {
   color: #d4d2d2;
 }
+.page_settings .column_wrap .column_content .lock_icon:hover .hover_text {
+  opacity: 1;
+}
+@media all and (max-width: 768px) {
+  .page_settings .column_wrap .column_content .lock_icon:hover .hover_text {
+    opacity: 0;
+  }
+}
 
-.add_more_icons {
-  padding: 0 40px;
-  width: 100%;
-  margin-top: 20px;
+.link_row {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -12483,12 +12525,15 @@ header.guest_header .col.right {
   -webkit-justify-content: space-between;
   align-items: center;
   -webkit-align-items: center;
+  padding: 0 40px;
+  margin: 20px 0;
 }
-@media all and (max-width: 550px) {
-  .add_more_icons {
+@media all and (max-width: 768px) {
+  .link_row {
     padding: 0 30px;
   }
 }
+
 .add_more_icons h3, .add_more_icons .h3 {
   color: #424fcf;
   margin-left: 10px;
@@ -12580,11 +12625,11 @@ header.guest_header .col.right {
 }
 .switch_wrap:hover .hover_text {
   opacity: 1;
-  height: auto;
-  top: -35px;
 }
-.switch_wrap:hover .hover_text p {
-  font-size: 18px;
+@media all and (max-width: 768px) {
+  .switch_wrap:hover .hover_text {
+    opacity: 0;
+  }
 }
 
 .links_col.preview {

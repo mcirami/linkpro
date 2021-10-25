@@ -62,6 +62,7 @@ button {
 }
 
 .edit_icon {
+    position: relative;
     background: $lightBlue;
     color: $white;
     border-radius: 50px;
@@ -81,6 +82,14 @@ button {
         cursor: pointer;
         background: $darkGray;
         color: $white;
+
+        .hover_text {
+            opacity: 1;
+
+            @media all and (max-width: 768px) {
+                opacity: 0;
+            }
+        }
     }
 
     svg {
@@ -108,6 +117,16 @@ button {
 
     svg {
         background: $green;
+    }
+
+    &:hover {
+        .hover_text {
+            opacity: 1;
+
+            @media all and (max-width: 768px) {
+                opacity: 0;
+            }
+        }
     }
 }
 
@@ -365,27 +384,58 @@ button {
     flex-direction: column;
     -ms-flex-wrap: nowrap;
     flex-wrap: nowrap;
-    /*justify-content: flex-end;
-    -webkit-justify-content: flex-end;*/
     align-items: center;
     -webkit-align-items: center;
-    width: 100%;
-    height: 0;
-    top: 0;
-    left: 0;
     opacity: 0;
     transition: .3s opacity linear;
     -webkit-transition: .3s opacity linear;
+    top: -20px;
+    width: 100%;
 
     p {
         margin: 0;
-        font-size: 12px;
+        font-size: 18px;
         background: $lightGray;
         padding: 2px 5px;
         border-radius: 5px;
         -webkit-border-radius: 5px;
         -moz-border-radius: 5px;
     }
+
+    &.switch {
+        top: -35px;
+    }
+
+    &.password {
+        top: -34px;
+        right: -12px;
+        width: 105px;
+
+        p {
+            color: $black;
+            font-size: 14px;
+        }
+    }
+
+    &.edit_image, &.submit_button {
+        top: -32px;
+        width: 150px;
+        right: -20px;
+
+        p {
+            color: $black;
+            font-size: 14px;
+        }
+    }
+
+    &.icon_text {
+        top: 0;
+
+        p {
+            font-size: 12px;
+        }
+    }
+
 }
 
 .error_page.form_page {

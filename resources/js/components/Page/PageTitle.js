@@ -53,7 +53,7 @@ const PageTitle = () => {
         <div className="edit_form">
             <form onSubmit={handleSubmit}>
                 <input maxLength="30" name="title" type="text"
-                       placeholder="LinkPro"
+                       placeholder="Add Link Title Here"
                        defaultValue={pageSettings["title"] || ""}
                        onChange={(e) => handleChange(e) }
                        onKeyPress={ event => {
@@ -69,6 +69,7 @@ const PageTitle = () => {
                        onClick={(e) => handleSubmit(e)}
                     >
                         <FiThumbsUp />
+                        <div className="hover_text submit_button"><p>Submit Title Text</p></div>
                     </a>
                     :
                     <span className="cancel_icon">
