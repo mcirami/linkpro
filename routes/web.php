@@ -22,6 +22,12 @@ use App\Http\Controllers\MailController;
 Route::get('/', function () {
     return view('home');
 })->name('guest-home');
+Route::get('/terms-and-conditions', function () {
+    return view('terms');
+})->name('terms');
+Route::get('/privacy-policy', function () {
+    return view('privacy');
+})->name('privacy');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -78,6 +84,5 @@ Route::post('/visit/{link}', [VisitController::class, 'store']);
 // link.pro/page
 Route::get('/{page}', [PageController::class, 'show']);
 Route::post('/check-page-auth/{page}', [PageController::class, 'pageAuth'])->name('check.page.auth');
-Route::get('/email-subscription/message', [UserController::class, 'showEmailSubscription'])->name('email.lander');
 Route::get('/email-subscription/{user}', [UserController::class, 'emailSubscription'])->name('email.subscription');
 

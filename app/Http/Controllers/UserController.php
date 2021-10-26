@@ -53,16 +53,6 @@ class UserController extends Controller
         return redirect()->back()->with(['success' => 'Payment Method Updated']);
     }
 
-    public function showEmailSubscription() {
-
-        return view('users.emailSubscription', [
-            'message'       => "You have been UnSubscribed",
-            'userID'        => 5,
-            'subscribed'    => false,
-            'siteURL'       => \URL::to('/') . "/",
-        ]);
-    }
-
     public function emailSubscription(User $user, UserService $userService) {
 
         $data = $userService->handleEmailSubscription($user);
