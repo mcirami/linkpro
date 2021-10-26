@@ -86,12 +86,7 @@
             @yield('content')
         </main>
 
-        @if(Route::is('subscribe.get'))
-            @include ('layouts.subscribe.footer')
-        @else
-            @include('footer')
-        @endif
-
+        @include('footer')
 
     </div>
 </body>
