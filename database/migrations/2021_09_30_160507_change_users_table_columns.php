@@ -14,7 +14,6 @@ class ChangeUsersTableColumns extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('stripe_id');
             $table->string('braintree_id');
         });
     }
@@ -27,7 +26,6 @@ class ChangeUsersTableColumns extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('stripe_id');
             $table->dropColumn('braintree_id');
         });
     }
