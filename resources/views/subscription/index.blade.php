@@ -116,6 +116,7 @@
     </div>
     <script src="https://js.braintreegateway.com/web/3.82.0/js/client.min.js"></script>
     <script src="https://js.braintreegateway.com/web/3.82.0/js/venmo.min.js"></script>
+    <script src="https://js.braintreegateway.com/web/3.82.0/js/apple-pay.min.js"></script>
     <script src="https://js.braintreegateway.com/web/3.82.0/js/data-collector.min.js"></script>
     <script>
         var form = document.querySelector('#payment-form');
@@ -138,6 +139,19 @@
             venmo: {
                 allowDesktop: true,
                 paymentMethodUsage: 'multi_use',
+            },
+            applePay: {
+                displayName: 'LinkPro',
+                paymentRequest: {
+                    total: {
+                        label: 'LinkPro',
+                        amount: '{{ $amount }}'
+                    },
+                    // We recommend collecting billing address information, at minimum
+                    // billing postal code, and passing that billing postal code with all
+                    // Apple Pay transactions as a best practice.
+                    requiredBillingContactFields: ["postalAddress"]
+                }
             }
         }, function (createErr, instance) {
             if (createErr) {

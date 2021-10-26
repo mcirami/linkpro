@@ -68,8 +68,8 @@
                                 <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }} required>
 
                                 <label class="form-check-label" for="remember">
-                                    By creating an account you are agreesing to our <a href="#">Terms and Conditions</a> and
-                                        <a href="#">Privacy Policy</a>
+                                    By creating an account you are agreesing to our <a target="_blank" href="{{ route('terms') }}">Terms and Conditions</a> and
+                                        <a target="_blank" href="{{ route('privacy') }}">Privacy Policy</a>
                                 </label>
                             </div>
                         </div>
