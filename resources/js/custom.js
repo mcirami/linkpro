@@ -120,7 +120,7 @@ jQuery(document).ready(function($) {
             }
 
             chooseLevelPopup.classList.remove('open');
-            document.querySelector('#popup_choose_level .card').classList.remove('size_adjust');
+            document.querySelector('#popup_choose_level .box').classList.remove('size_adjust');
         });
     }
 
@@ -166,6 +166,7 @@ jQuery(document).ready(function($) {
         $(this).toggleClass('open');
         $('.menu').toggleClass('open');
         $('.nav_links_wrap').toggleClass('open');
+        $('.nav_row').toggleClass('fixed');
     });
 
 });

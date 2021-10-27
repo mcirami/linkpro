@@ -142,7 +142,7 @@
                                             @enderror
                                             <div class="form-group row form_buttons">
                                                 <div class="col-12">
-                                                    <button type="submit" class="button blue text-uppercase">
+                                                    <button type="submit" class="button blue text-uppercase" disabled>
                                                         {{ __('Update Card') }}
                                                     </button>
                                                 </div>
@@ -204,7 +204,7 @@
 
     @endif
 
-    @if ($payment_method == "card")
+    @if ($payment_method == "credit_card")
 
         <script src="https://js.braintreegateway.com/web/3.38.1/js/client.min.js"></script>
         <script src="https://js.braintreegateway.com/web/3.38.1/js/hosted-fields.min.js"></script>
@@ -217,12 +217,12 @@
         <script>
             var updateForm = document.querySelector('#update-cc-form');
             if(updateForm) {
-                var submit = document.querySelector('input[type="submit"]');
+                var submit = document.querySelector('#update-cc-form button');
                 braintree.client.create({
                     authorization: '{{ $token }}'
                 }, function(clientErr, clientInstance) {
                     if (clientErr) {
-                        console.error(clientErr);
+                        console.error("client" + clientErr);
                         return;
                     }
                     // This example shows Hosted Fields, but you can also use this
@@ -264,7 +264,7 @@
                             console.error(hostedFieldsErr);
                             return;
                         }
-                        // submit.removeAttribute('disabled');
+                        submit.removeAttribute('disabled');
                         updateForm.addEventListener('submit', function(event) {
                             event.preventDefault();
                             hostedFieldsInstance.tokenize(function(tokenizeErr, payload) {
