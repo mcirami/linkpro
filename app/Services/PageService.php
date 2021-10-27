@@ -55,6 +55,11 @@ class PageService {
             $user->notify(new WelcomeNotification($userData));
         }
 
+        if ($default) {
+            $user->username = $page->name;
+            $user->save();
+        }
+
         return $page;
     }
 
@@ -70,6 +75,9 @@ class PageService {
 
         $page->update(['name' => $request['name']]);
 
+        if ($page->default) {
+            $user->update(['username' => $request['name']]);
+        }
     }
 
     /**

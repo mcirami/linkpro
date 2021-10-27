@@ -124,9 +124,9 @@
                                     <li class="mobile">
                                         <a href="{{ route('logout') }}"
                                            onclick="event.preventDefault();
-                                                             document.getElementById('logout-form').submit();">
+                                                             document.getElementById('logout-form-mobile').submit();">
                                             {{ __('Logout') }}
-                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                            <form id="logout-form-mobile" action="{{ route('logout') }}" method="POST" class="d-none">
                                                 @csrf
                                             </form>
                                         </a>

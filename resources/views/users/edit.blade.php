@@ -22,17 +22,6 @@
                                 @csrf
                                     <div class="form_inputs">
                                         <div class="form-group row">
-                                            <div class="col-12 mx-auto">
-                                                <input placeholder="Username" id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ $user->username }}" required autocomplete="username" autofocus>
-
-                                                @if ($errors->has('username'))
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $errors->first('username')  }}</strong>
-                                                    </span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
 
                                             <div class="col-12">
                                                 <input placeholder="E-mail Address" id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user->email }}" required autocomplete="email">

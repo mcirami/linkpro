@@ -287,6 +287,7 @@ class SubscriptionService {
                             if ( $request->defaultPage == $userPage->id ) {
                                 $userPage->default  = true;
                                 $userPage->disabled = false;
+                                $user->update(['username' => $userPage->name]);
                             } else {
                                 $userPage->default  = false;
                                 $userPage->disabled = true;
