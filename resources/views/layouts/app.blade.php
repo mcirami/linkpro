@@ -22,62 +22,119 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md bg-white">
+        <nav class="my_row nav_row">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/dashboard') }}">
-                    <h1><img src="{{ asset('images/logo.png') }}" alt="Link Pro"></h1>
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                <div class="content_wrap">
+                    <a class="logo" href="{{ url('/dashboard') }}">
+                        <h1><img src="{{ asset('images/logo.png') }}" alt="Link Pro"></h1>
+                    </a>
+                    <div class="right_column">
+                        @php $userSub = Auth::user()->subscriptions()->first(); @endphp
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        @if( empty($userSub) || ($userSub->name != "premier" && !$userSub->ends_at) || ($userSub->ends_at && $userSub->ends_at < \Carbon\Carbon::now()) )
+                            <div class="upgrade_link">
+                                <a class="button blue" href="{{route('plans.get')}}">Upgrade</a>
+                            </div>
+                        @endif
+                        <div class="toggler" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                            {{--<span class="navbar-toggler-icon"></span>--}}
+                            <a class="mobile_menu_icon" href="#">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </a>
+                        </div>
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
+                        <div class="nav_links_wrap" id="navbarSupportedContent">
 
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            @php $userSub = Auth::user()->subscriptions()->first(); @endphp
+                            <!-- Right Side Of Navbar -->
+                            <ul class="navbar-nav ml-auto">
+                                <!-- Authentication Links -->
+                                @guest
+                                    @if (Route::has('login'))
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                        </li>
+                                    @endif
 
-                            @if( empty($userSub) || ($userSub->name != "premier" && !$userSub->ends_at) || ($userSub->ends_at && $userSub->ends_at < \Carbon\Carbon::now()) )
-                                <li class="nav-item">
-                                    <a href="{{route('plans.get')}}">Upgrade</a>
-                                </li>
-                            @endif
-                            @php $page = Auth::user()->pages()->where('user_id', Auth::user()->id)->where('default', true)->get(); $image = $page[0]->profile_img;  @endphp
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="{{ $image ? : asset('images/profile-placeholder-img.png') }}" alt="User Profile"> {{ Auth::user()->username }}
-                                </a>
+                                    @if (Route::has('register'))
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                        </li>
+                                    @endif
+                                @else
+                                    @php $page = Auth::user()->pages()->where('user_id', Auth::user()->id)->where('default', true)->get(); $image = $page[0]->profile_img;  @endphp
+                                   {{-- <li class="nav-item dropdown">
+                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <img src="{{ $image ? : asset('images/profile-placeholder-img.png') }}" alt="User Profile"> {{ Auth::user()->username }}
+                                        </a>
 
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ url('/dashboard/pages/' . $page[0]->id) }}">Dashboard</a>
-                                    <a class="dropdown-item" href="{{ route('user.edit') }}">Settings</a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="{{ url('/dashboard/pages/' . $page[0]->id) }}">Dashboard</a>
+                                            <a class="dropdown-item" href="{{ route('user.edit') }}">Settings</a>
+                                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                               onclick="event.preventDefault();
+                                                             document.getElementById('logout-form').submit();">
+                                                {{ __('Logout') }}
+                                            </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                                @csrf
+                                            </form>
+                                        </div>
+                                    </li>--}}
+                                    <li class="mobile">
+                                        <a class="nav-link" href="{{ route('user.edit') }}">
+                                            <img src="{{ $image ? : asset('images/profile-placeholder-img.png') }}" alt="User Profile"> {{ Auth::user()->username }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url('/dashboard/pages/' . $page[0]->id) }}" class=@php if(Route::is('pages.edit')) { echo "current"; } @endphp>Dashboard</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('user.edit') }}" class=@php if(Route::is('user.edit')) { echo "current"; } @endphp>Settings</a>
+                                    </li>
+                                    {{--<li>
+                                        <a href="{{ route('logout') }}"
+                                           onclick="event.preventDefault();
+                                                             document.getElementById('logout-form').submit();">
+                                            {{ __('Logout') }}
+                                        </a>
+
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                            @csrf
+                                        </form>
+                                    </li>--}}
+                                    <li class="nav-item dropdown">
+                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <img src="{{ $image ? : asset('images/profile-placeholder-img.png') }}" alt="User Profile"> {{ Auth::user()->username }}
+                                        </a>
+
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                               onclick="event.preventDefault();
+                                                             document.getElementById('logout-form').submit();">
+                                                {{ __('Logout') }}
+                                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                                    @csrf
+                                                </form>
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li class="mobile">
+                                        <a href="{{ route('logout') }}"
+                                           onclick="event.preventDefault();
+                                                             document.getElementById('logout-form').submit();">
+                                            {{ __('Logout') }}
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                                @csrf
+                                            </form>
+                                        </a>
+                                    </li>
+                                @endguest
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </nav>
