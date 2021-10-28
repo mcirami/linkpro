@@ -134,8 +134,8 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
                                 </div>
                             }
                             <div className="profile_text">
-                                <h2>{pageSettings["title"] || "Add Link Title Here"}</h2>
-                                <p>{pageSettings["bio"] || "Add Slogan/Bio Intro Here"}</p>
+                                <h2>{pageSettings["title"] || "Add Title"}</h2>
+                                <p>{pageSettings["bio"] || "Add Bio or Slogan"}</p>
                             </div>
                         </div>
                         <div className="icons_wrap">

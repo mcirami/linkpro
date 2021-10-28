@@ -20,14 +20,7 @@
                 <li><a href="{{ route('plans.get') }}">Upgrade</a></li>
             @endif
         </ul>
-        <ul>
-            <li>
-                <a href="{{route('terms')}}">Terms And Conditions</a>
-            </li>
-            <li>
-                <a href="{{route('privacy')}}">Privacy Policy</a>
-            </li>
-        </ul>
+        <p><small><a href="{{route('terms')}}">Terms And Conditions</a> | <a href="{{route('privacy')}}">Privacy Policy</a></small></p>
         <small>&copy; Copyright Link Pro LLC | All Rights Reserved</small>
     </footer>
 @endif

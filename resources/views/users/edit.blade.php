@@ -107,7 +107,7 @@
                         @if ($subscription)
                             <div class="column">
                                 <h2 class="text-uppercase">Billing Info</h2>
-                                @if (strtolower($payment_method) == "card" || strtolower($payment_method) == "credit_card")
+                                @if ( str_contains(strtolower($payment_method), "credit") )
                                     <form id="update-cc-form" method="post" action="{{ route('user.update.card') }}">
                                         @csrf
                                         <h4>Your current payment type is</h4>
@@ -152,17 +152,21 @@
 
                                     <div class="other_methods text-center my-auto">
                                         <h4>Your current payment type is</h4>
-                                        @if( strtolower($payment_method) == "paypal" || strtolower($payment_method) == "paypal_account")
+                                        @if( str_contains( strtolower($payment_method), "paypal") )
                                             <a href="https://paypal.com" class="px-5 d-block" target="_blank">
                                                 <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_200x51.png" alt="PayPal" />
                                             </a>
-                                        @elseif(strtolower($payment_method) == "android_pay_card" || strtolower($payment_method) == "googlepay")
+                                        @elseif( str_contains(strtolower($payment_method), "android") || str_contains(strtolower($payment_method), "google") )
                                             <a href="https://pay.google.com/" class="px-5 d-block" target="_blank">
                                                 <img src="{{ asset('../images/googlepay.png') }}" alt="GooglePay" />
                                             </a>
-                                        @elseif(strtolower($payment_method) == "venmo_account")
+                                        @elseif( str_contains( strtolower($payment_method), "venmo") )
                                             <a href="https://venmo.com/" class="px-5 d-block" target="_blank">
                                                 <img src="{{ asset('../images/venmo.png') }}" alt="Venmo" />
+                                            </a>
+                                        @elseif( str_contains( strtolower($payment_method), "apple") )
+                                            <a href="https://www.apple.com/apple-pay/" class="px-5 d-block" target="_blank">
+                                                <img src="{{ asset('../images/apple-pay.svg') }}" alt="ApplePay" />
                                             </a>
                                         @endif
                                     </div>
@@ -204,7 +208,7 @@
 
     @endif
 
-    @if ($payment_method == "credit_card")
+    @if ( str_contains(strtolower($payment_method), "credit") )
 
         <script src="https://js.braintreegateway.com/web/3.82.0/js/hosted-fields.min.js"></script>
 

@@ -24,7 +24,7 @@ class PageBioRequest extends FormRequest
     public function rules()
     {
         return [
-            'bio' => 'required|max:65',
+            'bio' => 'max:65',
         ];
     }
 }

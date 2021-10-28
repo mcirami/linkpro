@@ -37,7 +37,15 @@ footer {
         }
     }
 
+    p {
+        margin-bottom: 0;
+    }
+
     small {
         color: #999999;
+
+        a {
+            color: #999999;
+        }
     }
 }

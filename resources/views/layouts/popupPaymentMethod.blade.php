@@ -17,6 +17,8 @@
                 <form id="update_payment_method_form" action="{{ route('user.update.payment') }}" method="post" >
                     @csrf
                     <input id="method_nonce" name="payment_method_nonce" type="hidden"/>
+                    <input id="pm_type" type="hidden" name="pm_type" value="">
+                    <input id="pm_last_four" type="hidden" name="pm_last_four" value="">
                     <div class="bt-drop-in-wrapper">
                         <div id="bt-dropin-update"></div>
                     </div>
@@ -33,6 +35,8 @@
 
 <script>
     const updatePaymentForm = document.querySelector('#update_payment_method_form');
+    const pmType = document.querySelector('#pm_type');
+    const pmLastFour = document.querySelector('#pm_last_four');
     const client_token = "{{ $token }}";
     const subscriptionName = "{{$subscription->name}}";
     let amount;
@@ -87,10 +91,13 @@
                     return;
                 }
 
-                console.log(payload);
+                pmType.value = payload["type"];
+                if ( payload["details"]["lastFour"] !== undefined) {
+                    pmLastFour.value = payload["details"]["lastFour"];
+                }
                 // Add the nonce to the form and submit
                 document.querySelector('#method_nonce').value = payload.nonce;
-                //updatePaymentForm.submit();
+                updatePaymentForm.submit();
             });
         });
     });

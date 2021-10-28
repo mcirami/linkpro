@@ -53,7 +53,7 @@ const PageTitle = () => {
         <div className="edit_form">
             <form onSubmit={handleSubmit}>
                 <input maxLength="30" name="title" type="text"
-                       placeholder="Add Link Title Here"
+                       placeholder="Add Title"
                        defaultValue={pageSettings["title"] || ""}
                        onChange={(e) => handleChange(e) }
                        onKeyPress={ event => {

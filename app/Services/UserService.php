@@ -172,11 +172,10 @@ class UserService {
 
             if ($result->success) {
 
-                $paymentMethod = $result->subscription->transactions[0]->paymentInstrumentType;
+                $paymentMethod = $request->pm_type;
 
-
-                if ( $paymentMethod == "credit_card" ) {
-                    $user->pm_last_four = $updateResult->paymentMethod->last4;;
+                if ( $request->pm_last_four ) {
+                    $user->pm_last_four = $request->pm_last_four;
                 } else {
                     $user->pm_last_four = null;
                 }

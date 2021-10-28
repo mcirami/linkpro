@@ -14443,6 +14443,12 @@ footer ul a {
   padding: 20px;
   color: #666666;
 }
+footer p {
+  margin-bottom: 0;
+}
 footer small, footer .small {
+  color: #999999;
+}
+footer small a, footer .small a {
   color: #999999;
 }
