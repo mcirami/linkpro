@@ -9,18 +9,28 @@
                 <p>Connect your followers across all platforms.</p>
                 <p>Use LinkPro to cross-promote your offers and get paid!</p>
                 <div class="bottom_row">
-                    <a class="button blue" href="/register">Sign up free</a>
-                    <p><em><strong>Already on LinkPro?</strong></em> <a href="/login">Log In</a></p>
+                    <a class="button blue" href="{{ route('register') }}">Sign up free</a>
+                    <p><em><strong>Already on LinkPro?</strong></em> <a href="{{ route('login') }}">Log In</a></p>
                 </div>
             </div>
             <div class="col">
-                <img src="/images/top-section-image.jpg" alt="">
+                <div class="video_wrap">
+                    <video autoplay loop muted playsinline>
+                        <source src="{{ asset('/videos/home-image-loop-top.mp4/') }}" type="video/mp4">
+                        <source src="{{ asset('/videos/home-image-loop-top.webm/') }}" type="video/webm">
+                    </video>
+                </div>
             </div>
         </section>
 
         <section class="two_col social_media">
             <div class="col left">
-                <img src="/images/social-media-image.png" alt="">
+                <div class="video_wrap">
+                    <video autoplay loop muted playsinline>
+                        <source src="{{ asset('/videos/home-image-loop-bottom.mp4/') }}" type="video/mp4">
+                        <source src="{{ asset('/videos/home-image-loop-bottom.webm/') }}" type="video/webm">
+                    </video>
+                </div>
             </div>
             <div class="col">
                 <h2>Link Your Platforms</h2>
@@ -34,13 +44,13 @@
                 <p>LinkPro is all about business. We're in this to build all of our clients bottom line. Join Today to let LinkPro help you leverage the intersection of media & business to kick your revenue into gear.</p>
             </div>
             <div class="col right">
-                <img src="/images/laptop-image.png" alt="">
+                <img src="{{ asset('/images/laptop-image.png') }}" alt="">
             </div>
         </section>
 
         <section class="two_col phone">
             <div class="col left">
-                <img src="/images/phone-image.png" alt="">
+                <img src="{{ asset('/images/img-phone.png') }}" alt="">
             </div>
             <div class="col">
                 <h2>Self-Managed Platform</h2>
@@ -54,7 +64,7 @@
                 <p>Contact Us to discuss how LinkPro will work directly with you to cross promote other products & services to increase your bottom line. Get paid every week for all revenue generated from our partners.</p>
             </div>
             <div class="col right">
-                <img src="/images/bottom-image.png" alt="">
+                <img src="{{ asset('/images/bottom-image.png') }}" alt="">
             </div>
         </section>
     </div>

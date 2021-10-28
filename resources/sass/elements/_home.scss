@@ -4,6 +4,23 @@
     float:left;
     background: $white;
 
+    .video_wrap {
+        width: 100%;
+        display: block;
+        float: left;
+        padding-bottom: 56.25%;
+        height: 0;
+        position: relative;
+
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
     section {
         width: 100%;
         float: left;
@@ -55,6 +72,10 @@
                     margin: 0;
 
                     @media all and (max-width: 1199px) {
+                        font-size: 4.5vw;
+                    }
+
+                    @media screen and (max-width: 768px) {
                         font-size: 6vw;
                     }
                 }
@@ -63,13 +84,23 @@
                     font-size: 56px;
 
                     @media all and (max-width: 1199px) {
+                        font-size: 4vw;
+                    }
+
+                    @media screen and (max-width: 768px) {
                         font-size: 5.2vw;
+                    }
+                }
+
+                p {
+                    @media all and (max-width: 992px) {
+                        font-size: 14px;
                     }
                 }
 
                 .button {
                     width: 300px;
-                    padding: 26px 10px;
+                    padding: 18px 10px;
                     text-transform: uppercase;
                     display: block;
                     margin: 20px 0 10px;
@@ -111,12 +142,13 @@
                         padding-left: 10.5%;
                     }
 
-
                     &.left {
-                        background: url('/images/circle.png') no-repeat;
-                        background-position: -75% center;
-                        background-size: contain;
-                        padding: 5% 10.5%;
+                        padding: 5% 10.5% 5% 0;
+
+                        .video_wrap {
+                            margin-left: -6%;
+                            padding-bottom: 70.25%;
+                        }
 
                     }
                 }
@@ -145,6 +177,10 @@
                 @media all and (max-width: 768px) {
                     flex-direction: column-reverse;
                     display: flex;
+                }
+
+                img {
+                    max-width: 500px;
                 }
 
                 .col {
