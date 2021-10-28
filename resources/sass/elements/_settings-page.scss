@@ -1,20 +1,9 @@
-.form_page {
-
-    .card {
-        width: 100%;
-        max-width: unset;
-        padding: 60px 40px;
-
-        @media all and (max-width: 992px) {
-            padding: 40px 20px;
-        }
-    }
+.form_page.plans {
 
     h2 {
         text-align: center;
 
         &.page_title {
-            margin-bottom: 40px;
             font-size: 34px;
 
             @media all and (max-width: 1199px) {
@@ -22,8 +11,11 @@
             }
 
             @media all and (max-width: 992px) {
-                margin-bottom: 20px;
                 font-size: 24px;
+            }
+
+            @media screen and (max-width: 768px) {
+                font-size: 22px;
             }
         }
     }

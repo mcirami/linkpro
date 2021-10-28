@@ -319,17 +319,47 @@ form .bottom_row a {
                 -webkit-box-direction: normal;
                 -ms-flex-direction: row;
                 flex-direction: row;
-                -ms-flex-wrap: nowrap;
-                flex-wrap: nowrap;
+                -ms-flex-wrap: wrap;
+                flex-wrap: wrap;
                 justify-content: flex-start;
                 -webkit-justify-content: flex-start;
                 align-items: center;
                 -webkit-align-items: center;
                 column-gap: 10px;
 
+                @media all and (max-width: 1199px) {
+                    -ms-flex-wrap: wrap;
+                    flex-wrap: wrap;
+                }
+
+                .button {
+                    @media all and (max-width: 1199px) and (min-width: 993px) {
+                        width: 48%;
+                    }
+
+                    @media all and (max-width: 768px) {
+                        width: 48%;
+                    }
+                }
+
                 .help_link {
                     justify-self: flex-end;
                     margin-left: auto;
+
+                    @media screen and (max-width: 1199px) and (min-width: 993px){
+                        width: 100%;
+                        text-align: left;
+                        margin-top: 15px;
+                        margin-right: 10px;
+
+                    }
+
+                    @media all and (max-width: 768px) {
+                        width: 100%;
+                        text-align: left;
+                        margin-top: 15px;
+                        margin-right: 10px;
+                    }
                 }
             }
 
@@ -345,11 +375,17 @@ form .bottom_row a {
                     padding: 40px 20px 20px;
                 }
 
+                @media all and (max-width: 768px) {
+                    padding: 40px 20px 10px;
+                }
+
                 .delete {
                     width: 30px;
                     height: 30px;
                     color: $red;
-                    margin-left: -8px;
+                    position: absolute;
+                    right: 10px;
+                    top: 10px;
 
                     &:hover {
                         color: $gray;
@@ -611,8 +647,12 @@ form .bottom_row a {
         font-size: 14px;
         text-align: center;
 
-        @media all and (max-width: 768px) {
+        @media all and (max-width: 992px) {
             font-size: 12px;
+        }
+
+        @media all and (max-width: 768px) {
+            font-size: 11px;
         }
     }
 }

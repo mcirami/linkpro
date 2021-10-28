@@ -11626,6 +11626,11 @@ button {
   justify-content: space-between;
   -webkit-justify-content: space-between;
 }
+@media screen and (max-width: 550px) {
+  .nav_row .content_wrap .logo {
+    width: 42%;
+  }
+}
 .nav_row .right_column {
   display: flex;
   flex-direction: row;
@@ -11635,6 +11640,13 @@ button {
   column-gap: 20px;
   -webkit-column-gap: 20px;
   -moz-column-gap: 20px;
+  justify-content: flex-end;
+  -webkit-justify-content: flex-end;
+}
+@media screen and (max-width: 550px) {
+  .nav_row .right_column {
+    width: 58%;
+  }
 }
 .nav_row .right_column .upgrade_link {
   margin-right: 20px;
@@ -11653,7 +11665,7 @@ button {
     position: fixed;
     z-index: 999;
     left: 0;
-    top: 118px;
+    top: 95px;
     background: rgba(255, 255, 255, 0.98);
     height: 0;
     overflow: hidden;
@@ -11918,7 +11930,7 @@ header.guest_header .button {
 @media all and (max-width: 768px) {
   header.guest_header .button {
     margin-left: 10px;
-    width: 40%;
+    width: 50%;
     font-size: 14px;
   }
 }
@@ -11942,6 +11954,11 @@ header.guest_header .col {
   width: 30%;
   float: left;
 }
+@media screen and (max-width: 768px) {
+  header.guest_header .col.left {
+    width: 42%;
+  }
+}
 header.guest_header .col img {
   float: left;
   max-width: 175px;
@@ -11960,6 +11977,11 @@ header.guest_header .col.right {
   -webkit-justify-content: flex-end;
   align-items: center;
   -webkit-align-items: center;
+}
+@media screen and (max-width: 768px) {
+  header.guest_header .col.right {
+    width: 58%;
+  }
 }
 
 .mobile_menu_icon {
@@ -12296,8 +12318,19 @@ header.guest_header .col.right {
   font-size: 30px;
   text-align: center;
 }
+@media screen and (max-width: 768px) {
+  #links_page .icons_wrap .icon_col span {
+    font-size: 20px;
+  }
+}
 #links_page .icons_wrap .icon_col span svg {
   color: #424fcf;
+}
+@media screen and (max-width: 768px) {
+  #links_page .icons_wrap .icon_col span svg {
+    height: 35px;
+    width: 35px;
+  }
 }
 #links_page .icons_wrap .icon_col span.drag_handle:hover {
   cursor: -webkit-grab;
@@ -12322,10 +12355,20 @@ header.guest_header .col.right {
   -moz-border-radius: 20px;
   position: relative;
 }
+@media screen and (max-width: 768px) {
+  #links_page .icons_wrap .icon_col .column_content {
+    padding: 10px 5px;
+  }
+}
 #links_page .icons_wrap .icon_col .icon_wrap {
   width: 100%;
   float: left;
   padding: 0 14% 5px;
+}
+@media screen and (max-width: 768px) {
+  #links_page .icons_wrap .icon_col .icon_wrap {
+    padding: 0 10% 5px;
+  }
 }
 #links_page .icons_wrap .icon_col .icon_wrap .image_wrap {
   overflow: hidden;
@@ -12462,9 +12505,37 @@ header.guest_header .col.right {
   border-bottom: none;
 }
 #links_page .icon_row .icon_box .my_row.top .radio_wrap input {
-  width: 20px;
   height: 20px;
-  margin-right: 10px;
+  margin-left: -160px;
+}
+@media screen and (max-width: 768px) {
+  #links_page .icon_row .icon_box .my_row.top .radio_wrap input {
+    margin-left: -130px;
+    width: 15px;
+  }
+}
+@media all and (max-width: 550px) {
+  #links_page .icon_row .icon_box .my_row.top .radio_wrap input {
+    margin-left: -100%;
+    width: 12px;
+  }
+}
+#links_page .icon_row .icon_box .my_row.top .radio_wrap label {
+  position: absolute;
+  padding-left: 20px;
+  width: 100%;
+  text-align: center;
+}
+@media screen and (max-width: 768px) {
+  #links_page .icon_row .icon_box .my_row.top .radio_wrap label {
+    font-size: 16px;
+  }
+}
+@media all and (max-width: 550px) {
+  #links_page .icon_row .icon_box .my_row.top .radio_wrap label {
+    font-size: 14px;
+    padding-left: 10px;
+  }
 }
 #links_page .icon_row .icons_wrap {
   display: grid;
@@ -12491,6 +12562,7 @@ header.guest_header .col.right {
 @media all and (max-width: 768px) {
   #links_page .icon_row .icons_wrap .icon_col:hover .hover_text {
     opacity: 0;
+    display: none;
   }
 }
 #links_page .icon_row .icon_image {
@@ -12722,6 +12794,7 @@ header.guest_header .col.right {
 @media all and (max-width: 768px) {
   .switch_wrap:hover .hover_text {
     opacity: 0;
+    display: none;
   }
 }
 
@@ -13114,9 +13187,23 @@ header.guest_header .col.right {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
   margin: 0 auto;
+  width: 100%;
+}
+@media screen and (max-width: 768px) {
+  .form_page .card {
+    padding: 20px;
+  }
 }
 .form_page .card.guest {
   max-width: 800px;
+}
+@media screen and (max-width: 992px) {
+  .form_page .card.guest {
+    max-width: 90%;
+  }
+}
+.form_page .card.guest .card-body {
+  padding: 0;
 }
 .form_page .card h3, .form_page .card .h3 {
   text-align: center;
@@ -13125,6 +13212,11 @@ header.guest_header .col.right {
 @media all and (max-width: 992px) {
   .form_page .card h3, .form_page .card .h3 {
     font-size: 24px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .form_page .card h3, .form_page .card .h3 {
+    font-size: 22px;
   }
 }
 .form_page .card h4, .form_page .card .h4 {
@@ -13468,7 +13560,7 @@ form .bottom_row a {
 #links_page .edit_form.popup .button_row {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: flex-start;
   -webkit-justify-content: flex-start;
   align-items: center;
@@ -13476,9 +13568,40 @@ form .bottom_row a {
   -moz-column-gap: 10px;
        column-gap: 10px;
 }
+@media all and (max-width: 1199px) {
+  #links_page .edit_form.popup .button_row {
+    flex-wrap: wrap;
+  }
+}
+@media all and (max-width: 1199px) and (min-width: 993px) {
+  #links_page .edit_form.popup .button_row .button {
+    width: 48%;
+  }
+}
+@media all and (max-width: 768px) {
+  #links_page .edit_form.popup .button_row .button {
+    width: 48%;
+  }
+}
 #links_page .edit_form.popup .button_row .help_link {
   justify-self: flex-end;
   margin-left: auto;
+}
+@media screen and (max-width: 1199px) and (min-width: 993px) {
+  #links_page .edit_form.popup .button_row .help_link {
+    width: 100%;
+    text-align: left;
+    margin-top: 15px;
+    margin-right: 10px;
+  }
+}
+@media all and (max-width: 768px) {
+  #links_page .edit_form.popup .button_row .help_link {
+    width: 100%;
+    text-align: left;
+    margin-top: 15px;
+    margin-right: 10px;
+  }
 }
 #links_page .edit_form.popup .link_form {
   width: 100%;
@@ -13493,11 +13616,18 @@ form .bottom_row a {
     padding: 40px 20px 20px;
   }
 }
+@media all and (max-width: 768px) {
+  #links_page .edit_form.popup .link_form {
+    padding: 40px 20px 10px;
+  }
+}
 #links_page .edit_form.popup .link_form .delete {
   width: 30px;
   height: 30px;
   color: #f24d1d;
-  margin-left: -8px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }
 #links_page .edit_form.popup .link_form .delete:hover {
   color: #d4d2d2;
@@ -13722,9 +13852,14 @@ form .bottom_row a {
   font-size: 14px;
   text-align: center;
 }
-@media all and (max-width: 768px) {
+@media all and (max-width: 992px) {
   #create_page p.small {
     font-size: 12px;
+  }
+}
+@media all and (max-width: 768px) {
+  #create_page p.small {
+    font-size: 11px;
   }
 }
 
@@ -13760,7 +13895,7 @@ form .bottom_row a {
 }
 @media all and (max-width: 992px) {
   .form_page.plans .card {
-    max-width: 600px;
+    max-width: 90%;
   }
 }
 .form_page.plans h2.page_title, .form_page.plans .page_title.h2 {
@@ -13875,46 +14010,39 @@ form .bottom_row a {
   grid-column-end: unset;
 }
 
-.form_page .card {
-  width: 100%;
-  max-width: unset;
-  padding: 60px 40px;
-}
-@media all and (max-width: 992px) {
-  .form_page .card {
-    padding: 40px 20px;
-  }
-}
-.form_page h2, .form_page .h2 {
+.form_page.plans h2, .form_page.plans .h2 {
   text-align: center;
 }
-.form_page h2.page_title, .form_page .page_title.h2 {
-  margin-bottom: 40px;
+.form_page.plans h2.page_title, .form_page.plans .page_title.h2 {
   font-size: 34px;
 }
 @media all and (max-width: 1199px) {
-  .form_page h2.page_title, .form_page .page_title.h2 {
+  .form_page.plans h2.page_title, .form_page.plans .page_title.h2 {
     font-size: 28px;
   }
 }
 @media all and (max-width: 992px) {
-  .form_page h2.page_title, .form_page .page_title.h2 {
-    margin-bottom: 20px;
+  .form_page.plans h2.page_title, .form_page.plans .page_title.h2 {
     font-size: 24px;
   }
 }
-.form_page .my_row.three_columns {
+@media screen and (max-width: 768px) {
+  .form_page.plans h2.page_title, .form_page.plans .page_title.h2 {
+    font-size: 22px;
+  }
+}
+.form_page.plans .my_row.three_columns {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 3fr));
   grid-column-gap: 40px;
   grid-row-gap: 40px;
 }
 @media all and (max-width: 992px) {
-  .form_page .my_row.three_columns {
+  .form_page.plans .my_row.three_columns {
     grid-template-columns: repeat(1, 1fr);
   }
 }
-.form_page .my_row.three_columns .column {
+.form_page.plans .my_row.three_columns .column {
   border: 6px solid #424fcf;
   border-radius: 30px;
   -webkit-border-radius: 30px;
@@ -13926,30 +14054,30 @@ form .bottom_row a {
   flex-wrap: nowrap;
 }
 @media all and (max-width: 1199px) {
-  .form_page .my_row.three_columns .column {
+  .form_page.plans .my_row.three_columns .column {
     padding: 24px;
   }
 }
-.form_page .my_row.three_columns .column h2, .form_page .my_row.three_columns .column .h2 {
+.form_page.plans .my_row.three_columns .column h2, .form_page.plans .my_row.three_columns .column .h2 {
   margin-bottom: 20px;
   padding-bottom: 20px;
   border-bottom: 1px solid #d2d2d2;
 }
 @media all and (max-width: 1199px) {
-  .form_page .my_row.three_columns .column h2, .form_page .my_row.three_columns .column .h2 {
+  .form_page.plans .my_row.three_columns .column h2, .form_page.plans .my_row.three_columns .column .h2 {
     font-size: 22px;
   }
 }
-.form_page .my_row.three_columns .column h4, .form_page .my_row.three_columns .column .h4 {
+.form_page.plans .my_row.three_columns .column h4, .form_page.plans .my_row.three_columns .column .h4 {
   font-family: "opensansbold", sans-serif;
   color: #000;
   text-align: center;
 }
-.form_page .my_row.three_columns .column.update_info .form_buttons {
+.form_page.plans .my_row.three_columns .column.update_info .form_buttons {
   margin-top: auto;
   margin-bottom: 0;
 }
-.form_page .my_row.three_columns .column .plan_name {
+.form_page.plans .my_row.three_columns .column .plan_name {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -13960,7 +14088,7 @@ form .bottom_row a {
   -webkit-justify-content: center;
   height: 100%;
 }
-.form_page .my_row.three_columns .column .plan_name p {
+.form_page.plans .my_row.three_columns .column .plan_name p {
   font-family: "opensansbold", sans-serif;
   position: absolute;
   margin: 0;
@@ -13971,21 +14099,21 @@ form .bottom_row a {
   text-align: center;
 }
 @media all and (max-width: 1199px) {
-  .form_page .my_row.three_columns .column .plan_name p {
+  .form_page.plans .my_row.three_columns .column .plan_name p {
     font-size: 22px;
   }
 }
-.form_page .my_row.three_columns .column .plan_name img {
+.form_page.plans .my_row.three_columns .column .plan_name img {
   max-width: 210px;
 }
-.form_page .my_row.three_columns .column a:not(.button) {
+.form_page.plans .my_row.three_columns .column a:not(.button) {
   color: #f24d1d;
   text-align: center;
 }
-.form_page .my_row.three_columns .column a:not(.button).cancel_link {
+.form_page.plans .my_row.three_columns .column a:not(.button).cancel_link {
   margin-bottom: 10px;
 }
-.form_page .my_row.three_columns .column form {
+.form_page.plans .my_row.three_columns .column form {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -13993,21 +14121,21 @@ form .bottom_row a {
   justify-content: center;
   -webkit-justify-content: center;
 }
-.form_page .my_row.three_columns .column form label {
+.form_page.plans .my_row.three_columns .column form label {
   font-size: 12px;
 }
-.form_page .my_row.three_columns .column form label span {
+.form_page.plans .my_row.three_columns .column form label span {
   font-size: 10px;
   color: #76797b;
 }
-.form_page .my_row.three_columns .column form.plan {
+.form_page.plans .my_row.three_columns .column form.plan {
   height: auto;
   justify-content: flex-end;
 }
-.form_page .my_row.three_columns .column .canceled_text p {
+.form_page.plans .my_row.three_columns .column .canceled_text p {
   color: #f24d1d;
 }
-.form_page .my_row.three_columns .column .canceled_text p span {
+.form_page.plans .my_row.three_columns .column .canceled_text p span {
   font-family: "opensanssemibold", sans-serif;
 }
 
@@ -14078,6 +14206,11 @@ form .bottom_row a {
   -moz-border-radius: 20px;
   padding: 40px;
   text-align: center;
+}
+@media screen and (max-width: 768px) {
+  #popup_choose_level .box, #popup_payment_method .box, #confirm_popup .box, #upgrade_popup .box, #confirm_popup_link .box, #confirm_cancel_popup .box, #confirm_change_plan_details .box, #confirm_cancel_details .box {
+    max-width: 90%;
+  }
 }
 #popup_choose_level .box .icon_wrap, #popup_payment_method .box .icon_wrap, #confirm_popup .box .icon_wrap, #upgrade_popup .box .icon_wrap, #confirm_popup_link .box .icon_wrap, #confirm_cancel_popup .box .icon_wrap, #confirm_change_plan_details .box .icon_wrap, #confirm_cancel_details .box .icon_wrap {
   width: 50px;
@@ -14153,6 +14286,11 @@ form .bottom_row a {
 #popup_payment_method .box {
   max-width: 800px;
 }
+@media screen and (max-width: 768px) {
+  #popup_payment_method .box {
+    max-width: 90%;
+  }
+}
 
 #popup_choose_level .box {
   max-height: 1000px;
@@ -14164,9 +14302,9 @@ form .bottom_row a {
     max-width: 500px;
   }
 }
-@media all and (max-width: 550px) {
+@media all and (max-width: 768px) {
   #popup_choose_level .box {
-    max-width: 350px;
+    max-width: 90%;
   }
 }
 #popup_choose_level .box.size_adjust {
@@ -14302,6 +14440,11 @@ form .bottom_row a {
 
 #upgrade_popup .box, #confirm_popup_link .box, #confirm_popup .box {
   max-width: 550px;
+}
+@media screen and (max-width: 768px) {
+  #upgrade_popup .box, #confirm_popup_link .box, #confirm_popup .box {
+    max-width: 90%;
+  }
 }
 #upgrade_popup .box .button, #confirm_popup_link .box .button, #confirm_popup .box .button {
   display: inline-block;

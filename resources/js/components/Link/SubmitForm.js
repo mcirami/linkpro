@@ -352,6 +352,11 @@ const SubmitForm = ({
             <form onSubmit={handleSubmit} className="link_form">
                 <div className="row">
                     <div className="col-12">
+                        {userLinks.length > 1 ?
+                            <a className="delete" href="#" onClick={handleDeleteClick}><MdDeleteForever /></a>
+                            :
+                            ""
+                        }
                         {radioValue === "custom" ?
                             <div className={!iconSelected ?
                                 "crop_section hidden" :
@@ -479,11 +484,6 @@ const SubmitForm = ({
                         <a href="#" className="button transparent gray" onClick={(e) => {e.preventDefault(); setEditID(null); }}>
                             Cancel
                         </a>
-                        {userLinks.length > 1 ?
-                            <a className="delete" href="#" onClick={handleDeleteClick}><MdDeleteForever /></a>
-                            :
-                            ""
-                        }
                         <a className="help_link" href="mailto:help@link.pro">Need Help?</a>
                     </div>
                 </div>

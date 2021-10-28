@@ -8,9 +8,22 @@
         -webkit-border-radius: 12px;
         -moz-border-radius: 12px;
         margin: 0 auto;
+        width: 100%;
+
+        @media screen and (max-width: 768px) {
+            padding: 20px;
+        }
 
         &.guest {
             max-width: 800px;
+
+            @media screen and (max-width: 992px) {
+                max-width: 90%;
+            }
+
+            .card-body {
+                padding: 0;
+            }
         }
 
         h3 {
@@ -19,6 +32,10 @@
 
             @media all and (max-width: 992px) {
                 font-size: 24px;
+            }
+
+            @media screen and (max-width: 768px) {
+                font-size: 22px
             }
         }
 

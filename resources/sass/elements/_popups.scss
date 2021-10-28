@@ -75,6 +75,10 @@
         padding: 40px;
         text-align: center;
 
+        @media screen and (max-width: 768px) {
+            max-width: 90%;
+        }
+
         .icon_wrap {
             width: 50px;
             margin: 0 auto 20px;
@@ -177,6 +181,10 @@
 
     .box {
         max-width: 800px;
+
+        @media screen and (max-width: 768px) {
+            max-width: 90%;
+        }
     }
 }
 
@@ -190,8 +198,8 @@
             max-width: 500px;
         }
 
-        @media all and (max-width: 550px) {
-            max-width: 350px;
+        @media all and (max-width: 768px) {
+            max-width: 90%;
         }
 
         &.size_adjust {
@@ -359,6 +367,10 @@
 
     .box {
         max-width: 550px;
+
+        @media screen and (max-width: 768px) {
+            max-width: 90%;
+        }
 
         .button {
             display: inline-block;

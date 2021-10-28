@@ -29,7 +29,9 @@ const PageBio = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (pageSettings["bio"] !== "" || pageSettings["bio"] !== NUll) {
+        console.log(pageSettings["bio"]);
+
+        if (pageSettings["bio"] != null) {
 
             const packets = {
                 bio: pageSettings["bio"],

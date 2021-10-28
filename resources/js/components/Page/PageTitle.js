@@ -31,21 +31,24 @@ const PageTitle = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const packets = {
-            title: pageSettings["title"],
-        };
+        if (pageSettings["title"] != null) {
 
-        axios.post('/dashboard/page/update-title/' + pageSettings['id'], packets)
-        .then(
-            response => {
-                //console.log(JSON.stringify(response.data))
-                const returnMessage = JSON.stringify(response.data.message);
-                EventBus.dispatch("success", { message: returnMessage });
-            }
-        ).catch(error => {
-            console.log("ERROR:: ", error.response.data);
+            const packets = {
+                title: pageSettings["title"],
+            };
 
-        });
+            axios.post('/dashboard/page/update-title/' + pageSettings['id'],
+                packets).then(
+                response => {
+                    //console.log(JSON.stringify(response.data))
+                    const returnMessage = JSON.stringify(response.data.message);
+                    EventBus.dispatch("success", {message: returnMessage});
+                }
+            ).catch(error => {
+                console.log("ERROR:: ", error.response.data);
+
+            });
+        }
     }
 
     return (
