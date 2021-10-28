@@ -70,7 +70,6 @@
                 // We recommend collecting billing address information, at minimum
                 // billing postal code, and passing that billing postal code with all
                 // Apple Pay transactions as a best practice.
-                requiredBillingContactFields: ["postalAddress"]
             }
         }
     }, function (createErr, instance) {
