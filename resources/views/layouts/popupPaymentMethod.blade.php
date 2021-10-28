@@ -16,10 +16,11 @@
             <div class="text_wrap form_wrap">
                 <form id="update_payment_method_form" action="{{ route('user.update.payment') }}" method="post" >
                     @csrf
+                    <input id="method_nonce" name="payment_method_nonce" type="hidden"/>
                     <div class="bt-drop-in-wrapper">
                         <div id="bt-dropin-update"></div>
                     </div>
-                    <input id="method_nonce" name="payment_method_nonce" type="hidden"/>
+                    {{--<input type="text" name="postal_code" placeholder="Postal Code">--}}
                     <button type="submit" class='button blue'>
                         Submit
                     </button>
@@ -41,7 +42,7 @@
         amount = '19.99'
     }
 
-    braintree.dropin.create({
+    const dropinInstance = braintree.dropin.create({
         authorization: client_token,
         selector: '#bt-dropin-update',
         paypal: {
@@ -70,9 +71,9 @@
                 // We recommend collecting billing address information, at minimum
                 // billing postal code, and passing that billing postal code with all
                 // Apple Pay transactions as a best practice.
-                requiredBillingContactFields: ["postalAddress"]
+                //requiredBillingContactFields: ["postalAddress"]
             }
-        }
+        },
     }, function (createErr, instance) {
         if (createErr) {
             console.log('Create Error', createErr);
@@ -85,10 +86,13 @@
                     console.log('Request Payment Method Error', err);
                     return;
                 }
+
+                console.log(payload);
                 // Add the nonce to the form and submit
                 document.querySelector('#method_nonce').value = payload.nonce;
-                updatePaymentForm.submit();
+                //updatePaymentForm.submit();
             });
         });
     });
+
 </script>

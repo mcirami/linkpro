@@ -11,8 +11,8 @@
                 <div class="card-body">
                     <p>
                         LinkPro LLC (hereinafter “LinkPro”, "we", "our", or "us") is committed to protecting the privacy of all the individuals accessing and using its website at
-                        <a class="text-decoration-underline" href="https://link.pro/">https://link.pro/</a> (hereinafter "Website"). This Data Privacy Policy describes how we collect, use, disclose, and transfer the personal information* that our Visitors and Users (as defined under our Terms and Conditions,
-                        <a class="text-decoration-underline" href="https://link.pro/legal/tac">https://link.pro/legal/tac</a>) provide to us or that we collect about them when they access and/or use our Website. This Data Privacy Policy is about LinkPro’s collection and use of its Website’s Users’ and Visitors’ personal data only. End Users (as defined under our
+                        <a class="text-decoration-underline" href="@php echo URL::to('/') @endphp">@php echo URL::to('/') @endphp</a> (hereinafter "Website"). This Data Privacy Policy describes how we collect, use, disclose, and transfer the personal information* that our Visitors and Users (as defined under our Terms and Conditions,
+                        <a class="text-decoration-underline" href={{ route('terms') }}>{{ route('terms') }}</a>) provide to us or that we collect about them when they access and/or use our Website. This Data Privacy Policy is about LinkPro’s collection and use of its Website’s Users’ and Visitors’ personal data only. End Users (as defined under our
                         <a class="text-decoration-underline" href="{{ route('terms') }}">Terms and Conditions</a> should directly contact the Users if they have questions about their personal data collection by the Users.
                     </p>
                     <p>
@@ -38,7 +38,7 @@
                     <p>
                         <small>
                             * “<span class="bold_text">Personal information/data</span>” means any information relating to an identified or identifiable natural person; an identifiable natural person is one who can be identified, directly or indirectly, in particular by reference to an identifier such as a name, an identification number, location data, an online identifier or to one or more factors specific to the physical, physiological, genetic, mental, economic, cultural, or social identity of that natural person.
-                            * Payment information is solely collected and processed by Braintree.
+                            * Payment information is solely collected and processed by Braintree Gateway.
                         </small>
                     </p>
                     <p>
@@ -202,8 +202,8 @@
                     <p>
                         <span class="blue_text bold_text">THIRD-PARTY PAYMENT PROCESSOR</span>
                         <br>
-                        Users’ payment information is directly provided to Braintree and the collection and use of your personal data are subject to Braintree Services Agreement and Data Privacy Policy available at:
-                        <a href="https://www.paypal.com/us/webapps/mpp/ua/privacy-full">https://www.paypal.com/us/webapps/mpp/ua/privacy-full</a>
+                        Users’ payment information is directly provided to Braintree Gateway and the collection and use of your personal data are subject to Braintree Gateway Services Agreement and Data Privacy Policy available at:
+                        <a href="https://www.braintreepayments.com/legal/braintree-privacy-policy">(https://www.braintreepayments.com/legal/braintree-privacy-policy)</a>
                     </p>
                     <p>
                         <span class="blue_text bold_text">OTHER WEBSITES</span>

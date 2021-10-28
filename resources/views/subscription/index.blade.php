@@ -114,7 +114,6 @@
             </div>
         </div>
     </div>
-    <script src="https://js.braintreegateway.com/web/3.82.0/js/client.min.js"></script>
     <script src="https://js.braintreegateway.com/web/3.82.0/js/venmo.min.js"></script>
     <script src="https://js.braintreegateway.com/web/3.82.0/js/apple-pay.min.js"></script>
     <script src="https://js.braintreegateway.com/web/3.82.0/js/data-collector.min.js"></script>

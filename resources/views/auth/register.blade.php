@@ -6,7 +6,7 @@
         <div class="card guest">
             <div>
                 <h3>Take control of your social sharing!</h3>
-                <h4 class="text-center">Grab a free account or get advanced features!</h4>
+                <h4 class="text-center">Create your free account below to get started.</h4>
             </div>
 
             <div class="card-body">
@@ -53,7 +53,7 @@
                                 <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }} required>
 
                                 <label class="form-check-label" for="remember">
-                                    By creating an account you are agreesing to our <a target="_blank" href="{{ route('terms') }}">Terms and Conditions</a> and
+                                    Check here to agree to LinkPro's <a target="_blank" href="{{ route('terms') }}">Terms and Conditions</a> and
                                         <a target="_blank" href="{{ route('privacy') }}">Privacy Policy</a>
                                 </label>
                             </div>

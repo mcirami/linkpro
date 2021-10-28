@@ -206,8 +206,7 @@
 
     @if ($payment_method == "credit_card")
 
-        <script src="https://js.braintreegateway.com/web/3.38.1/js/client.min.js"></script>
-        <script src="https://js.braintreegateway.com/web/3.38.1/js/hosted-fields.min.js"></script>
+        <script src="https://js.braintreegateway.com/web/3.82.0/js/hosted-fields.min.js"></script>
 
         <!-- Load PayPal's checkout.js Library. -->
         <script src="https://www.paypalobjects.com/api/checkout.js" data-version-4 log-level="warn"></script>
