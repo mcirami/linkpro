@@ -12603,30 +12603,39 @@ header.guest_header .col.right {
   height: auto;
   margin: 0 auto;
   padding: 40px;
-}
-.page_settings .column_wrap form .bottom_section .bottom_row {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  -webkit-justify-content: flex-start;
-  align-items: center;
-  -webkit-align-items: center;
-}
-.page_settings .column_wrap form .bottom_section .bottom_row .help_link {
-  font-family: "opensanssemibold", sans-serif;
-  justify-self: flex-end;
-  margin-left: auto;
-  color: #424fcf;
-  font-size: 18px;
-  width: auto;
-}
-.page_settings .column_wrap form .bottom_section .bottom_row button, .page_settings .column_wrap form .bottom_section .bottom_row a {
-  width: 150px;
-  display: inline-block;
-}
-.page_settings .column_wrap form .bottom_section .bottom_row button:first-child, .page_settings .column_wrap form .bottom_section .bottom_row a:first-child {
-  margin-right: 20px;
+  /*.bottom_row {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+      flex-direction: row;
+      -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      -webkit-justify-content: flex-start;
+      align-items: center;
+      -webkit-align-items: center;
+
+      .help_link {
+          @include ossemibold;
+          justify-self: flex-end;
+          margin-left: auto;
+          color: $blue;
+          font-size: 18px;
+          width: auto;
+      }
+
+      button, a {
+          width: 150px;
+          display:inline-block;
+
+          &:first-child {
+              margin-right: 20px;
+          }
+      }
+  }*/
 }
 .page_settings .column_wrap form .bottom_section.hidden {
   height: 0;
@@ -13569,52 +13578,6 @@ form .bottom_row a {
 #links_page .edit_form.popup .row {
   margin-bottom: 20px;
 }
-#links_page .edit_form.popup .button_row {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  -webkit-justify-content: flex-start;
-  align-items: center;
-  -webkit-align-items: center;
-  -moz-column-gap: 10px;
-       column-gap: 10px;
-}
-@media all and (max-width: 1199px) {
-  #links_page .edit_form.popup .button_row {
-    flex-wrap: wrap;
-  }
-}
-@media all and (max-width: 1199px) and (min-width: 993px) {
-  #links_page .edit_form.popup .button_row .button {
-    width: 48%;
-  }
-}
-@media all and (max-width: 768px) {
-  #links_page .edit_form.popup .button_row .button {
-    width: 48%;
-  }
-}
-#links_page .edit_form.popup .button_row .help_link {
-  justify-self: flex-end;
-  margin-left: auto;
-}
-@media screen and (max-width: 1199px) and (min-width: 993px) {
-  #links_page .edit_form.popup .button_row .help_link {
-    width: 100%;
-    text-align: left;
-    margin-top: 15px;
-    margin-right: 10px;
-  }
-}
-@media all and (max-width: 768px) {
-  #links_page .edit_form.popup .button_row .help_link {
-    width: 100%;
-    text-align: left;
-    margin-top: 15px;
-    margin-right: 10px;
-  }
-}
 #links_page .edit_form.popup .link_form {
   width: 100%;
   background: #ffffff;
@@ -13877,6 +13840,55 @@ form .bottom_row a {
 @media all and (max-width: 768px) {
   #create_page p.small {
     font-size: 11px;
+  }
+}
+
+.edit_form .button_row, .page_settings .bottom_row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  align-items: center;
+  -webkit-align-items: center;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+}
+@media all and (max-width: 1199px) {
+  .edit_form .button_row, .page_settings .bottom_row {
+    flex-wrap: wrap;
+  }
+}
+@media all and (max-width: 1199px) and (min-width: 993px) {
+  .edit_form .button_row .button, .page_settings .bottom_row .button {
+    width: 48%;
+  }
+}
+@media all and (max-width: 768px) {
+  .edit_form .button_row .button, .page_settings .bottom_row .button {
+    width: 48%;
+  }
+}
+.edit_form .button_row .help_link, .page_settings .bottom_row .help_link {
+  justify-self: flex-end;
+  margin-left: auto;
+  font-size: 18px;
+  color: #424fcf;
+}
+@media screen and (max-width: 1199px) and (min-width: 993px) {
+  .edit_form .button_row .help_link, .page_settings .bottom_row .help_link {
+    width: 100%;
+    text-align: left;
+    margin-top: 15px;
+    margin-right: 10px;
+  }
+}
+@media all and (max-width: 768px) {
+  .edit_form .button_row .help_link, .page_settings .bottom_row .help_link {
+    width: 100%;
+    text-align: left;
+    margin-top: 15px;
+    margin-right: 10px;
   }
 }
 

@@ -166,7 +166,11 @@ class PageService {
             Storage::put('/public' . $path, $img->stream());
         }
 
-        $page->update(['profile_img' => "/storage" . $path]);
+        $newPath = "/storage" . $path;
+
+        $page->update(['profile_img' => $newPath]);
+
+        return $newPath;
     }
 
     /**

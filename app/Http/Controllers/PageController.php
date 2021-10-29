@@ -104,9 +104,9 @@ class PageController extends Controller
             return abort(404);
         }
 
-        $pageService->updateProfileImage($request, $userID, $page);
+        $imgPath = $pageService->updateProfileImage($request, $userID, $page);
 
-        return response()->json(['message' => 'Profile Image Updated']);
+        return response()->json(['message' => 'Profile Image Updated', 'imgPath' => $imgPath]);
 
     }
 

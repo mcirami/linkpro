@@ -112,10 +112,17 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
             (response) => {
                 //console.log(JSON.stringify(response.data))
                 const returnMessage = JSON.stringify(response.data.message);
+                const imgPath = response.data.imgPath;
+
                 EventBus.dispatch("success", { message: returnMessage });
                 setProfileFileName("")
                 setUpImg("")
                 document.querySelector('form.profile_img_form .bottom_section').classList.add('hidden');
+
+                if(pageSettings["default"]){
+                    document.querySelector('#user_image').src = imgPath;
+                }
+
             }
         ).catch(error => {
             console.log("ERROR:: ", error.response.data);

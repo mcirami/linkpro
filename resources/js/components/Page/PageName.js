@@ -47,6 +47,10 @@ const PageName = () => {
                         }
                     )
                     setCurrentMatch(true);
+
+                    if (pageSettings["default"]) {
+                        document.querySelector('#username').innerText = name;
+                    }
                 }
             ).catch((error) => {
                 console.log("ERROR:: ", error.response.data);

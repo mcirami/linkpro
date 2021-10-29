@@ -108,7 +108,7 @@
                                     </li>--}}
                                     <li class="nav-item dropdown">
                                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <img src="{{ $image ? : asset('images/profile-placeholder-img.png') }}" alt="User Profile"> {{ Auth::user()->username }}
+                                            <img id="user_image" src="{{ $image ? : asset('images/profile-placeholder-img.png') }}" alt="User Profile"><span id="username">{{ Auth::user()->username }}</span>
                                         </a>
 
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">

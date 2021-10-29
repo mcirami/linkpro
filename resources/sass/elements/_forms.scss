@@ -311,58 +311,6 @@ form .bottom_row a {
                 margin-bottom: 20px;
             }
 
-            .button_row {
-                display: -webkit-box;
-                display: -ms-flexbox;
-                display: flex;
-                -webkit-box-orient: horizontal;
-                -webkit-box-direction: normal;
-                -ms-flex-direction: row;
-                flex-direction: row;
-                -ms-flex-wrap: wrap;
-                flex-wrap: wrap;
-                justify-content: flex-start;
-                -webkit-justify-content: flex-start;
-                align-items: center;
-                -webkit-align-items: center;
-                column-gap: 10px;
-
-                @media all and (max-width: 1199px) {
-                    -ms-flex-wrap: wrap;
-                    flex-wrap: wrap;
-                }
-
-                .button {
-                    @media all and (max-width: 1199px) and (min-width: 993px) {
-                        width: 48%;
-                    }
-
-                    @media all and (max-width: 768px) {
-                        width: 48%;
-                    }
-                }
-
-                .help_link {
-                    justify-self: flex-end;
-                    margin-left: auto;
-
-                    @media screen and (max-width: 1199px) and (min-width: 993px){
-                        width: 100%;
-                        text-align: left;
-                        margin-top: 15px;
-                        margin-right: 10px;
-
-                    }
-
-                    @media all and (max-width: 768px) {
-                        width: 100%;
-                        text-align: left;
-                        margin-top: 15px;
-                        margin-right: 10px;
-                    }
-                }
-            }
-
             .link_form {
                 width: 100%;
                 background: $white;
@@ -661,4 +609,60 @@ form .bottom_row a {
             font-size: 11px;
         }
     }
+}
+
+
+.edit_form .button_row, .page_settings .bottom_row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    -webkit-justify-content: flex-start;
+    align-items: center;
+    -webkit-align-items: center;
+    column-gap: 10px;
+
+    @media all and (max-width: 1199px) {
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    }
+
+    .button {
+        @media all and (max-width: 1199px) and (min-width: 993px) {
+            width: 48%;
+        }
+
+        @media all and (max-width: 768px) {
+            width: 48%;
+        }
+    }
+
+    .help_link {
+        justify-self: flex-end;
+        margin-left: auto;
+        font-size: 18px;
+        color: $blue;
+
+        @media screen and (max-width: 1199px) and (min-width: 993px){
+            width: 100%;
+            text-align: left;
+            margin-top: 15px;
+            margin-right: 10px;
+
+        }
+
+        @media all and (max-width: 768px) {
+            width: 100%;
+            text-align: left;
+            margin-top: 15px;
+            margin-right: 10px;
+        }
+    }
+
 }
