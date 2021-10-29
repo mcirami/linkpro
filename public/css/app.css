@@ -13001,6 +13001,9 @@ header.guest_header .col.right {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
 }
+.links_col .links_wrap .profile_content .profile_image.selected {
+  padding-bottom: 0 !important;
+}
 .links_col .links_wrap .profile_content .profile_text {
   width: 72%;
   float: left;
@@ -13765,6 +13768,11 @@ form .bottom_row a {
   height: 40px;
   padding: 10px;
   border: 1px solid #d2d2d2;
+}
+@media all and (max-width: 768px) {
+  .form_page.checkout .credit_card_form {
+    padding: 0;
+  }
 }
 .form_page.checkout #payment-form {
   padding: 0 40px;

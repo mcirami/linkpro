@@ -97,7 +97,7 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
                                 :
                                 ""
                             }
-                            {!pageSettings["profile_img"] && !profileFileName ?
+                            {/*{!pageSettings["profile_img"] && !profileFileName ?
                                 <div className="profile_image default">
                                     <div className="image_wrap">
                                         <img src="/images/default-img.png" alt=""/>
@@ -105,16 +105,16 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
                                 </div>
                                 :
                                 ""
-                            }
+                            }*/}
 
-                            {pageSettings["profile_img"] && !profileFileName ?
-                                <div className="profile_image">
+                            {!profileFileName  ?
+                                <div className={pageSettings["profile_img"] && !profileFileName ?  "profile_image" : "profile_image default" }>
                                     <div className="image_wrap">
-                                        <img src={pageSettings["profile_img"]} alt=""/>
+                                        <img src={pageSettings["profile_img"] || "/images/default-img.png"} alt=""/>
                                     </div>
                                 </div>
                                 :
-                                <div className={!pageSettings["profile_img"] && !profileFileName ?  "" : "profile_image" }>
+                                <div className={profileFileName ?  "profile_image selected" : "profile_image" }>
                                     <div className="image_wrap">
                                         <canvas
                                             ref={profileRef}

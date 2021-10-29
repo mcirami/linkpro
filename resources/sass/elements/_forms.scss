@@ -491,6 +491,12 @@ form .bottom_row a {
         }
     }
 
+    .credit_card_form {
+        @media all and (max-width: 768px) {
+            padding: 0;
+        }
+    }
+
     #payment-form {
         padding: 0 40px;
 

@@ -233,6 +233,10 @@
                         }
                     }
                 }
+
+                &.selected {
+                    padding-bottom: 0 !important;
+                }
             }
 
             .profile_text {
