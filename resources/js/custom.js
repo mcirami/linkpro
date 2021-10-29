@@ -6,7 +6,7 @@ jQuery(document).ready(function($) {
     const innerContent = document.getElementById('preview_wrap');
 
 
-    if (box) {
+    /*if (box) {
         const width = box.offsetWidth;
 
         if (windowWidth < 551) {
@@ -33,11 +33,11 @@ jQuery(document).ready(function($) {
                 //const height = box.offsetHeight;
                 innerContent.style.maxHeight = width * 2 + "px";
             } else {
-                innerContent.style.maxHeight = "860px";
+                innerContent.style.maxHeight = "855px";
             }
 
         });
-    }
+    }*/
 
     const flashMessage = document.getElementById('laravel_flash');
 

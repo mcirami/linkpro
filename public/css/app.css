@@ -12834,10 +12834,21 @@ header.guest_header .col.right {
   height: 35px;
 }
 .links_col .links_wrap {
-  max-width: 400px;
+  max-width: 425px;
   margin: 0 auto;
   position: relative;
   height: 100%;
+  width: 100%;
+}
+@media all and (max-width: 768px) {
+  .links_col .links_wrap {
+    max-width: 400px;
+  }
+}
+@media screen and (max-width: 350px) {
+  .links_col .links_wrap {
+    max-width: 325px;
+  }
 }
 .links_col .links_wrap img.device {
   position: absolute;
@@ -12848,12 +12859,12 @@ header.guest_header .col.right {
 }
 .links_col .links_wrap .inner_content {
   background: #ffffff;
-  border-radius: 85px;
-  -webkit-border-radius: 85px;
-  -moz-border-radius: 85px;
-  margin: 0 auto;
+  border-radius: 15%;
+  -webkit-border-radius: 15%;
+  -moz-border-radius: 15%;
   padding: 10px;
   height: 100%;
+  margin: 0 0.8vw;
 }
 .links_col .links_wrap .inner_content .page_header {
   padding: 30%;
@@ -12969,7 +12980,7 @@ header.guest_header .col.right {
   border: 7px solid #424fcf;
   padding: 8px;
   float: left;
-  margin-top: -67px;
+  margin-top: -55px;
 }
 .links_col .links_wrap .profile_content .profile_image img {
   border-radius: 100%;
@@ -13055,8 +13066,19 @@ header.guest_header .col.right {
   }
 }
 .links_col .links_wrap.preview .inner_content {
-  max-height: 860px;
+  max-height: 855px;
   overflow: hidden;
+  background: #424fcf;
+}
+@media all and (max-width: 1199px) {
+  .links_col .links_wrap.preview .inner_content {
+    max-height: 65.8vw;
+  }
+}
+@media all and (max-width: 992px) {
+  .links_col .links_wrap.preview .inner_content {
+    max-height: 865px;
+  }
 }
 .links_col .links_wrap.preview .inner_content .inner_content_wrap {
   height: 100%;
@@ -13084,7 +13106,7 @@ header.guest_header .col.right {
     padding-left: 10px;
   }
 }
-@media all and (max-width: 1199px) {
+@media all and (max-width: 1199px) and (min-width: 993px) {
   .links_col .links_wrap.preview .inner_content .profile_content .profile_image {
     margin-top: -44px;
     padding: 5px;
