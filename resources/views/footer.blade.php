@@ -7,7 +7,7 @@
             <li><a class="open_popup" href="/login">Login</a></li>
             <li><a class="open_popup" href="/register">Sign Up</a></li>
         </ul>
-        <small>&copy; Copyright Link Pro LLC | All Rights Reserved</small>
+        <small>&copy; Copyright LinkPro LLC | All Rights Reserved</small>
     </footer>
 @else
     <footer>
@@ -21,7 +21,7 @@
             @endif
         </ul>
         <p><small><a href="{{route('terms')}}">Terms And Conditions</a> | <a href="{{route('privacy')}}">Privacy Policy</a></small></p>
-        <small>&copy; Copyright Link Pro LLC | All Rights Reserved</small>
+        <small>&copy; Copyright LinkPro LLC | All Rights Reserved</small>
     </footer>
 @endif
 

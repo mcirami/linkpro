@@ -86,6 +86,7 @@
             }
 
             .column {
+                height: 100%;
 
                 h4 {
                     margin-top: auto;
@@ -171,11 +172,18 @@
 
                     &:first-child {
                         margin-left: auto;
+
+                        @media all and (max-width: 992px) {
+                            margin: auto;
+                        }
                     }
 
                     &:last-child{
-
                         margin-right: auto;
+
+                        @media all and (max-width: 992px) {
+                            margin: auto;
+                        }
                     }
                 }
 

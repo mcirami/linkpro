@@ -1,22 +1,17 @@
 #links_page {
 
     .my_row.page_wrap {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-orient: horizontal;
-        -webkit-box-direction: normal;
-        -ms-flex-direction: row;
-        flex-direction: row;
-        -ms-flex-wrap: nowrap;
-        flex-wrap: nowrap;;
+        width: 100%;
+        float: left;
+        display: block;
+        height: 100%;
     }
 
     .left_column {
         position: relative;
         width: 55%;
         float: left;
-        margin-right: 3rem;
+        padding-right: 3rem;
 
         @media all and (max-width: 1199px) {
             width: 60%;
@@ -31,6 +26,8 @@
     .right_column {
         width: 45%;
         float: left;
+        height: 100%;
+        max-height: 1000px;
 
         @media all and (max-width: 1199px) {
             width: 40%;
@@ -126,10 +123,6 @@
                 -moz-border-radius-topleft: 20px;
                 font-size: 30px;
                 text-align:center;
-
-                @media screen and (max-width: 768px) {
-                    font-size: 20px;
-                }
 
                 svg {
                     color: $blue;
@@ -346,27 +339,17 @@
                     }
 
                     input {
-                        //width: 20px;
+                        width: 20px;
                         height: 20px;
-                        //margin-right: 10px;
-                        margin-left: -160px;
+                        margin-right: 10px;
 
                         @media screen and (max-width: 768px) {
-                            margin-left: -130px;
                             width: 15px;
-                        }
-
-                        @media all and (max-width: 550px) {
-                            margin-left: -100%;
-                            width: 12px;
                         }
                     }
 
                     label {
-                        position: absolute;
-                        padding-left: 20px;
-                        width: 100%;
-                        text-align: center;
+                        line-height: 1.2;
 
                         @media screen and (max-width: 768px) {
                             font-size: 16px;
@@ -374,7 +357,6 @@
 
                         @media all and (max-width: 550px) {
                             font-size: 14px;
-                            padding-left: 10px;
                         }
                     }
                 }

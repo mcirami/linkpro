@@ -120,11 +120,11 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row form_inputs mb-1">
-                                                <div class="col-7">
+                                                <div class="col-12 col-md-7">
                                                     <label for="expiration-date">Expiration Date</label>
                                                     <div class="form-group" id="expiration-date"></div>
                                                 </div>
-                                                <div class="col-5">
+                                                <div class="col-12 col-md-5">
                                                     <label for="cvv">CVV <span>(3 digits)</span></label>
                                                     <div class="form-group" id="cvv"></div>
                                                 </div>

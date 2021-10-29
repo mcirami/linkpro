@@ -12212,15 +12212,16 @@ header.guest_header .col.right {
 }
 
 #links_page .my_row.page_wrap {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
+  width: 100%;
+  float: left;
+  display: block;
+  height: 100%;
 }
 #links_page .left_column {
   position: relative;
   width: 55%;
   float: left;
-  margin-right: 3rem;
+  padding-right: 3rem;
 }
 @media all and (max-width: 1199px) {
   #links_page .left_column {
@@ -12236,6 +12237,8 @@ header.guest_header .col.right {
 #links_page .right_column {
   width: 45%;
   float: left;
+  height: 100%;
+  max-height: 1000px;
 }
 @media all and (max-width: 1199px) {
   #links_page .right_column {
@@ -12317,11 +12320,6 @@ header.guest_header .col.right {
   -moz-border-radius-topleft: 20px;
   font-size: 30px;
   text-align: center;
-}
-@media screen and (max-width: 768px) {
-  #links_page .icons_wrap .icon_col span {
-    font-size: 20px;
-  }
 }
 #links_page .icons_wrap .icon_col span svg {
   color: #424fcf;
@@ -12505,26 +12503,17 @@ header.guest_header .col.right {
   border-bottom: none;
 }
 #links_page .icon_row .icon_box .my_row.top .radio_wrap input {
+  width: 20px;
   height: 20px;
-  margin-left: -160px;
+  margin-right: 10px;
 }
 @media screen and (max-width: 768px) {
   #links_page .icon_row .icon_box .my_row.top .radio_wrap input {
-    margin-left: -130px;
     width: 15px;
   }
 }
-@media all and (max-width: 550px) {
-  #links_page .icon_row .icon_box .my_row.top .radio_wrap input {
-    margin-left: -100%;
-    width: 12px;
-  }
-}
 #links_page .icon_row .icon_box .my_row.top .radio_wrap label {
-  position: absolute;
-  padding-left: 20px;
-  width: 100%;
-  text-align: center;
+  line-height: 1.2;
 }
 @media screen and (max-width: 768px) {
   #links_page .icon_row .icon_box .my_row.top .radio_wrap label {
@@ -12534,7 +12523,6 @@ header.guest_header .col.right {
 @media all and (max-width: 550px) {
   #links_page .icon_row .icon_box .my_row.top .radio_wrap label {
     font-size: 14px;
-    padding-left: 10px;
   }
 }
 #links_page .icon_row .icons_wrap {
@@ -12846,7 +12834,7 @@ header.guest_header .col.right {
   height: 35px;
 }
 .links_col .links_wrap {
-  max-width: 450px;
+  max-width: 400px;
   margin: 0 auto;
   position: relative;
   height: 100%;
@@ -13932,6 +13920,9 @@ form .bottom_row a {
     justify-items: center;
   }
 }
+.form_page.plans .my_row.three_columns .column {
+  height: 100%;
+}
 .form_page.plans .my_row.three_columns .column h4, .form_page.plans .my_row.three_columns .column .h4 {
   margin-top: auto;
 }
@@ -14003,8 +13994,18 @@ form .bottom_row a {
 .form_page.plans .my_row.three_columns.two_columns .column:first-child {
   margin-left: auto;
 }
+@media all and (max-width: 992px) {
+  .form_page.plans .my_row.three_columns.two_columns .column:first-child {
+    margin: auto;
+  }
+}
 .form_page.plans .my_row.three_columns.two_columns .column:last-child {
   margin-right: auto;
+}
+@media all and (max-width: 992px) {
+  .form_page.plans .my_row.three_columns.two_columns .column:last-child {
+    margin: auto;
+  }
 }
 .form_page.plans .my_row.three_columns.two_columns.popup .column.free {
   grid-column-end: unset;
@@ -14177,6 +14178,11 @@ form .bottom_row a {
     font-size: 24px;
   }
 }
+@media screen and (max-width: 550px) {
+  #popup_choose_level h2, #popup_choose_level .h2, #popup_payment_method h2, #popup_payment_method .h2, #confirm_popup h2, #confirm_popup .h2, #upgrade_popup h2, #upgrade_popup .h2, #confirm_popup_link h2, #confirm_popup_link .h2, #confirm_cancel_popup h2, #confirm_cancel_popup .h2, #confirm_change_plan_details h2, #confirm_change_plan_details .h2, #confirm_cancel_details h2, #confirm_cancel_details .h2 {
+    font-size: 22px;
+  }
+}
 #popup_choose_level h3:not(.price), #popup_choose_level .h3:not(.price), #popup_payment_method h3:not(.price), #popup_payment_method .h3:not(.price), #confirm_popup h3:not(.price), #confirm_popup .h3:not(.price), #upgrade_popup h3:not(.price), #upgrade_popup .h3:not(.price), #confirm_popup_link h3:not(.price), #confirm_popup_link .h3:not(.price), #confirm_cancel_popup h3:not(.price), #confirm_cancel_popup .h3:not(.price), #confirm_change_plan_details h3:not(.price), #confirm_change_plan_details .h3:not(.price), #confirm_cancel_details h3:not(.price), #confirm_cancel_details .h3:not(.price) {
   font-family: "opensanssemibold", sans-serif;
   font-size: 18px;
@@ -14207,9 +14213,15 @@ form .bottom_row a {
   padding: 40px;
   text-align: center;
 }
+@media screen and (max-width: 992px) {
+  #popup_choose_level .box, #popup_payment_method .box, #confirm_popup .box, #upgrade_popup .box, #confirm_popup_link .box, #confirm_cancel_popup .box, #confirm_change_plan_details .box, #confirm_cancel_details .box {
+    overflow-y: scroll;
+  }
+}
 @media screen and (max-width: 768px) {
   #popup_choose_level .box, #popup_payment_method .box, #confirm_popup .box, #upgrade_popup .box, #confirm_popup_link .box, #confirm_cancel_popup .box, #confirm_change_plan_details .box, #confirm_cancel_details .box {
-    max-width: 90%;
+    max-width: 85%;
+    padding: 20px;
   }
 }
 #popup_choose_level .box .icon_wrap, #popup_payment_method .box .icon_wrap, #confirm_popup .box .icon_wrap, #upgrade_popup .box .icon_wrap, #confirm_popup_link .box .icon_wrap, #confirm_cancel_popup .box .icon_wrap, #confirm_change_plan_details .box .icon_wrap, #confirm_cancel_details .box .icon_wrap {
@@ -14238,6 +14250,12 @@ form .bottom_row a {
 #popup_choose_level .box .text_wrap, #popup_payment_method .box .text_wrap, #confirm_popup .box .text_wrap, #upgrade_popup .box .text_wrap, #confirm_popup_link .box .text_wrap, #confirm_cancel_popup .box .text_wrap, #confirm_change_plan_details .box .text_wrap, #confirm_cancel_details .box .text_wrap {
   text-align: center;
   padding: 20px 20px 30px;
+  margin-top: 20px;
+}
+@media screen and (max-width: 768px) {
+  #popup_choose_level .box .text_wrap, #popup_payment_method .box .text_wrap, #confirm_popup .box .text_wrap, #upgrade_popup .box .text_wrap, #confirm_popup_link .box .text_wrap, #confirm_cancel_popup .box .text_wrap, #confirm_change_plan_details .box .text_wrap, #confirm_cancel_details .box .text_wrap {
+    padding: 0;
+  }
 }
 #popup_choose_level .box .text_wrap .confirm_text, #popup_payment_method .box .text_wrap .confirm_text, #confirm_popup .box .text_wrap .confirm_text, #upgrade_popup .box .text_wrap .confirm_text, #confirm_popup_link .box .text_wrap .confirm_text, #confirm_cancel_popup .box .text_wrap .confirm_text, #confirm_change_plan_details .box .text_wrap .confirm_text, #confirm_cancel_details .box .text_wrap .confirm_text {
   margin-bottom: 10px;
@@ -14263,13 +14281,14 @@ form .bottom_row a {
   width: 50px;
   height: 50px;
   color: #ffffff;
+  z-index: 9999;
 }
 @media all and (max-width: 550px) {
   #popup_choose_level .close_popup, #popup_payment_method .close_popup, #upgrade_popup .close_popup {
-    right: 10px;
-    top: 10px;
-    width: 40px;
-    height: 40px;
+    right: 8px;
+    top: 8px;
+    width: 30px;
+    height: 30px;
   }
 }
 #popup_choose_level .close_popup svg, #popup_payment_method .close_popup svg, #upgrade_popup .close_popup svg {
@@ -14277,8 +14296,17 @@ form .bottom_row a {
   height: 100%;
 }
 
+#popup_payment_method .braintree-heading {
+  width: 100%;
+  text-align: center;
+}
 #popup_payment_method .bt-drop-in-wrapper {
   padding: 0 10%;
+}
+@media screen and (max-width: 768px) {
+  #popup_payment_method .bt-drop-in-wrapper {
+    padding: 0;
+  }
 }
 #popup_payment_method .bt-drop-in-wrapper .braintree-options-list {
   text-align: left;
@@ -14288,7 +14316,7 @@ form .bottom_row a {
 }
 @media screen and (max-width: 768px) {
   #popup_payment_method .box {
-    max-width: 90%;
+    max-width: 85%;
   }
 }
 
@@ -14304,13 +14332,18 @@ form .bottom_row a {
 }
 @media all and (max-width: 768px) {
   #popup_choose_level .box {
-    max-width: 90%;
+    max-width: 85%;
+    max-height: 750px;
   }
 }
 #popup_choose_level .box.size_adjust {
   max-height: 450px;
 }
 #popup_choose_level .box.size_adjust.adjust_overflow {
+  overflow-y: hidden;
+}
+#popup_choose_level .box.size_adjust .three_columns {
+  max-height: 300px;
   overflow-y: hidden;
 }
 @media all and (max-width: 550px) {
@@ -14444,6 +14477,12 @@ form .bottom_row a {
 @media screen and (max-width: 768px) {
   #upgrade_popup .box, #confirm_popup_link .box, #confirm_popup .box {
     max-width: 90%;
+  }
+}
+@media all and (max-width: 550px) {
+  #upgrade_popup .box, #confirm_popup_link .box, #confirm_popup .box {
+    max-width: 80%;
+    padding: 20px;
   }
 }
 #upgrade_popup .box .button, #confirm_popup_link .box .button, #confirm_popup .box .button {

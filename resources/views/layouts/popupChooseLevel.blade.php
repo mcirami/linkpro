@@ -7,7 +7,7 @@
             <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
         </svg>
     </a>
-    <div class="box form_page plans @if(count($pages) == 1) adjust_overflow @endif">
+    <div class="box form_page plans @if( (count($pages) == 1) || (count($pages) > 1 && $subscription->name != "premier" ) ) adjust_overflow @endif">
         <div class="icon_wrap">
             <img src="{{ asset('/images/icon-change-plans.png') }}" alt="">
         </div>
@@ -117,33 +117,31 @@
                 </svg>
             </div>
             <h2>Confirm</h2>
-            <div class="text_wrap">
-                <form action="" method="post">
-                    @csrf
-                    <input class="level" name="level" type="hidden" value="">
-                    @if ($subscription->name == "premier")
-                        <h3>By downgrading your account to Pro you will lose access to password protect your links and you will be limited to 1 unique link.</h3>
-                        @if( count($pages) > 1 )
-                            <p>You currently have {{count($pages)}} links.</p>
-                            <label for="defaultPage">Select which link you would like to stay active:</label>
-                            <select name="defaultPage">
-                                @foreach($pages as $page)
-                                    <option value="{{ $page->id }}">{{ $page->name }}</option>
-                                @endforeach
-                            </select>
-                        @endif
-                    @else
-                        <h3>By downgrading your account to Free your subscription will be cancelled, your icons will be limited to 9 and you will no longer be able to use custom icons.</h3>
+            <form action="" method="post">
+                @csrf
+                <input class="level" name="level" type="hidden" value="">
+                @if ($subscription->name == "premier")
+                    <h3>By downgrading your account to Pro you will lose access to password protect your links and you will be limited to 1 unique link.</h3>
+                    @if( count($pages) > 1 )
+                        <p>You currently have {{count($pages)}} links.</p>
+                        <label for="defaultPage">Select which link you would like to stay active:</label>
+                        <select name="defaultPage">
+                            @foreach($pages as $page)
+                                <option value="{{ $page->id }}">{{ $page->name }}</option>
+                            @endforeach
+                        </select>
                     @endif
-                    <p class="confirm_text">Do you want to continue?</p>
-                    <div class="button_row">
-                        <button type="submit" class='button green'>
-                            Yes
-                        </button>
-                        <a class="close_details button transparent gray" href="#">No</a>
-                    </div>
-                </form>
-            </div>
+                @else
+                    <h3>By downgrading your account to Free your subscription will be cancelled, your icons will be limited to 9 and you will no longer be able to use custom icons.</h3>
+                @endif
+                <p class="confirm_text">Do you want to continue?</p>
+                <div class="button_row">
+                    <button type="submit" class='button green'>
+                        Yes
+                    </button>
+                    <a class="close_details button transparent gray" href="#">No</a>
+                </div>
+            </form>
         </div>
 
         <div id="confirm_cancel_details" class="change_plan_message @if(count($pages) == 1 || $subscription->name == "pro") adjust_height @endif">
