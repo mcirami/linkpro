@@ -13068,7 +13068,6 @@ header.guest_header .col.right {
 .links_col .links_wrap.preview .inner_content {
   max-height: 855px;
   overflow: hidden;
-  background: #424fcf;
 }
 @media all and (max-width: 1199px) {
   .links_col .links_wrap.preview .inner_content {
