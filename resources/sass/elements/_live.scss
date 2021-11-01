@@ -14,7 +14,7 @@
                 -webkit-box-shadow: unset !important;
                 -moz-box-shadow: unset !important;
                 -o-box-shadow: unset !important;
-                padding: 20px;
+                padding: 15px;
 
                 img {
                     @include boxShadowAlt;
@@ -28,8 +28,12 @@
         .inner_content {
 
             &.live_page {
+                @include boxShadow;
                 padding: 0 0 20px 0;
                 min-height: 740px;
+                border-radius: 50px;
+                -webkit-border-radius: 50px;
+                -moz-border-radius: 50px;
 
                 @media all and (max-width: 768px) {
                     border-radius: 0;
