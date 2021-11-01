@@ -66,7 +66,7 @@ const Links = ({
         const windowWidth = window.innerWidth;
 
         if (windowWidth < 768) {
-            colHeight = (3 * windowWidth / 10 + 25);
+            colHeight = (3 * windowWidth / 10 + 50);
         }else if (windowWidth < 992 ) {
             colHeight = (3 * windowWidth - 50) / 10 + 25;
         } else if (windowWidth < 1200) {
@@ -96,7 +96,7 @@ const Links = ({
         return () => {
             window.removeEventListener('resize', handleResize);
         }
-    });
+    }, []);
 
     // indexed by visual position
     const layout = userLinks.map((link, index) => {
