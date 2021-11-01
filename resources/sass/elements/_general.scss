@@ -10,66 +10,92 @@
     }
 }
 
-
-.display_message {
-    @include boxShadow;
-    text-align: center;
-    width: 300px;
-    min-height: 200px;
-    background: $white;
+.message_wrap {
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    -webkit-justify-content: flex-end;
     margin: 0 auto;
     position: fixed;
     bottom: 0;
-    right: 20px;
     z-index: 999;
-    border-bottom-right-radius: 0;
-    -webkit-border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-    -webkit-border-bottom-left-radius: 0;
-    border-top-right-radius: 20px;
-    -webkit-border-top-right-radius: 20px;
-    border-top-left-radius: 20px;
-    -webkit-border-top-left-radius: 20px;
-    padding: 20px;
 
-    .icon_wrap {
-        color: $green;
-        margin-bottom: 10px;
-        margin-top: 20px;
-
-        svg {
-            width: 50px;
-            height: 50px;
-        }
-
-        .error {
-            color: $red;
-        }
+    @media all and (max-width: 992px) {
+        justify-content: center;
+        -webkit-justify-content: center;
     }
 
-    .close {
-        border-top: 1px solid $borderGray;
-        color: $darkGray;
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
+    .display_message {
+        @include boxShadow;
         text-align: center;
-        font-size: 14px;
+        width: 300px;
+        min-height: 200px;
+        background: $white;
+        margin-right: 75px;
+        margin-bottom: 0;
+        z-index: 999;
+        border-bottom-right-radius: 0;
+        -webkit-border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+        -webkit-border-bottom-left-radius: 0;
+        border-top-right-radius: 20px;
+        -webkit-border-top-right-radius: 20px;
+        border-top-left-radius: 20px;
+        -webkit-border-top-left-radius: 20px;
         padding: 20px;
 
-        &:hover {
-            cursor: pointer;
+        @media all and (max-width: 992px) {
+            margin-right: 0;
+        }
+
+        .icon_wrap {
+            color: $green;
+            margin-bottom: 10px;
+            margin-top: 20px;
+
+            svg {
+                width: 50px;
+                height: 50px;
+            }
+
+            .error {
+                color: $red;
+            }
+        }
+
+        /*.close {
+            border-top: 1px solid $borderGray;
+            color: $darkGray;
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            text-align: center;
+            font-size: 14px;
+            padding: 20px;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }*/
+
+        p {
+            margin: 0;
+            font-size: 18px;
+            color: $black;
+            text-transform: uppercase;
         }
     }
-
-    p {
-        margin: 0;
-        font-size: 18px;
-        color: $black;
-        text-transform: uppercase;
-    }
 }
+
 
 .hover_text {
     position: absolute;

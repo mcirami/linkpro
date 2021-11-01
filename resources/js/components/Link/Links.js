@@ -65,7 +65,9 @@ const Links = ({
         let colHeight;
         const windowWidth = window.innerWidth;
 
-        if (windowWidth < 992 ) {
+        if (windowWidth < 768) {
+            colHeight = (3 * windowWidth / 10 + 25);
+        }else if (windowWidth < 992 ) {
             colHeight = (3 * windowWidth - 50) / 10 + 25;
         } else if (windowWidth < 1200) {
             colHeight = ((3 * windowWidth - 50) / 2 ) / 8.75 + 20;
@@ -118,7 +120,9 @@ const Links = ({
     );
 
     const handleTouchStart = useCallback(
+
         (key, pressLocation, e) => {
+            document.querySelector('body').classList.add('fixed');
             handleMouseDown(key, pressLocation, e.touches[0]);
         },
         [handleMouseDown]
@@ -165,6 +169,7 @@ const Links = ({
     );
 
     const handleMouseUp = useCallback(() => {
+        document.querySelector('body').classList.remove('fixed');
         setState((state) => ({
             ...state,
             isPressed: false,

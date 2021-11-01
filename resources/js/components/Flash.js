@@ -45,19 +45,21 @@ export const Flash = () => {
     },[])
 
     return (
-
-        visibility && <div className="display_message alert">
-            <div className="icon_wrap">
-                {messageType === "success" ?
-                    <MdCheckCircle/>
-                    :
-                    <div className="error">
-                        <MdCancel/>
-                    </div>
-                }
+        visibility &&
+        <div className="message_wrap">
+            <div className="display_message alert">
+                <div className="icon_wrap">
+                    {messageType === "success" ?
+                        <MdCheckCircle/>
+                        :
+                        <div className="error">
+                            <MdCancel/>
+                        </div>
+                    }
+                </div>
+                <p>{ message }</p>
+                {/*<span className="close"><strong>CLOSE</strong></span>*/}
             </div>
-            <p>{ message }</p>
-            {/*<span className="close"><strong>CLOSE</strong></span>*/}
         </div>
 
 
