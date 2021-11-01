@@ -122,7 +122,7 @@ const Links = ({
     const handleTouchStart = useCallback(
 
         (key, pressLocation, e) => {
-            document.querySelector('body').classList.add('fixed');
+            document.querySelector('html').classList.add('fixed');
             handleMouseDown(key, pressLocation, e.touches[0]);
         },
         [handleMouseDown]
@@ -169,7 +169,7 @@ const Links = ({
     );
 
     const handleMouseUp = useCallback(() => {
-        document.querySelector('body').classList.remove('fixed');
+        document.querySelector('html').classList.remove('fixed');
         setState((state) => ({
             ...state,
             isPressed: false,

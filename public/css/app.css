@@ -11315,8 +11315,14 @@ h4, .h4, p {
   font-family: "opensansregular", sans-serif;
 }
 
-body.fixed {
+html.fixed {
   overflow: hidden;
+}
+
+body {
+  height: 100%;
+  max-width: 100%;
+  display: inline-block;
 }
 
 img {
