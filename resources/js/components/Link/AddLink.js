@@ -42,7 +42,6 @@ const AddLink = ({userLinks, setUserLinks, originalArray, setOriginalArray, user
                         setOriginalArray(prevArray);
                         setUserLinks(prevArray)
 
-
                     updateContentHeight();
 
                 }).catch(error => {
@@ -63,7 +62,6 @@ const AddLink = ({userLinks, setUserLinks, originalArray, setOriginalArray, user
                 });
             }, 500);
         }
-
     };
 
     const updateContentHeight = () => {
@@ -82,10 +80,10 @@ const AddLink = ({userLinks, setUserLinks, originalArray, setOriginalArray, user
 
     return (
 
-        <div className="icon_wrap" onClick={handleClick}>
+        <a href="" className="icon_wrap" onClick={handleClick}>
             <ImPlus />
             <h3>Add Icon</h3>
-        </div>
+        </a>
 
     )
 }

@@ -35,6 +35,8 @@ const Links = ({
         width: window.innerWidth
     });
 
+    const [myNewOrder, setMyNewOrder]= useState([]);
+
     const [state, setState] = useState(() => ({
         mouseXY: [0,0],
         mouseCircleDelta: [0,0], // difference between mouse and circle pos for x + y coords, for dragging
@@ -153,15 +155,17 @@ const Links = ({
                 );
                 setState((state) => ({ ...state, mouseXY }));
                 setUserLinks(newOrder);
-                handleSubmit();
-
+            } else {
+                setState((state) => ({
+                    ...state,
+                    isPressed: false,
+                }));
             }
         },
         [state]
     );
 
-    const handleTouchMove = useCallback(
-        (e) => {
+    const handleTouchMove = useCallback((e) => {
             e.preventDefault();
             handleMouseMove(e.touches[0]);
         },
@@ -193,24 +197,21 @@ const Links = ({
 
     const {lastPress, isPressed, mouseXY } = state;
 
-    const handleSubmit = () => {
+    useEffect(() => {
         //const newPostionsArray = userLinks.map((link, index) => ({...link, position: index}));
         //const newArray = userLinks.filter(element => element.id !== editID)
         const packets = {
             userLinks: userLinks,
         }
 
-        axios
-        .post("/dashboard/links/update-positions", packets)
-        .then(
+        axios.post("/dashboard/links/update-positions", packets).then(
             (response) => {
                 console.log(JSON.stringify(response.data.message))
             }
-        )
-        .catch((error) => {
+        ).catch((error) => {
             console.log("ERROR:: ", error.response.data);
         });
-    }
+    }, [userLinks]);
 
     const handleChange = (currentItem) => {
         const newStatus = !currentItem.active_status;

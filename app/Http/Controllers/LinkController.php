@@ -56,7 +56,6 @@ class LinkController extends Controller
             return abort(403);
         }
 
-
         $linksArray = $request->all();
 
         $linkService->deleteLink($link);

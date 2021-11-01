@@ -169,7 +169,8 @@ const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileN
                                 />
                             </div>
                             <div className="bottom_row">
-                                <button type="submit" className="button green" disabled={!fileName && true}>
+                                <button type="submit" className="button green" disabled={!fileName &&
+                                true}>
                                     Save
                                 </button>
                                 <a className="button transparent gray" href="#"

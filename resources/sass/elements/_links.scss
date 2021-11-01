@@ -481,6 +481,11 @@
                 &.hidden {
                     height: 0;
                     padding: 0;
+                    z-index: -999;
+
+                    .crop_section {
+                        display: none;
+                    }
 
                     .bottom_row {
                         display: none;

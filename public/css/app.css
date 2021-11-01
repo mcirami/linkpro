@@ -12639,6 +12639,10 @@ header.guest_header .col.right {
 .page_settings .column_wrap form .bottom_section.hidden {
   height: 0;
   padding: 0;
+  z-index: -999;
+}
+.page_settings .column_wrap form .bottom_section.hidden .crop_section {
+  display: none;
 }
 .page_settings .column_wrap form .bottom_section.hidden .bottom_row {
   display: none;

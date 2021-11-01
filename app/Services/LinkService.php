@@ -64,7 +64,12 @@ class LinkService {
     public function updateLinksPositions($linksArray) {
 
         foreach($linksArray["userLinks"] as $index => $link) {
-            Link::where('id', $link["id"])->update(['position' => $index ]);
+            $currentLink = Link::findOrFail($link["id"]);
+            if ($currentLink->position != $index) {
+                $currentLink->position = $index;
+                $currentLink->save();
+            }
+
         }
 
     }
