@@ -11316,7 +11316,8 @@ h4, .h4, p {
 }
 
 html.fixed {
-  overflow: hidden;
+  overflow-y: hidden;
+  padding-right: 10px;
 }
 
 body {
@@ -13074,46 +13075,21 @@ header.guest_header .col.right {
   right: 0;
   left: 0;
   bottom: 0;
-  /*@media all and (max-width: 992px) {
-      background-size: 100% 100%;
-  }*/
 }
 .links_col .links_wrap.preview .inner_content {
   background: transparent;
   max-height: 825px;
-  /*overflow: hidden;
-  position: absolute;
-  top: 20px;
-  left: 11px;*/
   height: 100%;
   width: 100%;
   max-width: 385px;
   padding: 8px 0 0 0;
-  /* border-top-right-radius: 5%;
-   -webkit-border-top-right-radius: 5%;
-   -moz-border-radius-topright: 5%;
-   border-top-left-radius: 5%;
-   -webkit-border-top-left-radius: 5%;
-   -moz-border-radius-topleft: 5%;
-   border-bottom-right-radius: 11%;
-   -webkit-border-bottom-right-radius: 11%;
-   -moz-border-radius-bottomright: 11%;
-   border-bottom-left-radius: 11%;
-   -webkit-border-bottom-left-radius: 11%;
-   -moz-border-radius-bottomleft: 11%;*/
-  /* @media all and (max-width: 1199px) {
-       max-height: 65vw;
-   }
-
-   @media all and (max-width: 992px) {
-       max-height: 855px;
-   }*/
 }
 .links_col .links_wrap.preview .inner_content .inner_content_wrap {
+  background: #ffffff;
   height: 100%;
   margin-right: -5px;
   margin-left: 8px;
-  margin-top: 10px;
+  margin-top: 2%;
   overflow-y: scroll;
   mask-image: url("/images/preview-device-inner.png");
   -webkit-mask-image: url("/images/preview-device-inner.png");
@@ -13124,15 +13100,12 @@ header.guest_header .col.right {
   border-radius: 50px;
   -webkit-border-radius: 50px;
   -moz-border-radius: 50px;
-  /*@media all and (max-width: 1199px) {
-      margin-right: -56px;
-      padding-right: 40px;
-  }
-
-  @media all and (max-width: 992px) {
-      margin-right: -42px;
-      padding-right: 28px;
-  }*/
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+}
+.links_col .links_wrap.preview .inner_content .inner_content_wrap::-webkit-scrollbar {
+  display: none;
 }
 .links_col .links_wrap.preview .inner_content .profile_content {
   padding: 10px 20px 10px 35px;
@@ -13208,6 +13181,7 @@ header.guest_header .col.right {
   border-radius: 50px;
   -webkit-border-radius: 50px;
   -moz-border-radius: 50px;
+  margin: 0;
 }
 @media all and (max-width: 768px) {
   .links_col .links_wrap .inner_content.live_page {

@@ -67,14 +67,15 @@ const AddLink = ({userLinks, setUserLinks, originalArray, setOriginalArray, user
     const updateContentHeight = () => {
 
         if ((originalArray.length + 1) % 3 === 1 ) {
-            console.log("yup");
+
             const iconsWrap = document.querySelector('.icons_wrap');
             const iconCol = document.querySelectorAll('.add_icons .icon_col:last-child');
             const colHeight = iconCol[0].offsetHeight;
             const transformProp = iconCol[0].style.transform.split("translate3d(");
             const transformValues = transformProp[1].split(" ");
             const divHeight = transformValues[1].replace(",", "").replace("px", "");
-            const height = parseInt(divHeight) + colHeight + 25;
+            const diff = divHeight * 0.153846;
+            const height = parseInt(divHeight) + diff;//colHeight + 25;
             iconsWrap.style.minHeight = height + "px";
         }
     }

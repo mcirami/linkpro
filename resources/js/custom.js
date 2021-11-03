@@ -33,7 +33,6 @@ jQuery(document).ready(function($) {
             const width = box.offsetWidth;
             const diff = Math.floor(.0915033 * width);
 
-            console.log(windowWidth);
             if (windowWidth < 993) {
                 innerContent.style.maxHeight = "825px";
                 innerContent.style.maxWidth = "385px";

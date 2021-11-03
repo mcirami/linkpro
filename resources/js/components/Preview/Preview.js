@@ -19,6 +19,7 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
 
     const ClosePreview = () => {
         document.querySelector('.links_col.preview').classList.remove('show');
+        document.querySelector('html').classList.remove('fixed');
     }
 
     useEffect(()=> {

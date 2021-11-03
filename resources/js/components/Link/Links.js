@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import React, {useCallback, useRef, useEffect, useState} from 'react';
 import {MdDragHandle, MdEdit} from 'react-icons/md';
 import Switch from "react-switch";
 //import {LinksContext, PageContext} from '../App';
@@ -30,12 +30,12 @@ const Links = ({
 
 }) => {
 
+    const initialRender = useRef(true);
+
     const [size, setSize] = useState({
         height: window.innerHeight,
-        width: window.innerWidth
+        width: window.outerWidth
     });
-
-    const [myNewOrder, setMyNewOrder]= useState([]);
 
     const [state, setState] = useState(() => ({
         mouseXY: [0,0],
@@ -44,9 +44,31 @@ const Links = ({
         isPressed: false,
     }));
 
+    useEffect(() => {
+
+        function handleResize() {
+
+            setTimeout(() => {
+                const iconsWrap = document.querySelector('.icons_wrap');
+                const icons = document.querySelectorAll('.add_icons .icon_col');
+                const colHeight = icons[0].clientHeight;
+                const rowCount = Math.ceil(icons.length / 3);
+                const divHeight = rowCount * colHeight - 40;
+                iconsWrap.style.minHeight = divHeight + "px";
+            }, 500)
+        }
+
+        window.addEventListener('resize', handleResize);
+
+        handleResize()
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        }
+    },[]);
+
     const getColWidth = () => {
         let colWidth;
-        const windowWidth = window.innerWidth;
+        const windowWidth = window.outerWidth;
 
         if (windowWidth < 550 ) {
             colWidth = ((3 * windowWidth)) / 11;
@@ -65,7 +87,7 @@ const Links = ({
 
     const getColHeight = () => {
         let colHeight;
-        const windowWidth = window.innerWidth;
+        const windowWidth = window.outerWidth;
 
         if (windowWidth < 768) {
             colHeight = (3 * windowWidth / 10 + 50);
@@ -74,7 +96,7 @@ const Links = ({
         } else if (windowWidth < 1200) {
             colHeight = ((3 * windowWidth - 50) / 2 ) / 8.75 + 20;
         } else if (windowWidth < 1500) {
-            //colWidth = (window.innerWidth / 2) / 3 - 15;
+            //colWidth = (window.outerWidth / 2) / 3 - 15;
             colHeight = ((3 * windowWidth - 50) / 2) / 10 + 20;
         } else {
             colHeight = 250;
@@ -124,7 +146,6 @@ const Links = ({
     const handleTouchStart = useCallback(
 
         (key, pressLocation, e) => {
-            document.querySelector('html').classList.add('fixed');
             handleMouseDown(key, pressLocation, e.touches[0]);
         },
         [handleMouseDown]
@@ -162,6 +183,7 @@ const Links = ({
 
     const handleTouchMove = useCallback((e) => {
             e.preventDefault();
+            document.querySelector('html').classList.add('fixed');
             handleMouseMove(e.touches[0]);
         },
         [handleMouseMove]
@@ -193,7 +215,9 @@ const Links = ({
     useEffect(() => {
         //const newPostionsArray = userLinks.map((link, index) => ({...link, position: index}));
         //const newArray = userLinks.filter(element => element.id !== editID)
-        if(state.isPressed === false) {
+        if (initialRender.current) {
+            initialRender.current = false;
+        } else if(state.isPressed === false) {
             const packets = {
                 userLinks: userLinks,
             }
