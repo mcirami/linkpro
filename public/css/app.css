@@ -12254,13 +12254,11 @@ header.guest_header .col.right {
 @media all and (max-width: 1199px) {
   #links_page .right_column {
     width: 40%;
-    padding: 0 3%;
   }
 }
 @media screen and (max-width: 992px) {
   #links_page .right_column {
     width: 100%;
-    padding: 0 3% 3%;
   }
 }
 #links_page .content_wrap {
@@ -12876,10 +12874,10 @@ header.guest_header .col.right {
   -moz-border-radius: 15%;
   padding: 10px;
   height: 100%;
-  margin: 0 0.8vw;
+  margin: 0 3%;
 }
 .links_col .links_wrap .inner_content .page_header {
-  padding: 30%;
+  padding: 29%;
   border-top-right-radius: 12%;
   -webkit-border-top-right-radius: 12%;
   -moz-border-radius-topright: 12%;
@@ -13062,6 +13060,11 @@ header.guest_header .col.right {
   width: 100%;
   height: 100%;
 }
+.links_col .links_wrap.preview {
+  max-width: 426px;
+  height: 100%;
+  width: 100%;
+}
 .links_col .links_wrap.preview:before {
   content: "";
   background: url("/images/preview-device-no-btm.png") no-repeat;
@@ -13071,46 +13074,69 @@ header.guest_header .col.right {
   right: 0;
   left: 0;
   bottom: 0;
-}
-@media all and (max-width: 992px) {
-  .links_col .links_wrap.preview:before {
-    background-size: 100% 100%;
-  }
+  /*@media all and (max-width: 992px) {
+      background-size: 100% 100%;
+  }*/
 }
 .links_col .links_wrap.preview .inner_content {
-  max-height: 855px;
-  overflow: hidden;
-}
-@media all and (max-width: 1199px) {
-  .links_col .links_wrap.preview .inner_content {
-    max-height: 65.8vw;
-  }
-}
-@media all and (max-width: 992px) {
-  .links_col .links_wrap.preview .inner_content {
-    max-height: 865px;
-  }
+  background: transparent;
+  max-height: 825px;
+  /*overflow: hidden;
+  position: absolute;
+  top: 20px;
+  left: 11px;*/
+  height: 100%;
+  width: 100%;
+  max-width: 385px;
+  padding: 8px 0 0 0;
+  /* border-top-right-radius: 5%;
+   -webkit-border-top-right-radius: 5%;
+   -moz-border-radius-topright: 5%;
+   border-top-left-radius: 5%;
+   -webkit-border-top-left-radius: 5%;
+   -moz-border-radius-topleft: 5%;
+   border-bottom-right-radius: 11%;
+   -webkit-border-bottom-right-radius: 11%;
+   -moz-border-radius-bottomright: 11%;
+   border-bottom-left-radius: 11%;
+   -webkit-border-bottom-left-radius: 11%;
+   -moz-border-radius-bottomleft: 11%;*/
+  /* @media all and (max-width: 1199px) {
+       max-height: 65vw;
+   }
+
+   @media all and (max-width: 992px) {
+       max-height: 855px;
+   }*/
 }
 .links_col .links_wrap.preview .inner_content .inner_content_wrap {
   height: 100%;
-  margin-right: -50px;
-  padding-right: 35px;
+  margin-right: -5px;
+  margin-left: 8px;
+  margin-top: 10px;
   overflow-y: scroll;
-}
-@media all and (max-width: 1199px) {
-  .links_col .links_wrap.preview .inner_content .inner_content_wrap {
-    margin-right: -60px;
-    padding-right: 40px;
+  mask-image: url("/images/preview-device-inner.png");
+  -webkit-mask-image: url("/images/preview-device-inner.png");
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-size: cover;
+  -webkit-mask-size: cover;
+  border-radius: 50px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  /*@media all and (max-width: 1199px) {
+      margin-right: -56px;
+      padding-right: 40px;
   }
-}
-@media all and (max-width: 992px) {
-  .links_col .links_wrap.preview .inner_content .inner_content_wrap {
-    margin-right: -42px;
-    padding-right: 28px;
-  }
+
+  @media all and (max-width: 992px) {
+      margin-right: -42px;
+      padding-right: 28px;
+  }*/
 }
 .links_col .links_wrap.preview .inner_content .profile_content {
   padding: 10px 20px 10px 35px;
+  background: #ffffff;
 }
 @media all and (max-width: 1199px) {
   .links_col .links_wrap.preview .inner_content .profile_content .profile_text {
@@ -13133,6 +13159,9 @@ header.guest_header .col.right {
   .links_col .links_wrap.preview .inner_content .profile_content h2, .links_col .links_wrap.preview .inner_content .profile_content .h2 {
     font-size: 22px;
   }
+}
+.links_col .links_wrap.preview .inner_content .icons_wrap {
+  background: #ffffff;
 }
 .links_col .links_wrap.preview .inner_content .icon_col {
   position: relative;

@@ -40,7 +40,7 @@ const AddLink = ({userLinks, setUserLinks, originalArray, setOriginalArray, user
                         ]
 
                         setOriginalArray(prevArray);
-                        setUserLinks(prevArray)
+                        setUserLinks(prevArray);
 
                     updateContentHeight();
 
@@ -67,6 +67,7 @@ const AddLink = ({userLinks, setUserLinks, originalArray, setOriginalArray, user
     const updateContentHeight = () => {
 
         if ((originalArray.length + 1) % 3 === 1 ) {
+            console.log("yup");
             const iconsWrap = document.querySelector('.icons_wrap');
             const iconCol = document.querySelectorAll('.add_icons .icon_col:last-child');
             const colHeight = iconCol[0].offsetHeight;

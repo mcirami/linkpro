@@ -155,11 +155,6 @@ const Links = ({
                 );
                 setState((state) => ({ ...state, mouseXY }));
                 setUserLinks(newOrder);
-            } else {
-                setState((state) => ({
-                    ...state,
-                    isPressed: false,
-                }));
             }
         },
         [state]
@@ -195,23 +190,23 @@ const Links = ({
         };
     }, [handleTouchMove, handleMouseUp, handleMouseMove]);
 
-    const {lastPress, isPressed, mouseXY } = state;
-
     useEffect(() => {
         //const newPostionsArray = userLinks.map((link, index) => ({...link, position: index}));
         //const newArray = userLinks.filter(element => element.id !== editID)
-        const packets = {
-            userLinks: userLinks,
-        }
-
-        axios.post("/dashboard/links/update-positions", packets).then(
-            (response) => {
-                console.log(JSON.stringify(response.data.message))
+        if(state.isPressed === false) {
+            const packets = {
+                userLinks: userLinks,
             }
-        ).catch((error) => {
-            console.log("ERROR:: ", error.response.data);
-        });
-    }, [userLinks]);
+
+            axios.post("/dashboard/links/update-positions", packets).then(
+                (response) => {
+                    console.log(JSON.stringify(response.data.message))
+                }
+            ).catch((error) => {
+                console.log("ERROR:: ", error.response.data);
+            });
+        }
+    }, [state.isPressed]);
 
     const handleChange = (currentItem) => {
         const newStatus = !currentItem.active_status;
@@ -293,6 +288,8 @@ const Links = ({
             return icon;
         }
     }
+
+    const {lastPress, isPressed, mouseXY } = state;
 
     return (
         <>

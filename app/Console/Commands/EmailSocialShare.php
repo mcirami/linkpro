@@ -52,11 +52,11 @@ class EmailSocialShare extends Command
             $diff = $created->diffInDays($now);
 
             if ($diff === 5) {
-                $page = $user->pages()->firstWhere( 'user_id', $user->id );
+                $page = $user->pages()->where( 'user_id', $user->id )->where('default', true)->get();
 
                 $userData = ( [
                     'username' => $user->username,
-                    'link'     => $page->name,
+                    'link'     => $page[0]->name,
                     'siteUrl'  => \URL::to( '/' ) . "/",
                     'userID'  => $user["id"],
                 ] );
