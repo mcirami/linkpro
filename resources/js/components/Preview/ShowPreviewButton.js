@@ -3,7 +3,7 @@ const ShowPreviewButton = () => {
 
     const ShowPreview = () => {
         document.querySelector('.links_col.preview').classList.add('show');
-        document.querySelector('html').classList.add('fixed');
+        document.querySelector('body').classList.add('fixed');
     }
 
     return (

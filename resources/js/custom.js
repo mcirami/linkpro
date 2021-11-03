@@ -9,16 +9,20 @@ jQuery(document).ready(function($) {
     if (box) {
         let windowWidth = $(window).outerWidth();
         const width = box.offsetWidth;
-        const height = box.offsetHeight;
+        //const height = box.offsetHeight;
         const diff = Math.floor(.0915033 * width);
 
-        if (windowWidth < 993) {
-            innerContent.style.maxHeight = "825px";
-            innerContent.style.maxWidth = "385px";
+        if (windowWidth < 360) {
+            innerContent.style.maxHeight = (width * 2) - 30 + "px";
+            innerContent.style.maxWidth = width - diff + "px";
+        } else if (windowWidth < 993) {
+            innerContent.style.maxHeight = "705px";
+            innerContent.style.maxWidth = "325px";
         } else if (windowWidth < 1010 ) {
             innerContent.style.maxHeight = (width * 2) - 30 + "px";
             innerContent.style.maxWidth = width - diff + "px";
         } else if (windowWidth < 1100 ) {
+            const diff = Math.floor(.0915033 * width);
             innerContent.style.maxHeight = (width * 2) - 20 + "px";
             innerContent.style.maxWidth = width - diff + "px";
         } else {
@@ -29,13 +33,16 @@ jQuery(document).ready(function($) {
         $(window).on('resize', function() {
 
             windowWidth = $(window).outerWidth();
-            const height = box.offsetHeight;
+            //const height = box.offsetHeight;
             const width = box.offsetWidth;
             const diff = Math.floor(.0915033 * width);
 
-            if (windowWidth < 993) {
-                innerContent.style.maxHeight = "825px";
-                innerContent.style.maxWidth = "385px";
+            if (windowWidth < 360) {
+                innerContent.style.maxHeight = (width * 2) - 30 + "px";
+                innerContent.style.maxWidth = width - diff + "px";
+            } else if (windowWidth < 993) {
+                innerContent.style.maxHeight = "705px";
+                innerContent.style.maxWidth = "325px";
             } else if (windowWidth < 1010 ) {
                 innerContent.style.maxHeight = (width * 2) - 30 + "px";
                 innerContent.style.maxWidth = width - diff + "px";

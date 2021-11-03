@@ -1,14 +1,14 @@
-html.fixed {
-    overflow-y: hidden;
-    padding-right: 10px;
-}
-
 body {
     height: 100%;
     max-width: 100%;
     display: inline-block;
     width: 100%;
 }
+
+body.fixed {
+    overflow: hidden;
+}
+
 
 img {
     width: 100%;

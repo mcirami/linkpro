@@ -11315,16 +11315,15 @@ h4, .h4, p {
   font-family: "opensansregular", sans-serif;
 }
 
-html.fixed {
-  overflow-y: hidden;
-  padding-right: 10px;
-}
-
 body {
   height: 100%;
   max-width: 100%;
   display: inline-block;
   width: 100%;
+}
+
+body.fixed {
+  overflow: hidden;
 }
 
 img {
@@ -12836,6 +12835,12 @@ header.guest_header .col.right {
     display: block;
   }
 }
+@media screen and (max-width: 550px) {
+  .links_col.preview .close_preview {
+    right: 3px;
+    top: 3px;
+  }
+}
 .links_col.preview .close_preview:hover {
   color: #545656;
   cursor: pointer;
@@ -12843,6 +12848,12 @@ header.guest_header .col.right {
 .links_col.preview .close_preview svg {
   width: 35px;
   height: 35px;
+}
+@media all and (max-width: 550px) {
+  .links_col.preview .close_preview svg {
+    width: 30px;
+    height: 30px;
+  }
 }
 .links_col .links_wrap {
   max-width: 425px;
@@ -13066,7 +13077,15 @@ header.guest_header .col.right {
   height: 100%;
   width: 100%;
 }
-.links_col .links_wrap.preview:before {
+.links_col .links_wrap.preview .inner_content {
+  background: transparent;
+  max-height: 825px;
+  height: 100%;
+  width: 100%;
+  max-width: 385px;
+  padding: 8px 0 0 0;
+}
+.links_col .links_wrap.preview .inner_content:before {
   content: "";
   background: url("/images/preview-device-no-btm.png") no-repeat;
   background-size: contain;
@@ -13075,14 +13094,6 @@ header.guest_header .col.right {
   right: 0;
   left: 0;
   bottom: 0;
-}
-.links_col .links_wrap.preview .inner_content {
-  background: transparent;
-  max-height: 825px;
-  height: 100%;
-  width: 100%;
-  max-width: 385px;
-  padding: 8px 0 0 0;
 }
 .links_col .links_wrap.preview .inner_content .inner_content_wrap {
   background: #ffffff;

@@ -37,6 +37,11 @@
                 display: block;
             }
 
+            @media screen and (max-width: 550px) {
+                right: 3px;
+                top: 3px;
+            }
+
             &:hover {
                 color: $darkGray;
                 cursor: pointer;
@@ -45,6 +50,11 @@
             svg {
                 width: 35px;
                 height: 35px;
+
+                @media all and (max-width: 550px) {
+                    width: 30px;
+                    height: 30px;
+                }
             }
         }
     }
@@ -296,17 +306,6 @@
             height: 100%;
             width: 100%;
 
-            &:before {
-                content: '';
-                background: url('/images/preview-device-no-btm.png') no-repeat;
-                background-size: contain;
-                position: absolute;
-                top: 0;
-                right: 0;
-                left: 0;
-                bottom: 0;
-            }
-
             .inner_content {
                 background: transparent;
                 max-height: 825px;
@@ -314,6 +313,17 @@
                 width: 100%;
                 max-width: 385px;
                 padding: 8px 0 0 0;
+
+                &:before {
+                    content: '';
+                    background: url('/images/preview-device-no-btm.png') no-repeat;
+                    background-size: contain;
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    left: 0;
+                    bottom: 0;
+                }
 
                 .inner_content_wrap {
                     background: $white;
