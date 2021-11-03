@@ -146,6 +146,8 @@ const Links = ({
     const handleTouchStart = useCallback(
 
         (key, pressLocation, e) => {
+            e.preventDefault();
+            e.stopPropagation();
             handleMouseDown(key, pressLocation, e.touches[0]);
         },
         [handleMouseDown]
@@ -183,6 +185,7 @@ const Links = ({
 
     const handleTouchMove = useCallback((e) => {
             e.preventDefault();
+            e.stopPropagation();
             document.querySelector('html').classList.add('fixed');
             handleMouseMove(e.touches[0]);
         },
