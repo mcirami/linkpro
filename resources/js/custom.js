@@ -39,8 +39,6 @@ jQuery(document).ready(function($) {
             const width = box.clientWidth;
             const diff = Math.floor(.0915033 * width);
 
-            console.log(height);
-
             /*if (windowWidth < 360) {
                 innerContent.style.maxHeight = (width * 2) - 30 + "px";
                 innerContent.style.maxWidth = width - diff + "px";

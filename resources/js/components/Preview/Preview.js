@@ -38,7 +38,26 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
             setIconCount(9)
         }
 
-    }, [userLinks])
+    }, [userLinks]);
+
+    useEffect(() => {
+
+        function handleResize() {
+            const windowWidth = window.outerWidth;
+
+            if (windowWidth > 992) {
+                document.querySelector('.links_col.preview').classList.remove('show');
+                document.querySelector('body').classList.remove('fixed');
+            }
+        }
+
+        window.addEventListener('resize', handleResize);
+
+        handleResize()
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        }
+    },[]);
 
     return (
 
