@@ -51,13 +51,11 @@ export const ConfirmPopup = ({editID, setEditID, userLinks, setUserLinks, origin
 
         if ((originalArray.length - 1) % 3 === 0 ) {
             const iconsWrap = document.querySelector('.icons_wrap');
-            const iconCol = document.querySelectorAll('.add_icons .icon_col:last-child');
-            const colHeight = iconCol[0].offsetHeight;
-            const transformProp = iconCol[0].style.transform.split("translate3d(");
-            const transformValues = transformProp[1].split(" ");
-            const divHeight = transformValues[1].replace(",", "").replace("px", "");
-            const height = parseInt(divHeight) + colHeight + 25;
-            iconsWrap.style.minHeight = height + "px";
+            const icons = document.querySelectorAll('.add_icons .icon_col');
+            const colHeight = icons[0].clientHeight;
+            const rowCount = Math.ceil(icons.length / 3);
+            const divHeight = rowCount * colHeight - 40;
+            iconsWrap.style.minHeight = divHeight + "px";
         }
     }
 
