@@ -7,6 +7,7 @@ use App\Notifications\NotifyAboutUnsubscribe;
 use Braintree\Gateway;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
 
 class UserService {
@@ -70,7 +71,10 @@ class UserService {
             return abort(404);
         }
 
-        $currentUser->username = $request->username;
+        if ($request->password) {
+            $currentUser->password = Hash::make($request->password);
+        }
+
         $currentUser->email = $request->email;
 
         $currentUser->save();
