@@ -12,7 +12,7 @@
             bottom: 0;
             background-color: $white;
             z-index: 9999;
-            padding-top: 5% !important;
+            padding: 3% 0 !important;
             background-position: center;
             transition: right 500ms;
             background-size: 75%;
@@ -66,8 +66,12 @@
         height: 100%;
         width: 100%;
 
+        @media all and (max-width: 992px) {
+            max-width: 355px;
+        }
+
         @media all and (max-width: 768px) {
-            max-width: 400px;
+            max-width: 365px;
         }
 
         @media screen and (max-width: 350px) {
@@ -302,9 +306,9 @@
         }
 
         &.preview {
-            max-width: 426px;
             height: 100%;
             width: 100%;
+
 
             .inner_content {
                 background: transparent;
@@ -313,11 +317,13 @@
                 width: 100%;
                 max-width: 385px;
                 padding: 8px 0 0 0;
+                margin: 0 auto;
 
                 &:before {
                     content: '';
                     background: url('/images/preview-device-no-btm.png') no-repeat;
                     background-size: contain;
+                    background-position: top center;
                     position: absolute;
                     top: 0;
                     right: 0;
@@ -328,8 +334,8 @@
                 .inner_content_wrap {
                     background: $white;
                     height: 100%;
-                    margin-right: -5px;
-                    margin-left: 8px;
+                    /*margin-right: -5px;
+                    margin-left: 8px;*/
                     margin-top: 2%;
                     overflow-y: scroll;
                     mask-image: url('/images/preview-device-inner.png');
