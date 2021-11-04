@@ -184,14 +184,14 @@ const Links = ({
 
     const handleTouchMove = useCallback((e) => {
             e.preventDefault();
-            document.querySelector('body').classList.add('fixed');
+            /*document.querySelector('body').classList.add('fixed');*/
             handleMouseMove(e.touches[0]);
         },
         [handleMouseMove]
     );
 
     const handleMouseUp = useCallback(() => {
-        document.querySelector('body').classList.remove('fixed');
+        /*document.querySelector('body').classList.remove('fixed');*/
         setState((state) => ({
             ...state,
             isPressed: false,
