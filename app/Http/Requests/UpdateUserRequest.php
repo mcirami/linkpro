@@ -29,14 +29,12 @@ class UpdateUserRequest extends FormRequest
 
         if ($request->password !== null) {
             return [
-                'username' => 'required|string|max:255|unique:users,username,' . $user["id"],
                 'email' => 'required|string|email|max:255|unique:users,email,' . $user["id"],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
             ];
         }
 
         return [
-            'username' => 'required|string|max:255|unique:users,username,' . $user["id"],
             'email' => 'required|string|email|max:255|unique:users,email,' . $user["id"],
         ];
     }
