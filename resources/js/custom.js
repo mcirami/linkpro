@@ -1,62 +1,21 @@
 'use strict'
 jQuery(document).ready(function($) {
 
-
-    const box = document.querySelector('.links_wrap.preview');
+    const box = document.querySelector('.inner_content_wrap');
     const innerContent = document.getElementById('preview_wrap');
 
 
     if (box) {
-        /*let windowWidth = $(window).outerWidth();
-        const width = box.clientWidth;
-        const height = box.clientHeight;
-        const diff = Math.floor(.0915033 * width);
 
-        /!*if (windowWidth < 360) {
-            innerContent.style.maxHeight = (width * 2) - 30 + "px";
-            innerContent.style.maxWidth = width - diff + "px";
-        } else *!/
-        if (windowWidth < 993) {
-
-            innerContent.style.maxHeight = height - 20 + "px";
-            innerContent.style.maxWidth = width - 40 + "px";
-        } else if (windowWidth < 1010 ) {
-            innerContent.style.maxHeight = (width * 2) - 30 + "px";
-            innerContent.style.maxWidth = width - diff + "px";
-        } else if (windowWidth < 1100 ) {
-            const diff = Math.floor(.0915033 * width);
-            innerContent.style.maxHeight = (width * 2) - 20 + "px";
-            innerContent.style.maxWidth = width - diff + "px";
-        } else {
-            innerContent.style.maxHeight = "825px";
-            innerContent.style.maxWidth = "385px";
-        }
+        const diff = 0.048461 * innerContent.clientHeight;
+        box.style.maxHeight = innerContent.clientHeight - diff + "px";
 
         $(window).on('resize', function() {
 
-            windowWidth = $(window).outerWidth();
-            const height = box.clientHeight;
-            const width = box.clientWidth;
-            const diff = Math.floor(.0915033 * width);
+            const diff = 0.048461 * innerContent.clientHeight;
+            box.style.maxHeight = innerContent.clientHeight - diff + "px";
 
-            /!*if (windowWidth < 360) {
-                innerContent.style.maxHeight = (width * 2) - 30 + "px";
-                innerContent.style.maxWidth = width - diff + "px";
-            } else *!/if (windowWidth < 993) {
-                innerContent.style.maxHeight = height - 20 + "px";
-                innerContent.style.maxWidth = width - 40 + "px";
-            } else if (windowWidth < 1010 ) {
-                innerContent.style.maxHeight = (width * 2) - 30 + "px";
-                innerContent.style.maxWidth = width - diff + "px";
-            } else if (windowWidth < 1100 ) {
-                innerContent.style.maxHeight = (width * 2) - 20 + "px";
-                innerContent.style.maxWidth = width - diff + "px";
-            } else {
-                innerContent.style.maxHeight = "825px";
-                innerContent.style.maxWidth = "385px";
-            }
-
-        });*/
+        });
     }
 
     const flashMessage = document.getElementById('laravel_flash');
