@@ -7,15 +7,15 @@ jQuery(document).ready(function($) {
 
 
     if (box) {
-        let windowWidth = $(window).outerWidth();
+        /*let windowWidth = $(window).outerWidth();
         const width = box.clientWidth;
         const height = box.clientHeight;
         const diff = Math.floor(.0915033 * width);
 
-        /*if (windowWidth < 360) {
+        /!*if (windowWidth < 360) {
             innerContent.style.maxHeight = (width * 2) - 30 + "px";
             innerContent.style.maxWidth = width - diff + "px";
-        } else */
+        } else *!/
         if (windowWidth < 993) {
 
             innerContent.style.maxHeight = height - 20 + "px";
@@ -39,10 +39,10 @@ jQuery(document).ready(function($) {
             const width = box.clientWidth;
             const diff = Math.floor(.0915033 * width);
 
-            /*if (windowWidth < 360) {
+            /!*if (windowWidth < 360) {
                 innerContent.style.maxHeight = (width * 2) - 30 + "px";
                 innerContent.style.maxWidth = width - diff + "px";
-            } else */if (windowWidth < 993) {
+            } else *!/if (windowWidth < 993) {
                 innerContent.style.maxHeight = height - 20 + "px";
                 innerContent.style.maxWidth = width - 40 + "px";
             } else if (windowWidth < 1010 ) {
@@ -56,7 +56,7 @@ jQuery(document).ready(function($) {
                 innerContent.style.maxWidth = "385px";
             }
 
-        });
+        });*/
     }
 
     const flashMessage = document.getElementById('laravel_flash');

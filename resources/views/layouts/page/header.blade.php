@@ -20,9 +20,15 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-<div id="app">
-    <main class="py-0 py-md-4">
+<div id="app" class="my_row">
+    <main class="py-4">
         @yield('content')
+
+        <div class="my_row user_page_footer">
+            <div class="image_wrap">
+                <a href="{{ Route('guest-home') }}"><img src="{{ asset('/images/footer-logo.png') }}" alt=""></a>
+            </div>
+        </div>
     </main>
 </div>
 </body>

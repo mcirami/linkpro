@@ -18,9 +18,11 @@
                         @endif
                     </div>
                     <div class="profile_content">
-                        <div class="profile_image @if (!$page->profile_img) default @endif">
-                            <div class="image_wrap">
-                                <img src={{ $page->profile_img ? : asset( 'images/default-img.png' ) }} alt=""/>
+                        <div class="profile_img_column">
+                            <div class="profile_image @if (!$page->profile_img) default @endif">
+                                <div class="image_wrap">
+                                    <img src={{ $page->profile_img ? : asset( 'images/default-img.png' ) }} alt=""/>
+                                </div>
                             </div>
                         </div>
                         <div class="profile_text">

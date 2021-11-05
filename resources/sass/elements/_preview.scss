@@ -3,7 +3,7 @@
     &.preview {
         background: url('/images/preview-device-bg.png') no-repeat;
         background-size: 100%;
-        background-position: 50% 10%;
+        background-position: 50% 30%;
 
         @media all and (max-width: 992px) {
             position: fixed;
@@ -60,10 +60,9 @@
     }
 
     .links_wrap {
-        max-width: 425px;
+        /*max-width: 388px;*/
         margin: 0 auto;
         position: relative;
-        height: 100%;
         width: 100%;
 
         @media all and (max-width: 992px) {
@@ -211,16 +210,26 @@
                 }
             }
 
-            .profile_image {
-                background: $white;
-                width: 28%;
+            .profile_img_column {
+                width: 35%;
                 border-radius: 100%;
                 -webkit-border-radius: 100%;
                 -moz-border-radius: 100%;
-                border: 7px solid $blue;
                 padding: 8px;
                 float: left;
-                margin-top: -55px;
+                margin-top: -88px;
+                background: #424ece;
+                background: -moz-linear-gradient(left, #424ece 0%, #92cde9 100%);
+                background: -webkit-linear-gradient(left, #424ece 0%, #92cde9 100%);
+                background: linear-gradient(to right, #424ece 0%, #92cde9 100%);
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#424ece', endColorstr='#92cde9', GradientType=1 );
+            }
+
+            .profile_image {
+                border-radius: 100%;
+                -webkit-border-radius: 100%;
+                -moz-border-radius: 100%;
+                padding: 4px;
 
                 img {
                     border-radius: 100%;
@@ -229,16 +238,17 @@
                 }
 
                 .image_wrap {
+                    background: $white;
                     overflow: hidden;
                     border-radius: 50px;
                     -webkit-border-radius: 50px;
                     -moz-border-radius: 50px;
+                    padding: 4px;
                 }
 
                 &.default {
                     background: $white;
                     color: $gray;
-                    margin-top: -60px;
 
                     .image_wrap {
                         max-width: unset;
@@ -263,11 +273,16 @@
             }
 
             .profile_text {
-                width: 72%;
+                width: 65%;
                 float: left;
-                padding-left: 20px;
+                padding-left: 12px;
+
+                h2 {
+                    margin-bottom: 0;
+                }
 
                 p {
+                    color: $grayBlue;
                     margin: 0;
                 }
             }
@@ -306,18 +321,31 @@
         }
 
         &.preview {
-            height: 100%;
+            /*height: auto;
             width: 100%;
+            margin: auto;
+            min-height: 78%;*/
+
+            /*@media all and (max-width: 992px) {
+                min-height: 90%;
+            }*/
+
+            @media screen and (max-width: 992px) {
+                max-width: 350px;
+            }
 
 
             .inner_content {
-                background: transparent;
-                max-height: 825px;
+                min-height: 782px;
                 height: 100%;
                 width: 100%;
-                max-width: 385px;
+                max-width: 344px;
                 padding: 8px 0 0 0;
                 margin: 0 auto;
+
+                @media screen and (max-width: 992px) {
+                    min-height: 708px;
+                }
 
                 &:before {
                     content: '';
@@ -336,7 +364,7 @@
                     height: 100%;
                     /*margin-right: -5px;
                     margin-left: 8px;*/
-                    margin-top: 2%;
+                    margin: 2% auto 0;
                     overflow-y: scroll;
                     mask-image: url('/images/preview-device-inner.png');
                     -webkit-mask-image: url('/images/preview-device-inner.png');
@@ -344,31 +372,31 @@
                     -webkit-mask-repeat: no-repeat;
                     mask-size: cover;
                     -webkit-mask-size: cover;
-                    border-radius: 50px;
-                    -webkit-border-radius: 50px;
-                    -moz-border-radius: 50px;
+                    border-radius: 40px;
+                    -webkit-border-radius: 40px;
+                    -moz-border-radius: 40px;
                     -ms-overflow-style: none;  /* IE and Edge */
                     scrollbar-width: none;
 
                     &::-webkit-scrollbar {
                         display:none;
                     }
+
+                    @media all and (max-width: 992px) {
+                        max-width: 310px;
+                    }
                 }
 
                 .profile_content {
-                    padding: 10px 20px 10px 35px;
                     background: $white;
+
+                    .profile_img_column {
+                        margin-top: -65px;
+                    }
 
                     .profile_text {
                         @media all and (max-width: 1199px) {
                             padding-left: 10px;
-                        }
-                    }
-
-                    .profile_image {
-                        @media all and (max-width: 1199px) and (min-width: 993px) {
-                            margin-top: -44px;
-                            padding: 5px;
                         }
                     }
 

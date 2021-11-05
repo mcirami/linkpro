@@ -126,33 +126,34 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
                                 :
                                 ""
                             }*/}
-
-                            {!profileFileName  ?
-                                <div className={pageSettings["profile_img"] && !profileFileName ?  "profile_image" : "profile_image default" }>
-                                    <div className="image_wrap">
-                                        <img src={pageSettings["profile_img"] || "/images/default-img.png"} alt=""/>
+                            <div className="profile_img_column">
+                                {!profileFileName  ?
+                                    <div className={pageSettings["profile_img"] && !profileFileName ?  "profile_image" : "profile_image default" }>
+                                        <div className="image_wrap">
+                                            <img src={pageSettings["profile_img"] || "/images/default-img.png"} alt=""/>
+                                        </div>
                                     </div>
-                                </div>
-                                :
-                                <div className={profileFileName ?  "profile_image selected" : "profile_image" }>
-                                    <div className="image_wrap">
-                                        <canvas
-                                            ref={profileRef}
-                                            // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
-                                            style={{
-                                                backgroundImage: profileRef,
-                                                backgroundSize: `cover`,
-                                                backgroundRepeat: `no-repeat`,
-                                                /*width: Math.round(completedCrop?.width ?? 0),
-                                                height: Math.round(completedCrop?.height ?? 0)*/
-                                                width: completedProfileCrop ? `100%` : 0,
-                                                height: completedProfileCrop ? `100%` : 0,
-                                                borderRadius: `50px`,
-                                            }}
-                                        />
+                                    :
+                                    <div className={profileFileName ?  "profile_image selected" : "profile_image" }>
+                                        <div className="image_wrap">
+                                            <canvas
+                                                ref={profileRef}
+                                                // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
+                                                style={{
+                                                    backgroundImage: profileRef,
+                                                    backgroundSize: `cover`,
+                                                    backgroundRepeat: `no-repeat`,
+                                                    /*width: Math.round(completedCrop?.width ?? 0),
+                                                    height: Math.round(completedCrop?.height ?? 0)*/
+                                                    width: completedProfileCrop ? `100%` : 0,
+                                                    height: completedProfileCrop ? `100%` : 0,
+                                                    borderRadius: `50px`,
+                                                }}
+                                            />
+                                        </div>
                                     </div>
-                                </div>
-                            }
+                                }
+                            </div>
                             <div className="profile_text">
                                 <h2>{pageSettings["title"] || "Add Title"}</h2>
                                 <p>{pageSettings["bio"] || "Add Bio or Slogan"}</p>
