@@ -66,44 +66,21 @@ const Links = ({
         }
     },[]);
 
-    const getColWidth = () => {
-        let colWidth;
+    const getColWidth = useCallback(() => {
+        const windowWidth = window.outerWidth;
+        console.log(windowWidth);
+
+        return ( (windowWidth * .535) / 4 ) - 30;
+    });
+
+    const getColHeight = useCallback(() => {
         const windowWidth = window.outerWidth;
 
-        if (windowWidth < 550 ) {
-            colWidth = ((3 * windowWidth)) / 11;
-        }else if (windowWidth < 992) {
-            colWidth = ((3 * windowWidth - 25)) / 10;
-        } else if (windowWidth < 1200) {
-            colWidth = ((3 * windowWidth - 50) / 2 ) / 9.5;
-        } else if (windowWidth < 1500) {
-            colWidth = ((3 * windowWidth - 50) / 2) / 10
-        } else {
-            colWidth = 230;
-        }
+        const colWidth = ( (windowWidth * .535) / 4 ) - 30;
+        const diff = colWidth * 0.22871;
+        return colWidth + diff;
+    });
 
-        return colWidth;
-    };
-
-    const getColHeight = () => {
-        let colHeight;
-        const windowWidth = window.outerWidth;
-
-        if (windowWidth < 768) {
-            colHeight = (3 * windowWidth / 10 + 50);
-        }else if (windowWidth < 992 ) {
-            colHeight = (3 * windowWidth - 50) / 10 + 25;
-        } else if (windowWidth < 1200) {
-            colHeight = ((3 * windowWidth - 50) / 2 ) / 8.75 + 20;
-        } else if (windowWidth < 1500) {
-            //colWidth = (window.outerWidth / 2) / 3 - 15;
-            colHeight = ((3 * windowWidth - 50) / 2) / 10 + 20;
-        } else {
-            colHeight = 250;
-        }
-
-        return colHeight;
-    };
 
     let [width, height] = [getColWidth(), getColHeight()];
 
@@ -113,7 +90,6 @@ const Links = ({
                 height: getColHeight(),
                 width: getColWidth(),
             })
-            /*[width, height] = [getColWidth(), getColHeight()];*/
         }
 
         window.addEventListener('resize', handleResize);
@@ -124,8 +100,8 @@ const Links = ({
 
     // indexed by visual position
     const layout = userLinks.map((link, index) => {
-        const row = Math.floor(index / 3);
-        const col = index % 3;
+        const row = Math.floor(index / 4);
+        const col = index % 4;
         return [width * col, height * row];
     });
 
@@ -162,13 +138,13 @@ const Links = ({
 
             if (isPressed) {
                 const mouseXY = [pageX - dx, pageY - dy];
-                const col = clamp(Math.floor(mouseXY[0] / width), 0, 2);
+                const col = clamp(Math.floor(mouseXY[0] / width), 0, 4);
                 const row = clamp(
                     Math.floor(mouseXY[1] / height),
                     0,
-                    Math.floor(userLinks.length / 3)
+                    Math.floor(userLinks.length / 4)
                 );
-                let index = row * 3 + col;
+                let index = row * 4 + col;
 
                 const newOrder = reinsert(
                     userLinks,
@@ -337,7 +313,7 @@ const Links = ({
                     style = {
                         translateX: spring(x, springSetting2),
                         translateY: spring(y, springSetting2),
-                        scale: spring(.75, springSetting1),
+                        scale: spring(.85, springSetting1),
                         //boxShadow: spring((x - (3 * width - 50) / 2) / 15, springSetting1)
                     };
                 }
