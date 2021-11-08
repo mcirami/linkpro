@@ -147,6 +147,14 @@ const Links = ({
 
         (key, pressLocation, e) => {
             e.preventDefault();
+            const scrollTop =
+                window.pageYOffset || document.documentElement.scrollTop;
+            const scrollLeft =
+                window.pageXOffset || document.documentElement.scrollLeft;
+
+            window.onscroll = function() {
+                window.scrollTo(scrollLeft, scrollTop);
+            };
             handleMouseDown(key, pressLocation, e.touches[0]);
         },
         [handleMouseDown]
@@ -154,6 +162,7 @@ const Links = ({
 
     const handleMouseMove = useCallback(
         ({ pageX, pageY }) => {
+
             const {
                 lastPress,
                 isPressed,
@@ -192,6 +201,7 @@ const Links = ({
 
     const handleMouseUp = useCallback(() => {
         /*document.querySelector('body').classList.remove('fixed');*/
+        window.onscroll = function() {};
         setState((state) => ({
             ...state,
             isPressed: false,
