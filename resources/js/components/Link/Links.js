@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useEffect, useState} from 'react';
+import React, {useCallback, useRef, useEffect, useLayoutEffect, useState} from 'react';
 import {MdDragHandle, MdEdit} from 'react-icons/md';
 import Switch from "react-switch";
 //import {LinksContext, PageContext} from '../App';
@@ -31,11 +31,22 @@ const Links = ({
 }) => {
 
     const initialRender = useRef(true);
+    const targetRef = useRef();
 
     const [size, setSize] = useState({
-        height: window.innerHeight,
-        width: window.outerWidth
+        height: 0,
+        width: 0
     });
+
+    useLayoutEffect(() => {
+
+        if (targetRef.current) {
+            setSize({
+                height: getColHeight(),
+                width: getColWidth(),
+            })
+        }
+    }, [])
 
     const [state, setState] = useState(() => ({
         mouseXY: [0,0],
@@ -68,23 +79,63 @@ const Links = ({
 
     const getColWidth = useCallback(() => {
         const windowWidth = window.outerWidth;
-        console.log(windowWidth);
+        let colWidth;
+        const iconsWrap = document.querySelector('.icons_wrap.add_icons');
 
-        return ( (windowWidth * .535) / 4 ) - 30;
+        if (iconsWrap) {
+            colWidth = (iconsWrap.clientWidth / 4) - 12;
+        } else {
+            if (windowWidth < 992) {
+                colWidth = (windowWidth / 4) - 20;
+            } else if (windowWidth < 1500) {
+                colWidth = (windowWidth * .396633) / 4 + 20;
+            } else {
+                colWidth = 175;
+            }
+        }
+
+        return colWidth;
     });
 
     const getColHeight = useCallback(() => {
         const windowWidth = window.outerWidth;
+        const iconCol = document.querySelectorAll('.icons_wrap.add_icons .icon_col');
+        let colHeight;
 
-        const colWidth = ( (windowWidth * .535) / 4 ) - 30;
-        const diff = colWidth * 0.22871;
-        return colWidth + diff;
+        console.log(iconCol[0].getBoundingClientRect().height);
+        if (initialRender.current) {
+            colHeight = iconCol[0].offsetHeight + 60;
+            /*if (windowWidth < 550) {
+                colHeight = targetRef.current.offsetWidth + (targetRef.current.offsetWidth * .50);
+            } else if (windowWidth < 768) {
+                colHeight = targetRef.current.offsetWidth + (targetRef.current.offsetWidth * .35);
+            } else if (windowWidth < 1500) {
+                colHeight = targetRef.current.offsetWidth + (targetRef.current.offsetWidth * .25);
+            } else {
+                colHeight = targetRef.current.offsetWidth + 30
+            }*/
+        } else {
+            colHeight = iconCol[0].clientHeight - 15;
+            console.log(iconCol[0].getBoundingClientRect().height);
+        }
+        /*else {
+            if (windowWidth < 992) {
+                colHeight = (windowWidth / 2) / 4;
+            } else if (windowWidth < 1500) {
+                colHeight = (windowWidth * .396633) / 4 + 25;
+            } else {
+                colHeight = 215;
+            }
+        }*/
+
+        return colHeight;
     });
 
 
-    let [width, height] = [getColWidth(), getColHeight()];
+    let [width, height] = [size.width, size.height];
 
     useEffect(() => {
+
         function handleResize() {
             setSize({
                 height: getColHeight(),
@@ -116,7 +167,6 @@ const Links = ({
             }));
         },
         []
-
     );
 
     const handleTouchStart = useCallback(
@@ -325,6 +375,7 @@ const Links = ({
                     <Motion key={key} style={style}>
                         {({ translateX, translateY, scale }) => (
                             <div
+                                ref={targetRef}
                                 className="icon_col"
                                 style={{
                                     transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale})`,

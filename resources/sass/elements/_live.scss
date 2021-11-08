@@ -1,9 +1,9 @@
-.links_col {
+#links_page .links_col {
 
     .links_wrap {
 
         &.live_page {
-            max-width: 500px;
+            max-width: 475px;
 
             @media all and (max-width: 550px) {
                 max-width: 90%;
@@ -14,10 +14,8 @@
                 -webkit-box-shadow: unset !important;
                 -moz-box-shadow: unset !important;
                 -o-box-shadow: unset !important;
-                padding: 15px;
 
                 img {
-                    @include boxShadowAlt;
                     border-radius: 12px;
                     -webkit-border-radius: 12px;
                     -moz-border-radius: 12px;
@@ -37,7 +35,7 @@
                 margin: 0;
 
                 .page_header {
-                    padding: 30%;
+                    padding: 25%;
                     border-top-right-radius: 20px;
                     -webkit-border-top-right-radius: 20px;
                     -moz-border-radius-topright: 20px;
@@ -54,10 +52,18 @@
 
                     h2 {
                         font-size: 35px;
+
+                        @media screen and (max-width: 550px) {
+                            font-size: 7vw;
+                        }
                     }
 
                     p {
                         font-size: 18px;
+
+                        @media screen and (max-width: 550px) {
+                            font-size: 3.5vw;
+                        }
                     }
                 }
 
