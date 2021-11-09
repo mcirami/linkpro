@@ -41,7 +41,16 @@
                                 @if ( $count < 9 || ($count > 8 && !$subscription->isEmpty() && $subscription[0]["braintree_status"] == "active") || (!$subscription->isEmpty() && $subscription[0]["ends_at"] > \Carbon\Carbon::now()) )
                                     <div class="icon_col">
                                         @if($link->active_status)
-                                            <a href="{{ $link->url ? : 'https://link.pro' }}"
+
+                                            @if ($link->email)
+                                                @php $source = "mailto:" . $link->email @endphp
+                                            @elseif ($link->phone)
+                                                @php $source = "tel:" . $link->phone @endphp
+                                            @else
+                                              @php $source = $link->url @endphp
+                                            @endif
+
+                                            <a href="{{ $source ? : 'https://link.pro' }}"
                                                target="_blank"
                                                rel="nofollow"
                                             >
