@@ -6,11 +6,11 @@ import {IoIosLock} from 'react-icons/io';
 //const page_header_path  = user.page_header_path + "/";
 //const page_profile_path  = user.page_profile_path + "/";
 
-const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, completedProfileCrop, profileRef, userSub }) => {
+const Preview = ({userLinks, setRef, completedCrop, fileName, profileFileName, completedProfileCrop, profileRef, userSub}) => {
 
     //const { userLinks } = useContext(LinksContext);
-    const { pageSettings, setPageSettings } = useContext(PageContext);
-    const [ iconCount, setIconCount ] = useState(null);
+    const {pageSettings, setPageSettings} = useContext(PageContext);
+    const [iconCount, setIconCount] = useState(null);
 
     const myStyle = {
         background: "url(" + pageSettings["header_img"] + ") no-repeat",
@@ -22,7 +22,7 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
         document.querySelector('body').classList.remove('fixed');
     }
 
-    useEffect(()=> {
+    useEffect(() => {
 
         if (userSub) {
             const {braintree_status, ends_at, name} = {...userSub};
@@ -46,7 +46,9 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
             const windowWidth = window.outerWidth;
 
             if (windowWidth > 992) {
-                document.querySelector('.links_col.preview').classList.remove('show');
+                document.querySelector('.links_col.preview').
+                    classList.
+                    remove('show');
                 document.querySelector('body').classList.remove('fixed');
             }
         }
@@ -57,13 +59,13 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
         return () => {
             window.removeEventListener('resize', handleResize);
         }
-    },[]);
+    }, []);
 
     return (
 
         <>
             <div className="close_preview" onClick={ClosePreview}>
-                <MdCancel />
+                <MdCancel/>
             </div>
 
             <div className="links_wrap preview">
@@ -78,7 +80,7 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
                         }
 
                         {pageSettings["header_img"] && !fileName ?
-                            <div className="page_header" style={myStyle} >
+                            <div className="page_header" style={myStyle}>
                             </div>
                             :
                             <div className="page_header canvas"
@@ -126,15 +128,21 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
                                 :
                                 ""
                             }*/}
-                            <div className={pageSettings["profile_img"] && !profileFileName ?  "profile_img_column" : "profile_img_column default" }>
-                                {!profileFileName  ?
+                            <div className={pageSettings["profile_img"] &&
+                            !profileFileName ?
+                                "profile_img_column" :
+                                "profile_img_column default"}>
+                                {!profileFileName ?
                                     <div className="profile_image">
                                         <div className="image_wrap">
-                                            <img src={pageSettings["profile_img"] || "/images/default-img.png"} alt=""/>
+                                            <img src={pageSettings["profile_img"] ||
+                                            "/images/default-img.png"} alt=""/>
                                         </div>
                                     </div>
                                     :
-                                    <div className={profileFileName ?  "profile_image selected" : "profile_image" }>
+                                    <div className={profileFileName ?
+                                        "profile_image selected" :
+                                        "profile_image"}>
                                         <div className="image_wrap">
                                             <canvas
                                                 ref={profileRef}
@@ -145,8 +153,12 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
                                                     backgroundRepeat: `no-repeat`,
                                                     /*width: Math.round(completedCrop?.width ?? 0),
                                                     height: Math.round(completedCrop?.height ?? 0)*/
-                                                    width: completedProfileCrop ? `100%` : 0,
-                                                    height: completedProfileCrop ? `100%` : 0,
+                                                    width: completedProfileCrop ?
+                                                        `100%` :
+                                                        0,
+                                                    height: completedProfileCrop ?
+                                                        `100%` :
+                                                        0,
                                                     borderRadius: `50px`,
                                                 }}
                                             />
@@ -156,25 +168,45 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
                             </div>
                             <div className="profile_text">
                                 <h2>{pageSettings["title"] || "Add Title"}</h2>
-                                <p>{pageSettings["bio"] || "Add Bio or Slogan"}</p>
+                                <p>{pageSettings["bio"] ||
+                                "Add Bio or Slogan"}</p>
                             </div>
                         </div>
                         <div className="icons_wrap">
 
                             {userLinks.slice(0, iconCount).map((linkItem) => {
 
-                                const { id, name, url, icon, active_status } = linkItem;
+                                const {
+                                    id,
+                                    name,
+                                    url,
+                                    email,
+                                    phone,
+                                    icon,
+                                    active_status
+                                } = linkItem;
+                                let source;
+                                if (email) {
+                                    source = "mailto:" + email;
+                                } else if (phone) {
+                                    source = "tel:" + phone;
+                                } else {
+                                    source = url;
+                                }
+
                                 return (
                                     <div className="icon_col" key={id.toString()}>
-                                        { active_status ?
+                                        {active_status ?
                                             <>
-                                                <a target="_blank" href={ url || "https://link.pro"}>
-                                                    <img src={ icon || '/images/icon-placeholder-preview.png'} alt=""/>
+                                                <a target="_blank" href={source ||
+                                                "https://link.pro"}>
+                                                    <img src={icon ||
+                                                    '/images/icon-placeholder-preview.png'} alt=""/>
                                                 </a>
-                                                <p>{ name || "Link Name" }</p>
+                                                <p>{name || "Link Name"}</p>
                                             </>
-                                         :
-                                           ""
+                                            :
+                                            ""
                                         }
                                     </div>
                                 )
