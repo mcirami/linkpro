@@ -124,7 +124,6 @@ const SubmitForm = ({
     const onLoad = useCallback((img) => {
         imgRef.current = img;
         const linkFormHeight = document.getElementsByClassName('link_form')[0].offsetHeight;
-        console.log(linkFormHeight);
         document.getElementById('left_col_wrap').style.height = linkFormHeight + 160 + "px";
     }, []);
 
@@ -264,11 +263,11 @@ const SubmitForm = ({
     const submitWithCustomIcon = (image) => {
 
         const packets = {
-            name: currentLink.name,
-            url: currentLink.url,
-            email: currentLink.email,
-            phone: currentLink.phone,
-            icon: image,
+            name: currentLink.name || null,
+            url: currentLink.url || null,
+            email: currentLink.email || null,
+            phone: currentLink.phone || null,
+            icon: image || null,
             page_id: pageSettings["id"],
         };
 

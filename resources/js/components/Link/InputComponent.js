@@ -83,7 +83,6 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType }) => {
 
     const {name, type, value, placeholder, key } = inputValues;
 
-    console.log(currentLink);
     return (
 
         <>

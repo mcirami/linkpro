@@ -63,7 +63,7 @@ const Links = ({
                 const iconsWrap = document.querySelector('.icons_wrap');
                 const icons = document.querySelectorAll('.add_icons .icon_col');
                 const colHeight = icons[0].clientHeight;
-                const rowCount = Math.ceil(icons.length / 3);
+                const rowCount = Math.ceil(icons.length / 4);
                 const divHeight = rowCount * colHeight - 40;
                 iconsWrap.style.minHeight = divHeight + "px";
             }, 500)
