@@ -12,6 +12,7 @@ import { LinksContext, PageContext } from '../App';
 import EventBus from '../../Utils/Bus';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
+import InputComponent from './InputComponent';
 const iconPaths = user.icons;
 const customIcons = user.userIcons;
 
@@ -48,23 +49,21 @@ const SubmitForm = ({
     const [radioValue, setRadioValue] = useState("standard");
     const [subStatus, setSubStatus] = useState(false);
 
+    const [ currentLink, setCurrentLink ] = useState(
+        userLinks.find(function(e) {
+            return e.id === editID
+        }) || null );
+
+    const [inputType, setInputType] = useState(
+        currentLink.email && "email" || currentLink.url && "url" || currentLink.phone && "phone"
+    );
+
     useEffect (() => {
         if (!userSub || userSub["ends_at"] && new Date(userSub["ends_at"]).valueOf() < new Date().valueOf()) {
             setSubStatus(true);
         }
 
     }, [setSubStatus]);
-
-    /*useEffect (() => {
-        setCustomIconArray(customIcons);
-        console.log("Fuck");
-    }, []);*/
-
-    const [ currentLink, setCurrentLink ] = useState(
-        userLinks.find(function(e) {
-            return e.id === editID
-        }) || null );
-
 
     let iconArray = [];
 
@@ -197,6 +196,8 @@ const SubmitForm = ({
             const packets = {
                 name: currentLink.name,
                 url: currentLink.url,
+                email: currentLink.email,
+                phone: currentLink.phone,
                 icon: currentLink.icon,
                 page_id: pageSettings["id"],
             };
@@ -212,6 +213,8 @@ const SubmitForm = ({
                                     ...item,
                                     name: currentLink.name,
                                     url: currentLink.url,
+                                    email: currentLink.email,
+                                    phone: currentLink.phone,
                                     icon: currentLink.icon
                                 }
                             }
@@ -225,6 +228,8 @@ const SubmitForm = ({
                                     ...item,
                                     name: currentLink.name,
                                     url: currentLink.url,
+                                    email: currentLink.email,
+                                    phone: currentLink.phone,
                                     icon: currentLink.icon
                                 }
                             }
@@ -235,7 +240,18 @@ const SubmitForm = ({
                 }
             ).catch(error => {
                 if (error.response) {
-                    EventBus.dispatch("error", { message: error.response.data.errors });
+                    if (error.response.data.errors.name) {
+                        EventBus.dispatch("error", { message: error.response.data.errors.name[0] });
+                    } else if (error.response.data.errors.url) {
+                        EventBus.dispatch("error", { message: error.response.data.errors.url[0] });
+                    } else if (error.response.data.errors.email) {
+                        EventBus.dispatch("error", { message: error.response.data.errors.email[0] });
+                    } else if (error.response.data.errors.phone) {
+                        EventBus.dispatch("error", { message: error.response.data.errors.phone[0] });
+                    } else if (error.response.data.errors.icon) {
+                        EventBus.dispatch("error", { message: error.response.data.errors.icon[0] });
+                    }
+                    console.log(error.response);
                 } else {
                     console.log("ERROR:: ", error);
                 }
@@ -248,9 +264,11 @@ const SubmitForm = ({
     const submitWithCustomIcon = (image) => {
 
         const packets = {
-            name: currentLink.name ? currentLink.name : null,
-            url: currentLink.url ? currentLink.url : null,
-            icon: image ? image : null,
+            name: currentLink.name,
+            url: currentLink.url,
+            email: currentLink.email,
+            phone: currentLink.phone,
+            icon: image,
             page_id: pageSettings["id"],
         };
 
@@ -266,6 +284,8 @@ const SubmitForm = ({
                                 ...item,
                                 name: currentLink.name,
                                 url: currentLink.url,
+                                email: currentLink.email,
+                                phone: currentLink.phone,
                                 icon: image
                             }
                         }
@@ -279,6 +299,8 @@ const SubmitForm = ({
                                 ...item,
                                 name: currentLink.name,
                                 url: currentLink.url,
+                                email: currentLink.email,
+                                phone: currentLink.phone,
                                 icon: image
                             }
                         }
@@ -296,7 +318,18 @@ const SubmitForm = ({
             }
         ).catch(error => {
             if (error.response) {
-                EventBus.dispatch("error", { message: error.response.data.errors });
+                if (error.response.data.errors.name) {
+                    EventBus.dispatch("error", { message: error.response.data.errors.name[0] });
+                } else if (error.response.data.errors.url) {
+                    EventBus.dispatch("error", { message: error.response.data.errors.url[0] });
+                } else if (error.response.data.errors.email) {
+                    EventBus.dispatch("error", { message: error.response.data.errors.email[0] });
+                } else if (error.response.data.errors.phone) {
+                    EventBus.dispatch("error", { message: error.response.data.errors.phone[0] });
+                } else if (error.response.data.errors.icon) {
+                    EventBus.dispatch("error", { message: error.response.data.errors.icon[0] });
+                }
+                console.log(error.response);
             } else {
                 console.log("ERROR:: ", error);
             }
@@ -429,6 +462,7 @@ const SubmitForm = ({
                                     radioValue={radioValue}
                                     setCharactersLeft={setCharactersLeft}
                                     customIconArray={customIconArray}
+                                    setInputType={setInputType}
                                 />
 
                             </div>
@@ -464,16 +498,7 @@ const SubmitForm = ({
                 </div>
                 <div className="row">
                     <div className="col-12">
-                        <input
-                            name="url"
-                            type="text"
-                            value={currentLink.url || ""}
-                            placeholder="https://linkurl.com"
-                            onChange={(e) => setCurrentLink({
-                                ...currentLink,
-                                url: e.target.value
-                            })}
-                        />
+                        <InputComponent inputType={inputType} currentLink={currentLink} setCurrentLink={setCurrentLink}/>
                     </div>
                 </div>
                 <div className="row">

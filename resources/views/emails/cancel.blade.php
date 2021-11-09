@@ -7,10 +7,10 @@ Your subscription is set to end on <span class="date">{{ $data["end_date"] }}</s
 <br>
 Take advantage of the rest of the time you have!
 
-@component('mail::button', ['url' => $data['siteUrl'] . "login" ])
+@component('mail::button', ['url' => $data['siteUrl'] . "/login" ])
     Login Now
 @endcomponent
 
-<p class="sign_off">To your success!</p>
+<p class="sign_off">To Your Success!</p>
 <p class="signature">The LinkPro Team</p>
 @endcomponent

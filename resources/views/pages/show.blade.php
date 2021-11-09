@@ -18,8 +18,8 @@
                         @endif
                     </div>
                     <div class="profile_content">
-                        <div class="profile_img_column">
-                            <div class="profile_image @if (!$page->profile_img) default @endif">
+                        <div class="profile_img_column @if (!$page->profile_img) default @endif">
+                            <div class="profile_image">
                                 <div class="image_wrap">
                                     <img src={{ $page->profile_img ? : asset( 'images/default-img.png' ) }} alt=""/>
                                 </div>
@@ -38,7 +38,7 @@
                             @php $count = 0; @endphp
                             @foreach($links as $link)
                                 @php ++$count @endphp
-                                @if ( $count < 10 || ($count > 9 && !$subscription->isEmpty() && $subscription[0]["braintree_status"] == "active") || (!$subscription->isEmpty() && $subscription[0]["ends_at"] > \Carbon\Carbon::now()) )
+                                @if ( $count < 9 || ($count > 8 && !$subscription->isEmpty() && $subscription[0]["braintree_status"] == "active") || (!$subscription->isEmpty() && $subscription[0]["ends_at"] > \Carbon\Carbon::now()) )
                                     <div class="icon_col">
                                         @if($link->active_status)
                                             <a href="{{ $link->url ? : 'https://link.pro' }}"

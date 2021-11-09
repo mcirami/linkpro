@@ -7,9 +7,9 @@ We are sorry to see you go. If this was a mistake, click the button below to ReS
 <br>
 <br>
 <p><a href="{{ $data['siteUrl'] }}/email-subscription/{{ $data["userID"] }}?action=subscribe">ReSubscribe Now!</a></p>
-@component('mail::button', ['url' => $data['siteUrl'] . "login" ])
+@component('mail::button', ['url' => $data['siteUrl'] . "/login" ])
     Login Now
 @endcomponent
-<p class="sign_off">To your success!</p>
+<p class="sign_off">To Your Success!</p>
 <p class="signature">The LinkPro Team</p>
 @endcomponent

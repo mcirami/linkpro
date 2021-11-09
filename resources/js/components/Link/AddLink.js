@@ -13,7 +13,7 @@ const AddLink = ({userLinks, setUserLinks, originalArray, setOriginalArray, user
 
         const count = userLinks.length;
 
-        if (count < 9 || ( (userSub && userSub["braintree_status"] === "active") || (userSub && userSub["braintree_status"] === "pending") ) || (userSub && new Date(userSub["ends_at"]).valueOf()) > new Date().valueOf() ) {
+        if (count < 8 || ( (userSub && userSub["braintree_status"] === "active") || (userSub && userSub["braintree_status"] === "pending") ) || (userSub && new Date(userSub["ends_at"]).valueOf()) > new Date().valueOf() ) {
 
             const packets = {
                 id: pageSettings["id"],
@@ -45,7 +45,12 @@ const AddLink = ({userLinks, setUserLinks, originalArray, setOriginalArray, user
                     updateContentHeight();
 
                 }).catch(error => {
-                console.log("ERROR:: ", error.response.data);
+                if (error.response) {
+                    //EventBus.dispatch("error", { message: error.response.data.errors.header_img[0] });
+                    console.log(error.response);
+                } else {
+                    console.log("ERROR:: ", error);
+                }
 
             });
         } else {

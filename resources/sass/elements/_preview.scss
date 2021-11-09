@@ -215,7 +215,7 @@
                 border-radius: 100%;
                 -webkit-border-radius: 100%;
                 -moz-border-radius: 100%;
-                padding: 8px;
+                padding: 4px;
                 float: left;
                 margin-top: -80px;
                 background: #424ece;
@@ -228,54 +228,57 @@
                     width: 38%;
                     margin-top: -24%;
                 }
-            }
 
-            .profile_image {
-                border-radius: 100%;
-                -webkit-border-radius: 100%;
-                -moz-border-radius: 100%;
-                padding: 4px;
-
-                img {
+                .profile_image {
                     border-radius: 100%;
                     -webkit-border-radius: 100%;
                     -moz-border-radius: 100%;
-                }
-
-                .image_wrap {
-                    background: $white;
-                    overflow: hidden;
-                    border-radius: 50px;
-                    -webkit-border-radius: 50px;
-                    -moz-border-radius: 50px;
                     padding: 4px;
-                }
 
-                &.default {
-                    background: $white;
-                    color: $gray;
-
-                    .image_wrap {
-                        max-width: unset;
-                        overflow: unset;
-                        padding: 20%;
-                        background: $lightGray;
+                    img {
                         border-radius: 100%;
                         -webkit-border-radius: 100%;
                         -moz-border-radius: 100%;
+                    }
 
-                        img {
-                            border-radius: 0;
-                            -webkit-border-radius: 0;
-                            -moz-border-radius: 0;
-                        }
+                    .image_wrap {
+                        background: $white;
+                        overflow: hidden;
+                        border-radius: 100%;
+                        -webkit-border-radius: 100%;
+                        -moz-border-radius: 100%;
+                        padding: 4px;
+                    }
+
+                    &.selected {
+                        padding-bottom: 0 !important;
                     }
                 }
 
-                &.selected {
-                    padding-bottom: 0 !important;
+                &.default {
+                    padding: 8px;
+
+                    .profile_image {
+                        background: $white;
+                        color: $gray;
+
+                        .image_wrap {
+                            max-width: unset;
+                            overflow: unset;
+                            padding: 20%;
+                            background: $lightGray;
+
+                            img {
+                                border-radius: 0;
+                                -webkit-border-radius: 0;
+                                -moz-border-radius: 0;
+                            }
+                        }
+                    }
                 }
             }
+
+
 
             .profile_text {
                 width: 67%;

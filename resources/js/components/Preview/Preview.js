@@ -32,10 +32,10 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
             if (braintree_status === 'active' || endsAt > currentDate) {
                 setIconCount(userLinks.length)
             } else {
-                setIconCount(9)
+                setIconCount(8)
             }
         } else {
-            setIconCount(9)
+            setIconCount(8)
         }
 
     }, [userLinks]);
@@ -126,9 +126,9 @@ const Preview = ({ userLinks, setRef, completedCrop, fileName, profileFileName, 
                                 :
                                 ""
                             }*/}
-                            <div className="profile_img_column">
+                            <div className={pageSettings["profile_img"] && !profileFileName ?  "profile_img_column" : "profile_img_column default" }>
                                 {!profileFileName  ?
-                                    <div className={pageSettings["profile_img"] && !profileFileName ?  "profile_image" : "profile_image default" }>
+                                    <div className="profile_image">
                                         <div className="image_wrap">
                                             <img src={pageSettings["profile_img"] || "/images/default-img.png"} alt=""/>
                                         </div>

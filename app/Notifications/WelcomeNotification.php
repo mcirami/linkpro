@@ -43,7 +43,7 @@ class WelcomeNotification extends Notification
     {
 
         return (new MailMessage)
-            ->subject('Welcome To Link Pro!')
+            ->subject('Welcome To LinkPro!')
             ->markdown('emails.welcome', ['data' => $this->userData]);
     }
 

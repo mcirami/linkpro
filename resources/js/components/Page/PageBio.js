@@ -44,8 +44,14 @@ const PageBio = () => {
                 }
             ).catch(error => {
                 //console.log("ERROR:: ", error.response.data.errors.bio[0]);
-                EventBus.dispatch("error",
-                    {message: error.response.data.errors.bio[0]});
+
+                if (error.response) {
+                    EventBus.dispatch("error", {message: error.response.data.errors.bio[0]});
+                    console.log(error.response);
+                } else {
+                    console.log("ERROR:: ", error);
+                }
+
 
             });
         }

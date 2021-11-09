@@ -122,7 +122,12 @@ const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileN
                 document.querySelector('form.header_img_form .bottom_section').classList.add('hidden');
             }
         ).catch(error => {
-            console.log("ERROR:: ", error.response.data);
+            if (error.response) {
+                EventBus.dispatch("error", { message: error.response.data.errors.header_img[0] });
+                console.log(error.response);
+            } else {
+                console.log("ERROR:: ", error);
+            }
         });
     }
 

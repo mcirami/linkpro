@@ -27,6 +27,8 @@ class Link extends Model
         'folder_id',
         'name',
         'url',
+        'email',
+        'phone',
         'icon',
         'position',
         'active_status'

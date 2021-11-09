@@ -57,7 +57,7 @@ class EmailSocialShare extends Command
                 $userData = ( [
                     'username' => $user->username,
                     'link'     => $page[0]->name,
-                    'siteUrl'  => \URL::to( '/' ) . "/",
+                    'siteUrl'  => \URL::to( '/' ),
                     'userID'  => $user["id"],
                 ] );
 

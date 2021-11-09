@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 //import {LinksContext} from './App';
 
-const IconList = ({currentLink, setCurrentLink, iconArray, radioValue, setCharactersLeft, customIconArray}) => {
+const IconList = ({currentLink, setCurrentLink, iconArray, radioValue, setCharactersLeft, customIconArray, setInputType}) => {
 
 
     const selectIcon = (e, source) => {
@@ -17,6 +17,14 @@ const IconList = ({currentLink, setCurrentLink, iconArray, radioValue, setCharac
                 setCharactersLeft(13 - name.length);
             } else {
                 name = currentLink.name;
+            }
+
+            if(el.dataset.name.toLowerCase() === "email") {
+                setInputType("email");
+            } else if (el.dataset.name.toLowerCase() === "phone") {
+                setInputType("phone");
+            } else {
+                setInputType("url");
             }
 
             setCurrentLink({

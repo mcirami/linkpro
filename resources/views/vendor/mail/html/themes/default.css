@@ -380,14 +380,7 @@ ul li {
     -moz-column-gap: 10px;
     -webkit-column-gap: 10px;
     margin-bottom: 10px;
-}
-
-ul.pro svg {
-    color: #424fcf;
-}
-
-ul.premier svg {
-    color: #000;
+    text-align: left;
 }
 
 p span.date {

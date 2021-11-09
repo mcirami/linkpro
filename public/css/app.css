@@ -12263,6 +12263,7 @@ header.guest_header .col.right {
     justify-content: center;
     align-items: center;
     float: none;
+    overflow-y: scroll;
   }
 }
 #links_page .content_wrap {
@@ -13006,7 +13007,7 @@ header.guest_header .col.right {
   border-radius: 100%;
   -webkit-border-radius: 100%;
   -moz-border-radius: 100%;
-  padding: 8px;
+  padding: 4px;
   float: left;
   margin-top: -80px;
   background: #424ece;
@@ -13019,45 +13020,45 @@ header.guest_header .col.right {
     margin-top: -24%;
   }
 }
-#links_page .links_col .links_wrap .profile_content .profile_image {
+#links_page .links_col .links_wrap .profile_content .profile_img_column .profile_image {
   border-radius: 100%;
   -webkit-border-radius: 100%;
   -moz-border-radius: 100%;
   padding: 4px;
 }
-#links_page .links_col .links_wrap .profile_content .profile_image img {
+#links_page .links_col .links_wrap .profile_content .profile_img_column .profile_image img {
   border-radius: 100%;
   -webkit-border-radius: 100%;
   -moz-border-radius: 100%;
 }
-#links_page .links_col .links_wrap .profile_content .profile_image .image_wrap {
+#links_page .links_col .links_wrap .profile_content .profile_img_column .profile_image .image_wrap {
   background: #ffffff;
   overflow: hidden;
-  border-radius: 50px;
-  -webkit-border-radius: 50px;
-  -moz-border-radius: 50px;
+  border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
   padding: 4px;
 }
-#links_page .links_col .links_wrap .profile_content .profile_image.default {
+#links_page .links_col .links_wrap .profile_content .profile_img_column .profile_image.selected {
+  padding-bottom: 0 !important;
+}
+#links_page .links_col .links_wrap .profile_content .profile_img_column.default {
+  padding: 8px;
+}
+#links_page .links_col .links_wrap .profile_content .profile_img_column.default .profile_image {
   background: #ffffff;
   color: #d4d2d2;
 }
-#links_page .links_col .links_wrap .profile_content .profile_image.default .image_wrap {
+#links_page .links_col .links_wrap .profile_content .profile_img_column.default .profile_image .image_wrap {
   max-width: unset;
   overflow: unset;
   padding: 20%;
   background: #f4f4f4;
-  border-radius: 100%;
-  -webkit-border-radius: 100%;
-  -moz-border-radius: 100%;
 }
-#links_page .links_col .links_wrap .profile_content .profile_image.default .image_wrap img {
+#links_page .links_col .links_wrap .profile_content .profile_img_column.default .profile_image .image_wrap img {
   border-radius: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
-}
-#links_page .links_col .links_wrap .profile_content .profile_image.selected {
-  padding-bottom: 0 !important;
 }
 #links_page .links_col .links_wrap .profile_content .profile_text {
   width: 67%;
@@ -13448,7 +13449,7 @@ header.guest_header .col.right {
   margin-left: -15px !important;
 }
 
-input[type=text], #card-element, input[type=email], input[type=password], textarea, #card-number, #expiration-date, #cvv, #postal-code, select {
+input[type=text], input[type=tel], #card-element, input[type=email], input[type=password], textarea, #card-number, #expiration-date, #cvv, #postal-code, select {
   border: 1px solid #d2d2d2;
   border-top-right-radius: 8px;
   -webkit-border-top-right-radius: 8px;

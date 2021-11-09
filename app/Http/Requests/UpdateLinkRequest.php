@@ -26,6 +26,8 @@ class UpdateLinkRequest extends FormRequest
         return [
             'name' => 'max:255|nullable',
             'url' => 'url|nullable',
+            'email' => 'email|nullable',
+            'phone' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:10|nullable',
         ];
     }
 }

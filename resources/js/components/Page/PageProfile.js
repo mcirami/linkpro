@@ -125,7 +125,12 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
 
             }
         ).catch(error => {
-            console.log("ERROR:: ", error.response.data);
+            if (error.response) {
+                EventBus.dispatch("error", { message: error.response.data.errors.profile_img[0] });
+                console.log(error.response);
+            } else {
+                console.log("ERROR:: ", error);
+            }
         });
     }
     const handleCancel = () => {
