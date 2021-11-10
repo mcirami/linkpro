@@ -124,16 +124,13 @@
             display: -webkit-box;
             display: -ms-flexbox;
             display: flex;
-            -webkit-box-orient: horizontal;
-            -webkit-box-direction: normal;
-            -ms-flex-direction: row;
-            flex-direction: row;
-            -ms-flex-wrap: nowrap;
-            flex-wrap: nowrap;
+            flex-flow: row nowrap;
+            -webkit-flex-flow: row nowrap;
             align-items: center;
             -webkit-align-items: center;
             justify-content: center;
             -webkit-justify-content: center;
+
 
             @media all and (max-width: 768px) {
                 margin-bottom: 20px;
@@ -166,19 +163,33 @@
                 }
             }
 
+            .hover_border {
+                width: 0;
+                height: 4px;
+                align-self: flex-start;
+                -webkit-align-self: flex-start;
+                background: $blue;
+                transition: .5s width linear;
+                margin-top: 5px;
+            }
+
             a {
                 @include ossemibold;
                 font-size: 18px;
-                border-bottom: 4px solid transparent;
-                padding-bottom: 4px;
 
                 &:hover {
-                    text-decoration: none;
-                    border-color: $blue;
+
+                    .hover_border {
+                        width: 100%;
+                        transition: .4s width linear;
+                    }
                 }
 
                 &.current {
-                    border-color: $blue;
+                    .hover_border {
+                        width: 100%;
+                        transition: .4s width linear;
+                    }
                 }
 
                 @media all and (max-width: 992px) {
@@ -187,12 +198,6 @@
 
                 @media all and (max-width: 768px) {
                     font-size: 24px;
-                }
-
-                &.dropdown-toggle {
-                    &:hover {
-                        border-color: transparent;
-                    }
                 }
 
                 &.dropdown-item {

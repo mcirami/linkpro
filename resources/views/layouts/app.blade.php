@@ -90,10 +90,15 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ url('/dashboard/pages/' . $page[0]->id) }}" class=@php if(Route::is('pages.edit')) { echo "current"; } @endphp>Dashboard</a>
+                                        <a href="{{ url('/dashboard/pages/' . $page[0]->id) }}" class=@php if(Route::is('pages.edit')) { echo "current"; } @endphp>Dashboard
+                                            <div class="hover_border"></div>
+                                        </a>
                                     </li>
                                     <li>
-                                        <a href="{{ route('user.edit') }}" class=@php if(Route::is('user.edit')) { echo "current"; } @endphp>Settings</a>
+                                        <a href="{{ route('user.edit') }}" class=@php if(Route::is('user.edit')) { echo "current"; } @endphp>Settings
+                                            <div class="hover_border"></div>
+                                        </a>
+
                                     </li>
                                     {{--<li>
                                         <a href="{{ route('logout') }}"
