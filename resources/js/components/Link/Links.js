@@ -381,7 +381,8 @@ const Links = ({
                                     transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale})`,
                                     zIndex: key === lastPress ? 2 : 1,
                                     //boxShadow: `${boxShadow}px 5px 5px rgba(0,0,0,0.5)`,
-                                    userSelect: "none"
+                                    userSelect: "none",
+                                    touchAction: "none",
                                 }}
                             >
                                 <span className="drag_handle"
