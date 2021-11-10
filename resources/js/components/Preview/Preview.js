@@ -129,7 +129,7 @@ const Preview = ({userLinks, setRef, completedCrop, fileName, profileFileName, c
                                 ""
                             }*/}
                             <div className={pageSettings["profile_img"] &&
-                            !profileFileName ?
+                            !profileFileName || profileFileName ?
                                 "profile_img_column" :
                                 "profile_img_column default"}>
                                 {!profileFileName ?

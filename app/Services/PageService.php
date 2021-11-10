@@ -154,7 +154,7 @@ class PageService {
     /**
      * Update Page Profile Image
      *
-     * @return void
+     * @return $newpath
      */
     public function updateProfileImage($request, $userID, $page) {
 

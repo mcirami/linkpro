@@ -251,7 +251,10 @@
                     }
 
                     &.selected {
-                        padding-bottom: 0 !important;
+
+                        .image_wrap {
+                            padding-bottom: 0;
+                        }
                     }
                 }
 
