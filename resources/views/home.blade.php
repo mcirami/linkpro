@@ -16,8 +16,8 @@
             <div class="col">
                 <div class="video_wrap">
                     <video autoplay loop muted playsinline>
-                        <source src="{{ asset('/videos/home-image-loop-top.mp4/') }}" type="video/mp4">
-                        <source src="{{ asset('/videos/home-image-loop-top.webm/') }}" type="video/webm">
+                        <source src="{{ asset('/videos/home-image-loop-top-2.mp4/') }}" type="video/mp4">
+                        <source src="{{ asset('/videos/home-image-loop-top-2.webm') }}" type="video/webm">
                     </video>
                 </div>
             </div>
