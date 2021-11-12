@@ -3,31 +3,46 @@
 
 namespace App\Services;
 
+use App\Http\Controllers\Controller;
 use App\Notifications\NotifyAboutCancelation;
 use App\Notifications\NotifyAboutUpgrade;
 use Illuminate\Support\Facades\Auth;
-use Braintree\Gateway;
+use App\Http\Traits\SubscriptionTrait;
+use App\Http\Traits\UserTrait;
 
 class SubscriptionService {
 
+    use SubscriptionTrait, UserTrait;
+
+    private $user;
+
+    /**
+     * @param $user
+     */
+    public function __construct() {
+        $this->user = Auth::user();
+
+        return $this->user;
+    }
+
+    /**
+     *
+     * Get subscription information to purchase and generate client token
+     *
+     * @return array
+     */
     public function showPurchasePage() {
 
-        $user = Auth::user();
-        $activeSubs = $user->subscriptions()->first();
+        $activeSubs = $this->getUserSubscriptions($this->user);
         if (empty($activeSubs)) {
             $existing = null;
         } else {
             $existing = true;
         }
 
-        $gateway = new Gateway([
-            'environment' => config('services.braintree.environment'),
-            'merchantId' => config('services.braintree.merchantId'),
-            'publicKey' => config('services.braintree.publicKey'),
-            'privateKey' => config('services.braintree.privateKey')
-        ]);
+        $gateway = $this->createGateway();
 
-        $customerID = $user->braintree_id;
+        $customerID = $this->user->braintree_id;
 
         if ($customerID) {
             $token = $gateway->ClientToken()->generate([
@@ -55,11 +70,14 @@ class SubscriptionService {
         return $data;
     }
 
+    /**
+     * Check if user has subscription and return current if true
+     *
+     * @return mixed|null
+     */
     public function showPlansPage() {
 
-        $user = Auth::user();
-
-        $subscription = $user->subscriptions()->first();
+        $subscription = $this->getUserSubscriptions($this->user);
 
         if (empty($subscription)) {
             $subscription = null;
@@ -68,9 +86,16 @@ class SubscriptionService {
         return $subscription;
     }
 
+    /**
+     * create new user Braintree customer and subscription
+     *
+     *
+     * @param $request
+     *
+     * @return array
+     */
     public function newSubscription($request) {
 
-        $user = Auth::user();
         $code     = null;
         $userCode = $request->discountCode;
         $planID   = $request->planId;
@@ -91,17 +116,12 @@ class SubscriptionService {
             }
         }
 
-        $gateway = new Gateway( [
-            'environment' => config( 'services.braintree.environment' ),
-            'merchantId'  => config( 'services.braintree.merchantId' ),
-            'publicKey'   => config( 'services.braintree.publicKey' ),
-            'privateKey'  => config( 'services.braintree.privateKey' )
-        ] );
+        $gateway = $this->createGateway();
 
         $nonce = $request->payment_method_nonce;
 
         $customer = $gateway->customer()->create( [
-            'email'              => $user->email,
+            'email'              => $this->user->email,
             'paymentMethodNonce' => $nonce
         ] );
 
@@ -128,7 +148,7 @@ class SubscriptionService {
 
             if ( $result->success ) {
 
-                $user->subscriptions()->create( [
+                $this->user->subscriptions()->create( [
                     'name'             => $result->subscription->planId,
                     'braintree_id'     => $result->subscription->id,
                     'braintree_status' => strtolower( $result->subscription->status ),
@@ -139,14 +159,14 @@ class SubscriptionService {
 
                 if ($paymentMethod == "credit_card") {
                     //$paymentMethod = $customer->customer->paymentMethods[0]->cardType;
-                    $user->pm_last_four = $customer->customer->paymentMethods[0]->last4;
+                    $this->user->pm_last_four = $customer->customer->paymentMethods[0]->last4;
                 } else {
-                    $user->pm_last_four = null;
+                    $this->user->pm_last_four = null;
                 }
 
-                $user->pm_type      = $paymentMethod;
-                $user->braintree_id = $customer->customer->id;
-                $user->save();
+                $this->user->pm_type      = $paymentMethod;
+                $this->user->braintree_id = $customer->customer->id;
+                $this->user->save();
 
                 if ( $request->level == "pro" ) {
                     $plan = "PRO";
@@ -154,15 +174,15 @@ class SubscriptionService {
                     $plan = "Premier";
                 }
 
-                if ($user->email_subscription) {
+                if ($this->user->email_subscription) {
 
                     $userData = ( [
                         'siteUrl' => \URL::to( '/' ),
                         'plan'    => $plan,
-                        'userID'  => $user["id"],
+                        'userID'  => $this->user->id,
                     ] );
 
-                    $user->notify( new NotifyAboutUpgrade( $userData ) );
+                    $this->user->notify( new NotifyAboutUpgrade( $userData ) );
                 }
 
                 $data = [
@@ -198,19 +218,19 @@ class SubscriptionService {
 
     }
 
+    /**
+     *
+     * Update user subscription level
+     *
+     * @param $request
+     *
+     * @return array
+     */
     public function updateSubscription($request) {
 
-        $user = Auth::user();
+        $activeSubs = $this->getUserSubscriptions($this->user);
 
-        $activeSubs = $user->subscriptions()->first();
-
-        //$user->subscription($activeSubs[0]->name)->noProrate()->swap($request->plan);
-        $gateway = new Gateway([
-            'environment' => config('services.braintree.environment'),
-            'merchantId' => config('services.braintree.merchantId'),
-            'publicKey' => config('services.braintree.publicKey'),
-            'privateKey' => config('services.braintree.privateKey')
-        ]);
+        $gateway = $this->createGateway();
 
         if($request->level == "premier") {
 
@@ -222,7 +242,7 @@ class SubscriptionService {
             if ($result->success) {
                 $activeSubs->update(['name' => "premier"]);
 
-                $userPages = $user->pages()->get();
+                $userPages = $this->getUserPages($this->user);
 
                 if (count($userPages) > 1) {
                     foreach ($userPages as $userPage) {
@@ -233,15 +253,15 @@ class SubscriptionService {
                     }
                 }
 
-                if ($user->email_subscription) {
+                if ($this->user->email_subscription) {
 
                     $userData = ( [
                         'siteUrl' => \URL::to( '/' ),
                         'plan'    => 'Premier',
-                        'userID'  => $user["id"],
+                        'userID'  => $this->user->id,
                     ] );
 
-                    $user->notify( new NotifyAboutUpgrade( $userData ) );
+                    $this->user->notify( new NotifyAboutUpgrade( $userData ) );
                 }
 
                 $data = [
@@ -273,7 +293,7 @@ class SubscriptionService {
             if ($result->success) {
                 $activeSubs->update(['name' => "pro"]);
 
-                $userPages = $user->pages()->get();
+                $userPages = $this->getUserPages($this->user);
 
                 foreach ($userPages as $userPage) {
                     if ($userPage->is_protected) {
@@ -287,7 +307,7 @@ class SubscriptionService {
                             if ( $request->defaultPage == $userPage->id ) {
                                 $userPage->default  = true;
                                 $userPage->disabled = false;
-                                $user->update(['username' => $userPage->name]);
+                                $this->user->update(['username' => $userPage->name]);
                             } else {
                                 $userPage->default  = false;
                                 $userPage->disabled = true;
@@ -322,33 +342,35 @@ class SubscriptionService {
         return $data;
     }
 
+    /**
+     *
+     * Cancel subscription and update user access to content
+     *
+     * @param $request
+     *
+     * @return array
+     */
     public function cancelSubscription($request) {
-        $user = Auth::user();
 
-        $gateway = new Gateway([
-            'environment' => config('services.braintree.environment'),
-            'merchantId' => config('services.braintree.merchantId'),
-            'publicKey' => config('services.braintree.publicKey'),
-            'privateKey' => config('services.braintree.privateKey')
-        ]);
+        $gateway = $this->createGateway();
 
         $result = $gateway->subscription()->cancel($request->plan);
 
         if ($result->success) {
-            $subscription = $user->subscriptions()->first();
+            $subscription = $this->getUserSubscriptions($this->user);
             $subscription->braintree_status = strtolower($result->subscription->status);
             $subscription->ends_at = $result->subscription->billingPeriodEndDate;
             $subscription->save();
 
-            if ($user->email_subscription) {
+            if ($this->user->email_subscription) {
 
                 $userData = ( [
                     'siteUrl'  => \URL::to( '/' ),
                     'end_date' => $result->subscription->billingPeriodEndDate->format( 'F j, Y' ),
-                    'userID'   => $user["id"],
+                    'userID'   => $this->user->id,
                 ] );
 
-                $user->notify( new NotifyAboutCancelation( $userData ) );
+                $this->user->notify( new NotifyAboutCancelation( $userData ) );
             }
 
             $data = [
@@ -373,21 +395,21 @@ class SubscriptionService {
 
     }
 
+    /**
+     *
+     * Resume subscription by creating new subscription and setting start date to previous subscription end date
+     *
+     * @param $request
+     *
+     * @return array
+     */
     public function resumeSubscription($request) {
 
-        $user = Auth::user();
-        //$code     = null;
-        $activeSubs = $user->subscriptions()->first();
-        //$userCode = $request->discountCode;
+        $activeSubs = $this->getUserSubscriptions($this->user);
         $planID   = $request->planId;
         $token = $request->payment_method_token;
 
-        $gateway = new Gateway([
-            'environment' => config('services.braintree.environment'),
-            'merchantId' => config('services.braintree.merchantId'),
-            'publicKey' => config('services.braintree.publicKey'),
-            'privateKey' => config('services.braintree.privateKey')
-        ]);
+        $gateway = $this->createGateway();
 
         $timestamp = strtotime($activeSubs->ends_at);
         $timestamp += 60*60*24;
@@ -414,15 +436,15 @@ class SubscriptionService {
                 $plan = "Premier";
             }
 
-            if ($user->email_subscription) {
+            if ($this->user->email_subscription) {
 
                 $userData = ( [
                     'siteUrl' => \URL::to( '/' ),
                     'plan'    => $plan,
-                    'userID'  => $user["id"],
+                    'userID'  => $this->user->id,
                 ] );
 
-                $user->notify( new NotifyAboutUpgrade( $userData ) );
+                $this->user->notify( new NotifyAboutUpgrade( $userData ) );
             }
 
             $data = [

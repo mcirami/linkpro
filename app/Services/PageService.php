@@ -11,32 +11,42 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
-use function PHPUnit\Framework\isEmpty;
+use App\Http\Traits\UserTrait;
 
 class PageService {
+
+    use UserTrait;
+
+    private $user;
+
+    /**
+     * @param $user
+     */
+    public function __construct() {
+        $this->user = Auth::user();
+
+        return $this->user;
+    }
 
     /**
      * Create New Page
      *
      * @return $page
      */
-
     public function createNewPage($request) {
-
-        $user = Auth::user();
 
         $path = $request->session()->get('_previous');
 
         $name = preg_replace("/[\s_]/", "-", strtolower($request->name));
 
-        $userPages = $user->pages()->get();
+        $userPages = $this->getUserPages($this->user);
 
         $default = false;
         if( $userPages->isEmpty() ) {
             $default = true;
         }
 
-        $page = $user->pages()->create([
+        $page = $this->user->pages()->create([
             'name' => $name,
             'title' => null,
             'bio' => null,
@@ -46,18 +56,18 @@ class PageService {
 
         if(str_contains($path["url"], 'step-two')) {
             $userData = ([
-                'username' => $user->username,
+                'username' => $this->user->username,
                 'link' => $name,
                 'siteUrl' => \URL::to('/'),
-                'userID'  => $user["id"],
+                'userID'  => $this->user->id,
             ]);
 
-            $user->notify(new WelcomeNotification($userData));
+            $this->user->notify(new WelcomeNotification($userData));
         }
 
         if ($default) {
-            $user->username = $page->name;
-            $user->save();
+            $this->user->username = $page->name;
+            $this->user->save();
         }
 
         return $page;
@@ -71,12 +81,10 @@ class PageService {
 
     public function updatePageName($request, $page) {
 
-        $user = Auth::user();
-
         $page->update(['name' => $request['name']]);
 
         if ($page->default) {
-            $user->update(['username' => $request['name']]);
+            $this->user->update(['username' => $request['name']]);
         }
     }
 
@@ -88,7 +96,7 @@ class PageService {
 
     public function editPage($user, $page) {
 
-        $userPages = $user->pages()->get();
+        $userPages = $this->getUserPages($this->user);
 
         $userIcons = null;
 

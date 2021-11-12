@@ -5,18 +5,14 @@ namespace App\Http\Controllers;
 use App\Services\SubscriptionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-//use Laravel\Cashier\Billable;
 
 
 class SubscriptionController extends Controller
 {
-    //use Billable;
 
     public function purchase(SubscriptionService $subscriptionService) {
 
         $data = $subscriptionService->showPurchasePage();
-
-        //return view('subscription.index', [ 'intent' => $data['intent'], 'plan' => $data['plan'], 'paymentIntent' => $data['paymentIntent'] ]);
 
         return view('subscription.index', [ 'plan' => $data['plan'], 'token' => $data['token'], 'amount' => $data["amount"], 'existing' => $data["existing"] ]);
     }

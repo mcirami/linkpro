@@ -1,32 +1,42 @@
-<?php
+<?php /** @noinspection PhpVoidFunctionResultUsedInspection */
+
+/** @noinspection MissingParameterTypeDeclarationInspection */
 
 
 namespace App\Services;
 
 use App\Notifications\NotifyAboutUnsubscribe;
-use Braintree\Gateway;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
+use App\Http\Traits\SubscriptionTrait;
+use App\Http\Traits\UserTrait;
 
 class UserService {
 
+    use SubscriptionTrait, UserTrait;
+
+    private $user;
+
+    /**
+     * @return $user
+     */
+    public function __construct() {
+        $this->user = Auth::user();
+
+        return $this->user;
+    }
+
     public function getUserInfo() {
 
-        $user = Auth::user();
-        $subscription = $user->subscriptions()->first() ? : null;
-        $paymentMethod = $user["pm_type"] ? : null;
+        $subscription = $this->getUserSubscriptions($this->user) ? : null;
+        $paymentMethod = $this->user->pm_type ? : null;
         $paymentMethodToken = null;
 
-        $gateway = new Gateway([
-            'environment' => config('services.braintree.environment'),
-            'merchantId' => config('services.braintree.merchantId'),
-            'publicKey' => config('services.braintree.publicKey'),
-            'privateKey' => config('services.braintree.privateKey')
-        ]);
+        $gateway = $this->createGateway();
 
-        $customerID = $user->braintree_id;
+        $customerID = $this->user->braintree_id;
 
         if ($customerID) {
             $token = $gateway->ClientToken()->generate([
@@ -49,7 +59,7 @@ class UserService {
         }
 
         $data = [
-            'user' => $user,
+            'user' => $this->user,
             'subscription' => $subscription,
             'payment_method' => $paymentMethod,
             'token' => $token,
@@ -57,41 +67,40 @@ class UserService {
         ];
 
         Javascript::put([
-            'user_info' => $user,
+            'user_info' => $this->user,
         ]);
 
         return $data;
     }
 
+    /*
+     * Update user password and/or email
+     *
+     * @return void
+     *
+     */
+
     public function updateUserInfo($request, $user) {
 
-        $currentUser = Auth::user();
-
-        if ($user->id != $currentUser["id"]) {
-            return abort(404);
-        }
 
         if ($request->password) {
-            $currentUser->password = Hash::make($request->password);
+            $this->user->password = Hash::make($request->password);
         }
 
-        $currentUser->email = $request->email;
+        $this->user->email = $request->email;
 
-        $currentUser->save();
+        $this->user->save();
     }
 
     public function updateCard($request) {
 
-        $user = Auth::user();
+        if($request->user_id != $this->user->id) {
+            return abort(404);
+        }
 
-        $customerID = $user->braintree_id;
+        $customerID = $this->user->braintree_id;
 
-        $gateway = new Gateway([
-            'environment' => config('services.braintree.environment'),
-            'merchantId' => config('services.braintree.merchantId'),
-            'publicKey' => config('services.braintree.publicKey'),
-            'privateKey' => config('services.braintree.privateKey')
-        ]);
+        $gateway = $this->createGateway();
 
         $customer = $gateway->customer()->find($customerID);
 
@@ -121,8 +130,8 @@ class UserService {
 
             if ($result->success) {
 
-                $user->pm_last_four = $result->customer->paymentMethods[0]->last4;
-                $user->save();
+                $this->user->pm_last_four = $result->customer->paymentMethods[0]->last4;
+                $this->user->save();
 
             } else {
                 $errorString = "";
@@ -146,16 +155,13 @@ class UserService {
 
     public function updatePaymentMethod($request) {
 
-        $user = Auth::user();
+        if($request->user_id != $this->user->id) {
+            return abort(404);
+        }
 
-        $customerID = $user->braintree_id;
+        $customerID = $this->user->braintree_id;
 
-        $gateway = new Gateway([
-            'environment' => config('services.braintree.environment'),
-            'merchantId' => config('services.braintree.merchantId'),
-            'publicKey' => config('services.braintree.publicKey'),
-            'privateKey' => config('services.braintree.privateKey')
-        ]);
+        $gateway = $this->createGateway();
 
         $updateResult = $gateway->paymentMethod()->create([
             'customerId' => $customerID,
@@ -168,7 +174,7 @@ class UserService {
         if ($updateResult->success) {
 
             $paymentToken = $updateResult->paymentMethod->token;
-            $subscription = $user->subscriptions()->first();
+            $subscription = $this->getUserSubscriptions($this->user);
 
             $result = $gateway->subscription()->update($subscription->braintree_id, [
                 'paymentMethodToken' => $paymentToken,
@@ -179,13 +185,13 @@ class UserService {
                 $paymentMethod = $request->pm_type;
 
                 if ( $request->pm_last_four ) {
-                    $user->pm_last_four = $request->pm_last_four;
+                    $this->user->pm_last_four = $request->pm_last_four;
                 } else {
-                    $user->pm_last_four = null;
+                    $this->user->pm_last_four = null;
                 }
 
-                $user->pm_type = $paymentMethod;
-                $user->save();
+                $this->user->pm_type = $paymentMethod;
+                $this->user->save();
 
             } else {
                 foreach($result->errors->deepAll() AS $error) {
