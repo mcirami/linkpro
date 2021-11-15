@@ -29,7 +29,7 @@ const Preview = ({userLinks, setRef, completedCrop, fileName, profileFileName, c
             const currentDate = new Date().valueOf();
             const endsAt = new Date(ends_at).valueOf();
 
-            if (braintree_status === 'active' || endsAt > currentDate) {
+            if (braintree_status === 'active' || braintree_status === 'pending' || endsAt > currentDate) {
                 setIconCount(userLinks.length)
             } else {
                 setIconCount(8)

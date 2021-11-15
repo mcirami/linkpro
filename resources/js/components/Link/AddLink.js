@@ -1,8 +1,7 @@
 import { ImPlus } from "react-icons/im";
-import axios from 'axios';
 import {useContext} from 'react';
 import {PageContext} from '../App';
-import EventBus from '../../Utils/Bus';
+import addLink from '../../Services/LinksRequest';
 
 const AddLink = ({userLinks, setUserLinks, originalArray, setOriginalArray, userSub, setShowUpgradePopup, setOptionText }) => {
 
@@ -19,40 +18,31 @@ const AddLink = ({userLinks, setUserLinks, originalArray, setOriginalArray, user
                 id: pageSettings["id"],
             };
 
-            axios.post('/dashboard/links/new', packets).then(
-                (response) => {
-                    //console.log(JSON.stringify(response.data));
-                    const returnMessage = JSON.stringify(response.data.message);
-                    EventBus.dispatch("success", {message: returnMessage});
-                    const link_id = JSON.stringify(response.data.link_id);
-                    const position = response.data.position;
-                        let prevArray = [...originalArray];
-                        prevArray = [
-                            ...prevArray,
-                            {
-                                id: link_id,
-                                name: null,
-                                url: null,
-                                icon: null,
-                                active_status: 1,
-                                position: position,
-                            }
-                        ]
+            addLink(packets)
+            .then((data) => {
 
-                        setOriginalArray(prevArray);
-                        setUserLinks(prevArray);
+                if (data.success) {
+                    let prevArray = [...originalArray];
+                    prevArray = [
+                        ...prevArray,
+                        {
+                            id: data.link_id,
+                            name: null,
+                            url: null,
+                            icon: null,
+                            active_status: 1,
+                            position: data.position,
+                        }
+                    ]
+
+                    setOriginalArray(prevArray);
+                    setUserLinks(prevArray);
 
                     updateContentHeight();
-
-                }).catch(error => {
-                if (error.response) {
-                    //EventBus.dispatch("error", { message: error.response.data.errors.header_img[0] });
-                    console.log(error.response);
-                } else {
-                    console.log("ERROR:: ", error);
                 }
+            })
 
-            });
+
         } else {
             const popup = document.querySelector('#upgrade_popup');
             setShowUpgradePopup(true);
@@ -71,12 +61,12 @@ const AddLink = ({userLinks, setUserLinks, originalArray, setOriginalArray, user
 
     const updateContentHeight = () => {
 
-        if ((originalArray.length + 1) % 3 === 1 ) {
+        if ((originalArray.length + 1) % 4 === 1 ) {
 
             const iconsWrap = document.querySelector('.icons_wrap');
             const icons = document.querySelectorAll('.add_icons .icon_col');
             const colHeight = icons[0].clientHeight;
-            const rowCount = Math.ceil(icons.length / 3);
+            const rowCount = Math.ceil(icons.length / 4);
             const divHeight = rowCount * colHeight - 40;
             iconsWrap.style.minHeight = divHeight + "px";
         }

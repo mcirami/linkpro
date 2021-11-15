@@ -1,15 +1,13 @@
 import React, {useContext, useState} from 'react';
-import axios from 'axios';
 import {MdAddCircleOutline} from 'react-icons/md';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
-import EventBus from '../../Utils/Bus';
 import {PageContext} from '../App';
+import {addPage} from '../../Services/PageRequests';
 
 let pageNames = user.allPageNames;
 
 const PageNav = ({ allUserPages, setAllUserPages, userSub, setShowUpgradePopup, setOptionText }) => {
 
-    //const [pages, setPages] = useState(userPages);
     const { pageSettings, setPageSettings } = useContext(PageContext);
 
     const [isEditing, setIsEditing] = useState(false);
@@ -23,33 +21,19 @@ const PageNav = ({ allUserPages, setAllUserPages, userSub, setShowUpgradePopup, 
             name: newPageName,
         };
 
-        axios.post('/dashboard/page/new', packets).then(
-            (response) => {
-                //console.log(JSON.stringify(response.data));
-
-                const page_id = JSON.stringify(response.data.page_id);
-                const returnMessage = JSON.stringify(response.data.message);
-                EventBus.dispatch("success", { message: returnMessage });
-
+        addPage(packets)
+        .then((data) => {
+            if (data.success) {
                 const newElement = {
-                    id: page_id,
+                    id: data["page_id"],
                     name: newPageName,
                 };
+
                 setAllUserPages(allUserPages.concat(newElement));
                 setIsEditing(false);
-
-            },
-
-        ).catch(error => {
-            if (error.response) {
-                EventBus.dispatch("error", { message: error.response.data.errors.name[0] });
-                console.log(error.response);
-            } else {
-                console.log("ERROR:: ", error);
             }
+        })
 
-
-        });
     };
 
     const checkPageName = (e) => {
@@ -84,7 +68,13 @@ const PageNav = ({ allUserPages, setAllUserPages, userSub, setShowUpgradePopup, 
 
             if (( (braintree_status === 'active' || braintree_status === 'pending') && name === "premier") ||
                 endsAt > currentDate && name === "premier") {
-                setIsEditing(true);
+
+                if (allUserPages.length === 5) {
+                    enablePopup("a custom plan to add more links");
+                } else {
+                    setIsEditing(true);
+                }
+
             } else {
                 enablePopup("add more links");
             }

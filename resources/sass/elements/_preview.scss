@@ -118,7 +118,7 @@
         }
 
         .profile_content {
-            padding: 10px 20px;
+            padding: 10px 20px 20px 20px;
             width: 100%;
             float: left;
             position: relative;
@@ -126,15 +126,16 @@
             .lock_icon {
                 color: $green;
                 position: absolute;
-                left: 16%;
-                top: 50px;
-                width: 35px;
-                height: 45px;
+                left: 18%;
+                top: 54px;
+                width: 25px;
+                height: 35px;
 
                 @media all and (max-width: 992px) {
-                    top: 75px;
-                    width: 30px;
-                    height: 40px;
+                    width: 20px;
+                    height: 30px;
+                    left: 20%;
+                    top: 50px;
                 }
 
                 svg {
@@ -145,11 +146,11 @@
                 .tooltip_icon {
                     @include osbold;
                     position: absolute;
-                    right: 30px;
+                    right: 24px;
                     color: $blue;
                     border-radius: 100%;
-                    width: 18px;
-                    height: 18px;
+                    width: 15px;
+                    height: 15px;
                     text-align: center;
                     border: 2px solid $blue;
                     font-size: 13px;
@@ -164,10 +165,9 @@
                     padding-right: 1px;
 
                     @media all and (max-width: 992px) {
-                        width: 15px;
-                        height: 15px;
                         padding-right: 0;
                         font-size: 12px;
+                        right: 20px;
                     }
 
                     .tooltip {
@@ -281,8 +281,6 @@
                 }
             }
 
-
-
             .profile_text {
                 width: 67%;
                 float: left;
@@ -331,14 +329,6 @@
         }
 
         &.preview {
-            /*height: auto;
-            width: 100%;
-            margin: auto;
-            min-height: 78%;*/
-
-            /*@media all and (max-width: 992px) {
-                min-height: 90%;
-            }*/
 
             @media screen and (max-width: 992px) {
                 max-width: 350px;
@@ -422,10 +412,6 @@
 
                         @media all and (max-width: 992px) {
                             width: 40%;
-                        }
-
-                        @media screen and (max-width: 550px) {
-                            margin-top: -45px;
                         }
                     }
 

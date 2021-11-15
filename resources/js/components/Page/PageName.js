@@ -1,8 +1,7 @@
 import React, {useContext, useState} from 'react';
-import axios from 'axios';
-import EventBus from '../../Utils/Bus';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import {PageContext} from '../App';
+import {updatePageName} from '../../Services/PageRequests';
 
 let pageNames = user.allPageNames;
 
@@ -27,12 +26,9 @@ const PageName = () => {
                 name: name,
             };
 
-            axios.post('/dashboard/page/update-name/' + pageSettings['id'],
-                packets).then(
-                (response) => {
-                    const returnMessage = JSON.stringify(response.data.message);
-                    EventBus.dispatch("success", {message: returnMessage});
-                    //setIsEditing(false)
+            updatePageName(packets, pageSettings["id"] )
+            .then((data) => {
+                if (data.success) {
                     setAllPageNames(
                         allPageNames.map((item, index) => {
                             if (item === pageSettings['name']) {
@@ -52,16 +48,7 @@ const PageName = () => {
                         document.querySelector('#username').innerText = name;
                     }
                 }
-            ).catch((error) => {
-                if (error.response) {
-                    EventBus.dispatch("error", { message: error.response.data.errors.name[0] });
-                    console.log(error.response);
-                } else {
-                    console.log("ERROR:: ", error);
-                }
-
-
-            });
+            })
         }
     };
 
@@ -87,46 +74,43 @@ const PageName = () => {
 
         <div className="edit_form">
             <label>Link.pro/</label>
-               <form className="link_name">
-                    <input name="name" type="text" defaultValue={name}
-                           onChange={ checkPageName }
-                           onKeyPress={ event => {
-                                   if(event.key === 'Enter') {
-                                       handleSubmit(event);
-                                   }
+           <form className="link_name">
+                <input name="name" type="text" defaultValue={name}
+                       onChange={ checkPageName }
+                       onKeyPress={ event => {
+                               if(event.key === 'Enter') {
+                                   handleSubmit(event);
                                }
                            }
-                           onBlur={(e) => handleSubmit(e)}
-                    />
+                       }
+                       onBlur={(e) => handleSubmit(e)}
+                />
 
-                   {available ?
-                       <div>
-                           {currentMatch ?
-                               <p className="status">Current</p>
-                               :
-                               <div>
-                                   <a className="submit_circle" href="#"
-                                      onClick={(e) => handleSubmit(e)}
-                                   >
-                                       <FiThumbsUp />
-                                   </a>
-                                   <p className="status">Available</p>
-                               </div>
-                           }
-                       </div>
-                       :
-                       <div>
-                           <span className="cancel_icon">
-                               <FiThumbsDown />
-                           </span>
-                           <p className="status not_available">Not Available</p>
-                       </div>
-                   }
+               {available ?
+                   <div>
+                       {currentMatch ?
+                           <p className="status">Current</p>
+                           :
+                           <div>
+                               <a className="submit_circle" href="#"
+                                  onClick={(e) => handleSubmit(e)}
+                               >
+                                   <FiThumbsUp />
+                               </a>
+                               <p className="status">Available</p>
+                           </div>
+                       }
+                   </div>
+                   :
+                   <div>
+                       <span className="cancel_icon">
+                           <FiThumbsDown />
+                       </span>
+                       <p className="status not_available">Not Available</p>
+                   </div>
+               }
 
-               </form>
-
-            {/*<p>{name}<a className="edit_icon" onClick={(e) => setIsEditing(true) }><MdEdit /></a></p>*/}
-
+           </form>
         </div>
 
     );

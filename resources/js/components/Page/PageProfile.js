@@ -5,12 +5,11 @@ import React, {
     useCallback,
     useEffect,
 } from 'react';
-import axios from "axios";
 import {MdEdit} from 'react-icons/md';
 import {PageContext} from '../App';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
-import EventBus from '../../Utils/Bus';
+import {profileImage} from '../../Services/PageRequests';
 
 const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop, profileFileName, setProfileFileName}) => {
 
@@ -107,31 +106,16 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
             profile_img: image,
         };
 
-        axios.post('/dashboard/page/update-profile-image/' + pageSettings["id"], packets)
-        .then(
-            (response) => {
-                //console.log(JSON.stringify(response.data))
-                const returnMessage = JSON.stringify(response.data.message);
-                const imgPath = response.data.imgPath;
-
-                EventBus.dispatch("success", { message: returnMessage });
+        profileImage(packets, pageSettings["id"], pageSettings["default"])
+        .then((data) => {
+            if (data.success) {
                 setProfileFileName("")
                 setUpImg("")
-                document.querySelector('form.profile_img_form .bottom_section').classList.add('hidden');
-
-                if(pageSettings["default"]){
-                    document.querySelector('#user_image').src = imgPath;
-                }
-
+                document.querySelector('form.profile_img_form .bottom_section').
+                    classList.
+                    add('hidden');
             }
-        ).catch(error => {
-            if (error.response) {
-                EventBus.dispatch("error", { message: error.response.data.errors.profile_img[0] });
-                console.log(error.response);
-            } else {
-                console.log("ERROR:: ", error);
-            }
-        });
+        })
     }
     const handleCancel = () => {
         setProfileFileName(null)

@@ -15,17 +15,20 @@ const IconList = ({currentLink, setCurrentLink, iconArray, radioValue, setCharac
             if(el.dataset.name) {
                 name = el.dataset.name;
                 setCharactersLeft(13 - name.length);
+
+                if(name.toLowerCase() === "email") {
+                    setInputType("email");
+                } else if (name.toLowerCase() === "phone") {
+                    setInputType("phone");
+                } else {
+                    setInputType("url");
+                }
+
             } else {
                 name = currentLink.name;
             }
 
-            if(el.dataset.name.toLowerCase() === "email") {
-                setInputType("email");
-            } else if (el.dataset.name.toLowerCase() === "phone") {
-                setInputType("phone");
-            } else {
-                setInputType("url");
-            }
+
 
             setCurrentLink({
                 ...currentLink,
@@ -41,13 +44,6 @@ const IconList = ({currentLink, setCurrentLink, iconArray, radioValue, setCharac
     return (
 
         <div className="icons_wrap my_row">
-            {/*{preview ?
-                <div className="custom_icons">
-                    <img className="img-fluid icon_image active" src={preview} name="custom_icon" alt="" onClick={(e) => {e.preventDefault(); selectIcon(e, customIcon)} } />
-                </div>
-                : ""
-            }*/}
-
             {
                 radioValue === "custom" ?
                     customIconArray &&

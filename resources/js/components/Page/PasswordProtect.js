@@ -3,8 +3,8 @@ import React, {useContext, useEffect, useState} from 'react';
 import {PageContext} from '../App';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import Switch from "react-switch";
-import axios from 'axios';
 import EventBus from '../../Utils/Bus';
+import {passwordProtect, passwordStatus} from '../../Services/PageRequests';
 
 const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
 
@@ -25,13 +25,9 @@ const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
                 password: password
             };
 
-            axios.post('/dashboard/page/update-password/' + pageSettings['id'],
-                packets).then(
-                (response) => {
-                    //console.log(JSON.stringify(response.data))
-                    const returnMessage = JSON.stringify(response.data.message);
-                    //const message = returnMessage.toString();
-                    EventBus.dispatch("success", {message: returnMessage});
+            passwordProtect(packets, pageSettings["id"])
+            .then((data) => {
+                if (data.success) {
                     setPageSettings({
                         ...pageSettings,
                         password: password,
@@ -40,14 +36,8 @@ const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
                     setIsEditing(false);
                     setChecked(true);
                 }
-            ).catch(error => {
-                if (error.response) {
-                    EventBus.dispatch("error",
-                        {message: error.response.data.errors.password[0]});
-                } else {
-                    console.log("ERROR:: ", error);
-                }
             })
+
         } else {
             EventBus.dispatch("error", {message: "Password must be at least 4 characters"});
         }
@@ -63,6 +53,7 @@ const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
             passProtected = false;
         } else {
             passProtected = !checked;
+            type = null;
         }
 
         if(password && password.length > 3) {
@@ -74,37 +65,19 @@ const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
                 password: password
             };
 
-            axios.post('/dashboard/page/update-password/' + pageSettings['id'],
-                packets).then(
-                (response) => {
-                    //console.log(JSON.stringify(response.data))
-                    //const returnMessage = JSON.stringify(response.data.message);
-                    let returnMessage;
+            passwordStatus(packets, pageSettings["id"], type, checked)
+            .then((data) => {
 
-                    if (type === true || type === false) {
-                        if (!checked) {
-                            returnMessage = "Page Password Enabled";
-                        } else {
-                            returnMessage = "Page Password Disabled";
-                        }
+                if (data.success) {
 
-                        EventBus.dispatch("success", {message: returnMessage});
+                    if (type === null) {
                         setIsEditing(false);
                     }
-
                     setPageSettings({
                         ...pageSettings,
                         is_protected: passProtected,
                     })
 
-                }
-            ).catch(error => {
-                //console.log("ERROR:: ", error.response.data);
-                if (error.response) {
-                    EventBus.dispatch("error",
-                        {message: error.response.data.errors.is_protected[0]});
-                } else {
-                    console.log("ERROR:: ", error);
                 }
             })
         }

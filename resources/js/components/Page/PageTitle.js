@@ -3,6 +3,7 @@ import axios from "axios";
 import {PageContext} from '../App';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import EventBus from '../../Utils/Bus';
+import {pageTitle} from '../../Services/PageRequests';
 
 const PageTitle = () => {
 
@@ -37,22 +38,7 @@ const PageTitle = () => {
                 title: pageSettings["title"],
             };
 
-            axios.post('/dashboard/page/update-title/' + pageSettings['id'],
-                packets).then(
-                response => {
-                    //console.log(JSON.stringify(response.data))
-                    const returnMessage = JSON.stringify(response.data.message);
-                    EventBus.dispatch("success", {message: returnMessage});
-                }
-            ).catch(error => {
-                if (error.response) {
-                    EventBus.dispatch("error", { message: error.response.data.errors.title[0] });
-                    console.log(error.response);
-                } else {
-                    console.log("ERROR:: ", error);
-                }
-
-            });
+            pageTitle(packets, pageSettings["id"]);
         }
     }
 

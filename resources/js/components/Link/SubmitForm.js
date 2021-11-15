@@ -7,14 +7,12 @@ import React, {
 } from 'react';
 import IconList from "./IconList";
 import {MdDeleteForever} from 'react-icons/md';
-import axios from "axios";
 import { LinksContext, PageContext } from '../App';
-import EventBus from '../../Utils/Bus';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
 import InputComponent from './InputComponent';
 const iconPaths = user.icons;
-const customIcons = user.userIcons;
+import {updateLink} from '../../Services/LinksRequest';
 
 const SubmitForm = ({
         editID,
@@ -112,10 +110,6 @@ const SubmitForm = ({
     const createImage = (file) => {
         let reader = new FileReader();
         reader.onload = (e) => {
-            /*setCurrentLink({
-                ...currentLink,
-                icon: e.target.result
-            })*/
             setUpImg(e.target.result);
         };
         reader.readAsDataURL(file);
@@ -124,18 +118,15 @@ const SubmitForm = ({
     const onLoad = useCallback((img) => {
         imgRef.current = img;
         const linkFormHeight = document.getElementsByClassName('link_form')[0].offsetHeight;
-        document.getElementById('left_col_wrap').style.height = linkFormHeight + 160 + "px";
+        document.getElementById('left_col_wrap').style.minHeight = linkFormHeight + 160 + "px";
     }, []);
 
 
     useEffect(() => {
         if (!customIcon) {
-            //setPreview(undefined)
             return
         }
-        //setPageHeader(selectedFile["name"]);
         const objectUrl = URL.createObjectURL(customIcon)
-        //setPreview(objectUrl)
         // free memory when ever this component is unmounted
         return () => URL.revokeObjectURL(objectUrl)
     }, [customIcon]);
@@ -201,10 +192,10 @@ const SubmitForm = ({
                 page_id: pageSettings["id"],
             };
 
-            axios.post('/dashboard/links/update/' + editID, packets).then(
-                (response) => {
-                    const returnMessage = JSON.stringify(response.data.message);
-                    EventBus.dispatch("success", {message: returnMessage});
+            updateLink(packets, editID)
+            .then((data) => {
+
+                if (data.success) {
                     setUserLinks(
                         userLinks.map((item) => {
                             if (item.id === editID) {
@@ -237,25 +228,7 @@ const SubmitForm = ({
                     )
                     setEditID(null)
                 }
-            ).catch(error => {
-                if (error.response) {
-                    if (error.response.data.errors.name) {
-                        EventBus.dispatch("error", { message: error.response.data.errors.name[0] });
-                    } else if (error.response.data.errors.url) {
-                        EventBus.dispatch("error", { message: error.response.data.errors.url[0] });
-                    } else if (error.response.data.errors.email) {
-                        EventBus.dispatch("error", { message: error.response.data.errors.email[0] });
-                    } else if (error.response.data.errors.phone) {
-                        EventBus.dispatch("error", { message: error.response.data.errors.phone[0] });
-                    } else if (error.response.data.errors.icon) {
-                        EventBus.dispatch("error", { message: error.response.data.errors.icon[0] });
-                    }
-                    console.log(error.response);
-                } else {
-                    console.log("ERROR:: ", error);
-                }
-
-            });
+            })
         }
 
     };
@@ -271,11 +244,10 @@ const SubmitForm = ({
             page_id: pageSettings["id"],
         };
 
-        axios.post('/dashboard/links/update/' + editID, packets).then(
-            (response) => {
-                const returnMessage = JSON.stringify(response.data.message);
-                EventBus.dispatch("success", {message: returnMessage});
-                const iconPath = response.data.path;
+        updateLink(packets, editID)
+        .then((data) => {
+
+            if (data.success) {
                 setUserLinks(
                     userLinks.map((item) => {
                         if (item.id === editID) {
@@ -307,7 +279,7 @@ const SubmitForm = ({
                     })
                 )
 
-                const newIconPath = "public" + iconPath;
+                const newIconPath = "public" + data.iconPath;
                 setCustomIconArray( customIconArray => [
                     ...customIconArray,
                     newIconPath
@@ -315,25 +287,7 @@ const SubmitForm = ({
 
                 setEditID(null)
             }
-        ).catch(error => {
-            if (error.response) {
-                if (error.response.data.errors.name) {
-                    EventBus.dispatch("error", { message: error.response.data.errors.name[0] });
-                } else if (error.response.data.errors.url) {
-                    EventBus.dispatch("error", { message: error.response.data.errors.url[0] });
-                } else if (error.response.data.errors.email) {
-                    EventBus.dispatch("error", { message: error.response.data.errors.email[0] });
-                } else if (error.response.data.errors.phone) {
-                    EventBus.dispatch("error", { message: error.response.data.errors.phone[0] });
-                } else if (error.response.data.errors.icon) {
-                    EventBus.dispatch("error", { message: error.response.data.errors.icon[0] });
-                }
-                console.log(error.response);
-            } else {
-                console.log("ERROR:: ", error);
-            }
-
-        });
+        })
     }
 
     const handleOnClick = e => {
@@ -505,7 +459,11 @@ const SubmitForm = ({
                         <button className="button green" type="submit">
                             Save
                         </button>
-                        <a href="#" className="button transparent gray" onClick={(e) => {e.preventDefault(); setEditID(null); }}>
+                        <a href="#" className="button transparent gray" onClick={(e) => {
+                            e.preventDefault();
+                            setEditID(null);
+                            document.getElementById('left_col_wrap').style.minHeight = "unset";
+                        }}>
                             Cancel
                         </a>
                         <a className="help_link" href="mailto:help@link.pro">Need Help?</a>

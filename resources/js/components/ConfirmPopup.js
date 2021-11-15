@@ -1,7 +1,7 @@
 import React from 'react';
-import axios from 'axios';
-import EventBus from '../Utils/Bus';
 import {MdCheckCircle} from 'react-icons/md';
+import {deleteLink} from '../Services/LinksRequest';
+
 export const ConfirmPopup = ({editID, setEditID, userLinks, setUserLinks, originalArray, setOriginalArray, setShowConfirmPopup }) => {
 
     const deleteItem = (e) => {
@@ -12,11 +12,10 @@ export const ConfirmPopup = ({editID, setEditID, userLinks, setUserLinks, origin
             userLinks: newArray
         }
 
-        axios.post('/dashboard/links/delete/' + editID, packets).then(
-            (response) => {
-                //response => console.log(JSON.stringify(response.data)),
-                const returnMessage = JSON.stringify(response.data.message);
-                EventBus.dispatch("success", {message: returnMessage});
+        deleteLink(packets, editID)
+        .then((data) => {
+
+            if(data.success) {
                 setUserLinks(
                     newArray.map((link, index) => ({...link, position: index}))
                 )
@@ -29,16 +28,7 @@ export const ConfirmPopup = ({editID, setEditID, userLinks, setUserLinks, origin
                 setShowConfirmPopup(false)
                 document.querySelector('#confirm_popup_link').classList.remove('open');
             }
-
-        ).catch(error => {
-            if (error.response) {
-                console.log(error.response.data.message);
-                EventBus.dispatch("error", { message: error.response.data.message });
-            } else {
-                console.log("ERROR:: ", error);
-            }
-        });
-
+        })
     }
 
     const handleCancel = e => {
@@ -49,11 +39,11 @@ export const ConfirmPopup = ({editID, setEditID, userLinks, setUserLinks, origin
 
     const updateContentHeight = () => {
 
-        if ((originalArray.length - 1) % 3 === 0 ) {
+        if ((originalArray.length - 1) % 4 === 0 ) {
             const iconsWrap = document.querySelector('.icons_wrap');
             const icons = document.querySelectorAll('.add_icons .icon_col');
             const colHeight = icons[0].clientHeight;
-            const rowCount = Math.ceil(icons.length / 3);
+            const rowCount = Math.ceil(icons.length / 4);
             const divHeight = rowCount * colHeight - 40;
             iconsWrap.style.minHeight = divHeight + "px";
         }

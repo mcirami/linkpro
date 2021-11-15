@@ -1,9 +1,12 @@
 import React, {useCallback, useRef, useEffect, useLayoutEffect, useState} from 'react';
-import {MdDragHandle, MdEdit} from 'react-icons/md';
+import {MdDragHandle} from 'react-icons/md';
 import Switch from "react-switch";
 //import {LinksContext, PageContext} from '../App';
-import EventBus from '../../Utils/Bus';
 import {Motion, spring} from 'react-motion';
+import {
+    updateLinksPositions,
+    updateLinkStatus,
+} from '../../Services/LinksRequest';
 
 const springSetting1 = { stiffness: 180, damping: 10 };
 const springSetting2 = { stiffness: 120, damping: 17 };
@@ -105,28 +108,10 @@ const Links = ({
         console.log(iconCol[0].getBoundingClientRect().height);
         if (initialRender.current) {
             colHeight = iconCol[0].offsetHeight + 60;
-            /*if (windowWidth < 550) {
-                colHeight = targetRef.current.offsetWidth + (targetRef.current.offsetWidth * .50);
-            } else if (windowWidth < 768) {
-                colHeight = targetRef.current.offsetWidth + (targetRef.current.offsetWidth * .35);
-            } else if (windowWidth < 1500) {
-                colHeight = targetRef.current.offsetWidth + (targetRef.current.offsetWidth * .25);
-            } else {
-                colHeight = targetRef.current.offsetWidth + 30
-            }*/
         } else {
             colHeight = iconCol[0].clientHeight - 15;
             console.log(iconCol[0].getBoundingClientRect().height);
         }
-        /*else {
-            if (windowWidth < 992) {
-                colHeight = (windowWidth / 2) / 4;
-            } else if (windowWidth < 1500) {
-                colHeight = (windowWidth * .396633) / 4 + 25;
-            } else {
-                colHeight = 215;
-            }
-        }*/
 
         return colHeight;
     });
@@ -249,13 +234,7 @@ const Links = ({
                 userLinks: userLinks,
             }
 
-            axios.post("/dashboard/links/update-positions", packets).then(
-                (response) => {
-                    console.log(JSON.stringify(response.data.message))
-                }
-            ).catch((error) => {
-                console.log("ERROR:: ", error.response.data);
-            });
+            updateLinksPositions(packets);
         }
     }, [state.isPressed]);
 
@@ -266,13 +245,10 @@ const Links = ({
             active_status: newStatus,
         };
 
-        axios
-        .post("/dashboard/links/status/" + currentItem.id, packets)
-        .then(
-            (response) => {
-                //console.log(JSON.stringify(response.data))
-                const returnMessage = JSON.stringify(response.data.message);
-                EventBus.dispatch("success", { message: returnMessage });
+        updateLinkStatus(packets, currentItem.id)
+        .then((data) => {
+
+            if(data.success) {
                 setOriginalArray(
                     originalArray.map((item) => {
                         if (item.id === currentItem.id) {
@@ -296,15 +272,7 @@ const Links = ({
                     })
                 )
             }
-        )
-        .catch((error) => {
-            if (error.response !== undefined) {
-                console.log("ERROR:: ", error.response.data);
-            } else {
-                console.log("ERROR:: ", error);
-            }
-
-        });
+        })
     };
 
     const handleOnClick = (linkID) => {
@@ -396,11 +364,6 @@ const Links = ({
                                 </span>
 
                                 <div className="column_content">
-                                    {/*<button className="edit_icon"
-                                            onClick={(e) => { setEditID(linkID) }}
-                                    >
-                                        <MdEdit />
-                                    </button>*/}
                                     <div className="icon_wrap" onClick={(e) => { handleOnClick(linkID) }}>
                                         <div className="image_wrap">
                                             <img src={ displayIcon || '/images/icon-placeholder.png' } alt=""/>

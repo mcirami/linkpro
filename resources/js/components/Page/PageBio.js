@@ -3,6 +3,7 @@ import axios from "axios";
 import {PageContext} from '../App';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import EventBus from '../../Utils/Bus';
+import {pageBio} from '../../Services/PageRequests';
 
 const PageBio = () => {
 
@@ -35,25 +36,7 @@ const PageBio = () => {
                 bio: pageSettings["bio"],
             };
 
-            axios.post('/dashboard/page/update-bio/' + pageSettings['id'],
-                packets).then(
-                (response) => {
-                    //console.log(JSON.stringify(response.data))
-                    const returnMessage = JSON.stringify(response.data.message);
-                    EventBus.dispatch("success", {message: returnMessage});
-                }
-            ).catch(error => {
-                //console.log("ERROR:: ", error.response.data.errors.bio[0]);
-
-                if (error.response) {
-                    EventBus.dispatch("error", {message: error.response.data.errors.bio[0]});
-                    console.log(error.response);
-                } else {
-                    console.log("ERROR:: ", error);
-                }
-
-
-            });
+            pageBio(packets, pageSettings["id"]);
         }
     }
 

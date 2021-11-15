@@ -6,12 +6,11 @@ import React, {
     useEffect,
     createContext,
 } from 'react';
-import axios from "axios";
-import {MdCancel, MdEdit, MdFileUpload} from 'react-icons/md';
+import {MdEdit} from 'react-icons/md';
 import { PageContext } from '../App';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
-import EventBus from '../../Utils/Bus';
+import {headerImage} from '../../Services/PageRequests';
 
 export const RefContext = createContext();
 export const cropStatus = createContext();
@@ -111,24 +110,19 @@ const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileN
             header_img: image,
         };
 
-        axios.post('/dashboard/page/update-header-image/' + pageSettings["id"], packets)
-        .then(
-            (response) => {
-                const returnMessage = JSON.stringify(response.data.message);
-                EventBus.dispatch("success", { message: returnMessage });
+        headerImage(packets, pageSettings["id"])
+        .then((data) => {
+
+            if (data.success) {
                 setFileName(null)
                 setUpImg(null)
                 setCompletedCrop(false)
-                document.querySelector('form.header_img_form .bottom_section').classList.add('hidden');
+                document.querySelector('form.header_img_form .bottom_section').
+                    classList.
+                    add('hidden');
             }
-        ).catch(error => {
-            if (error.response) {
-                EventBus.dispatch("error", { message: error.response.data.errors.header_img[0] });
-                console.log(error.response);
-            } else {
-                console.log("ERROR:: ", error);
-            }
-        });
+        })
+
     }
 
     const handleCancel = () => {
