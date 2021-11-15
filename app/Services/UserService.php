@@ -94,10 +94,6 @@ class UserService {
 
     public function updateCard($request) {
 
-        if($request->user_id != $this->user->id) {
-            return abort(404);
-        }
-
         $customerID = $this->user->braintree_id;
 
         $gateway = $this->createGateway();
@@ -154,10 +150,6 @@ class UserService {
     }
 
     public function updatePaymentMethod($request) {
-
-        if($request->user_id != $this->user->id) {
-            return abort(404);
-        }
 
         $customerID = $this->user->braintree_id;
 
