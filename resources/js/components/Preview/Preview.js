@@ -1,14 +1,11 @@
 import React, {useContext, useState, useEffect} from 'react';
-import {LinksContext, PageContext} from '../App';
+import {UserLinksContext, PageContext} from '../App';
 import {MdCancel} from 'react-icons/md';
 import {IoIosLock} from 'react-icons/io';
 
-//const page_header_path  = user.page_header_path + "/";
-//const page_profile_path  = user.page_profile_path + "/";
+const Preview = ({setRef, completedCrop, fileName, profileFileName, completedProfileCrop, profileRef, userSub}) => {
 
-const Preview = ({userLinks, setRef, completedCrop, fileName, profileFileName, completedProfileCrop, profileRef, userSub}) => {
-
-    //const { userLinks } = useContext(LinksContext);
+    const { userLinks, setUserLinks } = useContext(UserLinksContext);
     const {pageSettings, setPageSettings} = useContext(PageContext);
     const [iconCount, setIconCount] = useState(null);
 

@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-//import {LinksContext} from './App';
+import React from 'react';
 
 const IconList = ({currentLink, setCurrentLink, iconArray, radioValue, setCharactersLeft, customIconArray, setInputType}) => {
 

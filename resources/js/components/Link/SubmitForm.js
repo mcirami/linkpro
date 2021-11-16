@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import IconList from "./IconList";
 import {MdDeleteForever} from 'react-icons/md';
-import { LinksContext, PageContext } from '../App';
+import { UserLinksContext, OriginalArrayContext, PageContext } from '../App';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
 import InputComponent from './InputComponent';
@@ -17,10 +17,6 @@ import {updateLink} from '../../Services/LinksRequest';
 const SubmitForm = ({
         editID,
         setEditID,
-        setUserLinks,
-        userLinks,
-        originalArray,
-        setOriginalArray,
         setShowUpgradePopup,
         setShowConfirmPopup,
         setOptionText,
@@ -29,7 +25,8 @@ const SubmitForm = ({
         setCustomIconArray
 }) => {
 
-    //const  { userLinks, setUserLinks } = useContext(LinksContext);
+    const { userLinks, setUserLinks } = useContext(UserLinksContext);
+    const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
     const  { pageSettings, setPageSettings } = useContext(PageContext);
 
 
@@ -451,7 +448,11 @@ const SubmitForm = ({
                 </div>
                 <div className="row">
                     <div className="col-12">
-                        <InputComponent inputType={inputType} currentLink={currentLink} setCurrentLink={setCurrentLink}/>
+                        <InputComponent
+                            inputType={inputType}
+                            currentLink={currentLink}
+                            setCurrentLink={setCurrentLink}
+                        />
                     </div>
                 </div>
                 <div className="row">

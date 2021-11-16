@@ -1,8 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
-import axios from "axios";
 import {PageContext} from '../App';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
-import EventBus from '../../Utils/Bus';
 import {pageTitle} from '../../Services/PageRequests';
 
 const PageTitle = () => {

@@ -1,11 +1,13 @@
 import { ImPlus } from "react-icons/im";
 import {useContext} from 'react';
-import {PageContext} from '../App';
+import {PageContext, UserLinksContext, OriginalArrayContext} from '../App';
 import addLink from '../../Services/LinksRequest';
 
-const AddLink = ({userLinks, setUserLinks, originalArray, setOriginalArray, userSub, setShowUpgradePopup, setOptionText }) => {
+const AddLink = ({userSub, setShowUpgradePopup, setOptionText }) => {
 
-    const  { pageSettings, setPageSettings } = useContext(PageContext);
+    const { pageSettings, setPageSettings } = useContext(PageContext);
+    const { userLinks, setUserLinks } = useContext(UserLinksContext);
+    const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
 
     const handleClick = (e) => {
         e.preventDefault();

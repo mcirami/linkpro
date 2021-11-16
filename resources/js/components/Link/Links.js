@@ -1,7 +1,14 @@
-import React, {useCallback, useRef, useEffect, useLayoutEffect, useState} from 'react';
+import React, {
+    useCallback,
+    useRef,
+    useEffect,
+    useLayoutEffect,
+    useState,
+    useContext,
+} from 'react';
 import {MdDragHandle} from 'react-icons/md';
 import Switch from "react-switch";
-//import {LinksContext, PageContext} from '../App';
+import {UserLinksContext, OriginalArrayContext} from '../App';
 import {Motion, spring} from 'react-motion';
 import {
     updateLinksPositions,
@@ -24,14 +31,13 @@ function clamp(n, min, max) {
 }
 
 const Links = ({
-   userLinks,
-   setUserLinks,
    setEditID,
-   originalArray,
-   setOriginalArray,
    userSub
 
 }) => {
+
+    const { userLinks, setUserLinks } = useContext(UserLinksContext);
+    const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
 
     const initialRender = useRef(true);
     const targetRef = useRef();
@@ -225,8 +231,6 @@ const Links = ({
     }, [handleTouchMove, handleMouseUp, handleMouseMove]);
 
     useEffect(() => {
-        //const newPostionsArray = userLinks.map((link, index) => ({...link, position: index}));
-        //const newArray = userLinks.filter(element => element.id !== editID)
         if (initialRender.current) {
             initialRender.current = false;
         } else if(state.isPressed === false) {
