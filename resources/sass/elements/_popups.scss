@@ -79,13 +79,17 @@
         padding: 40px;
         text-align: center;
 
+        @media all and (max-width: 1199px) {
+            max-width: 85%;
+        }
+
         @media screen and (max-width: 992px) {
             overflow-y: scroll;
         }
 
         @media screen and (max-width: 768px) {
-            max-width: 85%;
             padding: 20px;
+            max-height: 650px;
         }
 
         .icon_wrap {
@@ -163,16 +167,15 @@
 
     .close_popup {
         position: absolute;
-        right: 30px;
-        top: 30px;
-        width: 50px;
-        height: 50px;
+        right: 5px;
+        top: 15px;
+        width: 40px;
+        height: 40px;
         color: $white;
         z-index: 9999;
 
         @media all and (max-width: 550px) {
-            right: 8px;
-            top: 8px;
+            right: 0;
             width: 30px;
             height: 30px;
         }
@@ -204,28 +207,18 @@
     }
 
     .box {
-        max-width: 800px;
+        max-width: 700px;
 
-        @media screen and (max-width: 768px) {
-            max-width: 85%;
+        @media all and (max-width: 1199px) {
+            max-width: 75%;
         }
     }
 }
 
 #popup_choose_level {
     .box {
-        max-height: 1000px;
         transition: max-height .2s ease-in-out;
         -webkit-transition: max-height .2s ease-in-out;
-
-        @media all and (max-width: 992px) {
-            max-width: 500px;
-        }
-
-        @media all and (max-width: 768px) {
-            max-width: 85%;
-            max-height: 750px;
-        }
 
         &.size_adjust {
             max-height: 450px;

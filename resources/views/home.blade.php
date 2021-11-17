@@ -4,10 +4,9 @@
     <div class="guest_home">
         <section class="two_col top">
             <div class="col">
-                <h2>Unite Your Audience.</h2>
-                <h3>You are the pro!</h3>
-                <p>Connect your followers across all platforms.</p>
-                <p>Use LinkPro to cross-promote your offers and get paid!</p>
+                <h2>Unite Your Audience!</h2>
+                <h3>Infinite Possibilities.</h3>
+                <p>Connect your followers across all platforms and turn your following into revenue!</p>
                 <div class="bottom_row">
                     <a class="button blue" href="{{ route('register') }}">Sign up free</a>
                     <p><em><strong>Already on LinkPro?</strong></em> <a href="{{ route('login') }}">Log In</a></p>

@@ -76,26 +76,24 @@
                     }
 
                     @media screen and (max-width: 768px) {
-                        font-size: 6vw;
+                        font-size: 7vw;
                     }
                 }
 
                 h3 {
-                    font-size: 56px;
+                    font-size: 55px;
 
                     @media all and (max-width: 1199px) {
-                        font-size: 4vw;
+                        font-size: 4.4vw;
                     }
 
                     @media screen and (max-width: 768px) {
-                        font-size: 5.2vw;
+                        font-size: 6.9vw;
                     }
                 }
 
                 p {
-                    @media all and (max-width: 992px) {
-                        font-size: 14px;
-                    }
+                    font-size: 14px;
                 }
 
                 .button {
