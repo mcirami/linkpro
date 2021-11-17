@@ -29,17 +29,12 @@
         .close_preview {
             display: none;
             position: absolute;
-            right: 8px;
-            top: 8px;
+            right: 15px;
+            top: 15px;
             z-index: 999;
 
             @media all and (max-width: 992px) {
                 display: block;
-            }
-
-            @media screen and (max-width: 550px) {
-                right: 3px;
-                top: 3px;
             }
 
             &:hover {
@@ -48,12 +43,12 @@
             }
 
             svg {
-                width: 35px;
-                height: 35px;
+                width: 60px;
+                height: 60px;
 
                 @media all and (max-width: 550px) {
-                    width: 30px;
-                    height: 30px;
+                    width: 40px;
+                    height: 40px;
                 }
             }
         }
@@ -351,9 +346,10 @@
                     min-height: 708px;
                 }
 
-                @media screen and (max-width: 350px) {
-                    min-height: 550px;
-                    max-width: 270px;
+                @media screen and (max-width: 550px) {
+                    min-height: 620px;
+                    max-width: 272px;
+                    padding: 5px 0 0 0;
                 }
 
                 &:before {
@@ -396,7 +392,7 @@
                     }
 
                     @media screen and (max-width: 350px) {
-                        max-width: 242px;
+                        max-width: 260px;
                         border-radius: 24px;
                         -webkit-border-radius: 24px;
                         -moz-border-radius: 24px;
@@ -429,13 +425,22 @@
                         h2 {
                             margin-bottom: 0;
 
-                            @media screen and (max-width: 350px) {
+                            @media all and (max-width: 550px) {
+                                font-size: 22px;
+                            }
+
+                            @media screen and (max-width: 400px) {
                                 font-size: 5.9vw;
                             }
                         }
 
                         p {
-                            @media screen and (max-width: 350px) {
+
+                            @media all and (max-width: 550px) {
+                                font-size: 13px;
+                            }
+
+                            @media screen and (max-width: 400px) {
                                 font-size: 3.1vw;
                             }
                         }

@@ -376,11 +376,12 @@ ul li {
     -webkit-justify-content: flex-start;
     align-items: center;
     -webkit-align-items: center;
-    column-gap: 10px;
-    -moz-column-gap: 10px;
-    -webkit-column-gap: 10px;
     margin-bottom: 10px;
     text-align: left;
+}
+
+ul li .image_wrap {
+    margin-right: 10px;
 }
 
 p span.date {

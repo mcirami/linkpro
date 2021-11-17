@@ -68,13 +68,17 @@
                 -webkit-justify-content: flex-start;
                 align-items: center;
                 -webkit-align-items: center;
-                column-gap: 10px;
+                /*column-gap: 10px;
                 -moz-column-gap: 10px;
-                -webkit-column-gap: 10px;
+                -webkit-column-gap: 10px;*/
                 margin-bottom: 10px;
 
                 p {
                     margin: 0;
+                }
+
+                svg {
+                    margin-right: 10px;
                 }
             }
         }

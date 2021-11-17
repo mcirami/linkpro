@@ -1,5 +1,5 @@
 const mix = require('laravel-mix');
-
+require('laravel-mix-polyfill');
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -13,4 +13,11 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js')
     .react()
-    .sass('resources/sass/app.scss', 'public/css');
+    .sass('resources/sass/app.scss', 'public/css')
+    .polyfill({
+        enabled: true,
+        useBuiltIns: "entry",
+        targets: false,
+        entryPoints: "stable",
+        corejs: 3,
+    });

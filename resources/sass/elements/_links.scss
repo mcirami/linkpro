@@ -427,59 +427,14 @@
                 padding: 0 !important;
             }
 
-            /*button {
-                background: none;
-                border: none;
-                color: $blue;
-
-                &:hover {
-                    color: $darkGray;
-                }
-
-                svg {
-                    width: 25px;
-                    height: 25px;
-                }
-            }*/
-
             .bottom_section {
                 height: auto;
                 margin: 0 auto;
                 padding: 40px;
 
-                /*.bottom_row {
-                    display: -webkit-box;
-                    display: -ms-flexbox;
-                    display: flex;
-                    -webkit-box-orient: horizontal;
-                    -webkit-box-direction: normal;
-                    -ms-flex-direction: row;
-                    flex-direction: row;
-                    -ms-flex-wrap: nowrap;
-                    flex-wrap: nowrap;
-                    justify-content: flex-start;
-                    -webkit-justify-content: flex-start;
-                    align-items: center;
-                    -webkit-align-items: center;
-
-                    .help_link {
-                        @include ossemibold;
-                        justify-self: flex-end;
-                        margin-left: auto;
-                        color: $blue;
-                        font-size: 18px;
-                        width: auto;
-                    }
-
-                    button, a {
-                        width: 150px;
-                        display:inline-block;
-
-                        &:first-child {
-                            margin-right: 20px;
-                        }
-                    }
-                }*/
+                @media all and (max-width: 768px) {
+                    padding: 20px;
+                }
 
                 &.hidden {
                     height: 0;
@@ -663,6 +618,7 @@
 
     .ReactCrop {
         min-width: 40%;
+        z-index: 999;
     }
 
     p {

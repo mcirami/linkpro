@@ -1,7 +1,7 @@
 import React, {useContext, useState, useEffect} from 'react';
 import {UserLinksContext, PageContext} from '../App';
 import {MdCancel} from 'react-icons/md';
-import {IoIosLock} from 'react-icons/io';
+import {IoIosLock, IoIosCloseCircleOutline} from 'react-icons/io';
 
 const Preview = ({setRef, completedCrop, fileName, profileFileName, completedProfileCrop, profileRef, userSub}) => {
 
@@ -62,7 +62,7 @@ const Preview = ({setRef, completedCrop, fileName, profileFileName, completedPro
 
         <>
             <div className="close_preview" onClick={ClosePreview}>
-                <MdCancel/>
+                <IoIosCloseCircleOutline/>
             </div>
 
             <div className="links_wrap preview">

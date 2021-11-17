@@ -12581,22 +12581,6 @@ header.guest_header .col.right {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
 }
-.page_settings .column_wrap form {
-  /*button {
-      background: none;
-      border: none;
-      color: $blue;
-
-      &:hover {
-          color: $darkGray;
-      }
-
-      svg {
-          width: 25px;
-          height: 25px;
-      }
-  }*/
-}
 .page_settings .column_wrap form .top_section {
   display: flex;
   flex-direction: row;
@@ -12609,39 +12593,11 @@ header.guest_header .col.right {
   height: auto;
   margin: 0 auto;
   padding: 40px;
-  /*.bottom_row {
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-orient: horizontal;
-      -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-      flex-direction: row;
-      -ms-flex-wrap: nowrap;
-      flex-wrap: nowrap;
-      justify-content: flex-start;
-      -webkit-justify-content: flex-start;
-      align-items: center;
-      -webkit-align-items: center;
-
-      .help_link {
-          @include ossemibold;
-          justify-self: flex-end;
-          margin-left: auto;
-          color: $blue;
-          font-size: 18px;
-          width: auto;
-      }
-
-      button, a {
-          width: 150px;
-          display:inline-block;
-
-          &:first-child {
-              margin-right: 20px;
-          }
-      }
-  }*/
+}
+@media all and (max-width: 768px) {
+  .page_settings .column_wrap form .bottom_section {
+    padding: 20px;
+  }
 }
 .page_settings .column_wrap form .bottom_section.hidden {
   height: 0;
@@ -12782,6 +12738,7 @@ header.guest_header .col.right {
 }
 .crop_section .ReactCrop {
   min-width: 40%;
+  z-index: 999;
 }
 .crop_section p {
   margin: 0;
@@ -12835,8 +12792,8 @@ header.guest_header .col.right {
 #links_page .links_col.preview .close_preview {
   display: none;
   position: absolute;
-  right: 8px;
-  top: 8px;
+  right: 15px;
+  top: 15px;
   z-index: 999;
 }
 @media all and (max-width: 992px) {
@@ -12844,24 +12801,18 @@ header.guest_header .col.right {
     display: block;
   }
 }
-@media screen and (max-width: 550px) {
-  #links_page .links_col.preview .close_preview {
-    right: 3px;
-    top: 3px;
-  }
-}
 #links_page .links_col.preview .close_preview:hover {
   color: #545656;
   cursor: pointer;
 }
 #links_page .links_col.preview .close_preview svg {
-  width: 35px;
-  height: 35px;
+  width: 60px;
+  height: 60px;
 }
 @media all and (max-width: 550px) {
   #links_page .links_col.preview .close_preview svg {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
   }
 }
 #links_page .links_col .links_wrap {
@@ -13129,10 +13080,11 @@ header.guest_header .col.right {
     min-height: 708px;
   }
 }
-@media screen and (max-width: 350px) {
+@media screen and (max-width: 550px) {
   #links_page .links_col .links_wrap.preview .inner_content {
-    min-height: 550px;
-    max-width: 270px;
+    min-height: 620px;
+    max-width: 272px;
+    padding: 5px 0 0 0;
   }
 }
 #links_page .links_col .links_wrap.preview .inner_content:before {
@@ -13176,7 +13128,7 @@ header.guest_header .col.right {
 }
 @media screen and (max-width: 350px) {
   #links_page .links_col .links_wrap.preview .inner_content .inner_content_wrap {
-    max-width: 242px;
+    max-width: 260px;
     border-radius: 24px;
     -webkit-border-radius: 24px;
     -moz-border-radius: 24px;
@@ -13210,12 +13162,22 @@ header.guest_header .col.right {
 #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text h2, #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text .h2 {
   margin-bottom: 0;
 }
-@media screen and (max-width: 350px) {
+@media all and (max-width: 550px) {
+  #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text h2, #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text .h2 {
+    font-size: 22px;
+  }
+}
+@media screen and (max-width: 400px) {
   #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text h2, #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text .h2 {
     font-size: 5.9vw;
   }
 }
-@media screen and (max-width: 350px) {
+@media all and (max-width: 550px) {
+  #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text p {
+    font-size: 13px;
+  }
+}
+@media screen and (max-width: 400px) {
   #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text p {
     font-size: 3.1vw;
   }
@@ -13352,6 +13314,11 @@ header.guest_header .col.right {
   font-size: 16px;
   border: none;
 }
+@media all and (max-width: 550px) {
+  .form_page .card button, .form_page .card .button {
+    font-size: 14px;
+  }
+}
 .form_page .card input {
   border: 1px solid #d2d2d2;
   border-top-right-radius: 6px;
@@ -13432,6 +13399,9 @@ header.guest_header .col.right {
   height: 35px !important;
 }
 
+.ReactCrop {
+  width: 100%;
+}
 .ReactCrop .ord-sw {
   margin-bottom: -15px !important;
   margin-left: -15px !important;
@@ -13447,6 +13417,10 @@ header.guest_header .col.right {
 .ReactCrop .ord-nw {
   margin-top: -15px !important;
   margin-left: -15px !important;
+}
+
+.ReactCrop__crop-selection {
+  z-index: 999;
 }
 
 input[type=text], input[type=tel], #card-element, input[type=email], input[type=password], textarea, #card-number, #expiration-date, #cvv, #postal-code, select {
@@ -13637,24 +13611,38 @@ form .bottom_row a {
   -webkit-justify-content: center;
 }
 #links_page .edit_form.popup .icons_wrap {
-  --n: 6;
+  /*--n: 6;
   grid-column-gap: 10px;
-  grid-row-gap: 10px;
+  grid-row-gap: 10px;*/
   border: 1px solid #d2d2d2;
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   padding: 10px;
-}
-@media all and (max-width: 768px) {
-  #links_page .edit_form.popup .icons_wrap {
-    --n:5;
-  }
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  align-items: flex-start;
+  -webkit-align-items: flex-start;
+  grid-column-gap: 0;
+  grid-row-gap: 0;
+  flex: auto;
+  -ms-flex: auto;
+  -webkit-flex: auto;
 }
 #links_page .edit_form.popup .icons_wrap .icon_col {
+  width: 17.9%;
   position: relative;
   padding: 0;
   box-shadow: none;
+  margin: 1%;
+}
+@media all and (max-width: 550px) {
+  #links_page .edit_form.popup .icons_wrap .icon_col {
+    width: 22.9%;
+  }
 }
 #links_page .edit_form.popup .my_row.top {
   margin-bottom: 20px;
@@ -13949,12 +13937,22 @@ form .bottom_row a {
   -webkit-justify-content: flex-start;
   align-items: center;
   -webkit-align-items: center;
-  -moz-column-gap: 10px;
-       column-gap: 10px;
+  /*column-gap: 10px;*/
+  /* @media all and (max-width: 768px) {
+       column-gap: 4%;
+   }*/
 }
 @media all and (max-width: 1199px) {
   .edit_form .button_row, .page_settings .bottom_row {
     flex-wrap: wrap;
+  }
+}
+.edit_form .button_row .button:first-child, .page_settings .bottom_row .button:first-child {
+  margin-right: 10px;
+}
+@media all and (max-width: 768px) {
+  .edit_form .button_row .button:first-child, .page_settings .bottom_row .button:first-child {
+    margin-right: 4%;
   }
 }
 @media all and (max-width: 1199px) and (min-width: 993px) {
@@ -14046,13 +14044,16 @@ form .bottom_row a {
   -webkit-justify-content: flex-start;
   align-items: center;
   -webkit-align-items: center;
-  column-gap: 10px;
+  /*column-gap: 10px;
   -moz-column-gap: 10px;
-  -webkit-column-gap: 10px;
+  -webkit-column-gap: 10px;*/
   margin-bottom: 10px;
 }
 .form_page.plans ul li p {
   margin: 0;
+}
+.form_page.plans ul li svg {
+  margin-right: 10px;
 }
 @media all and (max-width: 992px) {
   .form_page.plans .my_row.three_columns {
@@ -14252,6 +14253,11 @@ form .bottom_row a {
 }
 .form_page.plans .my_row.three_columns .column a:not(.button).cancel_link {
   margin-bottom: 10px;
+}
+@media all and (max-width: 768px) {
+  .form_page.plans .my_row.three_columns .column .other_methods img {
+    max-width: 200px;
+  }
 }
 .form_page.plans .my_row.three_columns .column form {
   height: 100%;

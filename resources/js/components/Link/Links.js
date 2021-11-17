@@ -107,16 +107,13 @@ const Links = ({
     });
 
     const getColHeight = useCallback(() => {
-        const windowWidth = window.outerWidth;
         const iconCol = document.querySelectorAll('.icons_wrap.add_icons .icon_col');
         let colHeight;
 
-        console.log(iconCol[0].getBoundingClientRect().height);
         if (initialRender.current) {
             colHeight = iconCol[0].offsetHeight + 60;
         } else {
             colHeight = iconCol[0].clientHeight - 15;
-            console.log(iconCol[0].getBoundingClientRect().height);
         }
 
         return colHeight;

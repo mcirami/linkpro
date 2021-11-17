@@ -153,19 +153,19 @@
                                     <div class="other_methods text-center my-auto">
                                         <h4>Your current payment type is</h4>
                                         @if( str_contains( strtolower($payment_method), "paypal") )
-                                            <a href="https://paypal.com" class="px-5 d-block" target="_blank">
+                                            <a href="https://paypal.com" class="my-4 my-xl-0 px-3 px-md-5 px-lg-4 d-block" target="_blank">
                                                 <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_200x51.png" alt="PayPal" />
                                             </a>
                                         @elseif( str_contains(strtolower($payment_method), "android") || str_contains(strtolower($payment_method), "google") )
-                                            <a href="https://pay.google.com/" class="px-5 d-block" target="_blank">
+                                            <a href="https://pay.google.com/" class="my-4 my-xl-0 px-3 px-md-5 px-lg-4 d-block" target="_blank">
                                                 <img src="{{ asset('../images/googlepay.png') }}" alt="GooglePay" />
                                             </a>
                                         @elseif( str_contains( strtolower($payment_method), "venmo") )
-                                            <a href="https://venmo.com/" class="px-5 d-block" target="_blank">
+                                            <a href="https://venmo.com/" class="my-4 my-xl-0 px-3 px-md-5 px-lg-4 d-block" target="_blank">
                                                 <img src="{{ asset('../images/venmo.png') }}" alt="Venmo" />
                                             </a>
                                         @elseif( str_contains( strtolower($payment_method), "apple") )
-                                            <a href="https://www.apple.com/apple-pay/" class="px-5 d-block" target="_blank">
+                                            <a href="https://www.apple.com/apple-pay/" class="my-4 my-xl-0 px-3 px-md-5 px-lg-4 d-block" target="_blank">
                                                 <img src="{{ asset('../images/apple-pay.svg') }}" alt="ApplePay" />
                                             </a>
                                         @endif

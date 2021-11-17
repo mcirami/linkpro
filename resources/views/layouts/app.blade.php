@@ -38,7 +38,6 @@
                             </div>
                         @endif
                         <div class="toggler" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                            {{--<span class="navbar-toggler-icon"></span>--}}
                             <a class="mobile_menu_icon" href="#">
                                 <span></span>
                                 <span></span>
@@ -65,28 +64,9 @@
                                     @endif
                                 @else
                                     @php $page = Auth::user()->pages()->where('user_id', Auth::user()->id)->where('default', true)->get(); $image = $page[0]->profile_img;  @endphp
-                                   {{-- <li class="nav-item dropdown">
-                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <img src="{{ $image ? : asset('images/profile-placeholder-img.png') }}" alt="User Profile"> {{ Auth::user()->username }}
-                                        </a>
-
-                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" href="{{ url('/dashboard/pages/' . $page[0]->id) }}">Dashboard</a>
-                                            <a class="dropdown-item" href="{{ route('user.edit') }}">Settings</a>
-                                            <a class="dropdown-item" href="{{ route('logout') }}"
-                                               onclick="event.preventDefault();
-                                                             document.getElementById('logout-form').submit();">
-                                                {{ __('Logout') }}
-                                            </a>
-
-                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                                @csrf
-                                            </form>
-                                        </div>
-                                    </li>--}}
                                     <li class="mobile">
                                         <a class="nav-link" href="{{ route('user.edit') }}">
-                                            <img src="{{ $image ? : asset('images/profile-placeholder-img.png') }}" alt="User Profile"> {{ Auth::user()->username }}
+                                            <img id="mobile_user_image" src="{{ $image ? : asset('images/profile-placeholder-img.png') }}" alt="User Profile"><span id="mobile_username">{{ Auth::user()->username }}</span>
                                         </a>
                                     </li>
                                     <li>
@@ -100,17 +80,6 @@
                                         </a>
 
                                     </li>
-                                    {{--<li>
-                                        <a href="{{ route('logout') }}"
-                                           onclick="event.preventDefault();
-                                                             document.getElementById('logout-form').submit();">
-                                            {{ __('Logout') }}
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                            @csrf
-                                        </form>
-                                    </li>--}}
                                     <li class="nav-item dropdown">
                                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                             <img id="user_image" src="{{ $image ? : asset('images/profile-placeholder-img.png') }}" alt="User Profile"><span id="username">{{ Auth::user()->username }}</span>
