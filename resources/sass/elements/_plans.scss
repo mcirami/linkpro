@@ -35,6 +35,10 @@
             }
 
             @media all and (max-width: 992px) {
+                max-width: 70%;
+            }
+
+            @media all and (max-width: 550px) {
                 max-width: 90%;
             }
         }

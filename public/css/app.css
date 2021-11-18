@@ -12781,7 +12781,12 @@ header.guest_header .col.right {
 }
 @media all and (max-width: 768px) {
   #links_page .links_col.preview {
-    background-size: 100%;
+    background-size: 85%;
+  }
+}
+@media all and (max-width: 550px) {
+  #links_page .links_col.preview {
+    background-size: 95%;
   }
 }
 #links_page .links_col.preview.show {
@@ -13270,7 +13275,7 @@ header.guest_header .col.right {
 }
 @media screen and (max-width: 768px) {
   .form_page .card {
-    padding: 20px;
+    padding: 40px 20px;
   }
 }
 .form_page .card.guest {
@@ -13867,7 +13872,7 @@ form .bottom_row a {
 }
 @media all and (max-width: 768px) {
   .form_page.checkout .card {
-    padding: 20px;
+    padding: 40px 20px;
   }
 }
 .form_page.checkout ul {
@@ -14024,6 +14029,11 @@ form .bottom_row a {
 }
 @media all and (max-width: 992px) {
   .form_page.plans .card {
+    max-width: 70%;
+  }
+}
+@media all and (max-width: 550px) {
+  .form_page.plans .card {
     max-width: 90%;
   }
 }
@@ -14161,19 +14171,9 @@ form .bottom_row a {
 .form_page.plans h2.page_title, .form_page.plans .page_title.h2 {
   font-size: 34px;
 }
-@media all and (max-width: 1199px) {
-  .form_page.plans h2.page_title, .form_page.plans .page_title.h2 {
-    font-size: 28px;
-  }
-}
 @media all and (max-width: 992px) {
   .form_page.plans h2.page_title, .form_page.plans .page_title.h2 {
-    font-size: 24px;
-  }
-}
-@media screen and (max-width: 768px) {
-  .form_page.plans h2.page_title, .form_page.plans .page_title.h2 {
-    font-size: 22px;
+    font-size: 30px;
   }
 }
 .form_page.plans .my_row.three_columns {

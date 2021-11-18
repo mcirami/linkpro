@@ -19,7 +19,11 @@
         }
 
         @media all and (max-width: 768px) {
-            background-size: 100%;
+            background-size: 85%;
+        }
+
+        @media all and (max-width: 550px) {
+            background-size: 95%;
         }
 
         &.show {
