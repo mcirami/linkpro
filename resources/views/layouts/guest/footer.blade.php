@@ -2,7 +2,7 @@
 ?>
 <footer>
     <ul>
-        <li><a href="#">How It Works</a></li>
+        <li><a href="{{ route('how-it-works') }}">How It Works</a></li>
         <li><a href="/login">Login</a></li>
         <li><a href="/register">Sign Up</a></li>
     </ul>

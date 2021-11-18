@@ -4,7 +4,7 @@
 <div class="container">
     <div class="my_row form_page">
         <div class="card guest">
-            <div>
+            <div class="mb-4">
                 <h3>Take control of your social sharing!</h3>
                 <h4 class="text-center">Create your free account below to get started.</h4>
             </div>

@@ -4,7 +4,9 @@
 <div class="container">
     <div class="my_row form_page">
         <div class="card guest">
-            <h3>{{ __('Log in to LinkPro') }}</h3>
+            <div class="mb-4">
+                <h3>{{ __('Log in to LinkPro') }}</h3>
+            </div>
 
             <div class="card-body">
                 <form method="POST" action="{{ route('login') }}">

@@ -61,7 +61,7 @@ h1, h2, h3 {
     @include osbold;
 }
 
-label, button, h3, h5, a {
+label, button, h5, a {
     @include ossemibold;
 }
 

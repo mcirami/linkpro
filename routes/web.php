@@ -23,11 +23,14 @@ Route::get('/', function () {
     return view('home');
 })->name('guest-home');
 Route::get('/terms-and-conditions', function () {
-    return view('terms');
+    return view('utility.terms');
 })->name('terms');
 Route::get('/privacy-policy', function () {
-    return view('privacy');
+    return view('utility.privacy');
 })->name('privacy');
+Route::get('/how-it-works', function () {
+    return view('utility.how-it-works');
+})->name('how-it-works');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

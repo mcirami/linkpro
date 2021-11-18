@@ -4,13 +4,14 @@
     <div class="container">
         <div class="my_row form_page plans">
             <div class="card">
-
-                @if (str_contains($path, '/step-two'))
-                    <h2 class="page_title">Welcome to Link Pro!</h2>
-                    <p class="sub_title">Continue free forever or upgrade for advanced features!</p>
-                @else
-                    <h2 class="page_title">Upgrade Now For Advanced Features!</h2>
-                @endif
+                <div class="mb-4">
+                    @if (str_contains($path, '/step-two'))
+                        <h2 class="page_title">Welcome to Link Pro!</h2>
+                        <p class="sub_title">Continue free forever or upgrade for advanced features!</p>
+                    @else
+                        <h2 class="page_title">Upgrade Now For Advanced Features!</h2>
+                    @endif
+                </div>
                 @if (count($errors) > 0)
                     <div class="alert alert-danger">
                         <ul>
