@@ -85,9 +85,9 @@
                                 </div>
                             @endif
                             @if (($subscription && $subscription->braintree_status == "active") || ($subscription && $subscription->braintree_status == "pending"))
-                                <button class='button blue open_popup_choose'>
+                                <a href="#" class='button blue open_popup_choose'>
                                     Change My Plan
-                                </button>
+                                </a>
                             @elseif($subscription && $subscription->ends_at > \Carbon\Carbon::now())
                                 <form action="{{ route('subscribe.resume') }}" method="post">
                                     @csrf

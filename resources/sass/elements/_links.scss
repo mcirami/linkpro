@@ -68,11 +68,6 @@
 
     .icons_wrap {
         position: relative;
-        /*display: grid;
-        --n: 4;
-        grid-template-columns: repeat(auto-fill, minmax(max(50px,100%/var(--n)), 1fr));
-        grid-column-gap: 20px;
-        grid-row-gap: 20px;*/
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
@@ -353,14 +348,14 @@
         }
 
         .icons_wrap {
-            display: grid;
-            overflow-y: scroll;
-            overflow-x: hidden;
-            height: 185px;
+            /*display: grid;
             --n:6;
             grid-template-columns: repeat(auto-fill, minmax(max(50px,100%/var(--n)), 1fr));
             grid-column-gap: 20px;
-            grid-row-gap: 20px;
+            grid-row-gap: 20px;*/
+            overflow-y: scroll;
+            overflow-x: hidden;
+            height: 185px;
 
             .icon_col {
                 background: none;

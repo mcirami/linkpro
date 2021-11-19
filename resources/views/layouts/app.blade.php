@@ -26,14 +26,16 @@
         <nav class="my_row nav_row">
             <div class="container">
                 <div class="content_wrap">
-                    <a class="logo" href="{{ url('/dashboard') }}">
-                        <h1><img src="{{ asset('images/logo.png') }}" alt="Link Pro"></h1>
-                    </a>
+                    <div class="left_column">
+                        <a class="logo" href="{{ url('/dashboard') }}">
+                            <h1><img src="{{ asset('images/logo.png') }}" alt="Link Pro"></h1>
+                        </a>
+                    </div>
                     <div class="right_column">
                         @php $userSub = Auth::user()->subscriptions()->first(); @endphp
 
                         @if( empty($userSub) || ($userSub->name != "premier" && !$userSub->ends_at) || ($userSub->ends_at && $userSub->ends_at < \Carbon\Carbon::now()) )
-                            <div class="upgrade_link">
+                            <div class="upgrade_link mobile">
                                 <a class="button blue" href="{{route('plans.get')}}">Upgrade</a>
                             </div>
                         @endif
@@ -69,6 +71,11 @@
                                             <img id="mobile_user_image" src="{{ $image ? : asset('images/profile-placeholder-img.png') }}" alt="User Profile"><span id="mobile_username">{{ Auth::user()->username }}</span>
                                         </a>
                                     </li>
+                                    @if( empty($userSub) || ($userSub->name != "premier" && !$userSub->ends_at) || ($userSub->ends_at && $userSub->ends_at < \Carbon\Carbon::now()) )
+                                        <li class="upgrade_link desktop">
+                                            <a class="button blue" href="{{route('plans.get')}}">Upgrade</a>
+                                        </li>
+                                    @endif
                                     <li>
                                         <a href="{{ url('/dashboard/pages/' . $page[0]->id) }}" class=@php if(Route::is('pages.edit')) { echo "current"; } @endphp>Dashboard
                                             <div class="hover_border"></div>

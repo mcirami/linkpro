@@ -143,9 +143,22 @@ jQuery(document).ready(function($) {
     $('.mobile_menu_icon').click(function(e){
         //e.preventDefault();
         $(this).toggleClass('open');
-        $('.menu').toggleClass('open');
         $('.nav_links_wrap').toggleClass('open');
-        $('.nav_row').toggleClass('fixed');
+
+        setTimeout(function() {
+            $('.nav_row').toggleClass('fixed');
+        }, 500);
+    });
+
+    $(window).on('resize', function() {
+
+        const mobileMenuIcon = $('.mobile_menu_icon');
+        if ( mobileMenuIcon.hasClass('open') && window.outerWidth > 768) {
+            mobileMenuIcon.removeClass('open');
+            $('.nav_links_wrap').removeClass('open');
+            $('.nav_row').removeClass('fixed');
+        }
+
     });
 
 });

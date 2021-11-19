@@ -21,13 +21,18 @@
         flex-wrap: nowrap;
         justify-content: space-between;
         -webkit-justify-content: space-between;
+    }
+
+    .left_column {
+        width: 25%;
+
+        @media screen and (max-width: 768px) {
+            width: 50%;
+        }
 
         .logo {
-
-            @media screen and (max-width: 550px) {
-                width: 42%;
-            }
-
+            display: block;
+            max-width: 175px;
         }
     }
 
@@ -43,18 +48,30 @@
         flex-wrap: nowrap;
         align-items: center;
         -webkit-align-items: center;
-        column-gap: 20px;
-        -webkit-column-gap: 20px;
-        -moz-column-gap: 20px;
         justify-content: flex-end;
         -webkit-justify-content: flex-end;
+        width: 75%;
 
-        @media screen and (max-width: 550px) {
-            width: 58%;
+        @media screen and (max-width: 768px) {
+            width: 50%;
         }
 
         .upgrade_link {
-            margin-right: 20px;
+
+            &.mobile {
+                display: none;
+
+                @media all and (max-width: 768px) {
+                    display: block;
+                    margin-right: 15%;
+                }
+            }
+
+            &.desktop {
+                @media all and (max-width: 768px) {
+                    display: none;
+                }
+            }
         }
 
         .toggler {
@@ -66,13 +83,19 @@
         }
 
         .nav_links_wrap {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            padding-left: 0;
+            justify-content: flex-end;
 
             @media all and (max-width: 768px) {
+                display: block;
                 width: 100%;
                 position: fixed;
                 z-index: 999;
                 left: 0;
-                top: 95px;;
+                top: 95px;
                 background: rgba(255,255,255,.98);
                 height: 0;
                 overflow: hidden;
@@ -83,6 +106,10 @@
             .navbar-nav {
                 flex-direction: row;
                 -webkit-flex-direction: row;
+                align-items: center;
+                -webkit-align-items: center;
+                justify-content: flex-end;
+                -webkit-justify-content: flex-end;
 
                 @media all and (max-width: 768px) {
                     flex-direction: column;
@@ -110,15 +137,6 @@
 
 
     ul {
-        column-gap: 40px;
-        -webkit-column-gap: 40px;
-        -moz-column-gap: 40px;
-
-        @media all and (max-width: 992px) {
-            column-gap: 40px;
-            -webkit-column-gap: 30px;
-            -moz-column-gap: 30px;
-        }
 
         li {
             display: -webkit-box;
@@ -130,10 +148,19 @@
             -webkit-align-items: center;
             justify-content: center;
             -webkit-justify-content: center;
+            margin-right: 10%;
 
+            @media all and (max-width: 992px) {
+                margin-right: 8%;
+            }
 
             @media all and (max-width: 768px) {
                 margin-bottom: 20px;
+                margin-right: 0;
+            }
+
+            &:last-child, &.dropdown {
+                margin-right: 0;
             }
 
             &.mobile {
@@ -142,6 +169,10 @@
                 @media all and (max-width: 768px) {
                     display: flex;
                 }
+            }
+
+            &.upgrade_link {
+                display: block;
             }
 
             img {
@@ -170,12 +201,25 @@
                 -webkit-align-self: flex-start;
                 background: $blue;
                 transition: .5s width linear;
-                margin-top: 5px;
+                margin-top: 4px;
             }
 
             a {
                 @include ossemibold;
                 font-size: 18px;
+
+                &:not(.button) {
+                    padding-top: 4px;
+                }
+
+                &.button {
+                    font-size: 16px;
+                    display: inline;
+
+                    @media all and (max-width: 992px) {
+                        font-size: 14px;
+                    }
+                }
 
                 &:hover {
 

@@ -27,6 +27,18 @@
 
     &.plans {
 
+        h2 {
+            text-align: center;
+
+            &.page_title {
+                font-size: 34px;
+
+                @media all and (max-width: 992px) {
+                    font-size: 30px;
+                }
+            }
+        }
+
         .card {
             max-width: 1200px;
 
@@ -72,9 +84,6 @@
                 -webkit-justify-content: flex-start;
                 align-items: center;
                 -webkit-align-items: center;
-                /*column-gap: 10px;
-                -moz-column-gap: 10px;
-                -webkit-column-gap: 10px;*/
                 margin-bottom: 10px;
 
                 p {
@@ -88,21 +97,180 @@
         }
 
         .my_row.three_columns {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            -ms-flex-wrap: nowrap;
+            flex-wrap: nowrap;
+            justify-content: center;
+            -webkit-justify-content: center;
+            align-items: stretch;
+            -webkit-align-items: stretch;
 
             @media all and (max-width: 992px) {
-                justify-items: center;
+                flex-wrap: wrap;
+                -ms-flex-wrap: wrap;
             }
 
             .column {
-                height: 100%;
+                border: 6px solid $blue;
+                border-radius: 30px;
+                -webkit-border-radius: 30px;
+                -moz-border-radius: 30px;
+                padding: 30px 40px;
+                background: #edeef2;
+                width: 33.3%;
+                margin-right: 3%;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-orient: vertical;
+                -webkit-box-direction: normal;
+                -ms-flex-direction: column;
+                flex-direction: column;
+                -ms-flex-wrap: nowrap;
+                flex-wrap: nowrap;
+                align-items: stretch;
 
-                h4 {
-                    margin-top: auto;
+                @media all and (max-width: 1199px) {
+                    padding: 24px;
                 }
 
                 @media all and (max-width: 992px) {
                     width: 100%;
                     max-width: 350px;
+                    height: auto;
+                    margin: 0 auto 20px;
+                }
+
+                &:last-child {
+                    margin-right: 0;
+
+                    @media all and (max-width: 992px) {
+                        margin-bottom: 0;
+                        margin-right: auto;
+                    }
+                }
+
+                h2 {
+                    margin-bottom: 20px;
+                    padding-bottom: 20px;
+                    border-bottom: 1px solid $borderGray;
+
+                    @media all and (max-width: 1199px) {
+                        font-size: 22px;
+                    }
+                }
+
+                h4 {
+                    @include osbold;
+                    color: $black;
+                    text-align: center;
+                    margin-top: auto;
+                }
+
+                &.update_info {
+                    .form_buttons {
+                        margin-top: auto;
+                        margin-bottom: 0;
+                    }
+                }
+
+                .plan_name {
+                    position: relative;
+                    display: -webkit-box;
+                    display: -ms-flexbox;
+                    display: flex;
+                    -webkit-box-orient: vertical;
+                    -webkit-box-direction: normal;
+                    -ms-flex-direction: column;
+                    flex-direction: column;
+                    -ms-flex-wrap: nowrap;
+                    flex-wrap: nowrap;
+                    align-items: center;
+                    -webkit-align-items: center;
+                    justify-content: center;
+                    -webkit-justify-content: center;
+                    height: 100%;
+
+                    p {
+                        @include osbold;
+                        position: absolute;
+                        margin: 0;
+                        padding: 0;
+                        font-size: 28px;
+                        text-transform: uppercase;
+                        width: 100%;
+                        text-align: center;
+
+                        @media all and (max-width: 1199px) {
+                            font-size: 22px
+                        }
+                    }
+
+                    img {
+                        max-width: 210px;
+                    }
+                }
+
+                a:not(.button) {
+                    color: $red;
+                    text-align: center;
+
+                    &.cancel_link {
+                        margin-bottom: 10px;
+                    }
+                }
+
+                .other_methods {
+                    img {
+                        @media all and (max-width: 768px) {
+                            max-width: 200px;
+                        }
+                    }
+                }
+
+                form {
+                    height: 100%;
+                    display: -webkit-box;
+                    display: -ms-flexbox;
+                    display: flex;
+                    -webkit-box-orient: vertical;
+                    -webkit-box-direction: normal;
+                    -ms-flex-direction: column;
+                    flex-direction: column;
+                    -ms-flex-wrap: nowrap;
+                    flex-wrap: nowrap;
+                    justify-content: center;
+                    -webkit-justify-content: center;
+
+                    label {
+                        font-size: 12px;
+
+                        span {
+                            font-size: 10px;
+                            color: $grayBlue;
+                        }
+                    }
+
+                    &.plan {
+                        height: auto;
+                        justify-content: flex-end;
+                    }
+                }
+
+                .canceled_text {
+                    p {
+                        color:$red;
+
+                        span {
+                            @include ossemibold;
+                        }
+                    }
                 }
 
                 &.pro {
@@ -178,11 +346,16 @@
                     width: 100%;
                     max-width: 400px;
 
+                    @media all and (max-width: 768px) {
+                        max-width: 300px;
+                    }
+
                     &:first-child {
                         margin-left: auto;
 
                         @media all and (max-width: 992px) {
-                            margin: auto;
+                            margin-left: auto;
+                            margin-right: auto;
                         }
                     }
 
