@@ -14838,7 +14838,10 @@ form .bottom_row a {
   -moz-border-radius: 5px;
 }
 .hover_text.switch {
-  top: -35px;
+  top: -27px;
+}
+.hover_text.switch p {
+  font-size: 14px;
 }
 .hover_text.password {
   top: -34px;

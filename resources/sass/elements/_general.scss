@@ -129,7 +129,11 @@
     }
 
     &.switch {
-        top: -35px;
+        top: -27px;
+
+        p {
+            font-size: 14px;
+        }
     }
 
     &.password {
