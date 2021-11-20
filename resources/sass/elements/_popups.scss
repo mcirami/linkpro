@@ -408,8 +408,13 @@
     }
 }
 
-#upgrade_popup, #confirm_popup_link, #confirm_popup {
+#upgrade_popup, #confirm_popup_link, #confirm_popup,#confirm_cancel_popup {
 
+    .close_popup {
+        @media all and (max-width: 550px) {
+            color: $white;
+        }
+    }
     .box {
         max-width: 550px;
 
@@ -417,9 +422,18 @@
             max-width: 90%;
         }
 
+        @media all and (max-width: 992px) {
+            overflow: hidden;
+        }
+
         @media all and (max-width: 550px) {
             max-width: 80%;
             padding: 20px;
+            height: auto;
+            border-radius: 20px;
+            -webkit-border-radius: 20px;
+            -moz-border-radius: 20px;
+            overflow: hidden;
         }
 
         .button {
@@ -429,3 +443,29 @@
     }
 }
 
+#confirm_cancel_popup {
+
+    .box {
+        max-width: 1000px;
+
+        @media screen and (max-width: 992px) {
+            max-width: 80%;
+        }
+
+        @media all and (max-width: 550px) {
+            height: auto;
+            border-radius: 20px;
+            -webkit-border-radius: 20px;
+            -moz-border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .button:first-child {
+            margin-right: 20px;
+        }
+
+        .button:last-child {
+            color: $black;
+        }
+    }
+}

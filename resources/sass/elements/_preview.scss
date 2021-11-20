@@ -303,18 +303,18 @@
         .icons_wrap {
             width: 100%;
             padding: 0 20px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            /*display: grid;
+            grid-template-columns: repeat(4, 1fr);*/
         }
 
         .icon_col {
-            width: auto;
+            width: 23.7%;
             background: none !important;
             position: relative !important;
-            margin-right: 10px;
+            margin-right: 1.6%;
             margin-bottom: 10px;
 
-            &:last-child {
+            &:nth-child(4n) {
                 margin-right: 0;
             }
 

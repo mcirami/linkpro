@@ -29,3 +29,6 @@ composer-setup.php
 /infra
 Makefile
 cron.log
+.vapor/
+.env.production
+.env.staging
