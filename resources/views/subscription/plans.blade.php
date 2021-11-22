@@ -141,9 +141,11 @@
                                 <a class="button gray_gradient" href="mailto:admin@link.pro">Contact Us</a>
                             </div>
                         </div>
+                    </div>
 
-                        @if (str_contains($path, '/step-two'))
-                            <div class="column free">
+                    @if (str_contains($path, '/step-two'))
+                        <div class="my_row">
+                            <div class="column free plans_page">
                                 <h2 class="text-uppercase">Free</h2>
                                 <div class="my_row three_columns">
                                     <div class="column">
@@ -177,9 +179,9 @@
                                     </div>
                                 </div>
                             </div>
-                        @endif
+                        </div>
+                    @endif
 
-                    </div>
                 </div>
             </div>
         </div>

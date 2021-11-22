@@ -96,24 +96,63 @@
             }
         }
 
-        .my_row.three_columns {
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex;
-            -webkit-box-orient: horizontal;
-            -webkit-box-direction: normal;
-            -ms-flex-direction: row;
-            flex-direction: row;
-            -ms-flex-wrap: nowrap;
-            flex-wrap: nowrap;
-            justify-content: center;
-            -webkit-justify-content: center;
-            align-items: stretch;
-            -webkit-align-items: stretch;
+        .my_row {
 
-            @media all and (max-width: 992px) {
-                flex-wrap: wrap;
-                -ms-flex-wrap: wrap;
+            &.three_columns {
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-orient: horizontal;
+                -webkit-box-direction: normal;
+                -ms-flex-direction: row;
+                flex-direction: row;
+                -ms-flex-wrap: nowrap;
+                flex-wrap: nowrap;
+                justify-content: center;
+                -webkit-justify-content: center;
+                align-items: stretch;
+                -webkit-align-items: stretch;
+
+                @media all and (max-width: 992px) {
+                    flex-wrap: wrap;
+                    -ms-flex-wrap: wrap;
+                }
+
+                &.two_columns {
+                    justify-items: center;
+
+                    .column {
+                        width: 100%;
+                        max-width: 400px;
+
+                        @media all and (max-width: 768px) {
+                            max-width: 300px;
+                        }
+
+                        &:first-child {
+                            margin-left: auto;
+
+                            @media all and (max-width: 992px) {
+                                margin-left: auto;
+                                margin-right: auto;
+                            }
+                        }
+
+                        &:last-child {
+                            margin-right: auto;
+
+                            @media all and (max-width: 992px) {
+                                margin: auto;
+                            }
+                        }
+                    }
+
+                    &.popup {
+                        .column.free {
+                            grid-column-end: unset;
+                        }
+                    }
+                }
             }
 
             .column {
@@ -265,7 +304,7 @@
 
                 .canceled_text {
                     p {
-                        color:$red;
+                        color: $red;
 
                         span {
                             @include ossemibold;
@@ -295,82 +334,50 @@
                         color: $grayBlue;
                     }
                 }
+            }
+        }
 
-                &.free {
-                    grid-column-end: span 3;
-                    border-color: $limeGreen;
+        .column.free {
+            width: 100%;
+            border-color: $limeGreen;
 
-                    @media all and (max-width: 992px) {
-                        grid-column-end: unset;
-                    }
+            &.plans_page {
+                margin-top: 3%;
 
-                    .my_row.three_columns {
-                        grid-template-columns: repeat(3, 1fr);
-
-                        @media all and (max-width: 768px) {
-                            grid-template-columns: repeat(1, 1fr);
-                        }
-
-                        .column {
-                            padding: 0;
-                            border: none;
-                            justify-content: center;
-                            -webkit-justify-content: center;
-
-                            &:nth-child(2) {
-                                align-items: center;
-                                -webkit-align-items: center;
-                            }
-
-                            svg {
-                                color: $limeGreen;
-                            }
-
-                            p {
-                                margin: 0;
-                            }
-
-                            h4 {
-                                color: $limeGreen;
-                                text-align: left;
-                            }
-                        }
-                    }
+                @media all and (max-width: 992px) {
+                    margin-top: 20px;
                 }
             }
+            
+            .my_row.three_columns {
+                grid-template-columns: repeat(3, 1fr);
 
-            &.two_columns {
-                justify-items: center;
-
-                .column {
-                    width: 100%;
-                    max-width: 400px;
-
-                    @media all and (max-width: 768px) {
-                        max-width: 300px;
-                    }
-
-                    &:first-child {
-                        margin-left: auto;
-
-                        @media all and (max-width: 992px) {
-                            margin-left: auto;
-                            margin-right: auto;
-                        }
-                    }
-
-                    &:last-child{
-                        margin-right: auto;
-
-                        @media all and (max-width: 992px) {
-                            margin: auto;
-                        }
-                    }
+                @media all and (max-width: 768px) {
+                    grid-template-columns: repeat(1, 1fr);
                 }
 
-                &.popup {
-                    .column.free {
-                        grid-column-end: unset;
+                .column {
+                    padding: 0;
+                    border: none;
+                    justify-content: center;
+                    -webkit-justify-content: center;
+
+                    &:nth-child(2) {
+                        align-items: center;
+                        -webkit-align-items: center;
+                    }
+
+                    svg {
+                        color: $limeGreen;
+                    }
+
+                    p {
+                        margin: 0;
+                    }
+
+                    h4 {
+                        color: $limeGreen;
+                        text-align: left;
                     }
                 }
             }

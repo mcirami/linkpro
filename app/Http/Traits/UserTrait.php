@@ -12,4 +12,9 @@ trait UserTrait {
 
         return $user->pages()->get();
     }
+
+    public function getDefaultUserPage($user) {
+
+        return $user->pages()->where('default', true)->pluck('name');
+    }
 }

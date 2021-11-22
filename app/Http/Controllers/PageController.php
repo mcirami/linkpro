@@ -7,15 +7,17 @@ use App\Http\Requests\PageNameRequest;
 use App\Http\Requests\PagePassword;
 use App\Http\Requests\PageTitleRequest;
 use App\Models\Page;
-use App\Models\User;
 use App\Services\LinkService;
 use App\Services\PageService;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Traits\UserTrait;
 
 class PageController extends Controller
 {
+
+    use UserTrait;
+
     public function show(Page $page) {
 
         if ($page->disabled) {
@@ -36,6 +38,12 @@ class PageController extends Controller
     }
 
     public function showCreatePage(PageService $pageService) {
+
+        $user = Auth::user();
+
+        if( count($this->getUserPages($user)) > 0) {
+            return abort(404);
+        }
 
         $pageService->showCreatePage();
 

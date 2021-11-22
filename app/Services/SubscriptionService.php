@@ -5,6 +5,7 @@ namespace App\Services;
 
 use App\Http\Controllers\Controller;
 use App\Notifications\NotifyAboutCancelation;
+use App\Notifications\NotifyAboutResumeSub;
 use App\Notifications\NotifyAboutUpgrade;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\SubscriptionTrait;
@@ -357,16 +358,26 @@ class SubscriptionService {
         $result = $gateway->subscription()->cancel($request->plan);
 
         if ($result->success) {
+
+            if ($result->subscription->billingPeriodEndDate) {
+                $endDateDB = $result->subscription->billingPeriodEndDate;
+                $endDateMail = $result->subscription->billingPeriodEndDate;
+            } else {
+                $time = $result->subscription->nextBillingDate->sub(new \DateInterval('P1D'));
+                $endDateDB = $time->format('Y-m-d H:i:s');
+                $endDateMail = $time->format( 'F j, Y' );
+            }
+
             $subscription = $this->getUserSubscriptions($this->user);
             $subscription->braintree_status = strtolower($result->subscription->status);
-            $subscription->ends_at = $result->subscription->billingPeriodEndDate;
+            $subscription->ends_at = $endDateDB;
             $subscription->save();
 
             if ($this->user->email_subscription) {
 
                 $userData = ( [
                     'siteUrl'  => \URL::to( '/' ),
-                    'end_date' => $result->subscription->billingPeriodEndDate->format( 'F j, Y' ),
+                    'end_date' => $endDateMail,
                     'userID'   => $this->user->id,
                 ] );
 
@@ -430,21 +441,17 @@ class SubscriptionService {
             $activeSubs->ends_at          = NULL;
             $activeSubs->save();
 
-            if ( $request->level == "pro" ) {
-                $plan = "PRO";
-            } else {
-                $plan = "Premier";
-            }
-
             if ($this->user->email_subscription) {
 
                 $userData = ( [
                     'siteUrl' => \URL::to( '/' ),
-                    'plan'    => $plan,
                     'userID'  => $this->user->id,
+                    'username' => $this->user->username,
+                    'link' => $this->getDefaultUserPage($this->user)[0],
+                    'billingDate' =>  date('F j, Y', $timestamp),
                 ] );
 
-                $this->user->notify( new NotifyAboutUpgrade( $userData ) );
+                $this->user->notify( new NotifyAboutResumeSub( $userData ) );
             }
 
             $data = [
