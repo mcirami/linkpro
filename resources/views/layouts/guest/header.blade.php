@@ -23,7 +23,7 @@
 <div id="app">
     <header class="guest_header">
         <div class="col left">
-            <h1><a href="/"><img src="/images/logo.png" alt="Link Pro"></a></h1>
+            <h1><a href="/"><img src="{{ asset('images/logo.png') }}" alt="Link Pro"></a></h1>
         </div>
         <div class="col right">
             <a href="/login">Log In</a>
