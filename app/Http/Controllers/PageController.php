@@ -12,6 +12,7 @@ use App\Services\PageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\UserTrait;
+use Illuminate\Support\Facades\Storage;
 
 class PageController extends Controller
 {
@@ -112,7 +113,8 @@ class PageController extends Controller
             return abort(404);
         }
 
-        $imgPath = $pageService->updateProfileImage($request, $userID, $page);
+        $imgName = $pageService->updateProfileImage($request, $userID, $page);
+        $imgPath = Storage::disk('s3')->url($imgName);
 
         return response()->json(['message' => 'Profile Image Updated', 'imgPath' => $imgPath]);
 

@@ -12607,7 +12607,7 @@ header.guest_header .col.right {
   cursor: pointer;
 }
 #links_page .icon_row .icon_image.active {
-  border: 2px solid #000;
+  border: 2px solid #424fcf;
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;

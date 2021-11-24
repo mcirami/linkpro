@@ -36,17 +36,28 @@ class LinkService {
 
     public function updateLink($request, $link) {
 
-        if (str_contains($request->icon, 'data:image') ) {
-            $image = $request->get('icon');
-            $name = time() . '.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-            $img = Image::make($request->get('icon'));
-            $path = "/icons/" . $link->user_id . "/" . $name;
-            Storage::put('/public' . $path , $img->stream());
-            $link->update(['name' => $request->name, 'url' => $request->url, 'email' => $request->email, 'phone' => $request->phone, 'icon' => "/storage" . $path]);
-            return $path;
+        if (str_contains($request->icon, 'tmp/') ) {
+            $userID = Auth::id();
+            $imgName = $userID . '-' . time() . '.' . $request->ext;
+            $path = 'custom-icons/' . $userID . '/' . $imgName;
+
+            Storage::disk('s3')->delete($path);
+            Storage::disk('s3')->copy(
+                $request->icon,
+                str_replace($request->icon, $path, $request->icon)
+            );
+
+
+            $iconPath = Storage::disk('s3')->url($path);
+
+            $link->update(['name' => $request->name, 'url' => $request->url, 'email' => $request->email, 'phone' => $request->phone, 'icon' => $iconPath]);
+            return $iconPath;
+
         } else {
             $link->update($request->only(['name', 'url', 'email', 'phone', 'icon']));
         }
+
+        return null;
     }
 
     public function updateLinkStatus($request, $link) {

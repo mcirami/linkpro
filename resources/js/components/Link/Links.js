@@ -367,7 +367,7 @@ const Links = ({
                                 <div className="column_content">
                                     <div className="icon_wrap" onClick={(e) => { handleOnClick(linkID) }}>
                                         <div className="image_wrap">
-                                            <img src={ displayIcon || '/images/icon-placeholder.png' } alt=""/>
+                                            <img src={ displayIcon || window.location.origin + '/images/icon-placeholder.png' } alt=""/>
                                             {/*<div className="hover_text"><p><img src='/images/icon-placeholder.png' alt=""/></p></div>*/}
                                         </div>
                                     </div>

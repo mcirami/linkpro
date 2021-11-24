@@ -45,27 +45,27 @@ export const updateLink = (packets, editID) => {
                 iconPath = response.data.path;
             }
 
-            console.log(iconPath);
-
             return {
                 success : true,
                 iconPath : iconPath
             }
         }
     ).catch(error => {
-        if (error.response) {
-            if (error.response.data.errors.name) {
+        if (error.response && error.response.data.errors) {
+            if (error.response.data.errors.name !== undefined) {
                 EventBus.dispatch("error", { message: error.response.data.errors.name[0] });
-            } else if (error.response.data.errors.url) {
+            } else if (error.response.data.errors.url !== undefined) {
                 EventBus.dispatch("error", { message: error.response.data.errors.url[0] });
-            } else if (error.response.data.errors.email) {
+            } else if (error.response.data.errors.email !== undefined) {
                 EventBus.dispatch("error", { message: error.response.data.errors.email[0] });
-            } else if (error.response.data.errors.phone) {
+            } else if (error.response.data.errors.phone !== undefined) {
                 EventBus.dispatch("error", { message: error.response.data.errors.phone[0] });
-            } else if (error.response.data.errors.icon) {
+            } else if (error.response.data.errors.icon !== undefined) {
                 EventBus.dispatch("error", { message: error.response.data.errors.icon[0] });
+            } else {
+                console.log(error.response);
             }
-            console.log(error.response);
+
         } else {
             console.log("ERROR:: ", error);
         }

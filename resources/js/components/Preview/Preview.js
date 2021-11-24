@@ -1,6 +1,5 @@
 import React, {useContext, useState, useEffect} from 'react';
 import {UserLinksContext, PageContext} from '../App';
-import {MdCancel} from 'react-icons/md';
 import {IoIosLock, IoIosCloseCircleOutline} from 'react-icons/io';
 
 const Preview = ({setRef, completedCrop, fileName, profileFileName, completedProfileCrop, profileRef, userSub}) => {
@@ -70,7 +69,7 @@ const Preview = ({setRef, completedCrop, fileName, profileFileName, completedPro
                     <div className="inner_content_wrap">
                         {!pageSettings["header_img"] && !fileName ?
                             <div className="page_header default">
-                                <img src="/images/default-img.png" alt=""/>
+                                <img src={  window.location.origin + "/images/default-img.png"} alt=""/>
                             </div>
                             :
                             ""
@@ -116,15 +115,6 @@ const Preview = ({setRef, completedCrop, fileName, profileFileName, completedPro
                                 :
                                 ""
                             }
-                            {/*{!pageSettings["profile_img"] && !profileFileName ?
-                                <div className="profile_image default">
-                                    <div className="image_wrap">
-                                        <img src="/images/default-img.png" alt=""/>
-                                    </div>
-                                </div>
-                                :
-                                ""
-                            }*/}
                             <div className={pageSettings["profile_img"] &&
                             !profileFileName || profileFileName ?
                                 "profile_img_column" :
@@ -133,7 +123,7 @@ const Preview = ({setRef, completedCrop, fileName, profileFileName, completedPro
                                     <div className="profile_image">
                                         <div className="image_wrap">
                                             <img src={pageSettings["profile_img"] ||
-                                            "/images/default-img.png"} alt=""/>
+                                            window.location.origin + "/images/default-img.png"} alt=""/>
                                         </div>
                                     </div>
                                     :
@@ -198,7 +188,7 @@ const Preview = ({setRef, completedCrop, fileName, profileFileName, completedPro
                                                 <a target="_blank" href={source ||
                                                 "https://link.pro"}>
                                                     <img src={icon ||
-                                                    '/images/icon-placeholder-preview.png'} alt=""/>
+                                                    window.location.origin + '/images/icon-placeholder-preview.png'} alt=""/>
                                                 </a>
                                                 <p>{name || "Link Name"}</p>
                                             </>

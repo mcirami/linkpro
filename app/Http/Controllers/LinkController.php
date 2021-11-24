@@ -8,6 +8,7 @@ use App\Services\LinkService;
 use Illuminate\Http\Request;
 use App\Models\Link;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class LinkController extends Controller
 {
@@ -26,6 +27,10 @@ class LinkController extends Controller
         }
 
         $path = $linkService->updateLink($request, $link);
+
+        if (!$path) {
+            $path = null;
+        }
 
         return response()->json(['message' => 'Icon Updated', 'path' => $path]);
 

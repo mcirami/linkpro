@@ -70,9 +70,9 @@ const IconList = ({currentLink, setCurrentLink, iconArray, radioValue, setCharac
                             <div key={index} className="icon_col">
                                 <img
                                     className="img-fluid icon_image"
-                                    src={'/' + icon.path} onClick={(e) => {
+                                    src={icon.path} onClick={(e) => {
                                                 e.preventDefault();
-                                                selectIcon(e, "/" + icon.path)
+                                                selectIcon(e, icon.path)
                                             }}
                                     data-name={icon.name}
                                     alt=""

@@ -171,7 +171,7 @@ const SubmitForm = ({
                     const reader = new FileReader();
                     reader.readAsDataURL(blob)
                     reader.onloadend = () => {
-                        submitWithCustomIcon(reader.result);
+                        dataURLtoFile(reader.result, 'cropped.jpg');
                     }
                 },
                 'image/png',
@@ -230,61 +230,97 @@ const SubmitForm = ({
 
     };
 
+    const dataURLtoFile = (dataurl, filename) => {
+        let arr = dataurl.split(','),
+            mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]),
+            n = bstr.length,
+            u8arr = new Uint8Array(n);
+
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        let croppedImage = new File([u8arr], filename, {type:mime});
+        submitWithCustomIcon(croppedImage);
+    }
+
     const submitWithCustomIcon = (image) => {
 
-        const packets = {
-            name: currentLink.name || null,
-            url: currentLink.url || null,
-            email: currentLink.email || null,
-            phone: currentLink.phone || null,
-            icon: image || null,
-            page_id: pageSettings["id"],
-        };
-
-        updateLink(packets, editID)
-        .then((data) => {
-
-            if (data.success) {
-                setUserLinks(
-                    userLinks.map((item) => {
-                        if (item.id === editID) {
-                            return {
-                                ...item,
-                                name: currentLink.name,
-                                url: currentLink.url,
-                                email: currentLink.email,
-                                phone: currentLink.phone,
-                                icon: image
-                            }
-                        }
-                        return item;
-                    })
-                )
-                setOriginalArray(
-                    originalArray.map((item) => {
-                        if (item.id === editID) {
-                            return {
-                                ...item,
-                                name: currentLink.name,
-                                url: currentLink.url,
-                                email: currentLink.email,
-                                phone: currentLink.phone,
-                                icon: image
-                            }
-                        }
-                        return item;
-                    })
-                )
-
-                const newIconPath = "public" + data.iconPath;
-                setCustomIconArray( customIconArray => [
-                    ...customIconArray,
-                    newIconPath
-                ]);
-
-                setEditID(null)
+        window.Vapor.store(
+            image,
+            {
+                visibility: "public-read"
+            },
+            {
+                progress: progress => {
+                    this.uploadProgress = Math.round(progress * 100);
+                }
             }
-        })
+        ).then(response => {
+
+            const packets = {
+                name: currentLink.name || null,
+                url: currentLink.url || null,
+                email: currentLink.email || null,
+                phone: currentLink.phone || null,
+                icon: response.key || null,
+                page_id: pageSettings["id"],
+                ext: response.extension,
+            };
+
+            updateLink(packets, editID)
+            .then((data) => {
+
+                if (data.success) {
+                    setUserLinks(
+                        userLinks.map((item) => {
+                            if (item.id === editID) {
+                                return {
+                                    ...item,
+                                    name: currentLink.name,
+                                    url: currentLink.url,
+                                    email: currentLink.email,
+                                    phone: currentLink.phone,
+                                    icon: data.iconPath
+                                }
+                            }
+                            return item;
+                        })
+                    )
+                    setOriginalArray(
+                        originalArray.map((item) => {
+                            if (item.id === editID) {
+                                return {
+                                    ...item,
+                                    name: currentLink.name,
+                                    url: currentLink.url,
+                                    email: currentLink.email,
+                                    phone: currentLink.phone,
+                                    icon: data.iconPath
+                                }
+                            }
+                            return item;
+                        })
+                    )
+
+                    //const newIconPath = "public" + data.iconPath;
+                    setCustomIconArray( customIconArray => [
+                        ...customIconArray,
+                        data.iconPath
+                    ]);
+
+                    setEditID(null)
+                }
+            })
+        }).catch(error => {
+            console.log(error);
+            /*if (error.response) {
+                EventBus.dispatch("error", { message: error.response.data.errors.profile_img[0] });
+                console.log("ERROR: " + error.response);
+            } else {
+                console.log("ERROR:: ", error);
+            }*/
+        });
     }
 
     const handleOnClick = e => {

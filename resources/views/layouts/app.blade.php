@@ -68,7 +68,7 @@
                                     @php $page = Auth::user()->pages()->where('user_id', Auth::user()->id)->where('default', true)->get(); $image = $page[0]->profile_img;  @endphp
                                     <li class="mobile">
                                         <a class="nav-link" href="{{ route('user.edit') }}">
-                                            <img id="mobile_user_image" src="{{ $image ? : asset('images/profile-placeholder-img.png') }}" alt="User Profile"><span id="mobile_username">{{ Auth::user()->username }}</span>
+                                            <img id="mobile_user_image" src="{{ $image ? \Illuminate\Support\Facades\Storage::disk('s3')->url($image) : asset('images/profile-placeholder-img.png') }}" alt="User Profile"><span id="mobile_username">{{ Auth::user()->username }}</span>
                                         </a>
                                     </li>
                                     @if( empty($userSub) || ($userSub->name != "premier" && !$userSub->ends_at) || ($userSub->ends_at && $userSub->ends_at < \Carbon\Carbon::now()) )
@@ -89,7 +89,7 @@
                                     </li>
                                     <li class="nav-item dropdown">
                                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <img id="user_image" src="{{ $image ? : asset('images/profile-placeholder-img.png') }}" alt="User Profile"><span id="username">{{ Auth::user()->username }}</span>
+                                            <img id="user_image" src="{{ $image ? \Illuminate\Support\Facades\Storage::disk('s3')->url($image) : asset('images/profile-placeholder-img.png') }}" alt="User Profile"><span id="username">{{ Auth::user()->username }}</span>
                                         </a>
 
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">

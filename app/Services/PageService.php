@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Models\Page;
 use App\Notifications\WelcomeNotification;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -98,10 +99,22 @@ class PageService {
 
         $userPages = $this->getUserPages($this->user);
 
-        $userIcons = null;
+        $userIcons = [];
 
-        if (Storage::exists("public/icons/" . $page->user_id)) {
-            $userIcons = Storage::allFiles("public/icons/" . $page->user_id);
+        if (Storage::disk('s3')->exists("custom-icons/" . $page->user_id . "/")) {
+            $imageNames = Storage::disk('s3')->allFiles("custom-icons/" . $page->user_id);
+
+            foreach($imageNames as $name) {
+                $path = Storage::disk('s3')->url($name);
+                array_push($userIcons, $path);
+            }
+        }
+
+        $standardIcons = [];
+        $iconNames = Storage::disk('s3')->allFiles("icons/");
+        foreach($iconNames as $icon) {
+            $path = Storage::disk('s3')->url($icon);
+            array_push($standardIcons, $path);
         }
 
         $links = Auth::user()->links()->where('page_id', $page["id"])
@@ -114,9 +127,17 @@ class PageService {
 
         $userSubscription = $user->subscriptions()->first();
 
+        if ($page['profile_img']) {
+            $page['profile_img'] = Storage::disk( 's3' )->url( $page['profile_img'] );
+        }
+
+        if ($page['header_img']) {
+            $page['header_img'] = Storage::disk('s3')->url($page['header_img']);
+        }
+
         Javascript::put([
             'links' => $links,
-            'icons' => File::glob('images/icons'.'/*'),
+            'icons' => $standardIcons,
             'page' => $page,
             'user_pages' => $userPages,
             'userIcons' => $userIcons,
@@ -148,15 +169,17 @@ class PageService {
      */
     public function updateHeaderImage($request, $userID, $page) {
 
-        if ($request->get('header_img')) {
-            $image = $request->get('header_img');
-            $name = time() . '.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-            $img = Image::make($request->get('header_img'));
-            $path = "/page-headers/" . $userID . "/" . $page->id . "/" . $name;
-            Storage::put('/public' . $path , $img->stream());
-        }
+        $imgName = $userID . '-' . time() . '.' . $request->ext;
+        $path = 'page-images/' . $userID . '/' . $imgName;
 
-        $page->update(['header_img' => "/storage" . $path]);
+        Storage::disk('s3')->delete($path);
+
+        Storage::disk('s3')->copy(
+            $request->header_img,
+            str_replace($request->header_img, $path, $request->header_img)
+        );
+
+        $page->update(['header_img' => $path]);
     }
 
     /**
@@ -166,19 +189,20 @@ class PageService {
      */
     public function updateProfileImage($request, $userID, $page) {
 
-        if($request->get('profile_img')) {
-            $image = $request->get('profile_img');
-            $name = time() . '.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-            $img = Image::make($request->get('profile_img'));
-            $path = "/page-profile-images/" . $userID . "/" . $page->id . "/" . $name;
-            Storage::put('/public' . $path, $img->stream());
-        }
+        $imgName = $userID . '-' . time() . '.' . $request->ext;
+        $path = 'page-images/' . $userID . '/' . $imgName;
 
-        $newPath = "/storage" . $path;
+        Storage::disk('s3')->delete($path);
 
-        $page->update(['profile_img' => $newPath]);
+        Storage::disk('s3')->copy(
+            $request->profile_img,
+            str_replace($request->profile_img, $path, $request->profile_img)
+        );
 
-        return $newPath;
+        $page->update(['profile_img' => $path]);
+
+        return $path;
+
     }
 
     /**

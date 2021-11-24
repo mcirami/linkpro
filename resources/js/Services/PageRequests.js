@@ -162,6 +162,7 @@ export const profileImage = (packets, pageID, pageDefault) => {
             EventBus.dispatch("success", { message: returnMessage });
 
             if(pageDefault){
+
                 document.querySelector('#user_image').src = imgPath;
                 document.querySelector('#mobile_user_image').src = imgPath;
             }
@@ -174,7 +175,6 @@ export const profileImage = (packets, pageID, pageDefault) => {
     ).catch(error => {
         if (error.response) {
             EventBus.dispatch("error", { message: error.response.data.errors.profile_img[0] });
-            console.log(error.response);
         } else {
             console.log("ERROR:: ", error);
         }

@@ -92,7 +92,7 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
                         ...pageSettings,
                         profile_img: reader.result,
                     });
-                    fileUpload(reader.result);
+                    dataURLtoFile(reader.result, 'cropped.jpg');
                 }
             },
             'image/png',
@@ -100,22 +100,61 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
         );
     }
 
+    const dataURLtoFile = (dataurl, filename) => {
+        let arr = dataurl.split(','),
+            mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]),
+            n = bstr.length,
+            u8arr = new Uint8Array(n);
+
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        let croppedImage = new File([u8arr], filename, {type:mime});
+        fileUpload(croppedImage);
+    }
+
     const fileUpload = (image) => {
 
-        const packets = {
-            profile_img: image,
-        };
-
-        profileImage(packets, pageSettings["id"], pageSettings["default"])
-        .then((data) => {
-            if (data.success) {
-                setProfileFileName("")
-                setUpImg("")
-                document.querySelector('form.profile_img_form .bottom_section').
-                    classList.
-                    add('hidden');
+        window.Vapor.store(
+            image,
+            {
+                visibility: "public-read"
+            },
+            {
+                progress: progress => {
+                    this.uploadProgress = Math.round(progress * 100);
+                }
             }
-        })
+        ).then(response => {
+
+            console.log(response);
+
+            const packets = {
+                profile_img: response.key,
+                ext: response.extension
+            };
+
+            profileImage(packets, pageSettings["id"], pageSettings["default"])
+            .then((data) => {
+                if (data.success) {
+                    setProfileFileName("")
+                    setUpImg("")
+                    document.querySelector('form.profile_img_form .bottom_section').
+                        classList.
+                        add('hidden');
+                }
+            })
+        }).catch(error => {
+            console.log(error);
+            /*if (error.response) {
+                EventBus.dispatch("error", { message: error.response.data.errors.profile_img[0] });
+                console.log("ERROR: " + error.response);
+            } else {
+                console.log("ERROR:: ", error);
+            }*/
+        });
+
     }
     const handleCancel = () => {
         setProfileFileName(null)
