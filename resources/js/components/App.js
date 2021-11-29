@@ -65,7 +65,6 @@ function App() {
 
     const host = window.location.origin;
 
-
     return (
         <div className="my_row page_wrap">
 
@@ -136,7 +135,7 @@ function App() {
 
                                     {subStatus ? "" :
                                         <div className="icon_message">
-                                            <p>Your plan has been downgraded to Free. Your link will only display up to 9 icons max.</p>
+                                            <p>Your plan has been downgraded to Free. Your link will only display up to 8 icons max.</p>
                                             <a className="button blue" href="/plans">Upgrade</a>
                                         </div>
                                     }

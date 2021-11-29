@@ -57,6 +57,25 @@ const Preview = ({setRef, completedCrop, fileName, profileFileName, completedPro
         }
     }, []);
 
+    const checkSubStatus = (icon) => {
+
+        if (icon && icon.toString().includes('custom')) {
+            if (userSub) {
+                const {braintree_status, ends_at} = {...userSub};
+                const currentDate = new Date().valueOf();
+                const endsAt = new Date(ends_at).valueOf();
+
+                if ((braintree_status === 'active' || braintree_status === 'pending') || endsAt > currentDate) {
+                    return icon;
+                } else {
+                    return null;
+                }
+            }
+        } else {
+            return icon;
+        }
+    }
+
     return (
 
         <>
@@ -69,7 +88,7 @@ const Preview = ({setRef, completedCrop, fileName, profileFileName, completedPro
                     <div className="inner_content_wrap">
                         {!pageSettings["header_img"] && !fileName ?
                             <div className="page_header default">
-                                <img src={  window.location.origin + "/images/default-img.png"} alt=""/>
+                                <img src={ Vapor.asset("images/default-img.png") } alt=""/>
                             </div>
                             :
                             ""
@@ -123,7 +142,7 @@ const Preview = ({setRef, completedCrop, fileName, profileFileName, completedPro
                                     <div className="profile_image">
                                         <div className="image_wrap">
                                             <img src={pageSettings["profile_img"] ||
-                                            window.location.origin + "/images/default-img.png"} alt=""/>
+                                            Vapor.asset("images/default-img.png") } alt=""/>
                                         </div>
                                     </div>
                                     :
@@ -181,14 +200,16 @@ const Preview = ({setRef, completedCrop, fileName, profileFileName, completedPro
                                     source = url;
                                 }
 
+                                const displayIcon = checkSubStatus(icon);
+
                                 return (
                                     <div className="icon_col" key={id.toString()}>
                                         {active_status ?
                                             <>
                                                 <a target="_blank" href={source ||
                                                 "https://link.pro"}>
-                                                    <img src={icon ||
-                                                    window.location.origin + '/images/icon-placeholder-preview.png'} alt=""/>
+                                                    <img src={displayIcon ||
+                                                    Vapor.asset('images/icon-placeholder-preview.png') } alt=""/>
                                                 </a>
                                                 <p>{name || "Link Name"}</p>
                                             </>

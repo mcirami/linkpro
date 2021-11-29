@@ -234,6 +234,10 @@
                     -moz-border-radius: 100%;
                     padding: 4px;
 
+                    @media all and (max-width: 550px) {
+                        padding: 2px;
+                    }
+
                     img {
                         border-radius: 100%;
                         -webkit-border-radius: 100%;
@@ -291,6 +295,19 @@
 
                 h2 {
                     margin-bottom: 0;
+                    font-size: 1.6em;
+
+                    @media all and (max-width: 992px) {
+                        font-size: 1.3em;
+                    }
+
+                    @media all and (max-width: 550px) {
+                        font-size: 1.1em;
+                    }
+
+                    @media screen and (max-width: 400px) {
+                        font-size: 5.9vw;
+                    }
                 }
 
                 p {
@@ -428,18 +445,6 @@
 
                         @media all and (max-width: 992px) {
                             width: 60%;
-                        }
-
-                        h2 {
-                            margin-bottom: 0;
-
-                            @media all and (max-width: 550px) {
-                                font-size: 22px;
-                            }
-
-                            @media screen and (max-width: 400px) {
-                                font-size: 5.9vw;
-                            }
                         }
 
                         p {

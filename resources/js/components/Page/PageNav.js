@@ -99,8 +99,6 @@ const PageNav = ({ allUserPages, setAllUserPages, userSub, setShowUpgradePopup, 
         }, 500);
     }
 
-    console.log(pageList);
-
     return (
         <div className="page_menu_row">
             <div className="current_page" id={pageSettings["id"]} key={pageSettings["id"]}>
@@ -118,7 +116,7 @@ const PageNav = ({ allUserPages, setAllUserPages, userSub, setShowUpgradePopup, 
                             { pageList.map((page) => {
 
                                 return (
-                                    page["disabled"]  ?
+                                    page["disabled"] || !userSub || userSub.name !== "premiere" ?
                                         <li key={page["id"]} className="disabled_link" data-type="disabled" onClick={(e) => { handleClick(e) }} >
                                             {page["name"]}
                                         </li>

@@ -127,14 +127,6 @@ class PageService {
 
         $userSubscription = $user->subscriptions()->first();
 
-        if ($page['profile_img']) {
-            $page['profile_img'] = Storage::disk( 's3' )->url( $page['profile_img'] );
-        }
-
-        if ($page['header_img']) {
-            $page['header_img'] = Storage::disk('s3')->url($page['header_img']);
-        }
-
         Javascript::put([
             'links' => $links,
             'icons' => $standardIcons,
@@ -179,7 +171,9 @@ class PageService {
             str_replace($request->header_img, $path, $request->header_img)
         );
 
-        $page->update(['header_img' => $path]);
+        $amazonPath = Storage::disk('s3')->url($path);
+
+        $page->update(['header_img' => $amazonPath]);
     }
 
     /**
@@ -199,9 +193,11 @@ class PageService {
             str_replace($request->profile_img, $path, $request->profile_img)
         );
 
-        $page->update(['profile_img' => $path]);
+        $amazonPath = Storage::disk('s3')->url($path);
 
-        return $path;
+        $page->update(['profile_img' => $amazonPath]);
+
+        return $amazonPath;
 
     }
 

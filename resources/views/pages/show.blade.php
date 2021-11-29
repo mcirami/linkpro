@@ -38,7 +38,7 @@
                             @php $count = 0; @endphp
                             @foreach($links as $link)
                                 @php ++$count @endphp
-                                @if ( $count < 9 || ($count > 8 && !$subscription->isEmpty() && ($subscription[0]["braintree_status"] == "active" || $subscription[0]["braintree_status"] == "pending") ) || (!$subscription->isEmpty() && $subscription[0]["ends_at"] > \Carbon\Carbon::now()) )
+                                @if ( $count < 9 || ($count > 8 && !$subscription->isEmpty() && ($subscription[0]["braintree_status"] == "active" || $subscription[0]["braintree_status"] == "pending" || $subscription[0]["ends_at"] > \Carbon\Carbon::now()) ) )
                                     <div class="icon_col">
                                         @if($link->active_status)
 
@@ -54,7 +54,16 @@
                                                target="_blank"
                                                rel="nofollow"
                                             >
-                                                <img src="{{ $link->icon ? : asset('/images/icon-placeholder-preview.png') }}" alt="" />
+                                                @if ( str_contains($link->icon, "custom") )
+                                                    @if ( $subscription[0]["braintree_status"] == "active" || $subscription[0]["braintree_status"] == "pending" || $subscription[0]["ends_at"] > \Carbon\Carbon::now() )
+                                                        @php $icon =  $link->icon @endphp
+                                                    @else
+                                                        @php $icon =  null @endphp
+                                                    @endif
+                                                @else
+                                                    @php $icon =  $link->icon @endphp
+                                                @endif
+                                                <img src="{{ $icon ? : asset('/images/icon-placeholder-preview.png') }}" alt="" />
                                             </a>
                                             <p>{{ $link->name ? : "Link Name" }}</p>
                                         @endif

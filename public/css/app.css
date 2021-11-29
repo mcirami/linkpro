@@ -13028,6 +13028,11 @@ header.guest_header .col.right {
   -moz-border-radius: 100%;
   padding: 4px;
 }
+@media all and (max-width: 550px) {
+  #links_page .links_col .links_wrap .profile_content .profile_img_column .profile_image {
+    padding: 2px;
+  }
+}
 #links_page .links_col .links_wrap .profile_content .profile_img_column .profile_image img {
   border-radius: 100%;
   -webkit-border-radius: 100%;
@@ -13074,6 +13079,22 @@ header.guest_header .col.right {
 }
 #links_page .links_col .links_wrap .profile_content .profile_text h2, #links_page .links_col .links_wrap .profile_content .profile_text .h2 {
   margin-bottom: 0;
+  font-size: 1.6em;
+}
+@media all and (max-width: 992px) {
+  #links_page .links_col .links_wrap .profile_content .profile_text h2, #links_page .links_col .links_wrap .profile_content .profile_text .h2 {
+    font-size: 1.3em;
+  }
+}
+@media all and (max-width: 550px) {
+  #links_page .links_col .links_wrap .profile_content .profile_text h2, #links_page .links_col .links_wrap .profile_content .profile_text .h2 {
+    font-size: 1.1em;
+  }
+}
+@media screen and (max-width: 400px) {
+  #links_page .links_col .links_wrap .profile_content .profile_text h2, #links_page .links_col .links_wrap .profile_content .profile_text .h2 {
+    font-size: 5.9vw;
+  }
 }
 #links_page .links_col .links_wrap .profile_content .profile_text p {
   color: #76797b;
@@ -13209,19 +13230,6 @@ header.guest_header .col.right {
     width: 60%;
   }
 }
-#links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text h2, #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text .h2 {
-  margin-bottom: 0;
-}
-@media all and (max-width: 550px) {
-  #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text h2, #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text .h2 {
-    font-size: 22px;
-  }
-}
-@media screen and (max-width: 400px) {
-  #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text h2, #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text .h2 {
-    font-size: 5.9vw;
-  }
-}
 @media all and (max-width: 550px) {
   #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text p {
     font-size: 13px;
@@ -13265,9 +13273,9 @@ header.guest_header .col.right {
   -o-box-shadow: unset !important;
 }
 #links_page .links_col .links_wrap.live_page .icon_col img {
-  border-radius: 12px;
-  -webkit-border-radius: 12px;
-  -moz-border-radius: 12px;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
 }
 #links_page .links_col .links_wrap .inner_content.live_page {
   box-shadow: 0px 0px 35px 5px rgba(170, 170, 170, 0.18);

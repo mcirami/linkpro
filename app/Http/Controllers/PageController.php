@@ -113,8 +113,7 @@ class PageController extends Controller
             return abort(404);
         }
 
-        $imgName = $pageService->updateProfileImage($request, $userID, $page);
-        $imgPath = Storage::disk('s3')->url($imgName);
+        $imgPath = $pageService->updateProfileImage($request, $userID, $page);
 
         return response()->json(['message' => 'Profile Image Updated', 'imgPath' => $imgPath]);
 
