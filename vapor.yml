@@ -1,5 +1,6 @@
 id: 26216
 name: linkpro
+dot-files-as-assets: true
 environments:
     production:
         domain: link.pro
