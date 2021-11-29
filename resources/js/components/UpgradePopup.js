@@ -12,7 +12,7 @@ export const UpgradePopup = ({optionText}) => {
             </a>
             <div className="box">
                 <div className="icon_wrap">
-                    <img src="/images/icon_uparrow.png" alt=""/>
+                    <img src={Vapor.asset('images/icon_uparrow.png')} alt=""/>
                 </div>
                 <h2>Upgrade Now</h2>
                 <h3>Upgrade to <span className="option_text">{ optionText }</span> and much more!</h3>

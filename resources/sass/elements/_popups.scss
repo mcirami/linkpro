@@ -408,7 +408,7 @@
     }
 }
 
-#upgrade_popup, #confirm_popup_link, #confirm_popup,#confirm_cancel_popup {
+#upgrade_popup, #confirm_popup_link, #confirm_popup, #confirm_cancel_popup {
 
     .close_popup {
         @media all and (max-width: 550px) {
@@ -466,6 +466,14 @@
 
         .button:last-child {
             color: $black;
+        }
+    }
+}
+
+#confirm_popup_link {
+    .button_row {
+        a.button:first-child {
+            margin-right: 5%;
         }
     }
 }

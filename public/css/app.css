@@ -14744,6 +14744,10 @@ form .bottom_row a {
   color: #000;
 }
 
+#confirm_popup_link .button_row a.button:first-child {
+  margin-right: 5%;
+}
+
 .error_page.form_page h2.page_title, .error_page.form_page .page_title.h2 {
   font-family: "opensansbold", sans-serif;
   margin-bottom: 0;

@@ -67,13 +67,13 @@
                             @if( ($subscription && $subscription->braintree_status == "active") || ($subscription && $subscription->braintree_status == "pending") )
                                 <div class="plan_name">
                                     <p class="text-capitalize">{{ $subscription->name }}</p>
-                                    <img src="{{ asset('../images/plan-type-bg.png') }}" alt="">
+                                    <img src="{{ asset('images/plan-type-bg.png') }}" alt="">
                                 </div>
                                 <a href="#" class="cancel_popup cancel_link" data-plan="{{ $subscription->braintree_id }}" data-type="cancel">Cancel Subscription</a>
                             @elseif($subscription && $subscription->ends_at > \Carbon\Carbon::now())
                                 <div class="plan_name">
                                     <p class="text-capitalize">{{ $subscription->name }}</p>
-                                    <img src="{{ asset('../images/plan-type-bg.png') }}" alt="">
+                                    <img src="{{ asset('images/plan-type-bg.png') }}" alt="">
                                 </div>
                                 <div class="canceled_text">
                                     <p>Your subscrition has been cancelled. It will end on: <span>{{ \Carbon\Carbon::createFromDate($subscription->ends_at)->format('F j, Y') }}</span></p>
@@ -81,7 +81,7 @@
                             @else
                                 <div class="plan_name">
                                     <p>Free</p>
-                                    <img src="{{ asset('../images/plan-type-bg.png') }}" alt="">
+                                    <img src="{{ asset('images/plan-type-bg.png') }}" alt="">
                                 </div>
                             @endif
                             @if (($subscription && $subscription->braintree_status == "active") || ($subscription && $subscription->braintree_status == "pending"))
