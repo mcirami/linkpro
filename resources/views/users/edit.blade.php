@@ -158,15 +158,15 @@
                                             </a>
                                         @elseif( str_contains(strtolower($payment_method), "android") || str_contains(strtolower($payment_method), "google") )
                                             <a href="https://pay.google.com/" class="my-4 my-xl-0 px-3 px-md-5 px-lg-4 d-block" target="_blank">
-                                                <img src="{{ asset('../images/googlepay.png') }}" alt="GooglePay" />
+                                                <img src="{{ asset('images/googlepay.png') }}" alt="GooglePay" />
                                             </a>
                                         @elseif( str_contains( strtolower($payment_method), "venmo") )
                                             <a href="https://venmo.com/" class="my-4 my-xl-0 px-3 px-md-5 px-lg-4 d-block" target="_blank">
-                                                <img src="{{ asset('../images/venmo.png') }}" alt="Venmo" />
+                                                <img src="{{ asset('images/venmo.png') }}" alt="Venmo" />
                                             </a>
                                         @elseif( str_contains( strtolower($payment_method), "apple") )
                                             <a href="https://www.apple.com/apple-pay/" class="my-4 my-xl-0 px-3 px-md-5 px-lg-4 d-block" target="_blank">
-                                                <img src="{{ asset('../images/apple-pay.svg') }}" alt="ApplePay" />
+                                                <img src="{{ asset('images/apple-pay.svg') }}" alt="ApplePay" />
                                             </a>
                                         @endif
                                     </div>

@@ -9,6 +9,8 @@ environments:
         cli-memory: 512
         runtime: docker
         database: lp-prod-db
+        firewall:
+            rate-limit: 100
         build:
             - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
             - 'php artisan event:cache'
