@@ -2,16 +2,16 @@ id: 26216
 name: linkpro
 environments:
     production:
+        domain: link.pro
         storage: lp-production-images
         memory: 1024
         cli-memory: 512
         runtime: docker
+        database: lp-prod-db
         build:
             - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
             - 'php artisan event:cache'
             - 'npm ci && npm run prod && rm -rf node_modules'
-        deploy:
-            - 'php artisan migrate'
     staging:
         storage: lp-staging-user-images
         memory: 1024
