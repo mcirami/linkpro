@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Notifications\NotifyAboutCancelation;
 use App\Notifications\NotifyAboutResumeSub;
 use App\Notifications\NotifyAboutUpgrade;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\SubscriptionTrait;
 use App\Http\Traits\UserTrait;
@@ -418,20 +419,30 @@ class SubscriptionService {
 
         $activeSubs = $this->getUserSubscriptions($this->user);
         $planID   = $request->planId;
-        $token = $request->payment_method_token;
+        $timestamp = NULL;
+        $expired = false;
 
         $gateway = $this->createGateway();
 
-        $timestamp = strtotime($activeSubs->ends_at);
-        $timestamp += 60*60*24;
-        $billingDate = date('Y-m-d H:i:s', $timestamp);
+        if ($activeSubs->ends_at > Carbon::now()) {
+            $token = $request->payment_method_token;
+            $timestamp = strtotime($activeSubs->ends_at);
+            $timestamp += 60*60*24;
+            $billingDate = date('Y-m-d H:i:s', $timestamp);
 
-        $result = $gateway->subscription()->create( [
-            'paymentMethodToken' => $token,
-            'planId'             => $planID,
-            'firstBillingDate'  => $billingDate,
-        ] );
-
+            $result = $gateway->subscription()->create( [
+                'paymentMethodToken' => $token,
+                'planId'             => $planID,
+                'firstBillingDate'  => $billingDate,
+            ] );
+        } else {
+            $nonce = $request->payment_method_nonce;
+            $result = $gateway->subscription()->create( [
+                'paymentMethodNonce' => $nonce,
+                'planId'             => $planID,
+            ] );
+            $expired = true;
+        }
 
         if ( $result->success ) {
 
@@ -448,10 +459,14 @@ class SubscriptionService {
                     'userID'  => $this->user->id,
                     'username' => $this->user->username,
                     'link' => $this->getDefaultUserPage($this->user)[0],
-                    'billingDate' =>  date('F j, Y', $timestamp),
+                    'billingDate' =>  $timestamp ? date('F j, Y', $timestamp) : null,
                 ] );
 
                 $this->user->notify( new NotifyAboutResumeSub( $userData ) );
+            }
+
+            if ($expired && $planID == 'premier') {
+                $this->enableUsersPages($this->user);
             }
 
             $data = [

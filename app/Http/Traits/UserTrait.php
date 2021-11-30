@@ -17,4 +17,15 @@ trait UserTrait {
 
         return $user->pages()->where('default', true)->pluck('name');
     }
+
+    public function enableUsersPages($user) {
+        $pages = $user->pages()->get();
+
+        foreach ($pages as $page) {
+            if (!$page->default) {
+                $page->disabled = false;
+                $page->save();
+            }
+        }
+    }
 }
