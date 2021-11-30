@@ -28,6 +28,11 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
         }
         setProfileFileName(files[0]["name"]);
         document.querySelector('form.profile_img_form .bottom_section').classList.remove('hidden');
+        if (window.innerWidth < 993) {
+            document.querySelector('.profile_img_form').scrollIntoView({
+                behavior: 'smooth',
+            });
+        }
         createImage(files[0]);
     }
 
@@ -127,8 +132,6 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
                 }
             }
         ).then(response => {
-
-            console.log(response);
 
             const packets = {
                 profile_img: response.key,
