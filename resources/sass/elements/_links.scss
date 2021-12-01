@@ -79,8 +79,8 @@
         flex-wrap: wrap;
         justify-content: flex-start;
         -webkit-justify-content: flex-start;
-        align-items: flex-start;
-        -webkit-align-items: flex-start;
+        align-items: stretch;
+        -webkit-align-items: stretch;
 
         .icon_col {
             @include boxShadow;
@@ -228,6 +228,41 @@
 
                 &:last-child {
                     margin-top: 5px;
+                }
+            }
+
+            &.folder {
+
+                a {
+                    height: 100%;
+                    border: 1px solid $lightGray;
+                    padding: 0;
+                    border-radius: 20px;
+                    -webkit-border-radius: 20px;
+                    -moz-border-radius: 20px;
+
+                    .icons_wrap {
+                        padding: 10px;
+
+                        .icon_col {
+                            width: 31.7%;
+                            margin-bottom: 5px;
+
+                            &:nth-child(3n) {
+                                margin-right: 0;
+                            }
+
+                            &:nth-child(4n) {
+                                margin-right: 1.6%;
+                            }
+
+                            img {
+                                border-radius: 7px;
+                                -webkit-border-radius: 7px;
+                                -moz-border-radius: 7px;
+                            }
+                        }
+                    }
                 }
             }
         }

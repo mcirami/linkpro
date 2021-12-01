@@ -27,15 +27,25 @@ class PageController extends Controller
 
         $value = session('authorized');
 
-        $links = $page->links()
-                     ->orderBy('position', 'asc')
-                     ->get();
+        if($page->custom) {
 
-        return view('pages.show', [
-            'links' => $links,
-            'page'  => $page,
-            'authorized' => $value,
-        ]);
+            return view('pages.custom.' . $page->name, [
+                'page'  => $page,
+                'authorized' => $value,
+            ]);
+
+        } else {
+            $links = $page->links()
+                          ->orderBy('position', 'asc')
+                          ->get();
+
+            return view('pages.show', [
+                'links' => $links,
+                'page'  => $page,
+                'authorized' => $value,
+            ]);
+        }
+
     }
 
     public function showCreatePage(PageService $pageService) {

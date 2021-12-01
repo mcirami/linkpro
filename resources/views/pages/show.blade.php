@@ -70,7 +70,7 @@
                                     </div>
                                 @endif
                             @endforeach
-                        </div>
+                        </div><!-- icons_wrap -->
                     @elseif ($page->is_protected && !$authorized)
                         <form method="post" action="{{ url('/check-page-auth/' . $page->id)  }}" >
                             @csrf
