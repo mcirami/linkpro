@@ -33,6 +33,8 @@ trait SubscriptionTrait {
             $match = "LPPremium4Life";
         } elseif ( $planID == "pro" && strtolower( $userCode ) == "pro6months" ) {
             $match = "Pro6Months";
+        } elseif ( $planID == "pro" && strtolower( $userCode ) == "pro1month" ) {
+            $match = "Pro1Month";
         } else {
             $match = null;
         }
