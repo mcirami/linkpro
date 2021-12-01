@@ -24,4 +24,19 @@ trait SubscriptionTrait {
 
         return $gateway;
     }
+
+    public function checkPromoCode($planID, $userCode) {
+
+        if ( $planID == "premier" && strtolower( $userCode ) == "premier6months" ) {
+            $match = "Premier6Months";
+        } elseif($planID == "premier" && strtolower( $userCode ) == "lppremium4life") {
+            $match = "LPPremium4Life";
+        } elseif ( $planID == "pro" && strtolower( $userCode ) == "pro6months" ) {
+            $match = "Pro6Months";
+        } else {
+            $match = null;
+        }
+
+        return $match;
+    }
 }

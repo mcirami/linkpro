@@ -104,11 +104,10 @@ class SubscriptionService {
 
         if ( $userCode ) {
 
-            if ( $planID == "premier" && strtolower( $userCode ) == "premier6months" ) {
-                $code = "Premier6Months";
-            } elseif ( $planID == "pro" && strtolower( $userCode ) == "pro6months" ) {
-                $code = "Pro6Months";
-            } else {
+            $code = $this->checkPromoCode($planID, $userCode);
+
+            if (!$code) {
+
                 $data = [
                     "success" => false,
                     "message" => "Sorry, discount code does not match"
@@ -132,7 +131,7 @@ class SubscriptionService {
             if ( $code ) {
                 $result = $gateway->subscription()->create( [
                     'paymentMethodToken' => $customer->customer->paymentMethods[0]->token,
-                    'planId'             => $request->planId,
+                    'planId'             => $planID,
                     'discounts'          => [
                         'add' => [
                             [
@@ -144,7 +143,7 @@ class SubscriptionService {
             } else {
                 $result = $gateway->subscription()->create( [
                     'paymentMethodToken' => $customer->customer->paymentMethods[0]->token,
-                    'planId'             => $request->planId,
+                    'planId'             => $planID,
                 ] );
             }
 
@@ -410,6 +409,7 @@ class SubscriptionService {
     /**
      *
      * Resume subscription by creating new subscription and setting start date to previous subscription end date
+     * If previous subscription has expired then create new subscription without end date
      *
      * @param $request
      *
@@ -421,6 +421,7 @@ class SubscriptionService {
         $planID   = $request->planId;
         $timestamp = NULL;
         $expired = false;
+        $userCode = $request->discountCode;
 
         $gateway = $this->createGateway();
 
@@ -436,11 +437,41 @@ class SubscriptionService {
                 'firstBillingDate'  => $billingDate,
             ] );
         } else {
+
             $nonce = $request->payment_method_nonce;
-            $result = $gateway->subscription()->create( [
-                'paymentMethodNonce' => $nonce,
-                'planId'             => $planID,
-            ] );
+
+            if ( $userCode ) {
+
+                $code = $this->checkPromoCode($planID, $userCode);
+
+                if ($code) {
+                    $result = $gateway->subscription()->create( [
+                        'paymentMethodNonce' => $nonce,
+                        'planId'             => $planID,
+                        'discounts'          => [
+                            'add' => [
+                                [
+                                    'inheritedFromId' => $code,
+                                ]
+                            ]
+                        ]
+                    ] );
+                } else {
+                    $data = [
+                        "success" => false,
+                        "message" => "Sorry, discount code does not match"
+                    ];
+
+                    return $data;
+                }
+
+            } else {
+                $result = $gateway->subscription()->create( [
+                    'paymentMethodNonce' => $nonce,
+                    'planId'             => $planID,
+                ] );
+            }
+
             $expired = true;
         }
 

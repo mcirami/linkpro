@@ -91,6 +91,7 @@
                             @elseif($subscription && $subscription->ends_at > \Carbon\Carbon::now())
                                 <form action="{{ route('subscribe.resume') }}" method="post">
                                     @csrf
+                                    <input name="discountCode" type="hidden" value=""/>
                                     <input name="payment_method_token" type="hidden" value="{{$payment_method_token}}"/>
                                     <input class="level" name="planId" type="hidden" value="{{$subscription->name}}">
                                     <button type="submit" class='button blue'>
