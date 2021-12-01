@@ -155,10 +155,10 @@ class SubscriptionService {
                     'braintree_status' => strtolower( $result->subscription->status ),
                 ] );
 
-                //$paymentClass = strtolower( get_class( $customer->customer->paymentMethods[0] ) );
-                $paymentMethod = $result->subscription->transactions[0]->paymentInstrumentType;
+                $paymentMethod = strtolower( get_class( $customer->customer->paymentMethods[0] ) );
+                //$paymentMethod = $result->subscription->transactions[0]->paymentInstrumentType;
 
-                if ($paymentMethod == "credit_card") {
+                if (str_contains($paymentMethod, "credit") ) {
                     //$paymentMethod = $customer->customer->paymentMethods[0]->cardType;
                     $this->user->pm_last_four = $customer->customer->paymentMethods[0]->last4;
                 } else {
