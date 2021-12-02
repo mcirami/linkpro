@@ -28,7 +28,7 @@
             &.live_page {
                 @include boxShadow;
                 padding: 0 0 20px 0;
-                min-height: 740px;
+                /*min-height: 740px;*/
                 border-radius: 20px;
                 -webkit-border-radius: 20px;
                 -moz-border-radius: 20px;
@@ -70,9 +70,7 @@
                         }
                     }
                 }
-
             }
         }
     }
 }
-

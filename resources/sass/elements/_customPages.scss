@@ -1,0 +1,255 @@
+/*
+#accordionParent {
+    padding: 30px;
+
+    img {
+        border-radius: 20px;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+    }
+
+    .icon-images img {
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+    }
+
+    .icon_set {
+        margin: 35px 0 0 0;
+    }
+    .icon_set h2 {
+
+        font-size: 20px;
+        font-family: 'open_sansbold', sans-serif;
+        color:#424bcf;
+        padding: 0 0 15px 0;
+        text-align: center;
+
+
+    }
+
+    .icon {
+        text-align: center;
+    }
+    .icon p {
+        font-size: 14px;
+        color: #000000;
+        padding: 0;
+        margin: 0;
+        line-height: 1;
+        margin-top: 10px;
+    }
+    .icon_h {
+        margin: 0 0 10px 0;
+    }
+    !* icons accordions style sart *!
+
+    .card .collapsing, .card .show {
+        border: 2px solid #424bcf;
+        border-radius: 20px;
+        position: relative;
+    }
+
+    .card-header {
+        position: relative;
+    }
+
+    .card-header a:not(.collapsed):after {
+        content: '';
+        width: 15px;
+        height: 15px;
+        background: #424bcf;
+        position: absolute;
+        left: calc(50% - 7.5px);
+        transform: rotate(45deg);
+        bottom: -28px;
+    }
+
+    .card {
+        border: 0;
+        overflow: visible;
+    }
+
+    .card-header {
+        padding: 0px;
+        background: transparent;
+        border: 0;
+    }
+
+    !* trigger icons style *!
+
+    .card-header a .icon-images {
+        display:grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-column-gap: 5px;
+        grid-row-gap: 5px;
+        grid-auto-rows: min-content;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        background: #f4f4f4;
+        grid-template-rows: 1fr 1fr 1fr;
+    }
+
+    !*
+    .card-header a.collapsed .icon-images {
+        display:grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-column-gap: 5px;
+        grid-row-gap: 5px;
+    }
+    *!
+
+    .accordion {
+        margin-bottom: 10px;
+    }
+
+    .icon-images > img {
+        font-size: 7px;
+    }
+
+    .card-header {
+        margin-bottom: 10px;
+    }
+
+    .icon {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .card-header a {
+        display: flex;
+        height: 100%;
+        padding: 0;
+    }
+
+    .card-body {
+        background: #F7F6FC;
+        border-radius: 20px;
+        padding-bottom: 10px;
+    }
+
+    !*.card-body > .row {
+        justify-content: space-between;
+        gap: 8px 0px;
+    }*!
+
+    #no-title .card-body > .row {
+        gap: 20px 0px;
+    }
+
+    !* sub icons style *!
+
+    .card-body .icon p {
+        font-size: 12px;
+        margin: 5px 0;
+    }
+
+    @media (max-width: 550px) {
+
+        .icon p {
+            font-size: 11px;
+        }
+
+        !* icons triggers *!
+        .card-header a {
+            border-radius: 10px;
+        }
+
+        .card-body > .row {
+            padding: 0 5px;
+        }
+
+        #no-title .card-body > .row {
+            gap: 15px 0px;
+        }
+
+        .card .collapsing, .card .show, .card-body {
+            border-radius: 10px;
+        }
+
+        .card-header a .icon-images {
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        !* .card-body .row {
+            justify-content: space-evenly;
+        } *!
+
+        .card-body .row .col-md-4 {
+            padding: 0;
+            width: 30%;
+        }
+
+        .card-body {
+            padding: 8px 16px 6px;
+        }
+
+        .card-body .icon p {
+            font-size: 9px;
+        }
+
+        img {
+            font-size: 15px;
+        }
+
+    }
+
+}
+*/
+
+.my_row.folder {
+    opacity: 0;
+    height: 0;
+    display: none;
+    transition: height 1s linear;
+    -webkit-transition: height 1s linear;
+    background: $white;
+    z-index: 2;
+
+    p {
+        margin-bottom: 0;
+    }
+
+    img {
+        border-radius: 20px;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+    }
+
+    .icons_wrap {
+        padding: 20px !important;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        border-radius: 20px;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        text-align: center;
+        margin-bottom: 20px;
+
+        .icon_col {
+            width: 26.3% !important;
+            margin-bottom: 5px !important;
+            margin-right: 10.5% !important;
+
+            &:nth-child(3n) {
+                margin-right: 0 !important;
+            }
+
+            &:nth-child(4n) {
+                margin-right: 10.5% !important;
+            }
+        }
+
+    }
+
+
+    &.open {
+        display: block;
+        opacity: 1;
+        height: auto;
+        transition: height 1s linear;
+        -webkit-transition: height 1s linear;
+    }
+}

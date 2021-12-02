@@ -161,4 +161,68 @@ jQuery(document).ready(function($) {
 
     });
 
+    const folders = document.querySelectorAll('.icon_col.folder');
+    if (folders.length > 0) {
+        let content = null;
+        folders.forEach((element) => {
+            element.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                if (content) {
+                    if (element.classList.contains('open')) {
+                        content.classList.toggle('open');
+                        element.classList.toggle('open');
+                        const lastChild = element.lastElementChild;
+                        lastChild.after(content);
+                        content = null;
+                    } else {
+                        document.querySelectorAll('.icon_col.folder').forEach((folder) => {
+                                folder.classList.remove('open');
+                            });
+                        content.classList.remove('open');
+
+                        const prevParentElement = content.dataset.parent;
+
+                        document.querySelector(prevParentElement).lastElementChild.after(content);
+
+                        content = element.lastElementChild;
+                        content.classList.toggle('open');
+                        element.classList.toggle('open');
+                        const childNum = element.dataset.row * 4;
+
+                        let iconsWrap = null;
+                        iconsWrap = document.querySelectorAll(
+                            '.icons_wrap.main > .icon_col:nth-child(' + childNum + ')');
+                        if (iconsWrap.length < 1) {
+                            iconsWrap = document.querySelectorAll(
+                                '.icons_wrap.main > .icon_col:last-child');
+                        }
+                        iconsWrap[0].after(content);
+                    }
+
+                } else {
+                    document.querySelectorAll('.my_row.folder').
+                        forEach((element) => {
+                            element.classList.remove('open');
+                        })
+                    content = element.lastElementChild;
+                    content.classList.toggle('open');
+                    element.classList.toggle('open');
+                    const childNum = element.dataset.row * 4;
+                    let iconsWrap = null;
+                    iconsWrap = document.querySelectorAll(
+                        '.icons_wrap.main > .icon_col:nth-child(' + childNum + ')');
+                    if (iconsWrap.length < 1) {
+                        iconsWrap = document.querySelectorAll(
+                            '.icons_wrap.main > .icon_col:last-child');
+                    }
+                    iconsWrap[0].after(content);
+                }
+
+
+            })
+        });
+
+    }
+
 });

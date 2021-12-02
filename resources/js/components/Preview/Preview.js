@@ -207,7 +207,7 @@ const Preview = ({setRef, completedCrop, fileName, profileFileName, completedPro
                                         {active_status ?
                                             <>
                                                 <a target="_blank" href={source ||
-                                                "https://link.pro"}>
+                                                "#"}>
                                                     <img src={displayIcon ||
                                                     Vapor.asset('images/icon-placeholder-preview.png') } alt=""/>
                                                 </a>

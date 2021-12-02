@@ -233,6 +233,20 @@
 
             &.folder {
 
+                &.open {
+                    &:after {
+                        content: '';
+                        width: 15px;
+                        height: 15px;
+                        background: $blue;
+                        position: absolute;
+                        left: calc(50% - 7.5px);
+                        transform: rotate(45deg);
+                        bottom: -20px;
+                        z-index: 1;
+                    }
+                }
+
                 a {
                     height: 100%;
                     border: 1px solid $lightGray;
