@@ -206,7 +206,7 @@ const Preview = ({setRef, completedCrop, fileName, profileFileName, completedPro
                                     <div className="icon_col" key={id.toString()}>
                                         {active_status ?
                                             <>
-                                                <a target="_blank" href={source ||
+                                                <a className={!source || !displayIcon ? "default" : ""} target="_blank" href={source ||
                                                 "#"}>
                                                     <img src={displayIcon ||
                                                     Vapor.asset('images/icon-placeholder-preview.png') } alt=""/>

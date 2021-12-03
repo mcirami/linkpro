@@ -1,6 +1,10 @@
 import axios from 'axios';
 import EventBus from '../Utils/Bus';
 
+/**
+ * Submit a request to add a new link
+ * return object
+ */
 export const addLink = (packets) => {
 
     return axios.post('/dashboard/links/new', packets)
@@ -33,6 +37,10 @@ export const addLink = (packets) => {
     });
 }
 
+/**
+ * Submit a request to update a link's content
+ * return object
+ */
 export const updateLink = (packets, editID) => {
 
     return axios.post('/dashboard/links/update/' + editID, packets).then(
@@ -77,6 +85,9 @@ export const updateLink = (packets, editID) => {
     });
 }
 
+/**
+ * Submit a request to update a links position after drag and drop
+ */
 export const updateLinksPositions = (packets) => {
 
     return axios.post("/dashboard/links/update-positions", packets).then(
@@ -89,6 +100,10 @@ export const updateLinksPositions = (packets) => {
 
 }
 
+/**
+ * Submit a request to update a link
+ * return object
+ */
 export const updateLinkStatus = (packets, itemID) => {
 
     return axios.post("/dashboard/links/status/" + itemID, packets)
@@ -117,6 +132,11 @@ export const updateLinkStatus = (packets, itemID) => {
     });
 }
 
+/**
+ * Submit a request to delete a link
+ * return object
+ */
+
 export const deleteLink = (packets, itemID) => {
 
     return axios.post('/dashboard/links/delete/' + itemID, packets).then(
@@ -142,7 +162,33 @@ export const deleteLink = (packets, itemID) => {
             success : false,
         }
     });
+}
 
+export const checkURL = (url, name) => {
+
+    /*if( url.toLowerCase().includes(name.toLowerCase()) ) {*/
+        let returnURL = null;
+
+        if (url) {
+            if (url.includes('https://')) {
+                returnURL = url;
+            } else {
+                returnURL = 'https://' + url;
+            }
+        }
+
+        return {
+            success : true,
+            url : returnURL
+        }
+   /* } else {
+
+        EventBus.dispatch("error", { message: "URL does not match Icon selected" });
+
+        return {
+            success : false,
+        }
+    }*/
 }
 
 export default addLink;

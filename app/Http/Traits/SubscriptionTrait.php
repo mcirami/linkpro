@@ -29,12 +29,16 @@ trait SubscriptionTrait {
 
         if ( $planID == "premier" && strtolower( $userCode ) == "premier6months" ) {
             $match = "Premier6Months";
-        } elseif($planID == "premier" && strtolower( $userCode ) == "lppremium4life") {
-            $match = "LPPremium4Life";
+        } elseif ( $planID == "premier" && strtolower( $userCode ) == "premier1month" ) {
+            $match = "Premier1Month";
+        } elseif($planID == "premier" && strtolower( $userCode ) == "premier4life") {
+            $match = "Premier4Life";
         } elseif ( $planID == "pro" && strtolower( $userCode ) == "pro6months" ) {
             $match = "Pro6Months";
         } elseif ( $planID == "pro" && strtolower( $userCode ) == "pro1month" ) {
             $match = "Pro1Month";
+        } elseif ( $planID == "pro" && strtolower( $userCode ) == "pro4life" ) {
+            $match = "Pro4Life";
         } else {
             $match = null;
         }

@@ -54,7 +54,35 @@ footer {
     margin-top: 10px;
 
     .image_wrap {
-        max-width: 150px;
+        max-width: 475px;
         margin: 0 auto;
+
+        a {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            -ms-flex-wrap: nowrap;
+            flex-wrap: nowrap;
+            justify-content: center;
+            -webkit-justify-content: center;
+            align-items: center;
+            -webkit-align-items: center;
+            font-size: 12px;
+            color: rgb(184 183 183);
+
+            p {
+                @include ossemibold;
+                margin: 0;
+                padding-right: 10px;
+            }
+
+            img {
+                max-width: 100px;
+            }
+        }
     }
 }

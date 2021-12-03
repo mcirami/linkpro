@@ -12406,7 +12406,7 @@ header.guest_header .col.right {
   cursor: grabbing;
 }
 #links_page .icons_wrap .icon_col .column_content {
-  padding: 20px;
+  padding: 20px 5%;
   border-radius: 20px;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
@@ -12506,11 +12506,6 @@ header.guest_header .col.right {
 }
 #links_page .icons_wrap .icon_col.folder a .icons_wrap .icon_col:nth-child(4n) {
   margin-right: 1.6%;
-}
-#links_page .icons_wrap .icon_col.folder a .icons_wrap .icon_col img {
-  border-radius: 7px;
-  -webkit-border-radius: 7px;
-  -moz-border-radius: 7px;
 }
 #links_page .icons_wrap.add_icons {
   padding: 0 3%;
@@ -13303,16 +13298,18 @@ header.guest_header .col.right {
     max-width: 90%;
   }
 }
+#links_page .links_col .links_wrap.live_page .icons_wrap {
+  padding: 0 15px 0 20px;
+}
 #links_page .links_col .links_wrap.live_page .icon_col {
   box-shadow: unset !important;
   -webkit-box-shadow: unset !important;
   -moz-box-shadow: unset !important;
   -o-box-shadow: unset !important;
+  margin-right: 1.3%;
 }
-#links_page .links_col .links_wrap.live_page .icon_col img {
-  border-radius: 20px;
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
+#links_page .links_col .links_wrap.live_page .icon_col:nth-child(4n) {
+  margin-right: 1.3%;
 }
 #links_page .links_col .links_wrap .inner_content.live_page {
   box-shadow: 0px 0px 35px 5px rgba(170, 170, 170, 0.18);
@@ -15053,11 +15050,6 @@ form .bottom_row a {
 .my_row.folder p {
   margin-bottom: 0;
 }
-.my_row.folder img {
-  border-radius: 20px;
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-}
 .my_row.folder .icons_wrap {
   padding: 20px !important;
   border: 1px solid rgba(0, 0, 0, 0.125);
@@ -15124,6 +15116,25 @@ footer small a, footer .small a {
   margin-top: 10px;
 }
 .user_page_footer .image_wrap {
-  max-width: 150px;
+  max-width: 475px;
   margin: 0 auto;
+}
+.user_page_footer .image_wrap a {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  -webkit-justify-content: center;
+  align-items: center;
+  -webkit-align-items: center;
+  font-size: 12px;
+  color: #b8b7b7;
+}
+.user_page_footer .image_wrap a p {
+  font-family: "opensanssemibold", sans-serif;
+  margin: 0;
+  padding-right: 10px;
+}
+.user_page_footer .image_wrap a img {
+  max-width: 100px;
 }

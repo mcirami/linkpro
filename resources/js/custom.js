@@ -161,6 +161,16 @@ jQuery(document).ready(function($) {
 
     });
 
+    // prevent click if no url or image on preview icon
+    const defaultIcons = document.querySelectorAll('a.default');
+    if (defaultIcons.length > 0) {
+        defaultIcons.forEach(element => {
+            element.addEventListener('click', function(e) {
+                e.preventDefault();
+            })
+        })
+    }
+
     function insertContent(content, element, cb) {
 
         const childNum = element.dataset.row * 4;
@@ -230,7 +240,5 @@ jQuery(document).ready(function($) {
                 }
             })
         });
-
     }
-
 });

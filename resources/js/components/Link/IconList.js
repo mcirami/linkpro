@@ -15,7 +15,7 @@ const IconList = ({currentLink, setCurrentLink, iconArray, radioValue, setCharac
                 name = el.dataset.name;
                 setCharactersLeft(13 - name.length);
 
-                if(name.toLowerCase() === "email") {
+                if(name.toLowerCase().includes("mail") || name.toLowerCase().includes("yahoo") || name.toLowerCase().includes("outlook") ) {
                     setInputType("email");
                 } else if (name.toLowerCase() === "phone") {
                     setInputType("phone");
@@ -26,8 +26,6 @@ const IconList = ({currentLink, setCurrentLink, iconArray, radioValue, setCharac
             } else {
                 name = currentLink.name;
             }
-
-
 
             setCurrentLink({
                 ...currentLink,

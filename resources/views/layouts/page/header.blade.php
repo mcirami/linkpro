@@ -26,7 +26,10 @@
 
         <div class="my_row user_page_footer">
             <div class="image_wrap">
-                <a href="{{ Route('guest-home') }}"><img src="{{ asset('/images/footer-logo.png') }}" alt=""></a>
+                <a href="{{ Route('login') }}">
+                    <p>Signup or Login</p>
+                    <img src="{{ asset('/images/logo.png') }}" alt="">
+                </a>
             </div>
         </div>
     </main>

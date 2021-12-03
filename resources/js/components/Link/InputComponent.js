@@ -65,7 +65,7 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType }) => {
         if (key === "phone") {
             key2 = "email"
             key3 = "url"
-        } else if (key === "email") {
+        } else if (key.includes("email")) {
             key2 = "phone"
             key3 = "url"
         } else {

@@ -12,7 +12,7 @@ import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
 import InputComponent from './InputComponent';
 const iconPaths = user.icons;
-import {updateLink} from '../../Services/LinksRequest';
+import {updateLink, checkURL} from '../../Services/LinksRequest';
 
 const SubmitForm = ({
         editID,
@@ -180,52 +180,60 @@ const SubmitForm = ({
 
         } else {
 
-            const packets = {
-                name: currentLink.name,
-                url: currentLink.url,
-                email: currentLink.email,
-                phone: currentLink.phone,
-                icon: currentLink.icon,
-                page_id: pageSettings["id"],
-            };
+            const data = checkURL(currentLink.url, currentLink.name);
+            let URL;
 
-            updateLink(packets, editID)
-            .then((data) => {
+            if (data["success"]) {
 
-                if (data.success) {
-                    setUserLinks(
-                        userLinks.map((item) => {
-                            if (item.id === editID) {
-                                return {
-                                    ...item,
-                                    name: currentLink.name,
-                                    url: currentLink.url,
-                                    email: currentLink.email,
-                                    phone: currentLink.phone,
-                                    icon: currentLink.icon
+                URL = data["url"];
+                const packets = {
+                    name: currentLink.name,
+                    url: URL,
+                    email: currentLink.email,
+                    phone: currentLink.phone,
+                    icon: currentLink.icon,
+                    page_id: pageSettings["id"],
+                };
+
+                updateLink(packets, editID)
+                .then((data) => {
+
+                    if (data.success) {
+                        setUserLinks(
+                            userLinks.map((item) => {
+                                if (item.id === editID) {
+                                    return {
+                                        ...item,
+                                        name: currentLink.name,
+                                        url: URL,
+                                        email: currentLink.email,
+                                        phone: currentLink.phone,
+                                        icon: currentLink.icon
+                                    }
                                 }
-                            }
-                            return item;
-                        })
-                    )
-                    setOriginalArray(
-                        originalArray.map((item) => {
-                            if (item.id === editID) {
-                                return {
-                                    ...item,
-                                    name: currentLink.name,
-                                    url: currentLink.url,
-                                    email: currentLink.email,
-                                    phone: currentLink.phone,
-                                    icon: currentLink.icon
+                                return item;
+                            })
+                        )
+                        setOriginalArray(
+                            originalArray.map((item) => {
+                                if (item.id === editID) {
+                                    return {
+                                        ...item,
+                                        name: currentLink.name,
+                                        url: URL,
+                                        email: currentLink.email,
+                                        phone: currentLink.phone,
+                                        icon: currentLink.icon
+                                    }
                                 }
-                            }
-                            return item;
-                        })
-                    )
-                    setEditID(null)
-                }
-            })
+                                return item;
+                            })
+                        )
+                        setEditID(null)
+                    }
+                })
+
+            }
         }
 
     };
@@ -258,9 +266,11 @@ const SubmitForm = ({
             }
         ).then(response => {
 
+            const URL = checkURL(currentLink.url, currentLink.name);
+
             const packets = {
                 name: currentLink.name || null,
-                url: currentLink.url || null,
+                url: URL || null,
                 email: currentLink.email || null,
                 phone: currentLink.phone || null,
                 icon: response.key || null,
@@ -278,7 +288,7 @@ const SubmitForm = ({
                                 return {
                                     ...item,
                                     name: currentLink.name,
-                                    url: currentLink.url,
+                                    url: URL,
                                     email: currentLink.email,
                                     phone: currentLink.phone,
                                     icon: data.iconPath
@@ -293,7 +303,7 @@ const SubmitForm = ({
                                 return {
                                     ...item,
                                     name: currentLink.name,
-                                    url: currentLink.url,
+                                    url: URL,
                                     email: currentLink.email,
                                     phone: currentLink.phone,
                                     icon: data.iconPath
