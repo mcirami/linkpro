@@ -15033,6 +15033,16 @@ form .bottom_row a {
   padding: 0 3%;
 }
 
+.alert-success {
+  background-color: rgba(222, 225, 247, 0.2);
+  border-color: #d2d2d2;
+  text-align: center;
+  color: #000;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+}
+
 .my_row.folder {
   opacity: 0;
   max-height: 0;

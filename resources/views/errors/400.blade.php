@@ -9,7 +9,7 @@
                 <div class="card-body">
                     <h3 class="quote">Bad request.</h3>
                     <p>Please return to <a href={{ url('/') }}>our homepage</a>.</p>
-                    <p><small>{!! isset($exception)? ($exception->getMessage()?$exception->getMessage():$default_error_message): $default_error_message !!}</small></p>
+                    {{--<p><small>{!! isset($exception)? ($exception->getMessage()?$exception->getMessage():$default_error_message): $default_error_message !!}</small></p>--}}
                 </div>
             </div>
         </div>

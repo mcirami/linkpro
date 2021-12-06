@@ -1,7 +1,7 @@
 @component('mail::layout')
 {{-- Header --}}
 @slot('header')
-@component('mail::header', ['url' => config('app.url'), 'id' => $id, 'url' => $url ])
+@component('mail::header', ['url' => config('app.url'), 'id' => $id ?? '', 'url' => $url ?? '' ])
 {{--{{ config('app.name') }}--}}
 @endcomponent
 @endslot
@@ -25,7 +25,7 @@
 <br />
 <p><small>You created an account on LinkPro, gosh you're smart! If for some reason you are over it, it's ok to stop getting our messages. All the same we're sad to see you go!
     </small></p>
-<a href="{{ $url }}/email-subscription/{{ $id }}?action=unsubscribe">Unsubscribe</a>
+<a href="{{ $url ?? '' }}/email-subscription/{{ $id ?? '' }}?action=unsubscribe">Unsubscribe</a>
 @endcomponent
 @endslot
 @endcomponent

@@ -294,3 +294,13 @@
         }
     }
 }
+
+.alert-success {
+    background-color: rgba(222,225,247,.2);
+    border-color: $borderGray;
+    text-align: center;
+    color: $black;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+}
