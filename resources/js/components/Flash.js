@@ -58,7 +58,6 @@ export const Flash = () => {
                     }
                 </div>
                 <p>{ message }</p>
-                {/*<span className="close"><strong>CLOSE</strong></span>*/}
             </div>
         </div>
 

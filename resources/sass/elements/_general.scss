@@ -12,27 +12,19 @@
 }
 
 .message_wrap {
-    width: 100%;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -ms-flex-wrap: nowrap;
-    flex-wrap: nowrap;
-    justify-content: flex-end;
-    -webkit-justify-content: flex-end;
-    margin: 0 auto;
     position: fixed;
     bottom: 0;
     right: 0;
     z-index: 999;
 
     @media all and (max-width: 992px) {
-        justify-content: center;
-        -webkit-justify-content: center;
+        left: 50%;
+        right: auto;
+        transform: translateX(-48%);
+        -o-transform: translateX(-48%);
+        -webkit-transform: translateX(-48%);
+        -moz-transform: translateX(-48%);
+        -ms-transform: translateX(-48%);
     }
 
     .display_message {
@@ -72,22 +64,6 @@
                 color: $red;
             }
         }
-
-        /*.close {
-            border-top: 1px solid $borderGray;
-            color: $darkGray;
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            text-align: center;
-            font-size: 14px;
-            padding: 20px;
-
-            &:hover {
-                cursor: pointer;
-            }
-        }*/
 
         p {
             margin: 0;

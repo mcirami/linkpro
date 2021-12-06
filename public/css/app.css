@@ -14792,13 +14792,6 @@ form .bottom_row a {
 }
 
 .message_wrap {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: flex-end;
-  -webkit-justify-content: flex-end;
-  margin: 0 auto;
   position: fixed;
   bottom: 0;
   right: 0;
@@ -14806,8 +14799,13 @@ form .bottom_row a {
 }
 @media all and (max-width: 992px) {
   .message_wrap {
-    justify-content: center;
-    -webkit-justify-content: center;
+    left: 50%;
+    right: auto;
+    transform: translateX(-48%);
+    -o-transform: translateX(-48%);
+    -webkit-transform: translateX(-48%);
+    -moz-transform: translateX(-48%);
+    -ms-transform: translateX(-48%);
   }
 }
 .message_wrap .display_message {
@@ -14828,21 +14826,6 @@ form .bottom_row a {
   border-top-left-radius: 20px;
   -webkit-border-top-left-radius: 20px;
   padding: 20px;
-  /*.close {
-      border-top: 1px solid $borderGray;
-      color: $darkGray;
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      text-align: center;
-      font-size: 14px;
-      padding: 20px;
-
-      &:hover {
-          cursor: pointer;
-      }
-  }*/
 }
 @media all and (max-width: 992px) {
   .message_wrap .display_message {
