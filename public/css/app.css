@@ -12718,6 +12718,25 @@ header.guest_header .col.right {
     opacity: 0;
   }
 }
+.page_settings.status_switch {
+  margin-bottom: 0;
+}
+.page_settings.status_switch form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  -webkit-align-items: center;
+  justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+}
+.page_settings.status_switch form .checkbox {
+  margin-right: 1%;
+  display: flex;
+}
+.page_settings.status_switch form label {
+  font-size: 18px;
+}
 
 .link_row {
   display: flex;
@@ -12834,6 +12853,43 @@ header.guest_header .col.right {
     opacity: 0;
     display: none;
   }
+}
+
+.column_footer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+  align-items: center;
+  -webkit-align-items: center;
+  padding: 20px 20px 0 20px;
+}
+.column_footer .view_live_link {
+  width: 90%;
+}
+.column_footer .view_live_link a {
+  display: block;
+  width: 100%;
+  font-size: 18px;
+  padding: 15px;
+}
+.column_footer .status_switch_wrap {
+  text-align: right;
+  width: 10%;
+  padding-left: 2%;
+}
+.column_footer .status_switch_wrap:hover .hover_text {
+  opacity: 1;
+}
+@media all and (max-width: 768px) {
+  .column_footer .status_switch_wrap:hover .hover_text {
+    opacity: 0;
+    display: none;
+  }
+}
+.column_footer .status_switch_wrap:hover .hover_text p {
+  font-size: 12px;
 }
 
 #links_page .links_col.preview {
@@ -14918,6 +14974,9 @@ form .bottom_row a {
   top: 0;
 }
 .hover_text.icon_text p {
+  font-size: 12px;
+}
+.hover_text.status_switch p {
   font-size: 12px;
 }
 

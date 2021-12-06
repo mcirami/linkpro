@@ -226,4 +226,40 @@ export const pageBio = (packets, pageID) => {
     });
 }
 
+export const pageStatus = (packets, pageID) => {
+
+    return axios.post('/dashboard/page/status/' + pageID,
+        packets).then(
+        (response) => {
+            //console.log(JSON.stringify(response.data))
+            let returnMessage = JSON.stringify(response.data.message);
+
+            console.log(returnMessage);
+            if (returnMessage === "true") {
+                returnMessage = "Link Disabled";
+            } else {
+                returnMessage = "Link Enabled";
+            }
+
+            EventBus.dispatch("success", {message: returnMessage});
+
+            return {
+                success : true,
+            }
+        }
+    ).catch(error => {
+        if (error.response) {
+            if(error.response.data.errors.disabled) {
+                EventBus.dispatch("error",
+                    {message: error.response.data.errors.disabled[0]});
+            } else {
+                console.log(error.response);
+            }
+
+        } else {
+            console.log("ERROR:: ", error);
+        }
+    });
+}
+
 export default addPage;

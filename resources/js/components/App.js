@@ -15,6 +15,8 @@ import { Flash } from './Flash';
 import SubmitForm from './Link/SubmitForm';
 import { UpgradePopup } from './UpgradePopup';
 import { ConfirmPopup } from './ConfirmPopup';
+import DisablePage from './Page/DisablePage';
+import ViewLiveButton from './Page/ViewLiveButton'
 
 const page = user.page;
 const userPages = user.user_pages;
@@ -62,8 +64,6 @@ function App() {
         }
 
     }, [userLinks])
-
-    const host = window.location.origin;
 
     return (
         <div className="my_row page_wrap">
@@ -150,9 +150,6 @@ function App() {
                                             setOptionText={setOptionText}
                                         />
                                     </div>
-                                    <div className="view_live_link">
-                                        <a className="button green" target="_blank" href={ host + '/' + pageSettings['name'] }>Open Live Page</a>
-                                    </div>
                                 </div>
 
 
@@ -178,6 +175,10 @@ function App() {
                                 ) : (
                                     ""
                                 )}
+                            </div>
+                            <div className="column_footer">
+                                <ViewLiveButton />
+                                <DisablePage />
                             </div>
                         </div>
                         <div className="right_column links_col preview">

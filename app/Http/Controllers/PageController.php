@@ -19,9 +19,14 @@ class PageController extends Controller
 
     use UserTrait;
 
+    /**
+     * @param Page $page
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\never
+     */
     public function show(Page $page) {
 
-        if ($page->disabled) {
+        if ($page->disabled || !$page->active) {
             return abort(404);
         }
 
@@ -48,6 +53,11 @@ class PageController extends Controller
 
     }
 
+    /**
+     * @param PageService $pageService
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\never
+     */
     public function showCreatePage(PageService $pageService) {
 
         $user = Auth::user();
@@ -61,6 +71,13 @@ class PageController extends Controller
         return view('pages.create');
     }
 
+    /**
+     * @param PageNameRequest $request
+     * @param PageService $pageService
+     * @param LinkService $linkService
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(PageNameRequest $request, PageService $pageService, LinkService $linkService) {
 
         $page = $pageService->createNewPage($request);
@@ -70,6 +87,13 @@ class PageController extends Controller
         return response()->json(['message'=> 'New Link Added', 'page_id' => $page->id]);
     }
 
+    /**
+     * @param PageNameRequest $request
+     * @param PageService $pageService
+     * @param Page $page
+     *
+     * @return \Illuminate\Http\JsonResponse|\never
+     */
     public function updateName(PageNameRequest $request, PageService $pageService, Page $page) {
 
         if ($page->user_id != Auth::id()) {
@@ -82,6 +106,12 @@ class PageController extends Controller
 
     }
 
+    /**
+     * @param PageService $pageService
+     * @param Page $page
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\never
+     */
     public function edit(PageService $pageService, Page $page) {
 
         $user = Auth::user();
@@ -90,7 +120,7 @@ class PageController extends Controller
             return abort(404);
         }
 
-        if ( $page->disabled ) {
+        if ( !$page->active ) {
             return abort(404);
         }
 
@@ -101,6 +131,13 @@ class PageController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param Page $page
+     * @param PageService $pageService
+     *
+     * @return \Illuminate\Http\JsonResponse|\never
+     */
     public function updateHeaderImage(Request $request, Page $page, PageService $pageService) {
 
         $userID = Auth::id();
@@ -115,6 +152,13 @@ class PageController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * @param Page $page
+     * @param PageService $pageService
+     *
+     * @return \Illuminate\Http\JsonResponse|\never
+     */
     public function updateProfileImage(Request $request, Page $page, PageService $pageService) {
 
         $userID = Auth::id();
@@ -129,6 +173,13 @@ class PageController extends Controller
 
     }
 
+    /**
+     * @param PageTitleRequest $request
+     * @param Page $page
+     * @param PageService $pageService
+     *
+     * @return \Illuminate\Http\JsonResponse|\never
+     */
     public function updateTitle(PageTitleRequest $request, Page $page, PageService $pageService) {
 
 
@@ -142,6 +193,13 @@ class PageController extends Controller
 
     }
 
+    /**
+     * @param PageBioRequest $request
+     * @param Page $page
+     * @param PageService $pageService
+     *
+     * @return \Illuminate\Http\JsonResponse|\never
+     */
     public function updateBio(PageBioRequest $request, Page $page, PageService $pageService) {
 
         if ($page->user_id != Auth::id()) {
@@ -154,6 +212,13 @@ class PageController extends Controller
 
     }
 
+    /**
+     * @param PagePassword $request
+     * @param Page $page
+     * @param PageService $pageService
+     *
+     * @return \Illuminate\Http\JsonResponse| \never
+     */
     public function updatePassword(PagePassword $request, Page $page, PageService $pageService) {
 
         if ($page->user_id != Auth::id()) {
@@ -165,6 +230,13 @@ class PageController extends Controller
         return response()->json(['message' => 'Link Password Updated']);
     }
 
+    /**
+     * @param Request $request
+     * @param Page $page
+     * @param PageService $pageService
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function pageAuth(Request $request, Page $page, PageService $pageService) {
 
         $pageService->authorizePage($request, $page);
@@ -172,10 +244,26 @@ class PageController extends Controller
         return redirect()->back()->withErrors(['unauthorized' => 'Incorrect Pin']);
     }
 
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function redirect() {
         $user = Auth::user();
         $page = $user->pages()->where('user_id', $user["id"])->where('default', true)->get();
 
         return redirect('/dashboard/pages/' . $page[0]->id);
+    }
+
+    /**
+     * @param $request
+     * @param $page
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function pageStatus(Request $request, Page $page) {
+        $page->disabled = $request->disabled;
+        $page->save();
+
+        return response()->json(['message' => $request->disabled]);
     }
 }
