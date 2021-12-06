@@ -110,7 +110,7 @@ class LoginController extends Controller
                                 $userPage->password = null;
                             }
                             if (!$userPage->default) {
-                                $userPage->disabled = true;
+                                $userPage->active = false;
                             }
                             $userPage->save();
                         }

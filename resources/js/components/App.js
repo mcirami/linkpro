@@ -102,6 +102,7 @@ function App() {
 
                             <div className="content_wrap" id="left_col_wrap">
                                 <div className="top_section">
+
                                     <PageName />
 
                                     <PasswordProtect

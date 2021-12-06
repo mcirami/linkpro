@@ -14,7 +14,7 @@ class AddActiveColumnToPagesTable extends Migration
     public function up()
     {
         Schema::table('pages', function (Blueprint $table) {
-            //
+            $table->boolean('active')->default(true);
         });
     }
 
@@ -26,7 +26,7 @@ class AddActiveColumnToPagesTable extends Migration
     public function down()
     {
         Schema::table('pages', function (Blueprint $table) {
-            //
+            $table->dropColumn('active');
         });
     }
 }

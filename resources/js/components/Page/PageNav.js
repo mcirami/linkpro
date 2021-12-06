@@ -116,7 +116,7 @@ const PageNav = ({ allUserPages, setAllUserPages, userSub, setShowUpgradePopup, 
                             { pageList.map((page) => {
 
                                 return (
-                                    page["disabled"] || !userSub || userSub.name !== "premier" ?
+                                    !page["active"] || !userSub || userSub.name !== "premier" ?
                                         <li key={page["id"]} className="disabled_link" data-type="disabled" onClick={(e) => { handleClick(e) }} >
                                             {page["name"]}
                                         </li>

@@ -19,12 +19,14 @@ trait UserTrait {
     }
 
     public function enableUsersPages($user) {
-        $pages = $user->pages()->get();
+        $pages = $this->getUserPages($user);
 
-        foreach ($pages as $page) {
-            if (!$page->default) {
-                $page->disabled = false;
-                $page->save();
+        if (count($pages) > 1) {
+            foreach ( $pages as $page ) {
+                if ( !$page->default && !$page->active ) {
+                    $page->active = true;
+                    $page->save();
+                }
             }
         }
     }

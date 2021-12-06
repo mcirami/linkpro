@@ -243,8 +243,8 @@ class SubscriptionService {
             if ($result->success) {
                 $activeSubs->update(['name' => "premier"]);
 
-                $userPages = $this->getUserPages($this->user);
-
+                $this->enableUsersPages($this->user);
+                /*$userPages = $this->getUserPages($this->user);
                 if (count($userPages) > 1) {
                     foreach ($userPages as $userPage) {
                         if ( $userPage->disabled ) {
@@ -252,7 +252,7 @@ class SubscriptionService {
                             $userPage->save();
                         }
                     }
-                }
+                }*/
 
                 if ($this->user->email_subscription) {
 
