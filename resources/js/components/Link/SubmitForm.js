@@ -22,7 +22,8 @@ const SubmitForm = ({
         setOptionText,
         userSub,
         customIconArray,
-        setCustomIconArray
+        setCustomIconArray,
+        setShowLoader
 }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
@@ -262,6 +263,7 @@ const SubmitForm = ({
 
     const submitWithCustomIcon = (image) => {
 
+        setShowLoader(true)
         window.Vapor.store(
             image,
             {
@@ -288,6 +290,7 @@ const SubmitForm = ({
 
             updateLink(packets, editID)
             .then((data) => {
+                setShowLoader(false);
 
                 if (data.success) {
                     setUserLinks(

@@ -15,7 +15,7 @@ import {headerImage} from '../../Services/PageRequests';
 export const RefContext = createContext();
 export const cropStatus = createContext();
 
-const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileName}) => {
+const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileName, setShowLoader}) => {
 
     const { pageSettings, setPageSettings } = useContext(PageContext);
     const [previousImage, setPreviousImage] = useState(pageSettings['header_img']);
@@ -125,6 +125,7 @@ const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileN
 
     const fileUpload = (image) => {
 
+        setShowLoader(true);
         window.Vapor.store(
             image,
             {
@@ -144,6 +145,7 @@ const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileN
 
             headerImage(packets, pageSettings["id"])
             .then((data) => {
+                setShowLoader(false);
 
                 if (data.success) {
                     setFileName(null)

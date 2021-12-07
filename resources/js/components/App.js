@@ -15,6 +15,7 @@ import { Flash } from './Flash';
 import SubmitForm from './Link/SubmitForm';
 import { UpgradePopup } from './UpgradePopup';
 import { ConfirmPopup } from './ConfirmPopup';
+import { Loader } from './Loader';
 
 const page = user.page;
 const userPages = user.user_pages;
@@ -52,6 +53,8 @@ function App() {
 
     const [subStatus, setSubStatus] = useState(true);
 
+    const [showLoader, setShowLoader] = useState(false);
+
     useEffect(() => {
 
         const count = userLinks.length;
@@ -70,6 +73,7 @@ function App() {
 
             <UserLinksContext.Provider value={{ userLinks, setUserLinks}} >
                 <OriginalArrayContext.Provider value={{ originalArray, setOriginalArray}} >
+                    <Loader showLoader={showLoader} />
                     <Flash />
 
                     <div id="upgrade_popup">
@@ -116,16 +120,16 @@ function App() {
                                         setCompletedCrop={setCompletedCrop}
                                         fileName={fileName}
                                         setFileName={setFileName}
+                                        setShowLoader={setShowLoader}
                                     />
 
                                     <PageProfile
                                         profileRef={profileRef}
                                         completedProfileCrop={completedProfileCrop}
-                                        setCompletedProfileCrop={
-                                            setCompletedProfileCrop
-                                        }
+                                        setCompletedProfileCrop={setCompletedProfileCrop}
                                         profileFileName={profileFileName}
                                         setProfileFileName={setProfileFileName}
+                                        setShowLoader={setShowLoader}
                                     />
 
                                     <PageTitle />
@@ -173,6 +177,7 @@ function App() {
                                         userSub={userSub}
                                         customIconArray={customIconArray}
                                         setCustomIconArray={setCustomIconArray}
+                                        setShowLoader={setShowLoader}
                                     />
                                 ) : (
                                     ""

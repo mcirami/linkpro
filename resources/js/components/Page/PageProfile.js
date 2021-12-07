@@ -11,7 +11,7 @@ import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
 import {profileImage} from '../../Services/PageRequests';
 
-const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop, profileFileName, setProfileFileName}) => {
+const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop, profileFileName, setProfileFileName, setShowLoader}) => {
 
     const { pageSettings, setPageSettings } = useContext(PageContext);
     const [previousImage, setPreviousImage] = useState(pageSettings['profile_img']);
@@ -121,6 +121,7 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
 
     const fileUpload = (image) => {
 
+        setShowLoader(true);
         window.Vapor.store(
             image,
             {
@@ -140,6 +141,7 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
 
             profileImage(packets, pageSettings["id"], pageSettings["default"])
             .then((data) => {
+                setShowLoader(false);
                 if (data.success) {
                     setProfileFileName("")
                     setUpImg("")
