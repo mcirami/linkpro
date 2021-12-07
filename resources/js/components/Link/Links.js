@@ -107,13 +107,33 @@ const Links = ({
     });
 
     const getColHeight = useCallback(() => {
+        const windowWidth = window.outerWidth;
         const iconCol = document.querySelectorAll('.icons_wrap.add_icons .icon_col');
         let colHeight;
+        const offsetHeight = iconCol[0].clientHeight;
 
         if (initialRender.current) {
-            colHeight = iconCol[0].offsetHeight + 60;
+            if (windowWidth > 1500) {
+                colHeight = 230;
+            } else if (windowWidth > 1300) {
+                colHeight = (windowWidth/2) * .30 + 10;
+            } else if (windowWidth > 1200) {
+                colHeight = (windowWidth/2) * .30 + 20;
+            } else if (windowWidth > 1100) {
+                colHeight = (windowWidth/2) * .30 + 30;
+            } else if (windowWidth > 992) {
+                colHeight = (windowWidth/2) * .30 + 40;
+            } else if (windowWidth > 815) {
+                colHeight = (windowWidth/2) * .45 + 40;
+            } else if (windowWidth > 600) {
+                colHeight = (windowWidth/2) * .45 + 50;
+            } else if (windowWidth > 500) {
+                colHeight = (windowWidth/2) * .45 + 55;
+            } else {
+                colHeight = (windowWidth/2) * .45 + 60;
+            }
         } else {
-            colHeight = iconCol[0].clientHeight - 15;
+            colHeight = offsetHeight - 15;
         }
 
         return colHeight;
