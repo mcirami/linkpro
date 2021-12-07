@@ -1,5 +1,6 @@
 import axios from 'axios';
 import EventBus from '../Utils/Bus';
+import {icons} from './IconObjects';
 
 /**
  * Submit a request to add a new link
@@ -164,31 +165,61 @@ export const deleteLink = (packets, itemID) => {
     });
 }
 
-export const checkURL = (url, name) => {
+export const checkURL = (url, name, custom, subStatus) => {
 
-    /*if( url.toLowerCase().includes(name.toLowerCase()) ) {*/
-        let returnURL = null;
+    console.log(subStatus);
+    if (custom) {
 
-        if (url) {
-            if (url.includes('https://')) {
-                returnURL = url;
+        return checkForHttp(url);
+
+    } else {
+
+        let icon = icons.find(icon => icon.name === name);
+
+        if (icon && icon.required_in_url && subStatus) {
+            if (url.toLowerCase().includes(icon.required_in_url)) {
+
+                const returnURL = checkForHttp(url);
+
+                return {
+                    success: true,
+                    url: returnURL
+                }
+
             } else {
-                returnURL = 'https://' + url;
+
+                EventBus.dispatch("error",
+                    {message: "URL does not match Icon selected"});
+
+                return {
+                    success: false,
+                }
+            }
+        } else {
+            const returnURL = checkForHttp(url);
+
+            return {
+                success: true,
+                url: returnURL
             }
         }
+    }
+}
 
-        return {
-            success : true,
-            url : returnURL
+const checkForHttp = (url) => {
+
+    let returnURL = null;
+
+    if (url) {
+        if (url.includes('https://')) {
+            returnURL = url;
+        } else {
+            returnURL = 'https://' + url;
         }
-   /* } else {
+    }
 
-        EventBus.dispatch("error", { message: "URL does not match Icon selected" });
+    return returnURL;
 
-        return {
-            success : false,
-        }
-    }*/
 }
 
 export default addLink;

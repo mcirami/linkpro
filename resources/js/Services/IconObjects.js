@@ -8,7 +8,7 @@ export const icons = [
         "required_in_url": null,
     },
     {
-        "name" : "AppleMusic",
+        "name" : "Apple Music",
         "required_in_url": "music.apple",
     },
     {
@@ -144,7 +144,7 @@ export const icons = [
         "required_in_url": "messenger",
     },
     {
-        "name" : "MicrosoftTeams",
+        "name" : "MicrosftTeams",
         "required_in_url": null,
     },
     {

@@ -180,7 +180,7 @@ const SubmitForm = ({
 
         } else {
 
-            const data = checkURL(currentLink.url, currentLink.name);
+            const data = checkURL(currentLink.url, currentLink.name, null, subStatus);
             let URL;
 
             if (data["success"]) {
@@ -266,7 +266,7 @@ const SubmitForm = ({
             }
         ).then(response => {
 
-            const URL = checkURL(currentLink.url, currentLink.name);
+            const URL = checkURL(currentLink.url, null, true);
 
             const packets = {
                 name: currentLink.name || null,
