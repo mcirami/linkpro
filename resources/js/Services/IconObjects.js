@@ -128,7 +128,7 @@ export const icons = [
         "required_in_url": "life360",
     },
     {
-        "name" : "Linkedin",
+        "name" : "LinkedIn",
         "required_in_url": "linkedin",
     },
     {

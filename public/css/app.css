@@ -13321,7 +13321,7 @@ header.guest_header .col.right {
   margin: 0;
 }
 #links_page .links_col .links_wrap .inner_content.live_page .profile_content {
-  padding: 10px 20px;
+  padding: 10px 20px 20px;
 }
 #links_page .links_col .links_wrap .inner_content.live_page .page_header {
   padding: 25%;

@@ -167,7 +167,6 @@ export const deleteLink = (packets, itemID) => {
 
 export const checkURL = (url, name, custom, subStatus) => {
 
-    console.log(subStatus);
     if (custom) {
 
         return checkForHttp(url);
@@ -210,12 +209,10 @@ const checkForHttp = (url) => {
 
     let returnURL = null;
 
-    if (url) {
-        if (url.includes('https://')) {
-            returnURL = url;
-        } else {
-            returnURL = 'https://' + url;
-        }
+    if (url.includes('https://')) {
+        returnURL = url;
+    } else {
+        returnURL = 'https://' + url;
     }
 
     return returnURL;

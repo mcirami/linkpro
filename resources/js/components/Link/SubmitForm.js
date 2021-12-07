@@ -179,9 +179,17 @@ const SubmitForm = ({
             );
 
         } else {
+            let URL = currentLink.url;
+            let data;
 
-            const data = checkURL(currentLink.url, currentLink.name, null, subStatus);
-            let URL;
+            if (URL) {
+                 data = checkURL(URL, currentLink.name, null, subStatus);
+            } else {
+                data = {
+                    success: true,
+                    url: URL
+                }
+            }
 
             if (data["success"]) {
 
