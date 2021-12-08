@@ -1,4 +1,4 @@
-@component('mail::message', ['id' => $data['userID'], 'url' => $data['siteUrl']])
+@component('mail::message', ['id' => $data['userID']])
 # Congrats on going {{ $data["plan"] }}!
 
 @if ($data["plan"] == "PRO")
@@ -57,7 +57,7 @@ Password Protected option for each link!
 <br>
 Use the password protected link feature to run promotion, give special users access to coupons locked behind pass codes, and so much more! The sky is the limit! Use your imagination to get the most out of this super cool feature!
 @endif
-@component('mail::button', ['url' => $data['siteUrl'] . "/login" ])
+@component('mail::button', ['url' => config('app.url') . "/login" ])
     Login Now
 @endcomponent
 To Your Success!<br>

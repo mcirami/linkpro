@@ -18,8 +18,12 @@ export const addPage = (packets) => {
 
     ).catch(error => {
         if (error.response) {
-            EventBus.dispatch("error", { message: error.response.data.errors.name[0] });
-            console.log(error.response);
+            if(error.response.data.errors.name) {
+                EventBus.dispatch("error", { message: error.response.data.errors.name[0] });
+            } else {
+                console.log(error.response);
+            }
+
         } else {
             console.log("ERROR:: ", error);
         }

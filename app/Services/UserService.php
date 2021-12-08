@@ -218,9 +218,8 @@ class UserService {
            ];
 
            $userData = ([
-               'siteUrl' => \URL::to('/'),
                'subject' => 'You have been UnSubscribed',
-               'userID'  => $user["id"],
+               'userID'  => $user->id,
            ]);
 
            $user->notify(new NotifyAboutUnsubscribe($userData));

@@ -1,19 +1,19 @@
-@component('mail::message', ['id' => $data['userID'], 'url' => $data['siteUrl']])
+@component('mail::message', ['id' => $data['userID']])
 # Hey there fellow LinkPro Icon!
 <br>
 We don’t want to bug you but we noticed you haven’t published any of your social links in your account. Need some help? Follow the link below to learn the process!
 <br>
-<a href="{{ $data['siteUrl'] }}/setup">{{ $data['siteUrl'] }}/setup</a>
+<a href="{{ config('app.url') }}/setup">{{ config('app.url') }}/setup</a>
 <br>
 <br>
 To refresh your memory, here are your account details:
 <br>
 <p class="username">Username: <span>{{ $data['username'] }}</span></p>
-<p>Link: <a href="{{ $data['siteUrl'] }}/{{ $data['link'] }}">{{ $data['siteUrl'] }}/{{ $data['link'] }}</a></p>
+<p>Link: <a href="{{ config('app.url') }}/{{ $data['link'] }}">{{ config('app.url') }}/{{ $data['link'] }}</a></p>
 
 Happy page building!
 
-@component('mail::button', ['url' => $data['siteUrl'] . "/login" ])
+@component('mail::button', ['url' => config('app.url') . "/login" ])
     Login Now
 @endcomponent
 

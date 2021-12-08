@@ -178,7 +178,6 @@ class SubscriptionService {
                 if ($this->user->email_subscription) {
 
                     $userData = ( [
-                        'siteUrl' => \URL::to( '/' ),
                         'plan'    => $plan,
                         'userID'  => $this->user->id,
                     ] );
@@ -257,7 +256,6 @@ class SubscriptionService {
                 if ($this->user->email_subscription) {
 
                     $userData = ( [
-                        'siteUrl' => \URL::to( '/' ),
                         'plan'    => 'Premier',
                         'userID'  => $this->user->id,
                     ] );
@@ -376,7 +374,6 @@ class SubscriptionService {
             if ($this->user->email_subscription) {
 
                 $userData = ( [
-                    'siteUrl'  => \URL::to( '/' ),
                     'end_date' => $endDateMail,
                     'userID'   => $this->user->id,
                 ] );
@@ -486,7 +483,6 @@ class SubscriptionService {
             if ($this->user->email_subscription) {
 
                 $userData = ( [
-                    'siteUrl' => \URL::to( '/' ),
                     'userID'  => $this->user->id,
                     'username' => $this->user->username,
                     'link' => $this->getDefaultUserPage($this->user)[0],

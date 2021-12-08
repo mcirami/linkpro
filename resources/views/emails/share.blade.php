@@ -1,11 +1,11 @@
-@component('mail::message', ['id' => $data['userID'], 'url' => $data['siteUrl']])
+@component('mail::message', ['id' => $data['userID']])
 # Heya {{ $data['username'] }}!
 
 Are you taking advantage of the cool new link you created? <br>Make sure to post your unique LinkPro link:
 <br>
-<p><a href="{{ $data['siteUrl'] }}/{{ $data['link'] }}">{{ $data['siteUrl'] }}/{{ $data['link'] }}</a></p>
+<p><a href="{{ config('app.url') }}/{{ $data['link'] }}">{{ config('app.url') }}/{{ $data['link'] }}</a></p>
 On all of your social pages.<br> Let your fans know where you are and what you are up to at all times!
-@component('mail::button', ['url' => $data['siteUrl'] . "/login" ])
+@component('mail::button', ['url' => config('app.url') . "/login" ])
     Login Now
 @endcomponent
 

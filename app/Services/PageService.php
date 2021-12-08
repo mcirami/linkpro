@@ -57,9 +57,8 @@ class PageService {
 
         if(str_contains($path["url"], 'step-two')) {
             $userData = ([
-                'username' => $this->user->username,
+                'username' => $name,
                 'link' => $name,
-                'siteUrl' => \URL::to('/'),
                 'userID'  => $this->user->id,
             ]);
 
@@ -67,7 +66,7 @@ class PageService {
         }
 
         if ($default) {
-            $this->user->username = $page->name;
+            $this->user->username = $name;
             $this->user->save();
         }
 
