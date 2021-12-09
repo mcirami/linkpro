@@ -19,6 +19,10 @@ use App\Http\Controllers\MailController;
 |
 */
 
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});
+
 Route::get('/', function () {
     return view('home');
 })->name('guest-home');

@@ -38,6 +38,13 @@ class Page extends Model
         return $this->hasMany(Folder::class);
     }
 
+    public function getPageCountAttribute() {
+        $user = $this->user()->get();
+        $pageCount = count(Page::where('user_id', $user[0]->id)->get());
+        return "{$pageCount}";
+    }
+
+    public $additional_attributes = ['page_count'];
     /*public function getRouteKeyName() {
         return 'name';
     }*/

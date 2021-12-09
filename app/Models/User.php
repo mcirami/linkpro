@@ -13,7 +13,7 @@ use function Illuminate\Events\queueable;
 //use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
 
-class User extends Authenticatable
+class User extends \TCG\Voyager\Models\User
 {
     use HasFactory, Notifiable, HasApiTokens; //Billable;
 
@@ -84,10 +84,4 @@ class User extends Authenticatable
     public function subscriptions() {
         return $this->hasOne(Subscription::class);
     }
-
-
-    /*public function getRouteKeyName() {
-        return 'username';
-    }*/
-
 }

@@ -7,11 +7,11 @@
     "require": {
         "php": "^7.3|^8.0",
         "braintree/braintree_php": "^6.4",
-        "doctrine/dbal": "^3.1",
+        "doctrine/dbal": "^2.5",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.3",
-        "intervention/image": "^2.6",
+        "intervention/image": "^2.7",
         "laracasts/utilities": "^3.2",
         "laravel/framework": "^8.40",
         "laravel/passport": "^10.1",
@@ -20,7 +20,8 @@
         "laravel/vapor-cli": "^1.31",
         "laravel/vapor-core": "^2.16",
         "laravel/vapor-ui": "^1.4",
-        "spiral/roadrunner": "^2.4"
+        "spiral/roadrunner": "^2.4",
+        "tcg/voyager": "^1.5"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

@@ -53,4 +53,12 @@ class Link extends Model
     public function latest_visit() {
         return $this->hasOne(Visit::class)->latest();
     }
+
+    public function getLinkCountAttribute() {
+        $user = $this->user()->get();
+        $linkCount = count(Link::where('user_id', $user[0]->id)->get());
+        return "{$linkCount}";
+    }
+
+    public $additional_attributes = ['link_count'];
 }
