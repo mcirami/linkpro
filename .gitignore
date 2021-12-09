@@ -30,5 +30,6 @@ composer-setup.php
 Makefile
 cron.log
 .vapor/
+vapor.yml
 .env.production
 .env.staging
