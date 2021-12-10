@@ -15,6 +15,14 @@ environments:
             - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
             - 'php artisan event:cache'
             - 'npm ci && npm run prod && rm -rf node_modules'
+            - 'composer update'
+            - 'composer require tcg/voyager'
+            - 'php artisan voyager:install'
+        deploy:
+            - 'php artisan vendor:publish --provider="TCG\Voyager\VoyagerServiceProvider"'
+            - 'php artisan vendor:publish --provider="Intervention\Image\ImageServiceProviderLaravelRecent"'
+            - 'php artisan migrate --force'
+            - 'php artisan db:seed --class=VoyagerDatabaseSeeder'
     staging:
         storage: lp-staging-user-images
         memory: 1024

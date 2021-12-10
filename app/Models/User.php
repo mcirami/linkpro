@@ -29,7 +29,8 @@ class User extends \TCG\Voyager\Models\User
         'pm_last_four',
         'pm_type',
         'braintree_id',
-        'email_subscription'
+        'email_subscription',
+        'referral'
     ];
 
     /**

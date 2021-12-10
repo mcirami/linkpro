@@ -8,6 +8,7 @@ use App\Models\Page;
 use App\Notifications\WelcomeNotification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -27,6 +28,18 @@ class PageService {
         $this->user = Auth::user();
 
         return $this->user;
+    }
+
+    public function showPage($page) {
+
+        $expire = 6 * 30 * 86400;
+        Cookie::queue('lp_page_referral', $page->name, $expire);
+
+        $links = $page->links()
+                      ->orderBy('position', 'asc')
+                      ->get();
+
+        return $links;
     }
 
     /**

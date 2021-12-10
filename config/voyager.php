@@ -55,7 +55,7 @@ return [
     */
 
     'storage' => [
-        'disk' => 'public',
+        'disk' => 's3',
     ],
 
     /*
@@ -181,13 +181,13 @@ return [
     |
     */
 
-    'primary_color' => '#424fcf',
+    'primary_color' => '#ffffff',
 
     'show_dev_tips' => true, // Show development tip "How To Use:" in Menu and Settings
 
     // Here you can specify additional assets you would like to be included in the master.blade
     'additional_css' => [
-        //'css/custom.css',
+        'css/admin.css',
     ],
 
     'additional_js' => [

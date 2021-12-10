@@ -19,26 +19,23 @@ class PageController extends Controller
 
     use UserTrait;
 
-    public function show(Page $page) {
+    public function show(PageService $pageService, Page $page) {
 
-        if ($page->disabled) {
+        if ($page->disabled || !$page->active) {
             return abort(404);
         }
+
+        $links = $pageService->showPage($page);
 
         $value = session('authorized');
 
         if($page->custom) {
-
             return view('pages.custom.' . $page->name, [
                 'page'  => $page,
                 'authorized' => $value,
             ]);
 
         } else {
-            $links = $page->links()
-                          ->orderBy('position', 'asc')
-                          ->get();
-
             return view('pages.show', [
                 'links' => $links,
                 'page'  => $page,

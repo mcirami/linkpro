@@ -33,3 +33,5 @@ cron.log
 vapor.yml
 .env.production
 .env.staging
+production.Dockerfile
+staging.Dockerfile

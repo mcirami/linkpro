@@ -8,6 +8,7 @@ use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -65,10 +66,12 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $cookie = Cookie::get('lp_page_referral');
         $user = User::create([
             'username' => $data['email'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'referral' => $cookie ?? null,
         ]);
 
         return $user;
