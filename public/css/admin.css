@@ -1,3 +1,7 @@
 .app-container.expanded .content-container .side-menu .navbar-header .navbar-brand .title {
     color: #000;
 }
+
+.voyager .breadcrumb a {
+    color: #000;
+}
