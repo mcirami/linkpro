@@ -21,7 +21,7 @@ class PageController extends Controller
 
     public function show(PageService $pageService, Page $page) {
 
-        if ($page->disabled || !$page->active) {
+        if ($page->disabled) {
             return abort(404);
         }
 
