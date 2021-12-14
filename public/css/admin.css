@@ -80,3 +80,19 @@
 .view_users .panel-body a:hover {
     text-decoration: underline;
 }
+
+.btn.btn-primary, .btn.btn-info {
+    background: #424fcf !important;
+}
+
+.btn.btn-primary:hover, .btn.btn-info:hover {
+    background: #2b37ab;
+}
+
+.paginate_button.active a {
+    background-color: #424fcf !important;
+}
+
+.voyager .side-menu .navbar-header {
+    background: #fff;
+}

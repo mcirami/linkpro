@@ -3,7 +3,7 @@ name: linkpro
 dot-files-as-assets: true
 environments:
     production:
-        warm: 10
+        warm: 5
         domain: link.pro
         storage: lp-production-images
         memory: 1024
