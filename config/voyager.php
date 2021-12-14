@@ -144,7 +144,7 @@ return [
         ],
 
         'widgets' => [
-            'TCG\\Voyager\\Widgets\\UserDimmer',
+            /*'TCG\\Voyager\\Widgets\\UserDimmer',*/
         ],
 
     ],
@@ -191,7 +191,7 @@ return [
     ],
 
     'additional_js' => [
-        //'js/custom.js',
+        'js/custom.js',
     ],
 
     'googlemaps' => [

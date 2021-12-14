@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Link as Link;
 use App\Models\Page as Page;
+use App\Models\Referral as Referral;
 use function Illuminate\Events\queueable;
 
 //use Laravel\Cashier\Billable;
@@ -30,7 +31,6 @@ class User extends \TCG\Voyager\Models\User
         'pm_type',
         'braintree_id',
         'email_subscription',
-        'referral'
     ];
 
     /**
@@ -60,10 +60,6 @@ class User extends \TCG\Voyager\Models\User
      */
     protected static function booted()
     {
-        /*static::updated(queueable(function ($customer) {
-            $customer->syncStripeCustomerDetails();
-        }));*/
-
     }
 
     public function pages(){
@@ -85,4 +81,16 @@ class User extends \TCG\Voyager\Models\User
     public function subscriptions() {
         return $this->hasOne(Subscription::class);
     }
+
+    public function referrals(){
+        return $this->hasMany(Referral::class);
+    }
+
+    public function getReferralCountAttribute() {
+        $user = $this->id;
+        $referralCount = count(Referral::where('user_id', $user)->get());
+        return "{$referralCount}";
+    }
+
+    public $additional_attributes = ['referral_count'];
 }
