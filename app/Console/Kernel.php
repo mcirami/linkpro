@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\EmailInactiveUsers;
 use App\Console\Commands\EmailSocialShare;
+use App\Console\Commands\EmailFreeTrialCode;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -17,6 +18,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         EmailInactiveUsers::class,
         EmailSocialShare::class,
+        EmailFreeTrialCode::class,
     ];
 
     /**
@@ -29,15 +31,21 @@ class Kernel extends ConsoleKernel
     {
         //$schedule->command('inspire')->hourly();
         $schedule->command('emails:EmailInactiveUsers')
-            ->dailyAt('10:30')
+            ->timezone('America/New_York')
+            //->dailyAt('7:00')
+            ->everyMinute()
             ->emailOutputTo('mcirami@gmail.com');
 
         $schedule->command('emails:EmailSocialShare')
-                 ->dailyAt('11:00')
+                 ->timezone('America/New_York')
+                 //->dailyAt('7:15')
+                 ->everyMinute()
                  ->emailOutputTo('mcirami@gmail.com');
 
-        $schedule->command('emails:EmailFreeTrial')
-                 ->dailyAt('11:30')
+        $schedule->command('emails:EmailFreeTrialCode')
+                 ->timezone('America/New_York')
+                 ->everyMinute()
+                 //->dailyAt('7:30')
                  ->emailOutputTo('mcirami@gmail.com');
     }
 

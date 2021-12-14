@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Subscription;
 use App\Models\User;
 use App\Notifications\NotifyAboutFreeTrial;
 use Carbon\Carbon;
@@ -14,7 +15,7 @@ class EmailFreeTrialCode extends Command
      *
      * @var string
      */
-    protected $signature = 'emails:EmailFreeTrial';
+    protected $signature = 'emails:EmailFreeTrialCode';
 
     /**
      * The console command description.
@@ -46,20 +47,22 @@ class EmailFreeTrialCode extends Command
         $now = Carbon::now();
         $users = User::whereBetween('created_at', [$eightDays, $sevenDays])->get();
 
-        foreach ($users as $user) {
+        if (!empty($users) ) {
+            foreach ( $users as $user ) {
 
-            $created = Carbon::parse($user->created_at);
-            $diff = $created->diffInDays($now);
+                $created = Carbon::parse( $user->created_at );
+                $diff    = $created->diffInDays( $now );
 
-            if ($diff === 7 && empty($user->subscriptions->get()) ) {
-                //$page = $user->pages()->firstWhere( 'user_id', $user->id );
+                if ( $diff === 7 && !$user->subscription) {
+                    //$page = $user->pages()->firstWhere( 'user_id', $user->id );
 
-                $userData = ( [
-                    'username' => $user->username,
-                    'userID'  => $user->id,
-                ] );
+                    $userData = ( [
+                        'username' => $user->username,
+                        'userID'   => $user->id,
+                    ] );
 
-                $user->notify( new NotifyAboutFreeTrial( $userData ) );
+                    $user->notify( new NotifyAboutFreeTrial( $userData ) );
+                }
             }
         }
 

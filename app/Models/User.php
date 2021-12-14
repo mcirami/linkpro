@@ -11,12 +11,11 @@ use App\Models\Page as Page;
 use App\Models\Referral as Referral;
 use function Illuminate\Events\queueable;
 
-//use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
 
 class User extends \TCG\Voyager\Models\User
 {
-    use HasFactory, Notifiable, HasApiTokens; //Billable;
+    use HasFactory, Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
