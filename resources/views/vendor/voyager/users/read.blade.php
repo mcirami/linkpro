@@ -79,15 +79,19 @@
                                         <div class="content_wrap">
                                             <h3>Users Referred</h3>
                                             @php $referrals = \App\Models\Referral::where('user_id', $dataTypeContent["id"])->get(); @endphp
-                                            @if (!empty($referrals))
+
+                                            @if ($referrals->isNotEmpty())
                                                 <ul>
                                                     @foreach($referrals as $referral)
-                                                        @php $username = \App\Models\User::where('id', $referral->referral_id)->get()->pluck('username') @endphp
+                                                        {{--{{$referral->referral_id}}
+                                                        @php $username = \App\Models\User::where('id', $referral->referral_id)->get()->pluck('username') @endphp--}}
                                                         <li>
-                                                            <p>{{ $username[0] }}</p>
+                                                            <p>{{ $referral->referral_id }}</p>
                                                         </li>
                                                     @endforeach
                                                 </ul>
+                                            @else
+                                                <p>No Referrals</p>
                                             @endif
                                         </div>
                                     </div>

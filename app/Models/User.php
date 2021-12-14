@@ -85,12 +85,4 @@ class User extends \TCG\Voyager\Models\User
     public function referrals(){
         return $this->hasMany(Referral::class);
     }
-
-    public function getReferralCountAttribute() {
-        $user = $this->id;
-        $referralCount = count(Referral::where('user_id', $user)->get());
-        return "{$referralCount}";
-    }
-
-    public $additional_attributes = ['referral_count'];
 }

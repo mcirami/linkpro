@@ -144,7 +144,9 @@ return [
         ],
 
         'widgets' => [
-            /*'TCG\\Voyager\\Widgets\\UserDimmer',*/
+            'TCG\\Voyager\\Widgets\\UserDimmer',
+            'TCG\\Voyager\\Widgets\\SubscriptionDimmer',
+            'TCG\\Voyager\\Widgets\\ReferralDimmer',
         ],
 
     ],
