@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Mail\WelcomeMail;
+use App\Models\Subscription;
 use App\Models\User;
 use App\Notifications\NotifyAboutCancelation;
 use App\Notifications\NotifyAboutFreeTrial;
@@ -26,13 +27,15 @@ class MailController extends Controller
             ->markdown('emails.share', ['data' => ['username' => 'mcirami', 'link' => 'mcirmai5', 'siteUrl' => 'http://0.0.0.0', 'plan' => 'Premier', 'billingDate' => null, 'userID' => 5] ]);
         *///return new WelcomeMail();
 
-        $user = Auth::user();
+        $user = User::where('id', 8)->get();
+        $sub = Subscription::where('user_id', $user[0]->id)->get();
+        $date = date_create($sub[0]->ends_at)->format( 'F j, Y' );
 
-        $userData = ( [
-            'plan'    => 'Premier',
-            'userID'  => $user->id,
-        ] );
+        $userData = ([
+            'end_date'    => $date,
+            'userID'  => $user[0]->id,
+        ]);
 
-        $user->notify( new NotifyAboutUpgrade( $userData ) );
+        $user[0]->notify( new NotifyAboutCancelation( $userData ) );
     }
 }

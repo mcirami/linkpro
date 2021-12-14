@@ -359,7 +359,7 @@ class SubscriptionService {
 
             if ($result->subscription->billingPeriodEndDate) {
                 $endDateDB = $result->subscription->billingPeriodEndDate;
-                $endDateMail = $result->subscription->billingPeriodEndDate;
+                $endDateMail = $result->subscription->billingPeriodEndDate->format( 'F j, Y' );
             } else {
                 $time = $result->subscription->nextBillingDate->sub(new \DateInterval('P1D'));
                 $endDateDB = $time->format('Y-m-d H:i:s');
