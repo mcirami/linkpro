@@ -23,7 +23,7 @@ services:
             - meilisearch
             - selenium
     mysql:
-        image: 'mysql:5.7'
+        image: 'mysql:8.0.26'
         ports:
             - '${FORWARD_DB_PORT:-3306}:3306'
         environment:

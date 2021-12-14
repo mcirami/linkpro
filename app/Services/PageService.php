@@ -33,7 +33,7 @@ class PageService {
     public function showPage($page) {
 
         $expire = 6 * 30 * 86400;
-        Cookie::queue('lp_page_referral', $page->name, $expire);
+        Cookie::queue('lp_page_referral', $page->user_id, $expire);
 
         $links = $page->links()
                       ->orderBy('position', 'asc')

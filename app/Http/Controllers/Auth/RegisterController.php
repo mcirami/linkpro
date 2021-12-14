@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Referral;
 use App\Notifications\WelcomeNotification;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
@@ -71,8 +72,14 @@ class RegisterController extends Controller
             'username' => $data['email'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'referral' => $cookie ?? null,
         ]);
+
+        if($cookie) {
+            Referral::create([
+                'user_id' => $cookie,
+                'referral_id' => $user->id
+            ]);
+        }
 
         return $user;
     }
