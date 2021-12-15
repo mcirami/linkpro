@@ -10,11 +10,13 @@ class Link extends Model
     use HasFactory;
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that are not mass assignable.
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $guarded = [
+        'active_status'
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -31,7 +33,6 @@ class Link extends Model
         'phone',
         'icon',
         'position',
-        'active_status'
     ];
 
     public function user() {
@@ -46,12 +47,8 @@ class Link extends Model
         return $this->belongsTo(Folder::class);
     }
 
-    public function visits() {
-        return $this->hasMany(Visit::class);
-    }
-
-    public function latest_visit() {
-        return $this->hasOne(Visit::class)->latest();
+    public function linkVisits() {
+        return $this->hasMany(LinkVisit::class);
     }
 
     public function getLinkCountAttribute() {

@@ -28,7 +28,6 @@ class LinkService {
             'icon' => null,
             'page_id' => $request->id,
             'position' => $position,
-            'active_status' => 1
         ]);
 
         return $link;

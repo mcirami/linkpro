@@ -241,4 +241,29 @@ jQuery(document).ready(function($) {
             })
         });
     }
+
+    const linkTrackers = document.querySelectorAll('.link_tracker');
+
+    if (linkTrackers.length > 0) {
+
+        linkTrackers.forEach((link) => {
+            link.addEventListener('click', function(e) {
+                const linkID = this.dataset.id;
+
+                axios.post('/link-click/' + linkID, ).then(
+                    (response) => {
+                        console.log(JSON.stringify(response.data.message));
+                    },
+
+                ).catch(error => {
+                    if (error.response) {
+                        console.log(error.response);
+                    } else {
+                        console.log("ERROR:: ", error);
+                    }
+                });
+            })
+        })
+    }
+
 });

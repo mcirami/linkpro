@@ -6,12 +6,9 @@ namespace App\Services;
 
 use App\Models\Page;
 use App\Notifications\WelcomeNotification;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
 use App\Http\Traits\UserTrait;
 
@@ -34,6 +31,8 @@ class PageService {
 
         $expire = 6 * 30 * 86400;
         Cookie::queue('lp_page_referral', $page->user_id, $expire);
+
+        $page->pageVisits()->create();
 
         $links = $page->links()
                       ->orderBy('position', 'asc')
@@ -130,8 +129,6 @@ class PageService {
         }
 
         $links = Auth::user()->links()->where('page_id', $page["id"])
-                     ->withCount('visits')
-                     ->with('latest_visit')
                      ->orderBy('position', 'asc')
                      ->get();
 

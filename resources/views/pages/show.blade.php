@@ -50,7 +50,7 @@
                                               @php $source = $link->url @endphp
                                             @endif
 
-                                            <a href="{{ $source ? : 'https://link.pro' }}"
+                                            <a class="link_tracker" data-id="{{$link->id}}" href="{{ $source ? : '#' }}"
                                                target="_blank"
                                                rel="nofollow"
                                             >

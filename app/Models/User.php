@@ -29,6 +29,14 @@ class User extends \TCG\Voyager\Models\User
         'pm_last_four',
         'pm_type',
         'braintree_id',
+    ];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [
         'email_subscription',
     ];
 
@@ -51,16 +59,6 @@ class User extends \TCG\Voyager\Models\User
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * The "booted" method of the model.
-     *
-     * @return void
-     * @noinspection PhpParamsInspection
-     */
-    protected static function booted()
-    {
-    }
-
     public function pages(){
         return $this->hasMany(Page::class);
     }
@@ -73,8 +71,12 @@ class User extends \TCG\Voyager\Models\User
         return $this->hasMany(Folder::class);
     }
 
-    public function visits() {
-        return $this->hasManyThrough(Visit::class, Link::class);
+    public function linkVisits() {
+        return $this->hasManyThrough(LinkVisit::class, Link::class);
+    }
+
+    public function pageVisits() {
+        return $this->hasManyThrough(PageVisit::class, Page::class);
     }
 
     public function subscriptions() {
