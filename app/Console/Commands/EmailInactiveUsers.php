@@ -59,7 +59,9 @@ class EmailInactiveUsers extends Command
                     'userID'  => $user->id,
                 ]);
 
-                $user->notify(new NotifyInactiveUser($userData));
+                if ($user->email_subscription) {
+                    $user->notify( new NotifyInactiveUser( $userData ) );
+                }
             }
         }
 

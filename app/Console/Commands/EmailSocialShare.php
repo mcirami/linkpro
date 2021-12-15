@@ -60,7 +60,9 @@ class EmailSocialShare extends Command
                     'userID'  => $user->id,
                 ] );
 
-                $user->notify( new NotifyAboutSocialShare( $userData ) );
+                if ($user->email_subscription) {
+                    $user->notify( new NotifyAboutSocialShare( $userData ) );
+                }
             }
         }
 

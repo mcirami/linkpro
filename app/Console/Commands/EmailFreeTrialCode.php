@@ -61,7 +61,9 @@ class EmailFreeTrialCode extends Command
                         'userID'   => $user->id,
                     ] );
 
-                    $user->notify( new NotifyAboutFreeTrial( $userData ) );
+                    if ($user->email_subscription) {
+                        $user->notify( new NotifyAboutFreeTrial( $userData ) );
+                    }
                 }
             }
         }
