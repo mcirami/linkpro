@@ -11755,7 +11755,7 @@ button {
 }
 @media all and (max-width: 768px) {
   .nav_row ul li {
-    margin-bottom: 20px;
+    width: 100%;
     margin-right: 0;
   }
 }
@@ -11788,21 +11788,16 @@ button {
 .nav_row ul li.dropdown a {
   color: #424fcf !important;
 }
-.nav_row ul li .hover_border {
-  width: 0;
-  height: 4px;
-  align-self: flex-start;
-  -webkit-align-self: flex-start;
-  background: #424fcf;
-  transition: 0.5s width linear;
-  margin-top: 4px;
-}
 .nav_row ul li a {
   font-family: "opensanssemibold", sans-serif;
   font-size: 18px;
+  /*&:not(.button) {
+      padding-top: 4px;
+  }*/
 }
-.nav_row ul li a:not(.button) {
-  padding-top: 4px;
+.nav_row ul li a.current {
+  background: #424fcf;
+  color: #ffffff !important;
 }
 .nav_row ul li a.button {
   font-size: 16px;
@@ -11813,14 +11808,6 @@ button {
     font-size: 14px;
   }
 }
-.nav_row ul li a:hover .hover_border {
-  width: 100%;
-  transition: 0.4s width linear;
-}
-.nav_row ul li a.current .hover_border {
-  width: 100%;
-  transition: 0.4s width linear;
-}
 @media all and (max-width: 992px) {
   .nav_row ul li a {
     font-size: 16px;
@@ -11829,6 +11816,10 @@ button {
 @media all and (max-width: 768px) {
   .nav_row ul li a {
     font-size: 24px;
+    width: 100%;
+    display: block;
+    padding: 15px 0;
+    text-align: center;
   }
 }
 .nav_row ul li a.dropdown-item {
@@ -15154,6 +15145,10 @@ form .bottom_row a {
   margin-right: 10.5% !important;
 }
 
+.my_row.form_page.stats .card {
+  max-width: 850px;
+}
+
 #stats_page #stats {
   display: flex;
   flex-direction: row;
@@ -15216,6 +15211,16 @@ form .bottom_row a {
 }
 #stats_page .stats_wrap .my_row.filter .react-datepicker-wrapper input {
   width: 100%;
+}
+#stats_page .stats_wrap .my_row.filter .react-datepicker-wrapper .react-datepicker__input-container:after {
+  content: "";
+  background: url(/images/icon-calendar.png?9ddc4cbae1b3358c39cc42f9dbd5da2d) no-repeat;
+  background-size: 100%;
+  position: absolute;
+  width: 20px;
+  height: 24px;
+  right: 15px;
+  top: 10px;
 }
 #stats_page .stats_wrap .my_row.filter .react-datepicker__day--selected, #stats_page .stats_wrap .my_row.filter .react-datepicker__day--in-selecting-range, #stats_page .stats_wrap .my_row.filter .react-datepicker__day--in-range, #stats_page .stats_wrap .my_row.filter .react-datepicker__month-text--selected, #stats_page .stats_wrap .my_row.filter .react-datepicker__month-text--in-selecting-range, #stats_page .stats_wrap .my_row.filter .react-datepicker__month-text--in-range, #stats_page .stats_wrap .my_row.filter .react-datepicker__quarter-text--selected, #stats_page .stats_wrap .my_row.filter .react-datepicker__quarter-text--in-selecting-range, #stats_page .stats_wrap .my_row.filter .react-datepicker__quarter-text--in-range, #stats_page .stats_wrap .my_row.filter .react-datepicker__year-text--selected, #stats_page .stats_wrap .my_row.filter .react-datepicker__year-text--in-selecting-range, #stats_page .stats_wrap .my_row.filter .react-datepicker__year-text--in-range, #stats_page .stats_wrap .my_row.filter .react-datepicker__day--keyboard-selected, #stats_page .stats_wrap .my_row.filter .react-datepicker__month-text--keyboard-selected, #stats_page .stats_wrap .my_row.filter .react-datepicker__quarter-text--keyboard-selected, #stats_page .stats_wrap .my_row.filter .react-datepicker__year-text--keyboard-selected {
   background-color: #424fcf;

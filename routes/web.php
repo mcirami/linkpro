@@ -80,7 +80,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/stats/page/range', [TrackingController::class, 'getPageStatsRange']);
     Route::post('/stats/page/dropdown', [TrackingController::class, 'getPageStatsDropdown']);
     Route::get('/stats/get', [TrackingController::class, 'getStats']);
-    Route::get('/stats', [TrackingController::class, 'show']);
+    Route::get('/stats', [TrackingController::class, 'show'])->name('stats');
 
 });
 

@@ -1,3 +1,7 @@
+.my_row.form_page.stats .card {
+    max-width: 850px
+}
+
 #stats_page {
 
     #stats {
@@ -83,6 +87,17 @@
 
                 input {
                     width: 100%;
+                }
+
+                .react-datepicker__input-container:after {
+                    content: '';
+                    background: url('../../../public/images/icon-calendar.png') no-repeat;
+                    background-size: 100%;
+                    position: absolute;
+                    width: 20px;
+                    height: 24px;
+                    right: 15px;
+                    top: 10px;
                 }
             }
 

@@ -155,7 +155,7 @@
             }
 
             @media all and (max-width: 768px) {
-                margin-bottom: 20px;
+                width: 100%;
                 margin-right: 0;
             }
 
@@ -194,23 +194,18 @@
                 }
             }
 
-            .hover_border {
-                width: 0;
-                height: 4px;
-                align-self: flex-start;
-                -webkit-align-self: flex-start;
-                background: $blue;
-                transition: .5s width linear;
-                margin-top: 4px;
-            }
-
             a {
                 @include ossemibold;
                 font-size: 18px;
 
-                &:not(.button) {
-                    padding-top: 4px;
+                &.current {
+                    background: $blue;
+                    color: $white !important;
                 }
+
+                /*&:not(.button) {
+                    padding-top: 4px;
+                }*/
 
                 &.button {
                     font-size: 16px;
@@ -221,27 +216,16 @@
                     }
                 }
 
-                &:hover {
-
-                    .hover_border {
-                        width: 100%;
-                        transition: .4s width linear;
-                    }
-                }
-
-                &.current {
-                    .hover_border {
-                        width: 100%;
-                        transition: .4s width linear;
-                    }
-                }
-
                 @media all and (max-width: 992px) {
                     font-size: 16px;
                 }
 
                 @media all and (max-width: 768px) {
                     font-size: 24px;
+                    width: 100%;
+                    display: block;
+                    padding: 15px 0;
+                    text-align:center;
                 }
 
                 &.dropdown-item {

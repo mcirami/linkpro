@@ -4,8 +4,12 @@
 
     <div class="container" id="stats_page">
 
-        <div id="stats" class="my_row"></div>
-
+        <div class="my_row form_page stats">
+            <div class="card">
+                <h2 class="page_title text-center">Stats</h2>
+                <div id="stats" class="my_row"></div>
+            </div>
+        </div>
     </div>
 
 @endsection
