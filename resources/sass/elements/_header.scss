@@ -329,6 +329,7 @@
         -moz-border-radius-topleft: 15px;
 
         p {
+            @include ossemibold;
             font-size: 18px;
             margin: 0;
             width: max-content;

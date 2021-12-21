@@ -85,6 +85,14 @@ class LinkService {
     }
 
     public function deleteLink($link) {
+
+        if ($link->icon && $link->url) {
+            $newLink = $link->replicate();
+            $newLink->setTable( 'deleted_links' );
+            $newLink->link_id = $link->id;
+            $newLink->save();
+        }
+
         $link->delete();
     }
 }

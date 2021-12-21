@@ -11897,6 +11897,7 @@ button {
   -moz-border-radius-topleft: 15px;
 }
 .page_menu_row .current_page p {
+  font-family: "opensanssemibold", sans-serif;
   font-size: 18px;
   margin: 0;
   width: -webkit-max-content;
@@ -12510,6 +12511,10 @@ header.guest_header .col.right {
 #links_page .icons_wrap.add_icons {
   padding: 0 3%;
   min-height: 800px;
+  transition: 100ms all linear;
+  -webkit-transition: 100ms all linear;
+  -moz-transition: 100ms all linear;
+  -o-transition: 100ms all linear;
 }
 @media all and (max-width: 1199px) {
   #links_page .icons_wrap.add_icons {
@@ -15147,6 +15152,122 @@ form .bottom_row a {
 }
 .my_row.folder .icons_wrap .icon_col:nth-child(4n) {
   margin-right: 10.5% !important;
+}
+
+#stats_page #stats {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+#stats_page .tabs_wrap {
+  max-width: 750px;
+  margin: 0 auto;
+  width: 100%;
+}
+#stats_page .tabs_wrap .tab_nav {
+  margin-bottom: -1px;
+  position: relative;
+}
+#stats_page .tabs_wrap a {
+  display: inline-block;
+  padding: 10px;
+  color: #000;
+}
+#stats_page .tabs_wrap a.active {
+  background: #ffffff;
+  border-top: 1px solid #d2d2d2;
+  border-left: 1px solid #d2d2d2;
+  border-right: 1px solid #d2d2d2;
+  border-top-right-radius: 10px;
+  -webkit-border-top-right-radius: 10px;
+  -moz-border-radius-topright: 10px;
+  border-top-left-radius: 10px;
+  -webkit-border-top-left-radius: 10px;
+  -moz-border-radius-topleft: 10px;
+  color: #424fcf;
+}
+#stats_page .stats_wrap {
+  background: #ffffff;
+  padding: 30px 20px;
+  border: 1px solid #d2d2d2;
+  border-top-right-radius: 10px;
+  -webkit-border-top-right-radius: 10px;
+  -moz-border-radius-topright: 10px;
+  border-bottom-left-radius: 10px;
+  -webkit-border-bottom-left-radius: 10px;
+  -moz-border-radius-bottomleft: 10px;
+  border-bottom-right-radius: 10px;
+  -webkit-border-bottom-right-radius: 10px;
+  -moz-border-radius-bottomright: 10px;
+}
+#stats_page .stats_wrap .my_row.filter {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+  margin-bottom: 20px;
+}
+#stats_page .stats_wrap .my_row.filter .column {
+  width: 31%;
+}
+#stats_page .stats_wrap .my_row.filter .column select {
+  width: 100%;
+}
+#stats_page .stats_wrap .my_row.filter .react-datepicker-wrapper input {
+  width: 100%;
+}
+#stats_page .stats_wrap .my_row.filter .react-datepicker__day--selected, #stats_page .stats_wrap .my_row.filter .react-datepicker__day--in-selecting-range, #stats_page .stats_wrap .my_row.filter .react-datepicker__day--in-range, #stats_page .stats_wrap .my_row.filter .react-datepicker__month-text--selected, #stats_page .stats_wrap .my_row.filter .react-datepicker__month-text--in-selecting-range, #stats_page .stats_wrap .my_row.filter .react-datepicker__month-text--in-range, #stats_page .stats_wrap .my_row.filter .react-datepicker__quarter-text--selected, #stats_page .stats_wrap .my_row.filter .react-datepicker__quarter-text--in-selecting-range, #stats_page .stats_wrap .my_row.filter .react-datepicker__quarter-text--in-range, #stats_page .stats_wrap .my_row.filter .react-datepicker__year-text--selected, #stats_page .stats_wrap .my_row.filter .react-datepicker__year-text--in-selecting-range, #stats_page .stats_wrap .my_row.filter .react-datepicker__year-text--in-range, #stats_page .stats_wrap .my_row.filter .react-datepicker__day--keyboard-selected, #stats_page .stats_wrap .my_row.filter .react-datepicker__month-text--keyboard-selected, #stats_page .stats_wrap .my_row.filter .react-datepicker__quarter-text--keyboard-selected, #stats_page .stats_wrap .my_row.filter .react-datepicker__year-text--keyboard-selected {
+  background-color: #424fcf;
+}
+#stats_page .stats_wrap .table_wrap {
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border: 1px solid #d2d2d2;
+  margin-bottom: 20px;
+}
+#stats_page .stats_wrap .table_wrap:last-child {
+  margin-bottom: 0;
+}
+#stats_page .stats_wrap .table {
+  text-align: center;
+  margin-bottom: 0;
+}
+#stats_page .stats_wrap .table tr:first-child td {
+  padding-top: 20px;
+}
+#stats_page .stats_wrap .table tr:last-child td {
+  padding-bottom: 20px;
+}
+#stats_page .stats_wrap .table td {
+  width: 33.33%;
+}
+#stats_page .stats_wrap .table thead {
+  background: #f4f4f4;
+}
+#stats_page .stats_wrap .table thead th {
+  padding: 15px;
+}
+#stats_page .stats_wrap .table thead th h5, #stats_page .stats_wrap .table thead th .h5 {
+  font-size: 16px;
+}
+#stats_page .stats_wrap .table img {
+  max-width: 50px;
+  border-radius: 20%;
+  -webkit-border-radius: 20%;
+  -moz-border-radius: 20%;
+}
+#stats_page .stats_wrap .table p {
+  margin: auto;
+  padding: 10px 0;
+  opacity: 1;
+  transition: 500ms all linear;
+  -moz-transition: 500ms all linear;
+  -webkit-transition: 500ms all linear;
+}
+#stats_page .stats_wrap .table p.animate.hide {
+  opacity: 0;
 }
 
 footer {

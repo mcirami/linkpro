@@ -75,6 +75,13 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::post('/link-click/{link}', [TrackingController::class, 'storeLinkVisit']);
 
+    Route::post('/stats/link/range', [TrackingController::class, 'getLinkStatsRange']);
+    Route::post('/stats/link/dropdown', [TrackingController::class, 'getLinkStatsDropdown']);
+    Route::post('/stats/page/range', [TrackingController::class, 'getPageStatsRange']);
+    Route::post('/stats/page/dropdown', [TrackingController::class, 'getPageStatsDropdown']);
+    Route::get('/stats/get', [TrackingController::class, 'getStats']);
+    Route::get('/stats', [TrackingController::class, 'show']);
+
 });
 
 Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated'], 'prefix' => 'dashboard'], function() {

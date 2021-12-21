@@ -278,6 +278,10 @@
         &.add_icons {
             padding: 0 3%;
             min-height: 800px;
+            transition: 100ms all linear;
+            -webkit-transition: 100ms all linear;
+            -moz-transition: 100ms all linear;
+            -o-transition: 100ms all linear;
 
             @media all and (max-width: 1199px) {
                 padding: 0 4%;
