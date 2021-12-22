@@ -75,8 +75,18 @@
             -webkit-justify-content: space-between;
             margin-bottom: 20px;
 
+            @media all and (max-width: 768px) {
+                -ms-flex-wrap: wrap;
+                flex-wrap: wrap;
+            }
+
             .column {
                 width: 31%;
+
+                @media all and (max-width: 768px) {
+                    width: 100%;
+                    margin-bottom: 10px;
+                }
 
                 select {
                     width: 100%;

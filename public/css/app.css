@@ -15203,8 +15203,19 @@ form .bottom_row a {
   -webkit-justify-content: space-between;
   margin-bottom: 20px;
 }
+@media all and (max-width: 768px) {
+  #stats_page .stats_wrap .my_row.filter {
+    flex-wrap: wrap;
+  }
+}
 #stats_page .stats_wrap .my_row.filter .column {
   width: 31%;
+}
+@media all and (max-width: 768px) {
+  #stats_page .stats_wrap .my_row.filter .column {
+    width: 100%;
+    margin-bottom: 10px;
+  }
 }
 #stats_page .stats_wrap .my_row.filter .column select {
   width: 100%;
