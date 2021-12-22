@@ -32,20 +32,17 @@ class Kernel extends ConsoleKernel
         //$schedule->command('inspire')->hourly();
         $schedule->command('emails:EmailInactiveUsers')
                  ->timezone('America/New_York')
-                 //->dailyAt('7:00')
-                 ->everyMinute()
+                 ->dailyAt('7:00')
                  ->emailOutputTo('mcirami@gmail.com');
 
         $schedule->command('emails:EmailSocialShare')
                  ->timezone('America/New_York')
-                 //->dailyAt('7:15')
-                 ->everyMinute()
+                 ->dailyAt('7:15')
                  ->emailOutputTo('mcirami@gmail.com');
 
         $schedule->command('emails:EmailFreeTrialCode')
                  ->timezone('America/New_York')
-                 ->everyMinute()
-                 //->dailyAt('7:30')
+                 ->dailyAt('7:30')
                  ->emailOutputTo('mcirami@gmail.com');
     }
 
