@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Notifications\NotifyAboutFreeTrial;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
+use App\Jobs\JobFreeTrialEmail;
 
 class EmailFreeTrialCode extends Command
 {
@@ -41,28 +43,33 @@ class EmailFreeTrialCode extends Command
      */
     public function handle()
     {
-
-        $sevenDays = Carbon::now()->subDays(7);
-        $eightDays = Carbon::now()->subDays(8);
-        $now = Carbon::now();
-        $users = User::whereBetween('created_at', [$eightDays, $sevenDays])->get();
+        $startDate = Carbon::now()->subDays(7)->startOfDay();
+        $endDate = Carbon::now()->subDays(7)->endOfDay();
+        $now = Carbon::now()->endOfDay();
+        $users = User::whereBetween('created_at', [$startDate, $endDate])->get();
 
         if (!empty($users) ) {
             foreach ( $users as $user ) {
 
-                $created = Carbon::parse( $user->created_at );
+                $created = Carbon::parse( $user->created_at )->startOfDay();
                 $diff    = $created->diffInDays( $now );
 
                 if ( $diff === 7 && !$user->subscription) {
                     //$page = $user->pages()->firstWhere( 'user_id', $user->id );
 
-                    $userData = ( [
-                        'username' => $user->username,
-                        'userID'   => $user->id,
-                    ] );
-
                     if ($user->email_subscription) {
-                        $user->notify( new NotifyAboutFreeTrial( $userData ) );
+                        $userData = ( [
+                            'username' => $user->username,
+                            'userID'   => $user->id,
+                        ] );
+
+                        $details = ( [
+                            "data" => $userData,
+                            "userEmail" => $user->email
+                        ]);
+                        //$user->notify( new NotifyAboutFreeTrial( $userData ) );
+
+                        JobFreeTrialEmail::dispatch($details);
                     }
                 }
             }

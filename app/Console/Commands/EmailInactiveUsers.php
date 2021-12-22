@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Notifications\NotifyInactiveUser;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use App\Jobs\JobEmailInactiveUsers;
 
 class EmailInactiveUsers extends Command
 {
@@ -39,10 +40,11 @@ class EmailInactiveUsers extends Command
      */
     public function handle()
     {
-        $min = Carbon::now()->subDays(3);
-        $max = Carbon::now()->subDays(30);
-        $users = User::whereBetween('created_at', [$max, $min])->get();
-        $now = Carbon::now();
+        $startDate = Carbon::now()->subDays(30)->startOfDay();
+        $endDate = Carbon::now()->subDays(3)->endOfDay();
+
+        $users = User::whereBetween('created_at', [$startDate, $endDate])->get();
+        $now = Carbon::now()->endOfDay();
 
         foreach ($users as $user) {
             $userLinks = $user->links()->get();
@@ -53,14 +55,19 @@ class EmailInactiveUsers extends Command
             if ($count === 1 && ($diff === 3 || $diff === 7 || $diff === 30)) {
                 $page = $user->pages()->where( 'user_id', $user->id )->where('default', true)->get();
 
-                $userData = ([
-                    'username' => $user->username,
-                    'link' => $page[0]->name,
-                    'userID'  => $user->id,
-                ]);
-
                 if ($user->email_subscription) {
-                    $user->notify( new NotifyInactiveUser( $userData ) );
+                    $userData = ([
+                        'username' => $user->username,
+                        'link' => $page[0]->name,
+                        'userID'  => $user->id,
+                    ]);
+
+                    $details = ([
+                        "data" => $userData,
+                        "userEmail" => $user->email
+                    ]);
+
+                    JobEmailInactiveUsers::dispatch($details);
                 }
             }
         }

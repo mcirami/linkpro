@@ -130,8 +130,6 @@ class PageService {
         }
 
         $links = Auth::user()->links()->where('page_id', $page["id"])
-                     ->withCount('visits')
-                     ->with('latest_visit')
                      ->orderBy('position', 'asc')
                      ->get();
 

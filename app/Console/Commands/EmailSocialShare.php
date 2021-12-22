@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Notifications\NotifyAboutSocialShare;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use App\Jobs\JobEmailSocialShare;
 
 class EmailSocialShare extends Command
 {
@@ -40,11 +41,11 @@ class EmailSocialShare extends Command
      */
     public function handle()
     {
-        $fiveDays = Carbon::now()->subDays(5);
-        $sixDays = Carbon::now()->subDays(6);
-        $now = Carbon::now();
+        $endDate = Carbon::now()->subDays(5)->endOfDay();
+        $startDate = Carbon::now()->subDays(5)->startOfDay();
+        $now = Carbon::now()->endOfDay();
 
-        $users = User::whereBetween('created_at', [$sixDays, $fiveDays])->get();
+        $users = User::whereBetween('created_at', [$startDate, $endDate])->get();
 
         foreach ($users as $user) {
 
@@ -54,14 +55,19 @@ class EmailSocialShare extends Command
             if ($diff === 5) {
                 $page = $user->pages()->where( 'user_id', $user->id )->where('default', true)->get();
 
-                $userData = ( [
-                    'username' => $user->username,
-                    'link'     => $page[0]->name,
-                    'userID'  => $user->id,
-                ] );
-
                 if ($user->email_subscription) {
-                    $user->notify( new NotifyAboutSocialShare( $userData ) );
+                    $userData = ( [
+                        'username' => $user->username,
+                        'link'     => $page[0]->name,
+                        'userID'  => $user->id,
+                    ] );
+
+                    $details = ( [
+                        "data" => $userData,
+                        "userEmail" => $user->email
+                    ]);
+
+                    JobEmailSocialShare::dispatch($details);
                 }
             }
         }
