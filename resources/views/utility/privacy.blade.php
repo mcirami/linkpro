@@ -4,10 +4,8 @@
 
     <div class="container">
         <div class="my_row terms form_page">
+            <h2 class="page_title">Privacy Policy</h2>
             <div class="card guest">
-                <div class="mb-4">
-                    <h3 class="text-uppercase page_title">Privacy Policy</h3>
-                </div>
                 <div class="card-body">
                     <p>
                         LinkPro LLC (hereinafter “LinkPro”, "we", "our", or "us") is committed to protecting the privacy of all the individuals accessing and using its website at

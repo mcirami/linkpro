@@ -3,8 +3,8 @@
 @section('content')
     <div class="container">
         <div class="my_row form_page plans">
+            <h2 class="page_title">Update Account Settings</h2>
             <div class="card">
-                <h2 class="page_title">Update Account Settings</h2>
                 @if (count($errors) > 0)
                     <div class="alert alert-danger">
                         <ul>

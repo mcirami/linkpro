@@ -29,14 +29,6 @@ class User extends \TCG\Voyager\Models\User
         'pm_last_four',
         'pm_type',
         'braintree_id',
-    ];
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $guarded = [
         'email_subscription',
     ];
 

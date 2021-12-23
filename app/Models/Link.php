@@ -10,15 +10,6 @@ class Link extends Model
     use HasFactory;
 
     /**
-     * The attributes that are not mass assignable.
-     *
-     * @var array
-     */
-    protected $guarded = [
-        'active_status'
-    ];
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -33,6 +24,7 @@ class Link extends Model
         'phone',
         'icon',
         'position',
+        'active_status'
     ];
 
     public function user() {

@@ -15,7 +15,7 @@
             padding: 3% 0 !important;
             background-position: center;
             transition: right 500ms;
-            background-size: 75%;
+            background-size: 70%;
         }
 
         @media all and (max-width: 768px) {
@@ -86,9 +86,9 @@
 
         .inner_content {
             background: $white;
-            border-radius: 15%;
-            -webkit-border-radius: 15%;
-            -moz-border-radius: 15%;
+            border-radius: 10%;
+            -webkit-border-radius: 10%;
+            -moz-border-radius: 10%;
             padding: 10px;
             height: 100%;
             margin: 0 3%;
@@ -367,8 +367,9 @@
                 padding: 8px 0 0 0;
                 margin: 0 auto;
 
-                @media screen and (max-width: 992px) {
+                @media screen and (max-width: 1084px) {
                     min-height: 708px;
+                    max-width: 310px;
                 }
 
                 @media screen and (max-width: 550px) {

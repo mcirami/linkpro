@@ -3,10 +3,8 @@
 @section('content')
     <div class="container">
         <div class="my_row terms form_page">
+            <h2 class="page_title">Terms And Conditions</h2>
             <div class="card guest">
-                <div class="mb-4">
-                    <h3 class="text-uppercase page_title">Terms And Conditions</h3>
-                </div>
                 <div class="card-body">
                     <h4>Effective Date: August 5, 2021</h4>
                     <p>
@@ -30,7 +28,7 @@
                         “Days” refers to business days, unless specifically stated otherwise.
                     </p>
                     <p>
-                        “Premium Plan” refers to a paid plan, with the price dictated in the Order Form. The Premium Plan shall include all the features of the Free Plan and the Pro Plan, in addition to the availability of up to five (5) unique links and the availability of password protected links. The Premium Plan shall also include or exclude any features LinkPro LLC chooses to add or remove at their sole discretion at any time for any reason.
+                        “Premier Plan” refers to a paid plan, with the price dictated in the Order Form. The Premier Plan shall include all the features of the Free Plan and the Pro Plan, in addition to the availability of up to five (5) unique links and the availability of password protected links. The Premier Plan shall also include or exclude any features LinkPro LLC chooses to add or remove at their sole discretion at any time for any reason.
                     </p>
                     <p>
                         “End Users” refers to the individuals or representatives of entities (including, but not limited to, companies, partnerships, joint ventures, associations, and any governmental agencies) accessing or using your Page.
@@ -103,7 +101,7 @@
                         To access and use LinkPro LLC’s Services, each User shall have an account and take adequate safeguard measures to keep the user identification and password confidential. Cybersquatting is prohibited, and user identifications shall neither misappropriate nor infringe any third party’s IP rights and shall not be vulgar, obscene or offensive. To the extent legally permitted, Users will be held fully responsible for their own or third parties’ activities (such as IP violations, adverse impact on LinkPro LLC’s goodwill, or violation of applicable laws and regulations) that relate to the Users’ accounts. Without limiting its other remedies available at law, in equity or by statute, LinkPro LLC reserves the right to reallocate user identifications and to cancel or suspend a User’s account if the User does not comply with this Section. A User may request the cancellation and/or deletion of their account at any time. LinkPro LLC will subsequently delete promptly and permanently Your Data except if otherwise instructed by the User.
                     </p>
                     <p>
-                        Each account shall have a unique Username for identification purposes, submitted by the User. LinkPro LLC reserves the right to deny any Username, at it’s sole discretion, including, but not limited to, unavailability or offensiveness. LinkPro LLC shall not be responsible for providing justification to the User for denial of any particular Username. <span class="text-decoration-underline">LinkPro also reserves the right to remove from LinkPro LLC’s platform  a User’s account, at LinkPro’s Sole Discretion, at any time.</span> If a Pro or Premium Plan is taken down under said circumstances, then the User shall receive a pro-rated refund of any amounts paid within sixty (60) days.
+                        Each account shall have a unique Username for identification purposes, submitted by the User. LinkPro LLC reserves the right to deny any Username, at it’s sole discretion, including, but not limited to, unavailability or offensiveness. LinkPro LLC shall not be responsible for providing justification to the User for denial of any particular Username. <span class="text-decoration-underline">LinkPro also reserves the right to remove from LinkPro LLC’s platform  a User’s account, at LinkPro’s Sole Discretion, at any time.</span> If a Pro or Premier Plan is taken down under said circumstances, then the User shall receive a pro-rated refund of any amounts paid within sixty (60) days.
                     </p>
                     <h4 class="sub_title">3.4 User Content</h4>
                     <p>
@@ -204,7 +202,7 @@
                     <p>
                         From time to time, we may as part of or ancillary to the Services, provide you access to Third Party services. The Website and our other Services may include links to Third Parties’ websites and services. These links are provided for your convenience only and do not signify that we endorse such Third Parties’ websites or services. We do not review such Third Party’s websites and you acknowledge and agree that: (a) We are not responsible for such websites, including the terms on which such websites are made available and the privacy policies of such websites, and do not control their content or availability; (b) we make no representation, warranty or condition, either express or implied, in relation to any services or information received from such websites; and (c) if you access any such websites, you do so entirely at your own risk. Any acquisition by you of such Third Parties’ services, and any exchange of data between you and such Third Party, is solely between you and the applicable Third Party. LinkPro LLC does not warrant or support Third Party products or services, whether or not they are designated by LinkPro LLC as “certified” or otherwise, except as specified in an Order Form. We shall not be responsible for any disclosure, modification, or deletion of Your Data or User Content resulting from your use of such Third Parties’ website or services. If the Third Parties’ services cease to interoperate with the corresponding LinkPro LLC Services on reasonable terms, LinkPro LLC may cease providing such Service features without providing any refund, credit, or other compensation to you.
                     </p>
-                    <h4 class="title text-decoration-underline">5. FEES AND PAYMENT FOR PRO PLANS AND PREMIUM PLANS</h4>
+                    <h4 class="title text-decoration-underline">5. FEES AND PAYMENT FOR PRO PLANS AND PREMIER PLANS</h4>
                     <h4 class="sub_title">5.1 Fees</h4>
                     <p>
                         Users shall pay all fees specified in the applicable Order Form(s). Except as otherwise specified:
@@ -217,11 +215,11 @@
                     </p>
                     <h4 class="sub_title">5.2 Payment</h4>
                     <p>
-                        Payment for Pro Plans and Premium Plans shall be made in advance and shall renew automatically unless canceled by Users at least one (1) day prior to the term. Excluding one-time discounts and promotional pricing, our price increase will not exceed one-hundred (100) percent. Users are responsible for providing complete and accurate billing and contact information to LinkPro LLC and for updating their accounts if such information changes. A Pro Plan or Premium Plan canceled by a User will automatically convert to a Free Plan unless you request the deletion of your account.
+                        Payment for Pro Plans and Premier Plans shall be made in advance and shall renew automatically unless canceled by Users at least one (1) day prior to the term. Excluding one-time discounts and promotional pricing, our price increase will not exceed one-hundred (100) percent. Users are responsible for providing complete and accurate billing and contact information to LinkPro LLC and for updating their accounts if such information changes. A Pro Plan or Premier Plan canceled by a User will automatically convert to a Free Plan unless you request the deletion of your account.
                     </p>
                     <h4 class="sub_title">5.3 Overdue Charges and Suspension of Service</h4>
                     <p>
-                        If Pro Plans or Premium Plans are not canceled as above and payments are not received by the due date, (a) the unpaid balance may accrue interest at the rate of one and a half percent (1.5%) of the outstanding balance per month, or the maximum rate permitted by law, whichever is higher, from the date such payment was due until the date paid; and/or (b) we may condition future Service renewals and Order Form(s) on different payment terms than those specified above. If any amount owed by Users exceeds (X) days overdue, LinkPro LLC may, without limiting our other rights and remedies, accelerate your unpaid fee obligations so that all of your fee obligations become immediately due and payable. We may suspend the Services (including those under the Pro Plan and Premium Plan) to you until such amounts are paid in full.
+                        If Pro Plans or Premier Plans are not canceled as above and payments are not received by the due date, (a) the unpaid balance may accrue interest at the rate of one and a half percent (1.5%) of the outstanding balance per month, or the maximum rate permitted by law, whichever is higher, from the date such payment was due until the date paid; and/or (b) we may condition future Service renewals and Order Form(s) on different payment terms than those specified above. If any amount owed by Users exceeds (X) days overdue, LinkPro LLC may, without limiting our other rights and remedies, accelerate your unpaid fee obligations so that all of your fee obligations become immediately due and payable. We may suspend the Services (including those under the Pro Plan and Premier Plan) to you until such amounts are paid in full.
                     </p>
                     <h4 class="sub_title">5.4 Taxes</h4>
                     <p>

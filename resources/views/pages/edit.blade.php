@@ -1,9 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container" id="links_page">
+    <div class="container">
 
-        <div id="root"></div>
+        <h2 class="page_title">Pages</h2>
+        <div class="card">
+            <div id="links_page">
+                <div id="root"></div>
+            </div>
+        </div>
 
         @if (session()->has('success'))
             <div class="message_wrap">
