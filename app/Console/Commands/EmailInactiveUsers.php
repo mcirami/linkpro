@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 use App\Models\User;
-use App\Notifications\NotifyInactiveUser;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use App\Jobs\JobEmailInactiveUsers;

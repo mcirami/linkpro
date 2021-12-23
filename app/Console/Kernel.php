@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Console\Commands\EmailInactiveUsers;
 use App\Console\Commands\EmailSocialShare;
 use App\Console\Commands\EmailFreeTrialCode;
+use App\Console\Commands\TestAddDBRecord;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -19,6 +20,7 @@ class Kernel extends ConsoleKernel
         EmailInactiveUsers::class,
         EmailSocialShare::class,
         EmailFreeTrialCode::class,
+        TestAddDBRecord::class,
     ];
 
     /**
@@ -29,7 +31,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //$schedule->command('inspire')->hourly();
+        /*$schedule->command('test:TestAddDBRecord')
+                 ->timezone('America/New_York')
+                 ->everyMinute()
+                 ->emailOutputTo('mcirami@gmail.com');*/
+
         $schedule->command('emails:EmailInactiveUsers')
                  ->timezone('America/New_York')
                  ->dailyAt('7:00')

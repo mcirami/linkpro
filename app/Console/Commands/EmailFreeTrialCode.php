@@ -2,12 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Subscription;
 use App\Models\User;
-use App\Notifications\NotifyAboutFreeTrial;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Mail;
 use App\Jobs\JobFreeTrialEmail;
 
 class EmailFreeTrialCode extends Command

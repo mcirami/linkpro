@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Models\User;
-use App\Notifications\NotifyAboutSocialShare;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use App\Jobs\JobEmailSocialShare;
