@@ -4,10 +4,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LinkController;
-use App\Http\Controllers\VisitController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\TrackingController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -72,6 +72,13 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/update-card', [UserController::class, 'updateCard'])->name('user.update.card');
     Route::post('/update-payment-method', [UserController::class, 'updateMethod'])->name('user.update.payment');
 
+    Route::post('/stats/link/range', [TrackingController::class, 'getLinkStatsRange']);
+    Route::post('/stats/link/dropdown', [TrackingController::class, 'getLinkStatsDropdown']);
+    Route::post('/stats/page/range', [TrackingController::class, 'getPageStatsRange']);
+    Route::post('/stats/page/dropdown', [TrackingController::class, 'getPageStatsDropdown']);
+    Route::get('/stats/get', [TrackingController::class, 'getStats']);
+    Route::get('/stats', [TrackingController::class, 'show'])->name('stats');
+
 });
 
 Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated'], 'prefix' => 'dashboard'], function() {
@@ -86,10 +93,10 @@ Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated']], function() {
     Route::get('/subscribe', [SubscriptionController::class, 'purchase'])->name('subscribe.get');
 });
 
-Route::post('/visit/{link}', [VisitController::class, 'store']);
-
-// link.pro/page
-Route::get('/{page}', [PageController::class, 'show']);
-Route::post('/check-page-auth/{page}', [PageController::class, 'pageAuth'])->name('check.page.auth');
-Route::get('/email-subscription/{user}', [UserController::class, 'emailSubscription'])->name('email.subscription');
+Route::group(['middleware' => 'web'], function() {
+    Route::post('/check-page-auth/{page}', [PageController::class, 'pageAuth'])->name('check.page.auth');
+    Route::get('/email-subscription/{user}', [UserController::class, 'emailSubscription'])->name('email.subscription');
+    Route::post('/link-click/{link}', [TrackingController::class, 'storeLinkVisit']);
+    Route::get('/{page}', [PageController::class, 'show']);
+});
 

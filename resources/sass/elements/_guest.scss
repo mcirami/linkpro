@@ -1,18 +1,6 @@
 .form_page {
 
     .card {
-        @include boxShadow;
-        border: none;
-        padding: 40px;
-        border-radius: 20px;
-        -webkit-border-radius: 20px;
-        -moz-border-radius: 20px;
-        margin: 0 auto;
-        width: 100%;
-
-        @media screen and (max-width: 768px) {
-            padding: 40px 20px;
-        }
 
         &.guest {
             max-width: 800px;

@@ -17,10 +17,13 @@ window.Vapor = require('laravel-vapor');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 if (document.getElementById('root')) {
-    require('./components/Index');
+    require('./Pages/Dashboard/components/Index');
 }
 if (document.getElementById('create_page')) {
-    require('./components/Register/Index');
+    require('./Pages/Register/Index');
+}
+if (document.getElementById('stats')) {
+    require('./Pages/Stats/Index');
 }
 
 /*if (document.getElementById('profile_img')) {

@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row utility_page mx-auto">
             <div class="col-12">
-                <h3 class="page_title text-center">How It Works</h3>
+                <h2 class="page_title">How It Works</h2>
                 <div class="row two_columns">
                     <div class="col-12 col-md-6 mb-4 mb-md-0 order-1 order-md-0 column">
                         <div class="image_wrap">

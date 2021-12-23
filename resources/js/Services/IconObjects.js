@@ -149,7 +149,7 @@ export const icons = [
     },
     {
         "name" : "OfferUp",
-        "required_in_url": "offerUp",
+        "required_in_url": "offerup",
     },
     {
         "name" : "OneDrive",

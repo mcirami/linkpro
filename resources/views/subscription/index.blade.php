@@ -4,11 +4,11 @@
 
     <div class="my_row form_page plans checkout">
         <div class="container">
+            <h2 class="page_title mb-0 w-100">Upgrade to <span class="text-capitalize">{{$plan}}</span> For Only </h2>
+            <div class="pricing m-0">
+                <h3><sup>$</sup>{{ $amount ?? '' }}<span>/ mo</span></h3>
+            </div>
             <div class="card">
-                <h2 class="page_title mb-0">Upgrade to <span class="text-capitalize">{{$plan}}</span> For Only </h2>
-                <div class="pricing m-0">
-                    <h3><sup>$</sup>{{ $amount ?? '' }}<span>/ mo</span></h3>
-                </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12 col-lg-6 plan_details order-lg-0 order-1 ">

@@ -14,13 +14,6 @@ class Link extends Model
      *
      * @var array
      */
-    protected $guarded = [];
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'user_id',
         'page_id',
@@ -46,12 +39,8 @@ class Link extends Model
         return $this->belongsTo(Folder::class);
     }
 
-    public function visits() {
-        return $this->hasMany(Visit::class);
-    }
-
-    public function latest_visit() {
-        return $this->hasOne(Visit::class)->latest();
+    public function linkVisits() {
+        return $this->hasMany(LinkVisit::class);
     }
 
     public function getLinkCountAttribute() {

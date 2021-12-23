@@ -7,13 +7,29 @@ jQuery(document).ready(function($) {
 
     if (box) {
 
+        const innerWrap = document.querySelector('#links_page .links_col .links_wrap.preview .inner_content');
+        const rightCol = document.querySelector('.right_column.links_col.preview').clientWidth;
+        const percentage = (rightCol/1.5) * 1000;
+        const widthDiff = rightCol * percentage;
+        const maxWidth = rightCol - widthDiff - 20;
+        innerWrap.style.maxWidth = maxWidth + "px";
+
         const diff = 0.048461 * innerContent.clientHeight;
-        box.style.maxHeight = innerContent.clientHeight - diff + "px";
+        //box.style.maxHeight = innerContent.clientHeight - diff + "px";
+        box.style.maxHeight = innerContent.clientHeight - 40 + "px";
 
         $(window).on('resize', function() {
 
+            const innerWrap = document.querySelector('#links_page .links_col .links_wrap.preview .inner_content');
+            const rightCol = document.querySelector('.right_column.links_col.preview').clientWidth;
+            const percentage = (rightCol/1.5) * 1000;
+            const widthDiff = rightCol * percentage;
+            const maxWidth = rightCol - widthDiff - 20;
+            innerWrap.style.maxWidth = maxWidth + "px";
+
             const diff = 0.048461 * innerContent.clientHeight;
-            box.style.maxHeight = innerContent.clientHeight - diff + "px";
+            //box.style.maxHeight = innerContent.clientHeight - diff + "px";
+            box.style.maxHeight = innerContent.clientHeight - 40 + "px";
 
         });
     }
@@ -241,4 +257,29 @@ jQuery(document).ready(function($) {
             })
         });
     }
+
+    const linkTrackers = document.querySelectorAll('.link_tracker');
+
+    if (linkTrackers.length > 0) {
+
+        linkTrackers.forEach((link) => {
+            link.addEventListener('click', function(e) {
+                const linkID = this.dataset.id;
+
+                axios.post('/link-click/' + linkID, ).then(
+                    (response) => {
+                        console.log(JSON.stringify(response.data.message));
+                    },
+
+                ).catch(error => {
+                    if (error.response) {
+                        console.log(error.response);
+                    } else {
+                        console.log("ERROR:: ", error);
+                    }
+                });
+            })
+        })
+    }
+
 });

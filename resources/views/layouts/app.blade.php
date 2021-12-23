@@ -66,33 +66,27 @@
                                     @endif
                                 @else
                                     @php $page = Auth::user()->pages()->where('user_id', Auth::user()->id)->where('default', true)->get(); $image = $page[0]->profile_img;  @endphp
-                                    <li class="mobile">
-                                        <a class="nav-link" href="{{ route('user.edit') }}">
-                                            <img id="mobile_user_image" src="{{ $image ? : asset('images/profile-placeholder-img.png') }}" alt="User Profile"><span id="mobile_username">{{ Auth::user()->username }}</span>
-                                        </a>
-                                    </li>
                                     @if( empty($userSub) || ($userSub->name != "premier" && !$userSub->ends_at) || ($userSub->ends_at && $userSub->ends_at < \Carbon\Carbon::now()) )
                                         <li class="upgrade_link desktop">
                                             <a class="button blue" href="{{route('plans.get')}}">Upgrade</a>
                                         </li>
                                     @endif
-                                    <li>
-                                        <a href="{{ url('/dashboard/pages/' . $page[0]->id) }}" class=@php if(Route::is('pages.edit')) { echo "current"; } @endphp>Dashboard
-                                            <div class="hover_border"></div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('user.edit') }}" class=@php if(Route::is('user.edit')) { echo "current"; } @endphp>Settings
-                                            <div class="hover_border"></div>
-                                        </a>
-
-                                    </li>
                                     <li class="nav-item dropdown">
                                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                             <img id="user_image" src="{{ $image ? : asset('images/profile-placeholder-img.png') }}" alt="User Profile"><span id="username">{{ Auth::user()->username }}</span>
                                         </a>
 
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                                            <a href="{{ url('/dashboard/pages/' . $page[0]->id) }}" class="dropdown-item @php if(Route::is('pages.edit')) { echo "current"; } @endphp">
+                                                Pages
+                                            </a>
+                                            <a href="{{ route('stats')}}" class="dropdown-item @php if(Route::is('stats')) { echo "current"; } @endphp">
+                                                Stats
+                                            </a>
+                                            <a href="{{ route('user.edit') }}" class="dropdown-item @php if(Route::is('user.edit')) { echo "current"; } @endphp">
+                                                Settings
+                                            </a>
                                             <a class="dropdown-item" href="{{ route('logout') }}"
                                                onclick="event.preventDefault();
                                                              document.getElementById('logout-form').submit();">
@@ -102,6 +96,27 @@
                                                 </form>
                                             </a>
                                         </div>
+                                    </li>
+
+                                    <li class="mobile">
+                                        <a class="nav-link" href="{{ route('user.edit') }}">
+                                            <img id="mobile_user_image" src="{{ $image ? : asset('images/profile-placeholder-img.png') }}" alt="User Profile"><span id="mobile_username">{{ Auth::user()->username }}</span>
+                                        </a>
+                                    </li>
+                                    <li class="mobile">
+                                        <a href="{{ url('/dashboard/pages/' . $page[0]->id) }}" class="nav-link @php if(Route::is('pages.edit')) { echo "current"; } @endphp">
+                                            Pages
+                                        </a>
+                                    </li>
+                                    <li class="mobile">
+                                        <a href="{{ route('stats')}}" class="nav-link @php if(Route::is('stats')) { echo "current"; } @endphp">
+                                            Stats
+                                        </a>
+                                    </li>
+                                    <li class="mobile">
+                                        <a href="{{ route('user.edit') }}" class="nav-link @php if(Route::is('user.edit')) { echo "current"; } @endphp">
+                                            Settings
+                                        </a>
                                     </li>
                                     <li class="mobile">
                                         <a href="{{ route('logout') }}"

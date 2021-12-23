@@ -15,7 +15,7 @@
             <li><a href="mailto:support@link.pro">Contact</a></li>
             <li><a href="{{ route('user.edit') }}">Settings</a></li>
             @php $userSub = Auth::user()->subscriptions()->first(); @endphp
-
+            <li><a href="{{ route('how-it-works') }}">How It Works</a></li>
             @if( empty($userSub) || ($userSub->name != "premier" && !$userSub->ends_at) || ($userSub->ends_at && $userSub->ends_at < \Carbon\Carbon::now()) )
                 <li><a href="{{ route('plans.get') }}">Upgrade</a></li>
             @endif
