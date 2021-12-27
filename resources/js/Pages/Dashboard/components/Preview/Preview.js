@@ -2,7 +2,7 @@ import React, {useContext, useState, useEffect} from 'react';
 import {UserLinksContext, PageContext} from '../App';
 import {IoIosLock, IoIosCloseCircleOutline} from 'react-icons/io';
 
-const Preview = ({setRef, completedCrop, fileName, profileFileName, completedProfileCrop, profileRef, userSub}) => {
+const Preview = ({ setRef, completedCrop, fileName, profileFileName, completedProfileCrop, profileRef, userSub }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
     const {pageSettings, setPageSettings} = useContext(PageContext);
@@ -182,7 +182,7 @@ const Preview = ({setRef, completedCrop, fileName, profileFileName, completedPro
 
                             {userLinks.slice(0, iconCount).map((linkItem) => {
 
-                                const {
+                                let {
                                     id,
                                     name,
                                     url,
@@ -211,7 +211,14 @@ const Preview = ({setRef, completedCrop, fileName, profileFileName, completedPro
                                                     <img src={displayIcon ||
                                                     Vapor.asset('images/icon-placeholder-preview.png') } alt=""/>
                                                 </a>
-                                                <p>{name || "Link Name"}</p>
+                                                <p>
+                                                { name && name.length > 11 ?
+                                                    name.substring(0,
+                                                        11) + "..."
+                                                    :
+                                                    name || "Link Name"
+                                                }
+                                                </p>
                                             </>
                                             :
                                             ""

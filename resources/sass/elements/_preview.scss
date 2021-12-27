@@ -351,7 +351,7 @@
         &.preview {
 
             @media screen and (max-width: 992px) {
-                max-width: 350px;
+                max-width: 394px;
             }
 
             @media screen and (max-width: 350px) {
@@ -360,16 +360,16 @@
 
 
             .inner_content {
-                min-height: 782px;
+                min-height: 810px;
                 height: 100%;
                 width: 100%;
-                max-width: 344px;
+                max-width: 356px;
                 padding: 8px 0 0 0;
                 margin: 0 auto;
 
-                @media screen and (max-width: 1084px) {
-                    min-height: 708px;
-                    max-width: 310px;
+                @media screen and (max-width: 1010px) {
+                    min-height: 794px;
+                    max-width: 347px;
                 }
 
                 @media screen and (max-width: 550px) {
@@ -414,7 +414,7 @@
                     }
 
                     @media all and (max-width: 992px) {
-                        max-width: 310px;
+                        max-width: 348px;
                     }
 
                     @media screen and (max-width: 350px) {
@@ -427,6 +427,10 @@
 
                 .profile_content {
                     background: $white;
+
+                    @media all and (max-width: 550px) {
+                        padding: 10px;
+                    }
 
                     .profile_img_column {
                         width: 36%;
@@ -463,6 +467,10 @@
 
                 .icons_wrap {
                     background: $white;
+
+                    @media all and (max-width: 550px) {
+                        padding: 0 10px;
+                    }
                 }
 
                 .icon_col {
@@ -473,8 +481,16 @@
                     -o-box-shadow: none !important;
 
                     p {
-                        @media screen and (max-width: 350px) {
+
+                        @media all and (max-width: 768px) {
                             font-size: 10px;
+                        }
+
+                        @media all and (max-width: 550px) {
+                            font-size: 1.7vw;
+                        }
+
+                        @media screen and (max-width: 350px) {
                             line-height: 1.3;
                             margin-top: 3px;
                         }

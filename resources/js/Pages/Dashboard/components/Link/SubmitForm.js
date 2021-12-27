@@ -345,9 +345,9 @@ const SubmitForm = ({
     }
 
     const handleLinkName = (e) => {
-        const value = e.target.value;
+        let value = e.target.value;
 
-        setCharactersLeft(13 - value.length);
+        setCharactersLeft(10 - value.length);
 
         setCurrentLink({
             ...currentLink,
@@ -466,10 +466,10 @@ const SubmitForm = ({
                             {subStatus && <span className="disabled_wrap" data-type="name" onClick={(e) => handleOnClick(e)}> </span>}
                         </div>
                         <div className="my_row characters title">
-                            <p className="char_max">Max 13 Characters</p>
+                            <p className="char_max">Max 11 Characters Shown</p>
                             <p className="char_count">
                                 {charactersLeft < 0 ?
-                                    <span className="over">Over Character Limit</span>
+                                    <span className="over">Only 11 Characters Will Be Shown</span>
                                     :
                                     "Characters Left: " + charactersLeft
                                 }

@@ -65,7 +65,13 @@
                                                 @endif
                                                 <img src="{{ $icon ? : asset('/images/icon-placeholder-preview.png') }}" alt="" />
                                             </a>
-                                            <p>{{ $link->name ? : "Link Name" }}</p>
+                                            @php if ($link->name && strlen($link->name) > 11 ) {
+	                                                $name = substr($link->name, 0, 11) . "...";
+                                                } else {
+	                                                $name = $link->name;
+                                                }
+                                            @endphp
+                                            <p>{{ $name ? : "Link Name" }}</p>
                                         @endif
                                     </div>
                                 @endif
