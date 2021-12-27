@@ -208,36 +208,24 @@ const SubmitForm = ({
                 .then((data) => {
 
                     if (data.success) {
-                        setUserLinks(
-                            userLinks.map((item) => {
-                                if (item.id === editID) {
-                                    return {
-                                        ...item,
-                                        name: currentLink.name,
-                                        url: URL,
-                                        email: currentLink.email,
-                                        phone: currentLink.phone,
-                                        icon: currentLink.icon
-                                    }
+                        let newLinks = userLinks;
+                        newLinks = newLinks.map((item) => {
+                            if (item.id === editID) {
+                                return {
+                                    ...item,
+                                    name: currentLink.name,
+                                    url: URL,
+                                    email: currentLink.email,
+                                    phone: currentLink.phone,
+                                    icon: currentLink.icon
                                 }
-                                return item;
-                            })
-                        )
-                        setOriginalArray(
-                            originalArray.map((item) => {
-                                if (item.id === editID) {
-                                    return {
-                                        ...item,
-                                        name: currentLink.name,
-                                        url: URL,
-                                        email: currentLink.email,
-                                        phone: currentLink.phone,
-                                        icon: currentLink.icon
-                                    }
-                                }
-                                return item;
-                            })
-                        )
+                            }
+
+                            return item;
+                        });
+                        setUserLinks(newLinks);
+                        setOriginalArray(newLinks);
+
                         setEditID(null)
                     }
                 })
@@ -293,38 +281,24 @@ const SubmitForm = ({
                 setShowLoader(false);
 
                 if (data.success) {
-                    setUserLinks(
-                        userLinks.map((item) => {
-                            if (item.id === editID) {
-                                return {
-                                    ...item,
-                                    name: currentLink.name,
-                                    url: URL,
-                                    email: currentLink.email,
-                                    phone: currentLink.phone,
-                                    icon: data.iconPath
-                                }
+                    let newLinks = userLinks;
+                    newLinks = newLinks.map((item) => {
+                        if (item.id === editID) {
+                            return {
+                                ...item,
+                                name: currentLink.name,
+                                url: URL,
+                                email: currentLink.email,
+                                phone: currentLink.phone,
+                                icon: data.iconPath
                             }
-                            return item;
-                        })
-                    )
-                    setOriginalArray(
-                        originalArray.map((item) => {
-                            if (item.id === editID) {
-                                return {
-                                    ...item,
-                                    name: currentLink.name,
-                                    url: URL,
-                                    email: currentLink.email,
-                                    phone: currentLink.phone,
-                                    icon: data.iconPath
-                                }
-                            }
-                            return item;
-                        })
-                    )
+                        }
 
-                    //const newIconPath = "public" + data.iconPath;
+                        return item;
+                    });
+                    setUserLinks(newLinks);
+                    setOriginalArray(newLinks);
+
                     setCustomIconArray( customIconArray => [
                         ...customIconArray,
                         data.iconPath

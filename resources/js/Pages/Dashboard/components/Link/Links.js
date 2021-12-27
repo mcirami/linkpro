@@ -273,28 +273,20 @@ const Links = ({
         .then((data) => {
 
             if(data.success) {
-                setOriginalArray(
-                    originalArray.map((item) => {
-                        if (item.id === currentItem.id) {
-                            return {
-                                ...item,
-                                active_status: newStatus,
-                            };
+                let newLinks = userLinks;
+                newLinks = newLinks.map((item) => {
+                    if (item.id === currentItem.id) {
+                        return {
+                            ...item,
+                            active_status: newStatus,
                         }
-                        return item;
-                    })
-                )
-                setUserLinks(
-                    userLinks.map((item) => {
-                        if (item.id === currentItem.id) {
-                            return {
-                                ...item,
-                                active_status: newStatus,
-                            };
-                        }
-                        return item;
-                    })
-                )
+                    }
+
+                    return item;
+                });
+                setUserLinks(newLinks);
+                setOriginalArray(newLinks);
+
             }
         })
     };

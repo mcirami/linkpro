@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {MdAddCircleOutline} from 'react-icons/md';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import {PageContext} from '../App';
@@ -13,6 +13,7 @@ const PageNav = ({ allUserPages, setAllUserPages, userSub, setShowUpgradePopup, 
     const [isEditing, setIsEditing] = useState(false);
     const [newPageName, setNewPageName] = useState(null);
     const [available, setAvailability] = useState(false);
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -29,7 +30,9 @@ const PageNav = ({ allUserPages, setAllUserPages, userSub, setShowUpgradePopup, 
                     name: newPageName,
                 };
 
-                setAllUserPages(allUserPages.concat(newElement));
+                let prevPages = [...allUserPages];
+                prevPages = prevPages.concat(newElement);
+                setAllUserPages(prevPages);
                 setIsEditing(false);
             }
         })

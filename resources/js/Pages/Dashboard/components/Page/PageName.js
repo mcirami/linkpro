@@ -29,14 +29,16 @@ const PageName = () => {
             updatePageName(packets, pageSettings["id"] )
             .then((data) => {
                 if (data.success) {
-                    setAllPageNames(
-                        allPageNames.map((item, index) => {
-                            if (item === pageSettings['name']) {
-                                item = name
-                            }
-                            return item;
-                        })
-                    )
+                    let prevNames = [...allPageNames];
+
+                    prevNames = prevNames.map((item, index) => {
+                        if (item === pageSettings['name']) {
+                            item = name
+                        }
+                        return item;
+                    })
+
+                    setAllPageNames(prevNames);
                     setPageSettings({
                             ...pageSettings,
                             name: name

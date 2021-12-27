@@ -153,7 +153,7 @@ export const icons = [
     },
     {
         "name" : "OneDrive",
-        "required_in_url": null,
+        "required_in_url": "microsoft",
     },
     {
         "name" : "OnlyFans",
@@ -182,10 +182,6 @@ export const icons = [
     {
         "name" : "PhotoBucket",
         "required_in_url": "photobucket",
-    },
-    {
-        "name" : "Picasa",
-        "required_in_url": null,
     },
     {
         "name" : "Picasa",
@@ -313,7 +309,7 @@ export const icons = [
     },
     {
         "name" : "Xbox",
-        "required_in_url": null,
+        "required_in_url": "xbox",
     },
     {
         "name" : "Zillow",
