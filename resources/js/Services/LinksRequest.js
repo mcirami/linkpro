@@ -16,11 +16,16 @@ export const addLink = (packets) => {
             EventBus.dispatch("success", {message: returnMessage});
             const link_id = JSON.stringify(response.data.link_id);
             const position = response.data.position;
+            let icon_path = null;
+            if (response.data.iconPath) {
+                icon_path = JSON.stringify(response.data.iconPath);
+            }
 
             return {
                 success : true,
                 link_id : link_id,
-                position : position
+                position : position,
+                icon_path : icon_path
             }
 
         })
@@ -202,6 +207,19 @@ export const checkURL = (url, name, custom, subStatus) => {
                 url: returnURL
             }
         }
+    }
+}
+
+export const updateContentHeight = ( originalArray ) => {
+
+    if ((originalArray.length + 1) % 4 === 1 ) {
+
+        const iconsWrap = document.querySelector('.icons_wrap');
+        const icons = document.querySelectorAll('.add_icons .icon_col');
+        const colHeight = icons[0].clientHeight;
+        const rowCount = Math.ceil(icons.length / 4);
+        const divHeight = rowCount * colHeight - 40;
+        iconsWrap.style.minHeight = divHeight + "px";
     }
 }
 

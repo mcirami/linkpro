@@ -1,5 +1,5 @@
 const userLinks = user.links;
-const myLinksArray = userLinks.map(({ id, name, icon, url, email, phone, active_status, position }) => ({
+/*const myLinksArray = userLinks.map(({ id, type, name, icon, url, email, phone, active_status, position }) => ({
     id,
     name,
     icon,
@@ -8,6 +8,6 @@ const myLinksArray = userLinks.map(({ id, name, icon, url, email, phone, active_
     phone,
     active_status,
     position
-}));
+}));*/
 
-export default myLinksArray;
+export default userLinks;

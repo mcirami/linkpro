@@ -12,10 +12,12 @@ import AddLink from './Link/AddLink';
 import PasswordProtect from './Page/PasswordProtect';
 import ShowPreviewButton from './Preview/ShowPreviewButton';
 import { Flash } from '../../Flash';
-import SubmitForm from './Link/SubmitForm';
+import EditForm from './Link/EditForm';
 import { UpgradePopup } from './UpgradePopup';
 import { ConfirmPopup } from './ConfirmPopup';
 import { Loader } from './Loader';
+import NewForm from './Link/NewForm';
+import AddFolder from './Folder/AddFolder';
 
 const page = user.page;
 const userPages = user.user_pages;
@@ -38,6 +40,7 @@ function App() {
 
     const [allUserPages, setAllUserPages] = useState(userPages);
     const [editID, setEditID] = useState(null);
+    const [showNewForm, setShowNewForm] = useState(false);
     const [showUpgradePopup, setShowUpgradePopup] = useState(false);
     const [showConfirmPopup, setShowConfirmPopup] = useState(false);
     const [optionText, setOptionText] = useState("");
@@ -145,30 +148,8 @@ function App() {
                                     }
                                 </div>
 
-                                <div className="my_row link_row">
-                                    <div className="add_more_icons">
-                                        <AddLink
-                                            userSub={userSub}
-                                            setShowUpgradePopup={setShowUpgradePopup}
-                                            setOptionText={setOptionText}
-                                        />
-                                    </div>
-                                    <div className="view_live_link">
-                                        <a className="button green" target="_blank" href={ host + '/' + pageSettings['name'] }>Open Live Page</a>
-                                    </div>
-                                </div>
-
-
-                                <div className="icons_wrap add_icons icons">
-
-                                    <Links
-                                        setEditID={setEditID}
-                                        userSub={userSub}
-                                    />
-
-                                </div>
-                                {editID ? (
-                                    <SubmitForm
+                                {editID ?
+                                    <EditForm
                                         editID={editID}
                                         setEditID={setEditID}
                                         setShowUpgradePopup={setShowUpgradePopup}
@@ -179,9 +160,56 @@ function App() {
                                         setCustomIconArray={setCustomIconArray}
                                         setShowLoader={setShowLoader}
                                     />
-                                ) : (
-                                    ""
-                                )}
+                                    :
+
+                                        showNewForm ?
+                                            <NewForm
+                                                setShowNewForm={setShowNewForm}
+                                                setShowUpgradePopup={setShowUpgradePopup}
+                                                setOptionText={setOptionText}
+                                                userSub={userSub}
+                                                customIconArray={customIconArray}
+                                                setCustomIconArray={setCustomIconArray}
+                                                setShowLoader={setShowLoader}
+                                            />
+                                            :
+                                            <>
+                                                <div className="my_row view_live_link link_row">
+                                                    <a className="button green w-100" target="_blank" href={host +
+                                                    '/' +
+                                                    pageSettings['name']}>Open Live Page</a>
+                                                </div>
+                                                <div className="my_row link_row">
+                                                    <div className="add_more_icons">
+                                                        <AddLink
+                                                            setShowNewForm={setShowNewForm}
+                                                            userSub={userSub}
+                                                            setShowUpgradePopup={setShowUpgradePopup}
+                                                            setOptionText={setOptionText}
+                                                        />
+                                                    </div>
+                                                    <div className="add_more_icons">
+                                                        <AddFolder
+                                                            userSub={userSub}
+                                                            setShowUpgradePopup={setShowUpgradePopup}
+                                                            setOptionText={setOptionText}
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                <div className="icons_wrap add_icons icons">
+
+                                                    <Links
+                                                        setEditID={setEditID}
+                                                        userSub={userSub}
+                                                    />
+
+                                                </div>
+                                            </>
+
+                                }
+
+
                             </div>
                         </div>
                         <div className="right_column links_col preview">

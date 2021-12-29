@@ -1,0 +1,60 @@
+.icon_wrap.folder {
+
+    .inner_icon_wrap {
+        border: 1px solid $borderGray;
+        border-radius: 20%;
+        -webkit-border-radius: 20%;
+        -moz-border-radius: 20%;
+        position: relative;
+        overflow: hidden;
+
+        .folder_icons {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            -ms-flex-wrap: nowrap;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            -webkit-justify-content: flex-start;
+            align-items: flex-start;
+            -webkit-align-items: flex-start;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+
+            img {
+                max-width: 33%;
+                border-radius: 30% !important;
+                -webkit-border-radius: 30% !important;
+                -moz-border-radius: 30% !important;
+            }
+        }
+
+        &:hover {
+            cursor: pointer;
+
+            &:before {
+                content: '';
+                background: rgba(0,0,0,.7);
+                background-image: url('../../../public/images/icon-placeholder-hover.png');
+                background-size: contain;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+            }
+        }
+
+
+
+    }
+}

@@ -31,9 +31,8 @@ function clamp(n, min, max) {
 }
 
 const Links = ({
-   setEditID,
-   userSub
-
+                   setEditID,
+                   userSub
 }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
@@ -352,8 +351,14 @@ const Links = ({
                     };
                 }
 
+                const type = originalArray[key].type || "Icon";
                 const linkID = originalArray[key].id;
-                const displayIcon = checkSubStatus(originalArray[key].icon);
+                let displayIcon;
+                if (type === "folder") {
+                    displayIcon = null;
+                } else {
+                    displayIcon = checkSubStatus(originalArray[key].icon);
+                }
 
                 return (
                     <Motion key={key} style={style}>
@@ -376,16 +381,47 @@ const Links = ({
                                         null, key, [x, y])}
                                 >
                                     <MdDragHandle/>
-                                    <div className="hover_text"><p>Move Icon</p></div>
+                                    <div className="hover_text"><p>Move {type}</p></div>
                                 </span>
 
                                 <div className="column_content">
-                                    <div className="icon_wrap" onClick={(e) => { handleOnClick(linkID) }}>
-                                        <div className="image_wrap">
-                                            <img src={ displayIcon || Vapor.asset('images/icon-placeholder.png') } alt=""/>
-                                            {/*<div className="hover_text"><p><img src='/images/icon-placeholder.png' alt=""/></p></div>*/}
+                                    {type === "folder" ?
+                                        <div className="icon_wrap folder">
+                                            <div className="inner_icon_wrap">
+                                                <img src={ Vapor.asset('images/blank-folder-square.jpg')} alt=""/>
+                                                <div className="folder_icons">
+                                                    {originalArray[key].links.length > 0 &&
+
+                                                        originalArray[key].links.slice(
+                                                            0, 9).
+                                                            map((innerLink, index) => {
+                                                                displayIcon = checkSubStatus(
+                                                                    innerLink.icon);
+                                                                return (
+                                                                    <img key={index} src={displayIcon ||
+                                                                    Vapor.asset(
+                                                                        'images/icon-placeholder.png')} alt=""/>
+                                                                )
+
+                                                            })
+                                                    }
+                                                    {originalArray[key].links.length === 0 && <p>Add Icons</p>}
+                                                </div>
+
+                                            </div>
                                         </div>
-                                    </div>
+                                        :
+                                        <div className="icon_wrap" onClick={(e) => {
+                                            handleOnClick(linkID)
+                                        }}>
+                                            <div className="image_wrap">
+                                                <img src={displayIcon ||
+                                                Vapor.asset(
+                                                    'images/icon-placeholder.png')} alt=""/>
+                                                {/*<div className="hover_text"><p><img src='/images/icon-placeholder.png' alt=""/></p></div>*/}
+                                            </div>
+                                        </div>
+                                    }
                                     <div className="my_row">
                                         <div className="switch_wrap">
                                             <Switch

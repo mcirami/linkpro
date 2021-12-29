@@ -203,7 +203,7 @@ const Preview = ({ setRef, completedCrop, fileName, profileFileName, completedPr
                                 const displayIcon = checkSubStatus(icon);
 
                                 return (
-                                    <div className="icon_col" key={id.toString()}>
+                                    <div className="icon_col" key={id}>
                                         {active_status ?
                                             <>
                                                 <a className={!source || !displayIcon ? "default" : ""} target="_blank" href={source ||

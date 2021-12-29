@@ -8,6 +8,7 @@ jQuery(document).ready(function($) {
     if (box) {
 
 
+        console.log(innerContent.offsetHeight);
         /*const innerWrap = document.querySelector('#links_page .links_col .links_wrap.preview .inner_content');
         const rightCol = document.querySelector('.right_column.links_col.preview').clientWidth;
         const percentage = (rightCol/2.2) / 1000;
@@ -24,7 +25,7 @@ jQuery(document).ready(function($) {
             pixelsToMinus = 25;
         }
 
-        box.style.maxHeight = innerContent.clientHeight - pixelsToMinus + "px";
+        box.style.maxHeight = innerContent.offsetHeight - pixelsToMinus + "px";
 
         $(window).on('resize', function() {
 
