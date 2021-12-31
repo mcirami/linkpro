@@ -19,6 +19,8 @@ class Folder extends Model
         'page_id',
         'link_ids',
         'position',
+        'folder_name',
+        'active_status'
     ];
 
     protected $casts = [

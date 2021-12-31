@@ -1,23 +1,21 @@
 'use strict'
 jQuery(document).ready(function($) {
 
-    const box = document.querySelector('.inner_content_wrap');
+    /*const box = document.querySelector('.inner_content_wrap');
     const innerContent = document.getElementById('preview_wrap');
 
 
     if (box) {
 
-
-        console.log(innerContent.offsetHeight);
-        /*const innerWrap = document.querySelector('#links_page .links_col .links_wrap.preview .inner_content');
+        /!*const innerWrap = document.querySelector('#links_page .links_col .links_wrap.preview .inner_content');
         const rightCol = document.querySelector('.right_column.links_col.preview').clientWidth;
         const percentage = (rightCol/2.2) / 1000;
         const widthDiff = rightCol * percentage;
         const maxColWidth = rightCol - widthDiff - 20 + "px";
-        innerWrap.style.maxWidth = maxColWidth;*/
+        innerWrap.style.maxWidth = maxColWidth;*!/
 
-       /* const diff = 0.048461 * innerContent.clientHeight;
-        box.style.maxHeight = innerContent.clientHeight - diff + "px";*/
+       /!* const diff = 0.048461 * innerContent.clientHeight;
+        box.style.maxHeight = innerContent.clientHeight - diff + "px";*!/
         let pixelsToMinus = 0;
         if (window.outerWidth > 550) {
             pixelsToMinus = 35;
@@ -29,12 +27,12 @@ jQuery(document).ready(function($) {
 
         $(window).on('resize', function() {
 
-           /* const innerWrap = document.querySelector('#links_page .links_col .links_wrap.preview .inner_content');
+           /!* const innerWrap = document.querySelector('#links_page .links_col .links_wrap.preview .inner_content');
             const rightCol = document.querySelector('.right_column.links_col.preview').clientWidth;
             const percentage = (rightCol/1.6) / 1000;
             const widthDiff = rightCol * percentage;
             const maxColWidth = rightCol - widthDiff - 20;
-            innerWrap.style.maxWidth = maxColWidth + "px";*/
+            innerWrap.style.maxWidth = maxColWidth + "px";*!/
 
             //const diff = 0.048461 * innerContent.clientHeight;
             //box.style.maxHeight = innerContent.clientHeight - diff + "px";
@@ -50,7 +48,7 @@ jQuery(document).ready(function($) {
 
         });
     }
-
+*/
     const flashMessage = document.getElementById('laravel_flash');
 
     if (flashMessage) {

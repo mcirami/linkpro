@@ -15,15 +15,6 @@ class LinkService {
 
         $page = Page::findOrFail($request->page_id);
 
-        $highestPagePos = $page->links()->max('position');
-        $highestFolderPos = $page->folders->max("position");
-
-        if ($highestPagePos == null && $highestFolderPos == null) {
-            $position = 0;
-        } else {
-            $position = max($highestPagePos, $highestFolderPos) + 1;
-        }
-
         if (str_contains($request->icon, 'tmp/') ) {
             $userID = Auth::id();
             $imgName = $userID . '-' . time() . '.' . $request->ext;
@@ -37,23 +28,74 @@ class LinkService {
 
             $iconPath = Storage::disk('s3')->url($path);
 
-            //$link->update(['name' => $request->name, 'url' => $request->url, 'email' => $request->email, 'phone' => $request->phone, 'icon' => $iconPath]);
-
         } else {
             $iconPath = $request->icon;
         }
 
-        $link = Auth::user()->links()->create([
-            'name' => $request->name,
-            'url' => $request->url,
-            'icon' => $iconPath,
-            'page_id' => $request->page_id,
-            'position' => $position,
-        ]);
+        if ($request->folder_id) {
+
+            $folderID = $request->folder_id;
+            $folder = Folder::findOrFail($folderID);
+            $folderLinkIDs = $folder->link_ids;
+
+            if($folderLinkIDs) {
+                $linksArray = [];
+                $linkIDs = json_decode($folderLinkIDs);
+
+                foreach($linkIDs as $linkID) {
+                    $linkPosition = Link::where('id', $linkID)->get()->pluck('position')->toArray();
+
+                    array_push($linksArray, $linkPosition);
+                }
+
+                $max = max($linksArray);
+                $position = $max[0] + 1;
+
+            } else {
+                $linkIDs = [];
+                $position = 0;
+            }
+
+            $link = Auth::user()->links()->create([
+                'name' => $request->name,
+                'url' => $request->url ? : null,
+                'email' => $request->email ? : null,
+                'phone' => $request->phone ? : null,
+                'icon' => $iconPath,
+                'page_id' => $request->page_id,
+                'position' => $position,
+                'folder_id' => $request->folder_id
+            ]);
+
+            array_push($linkIDs, $link->id);
+
+            $folder->update(['link_ids' => json_encode($linkIDs)]);
+
+
+        } else {
+            $highestPagePos = $page->links()->max('position');
+            $highestFolderPos = $page->folders->max("position");
+
+            if ($highestPagePos == null && $highestFolderPos == null) {
+                $position = 0;
+            } else {
+                $position = max($highestPagePos, $highestFolderPos) + 1;
+            }
+
+            $link = Auth::user()->links()->create([
+                'name' => $request->name,
+                'url' => $request->url ? : null,
+                'email' => $request->email ? : null,
+                'phone' => $request->phone ? : null,
+                'icon' => $iconPath,
+                'page_id' => $request->page_id,
+                'position' => $position,
+            ]);
+        }
 
         return [
             "link" => $link,
-            "path" => $iconPath
+            "path" => $request->phone
         ];
 
     }

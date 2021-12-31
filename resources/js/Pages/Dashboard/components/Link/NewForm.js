@@ -236,6 +236,7 @@ const NewForm = ({
                 addLink(packets)
                 .then((data) => {
 
+
                     if (data.success) {
                         let newLinks = [...userLinks];
 
@@ -335,28 +336,32 @@ const NewForm = ({
                 setShowLoader(false);
 
                 if (data.success) {
-                    let newLinks = userLinks;
-                    newLinks = newLinks.map((item) => {
-                        if (item.id === editID) {
-                            return {
-                                ...item,
-                                name: currentLink.name,
-                                url: URL,
-                                email: currentLink.email,
-                                phone: currentLink.phone,
-                                icon: data.iconPath
-                            }
-                        }
+                    let newLinks = [...userLinks];
 
-                        return item;
-                    });
+                    const newLinkObject = {
+                        id: data.link_id,
+                        name: currentLink.name,
+                        url: URL,
+                        email: currentLink.email,
+                        phone: currentLink.phone,
+                        icon: data.icon_path,
+                        position: data.position,
+                        active_status: true
+                    }
+                    newLinks = newLinks.concat(newLinkObject);
                     setOriginalArray(newLinks);
                     setUserLinks(newLinks);
 
 
+                    setShowNewForm(false);
+                    updateContentHeight(originalArray);
+
+                    setOriginalArray(newLinks);
+                    setUserLinks(newLinks);
+
                     setCustomIconArray( customIconArray => [
                         ...customIconArray,
-                        data.iconPath
+                        data.icon_path
                     ]);
 
                     setShowNewForm(null)
@@ -412,21 +417,8 @@ const NewForm = ({
         }
     )
 
-    /*const updateContentHeight = useCallback (() => {
-
-        if ((originalArray.length + 1) % 4 === 1 ) {
-
-            const iconsWrap = document.querySelector('.icons_wrap');
-            const icons = document.querySelectorAll('.add_icons .icon_col');
-            const colHeight = icons[0].clientHeight;
-            const rowCount = Math.ceil(icons.length / 4);
-            const divHeight = rowCount * colHeight - 40;
-            iconsWrap.style.minHeight = divHeight + "px";
-        }
-    });*/
-
     return (
-        <div className="edit_form link" key={999}>
+        <div className="edit_form link my_row" key={999}>
             <form onSubmit={handleSubmit} className="link_form">
                 <div className="row">
                     <div className="col-12">

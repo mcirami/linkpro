@@ -32,6 +32,7 @@ function clamp(n, min, max) {
 
 const Links = ({
                    setEditID,
+                   setEditFolderID,
                    userSub
 }) => {
 
@@ -48,7 +49,7 @@ const Links = ({
 
     useLayoutEffect(() => {
 
-        if (targetRef.current) {
+        if (targetRef.current && userLinks.length > 0) {
             setSize({
                 height: getColHeight(),
                 width: getColWidth(),
@@ -70,19 +71,24 @@ const Links = ({
             setTimeout(() => {
                 const iconsWrap = document.querySelector('.icons_wrap');
                 const icons = document.querySelectorAll('.add_icons .icon_col');
-                const colHeight = icons[0].clientHeight;
-                const rowCount = Math.ceil(icons.length / 4);
-                let divHeight = rowCount * colHeight - 40;
-                if(userLinks.length < 5) {
-                    divHeight += 20;
+
+                if (icons.length > 0) {
+                    const colHeight = icons[0].clientHeight;
+                    const rowCount = Math.ceil(icons.length / 4);
+                    let divHeight = rowCount * colHeight - 40;
+                    if (userLinks.length < 5) {
+                        divHeight += 20;
+                    }
+                    iconsWrap.style.minHeight = divHeight + "px";
+                } else {
+                    iconsWrap.style.minHeight = "200px";
                 }
-                iconsWrap.style.minHeight = divHeight + "px";
             }, 500)
         }
 
         window.addEventListener('resize', handleResize);
-
         handleResize()
+
         return () => {
             window.removeEventListener('resize', handleResize);
         }
@@ -264,15 +270,23 @@ const Links = ({
     const handleChange = (currentItem) => {
         const newStatus = !currentItem.active_status;
 
+        let url = "";
+
+        if (currentItem.type && currentItem.type === "folder") {
+            url = "/dashboard/folder/status/";
+        } else {
+            url = "/dashboard/links/status/"
+        }
+
         const packets = {
             active_status: newStatus,
         };
 
-        updateLinkStatus(packets, currentItem.id)
+        updateLinkStatus(packets, currentItem.id, url)
         .then((data) => {
 
             if(data.success) {
-                let newLinks = userLinks;
+                let newLinks = [...userLinks];
                 newLinks = newLinks.map((item) => {
                     if (item.id === currentItem.id) {
                         return {
@@ -324,10 +338,10 @@ const Links = ({
     }
 
     const {lastPress, isPressed, mouseXY } = state;
-
+console.log(originalArray);
     return (
         <>
-            {userLinks.map((link, key) => {
+            {userLinks && userLinks.map((link, key) => {
                 let style;
                 let x;
                 let y;
@@ -387,7 +401,7 @@ const Links = ({
                                 <div className="column_content">
                                     {type === "folder" ?
                                         <div className="icon_wrap folder">
-                                            <div className="inner_icon_wrap">
+                                            <div className="inner_icon_wrap" onClick={(e) => {setEditFolderID(linkID)} }>
                                                 <img src={ Vapor.asset('images/blank-folder-square.jpg')} alt=""/>
                                                 <div className="folder_icons">
                                                     {originalArray[key].links.length > 0 &&
@@ -398,11 +412,12 @@ const Links = ({
                                                                 displayIcon = checkSubStatus(
                                                                     innerLink.icon);
                                                                 return (
-                                                                    <img key={index} src={displayIcon ||
-                                                                    Vapor.asset(
-                                                                        'images/icon-placeholder.png')} alt=""/>
+                                                                    <div className="image_col" key={index}>
+                                                                        <img src={displayIcon ||
+                                                                        Vapor.asset(
+                                                                            'images/icon-placeholder.png')} alt=""/>
+                                                                    </div>
                                                                 )
-
                                                             })
                                                     }
                                                     {originalArray[key].links.length === 0 && <p>Add Icons</p>}

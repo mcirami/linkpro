@@ -4,6 +4,8 @@
 namespace App\Services;
 
 
+use App\Models\Folder;
+use App\Models\Link;
 use App\Models\Page;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,5 +36,32 @@ class FolderService {
             "position" => $position
         ];
 
+    }
+
+    public function getLinks($folder) {
+
+        $linksArray = [];
+        $folderLinkIDs = $folder->link_ids;
+
+        if($folderLinkIDs) {
+            $linkIDs = json_decode($folderLinkIDs);
+
+            $linksArray = Link::whereIn('id', $linkIDs)->orderBy('position', 'asc')->get()->toArray();
+        }
+
+        return $linksArray;
+
+    }
+
+    public function updateStatus($request, $folder) {
+
+        $folder->update($request->only(['active_status']));
+        if ($request->active_status == true ) {
+            $message = "Folder Enabled";
+        } else {
+            $message = "Folder Disabled";
+        }
+
+        return $message;
     }
 }

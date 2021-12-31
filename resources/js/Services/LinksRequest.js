@@ -14,11 +14,11 @@ export const addLink = (packets) => {
             //console.log(JSON.stringify(response.data));
             const returnMessage = JSON.stringify(response.data.message);
             EventBus.dispatch("success", {message: returnMessage});
-            const link_id = JSON.stringify(response.data.link_id);
+            const link_id = response.data.link_id;
             const position = response.data.position;
             let icon_path = null;
             if (response.data.iconPath) {
-                icon_path = JSON.stringify(response.data.iconPath);
+                icon_path = response.data.iconPath;
             }
 
             return {
@@ -110,9 +110,9 @@ export const updateLinksPositions = (packets) => {
  * Submit a request to update a link
  * return object
  */
-export const updateLinkStatus = (packets, itemID) => {
+export const updateLinkStatus = (packets, itemID, url) => {
 
-    return axios.post("/dashboard/links/status/" + itemID, packets)
+    return axios.post(url + itemID, packets)
     .then(
         (response) => {
             //console.log(JSON.stringify(response.data))
@@ -210,9 +210,9 @@ export const checkURL = (url, name, custom, subStatus) => {
     }
 }
 
-export const updateContentHeight = ( originalArray ) => {
+export const updateContentHeight = ( linkArray ) => {
 
-    if ((originalArray.length + 1) % 4 === 1 ) {
+    if ((linkArray.length + 1) % 4 === 1 ) {
 
         const iconsWrap = document.querySelector('.icons_wrap');
         const icons = document.querySelectorAll('.add_icons .icon_col');

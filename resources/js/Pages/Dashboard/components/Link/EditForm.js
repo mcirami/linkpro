@@ -227,7 +227,7 @@ const EditForm = ({
                 .then((data) => {
 
                     if (data.success) {
-                        let newLinks = userLinks;
+                        let newLinks = [...userLinks];
                         newLinks = newLinks.map((item) => {
                             if (item.id === editID) {
                                 return {
@@ -242,8 +242,8 @@ const EditForm = ({
 
                             return item;
                         });
-                        setUserLinks(newLinks);
                         setOriginalArray(newLinks);
+                        setUserLinks(newLinks);
 
                         setEditID(null)
                     }
@@ -321,7 +321,7 @@ const EditForm = ({
                 setShowLoader(false);
 
                 if (data.success) {
-                    let newLinks = userLinks;
+                    let newLinks = [...userLinks];
                     newLinks = newLinks.map((item) => {
                         if (item.id === editID) {
                             return {
@@ -336,8 +336,9 @@ const EditForm = ({
 
                         return item;
                     });
-                    setUserLinks(newLinks);
                     setOriginalArray(newLinks);
+                    setUserLinks(newLinks);
+
 
                     setCustomIconArray( customIconArray => [
                         ...customIconArray,
@@ -402,7 +403,7 @@ const EditForm = ({
     }
 
     return (
-        <div className="edit_form link" key={editID}>
+        <div className="my_row edit_form link" key={editID}>
             <form onSubmit={handleSubmit} className="link_form">
                 <div className="row">
                     <div className="col-12">

@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useState, useEffect, useLayoutEffect} from 'react';
 import {UserLinksContext, PageContext} from '../App';
 import {IoIosLock, IoIosCloseCircleOutline} from 'react-icons/io';
 
@@ -47,6 +47,18 @@ const Preview = ({ setRef, completedCrop, fileName, profileFileName, completedPr
                     remove('show');
                 document.querySelector('body').classList.remove('fixed');
             }
+
+            const box = document.querySelector('.inner_content_wrap');
+            const innerContent = document.getElementById('preview_wrap');
+
+            let pixelsToMinus = 0;
+            if (windowWidth > 550) {
+                pixelsToMinus = 35;
+            } else {
+                pixelsToMinus = 25;
+            }
+
+            box.style.maxHeight = innerContent.offsetHeight - pixelsToMinus + "px";
         }
 
         window.addEventListener('resize', handleResize);
@@ -75,6 +87,46 @@ const Preview = ({ setRef, completedCrop, fileName, profileFileName, completedPr
             return icon;
         }
     }
+
+    useLayoutEffect(() => {
+
+        function handleResize() {
+            const windowWidth = window.outerWidth;
+
+            const box = document.querySelector('.inner_content_wrap');
+            const innerContent = document.getElementById('preview_wrap');
+
+            let pixelsToMinus = 0;
+            if (windowWidth > 550) {
+                pixelsToMinus = 35;
+            } else {
+                pixelsToMinus = 25;
+            }
+
+            box.style.maxHeight = innerContent.offsetHeight - pixelsToMinus + "px";
+        }
+
+        window.addEventListener('resize', handleResize);
+
+        handleResize()
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        }
+    }, []);
+
+    useLayoutEffect(() => {
+        const box = document.querySelector('.inner_content_wrap');
+        const innerContent = document.getElementById('preview_wrap');
+
+        let pixelsToMinus = 0;
+        if (window.outerWidth > 550) {
+            pixelsToMinus = 35;
+        } else {
+            pixelsToMinus = 25;
+        }
+
+        box.style.maxHeight = innerContent.offsetHeight - pixelsToMinus + "px";
+    }, []);
 
     return (
 

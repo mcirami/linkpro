@@ -12536,10 +12536,10 @@ header.guest_header .col.right {
 #links_page .icons_wrap.add_icons {
   padding: 0 3%;
   min-height: 800px;
-  transition: 100ms all linear;
-  -webkit-transition: 100ms all linear;
-  -moz-transition: 100ms all linear;
-  -o-transition: 100ms all linear;
+  transition: 800ms all ease-in-out;
+  -webkit-transition: 800ms all ease-in-out;
+  -moz-transition: 800ms all ease-in-out;
+  -o-transition: 800ms all ease-in-out;
 }
 @media all and (max-width: 1199px) {
   #links_page .icons_wrap.add_icons {
@@ -13217,8 +13217,8 @@ header.guest_header .col.right {
 @media screen and (max-width: 550px) {
   #links_page .links_col .links_wrap.preview .inner_content {
     min-height: 620px;
-    max-width: 272px;
-    padding: 5px 0 0 0;
+    max-width: 273px;
+    padding: 7px 0 0 0;
   }
 }
 #links_page .links_col .links_wrap.preview .inner_content:before {
@@ -15335,7 +15335,7 @@ form .bottom_row a {
 .icon_wrap.folder .inner_icon_wrap .folder_icons {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: flex-start;
   -webkit-justify-content: flex-start;
   align-items: flex-start;
@@ -15344,11 +15344,20 @@ form .bottom_row a {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
   padding: 10px;
 }
-.icon_wrap.folder .inner_icon_wrap .folder_icons img {
-  max-width: 33%;
+.icon_wrap.folder .inner_icon_wrap .folder_icons .image_col {
+  max-width: 32%;
+  margin-right: 2%;
+  margin-bottom: 3px;
+  border-radius: 30% !important;
+  -webkit-border-radius: 30% !important;
+  -moz-border-radius: 30% !important;
+}
+.icon_wrap.folder .inner_icon_wrap .folder_icons .image_col:nth-child(3n) {
+  margin-right: 0;
+}
+.icon_wrap.folder .inner_icon_wrap .folder_icons .image_col img {
   border-radius: 30% !important;
   -webkit-border-radius: 30% !important;
   -moz-border-radius: 30% !important;
@@ -15367,6 +15376,10 @@ form .bottom_row a {
   width: 100%;
   height: 100%;
   z-index: 1;
+}
+
+#links_page .icons_wrap.folder .icon_col {
+  width: 33.3%;
 }
 
 footer {

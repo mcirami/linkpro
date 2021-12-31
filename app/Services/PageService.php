@@ -115,15 +115,6 @@ class PageService {
 
     public function editPage($user, $page) {
 
-        /*$array = array(168, 125);
-
-        Folder::create([
-            "page_id" => $page->id,
-            "user_id" => $user->id,
-            "link_ids" => json_encode($array),
-            "position" => 18
-        ]);*/
-
         $userPages = $this->getUserPages($this->user);
 
         $userIcons = [];
@@ -157,18 +148,16 @@ class PageService {
             $linksArray = [];
 
             if (!empty($mylinks)) {
-                foreach ( $mylinks as $link ) {
-                    $linkItem = Link::find( $link )->toArray();
-                    array_push( $linksArray, $linkItem );
-                }
-            }
 
+                $linksArray = Link::whereIn('id', $mylinks)->orderBy('position', 'asc')->get()->toArray();
+            }
 
             $linkObject = [
                 'id' => $folder["id"],
                 'type' => 'folder',
                 'position' => $folder["position"],
-                'links' => $linksArray
+                'links' => $linksArray,
+                'active_status' => $folder["active_status"]
             ];
 
             array_push($folderArray, $linkObject);

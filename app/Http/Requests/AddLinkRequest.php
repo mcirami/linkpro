@@ -25,9 +25,9 @@ class AddLinkRequest extends FormRequest
     {
         return [
             'name' => 'required|max:255',
-            'url' => 'sometimes|required|url',
+            'url' => 'sometimes|required',
             'email' => 'sometimes|required|email',
-            'phone' => 'sometimes|required|phone',
+            'phone' => 'sometimes|required',
             'icon' => 'required',
         ];
     }

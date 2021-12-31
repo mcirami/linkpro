@@ -18,6 +18,7 @@ import { ConfirmPopup } from './ConfirmPopup';
 import { Loader } from './Loader';
 import NewForm from './Link/NewForm';
 import AddFolder from './Folder/AddFolder';
+import FolderLinks from './Folder/FolderLinks';
 
 const page = user.page;
 const userPages = user.user_pages;
@@ -40,6 +41,7 @@ function App() {
 
     const [allUserPages, setAllUserPages] = useState(userPages);
     const [editID, setEditID] = useState(null);
+    const [editFolderID, setEditFolderID] = useState(null);
     const [showNewForm, setShowNewForm] = useState(false);
     const [showUpgradePopup, setShowUpgradePopup] = useState(false);
     const [showConfirmPopup, setShowConfirmPopup] = useState(false);
@@ -107,7 +109,7 @@ function App() {
                                 setOptionText={setOptionText}
                             />
 
-                            <div className="content_wrap" id="left_col_wrap">
+                            <div className="content_wrap my_row" id="left_col_wrap">
                                 <div className="top_section">
                                     <PageName />
 
@@ -148,6 +150,12 @@ function App() {
                                     }
                                 </div>
 
+                                <div className="my_row view_live_link link_row">
+                                    <a className="button green w-100" target="_blank" href={host +
+                                    '/' +
+                                    pageSettings['name']}>Open Live Page</a>
+                                </div>
+
                                 {editID ?
                                     <EditForm
                                         editID={editID}
@@ -161,51 +169,62 @@ function App() {
                                         setShowLoader={setShowLoader}
                                     />
                                     :
+                                    showNewForm ?
+                                        <NewForm
+                                            setShowNewForm={setShowNewForm}
+                                            setShowUpgradePopup={setShowUpgradePopup}
+                                            setOptionText={setOptionText}
+                                            userSub={userSub}
+                                            customIconArray={customIconArray}
+                                            setCustomIconArray={setCustomIconArray}
+                                            setShowLoader={setShowLoader}
+                                        />
+                                        :
+                                        editFolderID ?
 
-                                        showNewForm ?
-                                            <NewForm
-                                                setShowNewForm={setShowNewForm}
+                                            <FolderLinks
+                                                folderID={editFolderID}
+                                                userSub={userSub}
                                                 setShowUpgradePopup={setShowUpgradePopup}
                                                 setOptionText={setOptionText}
-                                                userSub={userSub}
+                                                setShowLoader={setShowLoader}
                                                 customIconArray={customIconArray}
                                                 setCustomIconArray={setCustomIconArray}
-                                                setShowLoader={setShowLoader}
+                                                setEditFolderID={setEditFolderID}
+                                                setEditID={setEditID}
+                                                setShowConfirmPopup={setShowConfirmPopup}
                                             />
+
                                             :
-                                            <>
-                                                <div className="my_row view_live_link link_row">
-                                                    <a className="button green w-100" target="_blank" href={host +
-                                                    '/' +
-                                                    pageSettings['name']}>Open Live Page</a>
-                                                </div>
-                                                <div className="my_row link_row">
-                                                    <div className="add_more_icons">
-                                                        <AddLink
-                                                            setShowNewForm={setShowNewForm}
-                                                            userSub={userSub}
-                                                            setShowUpgradePopup={setShowUpgradePopup}
-                                                            setOptionText={setOptionText}
-                                                        />
-                                                    </div>
-                                                    <div className="add_more_icons">
-                                                        <AddFolder
-                                                            userSub={userSub}
-                                                            setShowUpgradePopup={setShowUpgradePopup}
-                                                            setOptionText={setOptionText}
-                                                        />
-                                                    </div>
-                                                </div>
-
-                                                <div className="icons_wrap add_icons icons">
-
-                                                    <Links
-                                                        setEditID={setEditID}
+                                        <>
+                                            <div className="my_row link_row">
+                                                <div className="add_more_icons">
+                                                    <AddLink
+                                                        setShowNewForm={setShowNewForm}
                                                         userSub={userSub}
+                                                        setShowUpgradePopup={setShowUpgradePopup}
+                                                        setOptionText={setOptionText}
                                                     />
-
                                                 </div>
-                                            </>
+                                                <div className="add_more_icons">
+                                                    <AddFolder
+                                                        userSub={userSub}
+                                                        setShowUpgradePopup={setShowUpgradePopup}
+                                                        setOptionText={setOptionText}
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className="icons_wrap add_icons icons">
+
+                                                <Links
+                                                    setEditID={setEditID}
+                                                    setEditFolderID={setEditFolderID}
+                                                    userSub={userSub}
+                                                />
+
+                                            </div>
+                                        </>
 
                                 }
 
