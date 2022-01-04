@@ -15,15 +15,19 @@ const iconPaths = user.icons;
 import {updateLink, checkURL} from '../../../../Services/LinksRequest';
 
 const EditForm = ({
-        editID,
-        setEditID,
-        setShowUpgradePopup,
-        setShowConfirmPopup,
-        setOptionText,
-        userSub,
-        customIconArray,
-        setCustomIconArray,
-        setShowLoader
+                      editID,
+                      setEditID,
+                      setShowUpgradePopup,
+                      setShowConfirmPopup,
+                      setOptionText,
+                      userSub,
+                      customIconArray,
+                      setCustomIconArray,
+                      setShowLoader,
+                      folderID,
+                      folderLinks,
+                      setFolderLinks,
+                      setOriginalFolderLinks
 }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
@@ -48,7 +52,9 @@ const EditForm = ({
     const [ currentLink, setCurrentLink ] = useState(
         userLinks.find(function(e) {
             return e.id === editID
-        }) || null );
+        }) || folderLinks.find(function(e) {
+            return e.id === editID
+        }) );
 
     const [inputType, setInputType] = useState(
         currentLink.email && "email" || currentLink.url && "url" || currentLink.phone && "phone"
@@ -227,23 +233,76 @@ const EditForm = ({
                 .then((data) => {
 
                     if (data.success) {
-                        let newLinks = [...userLinks];
-                        newLinks = newLinks.map((item) => {
-                            if (item.id === editID) {
-                                return {
-                                    ...item,
-                                    name: currentLink.name,
-                                    url: URL,
-                                    email: currentLink.email,
-                                    phone: currentLink.phone,
-                                    icon: currentLink.icon
-                                }
-                            }
 
-                            return item;
-                        });
-                        setOriginalArray(newLinks);
-                        setUserLinks(newLinks);
+                        if(folderID) {
+                            let newFolderLinks = [...folderLinks];
+                            let newUserLinks = [...userLinks];
+
+                            newFolderLinks = newFolderLinks.map((item) => {
+                                if (item.id === editID) {
+                                    return {
+                                        ...item,
+                                        name: currentLink.name,
+                                        url: URL,
+                                        email: currentLink.email,
+                                        phone: currentLink.phone,
+                                        icon: currentLink.icon
+                                    }
+                                }
+
+                                return item;
+                            });
+
+                            newUserLinks = newUserLinks.map((item) => {
+                                if (item.id === folderID) {
+
+                                    item.links = item.links.map((linkItem) => {
+
+                                        if (linkItem.id === editID) {
+
+                                            return {
+                                                ...item,
+                                                name: currentLink.name,
+                                                url: URL,
+                                                email: currentLink.email,
+                                                phone: currentLink.phone,
+                                                icon: currentLink.icon
+                                            }
+                                        }
+
+                                        return linkItem
+                                    })
+
+                                    return item;
+                                }
+
+                                return item;
+                            })
+
+                            setOriginalFolderLinks(newFolderLinks);
+                            setFolderLinks(newFolderLinks);
+                            setUserLinks(newUserLinks);
+                            setOriginalArray(newUserLinks);
+
+                        } else {
+                            let newLinks = [...userLinks];
+                            newLinks = newLinks.map((item) => {
+                                if (item.id === editID) {
+                                    return {
+                                        ...item,
+                                        name: currentLink.name,
+                                        url: URL,
+                                        email: currentLink.email,
+                                        phone: currentLink.phone,
+                                        icon: currentLink.icon
+                                    }
+                                }
+
+                                return item;
+                            });
+                            setOriginalArray(newLinks);
+                            setUserLinks(newLinks);
+                        }
 
                         setEditID(null)
                     }
@@ -321,24 +380,75 @@ const EditForm = ({
                 setShowLoader(false);
 
                 if (data.success) {
-                    let newLinks = [...userLinks];
-                    newLinks = newLinks.map((item) => {
-                        if (item.id === editID) {
-                            return {
-                                ...item,
-                                name: currentLink.name,
-                                url: URL,
-                                email: currentLink.email,
-                                phone: currentLink.phone,
-                                icon: data.iconPath
+
+                    if (folderID) {
+                        let newFolderLinks = [...folderLinks];
+                        let newUserLinks = [...userLinks];
+
+                        newFolderLinks = newFolderLinks.map((item) => {
+                            if (item.id === editID) {
+                                return {
+                                    ...item,
+                                    name: currentLink.name,
+                                    url: URL,
+                                    email: currentLink.email,
+                                    phone: currentLink.phone,
+                                    icon: data.iconPath
+                                }
                             }
-                        }
 
-                        return item;
-                    });
-                    setOriginalArray(newLinks);
-                    setUserLinks(newLinks);
+                            return item;
+                        });
 
+                        newUserLinks = newUserLinks.map((item) => {
+                            if (item.id === folderID) {
+
+                                item.links = item.links.map((linkItem) => {
+
+                                    if (linkItem.id === editID) {
+
+                                        return {
+                                            ...item,
+                                            name: currentLink.name,
+                                            url: URL,
+                                            email: currentLink.email,
+                                            phone: currentLink.phone,
+                                            icon: data.iconPath
+                                        }
+                                    }
+
+                                    return linkItem
+                                })
+
+                                return item;
+                            }
+
+                            return item;
+                        })
+
+                        setOriginalFolderLinks(newFolderLinks);
+                        setFolderLinks(newFolderLinks);
+                        setUserLinks(newUserLinks);
+                        setOriginalArray(newUserLinks);
+                    } else {
+                        let newLinks = [...userLinks];
+                        newLinks = newLinks.map((item) => {
+                            if (item.id === editID) {
+                                return {
+                                    ...item,
+                                    name: currentLink.name,
+                                    url: URL,
+                                    email: currentLink.email,
+                                    phone: currentLink.phone,
+                                    icon: data.iconPath
+                                }
+                            }
+
+                            return item;
+                        });
+                        setOriginalArray(newLinks);
+                        setUserLinks(newLinks);
+                    }
 
                     setCustomIconArray( customIconArray => [
                         ...customIconArray,
@@ -407,11 +517,7 @@ const EditForm = ({
             <form onSubmit={handleSubmit} className="link_form">
                 <div className="row">
                     <div className="col-12">
-                        {userLinks.length > 1 ?
-                            <a className="delete" href="#" onClick={handleDeleteClick}><MdDeleteForever /></a>
-                            :
-                            ""
-                        }
+                        <a className="delete" href="#" onClick={handleDeleteClick}><MdDeleteForever /></a>
                         {radioValue === "custom" ?
                             <div className={!iconSelected ?
                                 "crop_section hidden" :

@@ -33,7 +33,10 @@ function clamp(n, min, max) {
 const Links = ({
                    setEditID,
                    setEditFolderID,
-                   userSub
+                   userSub,
+                   setFolderLinks,
+                   setOriginalFolderLinks
+
 }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
@@ -337,8 +340,19 @@ const Links = ({
         }
     }
 
+    const fetchFolderLinks = async (linkID) => {
+        const url = 'folder/links/' + linkID;
+        const response = await fetch(url);
+        const folderLinks = await response.json();
+
+        setOriginalFolderLinks(folderLinks["links"]);
+        setFolderLinks(folderLinks["links"]);
+        setEditFolderID(linkID)
+
+    }
+
     const {lastPress, isPressed, mouseXY } = state;
-console.log(originalArray);
+
     return (
         <>
             {userLinks && userLinks.map((link, key) => {
@@ -401,7 +415,7 @@ console.log(originalArray);
                                 <div className="column_content">
                                     {type === "folder" ?
                                         <div className="icon_wrap folder">
-                                            <div className="inner_icon_wrap" onClick={(e) => {setEditFolderID(linkID)} }>
+                                            <div className="inner_icon_wrap" onClick={(e) => {fetchFolderLinks(linkID)} }>
                                                 <img src={ Vapor.asset('images/blank-folder-square.jpg')} alt=""/>
                                                 <div className="folder_icons">
                                                     {originalArray[key].links.length > 0 &&

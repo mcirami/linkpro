@@ -59,6 +59,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
 
     Route::get('/pages/folder/links/{folder}', [FolderController::class, 'getFolderLinks'])->name('get.folder.links');
     Route::post('/folder/status/{folder}', [FolderController::class, 'updateFolderStatus']);
+    Route::post('/folder/delete/{folder}', [FolderController::class, 'destroy']);
+    Route::post('/folder/update-name/{folder}', [FolderController::class, 'updateName']);
 });
 
 Route::group(['middleware' => 'auth'], function() {

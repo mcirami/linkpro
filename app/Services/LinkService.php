@@ -38,7 +38,7 @@ class LinkService {
             $folder = Folder::findOrFail($folderID);
             $folderLinkIDs = $folder->link_ids;
 
-            if($folderLinkIDs) {
+            if($folderLinkIDs && !empty($folderLinkIDs)) {
                 $linksArray = [];
                 $linkIDs = json_decode($folderLinkIDs);
 
@@ -73,10 +73,10 @@ class LinkService {
 
 
         } else {
-            $highestPagePos = $page->links()->max('position');
+            $highestPagePos = $page->links()->where('folder_id', null)->max('position');
             $highestFolderPos = $page->folders->max("position");
 
-            if ($highestPagePos == null && $highestFolderPos == null) {
+            if ($highestPagePos === null && $highestFolderPos === null) {
                 $position = 0;
             } else {
                 $position = max($highestPagePos, $highestFolderPos) + 1;
@@ -95,7 +95,7 @@ class LinkService {
 
         return [
             "link" => $link,
-            "path" => $request->phone
+            "path" => $iconPath
         ];
 
     }
@@ -138,20 +138,31 @@ class LinkService {
         return $message;
     }
 
-    public function updateLinksPositions($linksArray) {
+    public function updateLinksPositions($request) {
 
-        foreach($linksArray["userLinks"] as $index => $link) {
-            if (array_key_exists("type", $link) && $link["type"] == "folder") {
-                $currentFolder = Folder::findOrFail($link["id"]);
-                if ($currentFolder->position != $index) {
-                    $currentFolder->position = $index;
-                    $currentFolder->save();
+        if ($request["userLinks"] && !empty($request['userLinks']) ) {
+            foreach ( $request["userLinks"] as $index => $link ) {
+                if ( array_key_exists( "type", $link ) && $link["type"] == "folder" ) {
+                    $currentFolder = Folder::findOrFail( $link["id"] );
+                    if ( $currentFolder->position != $index ) {
+                        $currentFolder->position = $index;
+                        $currentFolder->save();
+                    }
+                } else {
+                    $currentLink = Link::findOrFail( $link["id"] );
+                    if ( $currentLink->position != $index ) {
+                        $currentLink->position = $index;
+                        $currentLink->save();
+                    }
                 }
-            } else {
-                $currentLink = Link::findOrFail($link["id"]);
-                if ($currentLink->position != $index) {
-                    $currentLink->position = $index;
-                    $currentLink->save();
+            }
+        }
+
+        if ($request['folderLinks'] && !empty($request['folderLinks'])) {
+            foreach ($request['folderLinks'] as $index => $folderLink) {
+                if ($folderLink->position != $index) {
+                    $folderLink->position = $index;
+                    $folderLink->save();
                 }
             }
         }
@@ -165,6 +176,19 @@ class LinkService {
             $newLink->setTable( 'deleted_links' );
             $newLink->link_id = $link->id;
             $newLink->save();
+        }
+
+        if ($link->folder_id) {
+            $folder = Folder::findOrFail($link->folder_id);
+            $linkIDs = json_decode($folder->link_ids);
+
+            $newArray = array_values(array_filter($linkIDs, fn ($m) => $m != $link->id));
+
+            if(count($newArray) > 0) {
+                $folder->update(['link_ids' => json_encode($newArray)]);
+            } else {
+                $folder->update(['link_ids' => null]);
+            }
         }
 
         $link->delete();

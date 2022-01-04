@@ -6,7 +6,7 @@ import React, {
     useState,
     useContext,
 } from 'react';
-import {MdDragHandle} from 'react-icons/md';
+import {MdDeleteForever, MdDragHandle} from 'react-icons/md';
 import Switch from "react-switch";
 import {UserLinksContext, OriginalArrayContext} from '../App';
 import {Motion, spring} from 'react-motion';
@@ -14,9 +14,8 @@ import {
     updateLinksPositions,
     updateLinkStatus,
 } from '../../../../Services/LinksRequest';
+import {updateFolderName} from '../../../../Services/FolderRequests';
 import AddLink from '../Link/AddLink';
-import NewFolderIconForm from './NewFolderIconForm';
-import UpdateFolderIconForm from './UpdateFolderIconForm';
 
 const springSetting1 = { stiffness: 180, damping: 10 };
 const springSetting2 = { stiffness: 120, damping: 17 };
@@ -38,43 +37,37 @@ const FolderLinks = ({
                          userSub,
                          setShowUpgradePopup,
                          setOptionText,
-                         customIconArray,
-                         setCustomIconArray,
-                         setShowLoader,
                          setEditFolderID,
-                         setShowConfirmPopup
+                         setEditID,
+                         folderLinks,
+                         setFolderLinks,
+                         originalFolderLinks,
+                         setOriginalFolderLinks,
+                         setShowNewForm,
+                         setShowConfirmFolderDelete
 
                }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
     const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
 
-    const [folderLinks, setFolderLinks] = useState([])
-    const [originalFolderLinks, setOriginalFolderLinks] = useState([])
+    const [ currentLink, setCurrentLink ] = useState(
+        userLinks.find(function(e) {
+            return e.id === folderID
+        }) || null );
 
-    const [showNewForm, setShowNewForm] = useState(false);
+    const [charactersLeft, setCharactersLeft] = useState();
 
-    const [editID, setEditID] = useState(null);
+    useEffect(() => {
+        if(currentLink.name) {
+            setCharactersLeft(11 - currentLink.name.length);
+        } else {
+            setCharactersLeft(11);
+        }
+    },[charactersLeft])
 
     const initialRender = useRef(true);
     const targetRef = useRef();
-
-    const fetchFolderLinks = async () => {
-        const url = 'folder/links/' + folderID;
-        const response = await fetch(url);
-        const folderLinks = await response.json();
-
-        setOriginalFolderLinks(folderLinks["links"]);
-        setFolderLinks(folderLinks["links"]);
-
-    }
-
-    useEffect(() => {
-
-        if (initialRender.current) {
-            fetchFolderLinks()
-        }
-    }, []);
 
     const [size, setSize] = useState({
         height: 0,
@@ -392,156 +385,195 @@ const FolderLinks = ({
         }
     }
 
+    const handleSubmit = () => {
+
+        const packets = {
+            folderName: currentLink.name
+        }
+
+        updateFolderName(folderID, packets)
+        .then((data) => {
+
+            if(data.success) {
+                let newLinks = [...userLinks];
+                newLinks = newLinks.map((item) => {
+                    if (item.id === folderID) {
+                        item.name = currentLink.name;
+
+                        return item
+                    }
+
+                    return item
+                })
+
+                setUserLinks(newLinks);
+                setOriginalArray(newLinks);
+
+            }
+        })
+    }
+
+    const handleFolderName = (e) => {
+        let value = e.target.value;
+
+        setCharactersLeft(11 - value.length);
+
+        setCurrentLink({
+            ...currentLink,
+            name: value
+        })
+    }
+
+    const handleDeleteFolder = e => {
+
+        e.preventDefault();
+        setShowConfirmFolderDelete(true);
+        document.querySelector('#confirm_folder_popup_link').classList.add('open');
+    }
+
     const { lastPress, isPressed, mouseXY } = state;
 
     return (
 
         <>
+            <div className="my_row link_row folders">
+                <a className="button blue" href="#"
+                   onClick={(e) => { e.preventDefault(); setEditFolderID(null); }}
+                >Back</a>
+                <div className="delete_icon">
+                    <a className="delete" href="#" onClick={handleDeleteFolder}><MdDeleteForever /></a>
+                    <div className="hover_text delete_folder"><p>Delete Folder</p></div>
+                </div>
 
-            {showNewForm ?
+            </div>
+            <div className="my_row link_row">
 
-                <NewFolderIconForm
-                    setShowNewForm={setShowNewForm}
-                    setShowUpgradePopup={setShowUpgradePopup}
-                    setOptionText={setOptionText}
-                    userSub={userSub}
-                    customIconArray={customIconArray}
-                    setCustomIconArray={setCustomIconArray}
-                    setShowLoader={setShowLoader}
-                    folderID={folderID}
-                    folderLinks={folderLinks}
-                    setFolderLinks={setFolderLinks}
-                    setOriginalFolderLinks={setOriginalFolderLinks}
-                />
-                :
-                editID ?
-
-                    <UpdateFolderIconForm
-                        setEditID={setEditID}
-                        editID={editID}
-                        setShowUpgradePopup={setShowUpgradePopup}
-                        setShowConfirmPopup={setShowConfirmPopup}
-                        setOptionText={setOptionText}
+                <div className="add_more_icons">
+                    <AddLink
+                        setShowNewForm={setShowNewForm}
                         userSub={userSub}
-                        customIconArray={customIconArray}
-                        setCustomIconArray={setCustomIconArray}
-                        setShowLoader={setShowLoader}
-                        folderLinks={folderLinks}
-                        setFolderLinks={setFolderLinks}
-                        setOriginalFolderLinks={setOriginalFolderLinks}
-                        folderID={folderID}
+                        setShowUpgradePopup={setShowUpgradePopup}
+                        setOptionText={setOptionText}
                     />
-
-                    :
-                <>
-
-                    <a href="#"
-                       onClick={(e) => { e.preventDefault(); setEditFolderID(null); }}
-                    >Back</a>
-                    <div className="my_row link_row">
-                        <div className="add_more_icons">
-                            <AddLink
-                                setShowNewForm={setShowNewForm}
-                                userSub={userSub}
-                                setShowUpgradePopup={setShowUpgradePopup}
-                                setOptionText={setOptionText}
-                            />
-                        </div>
-                        <div className="add_more_icons">
-                            <input type="text" placeholder="Folder Name"/>
-                        </div>
-                    </div>
-
-                    <div className="icons_wrap add_icons icons folder">
-
-                        {folderLinks.length > 0 && folderLinks.map((link, key) => {
-                            let style;
-                            let x;
-                            let y;
-
-                            const visualPosition = folderLinks.findIndex((link) => link.position === key);
-                            if (key === lastPress && isPressed) {
-                                [x, y] = mouseXY;
-                                style = {
-                                    translateX: x,
-                                    translateY: y,
-                                    scale: spring(1.2, springSetting1),
-                                    //boxShadow: spring((x - (3 * width - 50) / 2) / 15, springSetting1)
-                                };
-                            } else {
-                                [x, y] = layout[visualPosition];
-                                style = {
-                                    translateX: spring(x, springSetting2),
-                                    translateY: spring(y, springSetting2),
-                                    scale: spring(.85, springSetting1),
-                                    //boxShadow: spring((x - (3 * width - 50) / 2) / 15, springSetting1)
-                                };
+                </div>
+                <div className="add_more_icons">
+                    <div className="input_wrap">
+                        <input
+                            /*maxLength="13"*/
+                            name="name"
+                            type="text"
+                            value={currentLink.name || ""}
+                            placeholder="Folder Name"
+                            onChange={(e) => handleFolderName(e)}
+                            onKeyPress={ event => {
+                                if(event.key === 'Enter') {
+                                    handleSubmit(event);
+                                }
                             }
+                            }
+                            onBlur={(e) => handleSubmit(e)}
+                        />
+                    </div>
+                    <div className="my_row characters">
+                        <p className="char_max">Max 11 Characters Shown</p>
+                        <p className="char_count">
+                            {charactersLeft < 0 ?
+                                <span className="over">Only 11 Characters Will Be Shown</span>
+                                :
+                                "Characters Left: " + charactersLeft
+                            }
+                        </p>
+                    </div>
+                </div>
+            </div>
 
-                            const linkID = originalFolderLinks[key].id;
-                            let displayIcon;
-                            displayIcon = checkSubStatus(originalFolderLinks[key].icon);
+            <div className="icons_wrap add_icons icons folder">
 
-                            return (
-                                <Motion key={key} style={style}>
-                                    {({ translateX, translateY, scale }) => (
-                                        <div
-                                            ref={targetRef}
-                                            className="icon_col"
-                                            style={{
-                                                transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale})`,
-                                                zIndex: key === lastPress ? 2 : 1,
-                                                //boxShadow: `${boxShadow}px 5px 5px rgba(0,0,0,0.5)`,
-                                                userSelect: "none",
-                                                touchAction: "none",
-                                            }}
-                                        >
-                                            <span className="drag_handle"
-                                                  onMouseDown={handleMouseDown.bind(null,
-                                                      key, [x, y])}
-                                                  onTouchStart={handleTouchStart.bind(
-                                                      null, key, [x, y])}
-                                            >
-                                                <MdDragHandle/>
-                                                <div className="hover_text"><p>Move Icon</p></div>
-                                            </span>
+                {folderLinks.length > 0 && folderLinks.map((link, key) => {
+                    let style;
+                    let x;
+                    let y;
 
-                                            <div className="column_content">
+                    const visualPosition = folderLinks.findIndex((link) => link.position === key);
+                    if (key === lastPress && isPressed) {
+                        [x, y] = mouseXY;
+                        style = {
+                            translateX: x,
+                            translateY: y,
+                            scale: spring(1.2, springSetting1),
+                            //boxShadow: spring((x - (3 * width - 50) / 2) / 15, springSetting1)
+                        };
+                    } else {
+                        [x, y] = layout[visualPosition];
+                        style = {
+                            translateX: spring(x, springSetting2),
+                            translateY: spring(y, springSetting2),
+                            scale: spring(.85, springSetting1),
+                            //boxShadow: spring((x - (3 * width - 50) / 2) / 15, springSetting1)
+                        };
+                    }
 
-                                                <div className="icon_wrap" onClick={(e) => {
-                                                    handleOnClick(linkID)
-                                                }}>
-                                                    <div className="image_wrap">
-                                                        <img src={displayIcon ||
-                                                        Vapor.asset(
-                                                            'images/icon-placeholder.png')} alt=""/>
-                                                        {/*<div className="hover_text"><p><img src='/images/icon-placeholder.png' alt=""/></p></div>*/}
-                                                    </div>
-                                                </div>
+                    const linkID = originalFolderLinks[key].id;
+                    let displayIcon;
+                    displayIcon = checkSubStatus(originalFolderLinks[key].icon);
 
-                                                <div className="my_row">
-                                                    <div className="switch_wrap">
-                                                        <Switch
-                                                            onChange={(e) => handleChange(originalFolderLinks[key])}
-                                                            height={20}
-                                                            checked={Boolean(originalFolderLinks[key].active_status)}
-                                                            onColor="#424fcf"
-                                                            uncheckedIcon={false}
-                                                            checkedIcon={false}
-                                                        />
-                                                        <div className="hover_text switch"><p>{Boolean(originalFolderLinks[key].active_status) ? "Deactivate" : "Active"} Icon</p></div>
-                                                    </div>
-                                                </div>
+                    return (
+                        <Motion key={key} style={style}>
+                            {({ translateX, translateY, scale }) => (
+                                <div
+                                    ref={targetRef}
+                                    className="icon_col"
+                                    style={{
+                                        transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale})`,
+                                        zIndex: key === lastPress ? 2 : 1,
+                                        //boxShadow: `${boxShadow}px 5px 5px rgba(0,0,0,0.5)`,
+                                        userSelect: "none",
+                                        touchAction: "none",
+                                    }}
+                                >
+                                    <span className="drag_handle"
+                                          onMouseDown={handleMouseDown.bind(null,
+                                              key, [x, y])}
+                                          onTouchStart={handleTouchStart.bind(
+                                              null, key, [x, y])}
+                                    >
+                                        <MdDragHandle/>
+                                        <div className="hover_text"><p>Move Icon</p></div>
+                                    </span>
+
+                                    <div className="column_content">
+
+                                        <div className="icon_wrap" onClick={(e) => {
+                                            handleOnClick(linkID)
+                                        }}>
+                                            <div className="image_wrap">
+                                                <img src={displayIcon ||
+                                                Vapor.asset(
+                                                    'images/icon-placeholder.png')} alt=""/>
+                                                {/*<div className="hover_text"><p><img src='/images/icon-placeholder.png' alt=""/></p></div>*/}
                                             </div>
                                         </div>
-                                    )}
-                                </Motion>
-                            )
-                        })}
-                    </div>
-                </>
 
-            }
+                                        <div className="my_row">
+                                            <div className="switch_wrap">
+                                                <Switch
+                                                    onChange={(e) => handleChange(originalFolderLinks[key])}
+                                                    height={20}
+                                                    checked={Boolean(originalFolderLinks[key].active_status)}
+                                                    onColor="#424fcf"
+                                                    uncheckedIcon={false}
+                                                    checkedIcon={false}
+                                                />
+                                                <div className="hover_text switch"><p>{Boolean(originalFolderLinks[key].active_status) ? "Deactivate" : "Active"} Icon</p></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </Motion>
+                    )
+                })}
+            </div>
         </>
     );
 };

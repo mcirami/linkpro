@@ -16,11 +16,10 @@ class FolderService {
         $user = Auth::id();
         $page = Page::findOrFail($request->pageID);
 
-        $highestPagePos = $page->links()->max('position');
+        $highestPagePos = $page->links()->where('folder_id', null)->max('position');
         $highestFolderPos = $page->folders->max("position");
 
-
-        if ($highestPagePos == null && $highestFolderPos == null) {
+        if ($highestPagePos === null && $highestFolderPos === null) {
             $position = 0;
         } else {
             $position = max($highestPagePos, $highestFolderPos) + 1;
@@ -63,5 +62,32 @@ class FolderService {
         }
 
         return $message;
+    }
+
+    public function updateFolderName($folder, $request) {
+
+        $folder->update(['folder_name' => $request->folderName]);
+    }
+
+    public function deleteFolder($folder) {
+
+        $folderLinkIDs = $folder->link_ids;
+
+        if($folderLinkIDs) {
+
+            $linkIDs = json_decode($folderLinkIDs);
+            $linksArray = Link::whereIn('id', $linkIDs)->get();
+
+            foreach ($linksArray as $link) {
+                $newLink = $link->replicate();
+                $newLink->setTable( 'deleted_links' );
+                $newLink->link_id = $link->id;
+                $newLink->save();
+
+                $link->delete();
+            }
+        }
+
+        $folder->delete();
     }
 }

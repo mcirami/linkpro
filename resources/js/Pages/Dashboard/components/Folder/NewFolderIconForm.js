@@ -445,8 +445,6 @@ const NewFolderIconForm = ({
         }
     )
 
-    console.log(currentLink);
-
     return (
         <div className="edit_form link my_row" key={999}>
             <form onSubmit={handleSubmit} className="link_form">

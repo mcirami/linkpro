@@ -41,11 +41,39 @@ class PageService {
 
         $page->pageVisits()->create();
 
-        $links = $page->links()
-                      ->orderBy('position', 'asc')
-                      ->get();
+        $folderArray = [];
+        $links = $page->links()->where('page_id', $page["id"])->where('folder_id', null)
+                     ->orderBy('position', 'asc')
+                     ->get()->toArray();
 
-        return $links;
+        $folders =  $page->folders()->orderBy('position', 'asc')->get();
+
+        foreach ($folders as $folder) {
+            $mylinks = json_decode($folder->link_ids);
+
+            $linksArray = [];
+
+            if (!empty($mylinks)) {
+
+                $linksArray = Link::whereIn('id', $mylinks)->orderBy('position', 'asc')->get()->toArray();
+            }
+
+            $linkObject = [
+                'id' => $folder["id"],
+                'name' => $folder["folder_name"],
+                'type' => 'folder',
+                'position' => $folder["position"],
+                'links' => $linksArray,
+                'active_status' => $folder["active_status"]
+            ];
+
+            array_push($folderArray, $linkObject);
+        }
+
+        $linksArray = array_merge($links, $folderArray);
+        usort($linksArray, array($this, "sortArray" ));
+
+        return $linksArray;
     }
 
     /**
@@ -154,6 +182,7 @@ class PageService {
 
             $linkObject = [
                 'id' => $folder["id"],
+                'name' => $folder["folder_name"],
                 'type' => 'folder',
                 'position' => $folder["position"],
                 'links' => $linksArray,

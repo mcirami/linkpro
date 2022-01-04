@@ -3,7 +3,16 @@ import {MdCheckCircle} from 'react-icons/md';
 import {deleteLink} from '../../../Services/LinksRequest';
 import {UserLinksContext, OriginalArrayContext} from './App';
 
-export const ConfirmPopup = ({editID, setEditID, setShowConfirmPopup }) => {
+export const ConfirmPopup = ({
+                                 editID,
+                                 setEditID,
+                                 setShowConfirmPopup,
+                                 folderLinks,
+                                 setFolderLinks,
+                                 originalFolderLinks,
+                                 setOriginalFolderLinks,
+                                 folderID
+                             }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
     const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
@@ -11,22 +20,61 @@ export const ConfirmPopup = ({editID, setEditID, setShowConfirmPopup }) => {
     const deleteItem = (e) => {
         e.preventDefault();
 
-        const newArray = userLinks.filter(element => element.id !== editID)
+        let newFolderArray = null;
+        let newArray = null;
+        if (folderID) {
+            newFolderArray = folderLinks.filter(element => element.id !== editID);
+        } else {
+            newArray = userLinks.filter(element => element.id !== editID)
+        }
+
         const packets = {
-            userLinks: newArray
+            userLinks: newArray,
+            folderLinks: newFolderArray
         }
 
         deleteLink(packets, editID)
         .then((data) => {
 
             if(data.success) {
-                setUserLinks(
-                    newArray.map((link, index) => ({...link, position: index}))
-                )
 
-                setOriginalArray(
-                    newArray.map((link, index) => ({...link, position: index}))
-                )
+                if (newFolderArray) {
+                    setOriginalFolderLinks(
+                        newFolderArray.map((link, index) => ({...link, position: index}))
+                    )
+                    setFolderLinks(
+                        newFolderArray.map((link, index) => ({...link, position: index}))
+                    )
+                    newArray = userLinks.map((item) => {
+                        if (item.id === folderID) {
+                            //const itemLinks = item.links.concat(newLinkObject)
+                            item.links = item.links.map((link, index) => {
+                                return {
+                                    ...link,
+                                    position: index
+                                }
+                            })
+
+                            return item;
+                        }
+
+                        return item;
+                    })
+
+                    setOriginalArray(newArray);
+                    setUserLinks(newArray);
+
+                } else {
+                    setOriginalArray(
+                        newArray.map((link, index) => ({...link, position: index}))
+                    )
+
+                    setUserLinks(
+                        newArray.map((link, index) => ({...link, position: index}))
+                    )
+                }
+
+
                 setEditID(null)
                 updateContentHeight();
                 setShowConfirmPopup(false)

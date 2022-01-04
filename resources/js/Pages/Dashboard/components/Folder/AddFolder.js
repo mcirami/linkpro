@@ -27,6 +27,7 @@ const AddFolder = ({userSub, setShowUpgradePopup, setOptionText }) => {
 
                     const newFolderObject = {
                         id: data.id,
+                        name: null,
                         type: 'folder',
                         position: data.position,
                         links: []

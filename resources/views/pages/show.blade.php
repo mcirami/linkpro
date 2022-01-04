@@ -40,7 +40,11 @@
                                 @php ++$count @endphp
                                 @if ( $count < 9 || ($count > 8 && !$subscription->isEmpty() && ($subscription[0]["braintree_status"] == "active" || $subscription[0]["braintree_status"] == "pending" || $subscription[0]["ends_at"] > \Carbon\Carbon::now()) ) )
                                     <div class="icon_col">
-                                        @if($link->active_status)
+                                        @if($link->active_status && $link->type == "folder")
+                                            @foreach( $link->links as $folderLink)
+
+                                            @endforeach
+                                        @elseif($link->active_status)
 
                                             @if ($link->email)
                                                 @php $source = "mailto:" . $link->email @endphp

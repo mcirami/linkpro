@@ -19,6 +19,7 @@ import { Loader } from './Loader';
 import NewForm from './Link/NewForm';
 import AddFolder from './Folder/AddFolder';
 import FolderLinks from './Folder/FolderLinks';
+import { ConfirmFolderDelete } from './ConfirmFolderDelete';
 
 const page = user.page;
 const userPages = user.user_pages;
@@ -39,12 +40,16 @@ function App() {
     const [originalArray, setOriginalArray] = useState(myLinksArray);
     const [pageSettings, setPageSettings] = useReducer(pageReducer, page);
 
+    const [folderLinks, setFolderLinks] = useState([])
+    const [originalFolderLinks, setOriginalFolderLinks] = useState([])
+
     const [allUserPages, setAllUserPages] = useState(userPages);
     const [editID, setEditID] = useState(null);
     const [editFolderID, setEditFolderID] = useState(null);
     const [showNewForm, setShowNewForm] = useState(false);
     const [showUpgradePopup, setShowUpgradePopup] = useState(false);
     const [showConfirmPopup, setShowConfirmPopup] = useState(false);
+    const [showConfirmFolderDelete, setShowConfirmFolderDelete] = useState(false);
     const [optionText, setOptionText] = useState("");
     const [customIconArray, setCustomIconArray] = useState(customIcons);
 
@@ -63,7 +68,7 @@ function App() {
     useEffect(() => {
 
         const count = userLinks.length;
-        if ( count > 9 && userSub && userSub["braintree_status"] === "canceled" && new Date(userSub["ends_at"]).valueOf() < new Date().valueOf() )   {
+        if ( count > 8 && userSub && userSub["braintree_status"] === "canceled" && new Date(userSub["ends_at"]).valueOf() < new Date().valueOf() )   {
             setSubStatus(false);
         } else {
             setSubStatus(true)
@@ -95,6 +100,21 @@ function App() {
                             editID={editID}
                             setEditID={setEditID}
                             setShowConfirmPopup={setShowConfirmPopup}
+                            folderLinks={folderLinks}
+                            setFolderLinks={setFolderLinks}
+                            originalFolderLinks={originalFolderLinks}
+                            setOriginalFolderLinks={setOriginalFolderLinks}
+                            folderID={editFolderID}
+                        />
+                        }
+                    </div>
+
+                    <div id="confirm_folder_popup_link">
+                        {showConfirmFolderDelete &&
+                        <ConfirmFolderDelete
+                            setShowConfirmFolderDelete={setShowConfirmFolderDelete}
+                            folderID={editFolderID}
+                            setEditFolderID={setEditFolderID}
                         />
                         }
                     </div>
@@ -158,8 +178,12 @@ function App() {
 
                                 {editID ?
                                     <EditForm
+                                        folderID={editFolderID}
                                         editID={editID}
                                         setEditID={setEditID}
+                                        folderLinks={folderLinks}
+                                        setFolderLinks={setFolderLinks}
+                                        setOriginalFolderLinks={setOriginalFolderLinks}
                                         setShowUpgradePopup={setShowUpgradePopup}
                                         setShowConfirmPopup={setShowConfirmPopup}
                                         setOptionText={setOptionText}
@@ -178,21 +202,28 @@ function App() {
                                             customIconArray={customIconArray}
                                             setCustomIconArray={setCustomIconArray}
                                             setShowLoader={setShowLoader}
+                                            folderID={editFolderID}
+                                            folderLinks={folderLinks}
+                                            setFolderLinks={setFolderLinks}
+                                            originalFolderLinks={originalFolderLinks}
+                                            setOriginalFolderLinks={setOriginalFolderLinks}
                                         />
                                         :
                                         editFolderID ?
 
                                             <FolderLinks
                                                 folderID={editFolderID}
+                                                folderLinks={folderLinks}
+                                                setFolderLinks={setFolderLinks}
+                                                originalFolderLinks={originalFolderLinks}
+                                                setOriginalFolderLinks={setOriginalFolderLinks}
                                                 userSub={userSub}
                                                 setShowUpgradePopup={setShowUpgradePopup}
                                                 setOptionText={setOptionText}
-                                                setShowLoader={setShowLoader}
-                                                customIconArray={customIconArray}
-                                                setCustomIconArray={setCustomIconArray}
                                                 setEditFolderID={setEditFolderID}
                                                 setEditID={setEditID}
-                                                setShowConfirmPopup={setShowConfirmPopup}
+                                                setShowNewForm={setShowNewForm}
+                                                setShowConfirmFolderDelete={setShowConfirmFolderDelete}
                                             />
 
                                             :
@@ -221,6 +252,8 @@ function App() {
                                                     setEditID={setEditID}
                                                     setEditFolderID={setEditFolderID}
                                                     userSub={userSub}
+                                                    setFolderLinks={setFolderLinks}
+                                                    setOriginalFolderLinks={setOriginalFolderLinks}
                                                 />
 
                                             </div>

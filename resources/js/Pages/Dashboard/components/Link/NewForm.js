@@ -13,6 +13,7 @@ import 'react-image-crop/src/ReactCrop.scss';
 import InputComponent from './InputComponent';
 const iconPaths = user.icons;
 import {addLink, checkURL, updateContentHeight} from '../../../../Services/LinksRequest';
+import EventBus from '../../../../Utils/Bus';
 
 const NewForm = ({
                      setShowNewForm,
@@ -22,6 +23,11 @@ const NewForm = ({
                      setShowUpgradePopup,
                      setOptionText,
                      userSub,
+                     folderID,
+                     folderLinks,
+                     setFolderLinks,
+                     originalFolderLinks,
+                     setOriginalFolderLinks
                   }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
@@ -213,6 +219,7 @@ const NewForm = ({
                             url: URL,
                             icon: currentLink.icon,
                             page_id: pageSettings["id"],
+                            folder_id: folderID
                         };
                         break;
                     case "email":
@@ -221,6 +228,7 @@ const NewForm = ({
                             email: currentLink.email,
                             icon: currentLink.icon,
                             page_id: pageSettings["id"],
+                            folder_id: folderID
                         };
                         break;
                     case "phone":
@@ -229,6 +237,7 @@ const NewForm = ({
                             phone: currentLink.phone,
                             icon: currentLink.icon,
                             page_id: pageSettings["id"],
+                            folder_id: folderID
                         };
                         break;
                 }
@@ -238,25 +247,68 @@ const NewForm = ({
 
 
                     if (data.success) {
-                        let newLinks = [...userLinks];
 
-                        const newLinkObject = {
-                            id: data.link_id,
-                            name: currentLink.name,
-                            url: URL,
-                            email: currentLink.email,
-                            phone: currentLink.phone,
-                            icon: currentLink.icon,
-                            position: data.position,
-                            active_status: true
+                        if(folderID) {
+                            let newFolderLinks = [...folderLinks];
+                            let newUserLinks = [...userLinks];
+
+                            const newLinkObject = {
+                                id: data.link_id,
+                                folder_id: folderID,
+                                name: currentLink.name,
+                                url: URL,
+                                email: currentLink.email,
+                                phone: currentLink.phone,
+                                icon: currentLink.icon,
+                                position: data.position,
+                                active_status: true
+                            }
+                            newUserLinks = newUserLinks.map((item) => {
+                                if (item.id === folderID) {
+                                    const itemLinks = item.links.concat(newLinkObject)
+
+                                    return {
+                                        ...item,
+                                        links: itemLinks
+                                    }
+                                }
+
+                                return item;
+
+                            })
+
+                            newFolderLinks = newFolderLinks.concat(newLinkObject);
+                            setOriginalFolderLinks(newFolderLinks);
+                            setFolderLinks(newFolderLinks);
+                            setOriginalArray(newUserLinks);
+                            setUserLinks(newUserLinks);
+
+                            setShowNewForm(false);
+                            updateContentHeight(folderLinks);
+
+                        } else {
+                            let newLinks = [...userLinks];
+
+                            const newLinkObject = {
+                                id: data.link_id,
+                                name: currentLink.name,
+                                url: URL,
+                                email: currentLink.email,
+                                phone: currentLink.phone,
+                                icon: currentLink.icon,
+                                position: data.position,
+                                active_status: true
+                            }
+                            newLinks = newLinks.concat(newLinkObject);
+                            setOriginalArray(newLinks);
+                            setUserLinks(newLinks);
+
+                            setShowNewForm(false);
+                            updateContentHeight(originalArray);
                         }
-                        newLinks = newLinks.concat(newLinkObject);
-                        setOriginalArray(newLinks);
-                        setUserLinks(newLinks);
 
 
-                        setShowNewForm(false);
-                        updateContentHeight(originalArray);
+
                     }
                 })
 
@@ -281,102 +333,145 @@ const NewForm = ({
 
     const submitWithCustomIcon = (image) => {
 
-        setShowLoader(true)
-        window.Vapor.store(
-            image,
-            {
-                visibility: "public-read"
-            },
-            {
-                progress: progress => {
-                    this.uploadProgress = Math.round(progress * 100);
-                }
-            }
-        ).then(response => {
+        if(currentLink.url && currentLink.name) {
 
-            let URL = currentLink.url;
-            if (URL && currentLink.name) {
-                URL = checkURL(currentLink.url, null, true);
-            }
-
-            let packets;
-
-            switch (inputType) {
-                case "url":
-                    packets = {
-                        name: currentLink.name,
-                        url: URL,
-                        icon: response.key,
-                        page_id: pageSettings["id"],
-                        ext: response.extension,
-                    };
-                    break;
-                case "email":
-                    packets = {
-                        name: currentLink.name,
-                        email: currentLink.email,
-                        icon: response.key,
-                        page_id: pageSettings["id"],
-                        ext: response.extension,
-                    };
-                    break;
-                case "phone":
-                    packets = {
-                        name: currentLink.name,
-                        phone: currentLink.phone,
-                        icon: response.key,
-                        page_id: pageSettings["id"],
-                        ext: response.extension,
-                    };
-                    break;
-            }
-
-            addLink(packets)
-            .then((data) => {
-                setShowLoader(false);
-
-                if (data.success) {
-                    let newLinks = [...userLinks];
-
-                    const newLinkObject = {
-                        id: data.link_id,
-                        name: currentLink.name,
-                        url: URL,
-                        email: currentLink.email,
-                        phone: currentLink.phone,
-                        icon: data.icon_path,
-                        position: data.position,
-                        active_status: true
+            setShowLoader(true)
+            window.Vapor.store(
+                image,
+                {
+                    visibility: "public-read"
+                },
+                {
+                    progress: progress => {
+                        this.uploadProgress = Math.round(progress * 100);
                     }
-                    newLinks = newLinks.concat(newLinkObject);
-                    setOriginalArray(newLinks);
-                    setUserLinks(newLinks);
-
-
-                    setShowNewForm(false);
-                    updateContentHeight(originalArray);
-
-                    setOriginalArray(newLinks);
-                    setUserLinks(newLinks);
-
-                    setCustomIconArray( customIconArray => [
-                        ...customIconArray,
-                        data.icon_path
-                    ]);
-
-                    setShowNewForm(null)
-                    updateContentHeight(originalArray);
                 }
-            })
-        }).catch(error => {
-            console.log(error);
-            /*if (error.response) {
-                EventBus.dispatch("error", { message: error.response.data.errors.profile_img[0] });
-                console.log("ERROR: " + error.response);
-            } else {
-                console.log("ERROR:: ", error);
-            }*/
-        });
+            ).then(response => {
+
+                let URL = currentLink.url;
+                if (URL && currentLink.name) {
+                    URL = checkURL(currentLink.url, null, true);
+                }
+
+                let packets;
+
+                switch (inputType) {
+                    case "url":
+                        packets = {
+                            name: currentLink.name,
+                            url: URL,
+                            icon: response.key,
+                            page_id: pageSettings["id"],
+                            ext: response.extension,
+                            folder_id: folderID,
+                        };
+                        break;
+                    case "email":
+                        packets = {
+                            name: currentLink.name,
+                            email: currentLink.email,
+                            icon: response.key,
+                            page_id: pageSettings["id"],
+                            ext: response.extension,
+                            folder_id: folderID,
+                        };
+                        break;
+                    case "phone":
+                        packets = {
+                            name: currentLink.name,
+                            phone: currentLink.phone,
+                            icon: response.key,
+                            page_id: pageSettings["id"],
+                            ext: response.extension,
+                            folder_id: folderID,
+                        };
+                        break;
+                }
+
+                addLink(packets).then((data) => {
+                    setShowLoader(false);
+
+                    if (data.success) {
+
+                        if (folderID) {
+                            let newFolderLinks = [...folderLinks];
+                            let newUserLinks = [...userLinks];
+
+                            const newLinkObject = {
+                                id: data.link_id,
+                                folder_id: folderID,
+                                name: currentLink.name,
+                                url: URL,
+                                email: currentLink.email,
+                                phone: currentLink.phone,
+                                icon: data.icon_path,
+                                position: data.position,
+                                active_status: true
+                            }
+
+                            newUserLinks = newUserLinks.map((item) => {
+                                if (item.id === folderID) {
+                                    const itemLinks = item.links.concat(newLinkObject)
+
+                                    return {
+                                        ...item,
+                                        links: itemLinks
+                                    }
+                                }
+
+                                return item;
+
+                            })
+                            newFolderLinks = newFolderLinks.concat(newLinkObject);
+                            setOriginalFolderLinks(newFolderLinks);
+                            setFolderLinks(newFolderLinks);
+                            setOriginalArray(newUserLinks);
+                            setUserLinks(newUserLinks);
+
+                            setShowNewForm(false);
+                            updateContentHeight(folderLinks);
+
+                        } else {
+                            let newLinks = [...userLinks];
+
+                            const newLinkObject = {
+                                id: data.link_id,
+                                name: currentLink.name,
+                                url: URL,
+                                email: currentLink.email,
+                                phone: currentLink.phone,
+                                icon: data.icon_path,
+                                position: data.position,
+                                active_status: true
+                            }
+                            newLinks = newLinks.concat(newLinkObject);
+                            setOriginalArray(newLinks);
+                            setUserLinks(newLinks);
+
+                            setShowNewForm(false);
+                            updateContentHeight(originalArray);
+                        }
+
+                        setCustomIconArray(customIconArray => [
+                            ...customIconArray,
+                            data.icon_path
+                        ]);
+
+                    }
+                })
+
+            }).catch(error => {
+                console.log(error);
+                /*if (error.response) {
+                    EventBus.dispatch("error", { message: error.response.data.errors.profile_img[0] });
+                    console.log("ERROR: " + error.response);
+                } else {
+                    console.log("ERROR:: ", error);
+                }*/
+            });
+        } else {
+            EventBus.dispatch("error", { message: "Icon URL and Name is Required" });
+        }
     }
 
     const handleOnClick = e => {
