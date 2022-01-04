@@ -14140,6 +14140,9 @@ form .bottom_row a {
 .form_page.plans .card {
   max-width: 1200px;
 }
+.form_page.plans .card.two_columns {
+  max-width: 975px;
+}
 @media all and (max-width: 1199px) {
   .form_page.plans .card {
     max-width: 1000px;

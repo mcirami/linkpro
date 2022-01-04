@@ -32,13 +32,13 @@ trait SubscriptionTrait {
         } elseif ( $planID == "premier" && strtolower( $userCode ) == "premier1month" ) {
             $match = "Premier1Month";
         } elseif($planID == "premier" && strtolower( $userCode ) == "premier4life") {
-            $match = "Premier4Life";
+            $match = "bypass";
         } elseif ( $planID == "pro" && strtolower( $userCode ) == "pro6months" ) {
             $match = "Pro6Months";
         } elseif ( $planID == "pro" && strtolower( $userCode ) == "pro1month" ) {
             $match = "Pro1Month";
         } elseif ( $planID == "pro" && strtolower( $userCode ) == "pro4life" ) {
-            $match = "Pro4Life";
+            $match = "bypass";
         } else {
             $match = null;
         }

@@ -30,32 +30,35 @@ class UserService {
 
     public function getUserInfo() {
 
+        $customerID = $this->user->braintree_id;
         $subscription = $this->getUserSubscriptions($this->user) ? : null;
         $paymentMethod = $this->user->pm_type ? : null;
         $paymentMethodToken = null;
 
-        $gateway = $this->createGateway();
+        if($customerID == "bypass") {
+            $token = null;
+        } else {
+           $gateway = $this->createGateway();
 
-        $customerID = $this->user->braintree_id;
+            if ( $customerID ) {
+                $token = $gateway->ClientToken()->generate( [
+                    'customerId' => $customerID
+                ] );
 
-        if ($customerID) {
-            $token = $gateway->ClientToken()->generate([
-                'customerId' => $customerID
-            ]);
+                if ( $subscription->ends_at && $subscription->ends_at > Carbon::now() ) {
 
-            if ($subscription->ends_at && $subscription->ends_at > Carbon::now()) {
+                    $customer = $gateway->customer()->find( $customerID );
 
-                $customer = $gateway->customer()->find( $customerID );
-
-                foreach ( $customer->paymentMethods as $payment_method ) {
-                    if ( $payment_method->default ) {
-                        $paymentMethodToken = $payment_method->token;
+                    foreach ( $customer->paymentMethods as $payment_method ) {
+                        if ( $payment_method->default ) {
+                            $paymentMethodToken = $payment_method->token;
+                        }
                     }
                 }
-            }
 
-        } else {
-            $token = $gateway->ClientToken()->generate();
+            } else {
+                $token = $gateway->ClientToken()->generate();
+            }
         }
 
         $data = [

@@ -97,7 +97,7 @@
                                     <input type="hidden" name="planId" value="{{ $plan == 'pro' ?  'pro' : 'premier'}}">
                                     <a class="discount_link" href="#">Have a Promo Code?</a>
                                     <div class="discount_wrap">
-                                        <input type="text" name="discountCode">
+                                        <input type="text" name="discountCode" id="discount_code">
                                     </div>
                                     <div class="bt-drop-in-wrapper">
                                         <div id="bt-dropin"></div>
@@ -159,15 +159,22 @@
             }
             form.addEventListener('submit', function (event) {
                 event.preventDefault();
-                instance.requestPaymentMethod(function (err, payload) {
-                    if (err) {
-                        console.log('Request Payment Method Error', err);
-                        return;
-                    }
-                    // Add the nonce to the form and submit
-                    document.querySelector('#nonce').value = payload.nonce;
+
+                const code = document.querySelector('#discount_code').value;
+                if(code.toLowerCase() === "premier4life" || code.toLowerCase() === "pro4life" ) {
                     form.submit();
-                });
+                } else {
+                    instance.requestPaymentMethod(function (err, payload) {
+                        if (err) {
+                            console.log('Request Payment Method Error', err);
+                            return;
+                        }
+                        // Add the nonce to the form and submit
+                        document.querySelector('#nonce').value = payload.nonce;
+                        form.submit();
+                    });
+                }
+
             });
         });
     </script>

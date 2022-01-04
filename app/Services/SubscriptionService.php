@@ -108,12 +108,17 @@ class SubscriptionService {
 
             if (!$code) {
 
-                $data = [
+                return [
                     "success" => false,
                     "message" => "Sorry, discount code does not match"
                 ];
 
-                return $data;
+            } elseif ($code == "bypass") {
+
+                return [
+                    "success" => false,
+                    "bypass" => true,
+                ];
             }
         }
 
@@ -515,6 +520,39 @@ class SubscriptionService {
         }
 
         return $data;
+
+    }
+
+    public function createManualSubscription($code) {
+
+        if (strtolower( $code ) == "premier4life") {
+            $subName = "premier";
+        } else {
+            $subName = "pro";
+        }
+
+        $this->user->subscriptions()->create( [
+            'name'             => $subName,
+            'braintree_id'     => "bypass",
+            'braintree_status' => "active",
+        ] );
+
+        $this->user->update(["braintree_id" => "bypass"]);
+
+        if ($this->user->email_subscription) {
+
+            $userData = ( [
+                'plan'    => $subName,
+                'userID'  => $this->user->id,
+            ] );
+
+            $this->user->notify( new NotifyAboutUpgrade( $userData ) );
+        }
+
+        return [
+            "success" => true,
+            "message" => "Your account has been upgraded!"
+        ];
 
     }
 }

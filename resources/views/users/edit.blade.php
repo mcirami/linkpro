@@ -4,7 +4,7 @@
     <div class="container">
         <div class="my_row form_page plans">
             <h2 class="page_title">Update Account Settings</h2>
-            <div class="card">
+            <div class="card {{!$subscription || $subscription->braintree_id == "bypass" ? "two_columns" : ""}}">
                 @if (count($errors) > 0)
                     <div class="alert alert-danger">
                         <ul>
@@ -15,7 +15,7 @@
                     </div>
                 @endif
                 <div class="card-body">
-                    <div class="my_row three_columns {{!$subscription ? "two_columns" : ""}}">
+                    <div class="my_row three_columns {{!$subscription || $subscription->braintree_id == "bypass" ? "two_columns" : ""}}">
                         <div class="column update_info">
                             <h2 class="text-uppercase">Account Info</h2>
                             <form method="POST" action="/update-account/{{ $user->id }}">
@@ -69,7 +69,9 @@
                                     <p class="text-capitalize">{{ $subscription->name }}</p>
                                     <img src="{{ asset('images/plan-type-bg.png') }}" alt="">
                                 </div>
-                                <a href="#" class="cancel_popup cancel_link" data-plan="{{ $subscription->braintree_id }}" data-type="cancel">Cancel Subscription</a>
+                                @if($user->braintree_id != "bypass")
+                                    <a href="#" class="cancel_popup cancel_link" data-plan="{{ $subscription->braintree_id }}" data-type="cancel">Cancel Subscription</a>
+                                @endif
                             @elseif($subscription && $subscription->ends_at > \Carbon\Carbon::now())
                                 <div class="plan_name">
                                     <p class="text-capitalize">{{ $subscription->name }}</p>
@@ -85,9 +87,11 @@
                                 </div>
                             @endif
                             @if (($subscription && $subscription->braintree_status == "active") || ($subscription && $subscription->braintree_status == "pending"))
-                                <a href="#" class='button blue open_popup_choose'>
-                                    Change My Plan
-                                </a>
+                                @if($user->braintree_id != "bypass")
+                                    <a href="#" class='button blue open_popup_choose'>
+                                        Change My Plan
+                                    </a>
+                                @endif
                             @elseif($subscription && $subscription->ends_at > \Carbon\Carbon::now())
                                 <form action="{{ route('subscribe.resume') }}" method="post">
                                     @csrf
@@ -105,7 +109,7 @@
                                 </a>
                             @endif
                         </div>
-                        @if ($subscription)
+                        @if ($subscription && $subscription->braintree_id != "bypass")
                             <div class="column">
                                 <h2 class="text-uppercase">Billing Info</h2>
                                 @if ( str_contains(strtolower($payment_method), "credit") )

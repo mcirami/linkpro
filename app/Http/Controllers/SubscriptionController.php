@@ -25,8 +25,15 @@ class SubscriptionController extends Controller
         $user = Auth::user();
         $page = $user->pages()->where('user_id', $user["id"])->where('default', true)->get();
 
-        if ($data["success"] == true) {
+        if ($data["success"]) {
             return redirect()->route('pages.edit', [$page[0]->id])->with( ['success' => $data["message"]] );
+        } elseif($data["bypass"]) {
+            $newData = $subscriptionService->createManualSubscription($request->discountCode);
+
+            if($newData["success"]) {
+                return redirect()->route('pages.edit', [$page[0]->id])->with( ['success' => $newData["message"]] );
+            }
+
         } else {
             return back()->withErrors($data["message"]);
         }
