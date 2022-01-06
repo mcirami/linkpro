@@ -34,18 +34,59 @@
                             !$page->is_protected ||
                             ( !$subscription->isEmpty() && $subscription[0]["braintree_status"] == "canceled" && $subscription[0]["ends_at"] < \Carbon\Carbon::now())
                             )
-                        <div class="icons_wrap">
-                            @php $count = 0; @endphp
-                            @foreach($links as $link)
+                        <div class="icons_wrap main">
+                            @php
+                                $count = 0;
+                                $folderCount = 0;
+                            @endphp
+
+                            @foreach($links as $index => $link)
                                 @php ++$count @endphp
                                 @if ( $count < 9 || ($count > 8 && !$subscription->isEmpty() && ($subscription[0]["braintree_status"] == "active" || $subscription[0]["braintree_status"] == "pending" || $subscription[0]["ends_at"] > \Carbon\Carbon::now()) ) )
-                                    <div class="icon_col">
-                                        @if($link->active_status && $link->type == "folder")
-                                            @foreach( $link->links as $folderLink)
 
-                                            @endforeach
-                                        @elseif($link->active_status)
+                                    @if($link->active_status && property_exists( $link, "type" ) && $link->type == "folder")
+                                        @php ++$folderCount;
+                                            $dataRow = ceil(($index + 1) / 4);
+                                        @endphp
 
+                                        <div id="folder{{$folderCount}}Parent" class="icon_col folder" data-row="{{ $dataRow }}">
+                                            <a type="button" href="#">
+                                                <img src="{{asset('images/blank-folder-square.jpg')}}" alt="">
+                                                <div class="icons_wrap">
+                                                    @foreach( $link->links as $folderLink)
+                                                        <div class="icon_col">
+                                                            <img src="{{ $folderLink["icon"] }}" alt="{{$folderLink["name"]}}" title="{{$folderLink["name"]}}">
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </a>
+                                            @if($link->name)
+                                                <p>{{$link->name}}</p>
+                                            @endif
+                                            <div id="folder{{$folderCount}}" class="my_row folder" data-parent="#folder{{$folderCount}}Parent">
+                                                <div class="icons_wrap inner">
+                                                    @foreach( $link->links as $folderLink)
+                                                        @if ($folderLink["email"])
+                                                            @php $source = "mailto:" . $folderLink["email"] @endphp
+                                                        @elseif ($folderLink["phone"])
+                                                            @php $source = "tel:" . $folderLink["phone"] @endphp
+                                                        @else
+                                                            @php $source = $folderLink["url"] @endphp
+                                                        @endif
+                                                        <div class="icon_col">
+                                                            <a href="{{$source}}" target="_blank">
+                                                                <img src="{{ $folderLink["icon"] }}" alt="{{ $folderLink["name"] }}" title="{{ $folderLink["name"] }}" />
+                                                            </a>
+                                                            <p>{{ $folderLink["name"] }}</p>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    @elseif($link->active_status)
+
+                                        <div class="icon_col">
                                             @if ($link->email)
                                                 @php $source = "mailto:" . $link->email @endphp
                                             @elseif ($link->phone)
@@ -70,14 +111,14 @@
                                                 <img src="{{ $icon ? : asset('/images/icon-placeholder-preview.png') }}" alt="" />
                                             </a>
                                             @php if ($link->name && strlen($link->name) > 11 ) {
-	                                                $name = substr($link->name, 0, 11) . "...";
+                                                    $name = substr($link->name, 0, 11) . "...";
                                                 } else {
-	                                                $name = $link->name;
+                                                    $name = $link->name;
                                                 }
                                             @endphp
                                             <p>{{ $name ? : "Link Name" }}</p>
-                                        @endif
-                                    </div>
+                                        </div>
+                                    @endif
                                 @endif
                             @endforeach
                         </div><!-- icons_wrap -->

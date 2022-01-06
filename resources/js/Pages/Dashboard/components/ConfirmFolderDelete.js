@@ -17,6 +17,7 @@ export const ConfirmFolderDelete = ({
 
 
         let newArray = userLinks.filter(element => element.id !== folderID)
+        let newOriginalArray = originalArray.filter(element => element.id !== folderID);
 
         const packets = {
             userLinks: newArray,
@@ -28,7 +29,7 @@ export const ConfirmFolderDelete = ({
             if(data.success) {
 
                 setOriginalArray(
-                    newArray.map((link, index) => ({...link, position: index}))
+                    newOriginalArray.map((link, index) => ({...link, position: index}))
                 )
 
                 setUserLinks(
@@ -51,7 +52,7 @@ export const ConfirmFolderDelete = ({
 
     const updateContentHeight = () => {
 
-        if ((originalArray.length - 1) % 4 === 0 ) {
+        if ( originalArray.length - 1 > 0 && (originalArray.length - 1) % 4 === 0 ) {
             const iconsWrap = document.querySelector('.icons_wrap');
             const icons = document.querySelectorAll('.add_icons .icon_col');
             const colHeight = icons[0].clientHeight;

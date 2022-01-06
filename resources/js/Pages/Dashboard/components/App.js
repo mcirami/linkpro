@@ -65,6 +65,8 @@ function App() {
 
     const [showLoader, setShowLoader] = useState(false);
 
+    const [folderContent, setFolderContent] = useState(null);
+
     useEffect(() => {
 
         const count = userLinks.length;
@@ -183,6 +185,7 @@ function App() {
                                         setEditID={setEditID}
                                         folderLinks={folderLinks}
                                         setFolderLinks={setFolderLinks}
+                                        originalFolderLinks={originalFolderLinks}
                                         setOriginalFolderLinks={setOriginalFolderLinks}
                                         setShowUpgradePopup={setShowUpgradePopup}
                                         setShowConfirmPopup={setShowConfirmPopup}
@@ -254,6 +257,7 @@ function App() {
                                                     userSub={userSub}
                                                     setFolderLinks={setFolderLinks}
                                                     setOriginalFolderLinks={setOriginalFolderLinks}
+                                                    setFolderContent={setFolderContent}
                                                 />
 
                                             </div>
@@ -273,6 +277,8 @@ function App() {
                                 fileName={fileName}
                                 profileFileName={profileFileName}
                                 userSub={userSub}
+                                folderContent={folderContent}
+                                setFolderContent={setFolderContent}
                             />
                         </div>
                     </PageContext.Provider>

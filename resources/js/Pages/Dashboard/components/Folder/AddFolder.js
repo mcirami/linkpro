@@ -24,7 +24,7 @@ const AddFolder = ({userSub, setShowUpgradePopup, setOptionText }) => {
 
                 if (data.success) {
                     let newLinks = [...userLinks];
-
+                    let newOriginalArray = [...originalArray];
                     const newFolderObject = {
                         id: data.id,
                         name: null,
@@ -32,10 +32,8 @@ const AddFolder = ({userSub, setShowUpgradePopup, setOptionText }) => {
                         position: data.position,
                         links: []
                     }
-
-                    newLinks = newLinks.concat(newFolderObject);
-                    setOriginalArray(newLinks);
-                    setUserLinks(newLinks);
+                    setOriginalArray(newOriginalArray.concat(newFolderObject));
+                    setUserLinks(newLinks.concat(newFolderObject));
 
                     updateContentHeight(originalArray);
                 }

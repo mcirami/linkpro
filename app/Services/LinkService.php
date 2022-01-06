@@ -116,11 +116,26 @@ class LinkService {
 
             $iconPath = Storage::disk('s3')->url($path);
 
-            $link->update(['name' => $request->name, 'url' => $request->url, 'email' => $request->email, 'phone' => $request->phone, 'icon' => $iconPath]);
+            $link->update([
+                'name' => $request->name,
+                'url' => $request->url ? : null,
+                'email' => $request->email ? : null,
+                'phone' => $request->phone ? : null,
+                'icon' => $iconPath,
+            ]);
+
+            /*$link->update(['name' => $request->name, 'url' => $request->url, 'email' => $request->email, 'phone' => $request->phone, 'icon' => $iconPath]);*/
             return $iconPath;
 
         } else {
-            $link->update($request->only(['name', 'url', 'email', 'phone', 'icon']));
+            $link->update([
+                'name' => $request->name,
+                'url' => $request->url ? : null,
+                'email' => $request->email ? : null,
+                'phone' => $request->phone ? : null,
+                'icon' => $request->icon ? : null,
+            ]);
+            /*$link->update($request->only(['name', 'url', 'email', 'phone', 'icon']));*/
         }
 
         return null;
@@ -130,9 +145,9 @@ class LinkService {
 
         $link->update($request->only(['active_status']));
         if ($request->active_status == true ) {
-            $message = "Link Enabled";
+            $message = "Icon Enabled";
         } else {
-            $message = "Link Disabled";
+            $message = "Icon Disabled";
         }
 
         return $message;
@@ -144,25 +159,26 @@ class LinkService {
             foreach ( $request["userLinks"] as $index => $link ) {
                 if ( array_key_exists( "type", $link ) && $link["type"] == "folder" ) {
                     $currentFolder = Folder::findOrFail( $link["id"] );
-                    if ( $currentFolder->position != $index ) {
-                        $currentFolder->position = $index;
+                    if ( $currentFolder["position"] != $index ) {
+                        $currentFolder["position"] = $index;
                         $currentFolder->save();
                     }
                 } else {
                     $currentLink = Link::findOrFail( $link["id"] );
-                    if ( $currentLink->position != $index ) {
-                        $currentLink->position = $index;
+                    if ( $currentLink["position"] != $index ) {
+                        $currentLink["position"] = $index;
                         $currentLink->save();
                     }
                 }
             }
         }
 
-        if ($request['folderLinks'] && !empty($request['folderLinks'])) {
+        if (array_key_exists( "folderLinks", $request ) && !empty($request['folderLinks'])) {
             foreach ($request['folderLinks'] as $index => $folderLink) {
-                if ($folderLink->position != $index) {
-                    $folderLink->position = $index;
-                    $folderLink->save();
+                $link = Link::findOrFail( $folderLink["id"] );
+                if ($link["position"] != $index) {
+                    $link["position"] = $index;
+                    $link->save();
                 }
             }
         }

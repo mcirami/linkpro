@@ -47,8 +47,10 @@ class FolderController extends Controller
             return abort(403);
         }
 
+        $allRequest = $request->all();
+
         $folderService->deleteFolder($folder);
-        $linkService->updateLinksPositions($request);
+        $linkService->updateLinksPositions($allRequest);
 
         return response()->json(['message' => "Folder Deleted"]);
     }

@@ -73,7 +73,11 @@ class PageService {
         $linksArray = array_merge($links, $folderArray);
         usort($linksArray, array($this, "sortArray" ));
 
-        return $linksArray;
+        $objectArray = array_map(function($array){
+            return (object)$array;
+        }, $linksArray);
+
+        return $objectArray;
     }
 
     /**

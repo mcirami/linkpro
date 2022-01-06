@@ -31,8 +31,19 @@ export const addLink = (packets) => {
         })
     .catch(error => {
         if (error.response) {
-            //EventBus.dispatch("error", { message: error.response.data.errors.header_img[0] });
-            console.log(error.response);
+            if (error.response.data.errors.icon !== undefined) {
+                EventBus.dispatch("error", { message: error.response.data.errors.icon[0] });
+            } else if (error.response.data.errors.name !== undefined) {
+                EventBus.dispatch("error", { message: error.response.data.errors.name[0] });
+            } else if (error.response.data.errors.url !== undefined) {
+                EventBus.dispatch("error", { message: error.response.data.errors.url[0] });
+            } else if (error.response.data.errors.email !== undefined) {
+                EventBus.dispatch("error", { message: error.response.data.errors.email[0] });
+            } else if (error.response.data.errors.phone !== undefined) {
+                EventBus.dispatch("error", { message: error.response.data.errors.phone[0] });
+            } else {
+                console.log(error.response);
+            }
         } else {
             console.log("ERROR:: ", error);
         }
@@ -65,8 +76,10 @@ export const updateLink = (packets, editID) => {
             }
         }
     ).catch(error => {
-        if (error.response && error.response.data.errors) {
-            if (error.response.data.errors.name !== undefined) {
+        if (error.response) {
+            if (error.response.data.errors.icon !== undefined) {
+                EventBus.dispatch("error", { message: error.response.data.errors.icon[0] });
+            } else if (error.response.data.errors.name !== undefined) {
                 EventBus.dispatch("error", { message: error.response.data.errors.name[0] });
             } else if (error.response.data.errors.url !== undefined) {
                 EventBus.dispatch("error", { message: error.response.data.errors.url[0] });
@@ -74,8 +87,6 @@ export const updateLink = (packets, editID) => {
                 EventBus.dispatch("error", { message: error.response.data.errors.email[0] });
             } else if (error.response.data.errors.phone !== undefined) {
                 EventBus.dispatch("error", { message: error.response.data.errors.phone[0] });
-            } else if (error.response.data.errors.icon !== undefined) {
-                EventBus.dispatch("error", { message: error.response.data.errors.icon[0] });
             } else {
                 console.log(error.response);
             }

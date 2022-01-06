@@ -27,6 +27,7 @@ const EditForm = ({
                       folderID,
                       folderLinks,
                       setFolderLinks,
+                      originalFolderLinks,
                       setOriginalFolderLinks
 }) => {
 
@@ -233,75 +234,137 @@ const EditForm = ({
                 .then((data) => {
 
                     if (data.success) {
-
                         if(folderID) {
-                            let newFolderLinks = [...folderLinks];
-                            let newUserLinks = [...userLinks];
-
-                            newFolderLinks = newFolderLinks.map((item) => {
-                                if (item.id === editID) {
-                                    return {
-                                        ...item,
-                                        name: currentLink.name,
-                                        url: URL,
-                                        email: currentLink.email,
-                                        phone: currentLink.phone,
-                                        icon: currentLink.icon
-                                    }
-                                }
-
-                                return item;
-                            });
-
-                            newUserLinks = newUserLinks.map((item) => {
-                                if (item.id === folderID) {
-
-                                    item.links = item.links.map((linkItem) => {
-
-                                        if (linkItem.id === editID) {
-
-                                            return {
-                                                ...item,
-                                                name: currentLink.name,
-                                                url: URL,
-                                                email: currentLink.email,
-                                                phone: currentLink.phone,
-                                                icon: currentLink.icon
-                                            }
+                            setFolderLinks(
+                                folderLinks.map((item) => {
+                                    if (item.id === editID) {
+                                        return {
+                                            ...item,
+                                            name: currentLink.name,
+                                            url: URL,
+                                            email: currentLink.email,
+                                            phone: currentLink.phone,
+                                            icon: currentLink.icon
                                         }
-
-                                        return linkItem
-                                    })
+                                    }
 
                                     return item;
-                                }
+                                })
+                            )
 
-                                return item;
-                            })
+                            setOriginalFolderLinks(
+                                originalFolderLinks.map((item) => {
+                                    if (item.id === editID) {
+                                        return {
+                                            ...item,
+                                            name: currentLink.name,
+                                            url: URL,
+                                            email: currentLink.email,
+                                            phone: currentLink.phone,
+                                            icon: currentLink.icon
+                                        }
+                                    }
 
-                            setOriginalFolderLinks(newFolderLinks);
-                            setFolderLinks(newFolderLinks);
-                            setUserLinks(newUserLinks);
-                            setOriginalArray(newUserLinks);
+                                    return item;
+                                })
+                            )
+
+                            setUserLinks(
+                                userLinks.map((item) => {
+                                    if (item.id === folderID) {
+
+                                        const newItemsLinks = item.links.map((linkItem) => {
+
+                                            if (linkItem.id === editID) {
+
+                                                return  {
+                                                    ...linkItem,
+                                                    name: currentLink.name,
+                                                    url: URL,
+                                                    email: currentLink.email,
+                                                    phone: currentLink.phone,
+                                                    icon: currentLink.icon
+                                                }
+                                            }
+
+                                            return linkItem
+                                        })
+
+                                        return {
+                                            ...item,
+                                            links: newItemsLinks
+                                        }
+                                    }
+
+                                    return item;
+                                })
+                            )
+
+                            setOriginalArray(
+                                originalArray.map((item) => {
+                                    if (item.id === folderID) {
+
+                                        const newItemsLinks = item.links.map((linkItem) => {
+
+                                            if (linkItem.id === editID) {
+
+                                                return {
+                                                    ...item,
+                                                    name: currentLink.name,
+                                                    url: URL,
+                                                    email: currentLink.email,
+                                                    phone: currentLink.phone,
+                                                    icon: currentLink.icon
+                                                }
+                                            }
+
+                                            return linkItem
+                                        })
+
+                                        return {
+                                            ...item,
+                                            links: newItemsLinks
+                                        }
+                                    }
+
+                                    return item;
+                                })
+                            )
 
                         } else {
-                            let newLinks = [...userLinks];
-                            newLinks = newLinks.map((item) => {
-                                if (item.id === editID) {
-                                    return {
-                                        ...item,
-                                        name: currentLink.name,
-                                        url: URL,
-                                        email: currentLink.email,
-                                        phone: currentLink.phone,
-                                        icon: currentLink.icon
+                            setUserLinks (
+                                userLinks.map((item) => {
+                                    if (item.id === editID) {
+                                        return {
+                                            ...item,
+                                            name: currentLink.name,
+                                            url: URL,
+                                            email: currentLink.email,
+                                            phone: currentLink.phone,
+                                            icon: currentLink.icon
+                                        }
                                     }
-                                }
 
-                                return item;
-                            });
-                            setOriginalArray(newLinks);
-                            setUserLinks(newLinks);
+                                    return item;
+                                })
+                            )
+
+                            setOriginalArray (
+                                originalArray.map((item) => {
+                                    if (item.id === editID) {
+                                        return {
+                                            ...item,
+                                            name: currentLink.name,
+                                            url: URL,
+                                            email: currentLink.email,
+                                            phone: currentLink.phone,
+                                            icon: currentLink.icon
+                                        }
+                                    }
+
+                                    return item;
+                                })
+                            )
                         }
 
                         setEditID(null)
@@ -382,72 +445,136 @@ const EditForm = ({
                 if (data.success) {
 
                     if (folderID) {
-                        let newFolderLinks = [...folderLinks];
-                        let newUserLinks = [...userLinks];
 
-                        newFolderLinks = newFolderLinks.map((item) => {
-                            if (item.id === editID) {
-                                return {
-                                    ...item,
-                                    name: currentLink.name,
-                                    url: URL,
-                                    email: currentLink.email,
-                                    phone: currentLink.phone,
-                                    icon: data.iconPath
-                                }
-                            }
-
-                            return item;
-                        });
-
-                        newUserLinks = newUserLinks.map((item) => {
-                            if (item.id === folderID) {
-
-                                item.links = item.links.map((linkItem) => {
-
-                                    if (linkItem.id === editID) {
-
-                                        return {
-                                            ...item,
-                                            name: currentLink.name,
-                                            url: URL,
-                                            email: currentLink.email,
-                                            phone: currentLink.phone,
-                                            icon: data.iconPath
-                                        }
+                        setFolderLinks(
+                            folderLinks.map((item) => {
+                                if (item.id === editID) {
+                                    return {
+                                        ...item,
+                                        name: currentLink.name,
+                                        url: URL,
+                                        email: currentLink.email,
+                                        phone: currentLink.phone,
+                                        icon: data.iconPath
                                     }
-
-                                    return linkItem
-                                })
+                                }
 
                                 return item;
-                            }
+                            })
+                        )
 
-                            return item;
-                        })
-
-                        setOriginalFolderLinks(newFolderLinks);
-                        setFolderLinks(newFolderLinks);
-                        setUserLinks(newUserLinks);
-                        setOriginalArray(newUserLinks);
-                    } else {
-                        let newLinks = [...userLinks];
-                        newLinks = newLinks.map((item) => {
-                            if (item.id === editID) {
-                                return {
-                                    ...item,
-                                    name: currentLink.name,
-                                    url: URL,
-                                    email: currentLink.email,
-                                    phone: currentLink.phone,
-                                    icon: data.iconPath
+                        setOriginalFolderLinks(
+                            originalFolderLinks.map((item) => {
+                                if (item.id === editID) {
+                                    return {
+                                        ...item,
+                                        name: currentLink.name,
+                                        url: URL,
+                                        email: currentLink.email,
+                                        phone: currentLink.phone,
+                                        icon: data.iconPath
+                                    }
                                 }
-                            }
 
-                            return item;
-                        });
-                        setOriginalArray(newLinks);
-                        setUserLinks(newLinks);
+                                return item;
+                            })
+                        )
+
+                        setUserLinks(
+                            userLinks.map((item) => {
+                                if (item.id === folderID) {
+
+                                    const newItemLinks = item.links.map((linkItem) => {
+
+                                        if (linkItem.id === editID) {
+
+                                            return {
+                                                ...item,
+                                                name: currentLink.name,
+                                                url: URL,
+                                                email: currentLink.email,
+                                                phone: currentLink.phone,
+                                                icon: data.iconPath
+                                            }
+                                        }
+
+                                        return linkItem
+                                    })
+
+                                    return {
+                                        ...item,
+                                        links: newItemLinks
+                                    }
+                                }
+
+                                return item;
+                            })
+                        )
+
+                        setOriginalArray(
+                            originalArray.map((item) => {
+                                if (item.id === folderID) {
+
+                                    const newItemLinks = item.links.map((linkItem) => {
+
+                                        if (linkItem.id === editID) {
+
+                                            return {
+                                                ...item,
+                                                name: currentLink.name,
+                                                url: URL,
+                                                email: currentLink.email,
+                                                phone: currentLink.phone,
+                                                icon: data.iconPath
+                                            }
+                                        }
+
+                                        return linkItem
+                                    })
+
+                                    return {
+                                        ...item,
+                                        links: newItemLinks
+                                    }
+                                }
+
+                                return item;
+                            })
+                        )
+
+                    } else {
+                        setUserLinks (
+                            userLinks.map((item) => {
+                                if (item.id === editID) {
+                                    return {
+                                        ...item,
+                                        name: currentLink.name,
+                                        url: URL,
+                                        email: currentLink.email,
+                                        phone: currentLink.phone,
+                                        icon: data.iconPath
+                                    }
+                                }
+
+                                return item;
+                            })
+                        )
+                        setOriginalArray (
+                            originalArray.map((item) => {
+                                if (item.id === editID) {
+                                    return {
+                                        ...item,
+                                        name: currentLink.name,
+                                        url: URL,
+                                        email: currentLink.email,
+                                        phone: currentLink.phone,
+                                        icon: data.iconPath
+                                    }
+                                }
+
+                                return item;
+                            })
+                        )
                     }
 
                     setCustomIconArray( customIconArray => [
@@ -459,13 +586,11 @@ const EditForm = ({
                 }
             })
         }).catch(error => {
-            console.log(error);
-            /*if (error.response) {
-                EventBus.dispatch("error", { message: error.response.data.errors.profile_img[0] });
+            if (error.response) {
                 console.log("ERROR: " + error.response);
             } else {
                 console.log("ERROR:: ", error);
-            }*/
+            }
         });
     }
 

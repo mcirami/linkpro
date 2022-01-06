@@ -202,12 +202,29 @@ jQuery(document).ready(function($) {
         })
     }
 
+    let row = null;
     function insertContent(content, element, cb) {
 
-        const childNum = element.dataset.row * 4;
-        let iconsWrap = null;
-        iconsWrap = document.querySelectorAll(
-            '.icons_wrap.main > .icon_col:nth-child(' + childNum + ')');
+        const currentRow = element.dataset.row * 4;
+        if (row && currentRow === row) {
+            content.classList.add('open');
+            element.classList.add('open');
+            content.classList.add('adjust');
+        } else {
+            setTimeout(() => {
+                content.classList.add('open');
+                element.classList.add('open');
+            }, 100)
+
+            setTimeout(() => {
+                content.classList.add('adjust');
+            }, 200)
+        }
+
+        row = currentRow;
+
+        let iconsWrap = document.querySelectorAll(
+            '.icons_wrap.main > .icon_col:nth-child(' + currentRow + ')');
         if (iconsWrap.length < 1) {
             iconsWrap = document.querySelectorAll(
                 '.icons_wrap.main > .icon_col:last-child');
@@ -216,7 +233,7 @@ jQuery(document).ready(function($) {
         cb();
     }
 
-    const folders = document.querySelectorAll('.icon_col.folder');
+    const folders = document.querySelectorAll('.live_page .icon_col.folder');
     if (folders.length > 0) {
         let content = null;
         folders.forEach((element) => {
@@ -224,26 +241,32 @@ jQuery(document).ready(function($) {
                 e.preventDefault();
                 if (content) {
                     if (element.classList.contains('open')) {
-                        content.classList.toggle('open');
-                        element.classList.toggle('open');
-                        const lastChild = element.lastElementChild;
-                        lastChild.after(content);
-                        content = null;
+                        element.classList.remove('open');
+
+                        setTimeout(() => {
+                            content.classList.remove('open');
+                        }, 100)
+
+                        setTimeout(() => {
+                            element.classList.remove('adjust');
+                        }, 200)
+
+                        setTimeout(() => {
+                            element.lastElementChild.after(content);
+                            content = null;
+                        }, 500)
+
                     } else {
-                        document.querySelectorAll('.icon_col.folder').forEach((folder) => {
-                                folder.classList.remove('open');
-                            });
-                        content.classList.remove('open');
-
-                        const prevParentElement = content.dataset.parent;
-
-                        document.querySelector(prevParentElement).lastElementChild.after(content);
+                        const folder = document.querySelector('.my_row.folder.open');
+                        folder.classList.remove('open');
+                        const folderParent = document.querySelector(folder.dataset.parent);
+                        folderParent.classList.remove('open');
+                        folderParent.lastElementChild.after(folder);
 
                         content = element.lastElementChild;
 
                         insertContent(content, element, function() {
-                            content.classList.toggle('open')
-                            element.classList.toggle('open');
+
                             content.scrollIntoView({
                                 behavior: 'smooth',
                                 block: "center",
@@ -260,8 +283,7 @@ jQuery(document).ready(function($) {
                     content = element.lastElementChild;
 
                     insertContent(content, element, function() {
-                        content.classList.toggle('open')
-                        element.classList.toggle('open');
+
                         content.scrollIntoView({
                             behavior: 'smooth',
                             block: "center",

@@ -14,6 +14,15 @@ const AddLink = ({userSub, setShowUpgradePopup, setOptionText, setShowNewForm })
 
             setShowNewForm(true);
 
+            setTimeout(function(){
+                document.querySelector('.link_form').scrollIntoView({
+                    behavior: 'smooth',
+                    block: "center",
+                    inline: "center"
+                });
+
+            }, 200)
+
         } else {
             const popup = document.querySelector('#upgrade_popup');
             setShowUpgradePopup(true);

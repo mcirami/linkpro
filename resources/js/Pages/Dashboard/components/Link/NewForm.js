@@ -250,7 +250,7 @@ const NewForm = ({
 
                         if(folderID) {
                             let newFolderLinks = [...folderLinks];
-                            let newUserLinks = [...userLinks];
+                            let newOriginalFolderLinks = [...originalFolderLinks];
 
                             const newLinkObject = {
                                 id: data.link_id,
@@ -263,31 +263,48 @@ const NewForm = ({
                                 position: data.position,
                                 active_status: true
                             }
-                            newUserLinks = newUserLinks.map((item) => {
-                                if (item.id === folderID) {
-                                    const itemLinks = item.links.concat(newLinkObject)
 
-                                    return {
-                                        ...item,
-                                        links: itemLinks
+                            setUserLinks (
+                                userLinks.map((item) => {
+                                    if (item.id === folderID) {
+                                        const itemLinks = item.links.concat(newLinkObject)
+
+                                        return {
+                                            ...item,
+                                            links: itemLinks
+                                        }
                                     }
-                                }
 
-                                return item;
+                                    return item;
 
-                            })
+                                })
+                            )
 
-                            newFolderLinks = newFolderLinks.concat(newLinkObject);
-                            setOriginalFolderLinks(newFolderLinks);
-                            setFolderLinks(newFolderLinks);
-                            setOriginalArray(newUserLinks);
-                            setUserLinks(newUserLinks);
+                            setOriginalArray (
+                                originalArray.map((item) => {
+                                    if (item.id === folderID) {
+                                        const itemLinks = item.links.concat(newLinkObject)
+
+                                        return {
+                                            ...item,
+                                            links: itemLinks
+                                        }
+                                    }
+
+                                    return item;
+
+                                })
+                            )
+
+                            setOriginalFolderLinks(newOriginalFolderLinks.concat(newLinkObject));
+                            setFolderLinks(newFolderLinks.concat(newLinkObject));
 
                             setShowNewForm(false);
                             updateContentHeight(folderLinks);
 
                         } else {
                             let newLinks = [...userLinks];
+                            let originalLinks = [...originalArray];
 
                             const newLinkObject = {
                                 id: data.link_id,
@@ -299,9 +316,8 @@ const NewForm = ({
                                 position: data.position,
                                 active_status: true
                             }
-                            newLinks = newLinks.concat(newLinkObject);
-                            setOriginalArray(newLinks);
-                            setUserLinks(newLinks);
+                            setOriginalArray(originalLinks.concat(newLinkObject));
+                            setUserLinks(newLinks.concat(newLinkObject));
 
                             setShowNewForm(false);
                             updateContentHeight(originalArray);
@@ -395,7 +411,7 @@ const NewForm = ({
 
                         if (folderID) {
                             let newFolderLinks = [...folderLinks];
-                            let newUserLinks = [...userLinks];
+                            let newOriginalFolderLinks = [...originalFolderLinks];
 
                             const newLinkObject = {
                                 id: data.link_id,
@@ -409,30 +425,47 @@ const NewForm = ({
                                 active_status: true
                             }
 
-                            newUserLinks = newUserLinks.map((item) => {
-                                if (item.id === folderID) {
-                                    const itemLinks = item.links.concat(newLinkObject)
+                            setUserLinks (
+                                userLinks.map((item) => {
+                                    if (item.id === folderID) {
+                                        const itemLinks = item.links.concat(newLinkObject)
 
-                                    return {
-                                        ...item,
-                                        links: itemLinks
+                                        return {
+                                            ...item,
+                                            links: itemLinks
+                                        }
                                     }
-                                }
 
-                                return item;
+                                    return item;
 
-                            })
-                            newFolderLinks = newFolderLinks.concat(newLinkObject);
-                            setOriginalFolderLinks(newFolderLinks);
-                            setFolderLinks(newFolderLinks);
-                            setOriginalArray(newUserLinks);
-                            setUserLinks(newUserLinks);
+                                })
+                            )
+
+                            setOriginalArray (
+                                originalArray.map((item) => {
+                                    if (item.id === folderID) {
+                                        const itemLinks = item.links.concat(newLinkObject)
+
+                                        return {
+                                            ...item,
+                                            links: itemLinks
+                                        }
+                                    }
+
+                                    return item;
+
+                                })
+                            )
+
+                            setOriginalFolderLinks(newOriginalFolderLinks.concat(newLinkObject));
+                            setFolderLinks(newFolderLinks.concat(newLinkObject));
 
                             setShowNewForm(false);
                             updateContentHeight(folderLinks);
 
                         } else {
                             let newLinks = [...userLinks];
+                            let originalLinks = [...originalArray];
 
                             const newLinkObject = {
                                 id: data.link_id,
@@ -444,9 +477,9 @@ const NewForm = ({
                                 position: data.position,
                                 active_status: true
                             }
-                            newLinks = newLinks.concat(newLinkObject);
-                            setOriginalArray(newLinks);
-                            setUserLinks(newLinks);
+
+                            setOriginalArray(originalLinks.concat(newLinkObject));
+                            setUserLinks(newLinks.concat(newLinkObject));
 
                             setShowNewForm(false);
                             updateContentHeight(originalArray);

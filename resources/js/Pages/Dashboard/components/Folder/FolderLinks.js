@@ -6,7 +6,7 @@ import React, {
     useState,
     useContext,
 } from 'react';
-import {MdDeleteForever, MdDragHandle} from 'react-icons/md';
+import {MdDeleteForever, MdDragHandle, MdArrowBack} from 'react-icons/md';
 import Switch from "react-switch";
 import {UserLinksContext, OriginalArrayContext} from '../App';
 import {Motion, spring} from 'react-motion';
@@ -330,24 +330,87 @@ const FolderLinks = ({
             active_status: newStatus,
         };
 
-        updateLinkStatus(packets, currentItem.id)
+        const url = "/dashboard/links/status/"
+
+        updateLinkStatus(packets, currentItem.id, url)
         .then((data) => {
 
             if(data.success) {
-                let newLinks = folderLinks;
-                newLinks = newLinks.map((item) => {
-                    if (item.id === currentItem.id) {
-                        return {
-                            ...item,
-                            active_status: newStatus,
+                setFolderLinks(
+                    folderLinks.map((item) => {
+                        if (item.id === currentItem.id) {
+                            return {
+                                ...item,
+                                active_status: newStatus,
+                            };
                         }
-                    }
+                        return item;
+                    })
+                )
 
-                    return item;
-                });
-                setFolderLinks(newLinks);
-                setOriginalFolderLinks(newLinks);
+                setOriginalFolderLinks(
+                    originalFolderLinks.map((item) => {
+                        if (item.id === currentItem.id) {
+                            return {
+                                ...item,
+                                active_status: newStatus,
+                            };
+                        }
+                        return item;
+                    })
+                )
 
+                setUserLinks(
+                    userLinks.map((item) => {
+                        if (item.id === folderID) {
+
+                            const newItemLinks = item.links.map((linkItem) => {
+
+                                if (linkItem.id === currentItem.id) {
+
+                                    return {
+                                        ...linkItem,
+                                        active_status: newStatus,
+                                    }
+                                }
+
+                                return linkItem;
+                            })
+
+                            return {
+                                ...item,
+                                links: newItemLinks
+                            }
+                        }
+                        return item;
+                    })
+                )
+
+                setOriginalArray(
+                    originalArray.map((item) => {
+                        if (item.id === folderID) {
+
+                            const newItemLinks = item.links.map((linkItem) => {
+
+                                if (linkItem.id === currentItem.id) {
+
+                                    return {
+                                        ...linkItem,
+                                        active_status: newStatus,
+                                    }
+                                }
+
+                                return linkItem
+                            })
+
+                            return {
+                                ...item,
+                                links: newItemLinks
+                            }
+                        }
+                        return item;
+                    })
+                )
             }
         })
     };
@@ -395,20 +458,29 @@ const FolderLinks = ({
         .then((data) => {
 
             if(data.success) {
-                let newLinks = [...userLinks];
-                newLinks = newLinks.map((item) => {
-                    if (item.id === folderID) {
-                        item.name = currentLink.name;
+
+                setUserLinks(
+                    userLinks.map((item) => {
+                        if (item.id === folderID) {
+                            item.name = currentLink.name;
+
+                            return item
+                        }
 
                         return item
-                    }
+                    })
+                )
+                setOriginalArray(
+                    originalArray.map((item) => {
+                        if (item.id === folderID) {
+                            item.name = currentLink.name;
 
-                    return item
-                })
+                            return item
+                        }
 
-                setUserLinks(newLinks);
-                setOriginalArray(newLinks);
-
+                        return item
+                    })
+                )
             }
         })
     }
@@ -436,17 +508,47 @@ const FolderLinks = ({
     return (
 
         <>
-            <div className="my_row link_row folders">
+            <div className="my_row link_row back">
                 <a className="button blue" href="#"
                    onClick={(e) => { e.preventDefault(); setEditFolderID(null); }}
-                >Back</a>
-                <div className="delete_icon">
-                    <a className="delete" href="#" onClick={handleDeleteFolder}><MdDeleteForever /></a>
-                    <div className="hover_text delete_folder"><p>Delete Folder</p></div>
-                </div>
-
+                >
+                    <MdArrowBack />
+                    Back To Icons
+                </a>
             </div>
-            <div className="my_row link_row">
+            <div className="my_row folder_message">
+                <p>Editing Folder</p>
+            </div>
+            <div className="folder_name my_row">
+                <div className="input_wrap">
+                    <input
+                        /*maxLength="13"*/
+                        name="name"
+                        type="text"
+                        value={currentLink.name || ""}
+                        placeholder="Folder Name"
+                        onChange={(e) => handleFolderName(e)}
+                        onKeyPress={ event => {
+                            if(event.key === 'Enter') {
+                                handleSubmit(event);
+                            }
+                        }
+                        }
+                        onBlur={(e) => handleSubmit(e)}
+                    />
+                </div>
+                <div className="my_row characters">
+                    <p className="char_max">Max 11 Characters Shown</p>
+                    <p className="char_count">
+                        {charactersLeft < 0 ?
+                            <span className="over">Only 11 Characters Will Be Shown</span>
+                            :
+                            "Characters Left: " + charactersLeft
+                        }
+                    </p>
+                </div>
+            </div>
+            <div className="my_row link_row folders">
 
                 <div className="add_more_icons">
                     <AddLink
@@ -456,34 +558,9 @@ const FolderLinks = ({
                         setOptionText={setOptionText}
                     />
                 </div>
-                <div className="add_more_icons">
-                    <div className="input_wrap">
-                        <input
-                            /*maxLength="13"*/
-                            name="name"
-                            type="text"
-                            value={currentLink.name || ""}
-                            placeholder="Folder Name"
-                            onChange={(e) => handleFolderName(e)}
-                            onKeyPress={ event => {
-                                if(event.key === 'Enter') {
-                                    handleSubmit(event);
-                                }
-                            }
-                            }
-                            onBlur={(e) => handleSubmit(e)}
-                        />
-                    </div>
-                    <div className="my_row characters">
-                        <p className="char_max">Max 11 Characters Shown</p>
-                        <p className="char_count">
-                            {charactersLeft < 0 ?
-                                <span className="over">Only 11 Characters Will Be Shown</span>
-                                :
-                                "Characters Left: " + charactersLeft
-                            }
-                        </p>
-                    </div>
+                <div className="delete_icon">
+                    <a className="delete" href="#" onClick={handleDeleteFolder}><MdDeleteForever /></a>
+                    <div className="hover_text delete_folder"><p>Delete Folder</p></div>
                 </div>
             </div>
 

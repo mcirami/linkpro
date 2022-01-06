@@ -49,7 +49,9 @@ class LinkController extends Controller
 
     public function updatePositions(Request $request, LinkService $linkService) {
 
-        $linkService->updateLinksPositions($request);
+        $allRequest = $request->all();
+
+        $linkService->updateLinksPositions($allRequest);
 
         return response()->json(['message' => "Links Position Updated"]);
     }
@@ -59,8 +61,10 @@ class LinkController extends Controller
             return abort(403);
         }
 
+        $allRequest = $request->all();
+
         $linkService->deleteLink($link);
-        $linkService->updateLinksPositions($request);
+        $linkService->updateLinksPositions($allRequest);
 
         return response()->json(['message' => 'Icon Has Been Deleted']);
     }

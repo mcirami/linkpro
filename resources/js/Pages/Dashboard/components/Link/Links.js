@@ -14,6 +14,7 @@ import {
     updateLinksPositions,
     updateLinkStatus,
 } from '../../../../Services/LinksRequest';
+import EventBus from '../../../../Utils/Bus';
 
 const springSetting1 = { stiffness: 180, damping: 10 };
 const springSetting2 = { stiffness: 120, damping: 17 };
@@ -35,7 +36,8 @@ const Links = ({
                    setEditFolderID,
                    userSub,
                    setFolderLinks,
-                   setOriginalFolderLinks
+                   setOriginalFolderLinks,
+                   setFolderContent
 
 }) => {
 
@@ -207,7 +209,7 @@ const Links = ({
 
             if (isPressed) {
                 const mouseXY = [pageX - dx, pageY - dy];
-                const col = clamp(Math.floor(mouseXY[0] / width), 0, 4);
+                const col = clamp(Math.floor(mouseXY[0] / width), 0, 3);
                 const row = clamp(
                     Math.floor(mouseXY[1] / height),
                     0,
@@ -259,52 +261,84 @@ const Links = ({
     }, [handleTouchMove, handleMouseUp, handleMouseMove]);
 
     useEffect(() => {
+
         if (initialRender.current) {
             initialRender.current = false;
-        } else if(state.isPressed === false) {
+        } else if(!state.isPressed) {
             const packets = {
                 userLinks: userLinks,
             }
 
             updateLinksPositions(packets);
+
         }
+
+        if (state.isPressed) {
+            const folder = document.querySelector('.my_row.folder.open');
+            if (folder) {
+                folder.classList.remove('open');
+                const folderParent = document.querySelector(folder.dataset.parent);
+                folderParent.lastElementChild.after(folder);
+            }
+
+            const folderCol = document.querySelector('.icon_col.folder.open');
+            if (folderCol) {
+                folderCol.classList.remove('open');
+            }
+
+            setFolderContent(null);
+
+        }
+
     }, [state.isPressed]);
 
-    const handleChange = (currentItem) => {
-        const newStatus = !currentItem.active_status;
+    const handleChange = (currentItem, hasLinks) => {
 
-        let url = "";
+        if(hasLinks) {
+            const newStatus = !currentItem.active_status;
 
-        if (currentItem.type && currentItem.type === "folder") {
-            url = "/dashboard/folder/status/";
-        } else {
-            url = "/dashboard/links/status/"
-        }
+            let url = "";
 
-        const packets = {
-            active_status: newStatus,
-        };
-
-        updateLinkStatus(packets, currentItem.id, url)
-        .then((data) => {
-
-            if(data.success) {
-                let newLinks = [...userLinks];
-                newLinks = newLinks.map((item) => {
-                    if (item.id === currentItem.id) {
-                        return {
-                            ...item,
-                            active_status: newStatus,
-                        }
-                    }
-
-                    return item;
-                });
-                setUserLinks(newLinks);
-                setOriginalArray(newLinks);
-
+            if (currentItem.type && currentItem.type === "folder") {
+                url = "/dashboard/folder/status/";
+            } else {
+                url = "/dashboard/links/status/"
             }
-        })
+
+            const packets = {
+                active_status: newStatus,
+            };
+
+            updateLinkStatus(packets, currentItem.id, url).then((data) => {
+
+                if (data.success) {
+                    setOriginalArray(
+                        originalArray.map((item) => {
+                            if (item.id === currentItem.id) {
+                                return {
+                                    ...item,
+                                    active_status: newStatus,
+                                };
+                            }
+                            return item;
+                        })
+                    )
+                    setUserLinks(
+                        userLinks.map((item) => {
+                            if (item.id === currentItem.id) {
+                                return {
+                                    ...item,
+                                    active_status: newStatus,
+                                };
+                            }
+                            return item;
+                        })
+                    )
+                }
+            })
+        } else {
+            EventBus.dispatch("error", {message: "Add Icons Before Enabling"});
+        }
     };
 
     const handleOnClick = (linkID) => {
@@ -381,9 +415,11 @@ const Links = ({
 
                 const type = originalArray[key].type || "Icon";
                 const linkID = originalArray[key].id;
+                let hasLinks = true;
                 let displayIcon;
                 if (type === "folder") {
-                    displayIcon = null;
+                    //displayIcon = null;
+                    hasLinks = originalArray[key].links.length > 0;
                 } else {
                     displayIcon = checkSubStatus(originalArray[key].icon);
                 }
@@ -417,24 +453,24 @@ const Links = ({
                                         <div className="icon_wrap folder">
                                             <div className="inner_icon_wrap" onClick={(e) => {fetchFolderLinks(linkID)} }>
                                                 <img src={ Vapor.asset('images/blank-folder-square.jpg')} alt=""/>
-                                                <div className="folder_icons">
-                                                    {originalArray[key].links.length > 0 &&
+                                                <div className={hasLinks ? "folder_icons" : "folder_icons empty"}>
+                                                    {hasLinks &&
 
                                                         originalArray[key].links.slice(
                                                             0, 9).
-                                                            map((innerLink, index) => {
-                                                                displayIcon = checkSubStatus(
-                                                                    innerLink.icon);
+                                                            map((innerLink) => {
+                                                                /*const displayIcon = checkSubStatus(
+                                                                    innerLink.icon);*/
                                                                 return (
-                                                                    <div className="image_col" key={index}>
-                                                                        <img src={displayIcon ||
+                                                                    <div className="image_col" key={innerLink.id}>
+                                                                        <img src={innerLink.icon ||
                                                                         Vapor.asset(
                                                                             'images/icon-placeholder.png')} alt=""/>
                                                                     </div>
                                                                 )
                                                             })
                                                     }
-                                                    {originalArray[key].links.length === 0 && <p>Add Icons</p>}
+                                                    {!hasLinks && <p><span>+</span> <br />Add<br />Icons</p>}
                                                 </div>
 
                                             </div>
@@ -454,7 +490,7 @@ const Links = ({
                                     <div className="my_row">
                                         <div className="switch_wrap">
                                             <Switch
-                                                onChange={(e) => handleChange(originalArray[key])}
+                                                onChange={(e) => handleChange(originalArray[key], hasLinks)}
                                                 height={20}
                                                 checked={Boolean(originalArray[key].active_status)}
                                                 onColor="#424fcf"

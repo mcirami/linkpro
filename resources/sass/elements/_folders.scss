@@ -1,7 +1,7 @@
 .icon_wrap.folder {
 
     .inner_icon_wrap {
-        border: 1px solid $borderGray;
+        border: 1px solid $blue;
         border-radius: 20%;
         -webkit-border-radius: 20%;
         -moz-border-radius: 20%;
@@ -26,24 +26,50 @@
             top: 0;
             left: 0;
             width: 100%;
-            padding: 10px;
+            padding: 7%;
 
             .image_col {
                 max-width: 32%;
                 margin-right: 2%;
                 margin-bottom: 3px;
-                border-radius: 30% !important;
-                -webkit-border-radius: 30% !important;
-                -moz-border-radius: 30% !important;
 
                 &:nth-child(3n) {
                     margin-right: 0
                 }
 
                 img {
-                    border-radius: 30% !important;
-                    -webkit-border-radius: 30% !important;
-                    -moz-border-radius: 30% !important;
+                    border-radius: 34% !important;
+                    -webkit-border-radius: 34% !important;
+                    -moz-border-radius: 34% !important;
+                }
+            }
+
+            &.empty {
+                justify-content: center;
+                -webkit-justify-content: center;
+                align-items: center;
+                -webkit-align-items: center;
+                height: 100%;
+
+                p {
+                    @include osbold;
+                    line-height: 1.2;
+                    margin: 0;
+                    font-size: 16px;
+                    text-align: center;
+                    color: $blue;
+
+                    @media all and (max-width: 768px) {
+                        font-size: 2.3vw;
+                    }
+
+                    span {
+                        font-size: 20px;
+
+                        @media all and (max-width: 768px) {
+                            font-size: 3.5vw !important;
+                        }
+                    }
                 }
             }
         }
@@ -113,4 +139,81 @@
         }
     }
 
+}
+
+.folder_name {
+    padding: 0 40px;
+
+    @media all and (max-width: 768px) {
+        padding: 0 30px;
+    }
+
+    input {
+        width: 100%;
+    }
+}
+
+.my_row.folder {
+    opacity: 0;
+    max-height: 0;
+    transition: all 300ms ease-in-out;
+    -webkit-transition: all 300ms ease-in-out;
+    -o-transition: all 300ms ease-in-out;
+    -moz-transition: all 300ms ease-in-out;
+    background: $white;
+
+    &.open {
+        max-height: 1000px;
+
+        &.adjust {
+            opacity: 1;
+        }
+    }
+
+    p {
+        margin-bottom: 0;
+    }
+
+    .icons_wrap {
+        padding: 20px !important;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        border-radius: 20px;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        text-align: center;
+        margin-bottom: 20px;
+
+        .icon_col {
+            width: 26.3% !important;
+            margin-bottom: 5px !important;
+            margin-right: 10.5% !important;
+
+            &:nth-child(3n) {
+                margin-right: 0 !important;
+            }
+
+            &:nth-child(4n) {
+                margin-right: 10.5% !important;
+            }
+        }
+
+    }
+}
+
+.folder_message {
+    padding: 0 40px;
+    text-align: center;
+    margin-bottom: 10px;
+
+    @media all and (max-width: 768px) {
+        padding: 0 30px;
+    }
+
+    p {
+        @include osbold;
+        border-bottom: 1px solid $red;
+        color: $red;
+        font-size: 14px;
+
+    }
 }
