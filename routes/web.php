@@ -8,6 +8,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\TrackingController;
+use App\Http\Controllers\FolderController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -56,6 +57,10 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
     Route::post('/page/update-password/{page}', [PageController::class, 'updatePassword'])->name('page.password.update');
     Route::post('/page/update-bio/{page}', [PageController::class, 'updateBio'])->name('page.bio.update');
 
+    Route::get('/pages/folder/links/{folder}', [FolderController::class, 'getFolderLinks'])->name('get.folder.links');
+    Route::post('/folder/status/{folder}', [FolderController::class, 'updateFolderStatus']);
+    Route::post('/folder/delete/{folder}', [FolderController::class, 'destroy']);
+    Route::post('/folder/update-name/{folder}', [FolderController::class, 'updateName']);
 });
 
 Route::group(['middleware' => 'auth'], function() {
@@ -78,6 +83,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/stats/page/dropdown', [TrackingController::class, 'getPageStatsDropdown']);
     Route::get('/stats/get', [TrackingController::class, 'getStats']);
     Route::get('/stats', [TrackingController::class, 'show'])->name('stats');
+
+    Route::post('/folder/new', [FolderController::class, 'store'])->name('add.folder');
 
 });
 

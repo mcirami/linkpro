@@ -12501,19 +12501,35 @@ header.guest_header .col.right {
 #links_page .icons_wrap .icon_col .my_row:last-child {
   margin-top: 5px;
 }
-#links_page .icons_wrap .icon_col.folder.open:after {
+#links_page .icons_wrap .icon_col.folder a .icons_wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: none !important;
+}
+#links_page .icons_wrap .icon_col.folder:after {
   content: "";
   width: 15px;
   height: 15px;
-  background: #424fcf;
   position: absolute;
   left: calc(50% - 7.5px);
-  transform: rotate(45deg);
-  bottom: -20px;
+  transform: rotate(180deg);
+  bottom: -11px;
   z-index: 1;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 10px solid;
+  border-top-color: #424fcf;
+  opacity: 0;
+  transition: all 500ms ease-in-out;
+  -webkit-transition: all 500ms ease-in-out;
+  -o-transition: all 500ms ease-in-out;
+  -moz-transition: all 500ms ease-in-out;
+}
+#links_page .icons_wrap .icon_col.folder.open:after {
+  opacity: 1;
 }
 #links_page .icons_wrap .icon_col.folder a {
-  height: 100%;
   border: 1px solid #f4f4f4;
   padding: 0;
   border-radius: 20px;
@@ -12536,10 +12552,10 @@ header.guest_header .col.right {
 #links_page .icons_wrap.add_icons {
   padding: 0 3%;
   min-height: 800px;
-  transition: 100ms all linear;
-  -webkit-transition: 100ms all linear;
-  -moz-transition: 100ms all linear;
-  -o-transition: 100ms all linear;
+  transition: 800ms all ease-in-out;
+  -webkit-transition: 800ms all ease-in-out;
+  -moz-transition: 800ms all ease-in-out;
+  -o-transition: 800ms all ease-in-out;
 }
 @media all and (max-width: 1199px) {
   #links_page .icons_wrap.add_icons {
@@ -12764,6 +12780,14 @@ header.guest_header .col.right {
   .link_row {
     padding: 0 30px;
   }
+}
+.link_row.back {
+  margin-top: 0;
+}
+.link_row.back svg {
+  float: left;
+  width: 20px;
+  height: 22px;
 }
 
 .add_more_icons h3, .add_more_icons .h3 {
@@ -13217,8 +13241,8 @@ header.guest_header .col.right {
 @media screen and (max-width: 550px) {
   #links_page .links_col .links_wrap.preview .inner_content {
     min-height: 620px;
-    max-width: 272px;
-    padding: 5px 0 0 0;
+    max-width: 273px;
+    padding: 7px 0 0 0;
   }
 }
 #links_page .links_col .links_wrap.preview .inner_content:before {
@@ -13663,12 +13687,12 @@ form .bottom_row a {
 .edit_form.new_page p {
   margin: 0;
 }
-.edit_form .char_max, .edit_form .status {
+.edit_form .status {
   margin-bottom: 0;
   font-size: 12px;
   color: #908e8e;
 }
-.edit_form .char_max.red, .edit_form .status.red {
+.edit_form .status.red {
   color: #f24d1d;
 }
 .edit_form .status {
@@ -13677,30 +13701,119 @@ form .bottom_row a {
 .edit_form .status.not_available {
   color: #f24d1d;
 }
-.edit_form .my_row.characters {
-  display: flex;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  -webkit-justify-content: space-between;
-}
-.edit_form .my_row.characters.title {
-  margin-top: 5px;
-}
-.edit_form .my_row.characters .char_count {
-  margin-bottom: 0;
-  color: #908e8e;
-  font-size: 12px;
-}
-.edit_form .my_row.characters .char_count span {
-  font-family: "opensanssemibold", sans-serif;
-  color: #0ba921;
-}
-.edit_form .my_row.characters .char_count span.over {
-  color: #f24d1d;
-}
 
+#links_page .edit_form.popup, #links_page .edit_form.link {
+  margin-bottom: 0;
+  border-top: 1px solid #d2d2d2;
+}
+#links_page .edit_form.popup .input_wrap, #links_page .edit_form.link .input_wrap {
+  position: relative;
+}
+#links_page .edit_form.popup .disabled_wrap, #links_page .edit_form.link .disabled_wrap {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+#links_page .edit_form.popup .uploader, #links_page .edit_form.link .uploader {
+  margin-bottom: 20px;
+}
+#links_page .edit_form.popup label.custom, #links_page .edit_form.link label.custom {
+  justify-content: center;
+  -webkit-justify-content: center;
+}
+#links_page .edit_form.popup .icons_wrap, #links_page .edit_form.link .icons_wrap {
+  border: 1px solid #d2d2d2;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  padding: 10px;
+}
+#links_page .edit_form.popup .icons_wrap .icon_col, #links_page .edit_form.link .icons_wrap .icon_col {
+  width: 17.9%;
+  position: relative;
+  padding: 0;
+  box-shadow: none;
+  margin: 1%;
+}
+@media all and (max-width: 550px) {
+  #links_page .edit_form.popup .icons_wrap .icon_col, #links_page .edit_form.link .icons_wrap .icon_col {
+    width: 22.9%;
+  }
+}
+#links_page .edit_form.popup .my_row.top, #links_page .edit_form.link .my_row.top {
+  margin-bottom: 20px;
+}
+#links_page .edit_form.popup .my_row.top input[type=text], #links_page .edit_form.link .my_row.top input[type=text] {
+  width: 58%;
+  display: inline-block;
+  margin-right: 2%;
+}
+#links_page .edit_form.popup .my_row.top .uploader, #links_page .edit_form.link .my_row.top .uploader {
+  width: 40%;
+  display: inline-block;
+}
+#links_page .edit_form.popup .my_row.top label.custom, #links_page .edit_form.link .my_row.top label.custom {
+  padding: 10px;
+  display: block;
+  width: 100%;
+}
+#links_page .edit_form.popup .row, #links_page .edit_form.link .row {
+  margin-bottom: 20px;
+}
+#links_page .edit_form.popup .link_form, #links_page .edit_form.link .link_form {
+  width: 100%;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+}
+@media all and (max-width: 992px) {
+  #links_page .edit_form.popup .link_form, #links_page .edit_form.link .link_form {
+    padding: 40px 20px 20px;
+  }
+}
+@media all and (max-width: 768px) {
+  #links_page .edit_form.popup .link_form, #links_page .edit_form.link .link_form {
+    padding: 40px 20px 10px;
+  }
+}
+#links_page .edit_form.popup .link_form .delete, #links_page .edit_form.link .link_form .delete {
+  width: 30px;
+  height: 30px;
+  color: #f24d1d;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+#links_page .edit_form.popup .link_form .delete:hover, #links_page .edit_form.link .link_form .delete:hover {
+  color: #d4d2d2;
+}
+#links_page .edit_form.popup .link_form .delete svg, #links_page .edit_form.link .link_form .delete svg {
+  width: 100%;
+  height: 100%;
+}
+#links_page .edit_form.popup.new_page_form, #links_page .edit_form.link.new_page_form {
+  align-items: flex-start;
+  -webkit-align-items: flex-start;
+}
+#links_page .edit_form.popup.new_page_form h3, #links_page .edit_form.popup.new_page_form .h3, #links_page .edit_form.link.new_page_form h3, #links_page .edit_form.link.new_page_form .h3 {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+#links_page .edit_form.popup.new_page_form .form_wrap, #links_page .edit_form.link.new_page_form .form_wrap {
+  width: 100%;
+  background: #ffffff;
+  padding: 30px 20px 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+}
 #links_page .edit_form.popup {
   position: absolute;
   background: rgba(0, 0, 0, 0.8);
@@ -13717,114 +13830,6 @@ form .bottom_row a {
   -moz-border-radius: 12px;
   padding: 8%;
   min-height: 660px;
-}
-#links_page .edit_form.popup .input_wrap {
-  position: relative;
-}
-#links_page .edit_form.popup .disabled_wrap {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  right: 0;
-}
-#links_page .edit_form.popup .uploader {
-  margin-bottom: 20px;
-}
-#links_page .edit_form.popup label.custom {
-  justify-content: center;
-  -webkit-justify-content: center;
-}
-#links_page .edit_form.popup .icons_wrap {
-  border: 1px solid #d2d2d2;
-  border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  padding: 10px;
-}
-#links_page .edit_form.popup .icons_wrap .icon_col {
-  width: 17.9%;
-  position: relative;
-  padding: 0;
-  box-shadow: none;
-  margin: 1%;
-}
-@media all and (max-width: 550px) {
-  #links_page .edit_form.popup .icons_wrap .icon_col {
-    width: 22.9%;
-  }
-}
-#links_page .edit_form.popup .my_row.top {
-  margin-bottom: 20px;
-}
-#links_page .edit_form.popup .my_row.top input[type=text] {
-  width: 58%;
-  display: inline-block;
-  margin-right: 2%;
-}
-#links_page .edit_form.popup .my_row.top .uploader {
-  width: 40%;
-  display: inline-block;
-}
-#links_page .edit_form.popup .my_row.top label.custom {
-  padding: 10px;
-  display: block;
-  width: 100%;
-}
-#links_page .edit_form.popup .row {
-  margin-bottom: 20px;
-}
-#links_page .edit_form.popup .link_form {
-  width: 100%;
-  background: #ffffff;
-  padding: 40px;
-  border-radius: 12px;
-  -webkit-border-radius: 12px;
-  -moz-border-radius: 12px;
-}
-@media all and (max-width: 992px) {
-  #links_page .edit_form.popup .link_form {
-    padding: 40px 20px 20px;
-  }
-}
-@media all and (max-width: 768px) {
-  #links_page .edit_form.popup .link_form {
-    padding: 40px 20px 10px;
-  }
-}
-#links_page .edit_form.popup .link_form .delete {
-  width: 30px;
-  height: 30px;
-  color: #f24d1d;
-  position: absolute;
-  right: 10px;
-  top: 10px;
-}
-#links_page .edit_form.popup .link_form .delete:hover {
-  color: #d4d2d2;
-}
-#links_page .edit_form.popup .link_form .delete svg {
-  width: 100%;
-  height: 100%;
-}
-#links_page .edit_form.popup.new_page_form {
-  align-items: flex-start;
-  -webkit-align-items: flex-start;
-}
-#links_page .edit_form.popup.new_page_form h3, #links_page .edit_form.popup.new_page_form .h3 {
-  font-size: 24px;
-  margin-bottom: 15px;
-}
-#links_page .edit_form.popup.new_page_form .form_wrap {
-  width: 100%;
-  background: #ffffff;
-  padding: 30px 20px 20px;
-  background: #ffffff;
-  border-radius: 12px;
-  -webkit-border-radius: 12px;
-  -moz-border-radius: 12px;
 }
 #links_page .edit_form.password {
   margin-bottom: 0;
@@ -14409,7 +14414,7 @@ form .bottom_row a {
   text-align: left;
 }
 
-#popup_choose_level, #popup_payment_method, #confirm_popup, #upgrade_popup, #confirm_popup_link, #confirm_cancel_popup {
+#popup_choose_level, #popup_payment_method, #confirm_popup, #upgrade_popup, #confirm_popup_link, #confirm_cancel_popup, #confirm_folder_popup_link {
   display: none;
   opacity: 0;
   position: fixed;
@@ -14426,7 +14431,7 @@ form .bottom_row a {
   -o-transition: 100ms opacity linear;
   z-index: 999;
 }
-#popup_choose_level.open, #popup_payment_method.open, #confirm_popup.open, #upgrade_popup.open, #confirm_popup_link.open, #confirm_cancel_popup.open {
+#popup_choose_level.open, #popup_payment_method.open, #confirm_popup.open, #upgrade_popup.open, #confirm_popup_link.open, #confirm_cancel_popup.open, #confirm_folder_popup_link.open {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -14437,40 +14442,40 @@ form .bottom_row a {
   opacity: 1;
 }
 
-#popup_choose_level h2, #popup_choose_level .h2, #popup_payment_method h2, #popup_payment_method .h2, #confirm_popup h2, #confirm_popup .h2, #upgrade_popup h2, #upgrade_popup .h2, #confirm_popup_link h2, #confirm_popup_link .h2, #confirm_cancel_popup h2, #confirm_cancel_popup .h2, #confirm_change_plan_details h2, #confirm_change_plan_details .h2, #confirm_cancel_details h2, #confirm_cancel_details .h2 {
+#popup_choose_level h2, #popup_choose_level .h2, #popup_payment_method h2, #popup_payment_method .h2, #confirm_popup h2, #confirm_popup .h2, #upgrade_popup h2, #upgrade_popup .h2, #confirm_popup_link h2, #confirm_popup_link .h2, #confirm_folder_popup_link h2, #confirm_folder_popup_link .h2, #confirm_cancel_popup h2, #confirm_cancel_popup .h2, #confirm_change_plan_details h2, #confirm_change_plan_details .h2, #confirm_cancel_details h2, #confirm_cancel_details .h2 {
   font-family: "opensansbold", sans-serif;
   font-size: 30px;
   text-align: center;
 }
 @media all and (max-width: 768px) {
-  #popup_choose_level h2, #popup_choose_level .h2, #popup_payment_method h2, #popup_payment_method .h2, #confirm_popup h2, #confirm_popup .h2, #upgrade_popup h2, #upgrade_popup .h2, #confirm_popup_link h2, #confirm_popup_link .h2, #confirm_cancel_popup h2, #confirm_cancel_popup .h2, #confirm_change_plan_details h2, #confirm_change_plan_details .h2, #confirm_cancel_details h2, #confirm_cancel_details .h2 {
+  #popup_choose_level h2, #popup_choose_level .h2, #popup_payment_method h2, #popup_payment_method .h2, #confirm_popup h2, #confirm_popup .h2, #upgrade_popup h2, #upgrade_popup .h2, #confirm_popup_link h2, #confirm_popup_link .h2, #confirm_folder_popup_link h2, #confirm_folder_popup_link .h2, #confirm_cancel_popup h2, #confirm_cancel_popup .h2, #confirm_change_plan_details h2, #confirm_change_plan_details .h2, #confirm_cancel_details h2, #confirm_cancel_details .h2 {
     font-size: 24px;
   }
 }
 @media screen and (max-width: 550px) {
-  #popup_choose_level h2, #popup_choose_level .h2, #popup_payment_method h2, #popup_payment_method .h2, #confirm_popup h2, #confirm_popup .h2, #upgrade_popup h2, #upgrade_popup .h2, #confirm_popup_link h2, #confirm_popup_link .h2, #confirm_cancel_popup h2, #confirm_cancel_popup .h2, #confirm_change_plan_details h2, #confirm_change_plan_details .h2, #confirm_cancel_details h2, #confirm_cancel_details .h2 {
+  #popup_choose_level h2, #popup_choose_level .h2, #popup_payment_method h2, #popup_payment_method .h2, #confirm_popup h2, #confirm_popup .h2, #upgrade_popup h2, #upgrade_popup .h2, #confirm_popup_link h2, #confirm_popup_link .h2, #confirm_folder_popup_link h2, #confirm_folder_popup_link .h2, #confirm_cancel_popup h2, #confirm_cancel_popup .h2, #confirm_change_plan_details h2, #confirm_change_plan_details .h2, #confirm_cancel_details h2, #confirm_cancel_details .h2 {
     font-size: 22px;
   }
 }
-#popup_choose_level h3:not(.price), #popup_choose_level .h3:not(.price), #popup_payment_method h3:not(.price), #popup_payment_method .h3:not(.price), #confirm_popup h3:not(.price), #confirm_popup .h3:not(.price), #upgrade_popup h3:not(.price), #upgrade_popup .h3:not(.price), #confirm_popup_link h3:not(.price), #confirm_popup_link .h3:not(.price), #confirm_cancel_popup h3:not(.price), #confirm_cancel_popup .h3:not(.price), #confirm_change_plan_details h3:not(.price), #confirm_change_plan_details .h3:not(.price), #confirm_cancel_details h3:not(.price), #confirm_cancel_details .h3:not(.price) {
+#popup_choose_level h3:not(.price), #popup_choose_level .h3:not(.price), #popup_payment_method h3:not(.price), #popup_payment_method .h3:not(.price), #confirm_popup h3:not(.price), #confirm_popup .h3:not(.price), #upgrade_popup h3:not(.price), #upgrade_popup .h3:not(.price), #confirm_popup_link h3:not(.price), #confirm_popup_link .h3:not(.price), #confirm_folder_popup_link h3:not(.price), #confirm_folder_popup_link .h3:not(.price), #confirm_cancel_popup h3:not(.price), #confirm_cancel_popup .h3:not(.price), #confirm_change_plan_details h3:not(.price), #confirm_change_plan_details .h3:not(.price), #confirm_cancel_details h3:not(.price), #confirm_cancel_details .h3:not(.price) {
   font-family: "opensanssemibold", sans-serif;
   font-size: 18px;
   line-height: 1.6;
 }
 @media all and (max-width: 768px) {
-  #popup_choose_level h3:not(.price), #popup_choose_level .h3:not(.price), #popup_payment_method h3:not(.price), #popup_payment_method .h3:not(.price), #confirm_popup h3:not(.price), #confirm_popup .h3:not(.price), #upgrade_popup h3:not(.price), #upgrade_popup .h3:not(.price), #confirm_popup_link h3:not(.price), #confirm_popup_link .h3:not(.price), #confirm_cancel_popup h3:not(.price), #confirm_cancel_popup .h3:not(.price), #confirm_change_plan_details h3:not(.price), #confirm_change_plan_details .h3:not(.price), #confirm_cancel_details h3:not(.price), #confirm_cancel_details .h3:not(.price) {
+  #popup_choose_level h3:not(.price), #popup_choose_level .h3:not(.price), #popup_payment_method h3:not(.price), #popup_payment_method .h3:not(.price), #confirm_popup h3:not(.price), #confirm_popup .h3:not(.price), #upgrade_popup h3:not(.price), #upgrade_popup .h3:not(.price), #confirm_popup_link h3:not(.price), #confirm_popup_link .h3:not(.price), #confirm_folder_popup_link h3:not(.price), #confirm_folder_popup_link .h3:not(.price), #confirm_cancel_popup h3:not(.price), #confirm_cancel_popup .h3:not(.price), #confirm_change_plan_details h3:not(.price), #confirm_change_plan_details .h3:not(.price), #confirm_cancel_details h3:not(.price), #confirm_cancel_details .h3:not(.price) {
     font-size: 16px;
   }
 }
-#popup_choose_level p, #popup_payment_method p, #confirm_popup p, #upgrade_popup p, #confirm_popup_link p, #confirm_cancel_popup p, #confirm_change_plan_details p, #confirm_cancel_details p {
+#popup_choose_level p, #popup_payment_method p, #confirm_popup p, #upgrade_popup p, #confirm_popup_link p, #confirm_folder_popup_link p, #confirm_cancel_popup p, #confirm_change_plan_details p, #confirm_cancel_details p {
   font-size: 18px;
 }
 @media all and (max-width: 768px) {
-  #popup_choose_level p, #popup_payment_method p, #confirm_popup p, #upgrade_popup p, #confirm_popup_link p, #confirm_cancel_popup p, #confirm_change_plan_details p, #confirm_cancel_details p {
+  #popup_choose_level p, #popup_payment_method p, #confirm_popup p, #upgrade_popup p, #confirm_popup_link p, #confirm_folder_popup_link p, #confirm_cancel_popup p, #confirm_change_plan_details p, #confirm_cancel_details p {
     font-size: 16px;
   }
 }
-#popup_choose_level .box, #popup_payment_method .box, #confirm_popup .box, #upgrade_popup .box, #confirm_popup_link .box, #confirm_cancel_popup .box, #confirm_change_plan_details .box, #confirm_cancel_details .box {
+#popup_choose_level .box, #popup_payment_method .box, #confirm_popup .box, #upgrade_popup .box, #confirm_popup_link .box, #confirm_folder_popup_link .box, #confirm_cancel_popup .box, #confirm_change_plan_details .box, #confirm_cancel_details .box {
   box-shadow: 0px 0px 35px 5px rgba(170, 170, 170, 0.18);
   position: relative;
   width: 100%;
@@ -14483,27 +14488,27 @@ form .bottom_row a {
   text-align: center;
 }
 @media all and (max-width: 1199px) {
-  #popup_choose_level .box, #popup_payment_method .box, #confirm_popup .box, #upgrade_popup .box, #confirm_popup_link .box, #confirm_cancel_popup .box, #confirm_change_plan_details .box, #confirm_cancel_details .box {
+  #popup_choose_level .box, #popup_payment_method .box, #confirm_popup .box, #upgrade_popup .box, #confirm_popup_link .box, #confirm_folder_popup_link .box, #confirm_cancel_popup .box, #confirm_change_plan_details .box, #confirm_cancel_details .box {
     max-width: 60%;
     max-height: 750px;
   }
 }
 @media screen and (max-width: 992px) {
-  #popup_choose_level .box, #popup_payment_method .box, #confirm_popup .box, #upgrade_popup .box, #confirm_popup_link .box, #confirm_cancel_popup .box, #confirm_change_plan_details .box, #confirm_cancel_details .box {
+  #popup_choose_level .box, #popup_payment_method .box, #confirm_popup .box, #upgrade_popup .box, #confirm_popup_link .box, #confirm_folder_popup_link .box, #confirm_cancel_popup .box, #confirm_change_plan_details .box, #confirm_cancel_details .box {
     overflow-y: scroll;
     max-height: calc(100vh - 80px);
     max-width: 75%;
   }
 }
 @media screen and (max-width: 768px) {
-  #popup_choose_level .box, #popup_payment_method .box, #confirm_popup .box, #upgrade_popup .box, #confirm_popup_link .box, #confirm_cancel_popup .box, #confirm_change_plan_details .box, #confirm_cancel_details .box {
+  #popup_choose_level .box, #popup_payment_method .box, #confirm_popup .box, #upgrade_popup .box, #confirm_popup_link .box, #confirm_folder_popup_link .box, #confirm_cancel_popup .box, #confirm_change_plan_details .box, #confirm_cancel_details .box {
     padding: 20px;
     max-height: 650px;
     max-width: 85%;
   }
 }
 @media all and (max-width: 550px) {
-  #popup_choose_level .box, #popup_payment_method .box, #confirm_popup .box, #upgrade_popup .box, #confirm_popup_link .box, #confirm_cancel_popup .box, #confirm_change_plan_details .box, #confirm_cancel_details .box {
+  #popup_choose_level .box, #popup_payment_method .box, #confirm_popup .box, #upgrade_popup .box, #confirm_popup_link .box, #confirm_folder_popup_link .box, #confirm_cancel_popup .box, #confirm_change_plan_details .box, #confirm_cancel_details .box {
     max-height: unset;
     max-width: unset;
     border-radius: 0;
@@ -14512,54 +14517,54 @@ form .bottom_row a {
     height: 100%;
   }
 }
-#popup_choose_level .box .icon_wrap, #popup_payment_method .box .icon_wrap, #confirm_popup .box .icon_wrap, #upgrade_popup .box .icon_wrap, #confirm_popup_link .box .icon_wrap, #confirm_cancel_popup .box .icon_wrap, #confirm_change_plan_details .box .icon_wrap, #confirm_cancel_details .box .icon_wrap {
+#popup_choose_level .box .icon_wrap, #popup_payment_method .box .icon_wrap, #confirm_popup .box .icon_wrap, #upgrade_popup .box .icon_wrap, #confirm_popup_link .box .icon_wrap, #confirm_folder_popup_link .box .icon_wrap, #confirm_cancel_popup .box .icon_wrap, #confirm_change_plan_details .box .icon_wrap, #confirm_cancel_details .box .icon_wrap {
   width: 50px;
   margin: 0 auto 20px;
 }
-#popup_choose_level .box .icon_wrap svg, #popup_payment_method .box .icon_wrap svg, #confirm_popup .box .icon_wrap svg, #upgrade_popup .box .icon_wrap svg, #confirm_popup_link .box .icon_wrap svg, #confirm_cancel_popup .box .icon_wrap svg, #confirm_change_plan_details .box .icon_wrap svg, #confirm_cancel_details .box .icon_wrap svg {
+#popup_choose_level .box .icon_wrap svg, #popup_payment_method .box .icon_wrap svg, #confirm_popup .box .icon_wrap svg, #upgrade_popup .box .icon_wrap svg, #confirm_popup_link .box .icon_wrap svg, #confirm_folder_popup_link .box .icon_wrap svg, #confirm_cancel_popup .box .icon_wrap svg, #confirm_change_plan_details .box .icon_wrap svg, #confirm_cancel_details .box .icon_wrap svg {
   width: 100%;
   height: 100%;
 }
-#popup_choose_level .box .icon_wrap.check, #popup_payment_method .box .icon_wrap.check, #confirm_popup .box .icon_wrap.check, #upgrade_popup .box .icon_wrap.check, #confirm_popup_link .box .icon_wrap.check, #confirm_cancel_popup .box .icon_wrap.check, #confirm_change_plan_details .box .icon_wrap.check, #confirm_cancel_details .box .icon_wrap.check {
+#popup_choose_level .box .icon_wrap.check, #popup_payment_method .box .icon_wrap.check, #confirm_popup .box .icon_wrap.check, #upgrade_popup .box .icon_wrap.check, #confirm_popup_link .box .icon_wrap.check, #confirm_folder_popup_link .box .icon_wrap.check, #confirm_cancel_popup .box .icon_wrap.check, #confirm_change_plan_details .box .icon_wrap.check, #confirm_cancel_details .box .icon_wrap.check {
   color: #0ba921;
 }
-#popup_choose_level .box .icon_wrap.blue_icon, #popup_payment_method .box .icon_wrap.blue_icon, #confirm_popup .box .icon_wrap.blue_icon, #upgrade_popup .box .icon_wrap.blue_icon, #confirm_popup_link .box .icon_wrap.blue_icon, #confirm_cancel_popup .box .icon_wrap.blue_icon, #confirm_change_plan_details .box .icon_wrap.blue_icon, #confirm_cancel_details .box .icon_wrap.blue_icon {
+#popup_choose_level .box .icon_wrap.blue_icon, #popup_payment_method .box .icon_wrap.blue_icon, #confirm_popup .box .icon_wrap.blue_icon, #upgrade_popup .box .icon_wrap.blue_icon, #confirm_popup_link .box .icon_wrap.blue_icon, #confirm_folder_popup_link .box .icon_wrap.blue_icon, #confirm_cancel_popup .box .icon_wrap.blue_icon, #confirm_change_plan_details .box .icon_wrap.blue_icon, #confirm_cancel_details .box .icon_wrap.blue_icon {
   color: #424fcf;
 }
-#popup_choose_level .box form label, #popup_payment_method .box form label, #confirm_popup .box form label, #upgrade_popup .box form label, #confirm_popup_link .box form label, #confirm_cancel_popup .box form label, #confirm_change_plan_details .box form label, #confirm_cancel_details .box form label {
+#popup_choose_level .box form label, #popup_payment_method .box form label, #confirm_popup .box form label, #upgrade_popup .box form label, #confirm_popup_link .box form label, #confirm_folder_popup_link .box form label, #confirm_cancel_popup .box form label, #confirm_change_plan_details .box form label, #confirm_cancel_details .box form label {
   width: 100%;
   margin-bottom: 10px;
 }
-#popup_choose_level .box form select, #popup_payment_method .box form select, #confirm_popup .box form select, #upgrade_popup .box form select, #confirm_popup_link .box form select, #confirm_cancel_popup .box form select, #confirm_change_plan_details .box form select, #confirm_cancel_details .box form select {
+#popup_choose_level .box form select, #popup_payment_method .box form select, #confirm_popup .box form select, #upgrade_popup .box form select, #confirm_popup_link .box form select, #confirm_folder_popup_link .box form select, #confirm_cancel_popup .box form select, #confirm_change_plan_details .box form select, #confirm_cancel_details .box form select {
   width: 100%;
   max-width: 300px;
   margin-bottom: 20px;
 }
-#popup_choose_level .box .text_wrap, #popup_payment_method .box .text_wrap, #confirm_popup .box .text_wrap, #upgrade_popup .box .text_wrap, #confirm_popup_link .box .text_wrap, #confirm_cancel_popup .box .text_wrap, #confirm_change_plan_details .box .text_wrap, #confirm_cancel_details .box .text_wrap {
+#popup_choose_level .box .text_wrap, #popup_payment_method .box .text_wrap, #confirm_popup .box .text_wrap, #upgrade_popup .box .text_wrap, #confirm_popup_link .box .text_wrap, #confirm_folder_popup_link .box .text_wrap, #confirm_cancel_popup .box .text_wrap, #confirm_change_plan_details .box .text_wrap, #confirm_cancel_details .box .text_wrap {
   text-align: center;
   padding: 20px 20px 30px;
   margin-top: 20px;
 }
 @media screen and (max-width: 768px) {
-  #popup_choose_level .box .text_wrap, #popup_payment_method .box .text_wrap, #confirm_popup .box .text_wrap, #upgrade_popup .box .text_wrap, #confirm_popup_link .box .text_wrap, #confirm_cancel_popup .box .text_wrap, #confirm_change_plan_details .box .text_wrap, #confirm_cancel_details .box .text_wrap {
+  #popup_choose_level .box .text_wrap, #popup_payment_method .box .text_wrap, #confirm_popup .box .text_wrap, #upgrade_popup .box .text_wrap, #confirm_popup_link .box .text_wrap, #confirm_folder_popup_link .box .text_wrap, #confirm_cancel_popup .box .text_wrap, #confirm_change_plan_details .box .text_wrap, #confirm_cancel_details .box .text_wrap {
     padding: 0;
   }
 }
-#popup_choose_level .box .text_wrap .confirm_text, #popup_payment_method .box .text_wrap .confirm_text, #confirm_popup .box .text_wrap .confirm_text, #upgrade_popup .box .text_wrap .confirm_text, #confirm_popup_link .box .text_wrap .confirm_text, #confirm_cancel_popup .box .text_wrap .confirm_text, #confirm_change_plan_details .box .text_wrap .confirm_text, #confirm_cancel_details .box .text_wrap .confirm_text {
+#popup_choose_level .box .text_wrap .confirm_text, #popup_payment_method .box .text_wrap .confirm_text, #confirm_popup .box .text_wrap .confirm_text, #upgrade_popup .box .text_wrap .confirm_text, #confirm_popup_link .box .text_wrap .confirm_text, #confirm_folder_popup_link .box .text_wrap .confirm_text, #confirm_cancel_popup .box .text_wrap .confirm_text, #confirm_change_plan_details .box .text_wrap .confirm_text, #confirm_cancel_details .box .text_wrap .confirm_text {
   margin-bottom: 10px;
 }
-#popup_choose_level .box .button_row, #popup_payment_method .box .button_row, #confirm_popup .box .button_row, #upgrade_popup .box .button_row, #confirm_popup_link .box .button_row, #confirm_cancel_popup .box .button_row, #confirm_change_plan_details .box .button_row, #confirm_cancel_details .box .button_row {
+#popup_choose_level .box .button_row, #popup_payment_method .box .button_row, #confirm_popup .box .button_row, #upgrade_popup .box .button_row, #confirm_popup_link .box .button_row, #confirm_folder_popup_link .box .button_row, #confirm_cancel_popup .box .button_row, #confirm_change_plan_details .box .button_row, #confirm_cancel_details .box .button_row {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: center;
   -webkit-justify-content: center;
 }
-#popup_choose_level .box .button.confirm_change_plan, #popup_choose_level .box button.black_gradient, #popup_payment_method .box .button.confirm_change_plan, #popup_payment_method .box button.black_gradient, #confirm_popup .box .button.confirm_change_plan, #confirm_popup .box button.black_gradient, #upgrade_popup .box .button.confirm_change_plan, #upgrade_popup .box button.black_gradient, #confirm_popup_link .box .button.confirm_change_plan, #confirm_popup_link .box button.black_gradient, #confirm_cancel_popup .box .button.confirm_change_plan, #confirm_cancel_popup .box button.black_gradient, #confirm_change_plan_details .box .button.confirm_change_plan, #confirm_change_plan_details .box button.black_gradient, #confirm_cancel_details .box .button.confirm_change_plan, #confirm_cancel_details .box button.black_gradient {
+#popup_choose_level .box .button.confirm_change_plan, #popup_choose_level .box button.black_gradient, #popup_payment_method .box .button.confirm_change_plan, #popup_payment_method .box button.black_gradient, #confirm_popup .box .button.confirm_change_plan, #confirm_popup .box button.black_gradient, #upgrade_popup .box .button.confirm_change_plan, #upgrade_popup .box button.black_gradient, #confirm_popup_link .box .button.confirm_change_plan, #confirm_popup_link .box button.black_gradient, #confirm_folder_popup_link .box .button.confirm_change_plan, #confirm_folder_popup_link .box button.black_gradient, #confirm_cancel_popup .box .button.confirm_change_plan, #confirm_cancel_popup .box button.black_gradient, #confirm_change_plan_details .box .button.confirm_change_plan, #confirm_change_plan_details .box button.black_gradient, #confirm_cancel_details .box .button.confirm_change_plan, #confirm_cancel_details .box button.black_gradient {
   width: auto;
   margin-right: 20px;
 }
-#popup_choose_level .box .button.confirm_change_plan:last-child, #popup_choose_level .box button.black_gradient:last-child, #popup_payment_method .box .button.confirm_change_plan:last-child, #popup_payment_method .box button.black_gradient:last-child, #confirm_popup .box .button.confirm_change_plan:last-child, #confirm_popup .box button.black_gradient:last-child, #upgrade_popup .box .button.confirm_change_plan:last-child, #upgrade_popup .box button.black_gradient:last-child, #confirm_popup_link .box .button.confirm_change_plan:last-child, #confirm_popup_link .box button.black_gradient:last-child, #confirm_cancel_popup .box .button.confirm_change_plan:last-child, #confirm_cancel_popup .box button.black_gradient:last-child, #confirm_change_plan_details .box .button.confirm_change_plan:last-child, #confirm_change_plan_details .box button.black_gradient:last-child, #confirm_cancel_details .box .button.confirm_change_plan:last-child, #confirm_cancel_details .box button.black_gradient:last-child {
+#popup_choose_level .box .button.confirm_change_plan:last-child, #popup_choose_level .box button.black_gradient:last-child, #popup_payment_method .box .button.confirm_change_plan:last-child, #popup_payment_method .box button.black_gradient:last-child, #confirm_popup .box .button.confirm_change_plan:last-child, #confirm_popup .box button.black_gradient:last-child, #upgrade_popup .box .button.confirm_change_plan:last-child, #upgrade_popup .box button.black_gradient:last-child, #confirm_popup_link .box .button.confirm_change_plan:last-child, #confirm_popup_link .box button.black_gradient:last-child, #confirm_folder_popup_link .box .button.confirm_change_plan:last-child, #confirm_folder_popup_link .box button.black_gradient:last-child, #confirm_cancel_popup .box .button.confirm_change_plan:last-child, #confirm_cancel_popup .box button.black_gradient:last-child, #confirm_change_plan_details .box .button.confirm_change_plan:last-child, #confirm_change_plan_details .box button.black_gradient:last-child, #confirm_cancel_details .box .button.confirm_change_plan:last-child, #confirm_cancel_details .box button.black_gradient:last-child {
   margin-right: 0;
 }
 
@@ -14755,25 +14760,25 @@ form .bottom_row a {
 }
 
 @media all and (max-width: 550px) {
-  #upgrade_popup .close_popup, #confirm_popup_link .close_popup, #confirm_popup .close_popup, #confirm_cancel_popup .close_popup {
+  #upgrade_popup .close_popup, #confirm_popup_link .close_popup, #confirm_popup .close_popup, #confirm_cancel_popup .close_popup, #confirm_folder_popup_link .close_popup {
     color: #ffffff;
   }
 }
-#upgrade_popup .box, #confirm_popup_link .box, #confirm_popup .box, #confirm_cancel_popup .box {
+#upgrade_popup .box, #confirm_popup_link .box, #confirm_popup .box, #confirm_cancel_popup .box, #confirm_folder_popup_link .box {
   max-width: 550px;
 }
 @media screen and (max-width: 768px) {
-  #upgrade_popup .box, #confirm_popup_link .box, #confirm_popup .box, #confirm_cancel_popup .box {
+  #upgrade_popup .box, #confirm_popup_link .box, #confirm_popup .box, #confirm_cancel_popup .box, #confirm_folder_popup_link .box {
     max-width: 90%;
   }
 }
 @media all and (max-width: 992px) {
-  #upgrade_popup .box, #confirm_popup_link .box, #confirm_popup .box, #confirm_cancel_popup .box {
+  #upgrade_popup .box, #confirm_popup_link .box, #confirm_popup .box, #confirm_cancel_popup .box, #confirm_folder_popup_link .box {
     overflow: hidden;
   }
 }
 @media all and (max-width: 550px) {
-  #upgrade_popup .box, #confirm_popup_link .box, #confirm_popup .box, #confirm_cancel_popup .box {
+  #upgrade_popup .box, #confirm_popup_link .box, #confirm_popup .box, #confirm_cancel_popup .box, #confirm_folder_popup_link .box {
     max-width: 80%;
     padding: 20px;
     height: auto;
@@ -14783,7 +14788,7 @@ form .bottom_row a {
     overflow: hidden;
   }
 }
-#upgrade_popup .box .button, #confirm_popup_link .box .button, #confirm_popup .box .button, #confirm_cancel_popup .box .button {
+#upgrade_popup .box .button, #confirm_popup_link .box .button, #confirm_popup .box .button, #confirm_cancel_popup .box .button, #confirm_folder_popup_link .box .button {
   display: inline-block;
   margin-top: 10px;
 }
@@ -14812,7 +14817,7 @@ form .bottom_row a {
   color: #000;
 }
 
-#confirm_popup_link .button_row a.button:first-child {
+#confirm_popup_link .button_row a.button:first-child, #confirm_folder_popup_link .button_row a.button:first-child {
   margin-right: 5%;
 }
 
@@ -15144,42 +15149,36 @@ form .bottom_row a {
     opacity: 0;
   }
 }
-.my_row.folder {
-  opacity: 0;
-  max-height: 0;
-  transition: max-height 1s linear;
-  -webkit-transition: max-height 1s linear;
-  -o-transition: max-height 1s linear;
-  -moz-transition: max-height 1s linear;
-  background: #ffffff;
-  z-index: 2;
+.my_row.characters {
+  display: flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
 }
-.my_row.folder.open {
-  opacity: 1;
-  max-height: 1000px;
+.my_row.characters.title {
+  margin-top: 5px;
 }
-.my_row.folder p {
+.my_row.characters .char_count {
   margin-bottom: 0;
+  color: #908e8e;
+  font-size: 12px;
 }
-.my_row.folder .icons_wrap {
-  padding: 20px !important;
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  border-radius: 20px;
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  text-align: center;
-  margin-bottom: 20px;
+.my_row.characters .char_count span {
+  font-family: "opensanssemibold", sans-serif;
+  color: #0ba921;
 }
-.my_row.folder .icons_wrap .icon_col {
-  width: 26.3% !important;
-  margin-bottom: 5px !important;
-  margin-right: 10.5% !important;
+.my_row.characters .char_count span.over {
+  color: #f24d1d;
 }
-.my_row.folder .icons_wrap .icon_col:nth-child(3n) {
-  margin-right: 0 !important;
+.my_row.characters .char_max {
+  margin-bottom: 0;
+  font-size: 12px;
+  color: #908e8e;
 }
-.my_row.folder .icons_wrap .icon_col:nth-child(4n) {
-  margin-right: 10.5% !important;
+.my_row.characters .char_max.red {
+  color: #f24d1d;
 }
 
 .my_row.form_page.stats .card {
@@ -15321,6 +15320,189 @@ form .bottom_row a {
 }
 #stats_page .stats_wrap .table p.animate.hide {
   opacity: 0;
+}
+
+.icon_wrap.folder .inner_icon_wrap {
+  border: 1px solid #424fcf;
+  border-radius: 20%;
+  -webkit-border-radius: 20%;
+  -moz-border-radius: 20%;
+  position: relative;
+  overflow: hidden;
+}
+.icon_wrap.folder .inner_icon_wrap .folder_icons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  align-items: flex-start;
+  -webkit-align-items: flex-start;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 7%;
+}
+.icon_wrap.folder .inner_icon_wrap .folder_icons .image_col {
+  max-width: 32%;
+  margin-right: 2%;
+  margin-bottom: 3px;
+}
+.icon_wrap.folder .inner_icon_wrap .folder_icons .image_col:nth-child(3n) {
+  margin-right: 0;
+}
+.icon_wrap.folder .inner_icon_wrap .folder_icons .image_col img {
+  border-radius: 34% !important;
+  -webkit-border-radius: 34% !important;
+  -moz-border-radius: 34% !important;
+}
+.icon_wrap.folder .inner_icon_wrap .folder_icons.empty {
+  justify-content: center;
+  -webkit-justify-content: center;
+  align-items: center;
+  -webkit-align-items: center;
+  height: 100%;
+}
+.icon_wrap.folder .inner_icon_wrap .folder_icons.empty p {
+  font-family: "opensansbold", sans-serif;
+  line-height: 1.2;
+  margin: 0;
+  font-size: 16px;
+  text-align: center;
+  color: #424fcf;
+}
+@media all and (max-width: 768px) {
+  .icon_wrap.folder .inner_icon_wrap .folder_icons.empty p {
+    font-size: 2.3vw;
+  }
+}
+.icon_wrap.folder .inner_icon_wrap .folder_icons.empty p span {
+  font-size: 20px;
+}
+@media all and (max-width: 768px) {
+  .icon_wrap.folder .inner_icon_wrap .folder_icons.empty p span {
+    font-size: 3.5vw !important;
+  }
+}
+.icon_wrap.folder .inner_icon_wrap:hover {
+  cursor: pointer;
+}
+.icon_wrap.folder .inner_icon_wrap:hover:before {
+  content: "";
+  background: rgba(0, 0, 0, 0.7);
+  background-image: url(/images/icon-placeholder-hover.png?190e0e8fefbdb4d7db8829a39a68e5b6);
+  background-size: contain;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+#links_page .icons_wrap.folder .icon_col {
+  width: 33.3%;
+}
+
+.folders .delete_icon {
+  position: relative;
+  width: 50%;
+}
+.folders .delete_icon .hover_text {
+  justify-content: flex-end;
+  -webkit-justify-content: flex-end;
+  top: -30px;
+  right: 0;
+}
+.folders .delete_icon .hover_text p {
+  font-size: 14px;
+  margin-left: auto;
+}
+.folders .delete_icon:hover .hover_text {
+  opacity: 1;
+}
+.folders a.delete {
+  display: block;
+  color: #f24d1d;
+  width: 30px;
+  height: 30px;
+  float: right;
+}
+.folders a.delete:hover {
+  color: #d4d2d2;
+}
+.folders a.delete svg {
+  width: 100%;
+  height: 100%;
+}
+
+.folder_name {
+  padding: 0 40px;
+}
+@media all and (max-width: 768px) {
+  .folder_name {
+    padding: 0 30px;
+  }
+}
+.folder_name input {
+  width: 100%;
+}
+
+.my_row.folder {
+  opacity: 0;
+  max-height: 0;
+  transition: all 300ms ease-in-out;
+  -webkit-transition: all 300ms ease-in-out;
+  -o-transition: all 300ms ease-in-out;
+  -moz-transition: all 300ms ease-in-out;
+  background: #ffffff;
+}
+.my_row.folder.open {
+  max-height: 1000px;
+}
+.my_row.folder.open.adjust {
+  opacity: 1;
+}
+.my_row.folder p {
+  margin-bottom: 0;
+}
+.my_row.folder .icons_wrap {
+  padding: 20px !important;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.my_row.folder .icons_wrap .icon_col {
+  width: 26.3% !important;
+  margin-bottom: 5px !important;
+  margin-right: 10.5% !important;
+}
+.my_row.folder .icons_wrap .icon_col:nth-child(3n) {
+  margin-right: 0 !important;
+}
+.my_row.folder .icons_wrap .icon_col:nth-child(4n) {
+  margin-right: 10.5% !important;
+}
+
+.folder_message {
+  padding: 0 40px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+@media all and (max-width: 768px) {
+  .folder_message {
+    padding: 0 30px;
+  }
+}
+.folder_message p {
+  font-family: "opensansbold", sans-serif;
+  border-bottom: 1px solid #f24d1d;
+  color: #f24d1d;
+  font-size: 14px;
 }
 
 footer {

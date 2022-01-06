@@ -109,7 +109,6 @@
                 border: 1px solid $lightGray;
             }
 
-
             span {
                 background: $white;
                 border-bottom: 2px solid $lightGray;
@@ -233,22 +232,43 @@
 
             &.folder {
 
+                a {
+
+                    .icons_wrap {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        background: none !important;
+                    }
+                }
+
+                &:after {
+                    content: '';
+                    width: 15px;
+                    height: 15px;
+                    position: absolute;
+                    left: calc(50% - 7.5px);
+                    transform: rotate(180deg);
+                    bottom: -11px;
+                    z-index: 1;
+                    border-left: 8px solid transparent;
+                    border-right: 8px solid transparent;
+                    border-top: 10px solid;
+                    border-top-color: $blue;
+                    opacity: 0;
+                    transition: all 500ms ease-in-out;
+                    -webkit-transition: all 500ms ease-in-out;
+                    -o-transition: all 500ms ease-in-out;
+                    -moz-transition: all 500ms ease-in-out;
+                }
+
                 &.open {
                     &:after {
-                        content: '';
-                        width: 15px;
-                        height: 15px;
-                        background: $blue;
-                        position: absolute;
-                        left: calc(50% - 7.5px);
-                        transform: rotate(45deg);
-                        bottom: -20px;
-                        z-index: 1;
+                        opacity: 1;
                     }
                 }
 
                 a {
-                    height: 100%;
                     border: 1px solid $lightGray;
                     padding: 0;
                     border-radius: 20px;
@@ -278,10 +298,10 @@
         &.add_icons {
             padding: 0 3%;
             min-height: 800px;
-            transition: 100ms all linear;
-            -webkit-transition: 100ms all linear;
-            -moz-transition: 100ms all linear;
-            -o-transition: 100ms all linear;
+            transition: 800ms all ease-in-out;
+            -webkit-transition: 800ms all ease-in-out;
+            -moz-transition: 800ms all ease-in-out;
+            -o-transition: 800ms all ease-in-out;
 
             @media all and (max-width: 1199px) {
                 padding: 0 4%;
@@ -564,6 +584,16 @@
 
     @media all and (max-width: 768px) {
         padding: 0 30px;
+    }
+
+    &.back {
+        margin-top: 0;
+
+        svg {
+            float: left;
+            width: 20px;
+            height: 22px;
+        }
     }
 }
 

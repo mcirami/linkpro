@@ -1,0 +1,219 @@
+.icon_wrap.folder {
+
+    .inner_icon_wrap {
+        border: 1px solid $blue;
+        border-radius: 20%;
+        -webkit-border-radius: 20%;
+        -moz-border-radius: 20%;
+        position: relative;
+        overflow: hidden;
+
+        .folder_icons {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            -webkit-justify-content: flex-start;
+            align-items: flex-start;
+            -webkit-align-items: flex-start;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 7%;
+
+            .image_col {
+                max-width: 32%;
+                margin-right: 2%;
+                margin-bottom: 3px;
+
+                &:nth-child(3n) {
+                    margin-right: 0
+                }
+
+                img {
+                    border-radius: 34% !important;
+                    -webkit-border-radius: 34% !important;
+                    -moz-border-radius: 34% !important;
+                }
+            }
+
+            &.empty {
+                justify-content: center;
+                -webkit-justify-content: center;
+                align-items: center;
+                -webkit-align-items: center;
+                height: 100%;
+
+                p {
+                    @include osbold;
+                    line-height: 1.2;
+                    margin: 0;
+                    font-size: 16px;
+                    text-align: center;
+                    color: $blue;
+
+                    @media all and (max-width: 768px) {
+                        font-size: 2.3vw;
+                    }
+
+                    span {
+                        font-size: 20px;
+
+                        @media all and (max-width: 768px) {
+                            font-size: 3.5vw !important;
+                        }
+                    }
+                }
+            }
+        }
+
+        &:hover {
+            cursor: pointer;
+
+            &:before {
+                content: '';
+                background: rgba(0,0,0,.7);
+                background-image: url('../../../public/images/icon-placeholder-hover.png');
+                background-size: contain;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+            }
+        }
+    }
+}
+
+#links_page .icons_wrap.folder .icon_col {
+    width: 33.3%;
+}
+
+.folders {
+
+    .delete_icon {
+        position: relative;
+        width: 50%;
+
+        .hover_text {
+            justify-content: flex-end;
+            -webkit-justify-content: flex-end;
+            top: -30px;
+            right: 0;
+
+            p {
+                font-size: 14px;
+                margin-left: auto;
+            }
+        }
+
+        &:hover {
+            .hover_text {
+                opacity: 1;
+            }
+        }
+    }
+
+    a.delete {
+        display: block;
+        color: $red;
+        width: 30px;
+        height: 30px;
+        float: right;
+
+        &:hover {
+            color: $gray;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+}
+
+.folder_name {
+    padding: 0 40px;
+
+    @media all and (max-width: 768px) {
+        padding: 0 30px;
+    }
+
+    input {
+        width: 100%;
+    }
+}
+
+.my_row.folder {
+    opacity: 0;
+    max-height: 0;
+    transition: all 300ms ease-in-out;
+    -webkit-transition: all 300ms ease-in-out;
+    -o-transition: all 300ms ease-in-out;
+    -moz-transition: all 300ms ease-in-out;
+    background: $white;
+
+    &.open {
+        max-height: 1000px;
+
+        &.adjust {
+            opacity: 1;
+        }
+    }
+
+    p {
+        margin-bottom: 0;
+    }
+
+    .icons_wrap {
+        padding: 20px !important;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        border-radius: 20px;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        text-align: center;
+        margin-bottom: 20px;
+
+        .icon_col {
+            width: 26.3% !important;
+            margin-bottom: 5px !important;
+            margin-right: 10.5% !important;
+
+            &:nth-child(3n) {
+                margin-right: 0 !important;
+            }
+
+            &:nth-child(4n) {
+                margin-right: 10.5% !important;
+            }
+        }
+
+    }
+}
+
+.folder_message {
+    padding: 0 40px;
+    text-align: center;
+    margin-bottom: 10px;
+
+    @media all and (max-width: 768px) {
+        padding: 0 30px;
+    }
+
+    p {
+        @include osbold;
+        border-bottom: 1px solid $red;
+        color: $red;
+        font-size: 14px;
+
+    }
+}

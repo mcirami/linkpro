@@ -14,6 +14,7 @@ import {
     updateLinksPositions,
     updateLinkStatus,
 } from '../../../../Services/LinksRequest';
+import EventBus from '../../../../Utils/Bus';
 
 const springSetting1 = { stiffness: 180, damping: 10 };
 const springSetting2 = { stiffness: 120, damping: 17 };
@@ -31,8 +32,12 @@ function clamp(n, min, max) {
 }
 
 const Links = ({
-   setEditID,
-   userSub
+                   setEditID,
+                   setEditFolderID,
+                   userSub,
+                   setFolderLinks,
+                   setOriginalFolderLinks,
+                   setFolderContent
 
 }) => {
 
@@ -49,7 +54,7 @@ const Links = ({
 
     useLayoutEffect(() => {
 
-        if (targetRef.current) {
+        if (targetRef.current && userLinks.length > 0) {
             setSize({
                 height: getColHeight(),
                 width: getColWidth(),
@@ -71,19 +76,24 @@ const Links = ({
             setTimeout(() => {
                 const iconsWrap = document.querySelector('.icons_wrap');
                 const icons = document.querySelectorAll('.add_icons .icon_col');
-                const colHeight = icons[0].clientHeight;
-                const rowCount = Math.ceil(icons.length / 4);
-                let divHeight = rowCount * colHeight - 40;
-                if(userLinks.length < 5) {
-                    divHeight += 20;
+
+                if (icons.length > 0) {
+                    const colHeight = icons[0].clientHeight;
+                    const rowCount = Math.ceil(icons.length / 4);
+                    let divHeight = rowCount * colHeight - 40;
+                    if (userLinks.length < 5) {
+                        divHeight += 20;
+                    }
+                    iconsWrap.style.minHeight = divHeight + "px";
+                } else {
+                    iconsWrap.style.minHeight = "200px";
                 }
-                iconsWrap.style.minHeight = divHeight + "px";
             }, 500)
         }
 
         window.addEventListener('resize', handleResize);
-
         handleResize()
+
         return () => {
             window.removeEventListener('resize', handleResize);
         }
@@ -199,7 +209,7 @@ const Links = ({
 
             if (isPressed) {
                 const mouseXY = [pageX - dx, pageY - dy];
-                const col = clamp(Math.floor(mouseXY[0] / width), 0, 4);
+                const col = clamp(Math.floor(mouseXY[0] / width), 0, 3);
                 const row = clamp(
                     Math.floor(mouseXY[1] / height),
                     0,
@@ -251,44 +261,84 @@ const Links = ({
     }, [handleTouchMove, handleMouseUp, handleMouseMove]);
 
     useEffect(() => {
+
         if (initialRender.current) {
             initialRender.current = false;
-        } else if(state.isPressed === false) {
+        } else if(!state.isPressed) {
             const packets = {
                 userLinks: userLinks,
             }
 
             updateLinksPositions(packets);
+
         }
+
+        if (state.isPressed) {
+            const folder = document.querySelector('.my_row.folder.open');
+            if (folder) {
+                folder.classList.remove('open');
+                const folderParent = document.querySelector(folder.dataset.parent);
+                folderParent.lastElementChild.after(folder);
+            }
+
+            const folderCol = document.querySelector('.icon_col.folder.open');
+            if (folderCol) {
+                folderCol.classList.remove('open');
+            }
+
+            setFolderContent(null);
+
+        }
+
     }, [state.isPressed]);
 
-    const handleChange = (currentItem) => {
-        const newStatus = !currentItem.active_status;
+    const handleChange = (currentItem, hasLinks) => {
 
-        const packets = {
-            active_status: newStatus,
-        };
+        if(hasLinks) {
+            const newStatus = !currentItem.active_status;
 
-        updateLinkStatus(packets, currentItem.id)
-        .then((data) => {
+            let url = "";
 
-            if(data.success) {
-                let newLinks = userLinks;
-                newLinks = newLinks.map((item) => {
-                    if (item.id === currentItem.id) {
-                        return {
-                            ...item,
-                            active_status: newStatus,
-                        }
-                    }
-
-                    return item;
-                });
-                setUserLinks(newLinks);
-                setOriginalArray(newLinks);
-
+            if (currentItem.type && currentItem.type === "folder") {
+                url = "/dashboard/folder/status/";
+            } else {
+                url = "/dashboard/links/status/"
             }
-        })
+
+            const packets = {
+                active_status: newStatus,
+            };
+
+            updateLinkStatus(packets, currentItem.id, url).then((data) => {
+
+                if (data.success) {
+                    setOriginalArray(
+                        originalArray.map((item) => {
+                            if (item.id === currentItem.id) {
+                                return {
+                                    ...item,
+                                    active_status: newStatus,
+                                };
+                            }
+                            return item;
+                        })
+                    )
+                    setUserLinks(
+                        userLinks.map((item) => {
+                            if (item.id === currentItem.id) {
+                                return {
+                                    ...item,
+                                    active_status: newStatus,
+                                };
+                            }
+                            return item;
+                        })
+                    )
+                }
+            })
+        } else {
+            EventBus.dispatch("error", {message: "Add Icons Before Enabling"});
+        }
     };
 
     const handleOnClick = (linkID) => {
@@ -324,11 +374,22 @@ const Links = ({
         }
     }
 
+    const fetchFolderLinks = async (linkID) => {
+        const url = 'folder/links/' + linkID;
+        const response = await fetch(url);
+        const folderLinks = await response.json();
+
+        setOriginalFolderLinks(folderLinks["links"]);
+        setFolderLinks(folderLinks["links"]);
+        setEditFolderID(linkID)
+
+    }
+
     const {lastPress, isPressed, mouseXY } = state;
 
     return (
         <>
-            {userLinks.map((link, key) => {
+            {userLinks && userLinks.map((link, key) => {
                 let style;
                 let x;
                 let y;
@@ -352,8 +413,16 @@ const Links = ({
                     };
                 }
 
+                const type = originalArray[key].type || "Icon";
                 const linkID = originalArray[key].id;
-                const displayIcon = checkSubStatus(originalArray[key].icon);
+                let hasLinks = true;
+                let displayIcon;
+                if (type === "folder") {
+                    //displayIcon = null;
+                    hasLinks = originalArray[key].links.length > 0;
+                } else {
+                    displayIcon = checkSubStatus(originalArray[key].icon);
+                }
 
                 return (
                     <Motion key={key} style={style}>
@@ -376,20 +445,52 @@ const Links = ({
                                         null, key, [x, y])}
                                 >
                                     <MdDragHandle/>
-                                    <div className="hover_text"><p>Move Icon</p></div>
+                                    <div className="hover_text"><p>Move {type}</p></div>
                                 </span>
 
                                 <div className="column_content">
-                                    <div className="icon_wrap" onClick={(e) => { handleOnClick(linkID) }}>
-                                        <div className="image_wrap">
-                                            <img src={ displayIcon || Vapor.asset('images/icon-placeholder.png') } alt=""/>
-                                            {/*<div className="hover_text"><p><img src='/images/icon-placeholder.png' alt=""/></p></div>*/}
+                                    {type === "folder" ?
+                                        <div className="icon_wrap folder">
+                                            <div className="inner_icon_wrap" onClick={(e) => {fetchFolderLinks(linkID)} }>
+                                                <img src={ Vapor.asset('images/blank-folder-square.jpg')} alt=""/>
+                                                <div className={hasLinks ? "folder_icons" : "folder_icons empty"}>
+                                                    {hasLinks &&
+
+                                                        originalArray[key].links.slice(
+                                                            0, 9).
+                                                            map((innerLink) => {
+                                                                /*const displayIcon = checkSubStatus(
+                                                                    innerLink.icon);*/
+                                                                return (
+                                                                    <div className="image_col" key={innerLink.id}>
+                                                                        <img src={innerLink.icon ||
+                                                                        Vapor.asset(
+                                                                            'images/icon-placeholder.png')} alt=""/>
+                                                                    </div>
+                                                                )
+                                                            })
+                                                    }
+                                                    {!hasLinks && <p><span>+</span> <br />Add<br />Icons</p>}
+                                                </div>
+
+                                            </div>
                                         </div>
-                                    </div>
+                                        :
+                                        <div className="icon_wrap" onClick={(e) => {
+                                            handleOnClick(linkID)
+                                        }}>
+                                            <div className="image_wrap">
+                                                <img src={displayIcon ||
+                                                Vapor.asset(
+                                                    'images/icon-placeholder.png')} alt=""/>
+                                                {/*<div className="hover_text"><p><img src='/images/icon-placeholder.png' alt=""/></p></div>*/}
+                                            </div>
+                                        </div>
+                                    }
                                     <div className="my_row">
                                         <div className="switch_wrap">
                                             <Switch
-                                                onChange={(e) => handleChange(originalArray[key])}
+                                                onChange={(e) => handleChange(originalArray[key], hasLinks)}
                                                 height={20}
                                                 checked={Boolean(originalArray[key].active_status)}
                                                 onColor="#424fcf"
