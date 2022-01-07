@@ -110,7 +110,7 @@ class SubscriptionService {
 
                 return [
                     "success" => false,
-                    "message" => "Sorry, discount code does not match"
+                    "message" => "Sorry, promo code does not match"
                 ];
 
             } elseif ($code == "bypass") {
