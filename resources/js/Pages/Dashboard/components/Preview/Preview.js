@@ -188,7 +188,6 @@ const Preview = ({
         }
     }
 
-    console.log(row);
     const insertFolder = (event) => {
         const clickedDiv = event.currentTarget;
         const currentRow = clickedDiv.firstChild.dataset.row;

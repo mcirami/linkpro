@@ -247,6 +247,7 @@ function App() {
                                                         userSub={userSub}
                                                         setShowUpgradePopup={setShowUpgradePopup}
                                                         setOptionText={setOptionText}
+                                                        setEditFolderID={setEditFolderID}
                                                     />
                                                 </div>
                                             </div>

@@ -26,7 +26,7 @@ const PageNav = ({ allUserPages, setAllUserPages, userSub, setShowUpgradePopup, 
         .then((data) => {
             if (data.success) {
                 const newElement = {
-                    id: data["page_id"],
+                    id: data.page_id,
                     name: newPageName,
                 };
 
@@ -34,6 +34,9 @@ const PageNav = ({ allUserPages, setAllUserPages, userSub, setShowUpgradePopup, 
                 prevPages = prevPages.concat(newElement);
                 setAllUserPages(prevPages);
                 setIsEditing(false);
+
+                window.location.href = "/dashboard/pages/" + data.page_id;
+
             }
         })
 

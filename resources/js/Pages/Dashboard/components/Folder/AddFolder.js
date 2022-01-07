@@ -4,7 +4,7 @@ import React, {useContext} from 'react';
 import {PageContext, UserLinksContext, OriginalArrayContext} from '../App';
 import {updateContentHeight} from '../../../../Services/LinksRequest';
 
-const AddFolder = ({userSub, setShowUpgradePopup, setOptionText }) => {
+const AddFolder = ({userSub, setShowUpgradePopup, setOptionText, setEditFolderID }) => {
 
     const  { pageSettings } = useContext(PageContext);
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
@@ -35,7 +35,9 @@ const AddFolder = ({userSub, setShowUpgradePopup, setOptionText }) => {
                     setOriginalArray(newOriginalArray.concat(newFolderObject));
                     setUserLinks(newLinks.concat(newFolderObject));
 
-                    updateContentHeight(originalArray);
+                    //updateContentHeight(originalArray);
+
+                    setEditFolderID(data.id);
                 }
             })
 
