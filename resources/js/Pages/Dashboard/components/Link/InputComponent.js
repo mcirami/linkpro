@@ -59,6 +59,7 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType }) => {
 
     const handleChange = (e, key) => {
 
+        console.log(e.target.value);
         let key2;
         let key3;
 

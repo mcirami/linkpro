@@ -1,7 +1,7 @@
 const mix = require('laravel-mix');
 require('core-js');
 require('laravel-mix-polyfill');
-
+const path = require('path');
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -13,6 +13,14 @@ require('laravel-mix-polyfill');
  |
  */
 
+module.exports = {
+    resolve: {
+        alias: {
+            myApp: path.resolve(__dirname, 'resources/js')
+        }
+    }
+}
+
 mix.js('resources/js/app.js', 'public/js')
     .react()
     .sass('resources/sass/app.scss', 'public/css')
@@ -23,3 +31,4 @@ mix.js('resources/js/app.js', 'public/js')
         entryPoints: "stable",
         corejs: 3,
     });
+

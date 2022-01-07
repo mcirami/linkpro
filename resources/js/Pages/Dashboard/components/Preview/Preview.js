@@ -1,12 +1,29 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {
+    useContext,
+    useState,
+    useEffect,
+    useLayoutEffect,
+    useRef,
+} from 'react';
 import {UserLinksContext, PageContext} from '../App';
 import {IoIosLock, IoIosCloseCircleOutline} from 'react-icons/io';
 
-const Preview = ({ setRef, completedCrop, fileName, profileFileName, completedProfileCrop, profileRef, userSub }) => {
+const Preview = ({
+                     setRef,
+                     completedCrop,
+                     fileName,
+                     profileFileName,
+                     completedProfileCrop,
+                     profileRef,
+                     userSub,
+                     folderContent,
+                     setFolderContent
+}) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
     const {pageSettings, setPageSettings} = useContext(PageContext);
     const [iconCount, setIconCount] = useState(null);
+    const [row, setRow] = useState(null);
 
     const myStyle = {
         background: "url(" + pageSettings["header_img"] + ") no-repeat",
@@ -47,6 +64,18 @@ const Preview = ({ setRef, completedCrop, fileName, profileFileName, completedPr
                     remove('show');
                 document.querySelector('body').classList.remove('fixed');
             }
+
+            const box = document.querySelector('.inner_content_wrap');
+            const innerContent = document.getElementById('preview_wrap');
+
+            let pixelsToMinus = 0;
+            if (windowWidth > 550) {
+                pixelsToMinus = 35;
+            } else {
+                pixelsToMinus = 25;
+            }
+
+            box.style.maxHeight = innerContent.offsetHeight - pixelsToMinus + "px";
         }
 
         window.addEventListener('resize', handleResize);
@@ -75,6 +104,126 @@ const Preview = ({ setRef, completedCrop, fileName, profileFileName, completedPr
             return icon;
         }
     }
+
+    useLayoutEffect(() => {
+
+        function handleResize() {
+            const windowWidth = window.outerWidth;
+
+            const box = document.querySelector('.inner_content_wrap');
+            const innerContent = document.getElementById('preview_wrap');
+
+            let pixelsToMinus = 0;
+            if (windowWidth > 550) {
+                pixelsToMinus = 35;
+            } else {
+                pixelsToMinus = 25;
+            }
+
+            box.style.maxHeight = innerContent.offsetHeight - pixelsToMinus + "px";
+        }
+
+        window.addEventListener('resize', handleResize);
+
+        handleResize()
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        }
+    }, []);
+
+    useLayoutEffect(() => {
+        const box = document.querySelector('.inner_content_wrap');
+        const innerContent = document.getElementById('preview_wrap');
+
+        let pixelsToMinus = 0;
+        if (window.outerWidth > 550) {
+            pixelsToMinus = 35;
+        } else {
+            pixelsToMinus = 25;
+        }
+
+        box.style.maxHeight = innerContent.offsetHeight - pixelsToMinus + "px";
+    }, []);
+
+    const folderClick = e => {
+        e.preventDefault();
+
+        const clickedDiv = e.currentTarget;
+
+        if (clickedDiv.classList.contains('open')) {
+            clickedDiv.classList.remove('open');
+            document.querySelectorAll('.my_row.folder.open').forEach((element) => {
+                element.classList.remove('open');
+
+                setTimeout(() => {
+                    element.classList.remove('adjust');
+                }, 200)
+            })
+            setTimeout(() => {
+                clickedDiv.lastElementChild.after(folderContent);
+                setFolderContent(null);
+            }, 500)
+
+            setRow(null);
+        } else if (folderContent) {
+            const folder = document.querySelector('.my_row.folder.open');
+            setTimeout(() => {
+                folder.classList.remove('open');
+            }, 100)
+
+            const folderParent = document.querySelector(folder.dataset.parent);
+            folderParent.classList.remove('open');
+            setTimeout(() => {
+                folder.classList.remove('adjust');
+            }, 200)
+
+            setTimeout(() => {
+                folderParent.lastElementChild.after(folder);
+            }, 500)
+
+            insertFolder(e);
+
+        } else {
+            insertFolder(e);
+        }
+    }
+
+    const insertFolder = (event) => {
+        const clickedDiv = event.currentTarget;
+        const currentRow = clickedDiv.firstChild.dataset.row;
+        const nthChild = currentRow * 4;
+        setRow(currentRow);
+
+        const content = clickedDiv.lastElementChild;
+
+        let iconRow = null;
+        if (nthChild > userLinks.length) {
+            iconRow  = document.querySelector('.icons_wrap.main > .icon_col:last-child');
+        } else {
+            iconRow  = document.querySelector('.icons_wrap.main > .icon_col:nth-child(' + nthChild + ')');
+        }
+
+        iconRow.after(content);
+
+        if (!row || row !== currentRow) {
+            setTimeout(() => {
+                content.classList.add('open');
+                clickedDiv.classList.add('open');
+            }, 100)
+
+            setTimeout(() => {
+                content.classList.add('adjust');
+            }, 200)
+        } else {
+            content.classList.add('open');
+            clickedDiv.classList.add('open');
+            content.classList.add('adjust');
+        }
+
+        setFolderContent(content);
+    }
+
+    let folderCount = 0;
 
     return (
 
@@ -146,7 +295,7 @@ const Preview = ({ setRef, completedCrop, fileName, profileFileName, completedPr
                                         </div>
                                     </div>
                                     :
-                                    <div className={profileFileName ?
+                                    <div className={ profileFileName ?
                                         "profile_image selected" :
                                         "profile_image"}>
                                         <div className="image_wrap">
@@ -178,18 +327,20 @@ const Preview = ({ setRef, completedCrop, fileName, profileFileName, completedPr
                                 "Add Bio or Slogan"}</p>
                             </div>
                         </div>
-                        <div className="icons_wrap">
+                        <div className="icons_wrap main">
 
-                            {userLinks.slice(0, iconCount).map((linkItem) => {
+                            {userLinks.slice(0, iconCount).map(( linkItem, index ) => {
 
                                 let {
                                     id,
+                                    type,
                                     name,
                                     url,
                                     email,
                                     phone,
                                     icon,
-                                    active_status
+                                    active_status,
+                                    links
                                 } = linkItem;
                                 let source;
                                 if (email) {
@@ -200,30 +351,116 @@ const Preview = ({ setRef, completedCrop, fileName, profileFileName, completedPr
                                     source = url;
                                 }
 
+                                let dataRow = Math.ceil((index + 1) / 4);
+
                                 const displayIcon = checkSubStatus(icon);
 
+                                {type === "folder" && ++folderCount}
+
                                 return (
-                                    <div className="icon_col" key={id.toString()}>
-                                        {active_status ?
-                                            <>
-                                                <a className={!source || !displayIcon ? "default" : ""} target="_blank" href={source ||
-                                                "#"}>
-                                                    <img src={displayIcon ||
-                                                    Vapor.asset('images/icon-placeholder-preview.png') } alt=""/>
-                                                </a>
-                                                <p>
-                                                { name && name.length > 11 ?
-                                                    name.substring(0,
-                                                        11) + "..."
+
+                                    <>
+                                        {type === "folder" ?
+
+                                            <div id={"folder" + folderCount +
+                                            "Parent"} className="icon_col folder" onClick={(e) => {folderClick(e)} } key={id}>
+                                                {active_status ?
+                                                    <>
+                                                        <a type="button" href="#" data-row={ dataRow }>
+                                                            <img className="bg_image" src={ Vapor.asset('images/blank-folder-square.jpg') } alt=""/>
+                                                            <div className="icons_wrap">
+                                                                {links.slice(0, 9).map(( link, index ) => {
+                                                                    const displayIcon = checkSubStatus(link.icon);
+                                                                    return (
+                                                                        <div className="icon_col" key={index}>
+                                                                            {link.active_status &&
+                                                                                <img src={displayIcon} alt={link.name} title={link.name}/>
+                                                                            }
+                                                                        </div>
+                                                                    )
+                                                                })}
+
+                                                            </div>
+                                                        </a>
+                                                        <p>
+                                                            {name && name.length >
+                                                            11 ?
+                                                                name.substring(0,
+                                                                    11) + "..."
+                                                                :
+                                                                name || "Link Name"
+                                                            }
+                                                        </p>
+                                                        <div id={"folder" + folderCount} className="my_row folder" data-parent={"#folder" + folderCount + "Parent"}>
+                                                            <div className="icons_wrap inner">
+                                                                {links.map((link) => {
+                                                                    let source;
+                                                                    if (link.email) {
+                                                                        source = "mailto:" + link.email;
+                                                                    } else if (link.phone) {
+                                                                        source = "tel:" + link.phone;
+                                                                    } else {
+                                                                        source = link.url;
+                                                                    }
+                                                                    return (
+                                                                        <div className="icon_col" key={link.id}>
+                                                                            {link.active_status &&
+                                                                                <>
+                                                                                    <a href={source} target="_blank">
+                                                                                        <img src={link.icon} alt={link.name} title={link.name}/>
+                                                                                    </a>
+                                                                                    <p>
+                                                                                        {link.name && link.name.length >
+                                                                                        11 ?
+                                                                                            link.name.substring(0,
+                                                                                                11) + "..."
+                                                                                            :
+                                                                                            link.name || "Link Name"
+                                                                                        }
+                                                                                    </p>
+                                                                                </>
+                                                                            }
+                                                                        </div>
+                                                                    )
+                                                                })}
+                                                            </div>
+                                                        </div>
+                                                    </>
                                                     :
-                                                    name || "Link Name"
+                                                    ""
                                                 }
-                                                </p>
-                                            </>
+                                            </div>
+
                                             :
-                                            ""
+
+                                            <div className="icon_col" key={id}>
+                                                {active_status ?
+                                                    <>
+                                                        <a className={!source ||
+                                                        !displayIcon ?
+                                                            "default" :
+                                                            ""} target="_blank" href={source ||
+                                                        "#"}>
+                                                            <img src={displayIcon ||
+                                                            Vapor.asset(
+                                                                'images/icon-placeholder-preview.png')} alt=""/>
+                                                        </a>
+                                                        <p>
+                                                            {name && name.length >
+                                                            11 ?
+                                                                name.substring(0,
+                                                                    11) + "..."
+                                                                :
+                                                                name || "Link Name"
+                                                            }
+                                                        </p>
+                                                    </>
+                                                    :
+                                                    ""
+                                                }
+                                            </div>
                                         }
-                                    </div>
+                                    </>
                                 )
                             })}
                         </div>

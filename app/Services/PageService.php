@@ -4,7 +4,9 @@
 namespace App\Services;
 
 
+use App\Models\Link;
 use App\Models\Page;
+use App\Models\Folder;
 use App\Notifications\WelcomeNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -27,6 +29,11 @@ class PageService {
         return $this->user;
     }
 
+    public function sortArray($a, $b) {
+
+        return ($a["position"] > $b["position"] ? +1 : -1);
+    }
+
     public function showPage($page) {
 
         $expire = 6 * 30 * 86400;
@@ -34,11 +41,43 @@ class PageService {
 
         $page->pageVisits()->create();
 
-        $links = $page->links()
-                      ->orderBy('position', 'asc')
-                      ->get();
+        $folderArray = [];
+        $links = $page->links()->where('page_id', $page["id"])->where('folder_id', null)
+                     ->orderBy('position', 'asc')
+                     ->get()->toArray();
 
-        return $links;
+        $folders =  $page->folders()->orderBy('position', 'asc')->get();
+
+        foreach ($folders as $folder) {
+            $mylinks = json_decode($folder->link_ids);
+
+            $linksArray = [];
+
+            if (!empty($mylinks)) {
+
+                $linksArray = Link::whereIn('id', $mylinks)->orderBy('position', 'asc')->get()->toArray();
+            }
+
+            $linkObject = [
+                'id' => $folder["id"],
+                'name' => $folder["folder_name"],
+                'type' => 'folder',
+                'position' => $folder["position"],
+                'links' => $linksArray,
+                'active_status' => $folder["active_status"]
+            ];
+
+            array_push($folderArray, $linkObject);
+        }
+
+        $linksArray = array_merge($links, $folderArray);
+        usort($linksArray, array($this, "sortArray" ));
+
+        $objectArray = array_map(function($array){
+            return (object)$array;
+        }, $linksArray);
+
+        return $objectArray;
     }
 
     /**
@@ -128,16 +167,44 @@ class PageService {
             array_push($standardIcons, $path);
         }
 
-        $links = Auth::user()->links()->where('page_id', $page["id"])
+        $folderArray = [];
+        $links = Auth::user()->links()->where('page_id', $page["id"])->where('folder_id', null)
                      ->orderBy('position', 'asc')
-                     ->get();
+                     ->get()->toArray();
+
+        $folders = Auth::user()->folders()->where('page_id', $page["id"])->orderBy('position', 'asc')->get();
+
+        foreach ($folders as $folder) {
+            $mylinks = json_decode($folder->link_ids);
+
+            $linksArray = [];
+
+            if (!empty($mylinks)) {
+
+                $linksArray = Link::whereIn('id', $mylinks)->orderBy('position', 'asc')->get()->toArray();
+            }
+
+            $linkObject = [
+                'id' => $folder["id"],
+                'name' => $folder["folder_name"],
+                'type' => 'folder',
+                'position' => $folder["position"],
+                'links' => $linksArray,
+                'active_status' => $folder["active_status"]
+            ];
+
+            array_push($folderArray, $linkObject);
+        }
+
+        $linksArray = array_merge($links, $folderArray);
+        usort($linksArray, array($this, "sortArray" ));
 
         $pageNames = Page::all()->pluck('name')->toArray();
 
         $userSubscription = $user->subscriptions()->first();
 
         Javascript::put([
-            'links' => $links,
+            'links' => $linksArray,
             'icons' => $standardIcons,
             'page' => $page,
             'user_pages' => $userPages,
@@ -146,7 +213,7 @@ class PageService {
             'userSub'   => $userSubscription
         ]);
 
-        return $links;
+        return $linksArray;
     }
 
     /*

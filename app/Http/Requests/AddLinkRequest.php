@@ -24,8 +24,11 @@ class AddLinkRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'max:255|nullable',
-            'id' => 'required|integer'
+            'name' => 'required|max:255',
+            'url' => 'sometimes|required',
+            'email' => 'sometimes|required|email',
+            'phone' => 'sometimes|required',
+            'icon' => 'required',
         ];
     }
 }

@@ -1,9 +1,19 @@
 import React, {useContext} from 'react';
 import {MdCheckCircle} from 'react-icons/md';
-import {deleteLink} from '../../../Services/LinksRequest';
+import {deleteLink, updateLinkStatus} from '../../../Services/LinksRequest';
 import {UserLinksContext, OriginalArrayContext} from './App';
+import {element} from 'prop-types';
 
-export const ConfirmPopup = ({editID, setEditID, setShowConfirmPopup }) => {
+export const ConfirmPopup = ({
+                                 editID,
+                                 setEditID,
+                                 setShowConfirmPopup,
+                                 folderLinks,
+                                 setFolderLinks,
+                                 originalFolderLinks,
+                                 setOriginalFolderLinks,
+                                 folderID
+                             }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
     const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
@@ -11,22 +21,126 @@ export const ConfirmPopup = ({editID, setEditID, setShowConfirmPopup }) => {
     const deleteItem = (e) => {
         e.preventDefault();
 
-        const newArray = userLinks.filter(element => element.id !== editID)
+        let newFolderArray = null;
+        let newOriginalFolderLinks = null;
+        let newArray = null;
+        let newOriginalArray = null;
+
+        if (folderID) {
+            newFolderArray = folderLinks.filter(element => element.id !== editID);
+            newOriginalFolderLinks = originalFolderLinks.filter(element => element.id !== editID);
+            newArray = userLinks.map((item) => {
+                if (item.id === folderID) {
+                    const itemLinks = item.links.filter(element => element.id !== editID)
+
+                    return {
+                        ...item,
+                        links: itemLinks
+                    }
+                }
+                return item;
+            });
+            newOriginalArray = originalArray.map((item) => {
+                if (item.id === folderID) {
+                    const itemLinks = item.links.filter(element => element.id !== editID)
+
+                    return {
+                        ...item,
+                        links: itemLinks
+                    }
+                }
+                return item;
+            });
+        } else {
+            newArray = userLinks.filter(element => element.id !== editID);
+            newOriginalArray = originalArray.filter(element => element.id !== editID);
+        }
+
         const packets = {
-            userLinks: newArray
+            userLinks: newArray,
+            folderLinks: newFolderArray
         }
 
         deleteLink(packets, editID)
         .then((data) => {
 
             if(data.success) {
-                setUserLinks(
-                    newArray.map((link, index) => ({...link, position: index}))
-                )
 
-                setOriginalArray(
-                    newArray.map((link, index) => ({...link, position: index}))
-                )
+                if (folderID) {
+                    setOriginalFolderLinks(
+                        newOriginalFolderLinks.map((link, index) => ({...link, position: index}))
+                    )
+                    setFolderLinks(
+                        newFolderArray.map((link, index) => ({...link, position: index}))
+                    )
+
+                    let folderActive = null;
+                   /* if (userLinks.length === 1 && newFolderArray.length === 0) {
+
+                        folderActive = false;
+                        const url = "/dashboard/folder/status/";
+                        const packets = {
+                            active_status: folderActive,
+                        };
+
+                        updateLinkStatus(packets, folderID, url);
+                    }*/
+
+                    setOriginalArray(
+                        newOriginalArray.map((item) => {
+                            if (item.id === folderID) {
+                                //const itemLinks = item.links.concat(newLinkObject)
+                                const newOrder = item.links.map((link, index) => {
+                                    return {
+                                        ...link,
+                                        position: index
+                                    }
+                                })
+
+                                return {
+                                    ...item,
+                                    active_status: folderActive === false ? folderActive : item.active_status,
+                                    links: newOrder
+                                }
+                            }
+
+                            return item;
+                        })
+                    )
+
+                    setUserLinks(
+                        newArray.map((item) => {
+                            if (item.id === folderID) {
+                                //const itemLinks = item.links.concat(newLinkObject)
+                                const newOrder = item.links.map((link, index) => {
+                                    return {
+                                        ...link,
+                                        position: index
+                                    }
+                                })
+
+                                return {
+                                    ...item,
+                                    active_status: folderActive === false ? folderActive : item.active_status,
+                                    links: newOrder
+                                }
+                            }
+
+                            return item;
+                        })
+                    )
+
+                } else {
+                    setOriginalArray(
+                        newOriginalArray.map((link, index) => ({...link, position: index}))
+                    )
+
+                    setUserLinks(
+                        newArray.map((link, index) => ({...link, position: index}))
+                    )
+                }
+
+
                 setEditID(null)
                 updateContentHeight();
                 setShowConfirmPopup(false)
@@ -43,7 +157,20 @@ export const ConfirmPopup = ({editID, setEditID, setShowConfirmPopup }) => {
 
     const updateContentHeight = () => {
 
-        if ((originalArray.length - 1) % 4 === 0 ) {
+        if (folderID && folderLinks.length - 1 > 0 && (folderLinks.length - 1) % 4 === 0)  {
+            const iconsWrap = document.querySelector('.icons_wrap');
+            const icons = document.querySelectorAll('.add_icons .icon_col');
+            const colHeight = icons[0].clientHeight;
+            const rowCount = Math.ceil(icons.length / 4);
+            let divHeight = rowCount * colHeight - 40;
+
+            if (originalArray.length - 1 < 5) {
+                divHeight += 20;
+            }
+
+            iconsWrap.style.minHeight = divHeight + "px";
+
+        } else if ( originalArray.length - 1 > 0 && (originalArray.length - 1) % 4 === 0 ) {
             const iconsWrap = document.querySelector('.icons_wrap');
             const icons = document.querySelectorAll('.add_icons .icon_col');
             const colHeight = icons[0].clientHeight;
@@ -56,6 +183,8 @@ export const ConfirmPopup = ({editID, setEditID, setShowConfirmPopup }) => {
 
             iconsWrap.style.minHeight = divHeight + "px";
         }
+
+
     }
 
     return (

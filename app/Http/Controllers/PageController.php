@@ -6,6 +6,8 @@ use App\Http\Requests\PageBioRequest;
 use App\Http\Requests\PageNameRequest;
 use App\Http\Requests\PagePassword;
 use App\Http\Requests\PageTitleRequest;
+use App\Models\Folder;
+use App\Models\Link;
 use App\Models\Page;
 use App\Services\LinkService;
 use App\Services\PageService;
@@ -58,11 +60,11 @@ class PageController extends Controller
         return view('pages.create');
     }
 
-    public function store(PageNameRequest $request, PageService $pageService, LinkService $linkService) {
+    public function store(PageNameRequest $request, PageService $pageService) {
 
         $page = $pageService->createNewPage($request);
 
-        $linkService->addLink($page);
+        //$linkService->addLink($page);
 
         return response()->json(['message'=> 'New Link Added', 'page_id' => $page->id]);
     }

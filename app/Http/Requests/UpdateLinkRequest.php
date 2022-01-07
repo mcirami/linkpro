@@ -24,10 +24,11 @@ class UpdateLinkRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'max:255|nullable',
-            'url' => 'nullable',
-            'email' => 'email|nullable',
-            'phone' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:10|nullable',
+            'name' => 'required|max:255',
+            'url' => 'sometimes|required',
+            'email' => 'sometimes|required|email',
+            'phone' => 'sometimes|required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+            'icon' => 'required',
         ];
     }
 }

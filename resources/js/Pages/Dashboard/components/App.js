@@ -12,10 +12,14 @@ import AddLink from './Link/AddLink';
 import PasswordProtect from './Page/PasswordProtect';
 import ShowPreviewButton from './Preview/ShowPreviewButton';
 import { Flash } from '../../Flash';
-import SubmitForm from './Link/SubmitForm';
+import EditForm from './Link/EditForm';
 import { UpgradePopup } from './UpgradePopup';
 import { ConfirmPopup } from './ConfirmPopup';
 import { Loader } from './Loader';
+import NewForm from './Link/NewForm';
+import AddFolder from './Folder/AddFolder';
+import FolderLinks from './Folder/FolderLinks';
+import { ConfirmFolderDelete } from './ConfirmFolderDelete';
 
 const page = user.page;
 const userPages = user.user_pages;
@@ -36,10 +40,16 @@ function App() {
     const [originalArray, setOriginalArray] = useState(myLinksArray);
     const [pageSettings, setPageSettings] = useReducer(pageReducer, page);
 
+    const [folderLinks, setFolderLinks] = useState([])
+    const [originalFolderLinks, setOriginalFolderLinks] = useState([])
+
     const [allUserPages, setAllUserPages] = useState(userPages);
     const [editID, setEditID] = useState(null);
+    const [editFolderID, setEditFolderID] = useState(null);
+    const [showNewForm, setShowNewForm] = useState(false);
     const [showUpgradePopup, setShowUpgradePopup] = useState(false);
     const [showConfirmPopup, setShowConfirmPopup] = useState(false);
+    const [showConfirmFolderDelete, setShowConfirmFolderDelete] = useState(false);
     const [optionText, setOptionText] = useState("");
     const [customIconArray, setCustomIconArray] = useState(customIcons);
 
@@ -55,10 +65,12 @@ function App() {
 
     const [showLoader, setShowLoader] = useState(false);
 
+    const [folderContent, setFolderContent] = useState(null);
+
     useEffect(() => {
 
         const count = userLinks.length;
-        if ( count > 9 && userSub && userSub["braintree_status"] === "canceled" && new Date(userSub["ends_at"]).valueOf() < new Date().valueOf() )   {
+        if ( count > 8 && userSub && userSub["braintree_status"] === "canceled" && new Date(userSub["ends_at"]).valueOf() < new Date().valueOf() )   {
             setSubStatus(false);
         } else {
             setSubStatus(true)
@@ -90,6 +102,21 @@ function App() {
                             editID={editID}
                             setEditID={setEditID}
                             setShowConfirmPopup={setShowConfirmPopup}
+                            folderLinks={folderLinks}
+                            setFolderLinks={setFolderLinks}
+                            originalFolderLinks={originalFolderLinks}
+                            setOriginalFolderLinks={setOriginalFolderLinks}
+                            folderID={editFolderID}
+                        />
+                        }
+                    </div>
+
+                    <div id="confirm_folder_popup_link">
+                        {showConfirmFolderDelete &&
+                        <ConfirmFolderDelete
+                            setShowConfirmFolderDelete={setShowConfirmFolderDelete}
+                            folderID={editFolderID}
+                            setEditFolderID={setEditFolderID}
                         />
                         }
                     </div>
@@ -104,7 +131,7 @@ function App() {
                                 setOptionText={setOptionText}
                             />
 
-                            <div className="content_wrap" id="left_col_wrap">
+                            <div className="content_wrap my_row" id="left_col_wrap">
                                 <div className="top_section">
                                     <PageName />
 
@@ -145,32 +172,22 @@ function App() {
                                     }
                                 </div>
 
-                                <div className="my_row link_row">
-                                    <div className="add_more_icons">
-                                        <AddLink
-                                            userSub={userSub}
-                                            setShowUpgradePopup={setShowUpgradePopup}
-                                            setOptionText={setOptionText}
-                                        />
-                                    </div>
-                                    <div className="view_live_link">
-                                        <a className="button green" target="_blank" href={ host + '/' + pageSettings['name'] }>Open Live Page</a>
-                                    </div>
+                                <div className="my_row view_live_link link_row">
+                                    <a className="button green w-100" target="_blank" href={host +
+                                    '/' +
+                                    pageSettings['name']}>Open Live Page</a>
                                 </div>
 
-
-                                <div className="icons_wrap add_icons icons">
-
-                                    <Links
-                                        setEditID={setEditID}
-                                        userSub={userSub}
-                                    />
-
-                                </div>
-                                {editID ? (
-                                    <SubmitForm
+                                {editID ?
+                                    <EditForm
+                                        folderID={editFolderID}
+                                        setEditFolderID={setEditFolderID}
                                         editID={editID}
                                         setEditID={setEditID}
+                                        folderLinks={folderLinks}
+                                        setFolderLinks={setFolderLinks}
+                                        originalFolderLinks={originalFolderLinks}
+                                        setOriginalFolderLinks={setOriginalFolderLinks}
                                         setShowUpgradePopup={setShowUpgradePopup}
                                         setShowConfirmPopup={setShowConfirmPopup}
                                         setOptionText={setOptionText}
@@ -179,9 +196,79 @@ function App() {
                                         setCustomIconArray={setCustomIconArray}
                                         setShowLoader={setShowLoader}
                                     />
-                                ) : (
-                                    ""
-                                )}
+                                    :
+                                    showNewForm ?
+                                        <NewForm
+                                            setShowNewForm={setShowNewForm}
+                                            setShowUpgradePopup={setShowUpgradePopup}
+                                            setOptionText={setOptionText}
+                                            userSub={userSub}
+                                            customIconArray={customIconArray}
+                                            setCustomIconArray={setCustomIconArray}
+                                            setShowLoader={setShowLoader}
+                                            folderID={editFolderID}
+                                            setEditFolderID={setEditFolderID}
+                                            folderLinks={folderLinks}
+                                            setFolderLinks={setFolderLinks}
+                                            originalFolderLinks={originalFolderLinks}
+                                            setOriginalFolderLinks={setOriginalFolderLinks}
+                                        />
+                                        :
+                                        editFolderID ?
+
+                                            <FolderLinks
+                                                folderID={editFolderID}
+                                                folderLinks={folderLinks}
+                                                setFolderLinks={setFolderLinks}
+                                                originalFolderLinks={originalFolderLinks}
+                                                setOriginalFolderLinks={setOriginalFolderLinks}
+                                                userSub={userSub}
+                                                setShowUpgradePopup={setShowUpgradePopup}
+                                                setOptionText={setOptionText}
+                                                setEditFolderID={setEditFolderID}
+                                                setEditID={setEditID}
+                                                setShowNewForm={setShowNewForm}
+                                                setShowConfirmFolderDelete={setShowConfirmFolderDelete}
+                                            />
+
+                                            :
+                                        <>
+                                            <div className="my_row link_row">
+                                                <div className="add_more_icons">
+                                                    <AddLink
+                                                        setShowNewForm={setShowNewForm}
+                                                        userSub={userSub}
+                                                        setShowUpgradePopup={setShowUpgradePopup}
+                                                        setOptionText={setOptionText}
+                                                    />
+                                                </div>
+                                                <div className="add_more_icons">
+                                                    <AddFolder
+                                                        userSub={userSub}
+                                                        setShowUpgradePopup={setShowUpgradePopup}
+                                                        setOptionText={setOptionText}
+                                                        setEditFolderID={setEditFolderID}
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className="icons_wrap add_icons icons">
+
+                                                <Links
+                                                    setEditID={setEditID}
+                                                    setEditFolderID={setEditFolderID}
+                                                    userSub={userSub}
+                                                    setFolderLinks={setFolderLinks}
+                                                    setOriginalFolderLinks={setOriginalFolderLinks}
+                                                    setFolderContent={setFolderContent}
+                                                />
+
+                                            </div>
+                                        </>
+
+                                }
+
+
                             </div>
                         </div>
                         <div className="right_column links_col preview">
@@ -193,6 +280,8 @@ function App() {
                                 fileName={fileName}
                                 profileFileName={profileFileName}
                                 userSub={userSub}
+                                folderContent={folderContent}
+                                setFolderContent={setFolderContent}
                             />
                         </div>
                     </PageContext.Provider>
