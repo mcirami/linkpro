@@ -53,7 +53,7 @@
                                             <a type="button" href="#">
                                                 <img src="{{asset('images/blank-folder-square.jpg')}}" alt="">
                                                 <div class="icons_wrap">
-                                                    @foreach( $link->links as $folderLink)
+                                                    @foreach( array_slice($link->links, 0, 9) as $folderLink)
                                                         <div class="icon_col">
                                                             <img src="{{ $folderLink["icon"] }}" alt="{{$folderLink["name"]}}" title="{{$folderLink["name"]}}">
                                                         </div>
@@ -61,7 +61,13 @@
                                                 </div>
                                             </a>
                                             @if($link->name)
-                                                <p>{{$link->name}}</p>
+                                                @php if ($link->name && strlen($link->name) > 11 ) {
+                                                    $name = substr($link->name, 0, 11) . "...";
+                                                } else {
+                                                    $name = $link->name;
+                                                }
+                                                @endphp
+                                                <p>{{$name}}</p>
                                             @endif
                                             <div id="folder{{$folderCount}}" class="my_row folder" data-parent="#folder{{$folderCount}}Parent">
                                                 <div class="icons_wrap inner">
@@ -77,7 +83,13 @@
                                                             <a href="{{$source}}" target="_blank">
                                                                 <img src="{{ $folderLink["icon"] }}" alt="{{ $folderLink["name"] }}" title="{{ $folderLink["name"] }}" />
                                                             </a>
-                                                            <p>{{ $folderLink["name"] }}</p>
+                                                            @php if ($folderLink["name"] && strlen($folderLink["name"]) > 11 ) {
+                                                                    $name = substr($folderLink["name"], 0, 11) . "...";
+                                                                } else {
+                                                                    $name = $folderLink["name"];
+                                                                }
+                                                            @endphp
+                                                            <p>{{ $name }}</p>
                                                         </div>
                                                     @endforeach
                                                 </div>

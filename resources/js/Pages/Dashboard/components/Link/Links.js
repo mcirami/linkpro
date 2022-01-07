@@ -413,7 +413,7 @@ const Links = ({
                     };
                 }
 
-                const type = originalArray[key].type || "Icon";
+                const type = originalArray[key].type || null;
                 const linkID = originalArray[key].id;
                 let hasLinks = true;
                 let displayIcon;
@@ -497,7 +497,7 @@ const Links = ({
                                                 uncheckedIcon={false}
                                                 checkedIcon={false}
                                             />
-                                            <div className="hover_text switch"><p>{Boolean(originalArray[key].active_status) ? "Deactivate" : "Active"} Icon</p></div>
+                                            <div className="hover_text switch"><p>{Boolean(originalArray[key].active_status) ? "Deactivate" : "Active"} {type ? "Folder" : "Icon"}</p></div>
                                         </div>
                                     </div>
                                 </div>

@@ -181,6 +181,7 @@ function App() {
                                 {editID ?
                                     <EditForm
                                         folderID={editFolderID}
+                                        setEditFolderID={setEditFolderID}
                                         editID={editID}
                                         setEditID={setEditID}
                                         folderLinks={folderLinks}
@@ -206,6 +207,7 @@ function App() {
                                             setCustomIconArray={setCustomIconArray}
                                             setShowLoader={setShowLoader}
                                             folderID={editFolderID}
+                                            setEditFolderID={setEditFolderID}
                                             folderLinks={folderLinks}
                                             setFolderLinks={setFolderLinks}
                                             originalFolderLinks={originalFolderLinks}

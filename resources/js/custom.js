@@ -256,6 +256,8 @@ jQuery(document).ready(function($) {
                             content = null;
                         }, 500)
 
+                        row = null;
+
                     } else {
                         const folder = document.querySelector('.my_row.folder.open');
                         folder.classList.remove('open');

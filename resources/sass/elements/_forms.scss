@@ -341,6 +341,14 @@ form .bottom_row a {
             min-height: 660px;
         }
 
+        &.link {
+            border-top: none;
+
+            .link_form {
+                padding: 20px 40px 0;
+            }
+        }
+
         &.password {
             margin-bottom: 0;
 

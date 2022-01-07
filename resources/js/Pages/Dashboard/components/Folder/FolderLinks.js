@@ -6,7 +6,7 @@ import React, {
     useState,
     useContext,
 } from 'react';
-import {MdDeleteForever, MdDragHandle, MdArrowBack} from 'react-icons/md';
+import {MdDeleteForever, MdDragHandle, MdChevronLeft} from 'react-icons/md';
 import Switch from "react-switch";
 import {UserLinksContext, OriginalArrayContext} from '../App';
 import {Motion, spring} from 'react-motion';
@@ -508,16 +508,14 @@ const FolderLinks = ({
     return (
 
         <>
-            <div className="my_row link_row back">
-                <a className="button blue" href="#"
+            <div className="my_row icon_breadcrumb">
+                <p>Editing Folder</p>
+                <a className="back" href="#"
                    onClick={(e) => { e.preventDefault(); setEditFolderID(null); }}
                 >
-                    <MdArrowBack />
+                    <MdChevronLeft />
                     Back To Icons
                 </a>
-            </div>
-            <div className="my_row folder_message">
-                <p>Editing Folder</p>
             </div>
             <div className="folder_name my_row">
                 <div className="input_wrap">

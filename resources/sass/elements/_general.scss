@@ -396,3 +396,44 @@
         }
     }
 }
+
+.icon_breadcrumb {
+    padding: 0 40px;
+    margin-bottom: 10px;
+
+    @media all and (max-width: 768px) {
+        padding: 0 30px;
+    }
+
+    .breadcrumb_links {
+        float: left;
+
+        a {
+            @include ossemibold;
+            font-size: 15px;
+
+            &:first-child {
+                margin-right: 2px;
+            }
+        }
+    }
+
+    p {
+        @include osbold;
+        color: $blue;
+        font-size: 20px;
+        text-align: center;
+        margin: 0 0 10px;
+        border-bottom: 2px solid $blue;
+    }
+
+    .back {
+        float: left;
+
+        svg {
+            float: left;
+            width: 18px;
+            height: 24px;
+        }
+    }
+}

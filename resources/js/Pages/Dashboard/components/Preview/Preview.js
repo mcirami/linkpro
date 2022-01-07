@@ -164,6 +164,7 @@ const Preview = ({
                 setFolderContent(null);
             }, 500)
 
+            setRow(null);
         } else if (folderContent) {
             const folder = document.querySelector('.my_row.folder.open');
             setTimeout(() => {
@@ -187,6 +188,7 @@ const Preview = ({
         }
     }
 
+    console.log(row);
     const insertFolder = (event) => {
         const clickedDiv = event.currentTarget;
         const currentRow = clickedDiv.firstChild.dataset.row;
@@ -204,7 +206,7 @@ const Preview = ({
 
         iconRow.after(content);
 
-        if (row !== currentRow) {
+        if (!row || row !== currentRow) {
             setTimeout(() => {
                 content.classList.add('open');
                 clickedDiv.classList.add('open');
@@ -368,7 +370,7 @@ const Preview = ({
                                                         <a type="button" href="#" data-row={ dataRow }>
                                                             <img className="bg_image" src={ Vapor.asset('images/blank-folder-square.jpg') } alt=""/>
                                                             <div className="icons_wrap">
-                                                                {links.map(( link, index ) => {
+                                                                {links.slice(0, 9).map(( link, index ) => {
                                                                     const displayIcon = checkSubStatus(link.icon);
                                                                     return (
                                                                         <div className="icon_col" key={index}>
@@ -381,9 +383,15 @@ const Preview = ({
 
                                                             </div>
                                                         </a>
-                                                        {name &&
-                                                            <p>{name}</p>
-                                                        }
+                                                        <p>
+                                                            {name && name.length >
+                                                            11 ?
+                                                                name.substring(0,
+                                                                    11) + "..."
+                                                                :
+                                                                name || "Link Name"
+                                                            }
+                                                        </p>
                                                         <div id={"folder" + folderCount} className="my_row folder" data-parent={"#folder" + folderCount + "Parent"}>
                                                             <div className="icons_wrap inner">
                                                                 {links.map((link) => {
@@ -402,9 +410,15 @@ const Preview = ({
                                                                                     <a href={source} target="_blank">
                                                                                         <img src={link.icon} alt={link.name} title={link.name}/>
                                                                                     </a>
-                                                                                    {link.name &&
-                                                                                        <p>{link.name}</p>
-                                                                                    }
+                                                                                    <p>
+                                                                                        {link.name && link.name.length >
+                                                                                        11 ?
+                                                                                            link.name.substring(0,
+                                                                                                11) + "..."
+                                                                                            :
+                                                                                            link.name || "Link Name"
+                                                                                        }
+                                                                                    </p>
                                                                                 </>
                                                                             }
                                                                         </div>
