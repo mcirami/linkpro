@@ -337,7 +337,7 @@ const Links = ({
                 }
             })
         } else {
-            EventBus.dispatch("error", {message: "Add  Icons Before Enabling"});
+            EventBus.dispatch("error", {message: "Add Icons Before Enabling"});
         }
     };
 

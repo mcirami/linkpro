@@ -82,10 +82,6 @@
         align-items: stretch;
         -webkit-align-items: stretch;
 
-        &.main {
-            overflow: hidden;
-        }
-
         .icon_col {
             @include boxShadow;
             background: $white;

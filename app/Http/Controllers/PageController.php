@@ -60,11 +60,11 @@ class PageController extends Controller
         return view('pages.create');
     }
 
-    public function store(PageNameRequest $request, PageService $pageService) {
+    public function store(PageNameRequest $request, PageService $pageService, LinkService $linkService) {
 
         $page = $pageService->createNewPage($request);
 
-        //$linkService->addLink($page);
+        $linkService->addLink($page);
 
         return response()->json(['message'=> 'New Link Added', 'page_id' => $page->id]);
     }

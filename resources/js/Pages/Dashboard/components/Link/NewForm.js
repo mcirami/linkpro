@@ -12,12 +12,7 @@ import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
 import InputComponent from './InputComponent';
 const iconPaths = user.icons;
-import {
-    addLink,
-    checkURL,
-    updateContentHeight,
-    updateLinkStatus,
-} from '../../../../Services/LinksRequest';
+import {addLink, checkURL, updateContentHeight} from '../../../../Services/LinksRequest';
 import EventBus from '../../../../Utils/Bus';
 import { BiChevronLeft, BiChevronsLeft,  } from "react-icons/bi";
 
@@ -271,21 +266,6 @@ const NewForm = ({
                                 active_status: true
                             }
 
-                            newFolderLinks = newFolderLinks.concat(newLinkObject);
-                            setOriginalFolderLinks(newOriginalFolderLinks.concat(newLinkObject));
-                            setFolderLinks(newFolderLinks);
-
-                            let folderActive = null;
-                            /*if (folderLinks.length === 0 && newFolderLinks.length === 1) {
-                                folderActive = true;
-                                const url = "/dashboard/folder/status/";
-                                const packets = {
-                                    active_status: folderActive,
-                                };
-
-                                updateLinkStatus(packets, folderID, url);
-                            }*/
-
                             setUserLinks (
                                 userLinks.map((item) => {
                                     if (item.id === folderID) {
@@ -293,7 +273,6 @@ const NewForm = ({
 
                                         return {
                                             ...item,
-                                            active_status: folderActive || item.active_status,
                                             links: itemLinks
                                         }
                                     }
@@ -310,7 +289,6 @@ const NewForm = ({
 
                                         return {
                                             ...item,
-                                            active_status: folderActive || item.active_status,
                                             links: itemLinks
                                         }
                                     }
@@ -319,6 +297,9 @@ const NewForm = ({
 
                                 })
                             )
+
+                            setOriginalFolderLinks(newOriginalFolderLinks.concat(newLinkObject));
+                            setFolderLinks(newFolderLinks.concat(newLinkObject));
 
                             setShowNewForm(false);
                             updateContentHeight(folderLinks);
@@ -446,21 +427,6 @@ const NewForm = ({
                                 active_status: true
                             }
 
-                            newFolderLinks = newFolderLinks.concat(newLinkObject);
-                            setOriginalFolderLinks(newOriginalFolderLinks.concat(newLinkObject));
-                            setFolderLinks(newFolderLinks);
-
-                            let folderActive = false;
-                            /*if (folderLinks.length === 0 && newFolderLinks.length === 1) {
-                                folderActive = true;
-                                const url = "/dashboard/folder/status/";
-                                const packets = {
-                                    active_status: folderActive,
-                                };
-
-                                updateLinkStatus(packets, folderID, url);
-                            }*/
-
                             setUserLinks (
                                 userLinks.map((item) => {
                                     if (item.id === folderID) {
@@ -468,7 +434,6 @@ const NewForm = ({
 
                                         return {
                                             ...item,
-                                            active_status: folderActive || item.active_status,
                                             links: itemLinks
                                         }
                                     }
@@ -485,7 +450,6 @@ const NewForm = ({
 
                                         return {
                                             ...item,
-                                            active_status: folderActive || item.active_status,
                                             links: itemLinks
                                         }
                                     }

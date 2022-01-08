@@ -51,7 +51,7 @@ class EmailInactiveUsers extends Command
             $created = Carbon::parse($user->created_at);
             $diff = $created->diffInDays($now);
 
-            if ($count === 0 && ($diff === 3 || $diff === 7 || $diff === 30)) {
+            if ($count === 1 && ($diff === 3 || $diff === 7 || $diff === 30)) {
                 $page = $user->pages()->where( 'user_id', $user->id )->where('default', true)->get();
 
                 if ($user->email_subscription) {

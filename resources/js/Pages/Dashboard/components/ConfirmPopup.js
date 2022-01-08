@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {MdCheckCircle} from 'react-icons/md';
-import {deleteLink, updateLinkStatus} from '../../../Services/LinksRequest';
+import {deleteLink} from '../../../Services/LinksRequest';
 import {UserLinksContext, OriginalArrayContext} from './App';
 import {element} from 'prop-types';
 
@@ -73,19 +73,6 @@ export const ConfirmPopup = ({
                     setFolderLinks(
                         newFolderArray.map((link, index) => ({...link, position: index}))
                     )
-
-                    let folderActive = null;
-                   /* if (userLinks.length === 1 && newFolderArray.length === 0) {
-
-                        folderActive = false;
-                        const url = "/dashboard/folder/status/";
-                        const packets = {
-                            active_status: folderActive,
-                        };
-
-                        updateLinkStatus(packets, folderID, url);
-                    }*/
-
                     setOriginalArray(
                         newOriginalArray.map((item) => {
                             if (item.id === folderID) {
@@ -99,7 +86,6 @@ export const ConfirmPopup = ({
 
                                 return {
                                     ...item,
-                                    active_status: folderActive === false ? folderActive : item.active_status,
                                     links: newOrder
                                 }
                             }
@@ -121,7 +107,6 @@ export const ConfirmPopup = ({
 
                                 return {
                                     ...item,
-                                    active_status: folderActive === false ? folderActive : item.active_status,
                                     links: newOrder
                                 }
                             }
@@ -157,20 +142,7 @@ export const ConfirmPopup = ({
 
     const updateContentHeight = () => {
 
-        if (folderID && folderLinks.length - 1 > 0 && (folderLinks.length - 1) % 4 === 0)  {
-            const iconsWrap = document.querySelector('.icons_wrap');
-            const icons = document.querySelectorAll('.add_icons .icon_col');
-            const colHeight = icons[0].clientHeight;
-            const rowCount = Math.ceil(icons.length / 4);
-            let divHeight = rowCount * colHeight - 40;
-
-            if (originalArray.length - 1 < 5) {
-                divHeight += 20;
-            }
-
-            iconsWrap.style.minHeight = divHeight + "px";
-
-        } else if ( originalArray.length - 1 > 0 && (originalArray.length - 1) % 4 === 0 ) {
+        if ( originalArray.length - 1 > 0 && (originalArray.length - 1) % 4 === 0 ) {
             const iconsWrap = document.querySelector('.icons_wrap');
             const icons = document.querySelectorAll('.add_icons .icon_col');
             const colHeight = icons[0].clientHeight;
@@ -183,8 +155,6 @@ export const ConfirmPopup = ({
 
             iconsWrap.style.minHeight = divHeight + "px";
         }
-
-
     }
 
     return (
