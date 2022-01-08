@@ -5,17 +5,11 @@ namespace App\Http\Controllers;
 use App\Services\SubscriptionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Traits\SubscriptionTrait;
+
 
 class SubscriptionController extends Controller
 {
-    use SubscriptionTrait;
 
-    /**
-     * @param SubscriptionService $subscriptionService
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
     public function purchase(SubscriptionService $subscriptionService) {
 
         $data = $subscriptionService->showPurchasePage();
@@ -23,12 +17,6 @@ class SubscriptionController extends Controller
         return view('subscription.index', [ 'plan' => $data['plan'], 'token' => $data['token'], 'amount' => $data["amount"], 'existing' => $data["existing"] ]);
     }
 
-    /**
-     * @param Request $request
-     * @param SubscriptionService $subscriptionService
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function store(Request $request, SubscriptionService $subscriptionService) {
 
 
@@ -51,12 +39,6 @@ class SubscriptionController extends Controller
         }
     }
 
-    /**
-     * @param Request $request
-     * @param SubscriptionService $subscriptionService
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function changePlan(Request $request, SubscriptionService $subscriptionService) {
 
         $path = $request->session()->get('_previous');
@@ -80,12 +62,6 @@ class SubscriptionController extends Controller
 
     }
 
-    /**
-     * @param Request $request
-     * @param SubscriptionService $subscriptionService
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
     public function plans(Request $request, SubscriptionService $subscriptionService) {
 
         $path = $request->session()->get('_previous');
@@ -95,12 +71,6 @@ class SubscriptionController extends Controller
         return view('subscription.plans', ['subscription' => $subscription, 'path' => $path["url"]]);
     }
 
-    /**
-     * @param Request $request
-     * @param SubscriptionService $subscriptionService
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function cancel(Request $request, SubscriptionService $subscriptionService) {
 
         $data = $subscriptionService->cancelSubscription($request);
@@ -112,12 +82,6 @@ class SubscriptionController extends Controller
         }
     }
 
-    /**
-     * @param Request $request
-     * @param SubscriptionService $subscriptionService
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function resume(Request $request, SubscriptionService $subscriptionService) {
 
         $data = $subscriptionService->resumeSubscription($request);
@@ -127,39 +91,6 @@ class SubscriptionController extends Controller
         } else {
             return back()->withErrors($data["message"]);
         }
-
-    }
-
-    public function checkCode(Request $request) {
-
-        $planID = $request->planId;
-        $code = $request->code;
-
-        $match = $this->checkPromoCode($planID, $code);
-
-        if ($match) {
-            if ( $planID == "premier" && strtolower( $code ) == "premier6months" ) {
-                $message = "Congrats! Your 6 Month Premier Membership is activated!";
-            } elseif ( $planID == "premier" && strtolower( $code ) == "premier1month" ) {
-                $message = "Congrats! Your 1 Month Premier Membership is activated!";
-            } elseif($planID == "premier" && strtolower( $code ) == "premier4life") {
-                $message = "Congrats! Your Lifetime Premier Membership is activated!";
-            } elseif ( $planID == "pro" && strtolower( $code ) == "pro6months" ) {
-                $message = "Congrats! Your 6 Month Pro Membership is activated!";
-            } elseif ( $planID == "pro" && strtolower( $code ) == "pro1month" ) {
-                $message = "Congrats! Your 1 Month Pro Membership is activated!";
-            } elseif ( $planID == "pro" && strtolower( $code ) == "pro4life" ) {
-                $message = "Congrats! Your Lifetime Pro Membership is activated!";
-            }
-
-            $success = true;
-
-        } else {
-            $message = "Sorry, promo code does not match";
-            $success = false;
-        }
-
-        return response()->json(['success' => $success,'message' => $message]);
 
     }
 }

@@ -13931,48 +13931,25 @@ form .bottom_row a {
 .form_page.checkout .my_row.three_columns .column {
   width: 100%;
 }
-.form_page.checkout .payment_form_wrap {
-  padding: 0 40px;
-}
-@media all and (max-width: 992px) {
-  .form_page.checkout .payment_form_wrap {
-    padding: 0;
-  }
-}
 .form_page.checkout .discount_wrap {
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   height: 0;
-  transition: 0.5s all linear;
-  -webkit-transition: 0.5s all linear;
-  -moz-transition: 0.5s all linear;
-  -o-transition: 0.5s all linear;
-}
-.form_page.checkout .discount_wrap button {
-  height: 0;
-  padding: 0;
-  width: 20%;
-  float: left;
   transition: 0.5s all linear;
   -webkit-transition: 0.5s all linear;
   -moz-transition: 0.5s all linear;
   -o-transition: 0.5s all linear;
 }
 .form_page.checkout .discount_wrap input {
-  width: 79%;
-  float: left;
-  margin-right: 1%;
+  width: 100%;
+  height: 40px;
   padding: 0;
   border: none;
   transition: 0.5s all linear;
   -webkit-transition: 0.5s all linear;
   -moz-transition: 0.5s all linear;
   -o-transition: 0.5s all linear;
-  height: 0;
 }
 .form_page.checkout .discount_wrap.open {
-  height: 40px;
-}
-.form_page.checkout .discount_wrap.open button {
   height: 40px;
 }
 .form_page.checkout .discount_wrap.open input {
@@ -13980,64 +13957,22 @@ form .bottom_row a {
   padding: 10px;
   border: 1px solid #d2d2d2;
 }
-.form_page.checkout .discount_wrap #promo_success_message {
-  opacity: 0;
-  transition: 0.5s all linear;
-  -webkit-transition: 0.5s all linear;
-  -moz-transition: 0.5s all linear;
-  -o-transition: 0.5s all linear;
-}
-.form_page.checkout .discount_wrap #promo_success_message p {
-  padding-top: 5px;
-  color: #424fcf;
-  margin-bottom: 0;
-}
-.form_page.checkout .discount_wrap #promo_success_message p.success {
-  font-family: "opensansbold", sans-serif;
-}
-.form_page.checkout .discount_wrap #promo_success_message p span {
-  font-family: "opensansbold", sans-serif;
-}
-.form_page.checkout .discount_wrap #promo_success_message.active {
-  opacity: 1;
-}
-.form_page.checkout .discount_wrap #promo_error_message {
-  opacity: 0;
-  transition: 0.5s all ease-in;
-  -webkit-transition: 0.5s all ease-in;
-  -moz-transition: 0.5s all ease-in;
-  -o-transition: 0.5s all ease-in;
-}
-.form_page.checkout .discount_wrap #promo_error_message p {
-  font-family: "opensansbold", sans-serif;
-  padding-top: 5px;
-  color: #f24d1d;
-}
-.form_page.checkout .discount_wrap #promo_error_message.active {
-  opacity: 1;
-}
 @media all and (max-width: 768px) {
   .form_page.checkout .credit_card_form {
     padding: 0;
   }
 }
 .form_page.checkout #payment-form {
-  margin-top: 0;
-  transition: 0.5s all ease-in-out;
-  -webkit-transition: 0.5s all ease-in-out;
-  -moz-transition: 0.5s all ease-in-out;
-  -o-transition: 0.5s all ease-in-out;
+  padding: 0 40px;
 }
 @media all and (max-width: 992px) {
   .form_page.checkout #payment-form {
+    padding: 0;
     margin-bottom: 40px;
   }
 }
 .form_page.checkout #payment-form .braintree-sheet__content--form .braintree-form__field-group label {
   width: 100%;
-}
-.form_page.checkout #payment-form.adjust {
-  margin-top: 50px;
 }
 .form_page.checkout h3, .form_page.checkout .h3 {
   margin-bottom: 40px;

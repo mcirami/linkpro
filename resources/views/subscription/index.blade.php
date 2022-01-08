@@ -90,36 +90,23 @@
                                 </div>
                             @endif
 
-                            <div class="my_row payment_form_wrap">
-                                <div class="my_row">
+                            <form method="post" id="payment-form" action="{{ $existing ? route('subscribe.resume') : route('subscribe.post') }}">
+                                @csrf
+                                <section>
+                                    <input type="hidden" name="level" value="{{ $plan }}">
+                                    <input type="hidden" name="planId" value="{{ $plan == 'pro' ?  'pro' : 'premier'}}">
                                     <a class="discount_link" href="#">Have a Promo Code?</a>
-                                    <div class="discount_wrap my_row">
-                                        <form id="submit_discount_code" action="#" method="post">
-                                            @csrf
-                                            <input type="text" name="discountCode" id="discount_code" />
-                                            <input id="code_plan" type="hidden" name="planId" value="{{ strtolower($plan) }}">
-                                            <button type="submit" class="button blue">Apply</button>
-                                        </form>
-                                        <div id="promo_success_message" class="my_row" role="alert"></div>
-                                        <div id="promo_error_message" class="my_row" role="alert"></div>
-
+                                    <div class="discount_wrap">
+                                        <input type="text" name="discountCode" id="discount_code">
                                     </div>
-                                </div>
-                                <form class="my_row" method="post" id="payment-form" action="{{ $existing ? route('subscribe.resume') : route('subscribe.post') }}">
-                                    @csrf
-                                    <section>
-                                        <input type="hidden" name="level" value="{{ $plan }}">
-                                        <input type="hidden" name="planId" value="{{ $plan == 'pro' ?  'pro' : 'premier'}}">
-                                        <input id="form_discount_code" type="hidden" name="discountCode">
-                                        <div class="bt-drop-in-wrapper">
-                                            <div id="bt-dropin"></div>
-                                        </div>
-                                    </section>
+                                    <div class="bt-drop-in-wrapper">
+                                        <div id="bt-dropin"></div>
+                                    </div>
+                                </section>
 
-                                    <input id="nonce" name="payment_method_nonce" type="hidden" />
-                                    <button class="button blue" type="submit"><span>Submit</span></button>
-                                </form>
-                            </div>
+                                <input id="nonce" name="payment_method_nonce" type="hidden" />
+                                <button class="button blue" type="submit"><span>Submit</span></button>
+                            </form>
                         </div>
                     </div>
 
@@ -173,8 +160,7 @@
             form.addEventListener('submit', function (event) {
                 event.preventDefault();
 
-                const code = document.querySelector('#form_discount_code').value;
-
+                const code = document.querySelector('#discount_code').value;
                 if(code.toLowerCase() === "premier4life" || code.toLowerCase() === "pro4life" ) {
                     form.submit();
                 } else {
