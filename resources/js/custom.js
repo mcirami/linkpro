@@ -203,6 +203,7 @@ jQuery(document).ready(function($) {
         })
     }
 
+    let row = null;
     function insertContent(content, element, cb) {
 
         const childNum = element.dataset.row * 4;
