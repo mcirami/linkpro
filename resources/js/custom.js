@@ -1,4 +1,7 @@
 'use strict'
+import axios from 'axios';
+import EventBus from './Utils/Bus';
+
 jQuery(document).ready(function($) {
 
     /*const box = document.querySelector('.inner_content_wrap');
@@ -169,6 +172,67 @@ jQuery(document).ready(function($) {
             e.preventDefault();
             document.querySelector('.discount_wrap').classList.add('open');
         });
+    }
+
+    const promoCodeForm = document.querySelector('#submit_discount_code');
+    if (promoCodeForm) {
+        promoCodeForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            document.querySelector('#promo_success_message').classList.remove('active');
+            document.querySelector('#promo_error_message').classList.remove('active');
+            document.querySelector('#payment-form').classList.remove('adjust');
+            const code = document.querySelector('#discount_code').value;
+            const codePlan = document.querySelector('#code_plan').value;
+            const packets = {
+                planId: codePlan,
+                code: code
+            }
+
+            axios.post("/subscribe/check-code", packets)
+            .then(
+                (response) => {
+                    //console.log(JSON.stringify(response.data))
+                    const message = response.data.message;
+                    const success = response.data.success;
+
+                    if (success) {
+                        let successDiv = document.querySelector('#promo_success_message');
+                        if (message.includes("Lifetime")) {
+                            document.querySelector('#payment-form .bt-drop-in-wrapper').remove();
+                            document.querySelector('#payment-form #nonce').remove();
+                            successDiv.innerHTML = "<p class='success'>" + message  + "</p>";
+                        } else {
+                            document.querySelector('#payment-form').classList.add('adjust');
+                            successDiv.innerHTML =
+                                "<p class='success'>" + message  + "</p>" +
+                                "<p><span>NEXT:</span> Choose a way to pay for future billing. If you cancel before the next billing cycle you will never be charged.</p>"
+                        }
+
+                        successDiv.classList.add('active');
+
+                        document.querySelector('#form_discount_code').value = code;
+                    } else {
+                        const errorDiv = document.querySelector('#promo_error_message');
+                        errorDiv.innerHTML = "<p class='error'>" + message + "</p>";
+                        errorDiv.classList.add('active');
+                    }
+
+                }
+            )
+            .catch((error) => {
+                if (error.response !== undefined) {
+                    console.log("ERROR:: ", error.response.data);
+                } else {
+                    console.log("ERROR:: ", error);
+                }
+
+                return {
+                    success : false,
+                }
+
+            });
+
+        })
     }
 
     $('.mobile_menu_icon').click(function(e){
