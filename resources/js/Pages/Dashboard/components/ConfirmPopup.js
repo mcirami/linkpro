@@ -2,18 +2,8 @@ import React, {useContext} from 'react';
 import {MdCheckCircle} from 'react-icons/md';
 import {deleteLink} from '../../../Services/LinksRequest';
 import {UserLinksContext, OriginalArrayContext} from './App';
-import {element} from 'prop-types';
 
-export const ConfirmPopup = ({
-                                 editID,
-                                 setEditID,
-                                 setShowConfirmPopup,
-                                 folderLinks,
-                                 setFolderLinks,
-                                 originalFolderLinks,
-                                 setOriginalFolderLinks,
-                                 folderID
-                             }) => {
+export const ConfirmPopup = ({editID, setEditID, setShowConfirmPopup }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
     const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
@@ -21,50 +11,18 @@ export const ConfirmPopup = ({
     const deleteItem = (e) => {
         e.preventDefault();
 
-        let newFolderArray = null;
-        let newOriginalFolderLinks = null;
-        let newArray = null;
-        let newOriginalArray = null;
-
-        if (folderID) {
-            newFolderArray = folderLinks.filter(element => element.id !== editID);
-            newOriginalFolderLinks = originalFolderLinks.filter(element => element.id !== editID);
-            newArray = userLinks.map((item) => {
-                if (item.id === folderID) {
-                    const itemLinks = item.links.filter(element => element.id !== editID)
-
-                    return {
-                        ...item,
-                        links: itemLinks
-                    }
-                }
-                return item;
-            });
-            newOriginalArray = originalArray.map((item) => {
-                if (item.id === folderID) {
-                    const itemLinks = item.links.filter(element => element.id !== editID)
-
-                    return {
-                        ...item,
-                        links: itemLinks
-                    }
-                }
-                return item;
-            });
-        } else {
-            newArray = userLinks.filter(element => element.id !== editID);
-            newOriginalArray = originalArray.filter(element => element.id !== editID);
-        }
-
+        const newArray = userLinks.filter(element => element.id !== editID)
         const packets = {
-            userLinks: newArray,
-            folderLinks: newFolderArray
+            userLinks: newArray
         }
 
         deleteLink(packets, editID)
         .then((data) => {
 
             if(data.success) {
+                setUserLinks(
+                    newArray.map((link, index) => ({...link, position: index}))
+                )
 
                 if (folderID) {
                     setOriginalFolderLinks(
@@ -125,7 +83,6 @@ export const ConfirmPopup = ({
                     )
                 }
 
-
                 setEditID(null)
                 updateContentHeight();
                 setShowConfirmPopup(false)
@@ -141,6 +98,7 @@ export const ConfirmPopup = ({
     }
 
     const updateContentHeight = () => {
+
 
         if ( originalArray.length - 1 > 0 && (originalArray.length - 1) % 4 === 0 ) {
             const iconsWrap = document.querySelector('.icons_wrap');

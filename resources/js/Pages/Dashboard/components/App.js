@@ -90,9 +90,9 @@ function App() {
 
                     <div id="upgrade_popup">
                         {showUpgradePopup &&
-                            <UpgradePopup
-                                optionText={optionText}
-                            />
+                        <UpgradePopup
+                            optionText={optionText}
+                        />
                         }
                     </div>
 
@@ -232,38 +232,39 @@ function App() {
                                             />
 
                                             :
-                                        <>
-                                            <div className="my_row link_row">
-                                                <div className="add_more_icons">
-                                                    <AddLink
-                                                        setShowNewForm={setShowNewForm}
-                                                        userSub={userSub}
-                                                        setShowUpgradePopup={setShowUpgradePopup}
-                                                        setOptionText={setOptionText}
-                                                    />
+                                            <>
+                                                <div className="my_row link_row">
+                                                    <div className="add_more_icons">
+                                                        <AddLink
+                                                            setShowNewForm={setShowNewForm}
+                                                            userSub={userSub}
+                                                            setShowUpgradePopup={setShowUpgradePopup}
+                                                            setOptionText={setOptionText}
+                                                        />
+                                                    </div>
+                                                    <div className="add_more_icons">
+                                                        <AddFolder
+                                                            userSub={userSub}
+                                                            setShowUpgradePopup={setShowUpgradePopup}
+                                                            setOptionText={setOptionText}
+                                                            setEditFolderID={setEditFolderID}
+                                                        />
+                                                    </div>
                                                 </div>
-                                                <div className="add_more_icons">
-                                                    <AddFolder
+
+                                                <div className="icons_wrap add_icons icons">
+
+                                                    <Links
+                                                        setEditID={setEditID}
+                                                        setEditFolderID={setEditFolderID}
                                                         userSub={userSub}
-                                                        setShowUpgradePopup={setShowUpgradePopup}
-                                                        setOptionText={setOptionText}
+                                                        setFolderLinks={setFolderLinks}
+                                                        setOriginalFolderLinks={setOriginalFolderLinks}
+                                                        setFolderContent={setFolderContent}
                                                     />
+
                                                 </div>
-                                            </div>
-
-                                            <div className="icons_wrap add_icons icons">
-
-                                                <Links
-                                                    setEditID={setEditID}
-                                                    setEditFolderID={setEditFolderID}
-                                                    userSub={userSub}
-                                                    setFolderLinks={setFolderLinks}
-                                                    setOriginalFolderLinks={setOriginalFolderLinks}
-                                                    setFolderContent={setFolderContent}
-                                                />
-
-                                            </div>
-                                        </>
+                                            </>
 
                                 }
 

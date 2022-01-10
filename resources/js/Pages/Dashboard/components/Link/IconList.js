@@ -13,7 +13,7 @@ const IconList = ({currentLink, setCurrentLink, iconArray, radioValue, setCharac
             let name;
             if(el.dataset.name) {
                 name = el.dataset.name;
-                setCharactersLeft(11 - name.length);
+                setCharactersLeft(13 - name.length);
 
                 if(name.toLowerCase().includes("mail") || name.toLowerCase().includes("yahoo") || name.toLowerCase().includes("outlook") ) {
                     setInputType("email");

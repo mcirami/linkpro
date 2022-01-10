@@ -14,36 +14,20 @@ export const addLink = (packets) => {
             //console.log(JSON.stringify(response.data));
             const returnMessage = JSON.stringify(response.data.message);
             EventBus.dispatch("success", {message: returnMessage});
-            const link_id = response.data.link_id;
+            const link_id = JSON.stringify(response.data.link_id);
             const position = response.data.position;
-            let icon_path = null;
-            if (response.data.iconPath) {
-                icon_path = response.data.iconPath;
-            }
 
             return {
                 success : true,
                 link_id : link_id,
-                position : position,
-                icon_path : icon_path
+                position : position
             }
 
         })
     .catch(error => {
         if (error.response) {
-            if (error.response.data.errors.icon !== undefined) {
-                EventBus.dispatch("error", { message: error.response.data.errors.icon[0] });
-            } else if (error.response.data.errors.name !== undefined) {
-                EventBus.dispatch("error", { message: error.response.data.errors.name[0] });
-            } else if (error.response.data.errors.url !== undefined) {
-                EventBus.dispatch("error", { message: error.response.data.errors.url[0] });
-            } else if (error.response.data.errors.email !== undefined) {
-                EventBus.dispatch("error", { message: error.response.data.errors.email[0] });
-            } else if (error.response.data.errors.phone !== undefined) {
-                EventBus.dispatch("error", { message: error.response.data.errors.phone[0] });
-            } else {
-                console.log(error.response);
-            }
+            //EventBus.dispatch("error", { message: error.response.data.errors.header_img[0] });
+            console.log(error.response);
         } else {
             console.log("ERROR:: ", error);
         }
@@ -76,10 +60,8 @@ export const updateLink = (packets, editID) => {
             }
         }
     ).catch(error => {
-        if (error.response) {
-            if (error.response.data.errors.icon !== undefined) {
-                EventBus.dispatch("error", { message: error.response.data.errors.icon[0] });
-            } else if (error.response.data.errors.name !== undefined) {
+        if (error.response && error.response.data.errors) {
+            if (error.response.data.errors.name !== undefined) {
                 EventBus.dispatch("error", { message: error.response.data.errors.name[0] });
             } else if (error.response.data.errors.url !== undefined) {
                 EventBus.dispatch("error", { message: error.response.data.errors.url[0] });
@@ -87,6 +69,8 @@ export const updateLink = (packets, editID) => {
                 EventBus.dispatch("error", { message: error.response.data.errors.email[0] });
             } else if (error.response.data.errors.phone !== undefined) {
                 EventBus.dispatch("error", { message: error.response.data.errors.phone[0] });
+            } else if (error.response.data.errors.icon !== undefined) {
+                EventBus.dispatch("error", { message: error.response.data.errors.icon[0] });
             } else {
                 console.log(error.response);
             }
@@ -121,9 +105,9 @@ export const updateLinksPositions = (packets) => {
  * Submit a request to update a link
  * return object
  */
-export const updateLinkStatus = (packets, itemID, url) => {
+export const updateLinkStatus = (packets, itemID) => {
 
-    return axios.post(url + itemID, packets)
+    return axios.post("/dashboard/links/status/" + itemID, packets)
     .then(
         (response) => {
             //console.log(JSON.stringify(response.data))
@@ -218,19 +202,6 @@ export const checkURL = (url, name, custom, subStatus) => {
                 url: returnURL
             }
         }
-    }
-}
-
-export const updateContentHeight = ( linkArray ) => {
-
-    if ((linkArray.length + 1) % 4 === 1 ) {
-
-        const iconsWrap = document.querySelector('.icons_wrap');
-        const icons = document.querySelectorAll('.add_icons .icon_col');
-        const colHeight = icons[0].clientHeight;
-        const rowCount = Math.ceil(icons.length / 4);
-        const divHeight = rowCount * colHeight - 40;
-        iconsWrap.style.minHeight = divHeight + "px";
     }
 }
 

@@ -39,7 +39,7 @@ const Links = ({
                    setOriginalFolderLinks,
                    setFolderContent
 
-}) => {
+               }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
     const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
@@ -337,7 +337,7 @@ const Links = ({
                 }
             })
         } else {
-            EventBus.dispatch("error", {message: "Add Icons Before Enabling"});
+            EventBus.dispatch("error", {message: "Add  Icons Before Enabling"});
         }
     };
 
@@ -439,10 +439,10 @@ const Links = ({
                                 }}
                             >
                                 <span className="drag_handle"
-                                    onMouseDown={handleMouseDown.bind(null,
-                                        key, [x, y])}
-                                    onTouchStart={handleTouchStart.bind(
-                                        null, key, [x, y])}
+                                      onMouseDown={handleMouseDown.bind(null,
+                                          key, [x, y])}
+                                      onTouchStart={handleTouchStart.bind(
+                                          null, key, [x, y])}
                                 >
                                     <MdDragHandle/>
                                     <div className="hover_text"><p>Move {type}</p></div>
@@ -456,19 +456,19 @@ const Links = ({
                                                 <div className={hasLinks ? "folder_icons" : "folder_icons empty"}>
                                                     {hasLinks &&
 
-                                                        originalArray[key].links.slice(
-                                                            0, 9).
-                                                            map((innerLink) => {
-                                                                /*const displayIcon = checkSubStatus(
-                                                                    innerLink.icon);*/
-                                                                return (
-                                                                    <div className="image_col" key={innerLink.id}>
-                                                                        <img src={innerLink.icon ||
-                                                                        Vapor.asset(
-                                                                            'images/icon-placeholder.png')} alt=""/>
-                                                                    </div>
-                                                                )
-                                                            })
+                                                    originalArray[key].links.slice(
+                                                        0, 9).
+                                                        map((innerLink) => {
+                                                            /*const displayIcon = checkSubStatus(
+                                                                innerLink.icon);*/
+                                                            return (
+                                                                <div className="image_col" key={innerLink.id}>
+                                                                    <img src={innerLink.icon ||
+                                                                    Vapor.asset(
+                                                                        'images/icon-placeholder.png')} alt=""/>
+                                                                </div>
+                                                            )
+                                                        })
                                                     }
                                                     {!hasLinks && <p><span>+</span> <br />Add<br />Icons</p>}
                                                 </div>

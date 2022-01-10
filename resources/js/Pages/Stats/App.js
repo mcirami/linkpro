@@ -27,6 +27,24 @@ function App() {
         setDeletedStats(newStats["deletedStats"])
     }
 
+    /*const fetchLinkStats = () => {
+
+        axios.get(url)
+        .then(response => {
+            const returnedStats = response.data;
+            setStats(returnedStats);
+            console.log(returnedStats);
+        })
+        .catch(error => {
+            if (error.response) {
+                console.log(error.response);
+            } else {
+                console.log("ERROR:: ", error);
+            }
+
+        })
+    }*/
+
     useEffect(() => {
         fetchLinkStats()
     }, []);

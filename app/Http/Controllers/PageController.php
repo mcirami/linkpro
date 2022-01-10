@@ -6,8 +6,6 @@ use App\Http\Requests\PageBioRequest;
 use App\Http\Requests\PageNameRequest;
 use App\Http\Requests\PagePassword;
 use App\Http\Requests\PageTitleRequest;
-use App\Models\Folder;
-use App\Models\Link;
 use App\Models\Page;
 use App\Services\LinkService;
 use App\Services\PageService;

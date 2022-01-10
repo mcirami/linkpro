@@ -110,7 +110,11 @@ class SubscriptionService {
 
                 return [
                     "success" => false,
+<<<<<<< HEAD
                     "message" => "Sorry, discount code does not match"
+=======
+                    "message" => "Sorry, promo code does not match"
+>>>>>>> parent of 8060d6a... fixed conflict
                 ];
 
             } elseif ($code == "bypass") {
