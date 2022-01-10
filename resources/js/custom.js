@@ -202,6 +202,7 @@ jQuery(document).ready(function($) {
         })
     }
 
+
     let row = null;
     function insertContent(content, element, cb) {
 
