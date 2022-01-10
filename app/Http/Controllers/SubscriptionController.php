@@ -130,36 +130,17 @@ class SubscriptionController extends Controller
 
     }
 
-    public function checkCode(Request $request) {
+    public function checkCode(Request $request, SubscriptionService $subscriptionService) {
 
         $planID = $request->planId;
         $code = $request->code;
 
         $match = $this->checkPromoCode($planID, $code);
 
-        if ($match) {
-            if ( $planID == "premier" && strtolower( $code ) == "premier6months" ) {
-                $message = "Congrats! Your 6 Month Premier Membership is activated!";
-            } elseif ( $planID == "premier" && strtolower( $code ) == "premier1month" ) {
-                $message = "Congrats! Your 1 Month Premier Membership is activated!";
-            } elseif($planID == "premier" && strtolower( $code ) == "premier4life") {
-                $message = "Congrats! Your Lifetime Premier Membership is activated!";
-            } elseif ( $planID == "pro" && strtolower( $code ) == "pro6months" ) {
-                $message = "Congrats! Your 6 Month Pro Membership is activated!";
-            } elseif ( $planID == "pro" && strtolower( $code ) == "pro1month" ) {
-                $message = "Congrats! Your 1 Month Pro Membership is activated!";
-            } elseif ( $planID == "pro" && strtolower( $code ) == "pro4life" ) {
-                $message = "Congrats! Your Lifetime Pro Membership is activated!";
-            }
+        $data = $subscriptionService->getCodeReturnMessage($match, $planID, $code);
 
-            $success = true;
 
-        } else {
-            $message = "Sorry, promo code does not match";
-            $success = false;
-        }
-
-        return response()->json(['success' => $success,'message' => $message]);
+        return response()->json(['success' => $data["success"],'message' => $data["message"]]);
 
     }
 }

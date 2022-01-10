@@ -555,4 +555,41 @@ class SubscriptionService {
         ];
 
     }
+
+    public function getCodeReturnMessage($match, $planID, $code) {
+
+
+        if ($match) {
+            if ( $planID == "premier" && strtolower( $code ) == "premier6months" ) {
+                $message = "Congrats! Your 6 Month Premier Membership is activated!";
+            } elseif ( $planID == "premier" && strtolower( $code ) == "premier1month" ) {
+                $message = "Congrats! Your 1 Month Premier Membership is activated!";
+            } elseif($planID == "premier" && strtolower( $code ) == "premier4life") {
+                $message = "Congrats! Your Lifetime Premier Membership is activated!";
+            } elseif ( $planID == "pro" && strtolower( $code ) == "pro6months" ) {
+                $message = "Congrats! Your 6 Month Pro Membership is activated!";
+            } elseif ( $planID == "pro" && strtolower( $code ) == "pro1month" ) {
+                $message = "Congrats! Your 1 Month Pro Membership is activated!";
+            } elseif ( $planID == "pro" && strtolower( $code ) == "pro4life" ) {
+                $message = "Congrats! Your Lifetime Pro Membership is activated!";
+            }
+
+            $success = true;
+
+        } else {
+            if ( $planID == "premier" && (strtolower( $code ) == "pro6months" || strtolower( $code ) == "pro1month" || strtolower( $code ) == "pro4life" )) {
+                $message = "Sorry, your Promo Code is invalid. All promo codes entered MUST match the membership type.";
+            } elseif ($planID == "pro" && (strtolower( $code ) == "premier6months" || strtolower( $code ) == "premier1month" || strtolower( $code ) == "premier4life" )) {
+                $message = "Sorry, your Promo Code is invalid. All promo codes entered MUST match the membership type.";
+            } else {
+                $message = "Sorry, your Promo Code is invalid.";
+            }
+            $success = false;
+        }
+
+        return [
+            "success" => $success,
+            "message" => $message
+        ];
+    }
 }

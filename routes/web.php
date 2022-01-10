@@ -71,6 +71,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/subscribe/create', [SubscriptionController::class, 'store'])->name('subscribe.post');
     Route::post('/subscribe/cancel', [SubscriptionController::class, 'cancel'])->name('subscribe.cancel');
     Route::post('/subscribe/resume', [SubscriptionController::class, 'resume'])->name('subscribe.resume');
+    Route::post('/subscribe/check-code', [SubscriptionController::class, 'checkCode'])->name('check.code');
     Route::post('/change-plan', [SubscriptionController::class, 'changePlan'])->name('subscribe.change.plan');
 
     Route::post('/update-account/{user}', [UserController::class, 'updateAccountInfo'])->name('user.update.info');
@@ -106,4 +107,3 @@ Route::group(['middleware' => 'web'], function() {
     Route::post('/link-click/{link}', [TrackingController::class, 'storeLinkVisit']);
     Route::get('/{page}', [PageController::class, 'show']);
 });
-

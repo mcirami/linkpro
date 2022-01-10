@@ -105,20 +105,24 @@
 
                                     </div>
                                 </div>
-                                <form class="my_row" method="post" id="payment-form" action="{{ $existing ? route('subscribe.resume') : route('subscribe.post') }}">
-                                    @csrf
-                                    <section>
-                                        <input type="hidden" name="level" value="{{ $plan }}">
-                                        <input type="hidden" name="planId" value="{{ $plan == 'pro' ?  'pro' : 'premier'}}">
-                                        <input id="form_discount_code" type="hidden" name="discountCode">
-                                        <div class="bt-drop-in-wrapper">
-                                            <div id="bt-dropin"></div>
-                                        </div>
-                                    </section>
+                                <div class="my_row">
+                                    <form method="post" id="payment-form" action="{{ $existing ? route('subscribe.resume') : route('subscribe.post') }}">
+                                        @csrf
+                                        <section>
+                                            <input type="hidden" name="level" value="{{ $plan }}">
+                                            <input type="hidden" name="planId" value="{{ $plan == 'pro' ?  'pro' : 'premier'}}">
+                                            <input id="form_discount_code" type="hidden" name="discountCode">
+                                            <div class="drop_in_wrap">
+                                                <div class="bt-drop-in-wrapper">
+                                                    <div id="bt-dropin"></div>
+                                                </div>
+                                            </div>
+                                        </section>
 
-                                    <input id="nonce" name="payment_method_nonce" type="hidden" />
-                                    <button class="button blue" type="submit"><span>Submit</span></button>
-                                </form>
+                                        <input id="nonce" name="payment_method_nonce" type="hidden" />
+                                        <button class="button blue" type="submit"><span>Submit</span></button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
