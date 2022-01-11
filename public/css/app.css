@@ -14915,6 +14915,11 @@ form .bottom_row a {
 .hover_text.switch p {
   font-size: 14px;
 }
+@media all and (min-width: 992px) and (max-width: 1199px) {
+  .hover_text.switch p {
+    font-size: 1.2vw;
+  }
+}
 .hover_text.password {
   top: -34px;
   right: -12px;
@@ -15382,7 +15387,7 @@ form .bottom_row a {
   padding: 7%;
 }
 .icon_wrap.folder .inner_icon_wrap .folder_icons .image_col {
-  max-width: 32%;
+  width: 31.7%;
   margin-right: 2%;
   margin-bottom: 3px;
 }
@@ -15439,7 +15444,7 @@ form .bottom_row a {
 }
 
 #links_page .icons_wrap.folder .icon_col {
-  width: 33.3%;
+  width: 31%;
 }
 
 .folders .delete_icon {

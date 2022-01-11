@@ -331,7 +331,7 @@ const Preview = ({
 
                             {userLinks.slice(0, iconCount).map(( linkItem, index ) => {
 
-                                let {
+                                const {
                                     id,
                                     type,
                                     name,
@@ -351,7 +351,7 @@ const Preview = ({
                                     source = url;
                                 }
 
-                                let dataRow = Math.ceil((index + 1) / 4);
+                                const dataRow = Math.ceil((index + 1) / 4);
 
                                 const displayIcon = checkSubStatus(icon);
 
@@ -366,15 +366,18 @@ const Preview = ({
                                             "Parent"} className="icon_col folder" onClick={(e) => {folderClick(e)} } key={id}>
                                                 {active_status ?
                                                     <>
-                                                        <a type="button" href="#" data-row={ dataRow }>
+                                                        <a href="#" data-row={ dataRow }>
                                                             <img className="bg_image" src={ Vapor.asset('images/blank-folder-square.jpg') } alt=""/>
                                                             <div className="icons_wrap">
-                                                                {links.slice(0, 9).map(( link, index ) => {
-                                                                    const displayIcon = checkSubStatus(link.icon);
+                                                                {links.slice(0, 9).map(( innerLinkIcons ) => {
+                                                                    const {id, name, icon, active_status} = innerLinkIcons
+                                                                    const displayIcon = checkSubStatus(icon);
                                                                     return (
-                                                                        <div className="icon_col" key={index}>
-                                                                            {link.active_status &&
-                                                                                <img src={displayIcon} alt={link.name} title={link.name}/>
+                                                                        <div className="icon_col" key={id}>
+                                                                            {active_status ?
+                                                                                <img src={displayIcon} alt={name} title={name}/>
+                                                                                :
+                                                                                ""
                                                                             }
                                                                         </div>
                                                                     )
@@ -393,32 +396,35 @@ const Preview = ({
                                                         </p>
                                                         <div id={"folder" + folderCount} className="my_row folder" data-parent={"#folder" + folderCount + "Parent"}>
                                                             <div className="icons_wrap inner">
-                                                                {links.map((link) => {
+                                                                {links.map((innerLinkFull) => {
+                                                                    const {id, name, email, phone, icon, url, active_status} = innerLinkFull
                                                                     let source;
-                                                                    if (link.email) {
-                                                                        source = "mailto:" + link.email;
-                                                                    } else if (link.phone) {
-                                                                        source = "tel:" + link.phone;
+                                                                    if (email) {
+                                                                        source = "mailto:" + email;
+                                                                    } else if (phone) {
+                                                                        source = "tel:" + phone;
                                                                     } else {
-                                                                        source = link.url;
+                                                                        source = url;
                                                                     }
                                                                     return (
-                                                                        <div className="icon_col" key={link.id}>
-                                                                            {link.active_status &&
+                                                                        <div className="icon_col" key={id}>
+                                                                            {active_status ?
                                                                                 <>
                                                                                     <a href={source} target="_blank">
-                                                                                        <img src={link.icon} alt={link.name} title={link.name}/>
+                                                                                        <img src={icon} alt={name} title={name}/>
                                                                                     </a>
                                                                                     <p>
-                                                                                        {link.name && link.name.length >
+                                                                                        {name && name.length >
                                                                                         11 ?
-                                                                                            link.name.substring(0,
+                                                                                            name.substring(0,
                                                                                                 11) + "..."
                                                                                             :
-                                                                                            link.name || "Link Name"
+                                                                                            name || "Link Name"
                                                                                         }
                                                                                     </p>
                                                                                 </>
+                                                                                :
+                                                                                ""
                                                                             }
                                                                         </div>
                                                                     )

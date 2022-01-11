@@ -248,6 +248,8 @@ function App() {
                                                         setShowUpgradePopup={setShowUpgradePopup}
                                                         setOptionText={setOptionText}
                                                         setEditFolderID={setEditFolderID}
+                                                        setFolderLinks={setFolderLinks}
+                                                        setOriginalFolderLinks={setOriginalFolderLinks}
                                                     />
                                                 </div>
                                             </div>

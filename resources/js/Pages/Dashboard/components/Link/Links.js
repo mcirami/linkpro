@@ -459,11 +459,14 @@ const Links = ({
                                                         originalArray[key].links.slice(
                                                             0, 9).
                                                             map((innerLink) => {
-                                                                /*const displayIcon = checkSubStatus(
-                                                                    innerLink.icon);*/
+
+                                                                const {id, icon, active_status} = innerLink;
+
+                                                                const displayIcon = checkSubStatus(
+                                                                    icon);
                                                                 return (
-                                                                    <div className="image_col" key={innerLink.id}>
-                                                                        <img src={innerLink.icon ||
+                                                                    <div className="image_col" key={id}>
+                                                                        <img src={displayIcon ||
                                                                         Vapor.asset(
                                                                             'images/icon-placeholder.png')} alt=""/>
                                                                     </div>
@@ -497,7 +500,7 @@ const Links = ({
                                                 uncheckedIcon={false}
                                                 checkedIcon={false}
                                             />
-                                            <div className="hover_text switch"><p>{Boolean(originalArray[key].active_status) ? "Deactivate" : "Active"} {type ? "Folder" : "Icon"}</p></div>
+                                            <div className="hover_text switch"><p>{Boolean(originalArray[key].active_status) ? "Disable" : "Enable"} {type ? "Folder" : "Icon"}</p></div>
                                         </div>
                                     </div>
                                 </div>

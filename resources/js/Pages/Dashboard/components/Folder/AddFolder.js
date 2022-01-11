@@ -4,7 +4,13 @@ import React, {useContext} from 'react';
 import {PageContext, UserLinksContext, OriginalArrayContext} from '../App';
 import {updateContentHeight} from '../../../../Services/LinksRequest';
 
-const AddFolder = ({userSub, setShowUpgradePopup, setOptionText, setEditFolderID }) => {
+const AddFolder = ({
+                       userSub,
+                       setShowUpgradePopup,
+                       setOptionText,
+                       setEditFolderID,
+                       setFolderLinks,
+                       setOriginalFolderLinks }) => {
 
     const  { pageSettings } = useContext(PageContext);
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
@@ -37,7 +43,9 @@ const AddFolder = ({userSub, setShowUpgradePopup, setOptionText, setEditFolderID
 
                     //updateContentHeight(originalArray);
 
-                    setEditFolderID(data.id);
+                    //setEditFolderID(data.id);
+
+                    fetchFolderLinks(data.id);
                 }
             })
 
@@ -56,6 +64,17 @@ const AddFolder = ({userSub, setShowUpgradePopup, setOptionText, setEditFolderID
             }, 500);
         }
     };
+
+    const fetchFolderLinks = async (linkID) => {
+        const url = 'folder/links/' + linkID;
+        const response = await fetch(url);
+        const folderLinks = await response.json();
+
+        setOriginalFolderLinks(folderLinks["links"]);
+        setFolderLinks(folderLinks["links"]);
+        setEditFolderID(linkID)
+
+    }
 
     return (
 

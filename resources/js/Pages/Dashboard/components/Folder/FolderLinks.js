@@ -129,7 +129,7 @@ const FolderLinks = ({
         const iconsWrap = document.querySelector('.icons_wrap.add_icons');
 
         if (iconsWrap) {
-            colWidth = (iconsWrap.clientWidth / 3) - 12;
+            colWidth = (iconsWrap.clientWidth / 3) - 15;
         } else {
             if (windowWidth < 992) {
                 colWidth = (windowWidth / 3) - 20;
@@ -151,23 +151,23 @@ const FolderLinks = ({
 
         if (initialRender.current) {
             if (windowWidth > 1500) {
-                colHeight = 230;
+                colHeight = 265;
             } else if (windowWidth > 1300) {
-                colHeight = (windowWidth/2) * .30 + 10;
-            } else if (windowWidth > 1200) {
-                colHeight = (windowWidth/2) * .30 + 20;
-            } else if (windowWidth > 1100) {
                 colHeight = (windowWidth/2) * .30 + 30;
-            } else if (windowWidth > 992) {
+            } else if (windowWidth > 1200) {
                 colHeight = (windowWidth/2) * .30 + 40;
+            } else if (windowWidth > 1100) {
+                colHeight = (windowWidth/2) * .30 + 50;
+            } else if (windowWidth > 992) {
+                colHeight = (windowWidth/2) * .30 + 60;
             } else if (windowWidth > 815) {
-                colHeight = (windowWidth/2) * .45 + 40;
+                colHeight = (windowWidth/2) * .45 + 70;
             } else if (windowWidth > 600) {
-                colHeight = (windowWidth/2) * .45 + 50;
+                colHeight = (windowWidth/2) * .45 + 80;
             } else if (windowWidth > 500) {
-                colHeight = (windowWidth/2) * .45 + 55;
+                colHeight = (windowWidth/2) * .45 + 85;
             } else {
-                colHeight = (windowWidth/2) * .45 + 60;
+                colHeight = (windowWidth/2) * .45 + 90;
             }
         } else {
             colHeight = offsetHeight - 15;
