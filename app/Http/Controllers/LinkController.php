@@ -7,11 +7,19 @@ use App\Http\Requests\UpdateLinkRequest;
 use App\Services\LinkService;
 use Illuminate\Http\Request;
 use App\Models\Link;
+use App\Models\Page;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class LinkController extends Controller
 {
+
+    public function getPageLinks(Page $page, LinkService $linkService) {
+
+        $links = $linkService->getAllLinks($page);
+
+        return response()->json(['userLinks'=> $links]);
+    }
 
     public function store(AddLinkRequest $request, LinkService $linkService) {
 

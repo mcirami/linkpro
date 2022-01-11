@@ -20,6 +20,9 @@ import NewForm from './Link/NewForm';
 import AddFolder from './Folder/AddFolder';
 import FolderLinks from './Folder/FolderLinks';
 import { ConfirmFolderDelete } from './ConfirmFolderDelete';
+import {ErrorBoundary} from 'react-error-boundary';
+import {updateLinksPositions, getAllLinks} from '../../../Services/LinksRequest';
+
 
 const page = user.page;
 const userPages = user.user_pages;
@@ -77,6 +80,37 @@ function App() {
         }
 
     }, [userLinks])
+
+    const myErrorHandler = (Error, {componentStack: string}) => {
+
+        if (String(Error).includes("Invalid attempt to destructure non-iterable instance")) {
+            const packets = {
+                userLinks: userLinks,
+            }
+            updateLinksPositions(packets)
+            .then(() => {
+
+                getAllLinks(pageSettings["id"])
+                .then((data) => {
+                    if (data["success"]) {
+                        setUserLinks(data["userLinks"]);
+                        setOriginalArray(data["userLinks"]);
+                    }
+                })
+            });
+        }
+
+    }
+
+    function ErrorFallback({error, resetErrorBoundary}) {
+        return (
+            <div role="alert" className="my_row text-center">
+                <p>Something went wrong:</p>
+                {/*<pre>{error.message}</pre>*/}
+                <button className="button red" onClick={(e) => {window.location.reload()}}>Refresh Page</button>
+            </div>
+        )
+    }
 
     const host = window.location.origin;
 
@@ -255,15 +289,16 @@ function App() {
                                             </div>
 
                                             <div className="icons_wrap add_icons icons">
-
-                                                <Links
-                                                    setEditID={setEditID}
-                                                    setEditFolderID={setEditFolderID}
-                                                    userSub={userSub}
-                                                    setFolderLinks={setFolderLinks}
-                                                    setOriginalFolderLinks={setOriginalFolderLinks}
-                                                    setFolderContent={setFolderContent}
-                                                />
+                                                <ErrorBoundary FallbackComponent={ErrorFallback} onError={myErrorHandler}>
+                                                    <Links
+                                                        setEditID={setEditID}
+                                                        setEditFolderID={setEditFolderID}
+                                                        userSub={userSub}
+                                                        setFolderLinks={setFolderLinks}
+                                                        setOriginalFolderLinks={setOriginalFolderLinks}
+                                                        setFolderContent={setFolderContent}
+                                                    />
+                                                </ErrorBoundary>
 
                                             </div>
                                         </>

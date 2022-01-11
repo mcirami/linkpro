@@ -11,6 +11,43 @@ use Illuminate\Support\Facades\Storage;
 
 class LinkService {
 
+    public function getAllLinks($page) {
+
+        $folderArray = [];
+        $links = $page->links()->where('folder_id', null)
+                     ->orderBy('position', 'asc')
+                     ->get()->toArray();
+
+        $folders = $page->folders()->orderBy('position', 'asc')->get();
+
+        foreach ($folders as $folder) {
+            $mylinks = json_decode($folder->link_ids);
+
+            $linksArray = [];
+
+            if (!empty($mylinks)) {
+
+                $linksArray = Link::whereIn('id', $mylinks)->orderBy('position', 'asc')->get()->toArray();
+            }
+
+            $linkObject = [
+                'id' => $folder["id"],
+                'name' => $folder["folder_name"],
+                'type' => 'folder',
+                'position' => $folder["position"],
+                'links' => $linksArray,
+                'active_status' => $folder["active_status"]
+            ];
+
+            array_push($folderArray, $linkObject);
+        }
+
+        $linksArray = array_merge($links, $folderArray);
+        usort($linksArray, array($this, "sortArray" ));
+
+        return $linksArray;
+    }
+
     public function addLink($request) {
 
         $page = Page::findOrFail($request->page_id);
@@ -208,5 +245,10 @@ class LinkService {
         }
 
         $link->delete();
+    }
+
+    public function sortArray($a, $b) {
+
+        return ($a["position"] > $b["position"] ? +1 : -1);
     }
 }

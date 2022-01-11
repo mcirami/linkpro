@@ -248,4 +248,32 @@ const checkForHttp = (url) => {
 
 }
 
+export const getAllLinks = (pageID) => {
+
+    return axios.get('/dashboard/page/get-links/' + pageID).then(
+        (response) => {
+            //response => console.log(JSON.stringify(response.data)),
+            const userLinks = response.data.userLinks;
+
+            return {
+                success : true,
+                userLinks: userLinks
+            }
+        }
+
+    ).catch(error => {
+        if (error.response) {
+            console.log(error.response.data.message);
+            //EventBus.dispatch("error", { message: error.response.data.message });
+        } else {
+            console.log("ERROR:: ", error);
+        }
+
+        return {
+            success : false,
+        }
+    });
+}
+
 export default addLink;
+
