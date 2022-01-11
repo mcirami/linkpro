@@ -50,7 +50,7 @@
                                         @endphp
 
                                         <div id="folder{{$folderCount}}Parent" class="icon_col folder" data-row="{{ $dataRow }}">
-                                            <a type="button" href="#">
+                                            <a href="#">
                                                 <img src="{{asset('images/blank-folder-square.jpg')}}" alt="">
                                                 <div class="icons_wrap">
                                                     @foreach( array_slice($link->links, 0, 9) as $folderLink)

@@ -104,6 +104,10 @@
 
         p {
             font-size: 14px;
+
+            @media all and (min-width: 992px) and (max-width: 1199px) {
+                font-size: 1.2vw;
+            }
         }
     }
 
