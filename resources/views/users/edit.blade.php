@@ -21,9 +21,13 @@
                             <form method="POST" action="/update-account/{{ $user->id }}">
                                 @csrf
                                     <div class="form_inputs">
-                                        <div class="form-group row">
+                                        <div class="form-group row user_account">
 
                                             <div class="col-12">
+                                                <div class="my_row label_row">
+                                                    <label for="email">Email</label>
+                                                    <p>(update current email here)</p>
+                                                </div>
                                                 <input placeholder="E-mail Address" id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user->email }}" required autocomplete="email">
 
                                                 @if ($errors->has('email'))
@@ -33,11 +37,13 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        <div class="form-group row">
+                                        <div class="form-group row user_account">
 
                                             <div class="col-12">
-                                                <input placeholder="Password" id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="new-password">
-                                                <small>(Enter password to change it)</small>
+                                                <div class="my_row label_row">
+                                                    <label for="password">Change Password</label>
+                                                </div>
+                                                <input placeholder="New Password" id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="new-password">
                                                 @error($errors->has('password'))
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $errors->first('password')  }}</strong>
@@ -48,7 +54,7 @@
 
                                         <div class="form-group row">
                                             <div class="col-12">
-                                                <input placeholder="Confirm Password" id="password-confirm" type="password" class="form-control" name="password_confirmation" autocomplete="new-password">
+                                                <input placeholder="Confirm New Password" id="password-confirm" type="password" class="form-control" name="password_confirmation" autocomplete="new-password">
                                             </div>
                                         </div>
                                     </div>

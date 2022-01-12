@@ -14179,6 +14179,36 @@ form .bottom_row a {
   margin-right: 0;
 }
 
+.label_row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  align-items: center;
+  -webkit-align-items: center;
+  padding-left: 3px;
+  margin-bottom: 5px;
+}
+.label_row label {
+  font-family: "opensansbold", sans-serif;
+  font-size: 20px !important;
+  margin-right: 2%;
+}
+.label_row p {
+  font-size: 12px;
+  margin: 0;
+}
+@media all and (max-width: 1199px) {
+  .label_row p {
+    font-size: 10px;
+  }
+}
+
+.form-group.row.user_account {
+  margin-bottom: 10px;
+}
+
 .form_page .pricing {
   margin: 30px 0;
   width: 100%;

@@ -745,3 +745,40 @@ form .bottom_row a {
         margin-right: 0;
     }
 }
+
+.label_row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    -webkit-justify-content: flex-start;
+    align-items: center;
+    -webkit-align-items: center;
+    padding-left: 3px;
+    margin-bottom: 5px;
+
+    label {
+        @include osbold;
+        font-size: 20px !important;
+        margin-right: 2%;
+    }
+
+    p {
+        font-size: 12px;
+        margin: 0;
+
+        @media all and (max-width: 1199px) {
+            font-size: 10px;
+        }
+    }
+}
+
+.form-group.row.user_account {
+    margin-bottom: 10px;
+}

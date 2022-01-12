@@ -718,7 +718,7 @@ const EditForm = ({
                                         </div>
                                         <div className={radioValue === "custom" ? "radio_wrap active" : "radio_wrap" }>
                                             <input type="radio" value="custom" name="icon_type"
-                                                   onChange={(e) => {setRadioValue(e.target.value) }}
+                                                   onChange={(e) => {setRadioValue(e.target.value); }}
                                                    disabled={subStatus}
                                             />
                                             <label htmlFor="icon_type">Custom Icons</label>
@@ -735,7 +735,7 @@ const EditForm = ({
                                         </div>
                                         :
                                         <div className="uploader">
-                                            <input name="search" type="text" placeholder="Search Icons" onChange={handleChange} />
+                                            <input name="search" type="text" placeholder="Search Icons" onChange={handleChange} defaultValue={input} />
                                         </div>
                                     }
 
