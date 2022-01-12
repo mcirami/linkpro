@@ -345,10 +345,10 @@ const Links = ({
         setEditID(linkID);
 
         setTimeout(function(){
-            document.querySelector('.link_form').scrollIntoView({
+            document.querySelector('#scrollTo').scrollIntoView({
                 behavior: 'smooth',
-                block: "center",
-                inline: "center"
+                block: "start",
+                inline: "nearest"
             });
 
         }, 200)
@@ -381,7 +381,16 @@ const Links = ({
 
         setOriginalFolderLinks(folderLinks["links"]);
         setFolderLinks(folderLinks["links"]);
-        setEditFolderID(linkID)
+        setEditFolderID(linkID);
+
+        setTimeout(function(){
+            document.querySelector('#scrollTo').scrollIntoView({
+                behavior: 'smooth',
+                block: "start",
+                inline: "nearest"
+            });
+
+        }, 200)
 
     }
 
@@ -460,7 +469,7 @@ const Links = ({
                                                             0, 9).
                                                             map((innerLink) => {
 
-                                                                const {id, icon, active_status} = innerLink;
+                                                                const {id, icon} = innerLink;
 
                                                                 const displayIcon = checkSubStatus(
                                                                     icon);

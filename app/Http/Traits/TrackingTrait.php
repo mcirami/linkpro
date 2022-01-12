@@ -87,19 +87,23 @@ trait TrackingTrait {
 
             $linksArray = [];
 
-            foreach ($folderLinkIDs as $linkID) {
+            if ($folderLinkIDs) {
 
-                $link = Link::where('id', $linkID)->get();
-                $visitCount = count(LinkVisit::whereBetween('created_at', [ $startDate, $endDate ])->where('link_id', $linkID)->get());
+                foreach ( $folderLinkIDs as $linkID ) {
 
-                $linkObject     = [
-                    "id" => $link[0]->id,
-                    "iconName" => $link[0]->name,
-                    "icon"     => $link[0]->icon,
-                    "visits"   => $visitCount
-                ];
+                    $link       = Link::where( 'id', $linkID )->get();
+                    $visitCount = count( LinkVisit::whereBetween( 'created_at',
+                        [ $startDate, $endDate ] )->where( 'link_id', $linkID )->get() );
 
-                array_push( $linksArray, $linkObject );
+                    $linkObject = [
+                        "id"       => $link[0]->id,
+                        "iconName" => $link[0]->name,
+                        "icon"     => $link[0]->icon,
+                        "visits"   => $visitCount
+                    ];
+
+                    array_push( $linksArray, $linkObject );
+                }
             }
 
             $object     = [

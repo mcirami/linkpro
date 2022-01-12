@@ -117,6 +117,7 @@ const LinkStats = ({
                          handleDropdownChange={handleDropdownChange}
                          dropdownValue={linkDropdownValue}/>
             </div>
+            {linkStats && linkStats.length > 0 ?
             <div className="table_wrap my_row table-responsive">
                 <table className="table table-borderless">
                     <thead>
@@ -134,8 +135,7 @@ const LinkStats = ({
                     </thead>
                     <tbody>
 
-
-                        {linkStats.map((item, index) => {
+                    {linkStats.map((item, index) => {
                             const {iconName, icon, visits} = item;
 
                             return (
@@ -153,32 +153,36 @@ const LinkStats = ({
                             )
                         })}
                     </tbody>
-
                 </table>
             </div>
-            <div className="table_wrap my_row table-responsive">
-                <table className="table table-borderless mb-0">
-                    <thead>
-                    <tr>
-                        <th scope="col">
-                            <h5>Past Icons</h5>
-                        </th>
-                        <th scope="col">
-                            <h5>Icon Name</h5>
-                        </th>
-                        <th scope="col">
-                            <h5>Icon Clicks</h5>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
+                :
+                <h3>No Icon Stats Available</h3>
+            }
+            {deletedStats && deletedStats.length > 0 ?
+                <div className="table_wrap my_row table-responsive">
+                    <table className="table table-borderless mb-0">
+                        <thead>
+                        <tr>
+                            <th scope="col">
+                                <h5>Past Icons</h5>
+                            </th>
+                            <th scope="col">
+                                <h5>Icon Name</h5>
+                            </th>
+                            <th scope="col">
+                                <h5>Icon Clicks</h5>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
                         {deletedStats.map((item) => {
                             const {id, iconName, icon, visits} = item;
 
                             return (
                                 <tr key={id}>
                                     <td>
-                                        <img src={icon} />
+                                        <img src={icon}/>
                                     </td>
                                     <td>
                                         <p>{iconName}</p>
@@ -189,9 +193,12 @@ const LinkStats = ({
                                 </tr>
                             )
                         })}
-                    </tbody>
-                </table>
-            </div>
+                        </tbody>
+                    </table>
+                </div>
+                :
+                <h3>No Deleted Icon Stats Available</h3>
+            }
         </div>
     )
 }

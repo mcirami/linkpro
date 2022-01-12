@@ -15,10 +15,10 @@ const AddLink = ({userSub, setShowUpgradePopup, setOptionText, setShowNewForm })
             setShowNewForm(true);
 
             setTimeout(function(){
-                document.querySelector('.link_form').scrollIntoView({
+                document.querySelector('#scrollTo').scrollIntoView({
                     behavior: 'smooth',
-                    block: "center",
-                    inline: "center"
+                    block: "start",
+                    inline: "nearest"
                 });
 
             }, 200)

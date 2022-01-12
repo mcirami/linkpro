@@ -4,7 +4,7 @@ import PageStats from './Components/PageStats';
 import LinkStats from './Components/LinkStats';
 import FolderStats from './Components/FolderStats';
 
-const url = 'stats/get';
+const url = '/stats/get';
 function App() {
 
     const [pageStats, setPageStats] = useState([])
@@ -26,12 +26,22 @@ function App() {
     const [folderDropdownValue, setFolderDropdownValue] = useState(1);
 
     const fetchLinkStats = async () => {
-        const response = await fetch(url);
-        const newStats = await response.json();
-        setPageStats(newStats["pageStats"]);
-        setLinkStats(newStats["linkStats"]);
-        setDeletedStats(newStats["deletedStats"]);
-        setFolderStats(newStats["folderStats"]);
+
+        try {
+            const response = await fetch(url);
+            const newStats = await response.json();
+            setPageStats(newStats["pageStats"]);
+            setLinkStats(newStats["linkStats"]);
+            setDeletedStats(newStats["deletedStats"]);
+            setFolderStats(newStats["folderStats"]);
+
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     useEffect(() => {

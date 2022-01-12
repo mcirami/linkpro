@@ -582,7 +582,7 @@ const NewForm = ({
 
     return (
         <>
-            <div className="my_row icon_breadcrumb">
+            <div className="my_row icon_breadcrumb" id="scrollTo">
                 <p>Adding Icon</p>
                 <div className="breadcrumb_links">
                     {folderID ?

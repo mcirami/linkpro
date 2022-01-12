@@ -83,7 +83,7 @@
                                                             @php $source = $folderLink["url"] @endphp
                                                         @endif
                                                         <div class="icon_col">
-                                                            <a class="link_tracker" href="{{$source}}" target="_blank">
+                                                            <a class="link_tracker" href="{{$source}}" target="_blank" data-id="{{$folderLink["id"]}}">
                                                                 <img src="{{ $folderLink["icon"] }}" alt="{{ $folderLink["name"] }}" title="{{ $folderLink["name"] }}" />
                                                             </a>
                                                             @php if ($folderLink["name"] && strlen($folderLink["name"]) > 11 ) {

@@ -110,47 +110,51 @@ const PageStats = ({
                          dropdownValue={pageDropdownValue}/>
             </div>
 
-            <div className="table_wrap my_row table-responsive">
-                <table className="table table-borderless mb-0">
-                    <thead>
-                        <tr>
-                            <th scope="col">
-                                <h5>Page Name</h5>
-                            </th>
-                            <th scope="col">
-                                <h5>Page Loads</h5>
-                            </th>
-                            <th scope="col">
-                                <h5>Icon Clicks</h5>
-                            </th>
-                        </tr>
-                    </thead>
+            {pageStats && pageStats.length > 0 ?
+                <div className="table_wrap my_row table-responsive">
+                    <table className="table table-borderless mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    <h5>Page Name</h5>
+                                </th>
+                                <th scope="col">
+                                    <h5>Page Loads</h5>
+                                </th>
+                                <th scope="col">
+                                    <h5>Icon Clicks</h5>
+                                </th>
+                            </tr>
+                        </thead>
 
-                        <tbody>
+                            <tbody>
 
-                            {pageStats.map((item) => {
-                                const {id, pageName, visits, linkVisits} = item;
+                                {pageStats.map((item) => {
+                                    const {id, pageName, visits, linkVisits} = item;
 
-                                return (
+                                    return (
 
-                                    <tr key={id}>
-                                        <td>
-                                            <p>{pageName}</p>
-                                        </td>
-                                        <td>
-                                            <p className="animate">{visits}</p>
-                                        </td>
-                                        <td>
-                                            <p className="animate">{linkVisits}</p>
-                                        </td>
-                                    </tr>
-                                )
-                            })}
+                                        <tr key={id}>
+                                            <td>
+                                                <p>{pageName}</p>
+                                            </td>
+                                            <td>
+                                                <p className="animate">{visits}</p>
+                                            </td>
+                                            <td>
+                                                <p className="animate">{linkVisits}</p>
+                                            </td>
+                                        </tr>
+                                    )
+                                })}
 
-                        </tbody>
+                            </tbody>
 
-                </table>
-            </div>
+                    </table>
+                </div>
+                :
+                <h3>No Stats Available</h3>
+            }
         </div>
     )
 }

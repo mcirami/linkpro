@@ -141,7 +141,7 @@ console.log(folderEndDate);
                                     <p> {name} </p>
                                     <p className="animate">{clickCount}</p>
                                 </div>
-                                {links ?
+                                {links && links.length > 0 ?
                                     <div className="table_wrap my_row table-responsive mb-4">
                                         <table className="table table-borderless">
                                             <thead>

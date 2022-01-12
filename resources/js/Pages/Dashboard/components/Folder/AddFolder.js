@@ -72,8 +72,16 @@ const AddFolder = ({
 
         setOriginalFolderLinks(folderLinks["links"]);
         setFolderLinks(folderLinks["links"]);
-        setEditFolderID(linkID)
+        setEditFolderID(linkID);
 
+        setTimeout(function(){
+            document.querySelector('#scrollTo').scrollIntoView({
+                behavior: 'smooth',
+                block: "start",
+                inline: "nearest"
+            });
+
+        }, 200)
     }
 
     return (

@@ -419,10 +419,10 @@ const FolderLinks = ({
         setEditID(linkID);
 
         setTimeout(function(){
-            document.querySelector('.link_form').scrollIntoView({
+            document.querySelector('#scrollTo').scrollIntoView({
                 behavior: 'smooth',
-                block: "center",
-                inline: "center"
+                block: "start",
+                inline: "nearest"
             });
 
         }, 200)
@@ -508,7 +508,7 @@ const FolderLinks = ({
     return (
 
         <>
-            <div className="my_row icon_breadcrumb">
+            <div className="my_row icon_breadcrumb" id="scrollTo">
                 <p>Editing Folder</p>
                 <a className="back" href="#"
                    onClick={(e) => { e.preventDefault(); setEditFolderID(null); }}

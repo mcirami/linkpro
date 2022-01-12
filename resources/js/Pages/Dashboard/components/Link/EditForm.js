@@ -641,7 +641,7 @@ const EditForm = ({
 
     return (
         <>
-            <div className="my_row icon_breadcrumb">
+            <div className="my_row icon_breadcrumb" id="scrollTo">
                 <p>Editing Icon</p>
                 <div className="breadcrumb_links">
                     {folderID ?
