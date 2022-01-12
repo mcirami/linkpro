@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import {
     getLinkStats,
-    getDropdownLinkStats,
 } from '../../../Services/StatsRequests';
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -90,12 +89,12 @@ const LinkStats = ({
             dateValue: e.target.value
         }
 
-        getDropdownLinkStats(packets)
+        getLinkStats(packets)
         .then((data) => {
             if (data["success"]) {
                 setTimeout(() => {
-                    setLinkStats(data["linkStats"]);
-                    setDeletedStats(data["deletedStats"]);
+                    setLinkStats(data["currentData"]);
+                    setDeletedStats(data["pastData"]);
                     animatedElements.forEach((element) => {
                         element.classList.remove('hide');
                     })
@@ -173,11 +172,11 @@ const LinkStats = ({
                     </tr>
                     </thead>
                     <tbody>
-                        {deletedStats.map((item, index) => {
-                            const {iconName, icon, visits} = item;
+                        {deletedStats.map((item) => {
+                            const {id, iconName, icon, visits} = item;
 
                             return (
-                                <tr key={index}>
+                                <tr key={id}>
                                     <td>
                                         <img src={icon} />
                                     </td>

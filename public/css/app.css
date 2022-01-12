@@ -15382,6 +15382,27 @@ form .bottom_row a {
 #stats_page .stats_wrap .my_row.filter .react-datepicker__day--selected, #stats_page .stats_wrap .my_row.filter .react-datepicker__day--in-selecting-range, #stats_page .stats_wrap .my_row.filter .react-datepicker__day--in-range, #stats_page .stats_wrap .my_row.filter .react-datepicker__month-text--selected, #stats_page .stats_wrap .my_row.filter .react-datepicker__month-text--in-selecting-range, #stats_page .stats_wrap .my_row.filter .react-datepicker__month-text--in-range, #stats_page .stats_wrap .my_row.filter .react-datepicker__quarter-text--selected, #stats_page .stats_wrap .my_row.filter .react-datepicker__quarter-text--in-selecting-range, #stats_page .stats_wrap .my_row.filter .react-datepicker__quarter-text--in-range, #stats_page .stats_wrap .my_row.filter .react-datepicker__year-text--selected, #stats_page .stats_wrap .my_row.filter .react-datepicker__year-text--in-selecting-range, #stats_page .stats_wrap .my_row.filter .react-datepicker__year-text--in-range, #stats_page .stats_wrap .my_row.filter .react-datepicker__day--keyboard-selected, #stats_page .stats_wrap .my_row.filter .react-datepicker__month-text--keyboard-selected, #stats_page .stats_wrap .my_row.filter .react-datepicker__quarter-text--keyboard-selected, #stats_page .stats_wrap .my_row.filter .react-datepicker__year-text--keyboard-selected {
   background-color: #424fcf;
 }
+#stats_page .stats_wrap .title {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+  padding: 0 10px;
+}
+#stats_page .stats_wrap .labels {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 0 10px;
+  border-bottom: 1px solid #d2d2d2;
+}
+#stats_page .stats_wrap .content_wrap {
+  padding: 0 20px;
+}
 #stats_page .stats_wrap .table_wrap {
   border-radius: 10px;
   -webkit-border-radius: 10px;

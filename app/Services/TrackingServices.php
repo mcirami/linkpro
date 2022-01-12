@@ -25,10 +25,13 @@ class TrackingServices {
 
         $deletedArray = $this->getDeletedLinksStats($startDate, $endDate);
 
+        $folderArray = $this->getFolderStats($startDate, $endDate);
+
         return [
             'pageStats' => $pageArray,
             'linkStats' => $linksArray,
-            'deletedStats' => $deletedArray
+            'deletedStats' => $deletedArray,
+            'folderStats' => $folderArray
         ];
     }
 
@@ -41,28 +44,18 @@ class TrackingServices {
      */
     public function getPageDateRangeStats($request) {
 
-        $startDate = Carbon::createFromTimestamp($request->startDate)->startOfDay();
-        $endDate = Carbon::createFromTimestamp($request->endDate)->endOfDay();
+        if ($request->dateValue) {
+            $dateValues = $this->getDateRange($request->dateValue);
 
-        return $this->getPageStats($startDate, $endDate);
-    }
+            $data = $this->getPageStats($dateValues['startDate'], $dateValues['endDate']);
+        } else{
+            $startDate = Carbon::createFromTimestamp($request->startDate)->startOfDay();
+            $endDate = Carbon::createFromTimestamp($request->endDate)->endOfDay();
 
-    /**
-     * Get Page stats from value in dropdown
-     *
-     * @param $request
-     *
-     * @return array
-     */
-    public function getPageStatsDropdown($request) {
+            $data = $this->getPageStats($startDate, $endDate);
+        }
 
-
-        $data = $this->getDateRange($request->dateValue);
-
-        $pageArray = $this->getPageStats($data['startDate'], $data['endDate']);
-
-        return $pageArray;
-
+        return $data;
     }
 
     /**
@@ -74,12 +67,22 @@ class TrackingServices {
      */
     public function getLinksDateRangeStats($request) {
 
-        $startDate = Carbon::createFromTimestamp($request->startDate)->startOfDay();
-        $endDate = Carbon::createFromTimestamp($request->endDate)->endOfDay();
+        if ($request->dateValue) {
+            $data = $this->getDateRange($request->dateValue);
 
-        $currentData = $this->getLinkStats($startDate, $endDate);
+            $currentData = $this->getLinkStats($data['startDate'], $data['endDate']);
+            $pastData = $this->getDeletedLinksStats($data['startDate'], $data['endDate']);
 
-        $pastData = $this->getDeletedLinksStats($startDate, $endDate);
+        } else {
+
+            $startDate = Carbon::createFromTimestamp($request->startDate)->startOfDay();
+            $endDate = Carbon::createFromTimestamp($request->endDate)->endOfDay();
+
+            $currentData = $this->getLinkStats($startDate, $endDate);
+            $pastData = $this->getDeletedLinksStats($startDate, $endDate);
+        }
+
+
 
         return [
             'currentData'=> $currentData,
@@ -87,16 +90,28 @@ class TrackingServices {
         ];
     }
 
-    public function getLinkStatsDropdown($request) {
+    public function getFolderDateRangeStats($request) {
 
-        $data = $this->getDateRange($request->dateValue);
+        if ($request->dateValue) {
+            $data = $this->getDateRange($request->dateValue);
 
-        $linksArray = $this->getLinkStats($data['startDate'], $data['endDate']);
-        $deletedArray = $this->getDeletedLinksStats($data['startDate'], $data['endDate']);
+            $currentData = $this->getFolderStats($data['startDate'], $data['endDate']);
+            /*$pastData = $this->getDeletedLinksStats($data['startDate'], $data['endDate']);*/
+
+        } else {
+
+            $startDate = Carbon::createFromTimestamp($request->startDate)->startOfDay();
+            $endDate = Carbon::createFromTimestamp($request->endDate)->endOfDay();
+
+            $currentData = $this->getFolderStats($startDate, $endDate);
+            /*$pastData = $this->getDeletedLinksStats($startDate, $endDate);*/
+        }
+
+
 
         return [
-            'linkStats' => $linksArray,
-            'deletedStats' => $deletedArray
+            'currentData'=> $currentData,
+            /*'pastData' => $pastData*/
         ];
     }
 }

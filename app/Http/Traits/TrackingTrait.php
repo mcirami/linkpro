@@ -2,6 +2,9 @@
 namespace App\Http\Traits;
 
 
+use App\Models\Folder;
+use App\Models\FolderClick;
+use App\Models\Link;
 use App\Models\LinkVisit;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +23,7 @@ trait TrackingTrait {
             $visitCount = count($page->pageVisits()->whereBetween('created_at', [ $startDate, $endDate ])->get());
             $linkVisitCount = count(LinkVisit::whereBetween('created_at', [ $startDate, $endDate ])->where('page_id', $page->id)->get());
             $object = [
+                "id" => $page->id,
                 "pageName" => $page->name,
                 "visits" => $visitCount,
                 "linkVisits" => $linkVisitCount
@@ -33,7 +37,7 @@ trait TrackingTrait {
     public function getLinkStats($startDate, $endDate) {
         $user = Auth::user();
 
-        $links = $user->links()->get();
+        $links = $user->links()->where('folder_id', null)->get();
         $linksArray = [];
 
         foreach($links as $link) {
@@ -41,6 +45,7 @@ trait TrackingTrait {
             if ($link->name && $link->icon) {
                 $visitCount = count( $link->linkVisits()->whereBetween('created_at', [ $startDate, $endDate ])->get() );
                 $object     = [
+                    "id" => $link->id,
                     "iconName" => $link->name,
                     "icon"     => $link->icon,
                     "visits"   => $visitCount
@@ -59,6 +64,7 @@ trait TrackingTrait {
         foreach ($deletedLinks as $deletedLink) {
             $visitCount = count(LinkVisit::whereBetween('created_at', [ $startDate, $endDate ])->where('link_id', $deletedLink->link_id)->get());
             $object     = [
+                "id" => $deletedLink->id,
                 "iconName" => $deletedLink->name,
                 "icon"     => $deletedLink->icon,
                 "visits"   => $visitCount
@@ -67,6 +73,46 @@ trait TrackingTrait {
         }
 
         return $deletedArray;
+    }
+    public function getFolderStats($startDate, $endDate) {
+
+        $folderArray = [];
+
+        $folders = Folder::where('user_id', '=', Auth::id())->get();
+
+        foreach ($folders as $folder) {
+            $folderClickCount = count(FolderClick::whereBetween('created_at', [ $startDate, $endDate ])->where('folder_id', $folder->id)->get());
+
+            $folderLinkIDs = json_decode($folder->link_ids);
+
+            $linksArray = [];
+
+            foreach ($folderLinkIDs as $linkID) {
+
+                $link = Link::where('id', $linkID)->get();
+                $visitCount = count(LinkVisit::whereBetween('created_at', [ $startDate, $endDate ])->where('link_id', $linkID)->get());
+
+                $linkObject     = [
+                    "id" => $link[0]->id,
+                    "iconName" => $link[0]->name,
+                    "icon"     => $link[0]->icon,
+                    "visits"   => $visitCount
+                ];
+
+                array_push( $linksArray, $linkObject );
+            }
+
+            $object     = [
+                "id" => $folder->id,
+                "name" => $folder->folder_name ? : "N/A",
+                "clickCount"   => $folderClickCount,
+                "links"     => $linksArray
+            ];
+
+            array_push( $folderArray, $object );
+        }
+
+        return $folderArray;
     }
 
     public function getDateRange($value) {

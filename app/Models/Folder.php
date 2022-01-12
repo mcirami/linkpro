@@ -38,4 +38,8 @@ class Folder extends Model
     public function links() {
         return $this->hasMany(Link::class);
     }
+
+    public function folderClicks() {
+        return $this->hasMany(FolderClick::class);
+    }
 }

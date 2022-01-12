@@ -329,6 +329,8 @@ jQuery(document).ready(function($) {
                         folderParent.classList.remove('open');
                         folderParent.lastElementChild.after(folder);
 
+
+
                         content = element.lastElementChild;
 
                         insertContent(content, element, function() {
@@ -339,6 +341,9 @@ jQuery(document).ready(function($) {
                                 inline: "center"
                             });
                         });
+
+                        const folderID = element.dataset.id
+                        trackFolderClick(folderID);
                     }
 
                 } else {
@@ -356,6 +361,9 @@ jQuery(document).ready(function($) {
                             inline: "center"
                         });
                     });
+
+                    const folderID = element.dataset.id
+                    trackFolderClick(folderID);
                 }
             })
         });
@@ -383,6 +391,43 @@ jQuery(document).ready(function($) {
                 });
             })
         })
+    }
+
+    /*const folderTracker = document.querySelectorAll('.folder_tracker');
+    if (folderTracker.length > 0) {
+        folderTracker.forEach((folder) => {
+            folder.addEventListener('click', function(e) {
+                const folderID = e.currentTarget.dataset.id;
+                console.log(e.currentTarget);
+                if (!e.currentTarget.classList.contains("open")) {
+                    axios.post('/folder-click/' + folderID,).then(
+                        (response) => {
+                            console.log(JSON.stringify(response.data.message));
+                        },
+                    ).catch(error => {
+                        if (error.response) {
+                            console.log(error.response);
+                        } else {
+                            console.log("ERROR:: ", error);
+                        }
+                    });
+                }
+            })
+        })
+    }*/
+
+    function trackFolderClick(folderID) {
+        axios.post('/folder-click/' + folderID,).then(
+            (response) => {
+                console.log(JSON.stringify(response.data.message));
+            },
+        ).catch(error => {
+            if (error.response) {
+                console.log(error.response);
+            } else {
+                console.log("ERROR:: ", error);
+            }
+        });
     }
 
 });

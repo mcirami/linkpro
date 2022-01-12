@@ -2,13 +2,15 @@ import React, {useEffect, useState} from 'react';
 
 import PageStats from './Components/PageStats';
 import LinkStats from './Components/LinkStats';
+import FolderStats from './Components/FolderStats';
 
 const url = 'stats/get';
 function App() {
 
     const [pageStats, setPageStats] = useState([])
     const [linkStats, setLinkStats] = useState([])
-    const [deletedStats, setDeletedStats] = useState([])
+    const [deletedStats, setDeletedStats] = useState([]);
+    const [folderStats, setFolderStats] = useState([])
     const [tab, setTab] = useState("link");
 
     const [linkStartDate, setLinkStartDate] = useState(null);
@@ -19,12 +21,17 @@ function App() {
     const [pageEndDate, setPageEndDate] = useState(null);
     const [pageDropdownValue, setPageDropdownValue] = useState(1);
 
+    const [folderStartDate, setFolderStartDate] = useState(null);
+    const [folderEndDate, setFolderEndDate] = useState(null);
+    const [folderDropdownValue, setFolderDropdownValue] = useState(1);
+
     const fetchLinkStats = async () => {
         const response = await fetch(url);
         const newStats = await response.json();
         setPageStats(newStats["pageStats"]);
         setLinkStats(newStats["linkStats"]);
-        setDeletedStats(newStats["deletedStats"])
+        setDeletedStats(newStats["deletedStats"]);
+        setFolderStats(newStats["folderStats"]);
     }
 
     useEffect(() => {
@@ -53,9 +60,12 @@ function App() {
                 <a href="#" className="tab_link" data-tab="icon" onClick={(e) => {handleClick(e) } }>
                     Icon Stats
                 </a>
+                <a href="#" className="tab_link" data-tab="folder" onClick={(e) => {handleClick(e) } }>
+                    Folder Stats
+                </a>
             </div>
 
-            {tab === "link" ?
+            {tab === "link" &&
                 <PageStats pageStats={pageStats}
                            setPageStats={setPageStats}
                            pageStartDate={pageStartDate}
@@ -65,7 +75,8 @@ function App() {
                            pageDropdownValue={pageDropdownValue}
                            setPageDropdownValue={setPageDropdownValue}
                 />
-            :
+            }
+            {tab ==="icon" &&
                 <LinkStats linkStats={linkStats}
                            setLinkStats={setLinkStats}
                            deletedStats={deletedStats}
@@ -76,6 +87,19 @@ function App() {
                            setLinkEndDate={setLinkEndDate}
                            linkDropdownValue={linkDropdownValue}
                            setLinkDropdownValue={setLinkDropdownValue}
+                />
+            }
+
+            {tab === "folder" &&
+                <FolderStats
+                    folderStats={folderStats}
+                    setFolderStats={setFolderStats}
+                    folderStartDate={folderStartDate}
+                    setFolderStartDate={setFolderStartDate}
+                    folderEndDate={folderEndDate}
+                    setFolderEndDate={setFolderEndDate}
+                    folderDropdownValue={folderDropdownValue}
+                    setFolderDropdownValue={setFolderDropdownValue}
                 />
             }
 

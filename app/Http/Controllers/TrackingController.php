@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Link;
-
+use App\Models\Folder;
 use App\Services\TrackingServices;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TrackingController extends Controller
@@ -28,7 +27,12 @@ class TrackingController extends Controller
 
         $data = $tracking->getAllStats();
 
-        return response()->json(['pageStats' => $data["pageStats"], 'linkStats' => $data["linkStats"], 'deletedStats' => $data["deletedStats"]]);
+        return response()->json([
+            'pageStats' => $data["pageStats"],
+            'linkStats' => $data["linkStats"],
+            'deletedStats' => $data["deletedStats"],
+            'folderStats' => $data['folderStats']
+        ]);
     }
 
     /**
@@ -50,19 +54,6 @@ class TrackingController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getPageStatsDropdown(Request $request, TrackingServices $tracking) {
-
-        $data = $tracking->getPageStatsDropdown($request);
-
-        return response()->json(['data' => $data]);
-    }
-
-    /**
-     * @param Request $request
-     * @param TrackingServices $tracking
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function getLinkStatsRange(Request $request, TrackingServices $tracking) {
 
         $data = $tracking->getLinksDateRangeStats($request);
@@ -70,18 +61,13 @@ class TrackingController extends Controller
         return response()->json(['data' => $data]);
     }
 
-    /**
-     * @param Request $request
-     * @param TrackingServices $tracking
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getLinkStatsDropdown(Request $request, TrackingServices $tracking) {
+    public function getFolderStatsRange(Request $request, TrackingServices $tracking) {
 
-        $data = $tracking->getLinkStatsDropdown($request);
+        $data = $tracking->getFolderDateRangeStats($request);
 
         return response()->json(['data' => $data]);
     }
+
 
     /**
      * @param Link $link
@@ -97,5 +83,13 @@ class TrackingController extends Controller
         return response()->json(['message' => "Success!"]);
     }
 
+    public function storeFolderClick(Folder $folder) {
+
+        $folder->folderClicks()->create([
+            'page_id' => $folder->page_id
+        ]);
+
+        return response()->json(['message' => "Success!"]);
+    }
 
 }

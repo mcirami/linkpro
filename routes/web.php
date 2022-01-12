@@ -80,9 +80,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/update-payment-method', [UserController::class, 'updateMethod'])->name('user.update.payment');
 
     Route::post('/stats/link/range', [TrackingController::class, 'getLinkStatsRange']);
-    Route::post('/stats/link/dropdown', [TrackingController::class, 'getLinkStatsDropdown']);
     Route::post('/stats/page/range', [TrackingController::class, 'getPageStatsRange']);
-    Route::post('/stats/page/dropdown', [TrackingController::class, 'getPageStatsDropdown']);
+    Route::post('/stats/folder/range', [TrackingController::class, 'getFolderStatsRange']);
     Route::get('/stats/get', [TrackingController::class, 'getStats']);
     Route::get('/stats', [TrackingController::class, 'show'])->name('stats');
 
@@ -106,5 +105,6 @@ Route::group(['middleware' => 'web'], function() {
     Route::post('/check-page-auth/{page}', [PageController::class, 'pageAuth'])->name('check.page.auth');
     Route::get('/email-subscription/{user}', [UserController::class, 'emailSubscription'])->name('email.subscription');
     Route::post('/link-click/{link}', [TrackingController::class, 'storeLinkVisit']);
+    Route::post('/folder-click/{folder}', [TrackingController::class, 'storeFolderClick']);
     Route::get('/{page}', [PageController::class, 'show']);
 });

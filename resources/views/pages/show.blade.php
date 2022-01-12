@@ -49,7 +49,10 @@
                                             $dataRow = ceil(($index + 1) / 4);
                                         @endphp
 
-                                        <div id="folder{{$folderCount}}Parent" class="icon_col folder" data-row="{{ $dataRow }}">
+                                        <div id="folder{{$folderCount}}Parent"
+                                             class="icon_col folder folder_tracker"
+                                             data-id="{{$link->id}}"
+                                             data-row="{{ $dataRow }}">
                                             <a href="#">
                                                 <img src="{{asset('images/blank-folder-square.jpg')}}" alt="">
                                                 <div class="icons_wrap">
@@ -80,7 +83,7 @@
                                                             @php $source = $folderLink["url"] @endphp
                                                         @endif
                                                         <div class="icon_col">
-                                                            <a href="{{$source}}" target="_blank">
+                                                            <a class="link_tracker" href="{{$source}}" target="_blank">
                                                                 <img src="{{ $folderLink["icon"] }}" alt="{{ $folderLink["name"] }}" title="{{ $folderLink["name"] }}" />
                                                             </a>
                                                             @php if ($folderLink["name"] && strlen($folderLink["name"]) > 11 ) {

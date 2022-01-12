@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {getPageStats, getDropDownPageStats} from '../../../Services/StatsRequests';
+import {getPageStats} from '../../../Services/StatsRequests';
 import Filters from './Filters';
 
 const PageStats = ({
@@ -82,7 +82,7 @@ const PageStats = ({
             dateValue: e.target.value
         }
 
-        getDropDownPageStats(packets)
+        getPageStats(packets)
         .then((data) => {
             if (data["success"]) {
                 setTimeout(() => {
@@ -128,12 +128,12 @@ const PageStats = ({
 
                         <tbody>
 
-                            {pageStats.map((item, index) => {
-                                const {pageName, visits, linkVisits} = item;
+                            {pageStats.map((item) => {
+                                const {id, pageName, visits, linkVisits} = item;
 
                                 return (
 
-                                    <tr key={index}>
+                                    <tr key={id}>
                                         <td>
                                             <p>{pageName}</p>
                                         </td>
