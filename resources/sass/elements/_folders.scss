@@ -161,9 +161,11 @@
     -o-transition: all 300ms ease-in-out;
     -moz-transition: all 300ms ease-in-out;
     background: $white;
+    z-index: -999;
 
     &.open {
         max-height: 1000px;
+        z-index: unset;
 
         &.adjust {
             opacity: 1;

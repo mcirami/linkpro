@@ -75,7 +75,7 @@ export const ConfirmPopup = ({
                     )
 
                     let folderActive = null;
-                   /* if (userLinks.length === 1 && newFolderArray.length === 0) {
+                    if (folderLinks.length === 1 && newFolderArray.length === 0) {
 
                         folderActive = false;
                         const url = "/dashboard/folder/status/";
@@ -84,7 +84,7 @@ export const ConfirmPopup = ({
                         };
 
                         updateLinkStatus(packets, folderID, url);
-                    }*/
+                    }
 
                     setOriginalArray(
                         newOriginalArray.map((item) => {
@@ -99,7 +99,7 @@ export const ConfirmPopup = ({
 
                                 return {
                                     ...item,
-                                    active_status: folderActive === false ? folderActive : item.active_status,
+                                    active_status: folderActive !== null ? folderActive : item.active_status,
                                     links: newOrder
                                 }
                             }
@@ -157,7 +157,7 @@ export const ConfirmPopup = ({
 
     const updateContentHeight = () => {
 
-        if (folderID && folderLinks.length - 1 > 0 && (folderLinks.length - 1) % 4 === 0)  {
+        if (folderID && (folderLinks.length - 1 > 0) && ( (folderLinks.length - 1) % 4 === 0) )  {
             const iconsWrap = document.querySelector('.icons_wrap');
             const icons = document.querySelectorAll('.add_icons .icon_col');
             const colHeight = icons[0].clientHeight;
@@ -170,7 +170,7 @@ export const ConfirmPopup = ({
 
             iconsWrap.style.minHeight = divHeight + "px";
 
-        } else if ( originalArray.length - 1 > 0 && (originalArray.length - 1) % 4 === 0 ) {
+        } else if ( !folderID && (originalArray.length - 1 > 0) && ((originalArray.length - 1) % 4 === 0) ) {
             const iconsWrap = document.querySelector('.icons_wrap');
             const icons = document.querySelectorAll('.add_icons .icon_col');
             const colHeight = icons[0].clientHeight;

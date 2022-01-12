@@ -15615,9 +15615,11 @@ form .bottom_row a {
   -o-transition: all 300ms ease-in-out;
   -moz-transition: all 300ms ease-in-out;
   background: #ffffff;
+  z-index: -999;
 }
 .my_row.folder.open {
   max-height: 1000px;
+  z-index: unset;
 }
 .my_row.folder.open.adjust {
   opacity: 1;

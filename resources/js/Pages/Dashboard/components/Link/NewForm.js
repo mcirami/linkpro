@@ -276,7 +276,7 @@ const NewForm = ({
                             setFolderLinks(newFolderLinks);
 
                             let folderActive = null;
-                            /*if (folderLinks.length === 0 && newFolderLinks.length === 1) {
+                            if (folderLinks.length === 0 && newFolderLinks.length === 1) {
                                 folderActive = true;
                                 const url = "/dashboard/folder/status/";
                                 const packets = {
@@ -284,7 +284,7 @@ const NewForm = ({
                                 };
 
                                 updateLinkStatus(packets, folderID, url);
-                            }*/
+                            }
 
                             setUserLinks (
                                 userLinks.map((item) => {
