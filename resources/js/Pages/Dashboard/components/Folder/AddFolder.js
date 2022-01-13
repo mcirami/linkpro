@@ -65,14 +65,14 @@ const AddFolder = ({
         }
     };
 
-    const fetchFolderLinks = async (linkID) => {
-        const url = 'folder/links/' + linkID;
+    const fetchFolderLinks = async (folderID) => {
+        const url = 'folder/links/' + folderID;
         const response = await fetch(url);
         const folderLinks = await response.json();
 
         setOriginalFolderLinks(folderLinks["links"]);
         setFolderLinks(folderLinks["links"]);
-        setEditFolderID(linkID);
+        setEditFolderID(folderID);
 
         setTimeout(function(){
             document.querySelector('#scrollTo').scrollIntoView({

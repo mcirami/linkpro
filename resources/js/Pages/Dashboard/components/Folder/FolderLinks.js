@@ -51,16 +51,16 @@ const FolderLinks = ({
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
     const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
 
-    const [ currentLink, setCurrentLink ] = useState(
+    const [ currentFolder, setCurrentFolder ] = useState(
         userLinks.find(function(e) {
-            return e.id === folderID
+            return e.id === folderID && e.type === "folder"
         }) || null );
 
     const [charactersLeft, setCharactersLeft] = useState();
 
     useEffect(() => {
-        if(currentLink.name) {
-            setCharactersLeft(11 - currentLink.name.length);
+        if(currentFolder.name) {
+            setCharactersLeft(11 - currentFolder.name.length);
         } else {
             setCharactersLeft(11);
         }
@@ -250,7 +250,7 @@ const FolderLinks = ({
                 setFolderLinks(newOrder);
 
                 setOriginalArray(originalArray.map((item) => {
-                        if (item.id === folderID) {
+                        if (item.id === folderID && item.type === "folder") {
 
                             return {
                                 ...item,
@@ -264,7 +264,7 @@ const FolderLinks = ({
                 )
 
                 setUserLinks(userLinks.map((item) => {
-                        if (item.id === folderID) {
+                        if (item.id === folderID && item.type === "folder") {
 
                             return {
                                 ...item,
@@ -362,7 +362,7 @@ const FolderLinks = ({
 
                 setUserLinks(
                     userLinks.map((item) => {
-                        if (item.id === folderID) {
+                        if (item.id === folderID && item.type === "folder") {
 
                             const newItemLinks = item.links.map((linkItem) => {
 
@@ -388,7 +388,7 @@ const FolderLinks = ({
 
                 setOriginalArray(
                     originalArray.map((item) => {
-                        if (item.id === folderID) {
+                        if (item.id === folderID && item.type === "folder") {
 
                             const newItemLinks = item.links.map((linkItem) => {
 
@@ -451,7 +451,7 @@ const FolderLinks = ({
     const handleSubmit = () => {
 
         const packets = {
-            folderName: currentLink.name
+            folderName: currentFolder.name
         }
 
         updateFolderName(folderID, packets)
@@ -461,8 +461,8 @@ const FolderLinks = ({
 
                 setUserLinks(
                     userLinks.map((item) => {
-                        if (item.id === folderID) {
-                            item.name = currentLink.name;
+                        if (item.id === folderID && item.type === "folder") {
+                            item.name = currentFolder.name;
 
                             return item
                         }
@@ -472,8 +472,8 @@ const FolderLinks = ({
                 )
                 setOriginalArray(
                     originalArray.map((item) => {
-                        if (item.id === folderID) {
-                            item.name = currentLink.name;
+                        if (item.id === folderID && item.type === "folder") {
+                            item.name = currentFolder.name;
 
                             return item
                         }
@@ -490,8 +490,8 @@ const FolderLinks = ({
 
         setCharactersLeft(11 - value.length);
 
-        setCurrentLink({
-            ...currentLink,
+        setCurrentFolder({
+            ...currentFolder,
             name: value
         })
     }
@@ -523,7 +523,7 @@ const FolderLinks = ({
                         /*maxLength="13"*/
                         name="name"
                         type="text"
-                        value={currentLink.name || ""}
+                        value={currentFolder.name || ""}
                         placeholder="Folder Name"
                         onChange={(e) => handleFolderName(e)}
                         onKeyPress={ event => {

@@ -16,8 +16,22 @@ export const ConfirmFolderDelete = ({
         e.preventDefault();
 
 
-        let newArray = userLinks.filter(element => element.id !== folderID)
-        let newOriginalArray = originalArray.filter(element => element.id !== folderID);
+        let newArray = userLinks.filter(element => {
+
+            if (element.type !== "folder") {
+                return element
+            } else {
+                return element.id !== folderID
+            }
+
+        });
+        let newOriginalArray = originalArray.filter(element => {
+            if (element.type !== "folder") {
+                return element
+            } else {
+                return element.id !== folderID
+            }
+        });
 
         const packets = {
             userLinks: newArray,

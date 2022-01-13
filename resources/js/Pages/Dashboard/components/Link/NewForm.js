@@ -66,15 +66,6 @@ const NewForm = ({
         phone: null
     }))
 
-    /*const [ currentLink, setCurrentLink ] = useState(
-        userLinks.find(function(e) {
-            return e.id === editID
-        }) || null );
-
-    const [inputType, setInputType] = useState(
-        currentLink.email && "email" || currentLink.url && "url" || currentLink.phone && "phone"
-    );*/
-
     useEffect (() => {
         if (!userSub || userSub["ends_at"] && new Date(userSub["ends_at"]).valueOf() < new Date().valueOf()) {
             setSubStatus(true);
@@ -276,7 +267,7 @@ const NewForm = ({
                             setFolderLinks(newFolderLinks);
 
                             let folderActive = null;
-                            if (folderLinks.length === 0 && newFolderLinks.length === 1) {
+                            if (newFolderLinks.length === 1) {
                                 folderActive = true;
                                 const url = "/dashboard/folder/status/";
                                 const packets = {
@@ -288,7 +279,9 @@ const NewForm = ({
 
                             setUserLinks (
                                 userLinks.map((item) => {
-                                    if (item.id === folderID) {
+
+                                    if (item.id === folderID && item.type === "folder") {
+
                                         const itemLinks = item.links.concat(newLinkObject)
 
                                         return {
@@ -305,7 +298,7 @@ const NewForm = ({
 
                             setOriginalArray (
                                 originalArray.map((item) => {
-                                    if (item.id === folderID) {
+                                    if (item.id === folderID && item.type === "folder") {
                                         const itemLinks = item.links.concat(newLinkObject)
 
                                         return {
@@ -343,6 +336,8 @@ const NewForm = ({
                             setShowNewForm(false);
                             updateContentHeight(originalArray);
                         }
+
+
                     }
                 })
 
@@ -447,8 +442,8 @@ const NewForm = ({
                             setOriginalFolderLinks(newOriginalFolderLinks.concat(newLinkObject));
                             setFolderLinks(newFolderLinks);
 
-                            let folderActive = false;
-                            /*if (folderLinks.length === 0 && newFolderLinks.length === 1) {
+                            let folderActive = null;
+                            if (newFolderLinks.length === 1) {
                                 folderActive = true;
                                 const url = "/dashboard/folder/status/";
                                 const packets = {
@@ -456,11 +451,11 @@ const NewForm = ({
                                 };
 
                                 updateLinkStatus(packets, folderID, url);
-                            }*/
+                            }
 
                             setUserLinks (
                                 userLinks.map((item) => {
-                                    if (item.id === folderID) {
+                                    if (item.id === folderID && item.type === "folder") {
                                         const itemLinks = item.links.concat(newLinkObject)
 
                                         return {
@@ -477,7 +472,7 @@ const NewForm = ({
 
                             setOriginalArray (
                                 originalArray.map((item) => {
-                                    if (item.id === folderID) {
+                                    if (item.id === folderID && item.type === "folder") {
                                         const itemLinks = item.links.concat(newLinkObject)
 
                                         return {
@@ -524,6 +519,8 @@ const NewForm = ({
                             ...customIconArray,
                             data.icon_path
                         ]);
+
+
 
                     }
                 })

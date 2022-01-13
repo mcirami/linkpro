@@ -273,7 +273,7 @@ const EditForm = ({
 
                             setUserLinks(
                                 userLinks.map((item) => {
-                                    if (item.id === folderID) {
+                                    if (item.id === folderID && item.type === "folder") {
 
                                         const newItemsLinks = item.links.map((linkItem) => {
 
@@ -304,7 +304,7 @@ const EditForm = ({
 
                             setOriginalArray(
                                 originalArray.map((item) => {
-                                    if (item.id === folderID) {
+                                    if (item.id === folderID && item.type === "folder") {
 
                                         const newItemsLinks = item.links.map((linkItem) => {
 
@@ -336,7 +336,7 @@ const EditForm = ({
                         } else {
                             setUserLinks (
                                 userLinks.map((item) => {
-                                    if (item.id === editID) {
+                                    if (item.id === editID && item.type !== "folder") {
                                         return {
                                             ...item,
                                             name: currentLink.name,
@@ -353,7 +353,7 @@ const EditForm = ({
 
                             setOriginalArray (
                                 originalArray.map((item) => {
-                                    if (item.id === editID) {
+                                    if (item.id === editID && item.type !== "folder") {
                                         return {
                                             ...item,
                                             name: currentLink.name,
@@ -484,7 +484,7 @@ const EditForm = ({
 
                         setUserLinks(
                             userLinks.map((item) => {
-                                if (item.id === folderID) {
+                                if (item.id === folderID && item.type === "folder") {
 
                                     const newItemLinks = item.links.map((linkItem) => {
 
@@ -515,7 +515,7 @@ const EditForm = ({
 
                         setOriginalArray(
                             originalArray.map((item) => {
-                                if (item.id === folderID) {
+                                if (item.id === folderID && item.type === "folder") {
 
                                     const newItemLinks = item.links.map((linkItem) => {
 
@@ -547,7 +547,7 @@ const EditForm = ({
                     } else {
                         setUserLinks (
                             userLinks.map((item) => {
-                                if (item.id === editID) {
+                                if (item.id === editID && item.type !== "folder") {
                                     return {
                                         ...item,
                                         name: currentLink.name,
@@ -563,7 +563,7 @@ const EditForm = ({
                         )
                         setOriginalArray (
                             originalArray.map((item) => {
-                                if (item.id === editID) {
+                                if (item.id === editID && item.type !== "folder") {
                                     return {
                                         ...item,
                                         name: currentLink.name,

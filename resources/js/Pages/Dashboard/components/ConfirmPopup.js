@@ -30,7 +30,7 @@ export const ConfirmPopup = ({
             newFolderArray = folderLinks.filter(element => element.id !== editID);
             newOriginalFolderLinks = originalFolderLinks.filter(element => element.id !== editID);
             newArray = userLinks.map((item) => {
-                if (item.id === folderID) {
+                if (item.id === folderID && item.type === "folder") {
                     const itemLinks = item.links.filter(element => element.id !== editID)
 
                     return {
@@ -41,7 +41,7 @@ export const ConfirmPopup = ({
                 return item;
             });
             newOriginalArray = originalArray.map((item) => {
-                if (item.id === folderID) {
+                if (item.id === folderID && item.type === "folder") {
                     const itemLinks = item.links.filter(element => element.id !== editID)
 
                     return {
@@ -75,7 +75,7 @@ export const ConfirmPopup = ({
                     )
 
                     let folderActive = null;
-                    if (folderLinks.length === 1 && newFolderArray.length === 0) {
+                    if (newFolderArray.length === 0) {
 
                         folderActive = false;
                         const url = "/dashboard/folder/status/";
@@ -88,7 +88,7 @@ export const ConfirmPopup = ({
 
                     setOriginalArray(
                         newOriginalArray.map((item) => {
-                            if (item.id === folderID) {
+                            if (item.id === folderID && item.type === "folder") {
                                 //const itemLinks = item.links.concat(newLinkObject)
                                 const newOrder = item.links.map((link, index) => {
                                     return {
@@ -110,7 +110,7 @@ export const ConfirmPopup = ({
 
                     setUserLinks(
                         newArray.map((item) => {
-                            if (item.id === folderID) {
+                            if (item.id === folderID && item.type === "folder") {
                                 //const itemLinks = item.links.concat(newLinkObject)
                                 const newOrder = item.links.map((link, index) => {
                                     return {

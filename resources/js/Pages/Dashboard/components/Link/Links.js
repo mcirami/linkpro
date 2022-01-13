@@ -292,7 +292,7 @@ const Links = ({
 
     }, [state.isPressed]);
 
-    const handleChange = (currentItem, hasLinks) => {
+    const handleChange = (currentItem, hasLinks, type) => {
 
         if(hasLinks) {
             const newStatus = !currentItem.active_status;
@@ -312,28 +312,55 @@ const Links = ({
             updateLinkStatus(packets, currentItem.id, url).then((data) => {
 
                 if (data.success) {
-                    setOriginalArray(
-                        originalArray.map((item) => {
-                            if (item.id === currentItem.id) {
-                                return {
-                                    ...item,
-                                    active_status: newStatus,
-                                };
-                            }
-                            return item;
-                        })
-                    )
-                    setUserLinks(
-                        userLinks.map((item) => {
-                            if (item.id === currentItem.id) {
-                                return {
-                                    ...item,
-                                    active_status: newStatus,
-                                };
-                            }
-                            return item;
-                        })
-                    )
+
+                    if (type === "folder") {
+                        setOriginalArray(
+                            originalArray.map((item) => {
+                                if (item.id === currentItem.id && type === "folder") {
+                                    return {
+                                        ...item,
+                                        active_status: newStatus,
+                                    };
+                                }
+                                return item;
+                            })
+                        )
+                        setUserLinks(
+                            userLinks.map((item) => {
+                                if (item.id === currentItem.id && type === "folder") {
+                                    return {
+                                        ...item,
+                                        active_status: newStatus,
+                                    };
+                                }
+                                return item;
+                            })
+                        )
+                    } else {
+                        setOriginalArray(
+                            originalArray.map((item) => {
+                                if (item.id === currentItem.id && type !== "folder") {
+                                    return {
+                                        ...item,
+                                        active_status: newStatus,
+                                    };
+                                }
+                                return item;
+                            })
+                        )
+                        setUserLinks(
+                            userLinks.map((item) => {
+                                if (item.id === currentItem.id && type !== "folder") {
+                                    return {
+                                        ...item,
+                                        active_status: newStatus,
+                                    };
+                                }
+                                return item;
+                            })
+                        )
+                    }
+
                 }
             })
         } else {
@@ -502,7 +529,7 @@ const Links = ({
                                     <div className="my_row">
                                         <div className="switch_wrap">
                                             <Switch
-                                                onChange={(e) => handleChange(originalArray[key], hasLinks)}
+                                                onChange={(e) => handleChange(originalArray[key], hasLinks, type)}
                                                 height={20}
                                                 checked={Boolean(originalArray[key].active_status)}
                                                 onColor="#424fcf"
