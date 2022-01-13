@@ -11515,7 +11515,7 @@ button {
   background: #f24d1d;
 }
 .button.red:hover, button.red:hover {
-  background: #424fcf;
+  background: #c9360c;
   text-decoration: none;
 }
 .button.blue, button.blue {
@@ -12326,14 +12326,14 @@ header.guest_header .col.right {
 #links_page .right_column {
   width: 45%;
   float: left;
-  /*height: 100%;
-  max-height: 1000px;*/
-  /*@media all and (max-width: 1199px) {
-      width: 40%;
-  }*/
+  position: -webkit-sticky;
+  position: sticky;
+  top: 8%;
 }
 @media screen and (max-width: 992px) {
   #links_page .right_column {
+    position: relative;
+    top: unset;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -12564,7 +12564,7 @@ header.guest_header .col.right {
 }
 @media all and (max-width: 992px) {
   #links_page .icons_wrap.add_icons {
-    padding: 0 2%;
+    padding: 0 3%;
   }
 }
 @media all and (max-width: 768px) {
@@ -12773,13 +12773,8 @@ header.guest_header .col.right {
   -webkit-justify-content: space-between;
   align-items: center;
   -webkit-align-items: center;
-  padding: 0 40px;
-  margin: 20px 0;
-}
-@media all and (max-width: 768px) {
-  .link_row {
-    padding: 0 30px;
-  }
+  padding: 0 5%;
+  margin-bottom: 20px;
 }
 
 .add_more_icons h3, .add_more_icons .h3 {
@@ -13217,23 +13212,23 @@ header.guest_header .col.right {
   }
 }
 #links_page .links_col .links_wrap.preview .inner_content {
-  min-height: 810px;
   height: 100%;
   width: 100%;
-  max-width: 356px;
+  min-height: 702px;
+  max-width: 310px;
   padding: 8px 0 0 0;
   margin: 0 auto;
 }
 @media screen and (max-width: 1010px) {
   #links_page .links_col .links_wrap.preview .inner_content {
-    min-height: 794px;
-    max-width: 347px;
+    min-height: 690px;
+    max-width: 302px;
   }
 }
 @media screen and (max-width: 550px) {
   #links_page .links_col .links_wrap.preview .inner_content {
-    min-height: 620px;
-    max-width: 273px;
+    min-height: 515px;
+    max-width: 225px;
     padding: 7px 0 0 0;
   }
 }
@@ -13261,9 +13256,9 @@ header.guest_header .col.right {
   -webkit-mask-repeat: no-repeat;
   mask-size: cover;
   -webkit-mask-size: cover;
-  border-radius: 40px;
-  -webkit-border-radius: 40px;
-  -moz-border-radius: 40px;
+  border-radius: 28px;
+  -webkit-border-radius: 28px;
+  -moz-border-radius: 28px;
   -ms-overflow-style: none;
   /* IE and Edge */
   scrollbar-width: none;
@@ -13314,6 +13309,22 @@ header.guest_header .col.right {
     width: 60%;
   }
 }
+#links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text h2, #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text .h2 {
+  font-size: 1.4em;
+}
+@media all and (max-width: 992px) {
+  #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text h2, #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text .h2 {
+    font-size: 1.3em;
+  }
+}
+#links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text p {
+  font-size: 14px;
+}
+@media all and (max-width: 992px) {
+  #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text p {
+    font-size: 12px;
+  }
+}
 @media all and (max-width: 550px) {
   #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text p {
     font-size: 13px;
@@ -13339,9 +13350,12 @@ header.guest_header .col.right {
   -moz-box-shadow: none !important;
   -o-box-shadow: none !important;
 }
+#links_page .links_col .links_wrap.preview .inner_content .icon_col p {
+  font-size: 10px;
+}
 @media all and (max-width: 768px) {
   #links_page .links_col .links_wrap.preview .inner_content .icon_col p {
-    font-size: 10px;
+    font-size: 8px;
   }
 }
 @media all and (max-width: 550px) {
@@ -13402,7 +13416,7 @@ header.guest_header .col.right {
   padding: 75px 36%;
 }
 #links_page .links_col .links_wrap .inner_content.live_page .profile_text h2, #links_page .links_col .links_wrap .inner_content.live_page .profile_text .h2 {
-  font-size: 35px;
+  font-size: 28px;
 }
 @media screen and (max-width: 550px) {
   #links_page .links_col .links_wrap .inner_content.live_page .profile_text h2, #links_page .links_col .links_wrap .inner_content.live_page .profile_text .h2 {
@@ -13410,7 +13424,7 @@ header.guest_header .col.right {
   }
 }
 #links_page .links_col .links_wrap .inner_content.live_page .profile_text p {
-  font-size: 18px;
+  font-size: 16px;
 }
 @media screen and (max-width: 550px) {
   #links_page .links_col .links_wrap .inner_content.live_page .profile_text p {

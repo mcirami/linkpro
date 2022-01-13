@@ -25,6 +25,8 @@ const Preview = ({
     const [iconCount, setIconCount] = useState(null);
     const [row, setRow] = useState(null);
 
+    const [initialWindowWidth, setInitialWindowWidth] = useState(window.outerWidth);
+
     const myStyle = {
         background: "url(" + pageSettings["header_img"] + ") no-repeat",
         backgroundSize: "cover",
@@ -64,18 +66,6 @@ const Preview = ({
                     remove('show');
                 document.querySelector('body').classList.remove('fixed');
             }
-
-            const box = document.querySelector('.inner_content_wrap');
-            const innerContent = document.getElementById('preview_wrap');
-
-            let pixelsToMinus = 0;
-            if (windowWidth > 550) {
-                pixelsToMinus = 35;
-            } else {
-                pixelsToMinus = 25;
-            }
-
-            box.style.maxHeight = innerContent.offsetHeight - pixelsToMinus + "px";
         }
 
         window.addEventListener('resize', handleResize);
@@ -114,10 +104,15 @@ const Preview = ({
             const innerContent = document.getElementById('preview_wrap');
 
             let pixelsToMinus = 0;
-            if (windowWidth > 550) {
+            if (windowWidth > 551) {
                 pixelsToMinus = 35;
-            } else {
+                setInitialWindowWidth(windowWidth);
+            } /*else if (windowWidth < 551 && initialWindowWidth > windowWidth) {
+                pixelsToMinus = 75;
+                setInitialWindowWidth(windowWidth);
+            }*/ else {
                 pixelsToMinus = 25;
+                setInitialWindowWidth(windowWidth);
             }
 
             box.style.maxHeight = innerContent.offsetHeight - pixelsToMinus + "px";
@@ -394,7 +389,7 @@ const Preview = ({
                                                                 name || "Link Name"
                                                             }
                                                         </p>
-                                                        <div id={"folder" + folderCount} className="my_row folder" data-parent={"#folder" + folderCount + "Parent"}>
+                                                        <div id={"folder" + folderCount} className="my_row folder" data-parent={"#folder" + folderCount + "Parent"} key={index}>
                                                             <div className="icons_wrap inner">
                                                                 {links.map((innerLinkFull) => {
                                                                     const {id, name, email, phone, icon, url, active_status} = innerLinkFull
