@@ -18,7 +18,7 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.3",
         "laravel/vapor-cli": "^1.31",
-        "laravel/vapor-core": "^2.16",
+        "laravel/vapor-core": "^2.19",
         "laravel/vapor-ui": "^1.4",
         "spiral/roadrunner": "^2.4",
         "tcg/voyager": "^1.5"
