@@ -25,8 +25,6 @@ const Preview = ({
     const [iconCount, setIconCount] = useState(null);
     const [row, setRow] = useState(null);
 
-    const [initialWindowWidth, setInitialWindowWidth] = useState(window.outerWidth);
-
     const myStyle = {
         background: "url(" + pageSettings["header_img"] + ") no-repeat",
         backgroundSize: "cover",
@@ -106,13 +104,8 @@ const Preview = ({
             let pixelsToMinus = 0;
             if (windowWidth > 551) {
                 pixelsToMinus = 35;
-                setInitialWindowWidth(windowWidth);
-            } /*else if (windowWidth < 551 && initialWindowWidth > windowWidth) {
-                pixelsToMinus = 75;
-                setInitialWindowWidth(windowWidth);
-            }*/ else {
+            } else {
                 pixelsToMinus = 25;
-                setInitialWindowWidth(windowWidth);
             }
 
             box.style.maxHeight = innerContent.offsetHeight - pixelsToMinus + "px";

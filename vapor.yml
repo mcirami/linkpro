@@ -27,7 +27,7 @@ environments:
         mail: false
         scheduler: false
         runtime: docker
-        database: staging-database
+        database: lp-prod-db
         build:
             - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install'
             - 'php artisan event:cache'
