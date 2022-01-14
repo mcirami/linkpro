@@ -7,7 +7,7 @@
     @endphp
 
     <div id="links_page">
-        <div class="links_col">
+        <div class="links_col my_row">
             <div class="links_wrap live_page">
                 <div class="inner_content live_page">
                     <div class="page_header @if (!$page->header_img) default @endif"
@@ -44,94 +44,96 @@
                                 @php ++$count @endphp
                                 @if ( $count < 9 || ($count > 8 && !$subscription->isEmpty() && ($subscription[0]["braintree_status"] == "active" || $subscription[0]["braintree_status"] == "pending" || $subscription[0]["ends_at"] > \Carbon\Carbon::now()) ) )
 
-                                    @if($link->active_status && property_exists( $link, "type" ) && $link->type == "folder")
-                                        @php ++$folderCount;
-                                            $dataRow = ceil(($index + 1) / 4);
-                                        @endphp
-
+                                    @php ++$folderCount;
+                                        $dataRow = ceil(($index + 1) / 4);
+                                    @endphp
+                                    @if(property_exists( $link, "type" ) && $link->type == "folder")
                                         <div id="folder{{$folderCount}}Parent"
                                              class="icon_col folder folder_tracker"
                                              data-id="{{$link->id}}"
                                              data-row="{{ $dataRow }}">
-                                            <a href="#">
-                                                <img src="{{asset('images/blank-folder-square.jpg')}}" alt="">
-                                                <div class="icons_wrap">
-                                                    @foreach( array_slice($link->links, 0, 9) as $folderLink)
-                                                        <div class="icon_col">
-                                                            <img src="{{ $folderLink["icon"] }}" alt="{{$folderLink["name"]}}" title="{{$folderLink["name"]}}">
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </a>
-                                            @if($link->name)
-                                                @php if ($link->name && strlen($link->name) > 11 ) {
-                                                    $name = substr($link->name, 0, 11) . "...";
-                                                } else {
-                                                    $name = $link->name;
-                                                }
-                                                @endphp
-                                                <p>{{$name}}</p>
-                                            @endif
-                                            <div id="folder{{$folderCount}}" class="my_row folder" data-parent="#folder{{$folderCount}}Parent">
-                                                <div class="icons_wrap inner">
-                                                    @foreach( $link->links as $folderLink)
-                                                        @if ($folderLink["email"])
-                                                            @php $source = "mailto:" . $folderLink["email"] @endphp
-                                                        @elseif ($folderLink["phone"])
-                                                            @php $source = "tel:" . $folderLink["phone"] @endphp
-                                                        @else
-                                                            @php $source = $folderLink["url"] @endphp
-                                                        @endif
-                                                        <div class="icon_col">
-                                                            <a class="link_tracker" href="{{$source}}" target="_blank" data-id="{{$folderLink["id"]}}">
-                                                                <img src="{{ $folderLink["icon"] }}" alt="{{ $folderLink["name"] }}" title="{{ $folderLink["name"] }}" />
-                                                            </a>
-                                                            @php if ($folderLink["name"] && strlen($folderLink["name"]) > 11 ) {
-                                                                    $name = substr($folderLink["name"], 0, 11) . "...";
-                                                                } else {
-                                                                    $name = $folderLink["name"];
-                                                                }
-                                                            @endphp
-                                                            <p>{{ $name }}</p>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    @elseif($link->active_status)
-
-                                        <div class="icon_col">
-                                            @if ($link->email)
-                                                @php $source = "mailto:" . $link->email @endphp
-                                            @elseif ($link->phone)
-                                                @php $source = "tel:" . $link->phone @endphp
-                                            @else
-                                              @php $source = $link->url @endphp
-                                            @endif
-
-                                            <a class="link_tracker" data-id="{{$link->id}}" href="{{ $source ? : '#' }}"
-                                               target="_blank"
-                                               rel="nofollow"
-                                            >
-                                                @if ( str_contains($link->icon, "custom") )
-                                                    @if ( $subscription[0]["braintree_status"] == "active" || $subscription[0]["braintree_status"] == "pending" || $subscription[0]["ends_at"] > \Carbon\Carbon::now() )
-                                                        @php $icon =  $link->icon @endphp
-                                                    @else
-                                                        @php $icon =  null @endphp
-                                                    @endif
-                                                @else
-                                                    @php $icon =  $link->icon @endphp
+                                            @if($link->active_status)
+                                                <a href="#">
+                                                    <img src="{{asset('images/blank-folder-square.jpg')}}" alt="">
+                                                    <div class="icons_wrap">
+                                                        @foreach( array_slice($link->links, 0, 9) as $folderLink)
+                                                            <div class="icon_col">
+                                                                <img src="{{ $folderLink["icon"] }}" alt="{{$folderLink["name"]}}" title="{{$folderLink["name"]}}">
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </a>
+                                                @if($link->name)
+                                                    @php if ($link->name && strlen($link->name) > 11 ) {
+                                                        $name = substr($link->name, 0, 11) . "...";
+                                                    } else {
+                                                        $name = $link->name;
+                                                    }
+                                                    @endphp
+                                                    <p>{{$name}}</p>
                                                 @endif
-                                                <img src="{{ $icon ? : asset('/images/icon-placeholder-preview.png') }}" alt="" />
-                                            </a>
-                                            @php if ($link->name && strlen($link->name) > 11 ) {
-                                                    $name = substr($link->name, 0, 11) . "...";
-                                                } else {
-                                                    $name = $link->name;
-                                                }
-                                            @endphp
-                                            <p>{{ $name ? : "Link Name" }}</p>
+                                                <div id="folder{{$folderCount}}" class="my_row folder" data-parent="#folder{{$folderCount}}Parent">
+                                                    <div class="icons_wrap inner">
+                                                        @foreach( $link->links as $folderLink)
+                                                            @if ($folderLink["email"])
+                                                                @php $source = "mailto:" . $folderLink["email"] @endphp
+                                                            @elseif ($folderLink["phone"])
+                                                                @php $source = "tel:" . $folderLink["phone"] @endphp
+                                                            @else
+                                                                @php $source = $folderLink["url"] @endphp
+                                                            @endif
+                                                            <div class="icon_col">
+                                                                <a class="link_tracker" href="{{$source}}" target="_blank" data-id="{{$folderLink["id"]}}">
+                                                                    <img src="{{ $folderLink["icon"] }}" alt="{{ $folderLink["name"] }}" title="{{ $folderLink["name"] }}" />
+                                                                </a>
+                                                                @php if ($folderLink["name"] && strlen($folderLink["name"]) > 11 ) {
+                                                                        $name = substr($folderLink["name"], 0, 11) . "...";
+                                                                    } else {
+                                                                        $name = $folderLink["name"];
+                                                                    }
+                                                                @endphp
+                                                                <p>{{ $name }}</p>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    @else
+                                        <div class="icon_col">
+                                            @if($link->active_status)
+
+                                                @if ($link->email)
+                                                    @php $source = "mailto:" . $link->email @endphp
+                                                @elseif ($link->phone)
+                                                    @php $source = "tel:" . $link->phone @endphp
+                                                @else
+                                                  @php $source = $link->url @endphp
+                                                @endif
+
+                                                <a class="link_tracker" data-id="{{$link->id}}" href="{{ $source ? : '#' }}"
+                                                   target="_blank"
+                                                   rel="nofollow"
+                                                >
+                                                    @if ( str_contains($link->icon, "custom") )
+                                                        @if ( $subscription[0]["braintree_status"] == "active" || $subscription[0]["braintree_status"] == "pending" || $subscription[0]["ends_at"] > \Carbon\Carbon::now() )
+                                                            @php $icon =  $link->icon @endphp
+                                                        @else
+                                                            @php $icon =  null @endphp
+                                                        @endif
+                                                    @else
+                                                        @php $icon =  $link->icon @endphp
+                                                    @endif
+                                                    <img src="{{ $icon ? : asset('/images/icon-placeholder-preview.png') }}" alt="" />
+                                                </a>
+                                                @php if ($link->name && strlen($link->name) > 11 ) {
+                                                        $name = substr($link->name, 0, 11) . "...";
+                                                    } else {
+                                                        $name = $link->name;
+                                                    }
+                                                @endphp
+                                                <p>{{ $name ? : "Link Name" }}</p>
+                                            @endif
                                         </div>
                                     @endif
                                 @endif
