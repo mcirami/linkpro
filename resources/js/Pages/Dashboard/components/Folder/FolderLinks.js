@@ -50,10 +50,14 @@ const FolderLinks = ({
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
     const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
+    const [arrayIndex, setArrayIndex] = useState(null);
 
     const [ currentFolder, setCurrentFolder ] = useState(
-        userLinks.find(function(e) {
-            return e.id === folderID && e.type === "folder"
+        userLinks.find(function(e, index) {
+            if(e.id === folderID && e.type === "folder") {
+                setArrayIndex(index);
+                return e;
+            }
         }) || null );
 
     const [charactersLeft, setCharactersLeft] = useState();
@@ -564,12 +568,12 @@ const FolderLinks = ({
 
             <div className="icons_wrap add_icons icons folder">
 
-                {folderLinks.length > 0 && folderLinks.map((link, key) => {
+                {userLinks[index].links.length > 0 && userLinks[index].links.map((link, key) => {
                     let style;
                     let x;
                     let y;
 
-                    const visualPosition = folderLinks.findIndex((link) => link.position === key);
+                    const visualPosition = userLinks[index].links.findIndex((link) => link.position === key);
                     if (key === lastPress && isPressed) {
                         [x, y] = mouseXY;
                         style = {

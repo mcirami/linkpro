@@ -22,7 +22,7 @@ const Preview = ({
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
     const {pageSettings, setPageSettings} = useContext(PageContext);
-    const [iconCount, setIconCount] = useState(null);
+    const [iconCount, setIconCount] = useState(0);
     const [row, setRow] = useState(null);
 
     const myStyle = {
@@ -213,6 +213,7 @@ const Preview = ({
 
     let folderCount = 0;
 
+    console.log(userLinks);
     return (
 
         <>
@@ -343,6 +344,8 @@ const Preview = ({
 
                                 const displayIcon = checkSubStatus(icon);
 
+                                const insertRow = (index + 1) % 4 === 0;
+
                                 {type === "folder" && ++folderCount}
 
                                 return (
@@ -454,6 +457,10 @@ const Preview = ({
                                                 }
                                             </div>
                                         }
+
+                                        {insertRow && <div>
+                                            <p>myshit</p>
+                                        </div>}
                                     </>
                                 )
                             })}
