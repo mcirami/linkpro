@@ -37,7 +37,8 @@ const Links = ({
                    userSub,
                    setFolderLinks,
                    setOriginalFolderLinks,
-                   setFolderContent
+                   setFolderContent,
+                   setArrayIndex
 
 }) => {
 
@@ -401,14 +402,15 @@ const Links = ({
         }
     }
 
-    const fetchFolderLinks = async (linkID) => {
-        const url = 'folder/links/' + linkID;
+    const fetchFolderLinks = async (linkID, key) => {
+        /*const url = 'folder/links/' + linkID;
         const response = await fetch(url);
         const folderLinks = await response.json();
 
         setOriginalFolderLinks(folderLinks["links"]);
-        setFolderLinks(folderLinks["links"]);
+        setFolderLinks(folderLinks["links"]);*/
         setEditFolderID(linkID);
+        setArrayIndex(key);
 
         setTimeout(function(){
             document.querySelector('#scrollTo').scrollIntoView({
@@ -487,7 +489,7 @@ const Links = ({
                                 <div className="column_content">
                                     {type === "folder" ?
                                         <div className="icon_wrap folder">
-                                            <div className="inner_icon_wrap" onClick={(e) => {fetchFolderLinks(linkID)} }>
+                                            <div className="inner_icon_wrap" onClick={(e) => {fetchFolderLinks(linkID, key)} }>
                                                 <img src={ Vapor.asset('images/blank-folder-square.jpg')} alt=""/>
                                                 <div className={hasLinks ? "folder_icons" : "folder_icons empty"}>
                                                     {hasLinks &&

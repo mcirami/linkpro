@@ -213,7 +213,6 @@ const Preview = ({
 
     let folderCount = 0;
 
-    console.log(userLinks);
     return (
 
         <>

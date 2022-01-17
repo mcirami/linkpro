@@ -22,6 +22,7 @@ import FolderLinks from './Folder/FolderLinks';
 import { ConfirmFolderDelete } from './ConfirmFolderDelete';
 import {ErrorBoundary} from 'react-error-boundary';
 import {updateLinksPositions, getAllLinks} from '../../../Services/LinksRequest';
+import {array} from 'prop-types';
 
 
 const page = user.page;
@@ -45,6 +46,7 @@ function App() {
 
     const [folderLinks, setFolderLinks] = useState([])
     const [originalFolderLinks, setOriginalFolderLinks] = useState([])
+    const [arrayIndex, setArrayIndex] = useState(null);
 
     const [allUserPages, setAllUserPages] = useState(userPages);
     const [editID, setEditID] = useState(null);
@@ -263,6 +265,7 @@ function App() {
                                                 setEditID={setEditID}
                                                 setShowNewForm={setShowNewForm}
                                                 setShowConfirmFolderDelete={setShowConfirmFolderDelete}
+                                                arrayIndex={arrayIndex}
                                             />
 
                                             :
@@ -297,6 +300,7 @@ function App() {
                                                         setFolderLinks={setFolderLinks}
                                                         setOriginalFolderLinks={setOriginalFolderLinks}
                                                         setFolderContent={setFolderContent}
+                                                        setArrayIndex={setArrayIndex}
                                                     />
                                                 </ErrorBoundary>
 

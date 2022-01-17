@@ -44,18 +44,17 @@ const FolderLinks = ({
                          originalFolderLinks,
                          setOriginalFolderLinks,
                          setShowNewForm,
-                         setShowConfirmFolderDelete
+                         setShowConfirmFolderDelete,
+                         arrayIndex
 
                }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
     const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
-    const [arrayIndex, setArrayIndex] = useState(null);
 
     const [ currentFolder, setCurrentFolder ] = useState(
         userLinks.find(function(e, index) {
             if(e.id === folderID && e.type === "folder") {
-                setArrayIndex(index);
                 return e;
             }
         }) || null );
@@ -568,12 +567,12 @@ const FolderLinks = ({
 
             <div className="icons_wrap add_icons icons folder">
 
-                {userLinks[index].links.length > 0 && userLinks[index].links.map((link, key) => {
+                {userLinks[arrayIndex].links && userLinks[arrayIndex].links.map((link, key) => {
                     let style;
                     let x;
                     let y;
 
-                    const visualPosition = userLinks[index].links.findIndex((link) => link.position === key);
+                    const visualPosition = userLinks[arrayIndex].links.findIndex((link) => link.position === key);
                     if (key === lastPress && isPressed) {
                         [x, y] = mouseXY;
                         style = {
@@ -592,9 +591,9 @@ const FolderLinks = ({
                         };
                     }
 
-                    const linkID = originalFolderLinks[key].id;
+                    const linkID = originalArray.links[key].id;
                     let displayIcon;
-                    displayIcon = checkSubStatus(originalFolderLinks[key].icon);
+                    displayIcon = checkSubStatus(originalArray.links[key].icon);
 
                     return (
                         <Motion key={key} style={style}>
@@ -636,14 +635,14 @@ const FolderLinks = ({
                                         <div className="my_row">
                                             <div className="switch_wrap">
                                                 <Switch
-                                                    onChange={(e) => handleChange(originalFolderLinks[key])}
+                                                    onChange={(e) => handleChange(originalArray.links[key])}
                                                     height={20}
-                                                    checked={Boolean(originalFolderLinks[key].active_status)}
+                                                    checked={Boolean(originalArray.links[key].active_status)}
                                                     onColor="#424fcf"
                                                     uncheckedIcon={false}
                                                     checkedIcon={false}
                                                 />
-                                                <div className="hover_text switch"><p>{Boolean(originalFolderLinks[key].active_status) ? "Deactivate" : "Active"} Icon</p></div>
+                                                <div className="hover_text switch"><p>{Boolean(originalArray.links[key].active_status) ? "Disable" : "Enable"} Icon</p></div>
                                             </div>
                                         </div>
                                     </div>
