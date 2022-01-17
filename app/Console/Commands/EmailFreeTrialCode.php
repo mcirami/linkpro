@@ -51,8 +51,7 @@ class EmailFreeTrialCode extends Command
                 $created = Carbon::parse( $user->created_at )->startOfDay();
                 $diff    = $created->diffInDays( $now );
 
-                if ( $diff === 7 && !$user->subscription) {
-                    //$page = $user->pages()->firstWhere( 'user_id', $user->id );
+                if ( $diff == 7 && !$user->subscription) {
 
                     if ($user->email_subscription) {
                         $userData = ( [
@@ -64,7 +63,6 @@ class EmailFreeTrialCode extends Command
                             "data" => $userData,
                             "userEmail" => $user->email
                         ]);
-                        //$user->notify( new NotifyAboutFreeTrial( $userData ) );
 
                         JobFreeTrialEmail::dispatch($details);
                     }

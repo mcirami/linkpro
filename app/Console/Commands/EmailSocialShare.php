@@ -51,8 +51,8 @@ class EmailSocialShare extends Command
             $created = Carbon::parse($user->created_at);
             $diff = $created->diffInDays($now);
 
-            if ($diff === 5) {
-                $page = $user->pages()->where( 'user_id', $user->id )->where('default', true)->get();
+            if ($diff == 5) {
+                $page = $user->pages()->where('default', true)->get();
 
                 if ($user->email_subscription) {
                     $userData = ( [

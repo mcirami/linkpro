@@ -47,12 +47,12 @@ class EmailInactiveUsers extends Command
 
         foreach ($users as $user) {
             $userLinks = $user->links()->get();
-            $count = $userLinks->count();
+            $linkCount = $userLinks->count();
             $created = Carbon::parse($user->created_at);
             $diff = $created->diffInDays($now);
+            $page = $user->pages()->where('default', true)->get();
 
-            if ($count === 0 && ($diff === 3 || $diff === 7 || $diff === 30)) {
-                $page = $user->pages()->where( 'user_id', $user->id )->where('default', true)->get();
+            if ($linkCount == 0 && count($page) > 0 && ($diff == 3 || $diff == 7 || $diff == 30)) {
 
                 if ($user->email_subscription) {
                     $userData = ([
