@@ -26,7 +26,7 @@
                             </div>
                         </div>
                         <div class="profile_text">
-                            {!! $page->bio ? "<h2>" . $page->title . "</h2>" : "" !!}
+                            {!! $page->title ? "<h2>" . $page->title . "</h2>" : "" !!}
                             {!! $page->bio ? "<p>" . $page->bio . "</p>" : "" !!}
                         </div>
                     </div>

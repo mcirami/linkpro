@@ -9,6 +9,7 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\TrackingController;
 use App\Http\Controllers\FolderController;
+use App\Http\Controllers\UtilityController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -106,5 +107,7 @@ Route::group(['middleware' => 'web'], function() {
     Route::get('/email-subscription/{user}', [UserController::class, 'emailSubscription'])->name('email.subscription');
     Route::post('/link-click/{link}', [TrackingController::class, 'storeLinkVisit']);
     Route::post('/folder-click/{folder}', [TrackingController::class, 'storeFolderClick']);
+    Route::get('/setup', [UtilityController::class, 'showSetupPage']);
     Route::get('/{page}', [PageController::class, 'show']);
+
 });

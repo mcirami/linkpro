@@ -26,6 +26,10 @@ if (document.getElementById('stats')) {
     require('./Pages/Stats/Index');
 }
 
+if (document.getElementById('setup')) {
+    require('./Pages/Setup/Index');
+}
+
 /*if (document.getElementById('profile_img')) {
     require('./components/ProfileImage/Index');
 }*/
