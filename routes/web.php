@@ -107,7 +107,7 @@ Route::group(['middleware' => 'web'], function() {
     Route::get('/email-subscription/{user}', [UserController::class, 'emailSubscription'])->name('email.subscription');
     Route::post('/link-click/{link}', [TrackingController::class, 'storeLinkVisit']);
     Route::post('/folder-click/{folder}', [TrackingController::class, 'storeFolderClick']);
-    Route::get('/setup', [UtilityController::class, 'showSetupPage']);
+    Route::get('/setup', [UtilityController::class, 'showSetupPage'])->name('setup.page');
     Route::get('/{page}', [PageController::class, 'show']);
 
 });

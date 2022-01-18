@@ -15782,6 +15782,8 @@ form .bottom_row a {
 #setup .top_row img {
   border-bottom-left-radius: 10px;
   -webkit-border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+  -webkit-border-top-left-radius: 10px;
 }
 #setup .accordion_row {
   position: relative;
