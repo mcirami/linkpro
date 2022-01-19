@@ -105,9 +105,19 @@ const Links = ({
         const iconsWrap = document.querySelector('.icons_wrap.add_icons');
 
         if (iconsWrap) {
-            colWidth = (iconsWrap.clientWidth / 4) - 12;
+            //colWidth = (iconsWrap.clientWidth / 4) - 15;
+
+            if (windowWidth < 550) {
+                colWidth = (windowWidth / 4) - 28;
+            } else if (windowWidth < 768) {
+                colWidth = (windowWidth / 4) - 30;
+            } else {
+                colWidth = (iconsWrap.clientWidth / 4) - 15;
+            }
         } else {
-            if (windowWidth < 992) {
+            if (windowWidth < 768) {
+                colWidth = (windowWidth / 4) - 30;
+            } else if (windowWidth < 992) {
                 colWidth = (windowWidth / 4) - 20;
             } else if (windowWidth < 1500) {
                 colWidth = (windowWidth * .396633) / 4 + 20;

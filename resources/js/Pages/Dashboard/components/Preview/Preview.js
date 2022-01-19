@@ -7,6 +7,8 @@ import React, {
 } from 'react';
 import {UserLinksContext, PageContext} from '../App';
 import {IoIosLock, IoIosCloseCircleOutline} from 'react-icons/io';
+import FolderLinks from './FolderLinks';
+import AccordionLinks from './AccordionLinks';
 
 const Preview = ({
                      setRef,
@@ -136,7 +138,7 @@ const Preview = ({
     const folderClick = e => {
         e.preventDefault();
 
-        const clickedDiv = e.currentTarget;
+        const clickedDiv = e.currentTarget.parentNode;
 
         if (clickedDiv.classList.contains('open')) {
             clickedDiv.classList.remove('open');
@@ -155,6 +157,7 @@ const Preview = ({
             setRow(null);
         } else if (folderContent) {
             const folder = document.querySelector('.my_row.folder.open');
+
             setTimeout(() => {
                 folder.classList.remove('open');
             }, 100)
@@ -177,7 +180,7 @@ const Preview = ({
     }
 
     const insertFolder = (event) => {
-        const clickedDiv = event.currentTarget;
+        const clickedDiv = event.currentTarget.parentNode;
         const currentRow = clickedDiv.firstChild.dataset.row;
         const nthChild = currentRow * 4;
         setRow(currentRow);
@@ -341,120 +344,88 @@ const Preview = ({
 
                                 const dataRow = Math.ceil((index + 1) / 4);
 
-                                const displayIcon = checkSubStatus(icon);
+                                let displayIcon = null;
+                                if(!type) {
+                                    displayIcon = checkSubStatus(icon);
+                                }
 
-                                {type === "folder" && ++folderCount}
+                                let colClasses = "";
+                                let colID = "";
+                                if (type === "folder") {
+                                    colClasses = "icon_col folder";
+                                    ++folderCount;
+                                    colID = "folder" + folderCount + "Parent";
+                                } else {
+                                    colClasses = "icon_col";
+                                }
 
                                 return (
+                                    <div id={colID} className={colClasses} key={id}>
 
-                                    <>
                                         {type === "folder" ?
 
-                                            <div id={"folder" + folderCount +
-                                            "Parent"} className="icon_col folder" onClick={(e) => {folderClick(e)} } key={id}>
-                                                {active_status ?
-                                                    <>
-                                                        <a href="#" data-row={ dataRow }>
-                                                            <img className="bg_image" src={ Vapor.asset('images/blank-folder-square.jpg') } alt=""/>
-                                                            <div className="icons_wrap">
-                                                                {links.slice(0, 9).map(( innerLinkIcons ) => {
-                                                                    const {id, name, icon, active_status} = innerLinkIcons
-                                                                    const displayIcon = checkSubStatus(icon);
-                                                                    return (
-                                                                        <div className="icon_col" key={id}>
-                                                                            {active_status ?
-                                                                                <img src={displayIcon} alt={name} title={name}/>
-                                                                                :
-                                                                                ""
-                                                                            }
-                                                                        </div>
-                                                                    )
-                                                                })}
+                                            active_status ?
+                                                <>
+                                                    <a href="#" data-row={ dataRow } onClick={(e) => {folderClick(e)} }>
+                                                        <img className="bg_image" src={ Vapor.asset('images/blank-folder-square.jpg') } alt=""/>
+                                                        <div className="icons_wrap">
+                                                            {links.slice(0, 9).map(( innerLinkIcons, index ) => {
+                                                                return (
+                                                                    <FolderLinks key={index} icons={innerLinkIcons}  checkSubStatus={checkSubStatus}/>
+                                                                )
+                                                            })}
 
-                                                            </div>
-                                                        </a>
-                                                        <p>
-                                                            {name && name.length >
-                                                            11 ?
-                                                                name.substring(0,
-                                                                    11) + "..."
-                                                                :
-                                                                name || "Link Name"
-                                                            }
-                                                        </p>
-                                                        <div id={"folder" + folderCount} className="my_row folder" data-parent={"#folder" + folderCount + "Parent"} key={index}>
-                                                            <div className="icons_wrap inner">
-                                                                {links.map((innerLinkFull) => {
-                                                                    const {id, name, email, phone, icon, url, active_status} = innerLinkFull
-                                                                    let source;
-                                                                    if (email) {
-                                                                        source = "mailto:" + email;
-                                                                    } else if (phone) {
-                                                                        source = "tel:" + phone;
-                                                                    } else {
-                                                                        source = url;
-                                                                    }
-                                                                    return (
-                                                                        <div className="icon_col" key={id}>
-                                                                            {active_status ?
-                                                                                <>
-                                                                                    <a href={source} target="_blank">
-                                                                                        <img src={icon} alt={name} title={name}/>
-                                                                                    </a>
-                                                                                    <p>
-                                                                                        {name && name.length >
-                                                                                        11 ?
-                                                                                            name.substring(0,
-                                                                                                11) + "..."
-                                                                                            :
-                                                                                            name || "Link Name"
-                                                                                        }
-                                                                                    </p>
-                                                                                </>
-                                                                                :
-                                                                                ""
-                                                                            }
-                                                                        </div>
-                                                                    )
-                                                                })}
-                                                            </div>
                                                         </div>
-                                                    </>
-                                                    :
-                                                    ""
-                                                }
-                                            </div>
+                                                    </a>
+                                                    <p>
+                                                        {name && name.length >
+                                                        11 ?
+                                                            name.substring(0,
+                                                                11) + "..."
+                                                            :
+                                                            name || "Link Name"
+                                                        }
+                                                    </p>
+                                                    <div id={"folder" + folderCount} className={"my_row folder"} data-parent={"#folder" + folderCount + "Parent"}>
+                                                        <div className="icons_wrap inner">
+                                                            {links.map((innerLinkFull, index) => {
+                                                                return (
+                                                                    <AccordionLinks key={index} icons={innerLinkFull} checkSubStatus={checkSubStatus}/>
+                                                                )
+                                                            })}
+                                                        </div>
+                                                    </div>
+                                                </>
 
+                                                :
+                                                ""
                                             :
 
-                                            <div className="icon_col" key={id}>
-                                                {active_status ?
-                                                    <>
-                                                        <a className={!source ||
-                                                        !displayIcon ?
-                                                            "default" :
-                                                            ""} target="_blank" href={source ||
-                                                        "#"}>
-                                                            <img src={displayIcon ||
-                                                            Vapor.asset(
-                                                                'images/icon-placeholder-preview.png')} alt=""/>
-                                                        </a>
-                                                        <p>
-                                                            {name && name.length >
-                                                            11 ?
-                                                                name.substring(0,
-                                                                    11) + "..."
-                                                                :
-                                                                name || "Link Name"
-                                                            }
-                                                        </p>
-                                                    </>
-                                                    :
-                                                    ""
-                                                }
-                                            </div>
+                                            active_status ?
+                                                <>
+                                                    <a className={!source ||
+                                                    !displayIcon ?
+                                                        "default" :
+                                                        ""} target="_blank" href={source ||
+                                                    "#"}>
+                                                        <img src={displayIcon ||
+                                                        Vapor.asset(
+                                                            'images/icon-placeholder-preview.png')} alt=""/>
+                                                    </a>
+                                                    <p>
+                                                        {name && name.length >
+                                                        11 ?
+                                                            name.substring(0,
+                                                                11) + "..."
+                                                            :
+                                                            name || "Link Name"
+                                                        }
+                                                    </p>
+                                                </>
+                                                :
+                                                ""
                                         }
-                                    </>
+                                    </div>
                                 )
                             })}
                         </div>

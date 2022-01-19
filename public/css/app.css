@@ -12359,11 +12359,6 @@ header.guest_header .col.right {
 #links_page .content_wrap .top_section {
   padding: 0 5%;
 }
-@media all and (max-width: 550px) {
-  #links_page .content_wrap .top_section {
-    padding: 0 25px;
-  }
-}
 #links_page .icons_wrap {
   position: relative;
   display: flex;
@@ -12565,16 +12560,6 @@ header.guest_header .col.right {
 @media all and (max-width: 992px) {
   #links_page .icons_wrap.add_icons {
     padding: 0 3%;
-  }
-}
-@media all and (max-width: 768px) {
-  #links_page .icons_wrap.add_icons {
-    padding: 0 3% 0 1.5%;
-  }
-}
-@media all and (max-width: 550px) {
-  #links_page .icons_wrap.add_icons {
-    padding: 0 3% 0 3.5%;
   }
 }
 #links_page .icons_wrap .edit_form {

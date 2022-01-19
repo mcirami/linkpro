@@ -58,10 +58,6 @@
 
         .top_section {
             padding: 0 5%;
-
-            @media all and (max-width: 550px) {
-                padding: 0 25px;
-            }
         }
     }
 
@@ -309,15 +305,6 @@
             @media all and (max-width: 992px) {
                 padding: 0 3%;
             }
-
-            @media all and (max-width: 768px) {
-                padding: 0 3% 0 1.5%;
-            }
-
-            @media all and (max-width: 550px) {
-                padding: 0 3% 0 3.5%;
-            }
-
         }
 
         .edit_form {
