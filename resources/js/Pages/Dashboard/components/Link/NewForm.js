@@ -31,10 +31,8 @@ const NewForm = ({
                      userSub,
                      folderID,
                      setEditFolderID,
-                     folderLinks,
-                     setFolderLinks,
-                     originalFolderLinks,
-                     setOriginalFolderLinks
+                     setArrayIndex,
+                     arrayIndex
                   }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
@@ -247,8 +245,6 @@ const NewForm = ({
                     if (data.success) {
 
                         if(folderID) {
-                            let newFolderLinks = [...folderLinks];
-                            let newOriginalFolderLinks = [...originalFolderLinks];
 
                             const newLinkObject = {
                                 id: data.link_id,
@@ -262,12 +258,8 @@ const NewForm = ({
                                 active_status: true
                             }
 
-                            newFolderLinks = newFolderLinks.concat(newLinkObject);
-                            setOriginalFolderLinks(newOriginalFolderLinks.concat(newLinkObject));
-                            setFolderLinks(newFolderLinks);
-
                             let folderActive = null;
-                            if (newFolderLinks.length === 1) {
+                            if (userLinks[arrayIndex].links.length === 0) {
                                 folderActive = true;
                                 const url = "/dashboard/folder/status/";
                                 const packets = {
@@ -314,7 +306,7 @@ const NewForm = ({
                             )
 
                             setShowNewForm(false);
-                            updateContentHeight(folderLinks);
+                            updateContentHeight(userLinks[arrayIndex].links);
 
                         } else {
                             let newLinks = [...userLinks];
@@ -423,8 +415,6 @@ const NewForm = ({
                     if (data.success) {
 
                         if (folderID) {
-                            let newFolderLinks = [...folderLinks];
-                            let newOriginalFolderLinks = [...originalFolderLinks];
 
                             const newLinkObject = {
                                 id: data.link_id,
@@ -438,12 +428,8 @@ const NewForm = ({
                                 active_status: true
                             }
 
-                            newFolderLinks = newFolderLinks.concat(newLinkObject);
-                            setOriginalFolderLinks(newOriginalFolderLinks.concat(newLinkObject));
-                            setFolderLinks(newFolderLinks);
-
                             let folderActive = null;
-                            if (newFolderLinks.length === 1) {
+                            if (userLinks[arrayIndex].links.length === 1) {
                                 folderActive = true;
                                 const url = "/dashboard/folder/status/";
                                 const packets = {
@@ -487,11 +473,8 @@ const NewForm = ({
                                 })
                             )
 
-                            setOriginalFolderLinks(newOriginalFolderLinks.concat(newLinkObject));
-                            setFolderLinks(newFolderLinks.concat(newLinkObject));
-
                             setShowNewForm(false);
-                            updateContentHeight(folderLinks);
+                            updateContentHeight(userLinks[arrayIndex].links);
 
                         } else {
                             let newLinks = [...userLinks];
@@ -591,7 +574,7 @@ const NewForm = ({
                                 Folder
                             </a>
                             <a className="back" href="#"
-                               onClick={(e) => { e.preventDefault(); setEditFolderID(false); setShowNewForm(false); }}
+                               onClick={(e) => { e.preventDefault(); setEditFolderID(false); setShowNewForm(false); setArrayIndex(null); }}
                             >
                                 <BiChevronsLeft />
                                 Icons

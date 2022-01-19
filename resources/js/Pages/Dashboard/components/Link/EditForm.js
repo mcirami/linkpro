@@ -27,10 +27,8 @@ const EditForm = ({
                       setShowLoader,
                       folderID,
                       setEditFolderID,
-                      folderLinks,
-                      setFolderLinks,
-                      originalFolderLinks,
-                      setOriginalFolderLinks
+                      setArrayIndex,
+                      arrayIndex
 }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
@@ -54,10 +52,29 @@ const EditForm = ({
 
     const [ currentLink, setCurrentLink ] = useState(
         userLinks.find(function(e) {
+            return e.id === editID && !e.type
+        }) ||
+        userLinks[arrayIndex].links.find(function(e) {
             return e.id === editID
-        }) || folderLinks.find(function(e) {
-            return e.id === editID
-        }) );
+        })
+    );
+
+    useEffect(() => {
+
+        if (folderID) {
+            const myLink = userLinks.map((e) => {
+                if (e.id === folderID && e.type === "folder") {
+                    const myElement = e.links.map((el) => {
+                        if(el.id === editID) {
+                            setCurrentLink(el);
+                        }
+                    })
+                } /*else if (e.id === editID && !e.type ) {
+                return e;
+            }*/
+            })
+        }
+    }, [])
 
     const [inputType, setInputType] = useState(
         currentLink.email && "email" || currentLink.url && "url" || currentLink.phone && "phone"
@@ -81,7 +98,7 @@ const EditForm = ({
         iconArray.push(tmp);
     });
 
-    const [charactersLeft, setCharactersLeft] = useState();
+    const [charactersLeft, setCharactersLeft] = useState(11);
 
     useEffect(() => {
         if(currentLink.name) {
@@ -237,39 +254,39 @@ const EditForm = ({
 
                     if (data.success) {
                         if(folderID) {
-                            setFolderLinks(
-                                folderLinks.map((item) => {
-                                    if (item.id === editID) {
-                                        return {
-                                            ...item,
-                                            name: currentLink.name,
-                                            url: URL,
-                                            email: currentLink.email,
-                                            phone: currentLink.phone,
-                                            icon: currentLink.icon
-                                        }
-                                    }
+                            /* setFolderLinks(
+                                 folderLinks.map((item) => {
+                                     if (item.id === editID) {
+                                         return {
+                                             ...item,
+                                             name: currentLink.name,
+                                             url: URL,
+                                             email: currentLink.email,
+                                             phone: currentLink.phone,
+                                             icon: currentLink.icon
+                                         }
+                                     }
 
-                                    return item;
-                                })
-                            )
+                                     return item;
+                                 })
+                             )
 
-                            setOriginalFolderLinks(
-                                originalFolderLinks.map((item) => {
-                                    if (item.id === editID) {
-                                        return {
-                                            ...item,
-                                            name: currentLink.name,
-                                            url: URL,
-                                            email: currentLink.email,
-                                            phone: currentLink.phone,
-                                            icon: currentLink.icon
-                                        }
-                                    }
+                             setOriginalFolderLinks(
+                                 originalFolderLinks.map((item) => {
+                                     if (item.id === editID) {
+                                         return {
+                                             ...item,
+                                             name: currentLink.name,
+                                             url: URL,
+                                             email: currentLink.email,
+                                             phone: currentLink.phone,
+                                             icon: currentLink.icon
+                                         }
+                                     }
 
-                                    return item;
-                                })
-                            )
+                                     return item;
+                                 })
+                             )*/
 
                             setUserLinks(
                                 userLinks.map((item) => {
@@ -448,7 +465,7 @@ const EditForm = ({
 
                     if (folderID) {
 
-                        setFolderLinks(
+                        /*setFolderLinks(
                             folderLinks.map((item) => {
                                 if (item.id === editID) {
                                     return {
@@ -480,7 +497,7 @@ const EditForm = ({
 
                                 return item;
                             })
-                        )
+                        )*/
 
                         setUserLinks(
                             userLinks.map((item) => {
@@ -653,7 +670,7 @@ const EditForm = ({
                                 Folder
                             </a>
                             <a className="back" href="#"
-                               onClick={(e) => { e.preventDefault(); setEditFolderID(false); setEditID(null); }}
+                               onClick={(e) => { e.preventDefault(); setEditFolderID(false); setEditID(null); setArrayIndex(null); }}
                             >
                                 <BiChevronsLeft />
                                 Icons

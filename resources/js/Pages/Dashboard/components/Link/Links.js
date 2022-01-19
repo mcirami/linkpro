@@ -35,8 +35,6 @@ const Links = ({
                    setEditID,
                    setEditFolderID,
                    userSub,
-                   setFolderLinks,
-                   setOriginalFolderLinks,
                    setFolderContent,
                    setArrayIndex
 
@@ -402,15 +400,9 @@ const Links = ({
         }
     }
 
-    const fetchFolderLinks = async (linkID, key) => {
-        /*const url = 'folder/links/' + linkID;
-        const response = await fetch(url);
-        const folderLinks = await response.json();
-
-        setOriginalFolderLinks(folderLinks["links"]);
-        setFolderLinks(folderLinks["links"]);*/
-        setEditFolderID(linkID);
+    const fetchFolderLinks = ((linkID, key) => {
         setArrayIndex(key);
+        setEditFolderID(linkID);
 
         setTimeout(function(){
             document.querySelector('#scrollTo').scrollIntoView({
@@ -421,7 +413,7 @@ const Links = ({
 
         }, 200)
 
-    }
+    })
 
     const {lastPress, isPressed, mouseXY } = state;
 

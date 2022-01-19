@@ -9,8 +9,8 @@ const AddFolder = ({
                        setShowUpgradePopup,
                        setOptionText,
                        setEditFolderID,
-                       setFolderLinks,
-                       setOriginalFolderLinks }) => {
+                       setArrayIndex
+}) => {
 
     const  { pageSettings } = useContext(PageContext);
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
@@ -41,11 +41,7 @@ const AddFolder = ({
                     setOriginalArray(newOriginalArray.concat(newFolderObject));
                     setUserLinks(newLinks.concat(newFolderObject));
 
-                    //updateContentHeight(originalArray);
-
-                    //setEditFolderID(data.id);
-
-                    fetchFolderLinks(data.id);
+                    setFolderLinks(data.id);
                 }
             })
 
@@ -65,13 +61,8 @@ const AddFolder = ({
         }
     };
 
-    const fetchFolderLinks = async (folderID) => {
-        const url = 'folder/links/' + folderID;
-        const response = await fetch(url);
-        const folderLinks = await response.json();
-
-        setOriginalFolderLinks(folderLinks["links"]);
-        setFolderLinks(folderLinks["links"]);
+    const setFolderLinks = (folderID) => {
+        setArrayIndex(userLinks.length);
         setEditFolderID(folderID);
 
         setTimeout(function(){

@@ -143,6 +143,7 @@ function App() {
                             originalFolderLinks={originalFolderLinks}
                             setOriginalFolderLinks={setOriginalFolderLinks}
                             folderID={editFolderID}
+                            arrayIndex={arrayIndex}
                         />
                         }
                     </div>
@@ -220,10 +221,6 @@ function App() {
                                         setEditFolderID={setEditFolderID}
                                         editID={editID}
                                         setEditID={setEditID}
-                                        folderLinks={folderLinks}
-                                        setFolderLinks={setFolderLinks}
-                                        originalFolderLinks={originalFolderLinks}
-                                        setOriginalFolderLinks={setOriginalFolderLinks}
                                         setShowUpgradePopup={setShowUpgradePopup}
                                         setShowConfirmPopup={setShowConfirmPopup}
                                         setOptionText={setOptionText}
@@ -231,6 +228,8 @@ function App() {
                                         customIconArray={customIconArray}
                                         setCustomIconArray={setCustomIconArray}
                                         setShowLoader={setShowLoader}
+                                        setArrayIndex={setArrayIndex}
+                                        arrayIndex={arrayIndex}
                                     />
                                     :
                                     showNewForm ?
@@ -244,20 +243,14 @@ function App() {
                                             setShowLoader={setShowLoader}
                                             folderID={editFolderID}
                                             setEditFolderID={setEditFolderID}
-                                            folderLinks={folderLinks}
-                                            setFolderLinks={setFolderLinks}
-                                            originalFolderLinks={originalFolderLinks}
-                                            setOriginalFolderLinks={setOriginalFolderLinks}
+                                            setArrayIndex={setArrayIndex}
+                                            arrayIndex={arrayIndex}
                                         />
                                         :
                                         editFolderID ?
 
                                             <FolderLinks
                                                 folderID={editFolderID}
-                                                folderLinks={folderLinks}
-                                                setFolderLinks={setFolderLinks}
-                                                originalFolderLinks={originalFolderLinks}
-                                                setOriginalFolderLinks={setOriginalFolderLinks}
                                                 userSub={userSub}
                                                 setShowUpgradePopup={setShowUpgradePopup}
                                                 setOptionText={setOptionText}
@@ -266,6 +259,7 @@ function App() {
                                                 setShowNewForm={setShowNewForm}
                                                 setShowConfirmFolderDelete={setShowConfirmFolderDelete}
                                                 arrayIndex={arrayIndex}
+                                                setArrayIndex={setArrayIndex}
                                             />
 
                                             :
@@ -285,8 +279,7 @@ function App() {
                                                         setShowUpgradePopup={setShowUpgradePopup}
                                                         setOptionText={setOptionText}
                                                         setEditFolderID={setEditFolderID}
-                                                        setFolderLinks={setFolderLinks}
-                                                        setOriginalFolderLinks={setOriginalFolderLinks}
+                                                        setArrayIndex={setArrayIndex}
                                                     />
                                                 </div>
                                             </div>
@@ -297,8 +290,6 @@ function App() {
                                                         setEditID={setEditID}
                                                         setEditFolderID={setEditFolderID}
                                                         userSub={userSub}
-                                                        setFolderLinks={setFolderLinks}
-                                                        setOriginalFolderLinks={setOriginalFolderLinks}
                                                         setFolderContent={setFolderContent}
                                                         setArrayIndex={setArrayIndex}
                                                     />

@@ -12,7 +12,8 @@ export const ConfirmPopup = ({
                                  setFolderLinks,
                                  originalFolderLinks,
                                  setOriginalFolderLinks,
-                                 folderID
+                                 folderID,
+                                 arrayIndex
                              }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
@@ -21,14 +22,11 @@ export const ConfirmPopup = ({
     const deleteItem = (e) => {
         e.preventDefault();
 
-        let newFolderArray = null;
-        let newOriginalFolderLinks = null;
         let newArray = null;
         let newOriginalArray = null;
 
         if (folderID) {
-            newFolderArray = folderLinks.filter(element => element.id !== editID);
-            newOriginalFolderLinks = originalFolderLinks.filter(element => element.id !== editID);
+
             newArray = userLinks.map((item) => {
                 if (item.id === folderID && item.type === "folder") {
                     const itemLinks = item.links.filter(element => element.id !== editID)
@@ -58,7 +56,6 @@ export const ConfirmPopup = ({
 
         const packets = {
             userLinks: newArray,
-            folderLinks: newFolderArray
         }
 
         deleteLink(packets, editID)
@@ -67,15 +64,9 @@ export const ConfirmPopup = ({
             if(data.success) {
 
                 if (folderID) {
-                    setOriginalFolderLinks(
-                        newOriginalFolderLinks.map((link, index) => ({...link, position: index}))
-                    )
-                    setFolderLinks(
-                        newFolderArray.map((link, index) => ({...link, position: index}))
-                    )
 
                     let folderActive = null;
-                    if (newFolderArray.length === 0) {
+                    if (userLinks[arrayIndex].links.length === 1) {
 
                         folderActive = false;
                         const url = "/dashboard/folder/status/";
@@ -157,7 +148,7 @@ export const ConfirmPopup = ({
 
     const updateContentHeight = () => {
 
-        if (folderID && (folderLinks.length - 1 > 0) && ( (folderLinks.length - 1) % 4 === 0) )  {
+        if (folderID && (userLinks[arrayIndex].links.length - 1 > 0) && ( (userLinks[arrayIndex].links.length - 1) % 4 === 0) )  {
             const iconsWrap = document.querySelector('.icons_wrap');
             const icons = document.querySelectorAll('.add_icons .icon_col');
             const colHeight = icons[0].clientHeight;
