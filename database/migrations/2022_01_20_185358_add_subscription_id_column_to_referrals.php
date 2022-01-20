@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFolderClicksTable extends Migration
+class AddSubscriptionIdColumnToReferrals extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateFolderClicksTable extends Migration
      */
     public function up()
     {
-        Schema::create('folder_clicks', function (Blueprint $table) {
-            $table->id();
-            $table->integer('folder_id');
-            $table->integer('page_id');
-            $table->timestamps();
+        Schema::table('referrals', function (Blueprint $table) {
+            $table->integer('subscription_id')->after('referral_id')->nullable();
         });
     }
 
@@ -28,6 +25,8 @@ class CreateFolderClicksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('folder_clicks');
+        Schema::table('referrals', function (Blueprint $table) {
+            $table->dropColumn('subscription_id');
+        });
     }
 }

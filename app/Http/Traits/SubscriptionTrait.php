@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Traits;
+use App\Models\Referral;
 use Braintree\Gateway;
 
 trait SubscriptionTrait {
@@ -44,5 +45,15 @@ trait SubscriptionTrait {
         }
 
         return $match;
+    }
+
+    public function addReferralSubID($user, $subscriptionID) {
+
+        $referral = Referral::where('referral_id', $user->id)->get();
+
+        if ($referral->isNotEmpty()) {
+            $referral[0]->update(['subscription_id' => $subscriptionID]);
+        }
+
     }
 }

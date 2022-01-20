@@ -154,11 +154,13 @@ class SubscriptionService {
 
             if ( $result->success ) {
 
-                $this->user->subscriptions()->create( [
+                $subscription = $this->user->subscriptions()->create( [
                     'name'             => $result->subscription->planId,
                     'braintree_id'     => $result->subscription->id,
                     'braintree_status' => strtolower( $result->subscription->status ),
                 ] );
+
+                $this->addReferralSubID($this->user, $subscription->id);
 
                 $paymentMethod = strtolower( get_class( $customer->customer->paymentMethods[0] ) );
                 //$paymentMethod = $result->subscription->transactions[0]->paymentInstrumentType;
