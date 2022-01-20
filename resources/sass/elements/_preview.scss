@@ -429,16 +429,20 @@
                     }
 
                     .profile_img_column {
-                        width: 36%;
-                        margin-top: -65px;
+                        width: 38%;
+                        margin-top: -62px;
 
                         @media all and (max-width: 992px) {
                             width: 40%;
                         }
+
+                        @media all and (max-width: 550px) {
+                            margin-top: -52px;
+                        }
                     }
 
                     .profile_text {
-                        width: 64%;
+                        width: 62%;
 
                         @media all and (max-width: 1199px) {
                             padding-left: 10px;
@@ -452,7 +456,11 @@
                             font-size: 1.4em;
 
                             @media all and (max-width: 992px) {
-                                font-size: 1.3em;
+                                font-size: 1.5em;
+                            }
+
+                            @media all and (max-width: 550px) {
+                                font-size: 1.2em;
                             }
                         }
 
@@ -464,7 +472,7 @@
                             }
 
                             @media all and (max-width: 550px) {
-                                font-size: 13px;
+                                font-size: 10px;
                             }
 
                             @media screen and (max-width: 400px) {

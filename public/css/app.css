@@ -13270,16 +13270,21 @@ header.guest_header .col.right {
   }
 }
 #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_img_column {
-  width: 36%;
-  margin-top: -65px;
+  width: 38%;
+  margin-top: -62px;
 }
 @media all and (max-width: 992px) {
   #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_img_column {
     width: 40%;
   }
 }
+@media all and (max-width: 550px) {
+  #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_img_column {
+    margin-top: -52px;
+  }
+}
 #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text {
-  width: 64%;
+  width: 62%;
 }
 @media all and (max-width: 1199px) {
   #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text {
@@ -13296,7 +13301,12 @@ header.guest_header .col.right {
 }
 @media all and (max-width: 992px) {
   #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text h2, #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text .h2 {
-    font-size: 1.3em;
+    font-size: 1.5em;
+  }
+}
+@media all and (max-width: 550px) {
+  #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text h2, #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text .h2 {
+    font-size: 1.2em;
   }
 }
 #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text p {
@@ -13309,7 +13319,7 @@ header.guest_header .col.right {
 }
 @media all and (max-width: 550px) {
   #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_text p {
-    font-size: 13px;
+    font-size: 10px;
   }
 }
 @media screen and (max-width: 400px) {
