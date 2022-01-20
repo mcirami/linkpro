@@ -47,6 +47,7 @@ function App() {
     const [folderLinks, setFolderLinks] = useState([])
     const [originalFolderLinks, setOriginalFolderLinks] = useState([])
     const [arrayIndex, setArrayIndex] = useState(null);
+    const [newOrder, setNewOrder] = useState(null);
 
     const [allUserPages, setAllUserPages] = useState(userPages);
     const [editID, setEditID] = useState(null);
@@ -230,6 +231,7 @@ function App() {
                                         setShowLoader={setShowLoader}
                                         setArrayIndex={setArrayIndex}
                                         arrayIndex={arrayIndex}
+                                        newOrder={newOrder}
                                     />
                                     :
                                     showNewForm ?
@@ -245,6 +247,7 @@ function App() {
                                             setEditFolderID={setEditFolderID}
                                             setArrayIndex={setArrayIndex}
                                             arrayIndex={arrayIndex}
+                                            newOrder={newOrder}
                                         />
                                         :
                                         editFolderID ?
@@ -260,6 +263,8 @@ function App() {
                                                 setShowConfirmFolderDelete={setShowConfirmFolderDelete}
                                                 arrayIndex={arrayIndex}
                                                 setArrayIndex={setArrayIndex}
+                                                newOrder={newOrder}
+                                                setNewOrder={setNewOrder}
                                             />
 
                                             :

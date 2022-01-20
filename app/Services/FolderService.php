@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Auth;
 
 class FolderService {
 
+    /**
+     * @param $request
+     *
+     * @return array
+     */
     public function addNewFolder($request) {
 
         $user = Auth::id();
@@ -37,21 +42,12 @@ class FolderService {
 
     }
 
-    public function getLinks($folder) {
-
-        $linksArray = [];
-        $folderLinkIDs = $folder->link_ids;
-
-        if($folderLinkIDs) {
-            $linkIDs = json_decode($folderLinkIDs);
-
-            $linksArray = Link::whereIn('id', $linkIDs)->orderBy('position', 'asc')->get()->toArray();
-        }
-
-        return $linksArray;
-
-    }
-
+    /**
+     * @param $request
+     * @param $folder
+     *
+     * @return string
+     */
     public function updateStatus($request, $folder) {
 
         $folder->update($request->only(['active_status']));
@@ -64,11 +60,18 @@ class FolderService {
         return $message;
     }
 
+    /**
+     * @param $folder
+     * @param $request
+     */
     public function updateFolderName($folder, $request) {
 
         $folder->update(['folder_name' => $request->folderName]);
     }
 
+    /**
+     * @param $folder
+     */
     public function deleteFolder($folder) {
 
         $folderLinkIDs = $folder->link_ids;

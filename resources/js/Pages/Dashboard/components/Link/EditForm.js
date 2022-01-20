@@ -13,6 +13,8 @@ import 'react-image-crop/src/ReactCrop.scss';
 import InputComponent from './InputComponent';
 const iconPaths = user.icons;
 import {updateLink, checkURL} from '../../../../Services/LinksRequest';
+import {updateOriginalArray} from '../../../../Services/FolderRequests';
+
 import {BiChevronLeft, BiChevronsLeft} from 'react-icons/bi';
 
 const EditForm = ({
@@ -28,7 +30,8 @@ const EditForm = ({
                       folderID,
                       setEditFolderID,
                       setArrayIndex,
-                      arrayIndex
+                      arrayIndex,
+                      newOrder
 }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
@@ -465,40 +468,6 @@ const EditForm = ({
 
                     if (folderID) {
 
-                        /*setFolderLinks(
-                            folderLinks.map((item) => {
-                                if (item.id === editID) {
-                                    return {
-                                        ...item,
-                                        name: currentLink.name,
-                                        url: URL,
-                                        email: currentLink.email,
-                                        phone: currentLink.phone,
-                                        icon: data.iconPath
-                                    }
-                                }
-
-                                return item;
-                            })
-                        )
-
-                        setOriginalFolderLinks(
-                            originalFolderLinks.map((item) => {
-                                if (item.id === editID) {
-                                    return {
-                                        ...item,
-                                        name: currentLink.name,
-                                        url: URL,
-                                        email: currentLink.email,
-                                        phone: currentLink.phone,
-                                        icon: data.iconPath
-                                    }
-                                }
-
-                                return item;
-                            })
-                        )*/
-
                         setUserLinks(
                             userLinks.map((item) => {
                                 if (item.id === folderID && item.type === "folder") {
@@ -656,6 +625,17 @@ const EditForm = ({
         document.querySelector('#confirm_popup_link').classList.add('open');
     }
 
+    const handleBackClick = (e) => {
+        e.preventDefault();
+
+        if (newOrder) {
+            updateOriginalArray(setOriginalArray, originalArray, folderID, newOrder);
+        }
+
+        setEditID(null);
+        setEditFolderID(null);
+        setArrayIndex(null);
+    }
     return (
         <>
             <div className="my_row icon_breadcrumb" id="scrollTo">
@@ -670,7 +650,7 @@ const EditForm = ({
                                 Folder
                             </a>
                             <a className="back" href="#"
-                               onClick={(e) => { e.preventDefault(); setEditFolderID(false); setEditID(null); setArrayIndex(null); }}
+                               onClick={(e) => { handleBackClick(e); }}
                             >
                                 <BiChevronsLeft />
                                 Icons

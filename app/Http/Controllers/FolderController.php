@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Auth;
 
 class FolderController extends Controller
 {
+    /**
+     * @param Request $request
+     * @param FolderService $folder
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request, FolderService $folder) {
 
         $data = $folder->addNewFolder($request);
@@ -18,13 +24,13 @@ class FolderController extends Controller
 
     }
 
-    public function getFolderLinks(Folder $folder, FolderService $folderService, ) {
-
-        $links = $folderService->getLinks($folder);
-
-        return response()->json( ['links' => $links]);
-    }
-
+    /**
+     * @param Request $request
+     * @param Folder $folder
+     * @param FolderService $folder_service
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateName(Request $request, Folder $folder, FolderService $folder_service) {
 
         $folder_service->updateFolderName($folder, $request);
@@ -32,6 +38,13 @@ class FolderController extends Controller
         return response()->json(['message' => "Folder Name Updated"]);
     }
 
+    /**
+     * @param Request $request
+     * @param Folder $folder
+     * @param FolderService $folderService
+     *
+     * @return \Illuminate\Http\JsonResponse|\never
+     */
     public function updateFolderStatus(Request $request, Folder $folder, FolderService $folderService) {
         if ($folder->user_id != Auth::id()) {
             return abort(403);
@@ -42,6 +55,14 @@ class FolderController extends Controller
         return response()->json(['message' => $message]);
     }
 
+    /**
+     * @param Request $request
+     * @param Folder $folder
+     * @param FolderService $folderService
+     * @param LinkService $linkService
+     *
+     * @return \Illuminate\Http\JsonResponse|\never
+     */
     public function destroy(Request $request, Folder $folder, FolderService $folderService, LinkService $linkService) {
         if ($folder->user_id != Auth::id()) {
             return abort(403);

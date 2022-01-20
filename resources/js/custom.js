@@ -4,54 +4,6 @@ import EventBus from './Utils/Bus';
 
 jQuery(document).ready(function($) {
 
-    /*const box = document.querySelector('.inner_content_wrap');
-    const innerContent = document.getElementById('preview_wrap');
-
-
-    if (box) {
-
-        /!*const innerWrap = document.querySelector('#links_page .links_col .links_wrap.preview .inner_content');
-        const rightCol = document.querySelector('.right_column.links_col.preview').clientWidth;
-        const percentage = (rightCol/2.2) / 1000;
-        const widthDiff = rightCol * percentage;
-        const maxColWidth = rightCol - widthDiff - 20 + "px";
-        innerWrap.style.maxWidth = maxColWidth;*!/
-
-       /!* const diff = 0.048461 * innerContent.clientHeight;
-        box.style.maxHeight = innerContent.clientHeight - diff + "px";*!/
-        let pixelsToMinus = 0;
-        if (window.outerWidth > 550) {
-            pixelsToMinus = 35;
-        } else {
-            pixelsToMinus = 25;
-        }
-
-        box.style.maxHeight = innerContent.offsetHeight - pixelsToMinus + "px";
-
-        $(window).on('resize', function() {
-
-           /!* const innerWrap = document.querySelector('#links_page .links_col .links_wrap.preview .inner_content');
-            const rightCol = document.querySelector('.right_column.links_col.preview').clientWidth;
-            const percentage = (rightCol/1.6) / 1000;
-            const widthDiff = rightCol * percentage;
-            const maxColWidth = rightCol - widthDiff - 20;
-            innerWrap.style.maxWidth = maxColWidth + "px";*!/
-
-            //const diff = 0.048461 * innerContent.clientHeight;
-            //box.style.maxHeight = innerContent.clientHeight - diff + "px";
-
-            let pixelsToMinus = 0;
-            if (window.outerWidth > 550) {
-                pixelsToMinus = 35;
-            } else {
-                pixelsToMinus = 25;
-            }
-
-            box.style.maxHeight = innerContent.clientHeight - pixelsToMinus + "px";
-
-        });
-    }
-*/
     const flashMessage = document.getElementById('laravel_flash');
 
     if (flashMessage) {
@@ -392,29 +344,6 @@ jQuery(document).ready(function($) {
             })
         })
     }
-
-    /*const folderTracker = document.querySelectorAll('.folder_tracker');
-    if (folderTracker.length > 0) {
-        folderTracker.forEach((folder) => {
-            folder.addEventListener('click', function(e) {
-                const folderID = e.currentTarget.dataset.id;
-                console.log(e.currentTarget);
-                if (!e.currentTarget.classList.contains("open")) {
-                    axios.post('/folder-click/' + folderID,).then(
-                        (response) => {
-                            console.log(JSON.stringify(response.data.message));
-                        },
-                    ).catch(error => {
-                        if (error.response) {
-                            console.log(error.response);
-                        } else {
-                            console.log("ERROR:: ", error);
-                        }
-                    });
-                }
-            })
-        })
-    }*/
 
     function trackFolderClick(folderID) {
         axios.post('/folder-click/' + folderID,).then(

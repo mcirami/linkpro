@@ -343,7 +343,7 @@ const Preview = ({
 
                                 const displayIcon = checkSubStatus(icon);
 
-                                const insertRow = (index + 1) % 4 === 0;
+                                //const insertRow = (index + 1) % 4 === 0;
 
                                 {type === "folder" && ++folderCount}
 
@@ -457,9 +457,9 @@ const Preview = ({
                                             </div>
                                         }
 
-                                        {insertRow && <div>
+                                        {/*{insertRow && <div>
                                             <p>myshit</p>
-                                        </div>}
+                                        </div>}*/}
                                     </>
                                 )
                             })}

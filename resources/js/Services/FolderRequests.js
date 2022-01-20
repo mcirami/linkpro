@@ -97,4 +97,22 @@ export const updateFolderName = (folderID, packets) => {
     });
 }
 
+export const updateOriginalArray = (setOriginalArray, originalArray, folderID, newOrder) => {
+
+    setOriginalArray(
+        originalArray.map((item) => {
+            if (item.id === folderID && item.type === "folder") {
+
+                return {
+                    ...item,
+                    links: newOrder
+                }
+            }
+
+            return item;
+
+        })
+    )
+}
+
 export default addFolder;

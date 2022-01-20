@@ -14,7 +14,7 @@ import {
     updateLinksPositions,
     updateLinkStatus,
 } from '../../../../Services/LinksRequest';
-import {updateFolderName} from '../../../../Services/FolderRequests';
+import {updateFolderName,updateOriginalArray} from '../../../../Services/FolderRequests';
 import AddLink from '../Link/AddLink';
 
 const springSetting1 = { stiffness: 180, damping: 10 };
@@ -42,13 +42,14 @@ const FolderLinks = ({
                          setShowNewForm,
                          setShowConfirmFolderDelete,
                          setArrayIndex,
-                         arrayIndex
+                         arrayIndex,
+                         setNewOrder,
+                         newOrder
 
                }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
     const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
-
 
     const [ currentFolder, setCurrentFolder ] = useState(
         userLinks.find(function(e) {
@@ -195,6 +196,9 @@ const FolderLinks = ({
         }
     }, []);
 
+    console.log(arrayIndex);
+    console.log(userLinks);
+    console.log(folderID);
     // indexed by visual position
     const layout = userLinks[arrayIndex].links.map((link, index) => {
         const row = Math.floor(index / 3);
@@ -249,20 +253,6 @@ const FolderLinks = ({
                 );
                 setState((state) => ({ ...state, mouseXY }));
 
-                /*setOriginalArray(originalArray.map((item) => {
-                        if (item.id === folderID && item.type === "folder") {
-
-                            return {
-                                ...item,
-                                links: newOrder
-                            }
-                        }
-
-                        return item;
-
-                    })
-                )*/
-
                 setUserLinks(userLinks.map((item) => {
                         if (item.id === folderID && item.type === "folder") {
 
@@ -276,6 +266,8 @@ const FolderLinks = ({
 
                     })
                 )
+
+                setNewOrder(newOrder);
             }
         },
         [state]
@@ -478,6 +470,16 @@ const FolderLinks = ({
         document.querySelector('#confirm_folder_popup_link').classList.add('open');
     }
 
+    const handleBackClick = (e) => {
+        e.preventDefault();
+
+        if (newOrder) {
+            updateOriginalArray(setOriginalArray, originalArray, folderID, newOrder);
+        }
+        setEditFolderID(null);
+        setArrayIndex(null);
+    }
+
     const { lastPress, isPressed, mouseXY } = state;
 
     return (
@@ -486,7 +488,7 @@ const FolderLinks = ({
             <div className="my_row icon_breadcrumb" id="scrollTo">
                 <p>Editing Folder</p>
                 <a className="back" href="#"
-                   onClick={(e) => { e.preventDefault(); setEditFolderID(null); setArrayIndex(null); }}
+                   onClick={(e) => { handleBackClick(e) }}
                 >
                     <MdChevronLeft />
                     Back To Icons

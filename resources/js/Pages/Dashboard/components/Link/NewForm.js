@@ -18,6 +18,7 @@ import {
     updateContentHeight,
     updateLinkStatus,
 } from '../../../../Services/LinksRequest';
+import {updateOriginalArray} from '../../../../Services/FolderRequests';
 import EventBus from '../../../../Utils/Bus';
 import { BiChevronLeft, BiChevronsLeft,  } from "react-icons/bi";
 
@@ -32,7 +33,8 @@ const NewForm = ({
                      folderID,
                      setEditFolderID,
                      setArrayIndex,
-                     arrayIndex
+                     arrayIndex,
+                     newOrder
                   }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
@@ -560,6 +562,18 @@ const NewForm = ({
         }
     )
 
+    const handleBackClick = (e) => {
+        e.preventDefault();
+
+        if (newOrder) {
+            updateOriginalArray(setOriginalArray, originalArray, folderID, newOrder);
+        }
+
+        setEditFolderID(null);
+        setShowNewForm(false);
+        setArrayIndex(null);
+    }
+
     return (
         <>
             <div className="my_row icon_breadcrumb" id="scrollTo">
@@ -574,7 +588,7 @@ const NewForm = ({
                                 Folder
                             </a>
                             <a className="back" href="#"
-                               onClick={(e) => { e.preventDefault(); setEditFolderID(false); setShowNewForm(false); setArrayIndex(null); }}
+                               onClick={(e) => { handleBackClick(e); }}
                             >
                                 <BiChevronsLeft />
                                 Icons

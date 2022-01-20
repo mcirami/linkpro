@@ -401,7 +401,10 @@ const Links = ({
     }
 
     const fetchFolderLinks = ((linkID, key) => {
-        setArrayIndex(key);
+
+        const index = userLinks.findIndex(link => link.id === linkID);
+
+        setArrayIndex(index);
         setEditFolderID(linkID);
 
         setTimeout(function(){
