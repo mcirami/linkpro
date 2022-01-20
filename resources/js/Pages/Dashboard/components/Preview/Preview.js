@@ -157,20 +157,20 @@ const Preview = ({
             setRow(null);
         } else if (folderContent) {
             const folder = document.querySelector('.my_row.folder.open');
-
-            setTimeout(() => {
+            folder.classList.remove('open');
+            /*setTimeout(() => {
                 folder.classList.remove('open');
-            }, 100)
-
-            const folderParent = document.querySelector(folder.dataset.parent);
-            folderParent.classList.remove('open');
+            }, 100)*/
             setTimeout(() => {
                 folder.classList.remove('adjust');
             }, 200)
+            const folderParent = document.querySelector(folder.dataset.parent);
+            folderParent.classList.remove('open');
+            folderParent.lastElementChild.after(folder);
 
-            setTimeout(() => {
+            /*setTimeout(() => {
                 folderParent.lastElementChild.after(folder);
-            }, 500)
+            }, 500)*/
 
             insertFolder(e);
 

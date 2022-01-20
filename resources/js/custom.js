@@ -329,8 +329,6 @@ jQuery(document).ready(function($) {
                         folderParent.classList.remove('open');
                         folderParent.lastElementChild.after(folder);
 
-
-
                         content = element.lastElementChild;
 
                         insertContent(content, element, function() {
