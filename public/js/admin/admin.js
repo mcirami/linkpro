@@ -3179,6 +3179,7 @@ function App() {
 
       setStartDate(_startDate2);
       setEndDate(_endDate2);
+      setDropdownValue("custom");
     } else if (queryDateValue) {
       setDropdownValue(queryDateValue);
     }

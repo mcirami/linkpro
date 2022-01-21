@@ -66,6 +66,8 @@ function App() {
 
             setStartDate(startDate);
             setEndDate(endDate);
+
+            setDropdownValue("custom");
         } else if (queryDateValue) {
             setDropdownValue(queryDateValue);
         }
