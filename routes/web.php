@@ -23,6 +23,12 @@ use App\Http\Controllers\UtilityController;
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
+
+    Route::post('/subscriptions', [App\Http\Controllers\VoyagerFilterController::class, 'index']);
+    Route::post('/users', [App\Http\Controllers\VoyagerFilterController::class, 'index']);
+    Route::post('/pages', [App\Http\Controllers\VoyagerFilterController::class, 'index']);
+    Route::post('/links', [App\Http\Controllers\VoyagerFilterController::class, 'index']);
+    Route::post('/referrals', [App\Http\Controllers\VoyagerFilterController::class, 'index']);
 });
 
 Route::get('/', function () {

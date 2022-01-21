@@ -77,35 +77,36 @@ const LinkStats = ({
 
     const handleDropdownChange = (e) => {
 
-        setLinkStartDate(null);
-        setLinkEndDate(null);
-        setLinkDropdownValue(e.target.value);
+        if (e.target.value !== 0) {
+            setLinkStartDate(null);
+            setLinkEndDate(null);
+            setLinkDropdownValue(e.target.value);
 
-        animatedElements.forEach((element) => {
-            element.classList.add('hide');
-        })
+            animatedElements.forEach((element) => {
+                element.classList.add('hide');
+            })
 
-        const packets = {
-            dateValue: e.target.value
-        }
+            const packets = {
+                dateValue: e.target.value
+            }
 
-        getLinkStats(packets)
-        .then((data) => {
-            if (data["success"]) {
-                setTimeout(() => {
-                    setLinkStats(data["currentData"]);
-                    setDeletedStats(data["pastData"]);
+            getLinkStats(packets).then((data) => {
+                if (data["success"]) {
+                    setTimeout(() => {
+                        setLinkStats(data["currentData"]);
+                        setDeletedStats(data["pastData"]);
+                        animatedElements.forEach((element) => {
+                            element.classList.remove('hide');
+                        })
+
+                    }, 500)
+                } else {
                     animatedElements.forEach((element) => {
                         element.classList.remove('hide');
                     })
-
-                }, 500)
-            } else {
-                animatedElements.forEach((element) => {
-                    element.classList.remove('hide');
-                })
-            }
-        })
+                }
+            })
+        }
     }
 
     return (

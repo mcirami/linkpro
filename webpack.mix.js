@@ -32,3 +32,4 @@ mix.js('resources/js/app.js', 'public/js')
         corejs: 3,
     });
 
+mix.sass('resources/sass/admin.scss', 'public/css/admin' );

@@ -16,7 +16,8 @@ class Referral extends Model
      */
     protected $fillable = [
         'user_id',
-        'referral_id'
+        'referral_id',
+        'subscription_id'
     ];
 
     public function users() {
