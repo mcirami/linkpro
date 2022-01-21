@@ -1,6 +1,5 @@
 'use strict'
 import axios from 'axios';
-import EventBus from './Utils/Bus';
 
 jQuery(document).ready(function($) {
 
@@ -355,21 +354,6 @@ jQuery(document).ready(function($) {
                 console.log("ERROR:: ", error);
             }
         });
-    }
-
-    const refPopup = document.querySelector('#ref_popup');
-
-    if (refPopup) {
-        document.querySelector('.open_ref_pop').
-            addEventListener('click', function(e) {
-                e.preventDefault();
-                refPopup.classList.add('open');
-            });
-
-        document.querySelector('.close_popup').addEventListener('click', function(e){
-            e.preventDefault();
-            refPopup.classList.remove('open');
-        })
     }
 
 });

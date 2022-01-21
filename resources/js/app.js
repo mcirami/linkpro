@@ -4,8 +4,8 @@
  * building robust, powerful web applications using React + Laravel.
  */
 
-require('./bootstrap');
 
+require('./bootstrap');
 
 require('./custom');
 
@@ -30,13 +30,5 @@ if (document.getElementById('setup')) {
     require('./Pages/Setup/Index');
 }
 
-if (document.getElementById('admin_filters')) {
-    require('./Pages/Admin/Index');
-}
-
-/*if (document.getElementById('profile_img')) {
-    require('./components/ProfileImage/Index');
-}*/
-//require('./components/Preview');
 
 
