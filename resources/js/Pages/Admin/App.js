@@ -7,7 +7,7 @@ function App() {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [pathName, setPathName] = useState(window.location.pathname);
-    const [dropdownValue, setDropdownValue] = useState("custom");
+    const [dropdownValue, setDropdownValue] = useState(1);
 
     const handleDateChange = (date, type) => {
 

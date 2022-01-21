@@ -150,4 +150,8 @@ input[type="text"], select {
     }
 
 }
-
+.page-content.browse {
+    .panel-body {
+        min-height: 600px;
+    }
+}

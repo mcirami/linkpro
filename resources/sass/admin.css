@@ -121,4 +121,7 @@ input[type="text"], select {
         #admin_filters .column_wrap .column {
           margin-bottom: 10px; } }
 
+.page-content.browse .panel-body {
+  min-height: 600px; }
+
 /*# sourceMappingURL=admin.css.map */

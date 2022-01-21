@@ -76,9 +76,9 @@ class VoyagerFilterController extends \TCG\Voyager\Http\Controllers\VoyagerBaseC
                 $query = $model::select($dataType->name.'.*')->whereBetween('created_at', [ $getData['startDate'], $getData['endDate'] ]);
 
             } else {
-                /*$getData = $this->getDateRange(1);
-                $query = $model::select($dataType->name.'.*')->whereBetween('created_at', [ $getData['startDate'], $getData['endDate'] ]);*/
-                $query = $model::select($dataType->name.'.*');
+                $getData = $this->getDateRange(1);
+                $query = $model::select($dataType->name.'.*')->whereBetween('created_at', [ $getData['startDate'], $getData['endDate'] ]);
+                /*$query = $model::select($dataType->name.'.*');*/
             }
 
 
