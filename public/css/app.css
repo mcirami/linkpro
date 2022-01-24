@@ -11976,7 +11976,7 @@ button {
   border-bottom: 14px solid;
   border-bottom-color: #ffffff;
   top: 25px;
-  left: 13px;
+  left: 11px;
 }
 .page_menu_row .menu_wrap ul.page_menu li:hover {
   background: #424fcf;
@@ -12607,14 +12607,6 @@ header.guest_header .col.right {
 }
 #links_page .icon_row .icon_box .my_row.top .radio_wrap {
   position: relative;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-items: center;
-  -webkit-align-items: center;
-  justify-content: center;
-  -webkit-justify-content: center;
-  padding: 20px 10px;
   width: 50%;
   border-bottom: 1px solid #d2d2d2;
 }
@@ -12641,9 +12633,18 @@ header.guest_header .col.right {
   }
 }
 #links_page .icon_row .icon_box .my_row.top .radio_wrap label {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  -webkit-align-items: center;
+  justify-content: center;
+  -webkit-justify-content: center;
+  padding: 20px 10px;
   line-height: 1.2;
 }
-@media screen and (max-width: 768px) {
+@media all and (max-width: 1199px) {
   #links_page .icon_row .icon_box .my_row.top .radio_wrap label {
     font-size: 16px;
   }
@@ -12651,6 +12652,7 @@ header.guest_header .col.right {
 @media all and (max-width: 550px) {
   #links_page .icon_row .icon_box .my_row.top .radio_wrap label {
     font-size: 14px;
+    padding: 15px 5px;
   }
 }
 #links_page .icon_row .icons_wrap {
@@ -12777,6 +12779,8 @@ header.guest_header .col.right {
   align-items: center;
   -webkit-align-items: center;
   padding: 0 5%;
+}
+.link_row.view_live_link {
   margin-bottom: 20px;
 }
 
@@ -13121,9 +13125,13 @@ header.guest_header .col.right {
   -webkit-border-radius: 100%;
   -moz-border-radius: 100%;
   padding: 4px;
-}
-#links_page .links_col .links_wrap .profile_content .profile_img_column .profile_image.selected .image_wrap {
-  padding-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  -webkit-justify-content: center;
+  align-items: center;
+  -webkit-align-items: center;
 }
 #links_page .links_col .links_wrap .profile_content .profile_img_column.default {
   padding: 8px;
@@ -13820,21 +13828,6 @@ form .bottom_row a {
   #links_page .edit_form.popup .link_form, #links_page .edit_form.link .link_form {
     padding: 40px 20px 10px;
   }
-}
-#links_page .edit_form.popup .link_form .delete, #links_page .edit_form.link .link_form .delete {
-  width: 30px;
-  height: 30px;
-  color: #f24d1d;
-  position: absolute;
-  right: 10px;
-  top: 10px;
-}
-#links_page .edit_form.popup .link_form .delete:hover, #links_page .edit_form.link .link_form .delete:hover {
-  color: #d4d2d2;
-}
-#links_page .edit_form.popup .link_form .delete svg, #links_page .edit_form.link .link_form .delete svg {
-  width: 100%;
-  height: 100%;
 }
 #links_page .edit_form.popup.new_page_form, #links_page .edit_form.link.new_page_form {
   align-items: flex-start;
@@ -15339,14 +15332,56 @@ form .bottom_row a {
   }
 }
 .icon_breadcrumb .breadcrumb_links {
-  float: left;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+  align-items: center;
+  -webkit-align-items: center;
+  position: relative;
 }
 .icon_breadcrumb .breadcrumb_links a {
   font-family: "opensanssemibold", sans-serif;
   font-size: 15px;
+  margin-right: auto;
 }
 .icon_breadcrumb .breadcrumb_links a:first-child {
   margin-right: 2px;
+}
+.icon_breadcrumb .delete_icon {
+  position: relative;
+  width: 50%;
+}
+.icon_breadcrumb .delete_icon .hover_text {
+  justify-content: flex-end;
+  -webkit-justify-content: flex-end;
+  top: -30px;
+  right: 0;
+}
+.icon_breadcrumb .delete_icon .hover_text p {
+  font-family: "opensansregular", sans-serif;
+  color: #000;
+  font-size: 12px;
+  margin-left: auto;
+  border: none;
+}
+.icon_breadcrumb .delete_icon:hover .hover_text {
+  opacity: 1;
+}
+.icon_breadcrumb a.delete {
+  display: block;
+  color: #f24d1d;
+  width: 30px;
+  height: 30px;
+  float: right;
+}
+.icon_breadcrumb a.delete:hover {
+  color: #d4d2d2;
+}
+.icon_breadcrumb a.delete svg {
+  width: 100%;
+  height: 100%;
 }
 .icon_breadcrumb p {
   font-family: "opensansbold", sans-serif;
@@ -15610,40 +15645,9 @@ form .bottom_row a {
   width: 31%;
 }
 
-.folders .delete_icon {
-  position: relative;
-  width: 50%;
-}
-.folders .delete_icon .hover_text {
-  justify-content: flex-end;
-  -webkit-justify-content: flex-end;
-  top: -30px;
-  right: 0;
-}
-.folders .delete_icon .hover_text p {
-  font-size: 14px;
-  margin-left: auto;
-}
-.folders .delete_icon:hover .hover_text {
-  opacity: 1;
-}
-.folders a.delete {
-  display: block;
-  color: #f24d1d;
-  width: 30px;
-  height: 30px;
-  float: right;
-}
-.folders a.delete:hover {
-  color: #d4d2d2;
-}
-.folders a.delete svg {
-  width: 100%;
-  height: 100%;
-}
-
 .folder_name {
   padding: 0 40px;
+  margin-bottom: 20px;
 }
 @media all and (max-width: 768px) {
   .folder_name {

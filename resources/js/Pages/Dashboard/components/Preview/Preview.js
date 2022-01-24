@@ -286,9 +286,7 @@ const Preview = ({
                                         </div>
                                     </div>
                                     :
-                                    <div className={ profileFileName ?
-                                        "profile_image selected" :
-                                        "profile_image"}>
+                                    <div className={"profile_image"}>
                                         <div className="image_wrap">
                                             <canvas
                                                 ref={profileRef}
@@ -360,7 +358,7 @@ const Preview = ({
                                 }
 
                                 return (
-                                    <div id={colID} className={colClasses} key={id}>
+                                    <div id={colID} className={colClasses} key={index}>
 
                                         {type === "folder" ?
 

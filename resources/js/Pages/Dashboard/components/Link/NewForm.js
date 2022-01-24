@@ -618,18 +618,22 @@ const NewForm = ({
                                 <div className="icon_box">
                                     <div className="my_row top">
                                         <div className={radioValue === "standard" ? "radio_wrap active" : "radio_wrap" }>
-                                            <input type="radio" value="standard" name="icon_type"
-                                                   checked={radioValue === "standard"}
-                                                   onChange={(e) => {setRadioValue(e.target.value) }}/>
-                                            <label htmlFor="icon_type">Standard Icons</label>
+                                            <label htmlFor="standard_radio">
+                                                <input id="standard_radio" type="radio" value="standard" name="icon_type"
+                                                       checked={radioValue === "standard"}
+                                                       onChange={(e) => {setRadioValue(e.target.value) }}/>
+                                                Standard Icons
+                                            </label>
                                         </div>
                                         <div className={radioValue === "custom" ? "radio_wrap active" : "radio_wrap" }>
-                                            <input type="radio" value="custom" name="icon_type"
-                                                   onChange={(e) => { setRadioValue(e.target.value) }}
-                                                   disabled={subStatus}
-                                                   checked={radioValue === "custom"}
-                                            />
-                                            <label htmlFor="icon_type">Custom Icons</label>
+                                            <label htmlFor="custom_radio">
+                                                <input id="custom_radio" type="radio" value="custom" name="icon_type"
+                                                       onChange={(e) => { setRadioValue(e.target.value) }}
+                                                       disabled={subStatus}
+                                                       checked={radioValue === "custom"}
+                                                />
+                                                Custom Icons
+                                            </label>
                                             {subStatus && <span className="disabled_wrap" data-type="custom" onClick={(e) => handleOnClick(e)} />}
                                         </div>
                                     </div>

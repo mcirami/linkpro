@@ -297,24 +297,6 @@ form .bottom_row a {
                 @media all and (max-width: 768px) {
                     padding: 40px 20px 10px;
                 }
-
-                .delete {
-                    width: 30px;
-                    height: 30px;
-                    color: $red;
-                    position: absolute;
-                    right: 10px;
-                    top: 10px;
-
-                    &:hover {
-                        color: $gray;
-                    }
-
-                    svg {
-                        width: 100%;
-                        height: 100%;
-                    }
-                }
             }
 
             &.new_page_form {

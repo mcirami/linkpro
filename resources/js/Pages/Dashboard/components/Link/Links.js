@@ -504,14 +504,14 @@ const Links = ({
 
                                                         originalArray[key].links.slice(
                                                             0, 9).
-                                                            map((innerLink) => {
+                                                            map((innerLink, index) => {
 
                                                                 const {id, icon} = innerLink;
 
                                                                 const displayIcon = checkSubStatus(
                                                                     icon);
                                                                 return (
-                                                                    <div className="image_col" key={id}>
+                                                                    <div className="image_col" key={index}>
                                                                         <img src={displayIcon ||
                                                                         Vapor.asset(
                                                                             'images/icon-placeholder.png')} alt=""/>

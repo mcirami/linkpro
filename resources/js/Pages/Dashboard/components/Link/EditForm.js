@@ -57,7 +57,7 @@ const EditForm = ({
 
     const [ currentLink, setCurrentLink ] = useState(
         userLinks.find(function(e) {
-            return e.id === editID
+            return e.id === editID && !e.type
         }) || folderLinks.find(function(e) {
             return e.id === editID
         }) );
@@ -635,13 +635,17 @@ const EditForm = ({
                             Back To Icons
                         </a>
                     }
+                    <div className="delete_icon">
+                        <a className="delete" href="#" onClick={handleDeleteClick}><MdDeleteForever /></a>
+                        <div className="hover_text delete_folder"><p>Delete Icon</p></div>
+                    </div>
+
                 </div>
             </div>
             <div className="my_row edit_form link" key={editID}>
                 <form onSubmit={handleSubmit} className="link_form">
                     <div className="row">
                         <div className="col-12">
-                            <a className="delete" href="#" onClick={handleDeleteClick}><MdDeleteForever /></a>
                             {radioValue === "custom" ?
                                 <div className={!iconSelected ?
                                     "crop_section hidden" :
@@ -681,15 +685,21 @@ const EditForm = ({
                                 <div className="icon_box">
                                     <div className="my_row top">
                                         <div className={radioValue === "standard" ? "radio_wrap active" : "radio_wrap" }>
-                                            <input type="radio" value="standard" name="icon_type" defaultChecked onChange={(e) => {setRadioValue(e.target.value) }}/>
-                                            <label htmlFor="icon_type">Standard Icons</label>
+                                            <label htmlFor="standard_radio">
+                                                <input id="standard_radio" type="radio" value="standard" name="icon_type" defaultChecked
+                                                       onChange={(e) => {setRadioValue(e.target.value) }}
+                                                />
+                                                Standard Icons
+                                            </label>
                                         </div>
                                         <div className={radioValue === "custom" ? "radio_wrap active" : "radio_wrap" }>
-                                            <input type="radio" value="custom" name="icon_type"
-                                                   onChange={(e) => {setRadioValue(e.target.value); }}
-                                                   disabled={subStatus}
-                                            />
-                                            <label htmlFor="icon_type">Custom Icons</label>
+                                            <label htmlFor="custom_radio">
+                                                <input id="custom_radio" type="radio" value="custom" name="icon_type"
+                                                       onChange={(e) => {setRadioValue(e.target.value); }}
+                                                       disabled={subStatus}
+                                                />
+                                                Custom Icons
+                                            </label>
                                             {subStatus && <span className="disabled_wrap" data-type="custom" onClick={(e) => handleOnClick(e)} />}
                                         </div>
                                     </div>

@@ -510,12 +510,18 @@ const FolderLinks = ({
         <>
             <div className="my_row icon_breadcrumb" id="scrollTo">
                 <p>Editing Folder</p>
-                <a className="back" href="#"
-                   onClick={(e) => { e.preventDefault(); setEditFolderID(null); }}
-                >
-                    <MdChevronLeft />
-                    Back To Icons
-                </a>
+                <div className="breadcrumb_links">
+                    <a className="back" href="#"
+                       onClick={(e) => { e.preventDefault(); setEditFolderID(null); }}
+                    >
+                        <MdChevronLeft />
+                        Back To Icons
+                    </a>
+                    <div className="delete_icon">
+                        <a className="delete" href="#" onClick={handleDeleteFolder}><MdDeleteForever /></a>
+                        <div className="hover_text delete_folder"><p>Delete Folder</p></div>
+                    </div>
+                </div>
             </div>
             <div className="folder_name my_row">
                 <div className="input_wrap">
@@ -555,10 +561,6 @@ const FolderLinks = ({
                         setShowUpgradePopup={setShowUpgradePopup}
                         setOptionText={setOptionText}
                     />
-                </div>
-                <div className="delete_icon">
-                    <a className="delete" href="#" onClick={handleDeleteFolder}><MdDeleteForever /></a>
-                    <div className="hover_text delete_folder"><p>Delete Folder</p></div>
                 </div>
             </div>
 
