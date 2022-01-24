@@ -15,12 +15,12 @@ const PageName = () => {
 
     const [available, setAvailability] = useState(true);
     const [currentMatch, setCurrentMatch] = useState(true);
-    //const currentName = page['name'];
+    const [regexMatch, setRegexMatch] = useState(true);
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (!currentMatch) {
+        if (!currentMatch && available) {
 
             const packets = {
                 name: name,
@@ -56,13 +56,16 @@ const PageName = () => {
     };
 
     const checkPageName = (e) => {
-        let value = e.target.value.toLowerCase().replace(/\s/g, '-');
+        let value = e.target.value.toLowerCase();
         const match = allPageNames.indexOf(value);
 
+        const regex = /^[A-Za-z0-9-_.]+$/;
+
+        setRegexMatch(regex.test(value));
         if (value.length > 2 && value === pageSettings["name"]) {
             setAvailability(true);
             setCurrentMatch(true);
-        } else if (match < 0 && value.length > 2) {
+        } else if (match < 0 && value.length > 2 && regex.test(value)) {
             setAvailability(true);
             setCurrentMatch(false);
         } else {
@@ -74,8 +77,10 @@ const PageName = () => {
     }
 
     return (
-
         <div className="edit_form">
+            {!regexMatch &&
+                <p className="status not_available char_message">Only letters, numbers, dashes, underscores, periods allowed</p>
+            }
             <label>Link.pro/</label>
            <form className="link_name">
                 <input name="name" type="text" defaultValue={name}
@@ -90,18 +95,18 @@ const PageName = () => {
                 />
 
                {available ?
-                   <div>
+                   <div className={"characters my_row"}>
                        {currentMatch ?
                            <p className="status">Current</p>
                            :
-                           <div>
+                           <>
                                <a className="submit_circle" href="#"
                                   onClick={(e) => handleSubmit(e)}
                                >
                                    <FiThumbsUp />
                                </a>
                                <p className="status">Available</p>
-                           </div>
+                           </>
                        }
                    </div>
                    :
@@ -109,7 +114,9 @@ const PageName = () => {
                        <span className="cancel_icon">
                            <FiThumbsDown />
                        </span>
-                       <p className="status not_available">Not Available</p>
+                       <div className={"characters my_row"}>
+                           <p className="status not_available">Not Available</p>
+                       </div>
                    </div>
                }
 

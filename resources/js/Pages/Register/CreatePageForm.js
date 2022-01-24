@@ -8,30 +8,34 @@ const CreatePageForm = () => {
 
     const [newPageName, setNewPageName] = useState(null);
     const [available, setAvailability] = useState(false);
-
+    const [regexMatch, setRegexMatch] = useState(true);
     //const pageCount = allUserPages.length;
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const packets = {
-            name: newPageName,
-        };
+        if (available) {
+            const packets = {
+                name: newPageName,
+            };
 
-        addPage(packets)
-        .then((data) => {
+            addPage(packets).then((data) => {
 
-            if (data.success) {
-                window.location.href = "/plans"
-            }
-        })
+                if (data.success) {
+                    window.location.href = "/plans"
+                }
+            })
+        }
     };
 
     const checkPageName = (e) => {
-        let value = e.target.value.toLowerCase().replace(/\s/g, '-');
+        let value = e.target.value.toLowerCase();
         const match = pageNames.indexOf(value);
 
-        if (match < 0 && value.length > 2) {
+        const regex = /^[A-Za-z0-9-_.]+$/;
+        setRegexMatch(regex.test(value));
+
+        if (match < 0 && value.length > 2 && regex.test(value)) {
             setAvailability(true);
         } else {
             setAvailability(false);
@@ -40,12 +44,13 @@ const CreatePageForm = () => {
         setNewPageName(value)
     }
 
-    //const pageList = allUserPages.filter(element => element.id !== pageSettings["id"]);
-
     return (
 
         <form className="new_page" onSubmit={handleSubmit}>
             <div className="d-flex justify-content-center align-items-flex-start link_name">
+                {!regexMatch &&
+                    <p className="status not_available char_message register_page">Only letters, numbers, dashes, underscores, periods allowed</p>
+                }
                 <label className="pt-1">Link.pro/</label>
                 <div className="input_wrap">
                     <input name="name" type="text"

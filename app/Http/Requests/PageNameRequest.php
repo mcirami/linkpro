@@ -24,7 +24,7 @@ class PageNameRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:255|unique:pages'
+            'name' => 'required|max:255|unique:pages|regex:/^([A-Za-z0-9\_\-\.]*)$/'
         ];
     }
 }

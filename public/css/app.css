@@ -13543,6 +13543,15 @@ header.guest_header .col.right {
   margin-top: 20px;
 }
 
+#create_page {
+  margin-top: 50px;
+}
+@media all and (max-width: 768px) {
+  #create_page {
+    margin-top: 30px;
+  }
+}
+
 .ReactCrop__drag-handle::after {
   width: 35px !important;
   height: 35px !important;
@@ -13650,6 +13659,7 @@ form .bottom_row a {
   -webkit-align-items: center;
   font-size: 18px;
   margin-bottom: 20px;
+  position: relative;
 }
 .edit_form label {
   margin-bottom: 0;
@@ -13698,6 +13708,19 @@ form .bottom_row a {
 }
 .edit_form .status.not_available {
   color: #f24d1d;
+}
+.edit_form .status.char_message {
+  position: absolute;
+  right: 0;
+  top: -4px;
+}
+@media all and (max-width: 1199px) {
+  .edit_form .status.char_message {
+    font-size: 11px;
+  }
+}
+.edit_form .status.char_message.register_page {
+  top: -25px;
 }
 
 #links_page .edit_form.popup, #links_page .edit_form.link {

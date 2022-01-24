@@ -125,6 +125,7 @@ form .bottom_row a {
     -webkit-align-items: center;
     font-size: 18px;
     margin-bottom: 20px;
+    position: relative;
 
     label {
         margin-bottom: 0;
@@ -187,6 +188,20 @@ form .bottom_row a {
 
         &.not_available {
             color: $red;
+        }
+
+        &.char_message {
+            position: absolute;
+            right: 0;
+            top: -4px;
+
+            @media all and (max-width: 1199px) {
+                font-size: 11px;
+            }
+
+            &.register_page {
+                top: -25px;
+            }
         }
     }
 }
