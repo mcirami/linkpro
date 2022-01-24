@@ -1,6 +1,6 @@
 import React, {useContext, useState, useEffect} from 'react';
 import {MdAddCircleOutline} from 'react-icons/md';
-import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
+import {FiThumbsDown, FiThumbsUp, FiChevronDown} from 'react-icons/Fi';
 import {PageContext} from '../App';
 import {addPage} from '../../../../Services/PageRequests';
 
@@ -13,7 +13,6 @@ const PageNav = ({ allUserPages, setAllUserPages, userSub, setShowUpgradePopup, 
     const [isEditing, setIsEditing] = useState(false);
     const [newPageName, setNewPageName] = useState(null);
     const [available, setAvailability] = useState(false);
-
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -112,8 +111,13 @@ const PageNav = ({ allUserPages, setAllUserPages, userSub, setShowUpgradePopup, 
             </div>
             <div className="menu_wrap">
 
-                <div className="menu_icon">
-                    <MdAddCircleOutline/>
+                <div className={userSub ? "menu_icon add_border" : "menu_icon"}>
+                    {userSub ?
+                        <FiChevronDown/>
+                        :
+                        <MdAddCircleOutline/>
+                    }
+
                     <div className="menu_content">
                         <ul className="page_menu">
                             <li>
