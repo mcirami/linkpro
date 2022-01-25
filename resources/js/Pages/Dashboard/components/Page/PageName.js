@@ -95,7 +95,7 @@ const PageName = () => {
                 />
 
                {available ?
-                   <div className={"characters my_row"}>
+                   <div className={"info_text my_row"}>
                        {currentMatch ?
                            <p className="status">Current</p>
                            :
@@ -114,7 +114,7 @@ const PageName = () => {
                        <span className="cancel_icon">
                            <FiThumbsDown />
                        </span>
-                       <div className={"characters my_row"}>
+                       <div className={"info_text my_row"}>
                            <p className="status not_available">Not Available</p>
                        </div>
                    </div>

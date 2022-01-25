@@ -165,6 +165,7 @@ const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileN
                 <div className="column_wrap">
                     <form onSubmit={handleSubmit}  className="header_img_form">
                         {!fileName &&
+                            <>
                             <div className="top_section">
                                 <label htmlFor="header_file_upload" className="custom">
                                     Header Image
@@ -173,10 +174,14 @@ const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileN
                                         <div className="hover_text edit_image"><p>Edit Header Image</p></div>
                                     </span>
                                 </label>
-                                <input className="custom" id="header_file_upload" type="file"
+                                <input className="custom" id="header_file_upload" type="file" accept="image/png, image/jpeg, image/jpg, image/gif"
                                        onChange={onSelectFile}
                                 />
                             </div>
+                            <div className="my_row info_text file_types">
+                                <p className="m-0 char_count w-100 ">Allowed File Types: <span>png, jpg, jpeg, gif</span></p>
+                            </div>
+                            </>
                         }
                         <div className="bottom_section hidden">
                             <div className="crop_section">

@@ -361,7 +361,7 @@
 }
 
 
-.my_row.characters {
+.my_row.info_text {
     display: flex;
     display: -moz-flex;
     display: -webkit-box;
@@ -382,7 +382,6 @@
 
         span {
             @include ossemibold;
-            color: $green;
 
             &.over {
                 color: $red;
@@ -397,6 +396,14 @@
 
         &.red {
             color: $red;
+        }
+    }
+
+    &.file_types {
+        margin-top: 5px;
+
+        span {
+            color: #908e8e;
         }
     }
 }

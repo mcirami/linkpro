@@ -157,19 +157,24 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
                     <form onSubmit={handleSubmit} className="profile_img_form">
 
                         {!profileFileName &&
-                            <div className="top_section">
+                            <>
+                                <div className="top_section">
 
-                                <label htmlFor="profile_file_upload" className="custom">
-                                    Profile Image
-                                    <span className="edit_icon">
-                                            <MdEdit/>
-                                        <div className="hover_text edit_image"><p>Edit Profile Image</p></div>
-                                    </span>
-                                </label>
-                                <input className="custom" id="profile_file_upload" type="file"
-                                       onChange={onSelectFile}
-                                />
-                            </div>
+                                    <label htmlFor="profile_file_upload" className="custom">
+                                        Profile Image
+                                        <span className="edit_icon">
+                                                <MdEdit/>
+                                            <div className="hover_text edit_image"><p>Edit Profile Image</p></div>
+                                        </span>
+                                    </label>
+                                    <input className="custom" id="profile_file_upload" type="file" accept="image/png, image/jpeg, image/jpg, image/gif"
+                                           onChange={onSelectFile}
+                                    />
+                                </div>
+                                <div className="my_row info_text file_types">
+                                    <p className="m-0 char_count w-100 ">Allowed File Types: <span>png, jpg, jpeg, gif</span></p>
+                                </div>
+                            </>
                         }
                         <div className="bottom_section hidden">
                             <div className="crop_section">

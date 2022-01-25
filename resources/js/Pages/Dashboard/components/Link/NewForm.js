@@ -643,7 +643,10 @@ const NewForm = ({
                                             <label htmlFor="custom_icon_upload" className="custom text-uppercase button blue">
                                                 Upload Image
                                             </label>
-                                            <input id="custom_icon_upload" type="file" className="custom" onChange={selectCustomIcon}/>
+                                            <input id="custom_icon_upload" type="file" className="custom" onChange={selectCustomIcon} accept="image/png, image/jpeg, image/jpg, image/gif"/>
+                                            <div className="my_row info_text file_types text-center mb-2">
+                                                <p className="m-0 char_count w-100 ">Allowed File Types: <span>png, jpg, jpeg, gif</span></p>
+                                            </div>
                                         </div>
                                         :
                                         <div className="uploader">
@@ -680,7 +683,7 @@ const NewForm = ({
                                 />
                                 {subStatus && <span className="disabled_wrap" data-type="name" onClick={(e) => handleOnClick(e)}> </span>}
                             </div>
-                            <div className="my_row characters title">
+                            <div className="my_row info_text title">
                                 <p className="char_max">Max 11 Characters Shown</p>
                                 <p className="char_count">
                                     {charactersLeft < 0 ?

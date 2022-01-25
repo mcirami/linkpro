@@ -541,7 +541,7 @@ const FolderLinks = ({
                         onBlur={(e) => handleSubmit(e)}
                     />
                 </div>
-                <div className="my_row characters">
+                <div className="my_row info_text">
                     <p className="char_max">Max 11 Characters Shown</p>
                     <p className="char_count">
                         {charactersLeft < 0 ?

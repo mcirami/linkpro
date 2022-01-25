@@ -69,13 +69,15 @@ const PageBio = () => {
                         <FiThumbsDown />
                     </span>
                 }
-                <div className="my_row characters">
+                <div className="my_row info_text">
                     <p className="char_max">Max 65 Characters</p>
                     <p className="char_count">
                         {charactersLeft < 0 ?
                             <span className="over">Over Character Limit</span>
                             :
-                            `Characters Left: ${pageSettings["bio"] ? charactersLeft : "65"}`
+                            <>
+                                Characters Left: <span> {pageSettings["bio"] ? charactersLeft : "65"}</span>
+                            </>
                         }
                     </p>
                 </div>

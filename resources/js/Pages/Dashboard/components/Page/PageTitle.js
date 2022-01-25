@@ -68,13 +68,15 @@ const PageTitle = () => {
                         <FiThumbsDown />
                     </span>
                 }
-                <div className="my_row characters title">
+                <div className="my_row info_text title">
                     <p className="char_max">Max 30 Characters</p>
                     <p className="char_count">
                         {charactersLeft < 0 ?
                             <span className="over">Over Character Limit</span>
                             :
-                            "Characters Left: " + charactersLeft
+                            <>
+                                Characters Left: <span className="count"> {charactersLeft} </span>
+                            </>
                         }
                     </p>
                 </div>
