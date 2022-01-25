@@ -3122,6 +3122,29 @@ function App() {
       dropdownValue = _useState8[0],
       setDropdownValue = _useState8[1];
 
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    var queryString = window.location.search;
+    var urlParams = new URLSearchParams(queryString);
+    var queryStartDate = urlParams.get('startDate');
+    var queryEndDate = urlParams.get('endDate');
+    var queryDateValue = urlParams.get('dateValue');
+    var clearAll = urlParams.get('clear');
+
+    if (queryStartDate && queryEndDate) {
+      var _startDate = new Date(queryStartDate * 1000);
+
+      var _endDate = new Date(queryEndDate * 1000);
+
+      setStartDate(_startDate);
+      setEndDate(_endDate);
+      setDropdownValue("custom");
+    } else if (queryDateValue) {
+      setDropdownValue(queryDateValue);
+    } else if (clearAll) {
+      setDropdownValue("custom");
+    }
+  }, []);
+
   var handleDateChange = function handleDateChange(date, type) {
     var currentStartDate = null;
     var currentEndDate = null;
@@ -3145,11 +3168,11 @@ function App() {
     if (currentEndDate && currentStartDate && currentStartDate <= currentEndDate) {
       setDropdownValue("custom");
 
-      var _startDate = Math.round(new Date(currentStartDate) / 1000);
+      var _startDate2 = Math.round(new Date(currentStartDate) / 1000);
 
-      var _endDate = Math.round(new Date(currentEndDate) / 1000);
+      var _endDate2 = Math.round(new Date(currentEndDate) / 1000);
 
-      var url = pathName + '?startDate=' + _startDate + "&endDate=" + _endDate;
+      var url = pathName + '?startDate=' + _startDate2 + "&endDate=" + _endDate2;
       (0,_Services_Admin__WEBPACK_IMPORTED_MODULE_2__.postDate)(url);
     }
   };
@@ -3165,25 +3188,12 @@ function App() {
     }
   };
 
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    var queryString = window.location.search;
-    var urlParams = new URLSearchParams(queryString);
-    var queryStartDate = urlParams.get('startDate');
-    var queryEndDate = urlParams.get('endDate');
-    var queryDateValue = urlParams.get('dateValue');
+  var handleOnClick = function handleOnClick(e) {
+    e.preventDefault();
+    var url = pathName + "?clear=all";
+    (0,_Services_Admin__WEBPACK_IMPORTED_MODULE_2__.clearFilters)(url);
+  };
 
-    if (queryStartDate && queryEndDate) {
-      var _startDate2 = new Date(queryStartDate * 1000);
-
-      var _endDate2 = new Date(queryEndDate * 1000);
-
-      setStartDate(_startDate2);
-      setEndDate(_endDate2);
-      setDropdownValue("custom");
-    } else if (queryDateValue) {
-      setDropdownValue(queryDateValue);
-    }
-  }, []);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
     className: "my_row",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h5", {
@@ -3250,6 +3260,16 @@ function App() {
           maxDate: new Date(),
           placeholderText: "End Date"
         })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "column",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+          className: "button blue",
+          onClick: function onClick(e) {
+            return handleOnClick(e);
+          },
+          href: "#",
+          children: "Clear Filters"
+        })
       })]
     })]
   });
@@ -3293,9 +3313,13 @@ if (document.getElementById('admin_filters')) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "postDate": () => (/* binding */ postDate)
+/* harmony export */   "postDate": () => (/* binding */ postDate),
+/* harmony export */   "clearFilters": () => (/* binding */ clearFilters)
 /* harmony export */ });
 var postDate = function postDate(url) {
+  window.location.href = url;
+};
+var clearFilters = function clearFilters(url) {
   window.location.href = url;
 };
 

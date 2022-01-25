@@ -43,7 +43,9 @@ Route::get('/privacy-policy', function () {
 Route::get('/how-it-works', function () {
     return view('utility.how-it-works');
 })->name('how-it-works');
-
+Route::get('/plan-options', function () {
+    return view('subscription.public-plans');
+})->name('public.plans');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
@@ -115,5 +117,6 @@ Route::group(['middleware' => 'web'], function() {
     Route::post('/folder-click/{folder}', [TrackingController::class, 'storeFolderClick']);
     Route::get('/setup', [UtilityController::class, 'showSetupPage'])->name('setup.page');
     Route::get('/{page}', [PageController::class, 'show']);
-
 });
+
+

@@ -1,13 +1,39 @@
 import React, {useEffect, useState} from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import {postDate} from './Services/Admin';
+import {postDate, clearFilters} from './Services/Admin';
 
 function App() {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [pathName, setPathName] = useState(window.location.pathname);
     const [dropdownValue, setDropdownValue] = useState(1);
+
+    useEffect(() => {
+
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const queryStartDate = urlParams.get('startDate');
+        const queryEndDate = urlParams.get('endDate');
+        const queryDateValue = urlParams.get('dateValue');
+        const clearAll = urlParams.get('clear');
+
+        if (queryStartDate && queryEndDate ) {
+
+            const startDate = new Date(queryStartDate * 1000)
+            const endDate = new Date(queryEndDate * 1000)
+
+            setStartDate(startDate);
+            setEndDate(endDate);
+
+            setDropdownValue("custom");
+        } else if (queryDateValue) {
+            setDropdownValue(queryDateValue);
+        } else if (clearAll) {
+            setDropdownValue("custom");
+        }
+
+    },[]);
 
     const handleDateChange = (date, type) => {
 
@@ -51,29 +77,12 @@ function App() {
         }
     }
 
-    useEffect(() => {
+    const handleOnClick = (e) => {
+        e.preventDefault();
 
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        const queryStartDate = urlParams.get('startDate');
-        const queryEndDate = urlParams.get('endDate');
-        const queryDateValue = urlParams.get('dateValue');
-
-        if (queryStartDate && queryEndDate ) {
-
-            const startDate = new Date(queryStartDate * 1000)
-            const endDate = new Date(queryEndDate * 1000)
-
-            setStartDate(startDate);
-            setEndDate(endDate);
-
-            setDropdownValue("custom");
-        } else if (queryDateValue) {
-            setDropdownValue(queryDateValue);
-        }
-
-
-    },[]);
+        const url = pathName + "?clear=all";
+        clearFilters(url);
+    }
 
     return (
         <div className="my_row">
@@ -113,6 +122,11 @@ function App() {
                         maxDate={new Date()}
                         placeholderText='End Date'
                     />
+                </div>
+                <div className="column">
+                    <a className="button blue"
+                       onClick={(e) => handleOnClick(e)}
+                       href="#">Clear Filters</a>
                 </div>
             </div>
         </div>
