@@ -491,7 +491,7 @@ const Links = ({
                                         null, key, [x, y])}
                                 >
                                     <MdDragHandle/>
-                                    <div className="hover_text"><p>Move {type}</p></div>
+                                    <div className="hover_text"><p>Move</p></div>
                                 </span>
 
                                 <div className="column_content">

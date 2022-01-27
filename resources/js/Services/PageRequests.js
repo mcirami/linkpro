@@ -233,4 +233,18 @@ export const pageBio = (packets, pageID) => {
     });
 }
 
+export const toolTipPosition = () => {
+
+    const hoverText = document.querySelectorAll('.hover_text.help');
+
+    if (hoverText.length > 0) {
+        hoverText.forEach((element) => {
+            const parentDiv = element.parentNode;
+            const height = element.clientHeight + 25;
+            element.style.top = "-" + height + "px";
+            console.log(height);
+        })
+    }
+}
+
 export default addPage;

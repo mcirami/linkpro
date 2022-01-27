@@ -2,7 +2,7 @@ import React, {useContext, useState, useEffect} from 'react';
 import axios from "axios";
 import {PageContext} from '../App';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
-import EventBus from '../../../../Utils/Bus';
+import {BiHelpCircle} from 'react-icons/bi';
 import {pageBio} from '../../../../Services/PageRequests';
 
 const PageBio = () => {
@@ -82,7 +82,14 @@ const PageBio = () => {
                     </p>
                 </div>
             </form>
-
+            <div className="tooltip_icon">
+                <BiHelpCircle />
+                <div className="hover_text help bio">
+                    <p>Description text displayed directly below the Page Title to provide your followers a brief bio or slogan for your Page. (60 character max).</p>
+                    <h5>Pro Tip!</h5>
+                    <p>A shorter Page-Bio allows viewers to see more icons quicker!</p>
+                </div>
+            </div>
         </div>
 
     );

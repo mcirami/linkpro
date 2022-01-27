@@ -22,6 +22,7 @@ import FolderLinks from './Folder/FolderLinks';
 import { ConfirmFolderDelete } from './ConfirmFolderDelete';
 import {ErrorBoundary} from 'react-error-boundary';
 import {updateLinksPositions, getAllLinks} from '../../../Services/LinksRequest';
+import {toolTipPosition} from '../../../Services/PageRequests';
 
 
 const page = user.page;
@@ -80,6 +81,18 @@ function App() {
         }
 
     }, [userLinks])
+
+    useEffect(() => {
+        toolTipPosition();
+    }, [])
+
+    useEffect(() => {
+
+        window.addEventListener('resize', toolTipPosition);
+        return () => {
+            window.removeEventListener('resize', toolTipPosition);
+        }
+    }, []);
 
     const myErrorHandler = (Error, {componentStack: string}) => {
 

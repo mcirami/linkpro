@@ -12,6 +12,7 @@ import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
 import {headerImage} from '../../../../Services/PageRequests';
 import {completedImageCrop} from '../../../../Services/ImageService';
+import {BiHelpCircle} from 'react-icons/bi';
 
 export const RefContext = createContext();
 export const cropStatus = createContext();
@@ -160,12 +161,11 @@ const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileN
 
     return (
 
-        <div className="row page_settings">
-            <div className="col-12">
-                <div className="column_wrap">
-                    <form onSubmit={handleSubmit}  className="header_img_form">
-                        {!fileName &&
-                            <>
+        <div className="my_row page_settings">
+            <div className="column_wrap">
+                <form onSubmit={handleSubmit}  className="header_img_form">
+                    {!fileName &&
+                        <>
                             <div className="top_section">
                                 <label htmlFor="header_file_upload" className="custom">
                                     Header Image
@@ -181,38 +181,44 @@ const PageHeader = ({setRef, completedCrop, setCompletedCrop, fileName, setFileN
                             <div className="my_row info_text file_types">
                                 <p className="m-0 char_count w-100 ">Allowed File Types: <span>png, jpg, jpeg, gif</span></p>
                             </div>
-                            </>
-                        }
-                        <div className="bottom_section hidden">
-                            <div className="crop_section">
-                                <ReactCrop
-                                    src={upImg}
-                                    onImageLoaded={onLoad}
-                                    crop={crop}
-                                    onChange={(c) => setCrop(c)}
-                                    onComplete={(c) => setCompletedCrop(c)}
-                                />
-                            </div>
-                            <div className="bottom_row">
-                                <button type="submit" className="button green" disabled={!fileName &&
-                                true}>
-                                    Save
-                                </button>
-                                <a className="button transparent gray" href="#"
-                                   onClick={(e) => {
-                                       e.preventDefault();
-                                       handleCancel();
-                                   }}
-                                >
-                                    Cancel
-                                </a>
-                                <a className="help_link" href="mailto:help@link.pro">Need Help?</a>
-                            </div>
+                        </>
+                    }
+                    <div className="bottom_section hidden">
+                        <div className="crop_section">
+                            <ReactCrop
+                                src={upImg}
+                                onImageLoaded={onLoad}
+                                crop={crop}
+                                onChange={(c) => setCrop(c)}
+                                onComplete={(c) => setCompletedCrop(c)}
+                            />
                         </div>
-                    </form>
-                </div>
-
+                        <div className="bottom_row">
+                            <button type="submit" className="button green" disabled={!fileName &&
+                            true}>
+                                Save
+                            </button>
+                            <a className="button transparent gray" href="#"
+                               onClick={(e) => {
+                                   e.preventDefault();
+                                   handleCancel();
+                               }}
+                            >
+                                Cancel
+                            </a>
+                            <a className="help_link" href="mailto:help@link.pro">Need Help?</a>
+                        </div>
+                    </div>
+                </form>
             </div>
+            {!fileName &&
+                <div className="tooltip_icon">
+                    <BiHelpCircle/>
+                    <div className="hover_text help header">
+                        <p>Here you can upload a background header image to your Page. After selecting a file (.jpg, .jpeg, .png, .gif) to upload, you can resize the image to perfection using the built-in cropping functionality.</p>
+                    </div>
+                </div>
+            }
         </div>
 
     )

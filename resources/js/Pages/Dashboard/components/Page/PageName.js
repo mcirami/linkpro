@@ -2,6 +2,7 @@ import React, {useContext, useState} from 'react';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import {PageContext} from '../App';
 import {updatePageName} from '../../../../Services/PageRequests';
+import {BiHelpCircle} from 'react-icons/bi';
 
 let pageNames = user.allPageNames;
 
@@ -121,6 +122,15 @@ const PageName = () => {
                }
 
            </form>
+            <div className="tooltip_icon">
+                <BiHelpCircle />
+                <div className="hover_text help">
+                    <p>The text in this field is the name of your page and is appended to “link.pro/” to create the URL for a user’s Page (e.g. link.pro/SETUP). You are free to change this at any time if the name is not already taken by another user.</p>
+                    <h5>Pro Tip!</h5>
+                    <p>Choosing a simple Page Name that reflects your content makes your LinkPro URL more informative for your audience.</p>
+                </div>
+            </div>
+
         </div>
 
     );

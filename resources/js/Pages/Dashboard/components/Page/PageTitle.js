@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {PageContext} from '../App';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import {pageTitle} from '../../../../Services/PageRequests';
+import {BiHelpCircle} from 'react-icons/bi';
 
 const PageTitle = () => {
 
@@ -81,7 +82,14 @@ const PageTitle = () => {
                     </p>
                 </div>
             </form>
-
+            <div className="tooltip_icon">
+                <BiHelpCircle />
+                <div className="hover_text help title">
+                    <p>Add a brief title to your Page (30 character max). The text is bold and displayed directly below the header image to provide viewers with a title for the content you add to your Page.</p>
+                    <h5>Pro Tip!</h5>
+                    <p>A shorter Page-Title allows viewers to see more icons quicker!</p>
+                </div>
+            </div>
         </div>
 
     );

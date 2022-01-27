@@ -452,15 +452,35 @@
     }
 }
 .page_settings {
+    position: relative;
     margin-bottom: 20px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    align-items: center;
+    -webkit-align-items: center;
 
     .column_wrap {
-        border: 1px solid $borderGray;
-        border-radius: 12px;
-        -webkit-border-radius: 12px;
-        -moz-border-radius: 12px;
+        width: 100%;
+
+        > a {
+            border: 1px solid $borderGray;
+            border-radius: 8px;
+            -webkit-border-radius: 8px;
+            -moz-border-radius: 8px;
+        }
 
         form {
+            border: 1px solid $borderGray;
+            border-radius: 8px;
+            -webkit-border-radius: 8px;
+            -moz-border-radius: 8px;
 
             .top_section {
                 display: -webkit-box;

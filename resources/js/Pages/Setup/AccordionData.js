@@ -26,7 +26,7 @@ export const AccordionData = [
     {
         id: 3,
         title: 'Header Image',
-        content: 'Where users upload a background header image for their Page. After selecting a file (.jpg, .png, .pdf,) to upload, users can resize the image to perfection using the built-in cropping functionality. PRO and PREMIER users have the option to upload a video for the background header image',
+        content: 'Where users upload a background header image for their Page. After selecting a file (.jpg, .jpeg, .png, .gif) to upload, users can resize the image to perfection using the built-in cropping functionality.',
         subTitle: null,
         subContent: null,
         image: 'setup-header-img.jpg'
@@ -34,7 +34,7 @@ export const AccordionData = [
     {
         id: 4,
         title: 'Profile Image',
-        content: 'Where users upload a profile image for their Page. After selecting a file (.jpg, .png, .pdf,) to upload, users can resize the image to perfection using the built-in cropping functionality.',
+        content: 'Where users upload a profile image for their Page. After selecting a file (.jpg, .jpeg, .png, .gif) to upload, users can resize the image to perfection using the built-in cropping functionality.',
         subTitle: 'Pro Tip!',
         subContent: 'A square profile image will be cropped to a circular shape on your page. Choose an image that will appropriately fit a circular shape!',
         image: 'setup-profile-img.jpg'

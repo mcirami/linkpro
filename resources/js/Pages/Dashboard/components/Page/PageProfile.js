@@ -11,6 +11,7 @@ import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
 import {profileImage} from '../../../../Services/PageRequests';
 import {completedImageCrop} from '../../../../Services/ImageService';
+import {BiHelpCircle} from 'react-icons/bi';
 
 const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop, profileFileName, setProfileFileName, setShowLoader}) => {
 
@@ -150,8 +151,8 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
     }
 
     return (
-        <div className="row page_settings">
-            <div className="col-12">
+        <div className="my_row page_settings">
+
                 <div className="column_wrap">
 
                     <form onSubmit={handleSubmit} className="profile_img_form">
@@ -203,9 +204,17 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
                         </div>
                     </form>
                 </div>
-            </div>
+            {!profileFileName &&
+                <div className="tooltip_icon">
+                    <BiHelpCircle />
+                    <div className="hover_text help profile">
+                        <p>Here you can upload a profile image to your Page. After selecting a file (.jpg, .jpeg, .png, .gif) to upload, you can resize the image to perfection using the built-in cropping functionality.</p>
+                        <h5>Pro Tip!</h5>
+                        <p>A square profile image will be cropped to a circular shape on your page. Choose an image that will appropriately fit a circular shape!</p>
+                    </div>
+                </div>
+            }
         </div>
-
 
     )
 }

@@ -129,6 +129,9 @@ form .bottom_row a {
 
     label {
         margin-bottom: 0;
+        margin-top: 5px;
+        align-self: flex-start;
+        -webkit-align-self: flex-start;
     }
 
     form {
@@ -145,7 +148,6 @@ form .bottom_row a {
         }
 
         &.link_name {
-            margin-top: 20px;
 
             .status {
                 height: 15px;
@@ -209,6 +211,7 @@ form .bottom_row a {
 #links_page {
 
     .edit_form {
+        width: 100%;
 
         &.popup, &.link{
             margin-bottom: 0;
@@ -348,6 +351,7 @@ form .bottom_row a {
 
         &.password {
             margin-bottom: 0;
+            width: 100%;
 
             form {
                 display: -webkit-box;
@@ -778,4 +782,98 @@ form .bottom_row a {
 
 .form-group.row.user_account {
     margin-bottom: 10px;
+}
+
+.tooltip_icon {
+    padding-left: 10px;
+    align-self: flex-start;
+    -webkit-align-self: flex-start;
+    margin-top: -16px;
+
+    &:hover {
+        cursor: help;
+
+        svg {
+            color: $darkGray;
+        }
+
+        .hover_text {
+            opacity: 1;
+            z-index: 999 !important;
+        }
+    }
+
+    .hover_text {
+        &.help {
+            /*max-width: 330px;*/
+            padding: 5px;
+            /*top: -180px;*/
+            right: -3px;
+            align-items: flex-start;
+            -webkit-align-items: flex-start;
+            z-index: -999;
+            background: $lightGrayAlt;
+            width: 101%;
+
+           /* @media all and (max-width: 992px) {
+                max-width: unset;
+                top: -150px;
+                right: 0;
+                transform: unset;
+                -webkit-transform: unset;
+            }*/
+
+            &:after {
+                content: '';
+                position: absolute;
+                display: inline-block;
+                bottom: -10px;
+                right: 5px;
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: 10px 8px 0 8px;
+                border-color: $lightGrayAlt transparent transparent transparent;
+
+            }
+
+            /*&.password {
+               top: -205px;
+            }
+
+            &.header {
+                top: -108px;
+            }
+
+            &.profile {
+                top: -160px
+            }
+
+            &.title, &.bio {
+                top: -135px;
+            }*/
+
+            p {
+                font-size: 14px;
+
+                @media screen and (max-width: 768px) {
+                    font-size: 12px;
+                }
+            }
+
+            h5 {
+                margin: 5px 5px 0;
+
+                @media all and (max-width: 768px) {
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+
+    svg {
+        width: 18px;
+        height: 18px;
+        color: $blue;
+    }
 }

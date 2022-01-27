@@ -2,6 +2,7 @@ import {IoIosLock} from 'react-icons/io';
 import React, {useContext, useEffect, useState} from 'react';
 import {PageContext} from '../App';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
+import {BiHelpCircle} from 'react-icons/bi';
 import Switch from "react-switch";
 import EventBus from '../../../../Utils/Bus';
 import {passwordProtect, passwordStatus} from '../../../../Services/PageRequests';
@@ -143,8 +144,8 @@ const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
     }, [])
 
     return (
-        <div className={isEditing ? "row page_settings mb-0" : "row page_settings" } key={ pageSettings['id'] }>
-            <div className="col-12">
+        <div className={isEditing ? "my_row page_settings mb-0" : "my_row page_settings" } key={ pageSettings['id'] }>
+
 
                 { isEditing ?
                         <div className="edit_form password">
@@ -204,8 +205,15 @@ const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
                         </a>
                     </div>
                 }
+                <div className="tooltip_icon">
+                    <BiHelpCircle />
+                    <div className="hover_text help password">
+                        <p>This option allows PRO and PREMIER users to restrict access to their Page/s for those with the access code. Selecting this option means that only people with an access code can view your LinkPro Page. The access code is required to have a minimum of 4 alpha-numeric characters/symbols.</p>
+                        <h5>Pro Tip!</h5>
+                        <p>Password protecting a page is useful for promotional offers, exclusive content, and companies with internal information accessible to employees and not the general public.</p>
+                    </div>
+                </div>
 
-            </div>
         </div>
     )
 }

@@ -12697,13 +12697,28 @@ header.guest_header .col.right {
 }
 
 .page_settings {
+  position: relative;
   margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  -webkit-align-items: center;
 }
 .page_settings .column_wrap {
+  width: 100%;
+}
+.page_settings .column_wrap > a {
   border: 1px solid #d2d2d2;
-  border-radius: 12px;
-  -webkit-border-radius: 12px;
-  -moz-border-radius: 12px;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+}
+.page_settings .column_wrap form {
+  border: 1px solid #d2d2d2;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
 }
 .page_settings .column_wrap form .top_section {
   display: flex;
@@ -13027,15 +13042,12 @@ header.guest_header .col.right {
 #links_page .links_col .links_wrap .profile_content .lock_icon .tooltip_icon {
   font-family: "opensansbold", sans-serif;
   position: absolute;
-  right: 24px;
+  top: 10px;
+  right: 22px;
   color: #424fcf;
-  border-radius: 100%;
-  width: 15px;
-  height: 15px;
+  width: 28px;
+  height: 28px;
   text-align: center;
-  border: 2px solid #424fcf;
-  font-size: 13px;
-  top: 4px;
   display: flex;
   justify-content: center;
   -webkit-justify-content: center;
@@ -13060,8 +13072,8 @@ header.guest_header .col.right {
   background: #eaeaea;
   width: 180px;
   padding: 10px;
-  top: 28px;
-  left: -14px;
+  top: 34px;
+  left: 0;
   color: #000;
   display: none;
 }
@@ -13689,6 +13701,9 @@ form .bottom_row a {
 }
 .edit_form label {
   margin-bottom: 0;
+  margin-top: 5px;
+  align-self: flex-start;
+  -webkit-align-self: flex-start;
 }
 .edit_form form {
   width: 100%;
@@ -13700,9 +13715,6 @@ form .bottom_row a {
 }
 .edit_form form input {
   width: 100%;
-}
-.edit_form form.link_name {
-  margin-top: 20px;
 }
 .edit_form form.link_name .status {
   height: 15px;
@@ -13749,6 +13761,9 @@ form .bottom_row a {
   top: -25px;
 }
 
+#links_page .edit_form {
+  width: 100%;
+}
 #links_page .edit_form.popup, #links_page .edit_form.link {
   margin-bottom: 0;
   border-top: 1px solid #d2d2d2;
@@ -13871,6 +13886,7 @@ form .bottom_row a {
 }
 #links_page .edit_form.password {
   margin-bottom: 0;
+  width: 100%;
 }
 #links_page .edit_form.password form {
   display: flex;
@@ -14244,6 +14260,89 @@ form .bottom_row a {
 
 .form-group.row.user_account {
   margin-bottom: 10px;
+}
+
+.tooltip_icon {
+  padding-left: 10px;
+  align-self: flex-start;
+  -webkit-align-self: flex-start;
+  margin-top: -16px;
+}
+.tooltip_icon:hover {
+  cursor: help;
+}
+.tooltip_icon:hover svg {
+  color: #545656;
+}
+.tooltip_icon:hover .hover_text {
+  opacity: 1;
+  z-index: 999 !important;
+}
+.tooltip_icon .hover_text.help {
+  /*max-width: 330px;*/
+  padding: 5px;
+  /*top: -180px;*/
+  right: -3px;
+  align-items: flex-start;
+  -webkit-align-items: flex-start;
+  z-index: -999;
+  background: #eaeaea;
+  width: 101%;
+  /* @media all and (max-width: 992px) {
+       max-width: unset;
+       top: -150px;
+       right: 0;
+       transform: unset;
+       -webkit-transform: unset;
+   }*/
+  /*&.password {
+     top: -205px;
+  }
+
+  &.header {
+      top: -108px;
+  }
+
+  &.profile {
+      top: -160px
+  }
+
+  &.title, &.bio {
+      top: -135px;
+  }*/
+}
+.tooltip_icon .hover_text.help:after {
+  content: "";
+  position: absolute;
+  display: inline-block;
+  bottom: -10px;
+  right: 5px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10px 8px 0 8px;
+  border-color: #eaeaea transparent transparent transparent;
+}
+.tooltip_icon .hover_text.help p {
+  font-size: 14px;
+}
+@media screen and (max-width: 768px) {
+  .tooltip_icon .hover_text.help p {
+    font-size: 12px;
+  }
+}
+.tooltip_icon .hover_text.help h5, .tooltip_icon .hover_text.help .h5 {
+  margin: 5px 5px 0;
+}
+@media all and (max-width: 768px) {
+  .tooltip_icon .hover_text.help h5, .tooltip_icon .hover_text.help .h5 {
+    font-size: 14px;
+  }
+}
+.tooltip_icon svg {
+  width: 18px;
+  height: 18px;
+  color: #424fcf;
 }
 
 .form_page .pricing {
@@ -15035,11 +15134,14 @@ form .bottom_row a {
   -webkit-transition: 0.3s opacity linear;
   top: -20px;
   width: 100%;
+  border-radius: 2%;
+  -webkit-border-radius: 2%;
+  -moz-border-radius: 2%;
 }
 .hover_text p {
   margin: 0;
   font-size: 18px;
-  background: #f4f4f4;
+  background: #eaeaea;
   padding: 2px 5px;
   border-radius: 5px;
   -webkit-border-radius: 5px;
@@ -15383,7 +15485,7 @@ form .bottom_row a {
   float: right;
 }
 .icon_breadcrumb a.delete:hover {
-  color: #d4d2d2;
+  color: #545656;
 }
 .icon_breadcrumb a.delete svg {
   width: 100%;

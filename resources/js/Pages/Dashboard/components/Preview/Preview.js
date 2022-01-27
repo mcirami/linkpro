@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import {UserLinksContext, PageContext} from '../App';
 import {IoIosLock, IoIosCloseCircleOutline} from 'react-icons/io';
+import {BiHelpCircle} from 'react-icons/bi';
 import FolderLinks from './FolderLinks';
 import AccordionLinks from './AccordionLinks';
 
@@ -263,7 +264,7 @@ const Preview = ({
                             {pageSettings["is_protected"] ?
                                 <span className="lock_icon">
                                     <span className="tooltip_icon">
-                                        ?
+                                        <BiHelpCircle />
                                         <p className="tooltip">
                                             Link is password protected
                                         </p>
