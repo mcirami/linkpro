@@ -39,6 +39,14 @@
 
                 .profile_content {
                     padding: 10px 20px 20px;
+
+                    .profile_img_column {
+                        padding: .7em;
+
+                        @media all and (max-width: 550px) {
+                            padding: 2.5%;
+                        }
+                    }
                 }
 
                 .page_header {

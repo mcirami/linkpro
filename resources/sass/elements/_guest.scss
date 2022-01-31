@@ -92,11 +92,21 @@
             width: 78%;
             float: left;
             margin-right: 2%;
+
+            @media all and (max-width: 550px) {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
         }
 
         button {
             width: 20%;
             float: left;
+
+            @media all and (max-width: 550px) {
+                width: 100%;
+            }
         }
     }
 }

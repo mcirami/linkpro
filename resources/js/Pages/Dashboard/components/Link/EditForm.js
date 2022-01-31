@@ -635,10 +635,12 @@ const EditForm = ({
                             Back To Icons
                         </a>
                     }
-                    <div className="delete_icon">
-                        <a className="delete" href="#" onClick={handleDeleteClick}><MdDeleteForever /></a>
-                        <div className="hover_text delete_folder"><p>Delete Icon</p></div>
-                    </div>
+                    {!iconSelected &&
+                        <div className="delete_icon">
+                            <a className="delete" href="#" onClick={handleDeleteClick}><MdDeleteForever /></a>
+                            <div className="hover_text delete_folder"><p>Delete Icon</p></div>
+                        </div>
+                    }
 
                 </div>
             </div>

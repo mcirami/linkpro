@@ -13014,7 +13014,7 @@ header.guest_header .col.right {
   padding: 0;
 }
 #links_page .links_col .links_wrap .profile_content {
-  padding: 10px 20px 20px 20px;
+  padding: 10px 15px 20px 15px;
   width: 100%;
   float: left;
   position: relative;
@@ -13101,7 +13101,7 @@ header.guest_header .col.right {
   border-radius: 100%;
   -webkit-border-radius: 100%;
   -moz-border-radius: 100%;
-  padding: 4px;
+  padding: 2.5%;
   float: left;
   margin-top: -80px;
   background: #424ece;
@@ -13118,12 +13118,6 @@ header.guest_header .col.right {
   border-radius: 100%;
   -webkit-border-radius: 100%;
   -moz-border-radius: 100%;
-  padding: 4px;
-}
-@media all and (max-width: 550px) {
-  #links_page .links_col .links_wrap .profile_content .profile_img_column .profile_image {
-    padding: 2px;
-  }
 }
 #links_page .links_col .links_wrap .profile_content .profile_img_column .profile_image img {
   border-radius: 100%;
@@ -13136,7 +13130,7 @@ header.guest_header .col.right {
   border-radius: 100%;
   -webkit-border-radius: 100%;
   -moz-border-radius: 100%;
-  padding: 4px;
+  padding: 6px;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -13198,7 +13192,7 @@ header.guest_header .col.right {
 }
 #links_page .links_col .links_wrap .icons_wrap {
   width: 100%;
-  padding: 0 20px;
+  padding: 0 15px;
   /*display: grid;
   grid-template-columns: repeat(4, 1fr);*/
 }
@@ -13218,7 +13212,7 @@ header.guest_header .col.right {
 }
 @media screen and (max-width: 550px) {
   #links_page .links_col .links_wrap .icon_col p {
-    font-size: 10px;
+    font-size: 2.4vw;
   }
 }
 @media screen and (max-width: 992px) {
@@ -13381,16 +13375,11 @@ header.guest_header .col.right {
   -o-box-shadow: none !important;
 }
 #links_page .links_col .links_wrap.preview .inner_content .icon_col p {
-  font-size: 10px;
-}
-@media all and (max-width: 768px) {
-  #links_page .links_col .links_wrap.preview .inner_content .icon_col p {
-    font-size: 8px;
-  }
+  font-size: 0.49rem;
 }
 @media all and (max-width: 550px) {
   #links_page .links_col .links_wrap.preview .inner_content .icon_col p {
-    font-size: 1.7vw;
+    font-size: 1.1vw;
   }
 }
 @media screen and (max-width: 350px) {
@@ -13432,6 +13421,14 @@ header.guest_header .col.right {
 }
 #links_page .links_col .links_wrap .inner_content.live_page .profile_content {
   padding: 10px 20px 20px;
+}
+#links_page .links_col .links_wrap .inner_content.live_page .profile_content .profile_img_column {
+  padding: 0.7em;
+}
+@media all and (max-width: 550px) {
+  #links_page .links_col .links_wrap .inner_content.live_page .profile_content .profile_img_column {
+    padding: 2.5%;
+  }
 }
 #links_page .links_col .links_wrap .inner_content.live_page .page_header {
   padding: 25%;
@@ -13545,9 +13542,21 @@ header.guest_header .col.right {
   float: left;
   margin-right: 2%;
 }
+@media all and (max-width: 550px) {
+  .live_page form input {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+}
 .live_page form button {
   width: 20%;
   float: left;
+}
+@media all and (max-width: 550px) {
+  .live_page form button {
+    width: 100%;
+  }
 }
 
 .email_subscription_page {

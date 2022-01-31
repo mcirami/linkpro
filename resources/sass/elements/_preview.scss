@@ -117,7 +117,7 @@
         }
 
         .profile_content {
-            padding: 10px 20px 20px 20px;
+            padding: 10px 15px 20px 15px;
             width: 100%;
             float: left;
             position: relative;
@@ -212,7 +212,7 @@
                 border-radius: 100%;
                 -webkit-border-radius: 100%;
                 -moz-border-radius: 100%;
-                padding: 4px;
+                padding: 2.5%;
                 float: left;
                 margin-top: -80px;
                 background: #424ece;
@@ -230,11 +230,6 @@
                     border-radius: 100%;
                     -webkit-border-radius: 100%;
                     -moz-border-radius: 100%;
-                    padding: 4px;
-
-                    @media all and (max-width: 550px) {
-                        padding: 2px;
-                    }
 
                     img {
                         border-radius: 100%;
@@ -248,7 +243,7 @@
                         border-radius: 100%;
                         -webkit-border-radius: 100%;
                         -moz-border-radius: 100%;
-                        padding: 4px;
+                        padding: 6px;
                         display: -webkit-box;
                         display: -ms-flexbox;
                         display: flex;
@@ -323,7 +318,7 @@
 
         .icons_wrap {
             width: 100%;
-            padding: 0 20px;
+            padding: 0 15px;
             /*display: grid;
             grid-template-columns: repeat(4, 1fr);*/
         }
@@ -343,7 +338,7 @@
                 margin-top: 4px;
 
                 @media screen and (max-width: 550px) {
-                    font-size: 10px;
+                    font-size: 2.4vw;
                 }
             }
         }
@@ -502,14 +497,11 @@
                     -o-box-shadow: none !important;
 
                     p {
-                        font-size: 10px;
+                        font-size: .49rem;
 
-                        @media all and (max-width: 768px) {
-                            font-size: 8px;
-                        }
 
                         @media all and (max-width: 550px) {
-                            font-size: 1.7vw;
+                            font-size: 1.1vw;
                         }
 
                         @media screen and (max-width: 350px) {
