@@ -5,7 +5,7 @@ namespace App\Console;
 use App\Console\Commands\EmailInactiveUsers;
 use App\Console\Commands\EmailSocialShare;
 use App\Console\Commands\EmailFreeTrialCode;
-use App\Console\Commands\TestAddDBRecord;
+use App\Console\Commands\GetIcons;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -20,7 +20,7 @@ class Kernel extends ConsoleKernel
         EmailInactiveUsers::class,
         EmailSocialShare::class,
         EmailFreeTrialCode::class,
-        TestAddDBRecord::class,
+        GetIcons::class,
     ];
 
     /**
@@ -31,28 +31,26 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        /*$schedule->command('test:TestAddDBRecord')
-                 ->timezone('America/New_York')
-                 ->everyMinute()
-                 ->emailOutputTo('mcirami@gmail.com');*/
 
         $schedule->command('emails:EmailInactiveUsers')
+                 ->withoutOverlapping()
                  ->timezone('America/New_York')
                  ->dailyAt('7:00');
-                 //->everyFiveMinutes();
-                 //->emailOutputTo('mcirami@gmail.com');
 
         $schedule->command('emails:EmailSocialShare')
+                 ->withoutOverlapping()
                  ->timezone('America/New_York')
                  ->dailyAt('7:15');
-                 //->everyFiveMinutes();
-                 //->emailOutputTo('mcirami@gmail.com');
 
         $schedule->command('emails:EmailFreeTrialCode')
+                 ->withoutOverlapping()
                  ->timezone('America/New_York')
                  ->dailyAt('7:30');
-                 //->everyFiveMinutes();
-                 //->emailOutputTo('mcirami@gmail.com');
+
+        $schedule->command('request:GetIcons')
+                 ->withoutOverlapping()
+                 ->timezone('America/New_York')
+                 ->weeklyOn(7, '3:00');
     }
 
     /**

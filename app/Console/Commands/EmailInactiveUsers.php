@@ -66,7 +66,10 @@ class EmailInactiveUsers extends Command
                         "userEmail" => $user->email
                     ]);
 
-                    JobEmailInactiveUsers::dispatch($details);
+                    retry(20, function() use ($details) {
+                        JobEmailInactiveUsers::dispatch($details);
+                    }, 200);
+
                 }
             }
         }

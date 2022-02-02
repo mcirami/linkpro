@@ -6,15 +6,11 @@ use App\Http\Requests\PageBioRequest;
 use App\Http\Requests\PageNameRequest;
 use App\Http\Requests\PagePassword;
 use App\Http\Requests\PageTitleRequest;
-use App\Models\Folder;
-use App\Models\Link;
 use App\Models\Page;
-use App\Services\LinkService;
 use App\Services\PageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\UserTrait;
-use Illuminate\Support\Facades\Storage;
 
 class PageController extends Controller
 {

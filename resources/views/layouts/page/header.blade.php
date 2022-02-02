@@ -26,8 +26,8 @@
 
         <div class="my_row user_page_footer">
             <div class="image_wrap">
-                <a href="{{ Route('login') }}">
-                    <p>Signup or Login</p>
+                <a href="{{ Route('register') }}">
+                    <p>Powered By</p>
                     <img src="{{ asset('/images/logo.png') }}" alt="">
                 </a>
             </div>

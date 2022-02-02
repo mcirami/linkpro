@@ -11345,7 +11345,7 @@ a {
 main {
   width: 100%;
   float: left;
-  padding: 50px 0 100px;
+  padding: 100px 0;
 }
 @media all and (max-width: 768px) {
   main {

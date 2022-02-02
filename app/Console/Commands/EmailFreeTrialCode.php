@@ -64,7 +64,9 @@ class EmailFreeTrialCode extends Command
                             "userEmail" => $user->email
                         ]);
 
-                        JobFreeTrialEmail::dispatch($details);
+                        retry(20, function() use ($details) {
+                            JobFreeTrialEmail::dispatch($details);
+                        }, 200);
                     }
                 }
             }

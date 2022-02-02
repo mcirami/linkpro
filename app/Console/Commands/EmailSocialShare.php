@@ -66,7 +66,9 @@ class EmailSocialShare extends Command
                         "userEmail" => $user->email
                     ]);
 
-                    JobEmailSocialShare::dispatch($details);
+                    retry(20, function() use ($details) {
+                        JobEmailSocialShare::dispatch($details);
+                    }, 200);
                 }
             }
         }

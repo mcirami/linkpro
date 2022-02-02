@@ -10,7 +10,7 @@
         "doctrine/dbal": "^2.5",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^7.3",
+        "guzzlehttp/guzzle": "^7.4",
         "intervention/image": "^2.7",
         "laracasts/utilities": "^3.2",
         "laravel/framework": "^8.40",

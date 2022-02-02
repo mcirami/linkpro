@@ -9,6 +9,7 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\TrackingController;
 use App\Http\Controllers\FolderController;
+use App\Http\Controllers\IconController;
 use App\Http\Controllers\UtilityController;
 /*
 |--------------------------------------------------------------------------
@@ -111,6 +112,9 @@ Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated']], function() {
 });
 
 Route::group(['middleware' => 'web'], function() {
+
+    Route::get('/get-icons', [IconController::class, 'getIcons']);
+
     Route::post('/check-page-auth/{page}', [PageController::class, 'pageAuth'])->name('check.page.auth');
     Route::get('/email-subscription/{user}', [UserController::class, 'emailSubscription'])->name('email.subscription');
     Route::post('/link-click/{link}', [TrackingController::class, 'storeLinkVisit']);
