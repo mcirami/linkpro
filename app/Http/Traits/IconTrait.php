@@ -87,7 +87,7 @@ trait IconTrait {
             "Whatsapp",
             "Wikipedia",
             "Xbox",
-            "Yahoo Mail",
+            "Yahoo",
             "Yelp",
             "YouTube",
             "Zelle",

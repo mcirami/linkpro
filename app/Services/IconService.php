@@ -13,29 +13,12 @@ class IconService {
     use IconTrait;
 
     public function getIcons() {
-        $count = 0;
-        $addSeconds = 30;
 
-        $icons = $this->iconArray();
-        foreach($icons as $icon) {
-            ++$count;
-
-            if ($count > 5) {
-                if ($count % 5 == 0) {
-                    $addSeconds += 30;
-                    echo $addSeconds . "<br><br>";
-                } else {
-                    echo $addSeconds . "<br><br>";
-                }
-            } else {
-                echo $addSeconds . "<br><br>";
-            }
-        }
-        /*$iconArray = [];
+        $iconArray = [];
         $endpoint = 'http://itunes.apple.com/search';
         $client = new Client();
 
-        $term = "Facebook";
+        $term = "Yahoo";
         $entity = "software";
 
         try {
@@ -53,7 +36,7 @@ class IconService {
 
         $url = $content['results'][0]['artworkUrl512'];
 
-        $iconName = str_replace(" ", '-', $term);
+        /*$iconName = str_replace(" ", '-', $term);
         $path = 'icons/' . $iconName . ".png";
         Storage::disk('s3')->delete($path);
         $image = file_get_contents($content['results'][0]['artworkUrl512']);
@@ -61,8 +44,8 @@ class IconService {
             $path,
             $image,
             'public'
-        );
-        return $url;*/
+        );*/
+        return $url;
 
         /*$icons = $this->iconArray();
         foreach($icons as $icon) {

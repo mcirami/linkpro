@@ -8,9 +8,9 @@ class IconController extends Controller
 {
     public function getIcons(IconService $iconService) {
 
-        $iconService->getIcons();
+        $icons = $iconService->getIcons();
 
-        //dd($icons);
+        dd($icons);
 
     }
 }
