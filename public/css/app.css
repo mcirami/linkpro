@@ -13089,6 +13089,10 @@ header.guest_header .col.right {
   top: -10px;
   left: 10px;
 }
+#links_page .links_col .links_wrap .profile_content .lock_icon .tooltip_icon .tooltip.open {
+  display: block;
+  opacity: 1;
+}
 #links_page .links_col .links_wrap .profile_content .lock_icon .tooltip_icon:hover {
   cursor: help;
 }
@@ -14276,6 +14280,17 @@ form .bottom_row a {
   align-self: flex-start;
   -webkit-align-self: flex-start;
   margin-top: -16px;
+  /*@media all and (min-width: 768px) {*/
+  /*  }*/
+  /*@media all and (max-width: 768px) {
+      &:hover {
+          cursor:pointer;
+
+          svg {
+              color: $darkGray;
+          }
+      }
+  }*/
 }
 .tooltip_icon:hover {
   cursor: help;
@@ -14297,28 +14312,6 @@ form .bottom_row a {
   z-index: -999;
   background: #eaeaea;
   width: 101%;
-  /* @media all and (max-width: 992px) {
-       max-width: unset;
-       top: -150px;
-       right: 0;
-       transform: unset;
-       -webkit-transform: unset;
-   }*/
-  /*&.password {
-     top: -205px;
-  }
-
-  &.header {
-      top: -108px;
-  }
-
-  &.profile {
-      top: -160px
-  }
-
-  &.title, &.bio {
-      top: -135px;
-  }*/
 }
 .tooltip_icon .hover_text.help:after {
   content: "";
@@ -14331,6 +14324,10 @@ form .bottom_row a {
   border-style: solid;
   border-width: 10px 8px 0 8px;
   border-color: #eaeaea transparent transparent transparent;
+}
+.tooltip_icon .hover_text.help.open {
+  opacity: 1;
+  z-index: 999 !important;
 }
 .tooltip_icon .hover_text.help p {
   font-size: 14px;

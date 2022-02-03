@@ -242,9 +242,29 @@ export const toolTipPosition = () => {
             const parentDiv = element.parentNode;
             const height = element.clientHeight + 25;
             element.style.top = "-" + height + "px";
-            console.log(height);
         })
     }
+}
+
+export const toolTipClick = () => {
+
+    const tooltipIcon = document.querySelectorAll('.tooltip_icon');
+
+    if (tooltipIcon.length > 0) {
+        tooltipIcon.forEach((element) => {
+            element.addEventListener('click', function() {
+                const lastChild = element.lastElementChild;
+                if (!lastChild.classList.contains('open') && document.querySelector('.hover_text.help.open')) {
+                    document.querySelector('.hover_text.help.open').classList.remove('open');
+                    lastChild.classList.add('open');
+                } else {
+                    element.lastElementChild.classList.toggle('open');
+                }
+
+            })
+        })
+    }
+
 }
 
 export default addPage;

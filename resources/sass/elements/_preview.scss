@@ -151,7 +151,6 @@
                     width: 28px;
                     height: 28px;
                     text-align: center;
-
                     display: -webkit-box;
                     display: -ms-flexbox;
                     display: flex;
@@ -193,6 +192,11 @@
                             border-bottom-color: $lightGrayAlt;
                             top: -10px;
                             left: 10px;
+                        }
+
+                        &.open {
+                            display: block;
+                            opacity: 1;
                         }
                     }
 

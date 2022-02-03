@@ -790,18 +790,30 @@ form .bottom_row a {
     -webkit-align-self: flex-start;
     margin-top: -16px;
 
-    &:hover {
-        cursor: help;
+    /*@media all and (min-width: 768px) {*/
+        &:hover {
+            cursor: help;
 
-        svg {
-            color: $darkGray;
-        }
+            svg {
+                color: $darkGray;
+            }
 
-        .hover_text {
-            opacity: 1;
-            z-index: 999 !important;
+            .hover_text {
+                opacity: 1;
+                z-index: 999 !important;
+            }
         }
-    }
+  /*  }*/
+
+    /*@media all and (max-width: 768px) {
+        &:hover {
+            cursor:pointer;
+
+            svg {
+                color: $darkGray;
+            }
+        }
+    }*/
 
     .hover_text {
         &.help {
@@ -814,14 +826,6 @@ form .bottom_row a {
             z-index: -999;
             background: $lightGrayAlt;
             width: 101%;
-
-           /* @media all and (max-width: 992px) {
-                max-width: unset;
-                top: -150px;
-                right: 0;
-                transform: unset;
-                -webkit-transform: unset;
-            }*/
 
             &:after {
                 content: '';
@@ -837,21 +841,10 @@ form .bottom_row a {
 
             }
 
-            /*&.password {
-               top: -205px;
+            &.open {
+                opacity: 1;
+                z-index: 999 !important;
             }
-
-            &.header {
-                top: -108px;
-            }
-
-            &.profile {
-                top: -160px
-            }
-
-            &.title, &.bio {
-                top: -135px;
-            }*/
 
             p {
                 font-size: 14px;

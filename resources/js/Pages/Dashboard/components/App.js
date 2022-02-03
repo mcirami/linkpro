@@ -22,8 +22,8 @@ import FolderLinks from './Folder/FolderLinks';
 import { ConfirmFolderDelete } from './ConfirmFolderDelete';
 import {ErrorBoundary} from 'react-error-boundary';
 import {updateLinksPositions, getAllLinks} from '../../../Services/LinksRequest';
-import {toolTipPosition} from '../../../Services/PageRequests';
-
+import {toolTipPosition, toolTipClick} from '../../../Services/PageRequests';
+import {isMobile} from 'react-device-detect';
 
 const page = user.page;
 const userPages = user.user_pages;
@@ -84,6 +84,11 @@ function App() {
 
     useEffect(() => {
         toolTipPosition();
+
+        if(isMobile) {
+            toolTipClick();
+        }
+
     }, [])
 
     useEffect(() => {
