@@ -719,6 +719,9 @@ const EditForm = ({
                                         :
                                         <div className="uploader">
                                             <input name="search" type="text" placeholder="Search Icons" onChange={handleChange} defaultValue={input} />
+                                            <div className="my_row info_text file_types text-center mb-2 text-center">
+                                                <a href="mailto:help@link.pro" className="mx-auto m-0 char_count">Don't See Your Icon? Contact Us!</a>
+                                            </div>
                                         </div>
                                     }
 

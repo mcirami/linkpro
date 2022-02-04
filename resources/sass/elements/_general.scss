@@ -409,6 +409,12 @@
             color: #908e8e;
         }
     }
+
+    a {
+        &:hover {
+            color: $black;
+        }
+    }
 }
 
 .icon_breadcrumb {

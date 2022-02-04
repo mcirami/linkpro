@@ -15435,6 +15435,9 @@ form .bottom_row a {
 .my_row.info_text.file_types span {
   color: #908e8e;
 }
+.my_row.info_text a:hover {
+  color: #000;
+}
 
 .icon_breadcrumb {
   padding: 0 40px;

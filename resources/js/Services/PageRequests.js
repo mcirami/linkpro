@@ -250,13 +250,17 @@ export const toolTipClick = () => {
 
     const tooltipIcon = document.querySelectorAll('.tooltip_icon');
 
-    if (tooltipIcon.length > 0) {
+    if (tooltipIcon.length > 0 && window.outerWidth < 769) {
         tooltipIcon.forEach((element) => {
-            element.addEventListener('click', function() {
+            element.addEventListener('click', function(e) {
+                e.preventDefault();
                 const lastChild = element.lastElementChild;
                 if (!lastChild.classList.contains('open') && document.querySelector('.hover_text.help.open')) {
                     document.querySelector('.hover_text.help.open').classList.remove('open');
                     lastChild.classList.add('open');
+                    setTimeout(function(){
+                        element.lastElementChild.scrollIntoView();
+                    }, 400)
                 } else {
                     element.lastElementChild.classList.toggle('open');
                 }

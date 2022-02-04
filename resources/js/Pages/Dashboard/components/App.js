@@ -23,7 +23,7 @@ import { ConfirmFolderDelete } from './ConfirmFolderDelete';
 import {ErrorBoundary} from 'react-error-boundary';
 import {updateLinksPositions, getAllLinks} from '../../../Services/LinksRequest';
 import {toolTipPosition, toolTipClick} from '../../../Services/PageRequests';
-import {isMobile} from 'react-device-detect';
+/*import {isMobile} from 'react-device-detect';*/
 
 const page = user.page;
 const userPages = user.user_pages;
@@ -85,17 +85,21 @@ function App() {
     useEffect(() => {
         toolTipPosition();
 
-        if(isMobile) {
+        if (window.innerWidth < 769){
             toolTipClick();
         }
 
     }, [])
 
+
     useEffect(() => {
 
         window.addEventListener('resize', toolTipPosition);
+        window.addEventListener('resize', toolTipClick);
+
         return () => {
             window.removeEventListener('resize', toolTipPosition);
+            window.removeEventListener('resize', toolTipClick);
         }
     }, []);
 
