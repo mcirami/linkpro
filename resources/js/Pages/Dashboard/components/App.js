@@ -85,7 +85,7 @@ function App() {
     useEffect(() => {
         toolTipPosition();
 
-        if (window.innerWidth < 769){
+        if (window.outerWidth < 769){
             toolTipClick();
         }
 
@@ -96,6 +96,7 @@ function App() {
 
         window.addEventListener('resize', toolTipPosition);
         window.addEventListener('resize', toolTipClick);
+
 
         return () => {
             window.removeEventListener('resize', toolTipPosition);

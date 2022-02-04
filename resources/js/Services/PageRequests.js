@@ -255,14 +255,32 @@ export const toolTipClick = () => {
             element.addEventListener('click', function(e) {
                 e.preventDefault();
                 const lastChild = element.lastElementChild;
-                if (!lastChild.classList.contains('open') && document.querySelector('.hover_text.help.open')) {
-                    document.querySelector('.hover_text.help.open').classList.remove('open');
+                if (!lastChild.classList.contains('open') ) {
+                    if (document.querySelector('.hover_text.help.open')) {
+                        document.querySelector('.hover_text.help.open').classList.remove('open');
+                    } else if (document.querySelector('.tooltip.open')) {
+                        document.querySelector('.tooltip.open').classList.remove('open')
+                    }
+
                     lastChild.classList.add('open');
                     setTimeout(function(){
-                        element.lastElementChild.scrollIntoView();
+                        lastChild.scrollIntoView({
+                            behavior: 'smooth',
+                            block: "center",
+                            inline: "nearest"
+                        });
+
                     }, 400)
                 } else {
-                    element.lastElementChild.classList.toggle('open');
+                    lastChild.classList.toggle('open');
+                    setTimeout(function(){
+                        lastChild.scrollIntoView({
+                            behavior: 'smooth',
+                            block: "center",
+                            inline: "nearest"
+                        });
+
+                    }, 400)
                 }
 
             })

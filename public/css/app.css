@@ -12432,12 +12432,9 @@ header.guest_header .col.right {
   cursor: -webkit-grab;
   cursor: grab;
 }
-#links_page .icons_wrap .icon_col span.drag_handle:hover .hover_text {
-  opacity: 1;
-}
-@media all and (max-width: 768px) {
+@media all and (min-width: 769px) {
   #links_page .icons_wrap .icon_col span.drag_handle:hover .hover_text {
-    opacity: 0;
+    opacity: 1;
   }
 }
 #links_page .icons_wrap .icon_col span.drag_handle:active {
@@ -12674,13 +12671,9 @@ header.guest_header .col.right {
   -webkit-border-radius: 25%;
   -moz-border-radius: 25%;
 }
-#links_page .icon_row .icons_wrap .icon_col:hover .hover_text {
-  opacity: 1;
-}
-@media all and (max-width: 768px) {
+@media all and (min-width: 769px) {
   #links_page .icon_row .icons_wrap .icon_col:hover .hover_text {
-    opacity: 0;
-    display: none;
+    opacity: 1;
   }
 }
 #links_page .icon_row .icon_image {
@@ -12776,12 +12769,9 @@ header.guest_header .col.right {
 .page_settings .column_wrap .column_content .lock_icon.disabled {
   color: #d4d2d2;
 }
-.page_settings .column_wrap .column_content .lock_icon:hover .hover_text {
-  opacity: 1;
-}
-@media all and (max-width: 768px) {
+@media all and (min-width: 769px) {
   .page_settings .column_wrap .column_content .lock_icon:hover .hover_text {
-    opacity: 0;
+    opacity: 1;
   }
 }
 
@@ -12889,13 +12879,9 @@ header.guest_header .col.right {
 .switch_wrap {
   position: relative;
 }
-.switch_wrap:hover .hover_text {
-  opacity: 1;
-}
-@media all and (max-width: 768px) {
+@media all and (min-width: 769px) {
   .switch_wrap:hover .hover_text {
-    opacity: 0;
-    display: none;
+    opacity: 1;
   }
 }
 
@@ -13032,7 +13018,12 @@ header.guest_header .col.right {
     width: 20px;
     height: 30px;
     left: 20%;
-    top: 50px;
+    top: 58px;
+  }
+}
+@media all and (max-width: 550px) {
+  #links_page .links_col .links_wrap .profile_content .lock_icon {
+    top: 42px;
   }
 }
 #links_page .links_col .links_wrap .profile_content .lock_icon svg {
@@ -13069,13 +13060,23 @@ header.guest_header .col.right {
   -webkit-transition: 1ms opacity linear;
   -moz-transition: 1ms opacity linear;
   -o-transition: 1ms opacity linear;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
   background: #eaeaea;
-  width: 180px;
-  padding: 10px;
+  font-size: 0.6rem;
+  min-width: 130px;
+  padding: 5px;
   top: 34px;
   left: 0;
   color: #000;
   display: none;
+}
+@media all and (max-width: 550px) {
+  #links_page .links_col .links_wrap .profile_content .lock_icon .tooltip_icon .tooltip {
+    font-size: 8px;
+    min-width: 110px;
+  }
 }
 #links_page .links_col .links_wrap .profile_content .lock_icon .tooltip_icon .tooltip:before {
   content: "";
@@ -13096,9 +13097,11 @@ header.guest_header .col.right {
 #links_page .links_col .links_wrap .profile_content .lock_icon .tooltip_icon:hover {
   cursor: help;
 }
-#links_page .links_col .links_wrap .profile_content .lock_icon .tooltip_icon:hover .tooltip {
-  display: block;
-  opacity: 1;
+@media all and (min-width: 769px) {
+  #links_page .links_col .links_wrap .profile_content .lock_icon .tooltip_icon:hover .tooltip {
+    display: block;
+    opacity: 1;
+  }
 }
 #links_page .links_col .links_wrap .profile_content .profile_img_column {
   width: 33%;
@@ -14280,17 +14283,6 @@ form .bottom_row a {
   align-self: flex-start;
   -webkit-align-self: flex-start;
   margin-top: -16px;
-  /*@media all and (min-width: 768px) {*/
-  /*  }*/
-  /*@media all and (max-width: 768px) {
-      &:hover {
-          cursor:pointer;
-
-          svg {
-              color: $darkGray;
-          }
-      }
-  }*/
 }
 .tooltip_icon:hover {
   cursor: help;
@@ -14298,14 +14290,14 @@ form .bottom_row a {
 .tooltip_icon:hover svg {
   color: #545656;
 }
-.tooltip_icon:hover .hover_text {
-  opacity: 1;
-  z-index: 999 !important;
+@media all and (min-width: 769px) {
+  .tooltip_icon:hover .hover_text {
+    opacity: 1;
+    z-index: 999 !important;
+  }
 }
 .tooltip_icon .hover_text.help {
-  /*max-width: 330px;*/
   padding: 5px;
-  /*top: -180px;*/
   right: -3px;
   align-items: flex-start;
   -webkit-align-items: flex-start;
@@ -15183,10 +15175,16 @@ form .bottom_row a {
   font-size: 14px;
 }
 .hover_text.icon_text {
-  top: 0;
+  top: -10px;
 }
 .hover_text.icon_text p {
-  font-size: 12px;
+  font-size: 0.6rem;
+}
+@media all and (max-width: 1199px) and (min-width: 993px) {
+  .hover_text.icon_text p {
+    font-size: 0.77vw;
+    padding: 2px;
+  }
 }
 
 .form_page.terms .card {

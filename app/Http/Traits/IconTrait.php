@@ -57,7 +57,6 @@ trait IconTrait {
             "Pandora",
             "Patreon",
             "Paypal",
-            "Phone",
             "PhotoBucket",
             "Picasa",
             "Pinterest",

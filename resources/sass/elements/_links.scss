@@ -130,10 +130,8 @@
                         cursor: grab;
 
                         .hover_text {
-                            opacity: 1;
-
-                            @media all and (max-width: 768px) {
-                                opacity: 0;
+                            @media all and (min-width: 769px) {
+                                opacity: 1;
                             }
                         }
 
@@ -424,11 +422,9 @@
 
                 &:hover {
                     .hover_text {
-                        opacity: 1;
 
-                        @media all and (max-width: 768px) {
-                            opacity: 0;
-                            display: none;
+                        @media all and (min-width: 769px) {
+                            opacity: 1;
                         }
                     }
                 }
@@ -561,10 +557,8 @@
 
                 &:hover {
                     .hover_text {
-                        opacity: 1;
-
-                        @media all and (max-width: 768px) {
-                            opacity: 0;
+                        @media all and (min-width: 769px) {
+                            opacity: 1;
                         }
                     }
                 }
@@ -709,11 +703,8 @@
     &:hover {
 
         .hover_text {
-            opacity: 1;
-
-            @media all and (max-width: 768px) {
-                opacity: 0;
-                display: none;
+            @media all and (min-width: 769px) {
+                opacity: 1;
             }
         }
     }

@@ -134,7 +134,11 @@
                     width: 20px;
                     height: 30px;
                     left: 20%;
-                    top: 50px;
+                    top: 58px;
+                }
+
+                @media all and (max-width: 550px) {
+                    top: 42px;
                 }
 
                 svg {
@@ -173,13 +177,22 @@
                         -webkit-transition: 1ms opacity linear;
                         -moz-transition: 1ms opacity linear;
                         -o-transition: 1ms opacity linear;
+                        border-radius: 4px;
+                        -webkit-border-radius: 4px;
+                        -moz-border-radius: 4px;
                         background: $lightGrayAlt;
-                        width: 180px;
-                        padding: 10px;
+                        font-size: .6rem;
+                        min-width: 130px;
+                        padding: 5px;
                         top: 34px;
                         left: 0;
                         color: $black;
                         display: none;
+
+                        @media all and (max-width: 550px) {
+                            font-size: 8px;
+                            min-width: 110px;
+                        }
 
                         &:before {
                             content: '';
@@ -204,8 +217,10 @@
                         cursor: help;
 
                         .tooltip {
-                            display: block;
-                            opacity: 1;
+                            @media all and (min-width: 769px) {
+                                display: block;
+                                opacity: 1;
+                            }
                         }
                     }
                 }

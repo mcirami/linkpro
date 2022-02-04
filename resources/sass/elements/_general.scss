@@ -137,10 +137,15 @@
     }
 
     &.icon_text {
-        top: 0;
+        top: -10px;
 
         p {
-            font-size: 12px;
+            font-size: .6rem;
+
+            @media all and (max-width: 1199px) and (min-width: 993px) {
+                font-size: .77vw;
+                padding: 2px;
+            }
         }
     }
 

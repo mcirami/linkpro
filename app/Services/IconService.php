@@ -18,7 +18,7 @@ class IconService {
         $endpoint = 'http://itunes.apple.com/search';
         $client = new Client();
 
-        $term = "Yahoo";
+        $term = "Phone App";
         $entity = "software";
 
         try {

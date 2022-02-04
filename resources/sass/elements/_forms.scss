@@ -790,36 +790,26 @@ form .bottom_row a {
     -webkit-align-self: flex-start;
     margin-top: -16px;
 
-    /*@media all and (min-width: 768px) {*/
-        &:hover {
-            cursor: help;
+    &:hover {
+        cursor: help;
 
-            svg {
-                color: $darkGray;
-            }
+        svg {
+            color: $darkGray;
+        }
 
-            .hover_text {
+        .hover_text {
+
+            @media all and (min-width: 769px) {
                 opacity: 1;
                 z-index: 999 !important;
             }
         }
-  /*  }*/
+    }
 
-    /*@media all and (max-width: 768px) {
-        &:hover {
-            cursor:pointer;
-
-            svg {
-                color: $darkGray;
-            }
-        }
-    }*/
 
     .hover_text {
         &.help {
-            /*max-width: 330px;*/
             padding: 5px;
-            /*top: -180px;*/
             right: -3px;
             align-items: flex-start;
             -webkit-align-items: flex-start;
