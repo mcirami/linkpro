@@ -267,20 +267,20 @@ export const toolTipClick = () => {
                         lastChild.scrollIntoView({
                             behavior: 'smooth',
                             block: "center",
-                            inline: "nearest"
+                            inline: "center"
                         });
 
-                    }, 400)
+                    }, 800)
                 } else {
                     lastChild.classList.toggle('open');
                     setTimeout(function(){
                         lastChild.scrollIntoView({
                             behavior: 'smooth',
                             block: "center",
-                            inline: "nearest"
+                            inline: "center"
                         });
 
-                    }, 400)
+                    }, 800)
                 }
 
             })

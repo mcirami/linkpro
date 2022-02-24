@@ -388,7 +388,7 @@ const Links = ({
                 inline: "nearest"
             });
 
-        }, 200)
+        }, 800)
 
     }
 
@@ -427,7 +427,7 @@ const Links = ({
                 inline: "nearest"
             });
 
-        }, 200)
+        }, 800)
 
     }
 

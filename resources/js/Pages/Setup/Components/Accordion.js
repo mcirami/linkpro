@@ -19,7 +19,7 @@ const Accordion = () => {
                 inline: "center"
             });
 
-        }, 200)
+        }, 400)
 
     }
     return (

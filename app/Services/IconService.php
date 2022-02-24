@@ -18,7 +18,7 @@ class IconService {
         $endpoint = 'http://itunes.apple.com/search';
         $client = new Client();
 
-        $term = "Phone App";
+        $term = "onlyfans";
         $entity = "software";
 
         try {
@@ -34,7 +34,8 @@ class IconService {
 
         $content = json_decode($response->getBody(), true);
 
-        $url = $content['results'][0]['artworkUrl512'];
+        //$url = $content['results'][0]['artworkUrl512'];
+        $url = $content;
 
         /*$iconName = str_replace(" ", '-', $term);
         $path = 'icons/' . $iconName . ".png";

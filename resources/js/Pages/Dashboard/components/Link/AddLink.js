@@ -21,7 +21,7 @@ const AddLink = ({userSub, setShowUpgradePopup, setOptionText, setShowNewForm })
                     inline: "nearest"
                 });
 
-            }, 200)
+            }, 800)
 
         } else {
             const popup = document.querySelector('#upgrade_popup');

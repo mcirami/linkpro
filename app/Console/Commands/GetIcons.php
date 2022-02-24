@@ -74,16 +74,6 @@ class GetIcons extends Command
             retry(20, function() use ($object, $addSeconds) {
 
                 JobGetIcons::dispatch($object)->delay(now()->addSeconds($addSeconds));
-               /* if ($count > 5) {
-                    if ($count % 5 == 0) {
-                        $addSeconds += 30;
-                        JobGetIcons::dispatch($object)->delay(now()->addSeconds($addSeconds));
-                    } else {
-                        JobGetIcons::dispatch($object)->delay(now()->addSeconds($addSeconds));
-                    }
-                } else {
-                    JobGetIcons::dispatch($object);
-                }*/
 
             }, 200);
         }

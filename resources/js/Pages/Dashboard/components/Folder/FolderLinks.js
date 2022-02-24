@@ -425,7 +425,7 @@ const FolderLinks = ({
                 inline: "nearest"
             });
 
-        }, 200)
+        }, 800)
 
     }
 

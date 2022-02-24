@@ -81,7 +81,7 @@ const AddFolder = ({
                 inline: "nearest"
             });
 
-        }, 200)
+        }, 800)
     }
 
     return (
