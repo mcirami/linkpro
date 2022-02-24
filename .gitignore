@@ -35,3 +35,4 @@ vapor.yml
 .env.staging
 production.Dockerfile
 staging.Dockerfile
+/data
