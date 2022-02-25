@@ -69,7 +69,8 @@ function App() {
 
     const [showLoader, setShowLoader] = useState(false);
 
-    const [folderContent, setFolderContent] = useState(null);
+    const [row, setRow] = useState(null);
+    const [value, setValue] = useState(null);
 
     useEffect(() => {
 
@@ -319,7 +320,8 @@ function App() {
                                                         userSub={userSub}
                                                         setFolderLinks={setFolderLinks}
                                                         setOriginalFolderLinks={setOriginalFolderLinks}
-                                                        setFolderContent={setFolderContent}
+                                                        setRow={setRow}
+                                                        setValue={setValue}
                                                     />
                                                 </ErrorBoundary>
 
@@ -340,8 +342,10 @@ function App() {
                                 fileName={fileName}
                                 profileFileName={profileFileName}
                                 userSub={userSub}
-                                folderContent={folderContent}
-                                setFolderContent={setFolderContent}
+                                row={row}
+                                setRow={setRow}
+                                value={value}
+                                setValue={setValue}
                             />
                         </div>
                     </PageContext.Provider>

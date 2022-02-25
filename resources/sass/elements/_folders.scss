@@ -112,21 +112,31 @@
 
 .my_row.folder {
     opacity: 0;
-    max-height: 1px;
-    transition: all 300ms ease-in-out;
-    -webkit-transition: all 300ms ease-in-out;
-    -o-transition: all 300ms ease-in-out;
-    -moz-transition: all 300ms ease-in-out;
+    max-height: 0;
+    -webkit-transition: max-height 50ms ease-in-out;
+    -moz-transition: max-height  50ms ease-in-out;
+    -o-transition: max-height  50ms ease-in-out;
+    transition: max-height 50ms ease-in-out;
     background: $white;
     z-index: -999;
 
     &.open {
         max-height: 1000px;
         z-index: unset;
+        animation: opacity 500ms forwards;
 
         &.adjust {
             opacity: 1;
         }
+    }
+
+    @keyframes opacity {
+        0% {opacity: 0;}
+        20% { opacity: .3;}
+        40% { opacity: .5;}
+        60% { opacity: .7;}
+        80% { opacity: .9;}
+        100% { opacity: 1;}
     }
 
     p {

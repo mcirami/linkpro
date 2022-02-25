@@ -19,14 +19,15 @@ const Preview = ({
                      completedProfileCrop,
                      profileRef,
                      userSub,
-                     folderContent,
-                     setFolderContent
+                     row,
+                     setRow,
+                     value,
+                     setValue
 }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
     const {pageSettings, setPageSettings} = useContext(PageContext);
     const [iconCount, setIconCount] = useState(null);
-    const [row, setRow] = useState(null);
 
     const myStyle = {
         background: "url(" + pageSettings["header_img"] + ") no-repeat",
@@ -136,86 +137,23 @@ const Preview = ({
         box.style.maxHeight = innerContent.offsetHeight - pixelsToMinus + "px";
     }, []);
 
-    const folderClick = e => {
+    const folderClick = (e, index) => {
         e.preventDefault();
 
         const clickedDiv = e.currentTarget.parentNode;
 
         if (clickedDiv.classList.contains('open')) {
-            clickedDiv.classList.remove('open');
-            document.querySelectorAll('.my_row.folder.open').forEach((element) => {
-                element.classList.remove('open');
-
-                setTimeout(() => {
-                    element.classList.remove('adjust');
-                }, 200)
-            })
-            setTimeout(() => {
-                clickedDiv.lastElementChild.after(folderContent);
-                setFolderContent(null);
-            }, 500)
-
             setRow(null);
-        } else if (folderContent) {
-            const folder = document.querySelector('.my_row.folder.open');
-            folder.classList.remove('open');
-            /*setTimeout(() => {
-                folder.classList.remove('open');
-            }, 100)*/
-            setTimeout(() => {
-                folder.classList.remove('adjust');
-            }, 200)
-            const folderParent = document.querySelector(folder.dataset.parent);
-            folderParent.classList.remove('open');
-            folderParent.lastElementChild.after(folder);
-
-            /*setTimeout(() => {
-                folderParent.lastElementChild.after(folder);
-            }, 500)*/
-
-            insertFolder(e);
-
+            setValue(null);
         } else {
-            insertFolder(e);
+            setRow(clickedDiv.firstChild.dataset.row);
+            setValue(index);
         }
-    }
-
-    const insertFolder = (event) => {
-        const clickedDiv = event.currentTarget.parentNode;
-        const currentRow = clickedDiv.firstChild.dataset.row;
-        const nthChild = currentRow * 4;
-        setRow(currentRow);
-
-        const content = clickedDiv.lastElementChild;
-
-        let iconRow = null;
-        if (nthChild > userLinks.length) {
-            iconRow  = document.querySelector('.icons_wrap.main > .icon_col:last-child');
-        } else {
-            iconRow  = document.querySelector('.icons_wrap.main > .icon_col:nth-child(' + nthChild + ')');
-        }
-
-        iconRow.after(content);
-
-        if (!row || row !== currentRow) {
-            setTimeout(() => {
-                content.classList.add('open');
-                clickedDiv.classList.add('open');
-            }, 100)
-
-            setTimeout(() => {
-                content.classList.add('adjust');
-            }, 200)
-        } else {
-            content.classList.add('open');
-            clickedDiv.classList.add('open');
-            content.classList.add('adjust');
-        }
-
-        setFolderContent(content);
     }
 
     let folderCount = 0;
+
+    const accordionLinks = value !== null ? userLinks[value].links : null;
 
     return (
 
@@ -349,82 +287,89 @@ const Preview = ({
                                 }
 
                                 let colClasses = "";
-                                let colID = "";
                                 if (type === "folder") {
                                     colClasses = "icon_col folder";
                                     ++folderCount;
-                                    colID = "folder" + folderCount + "Parent";
                                 } else {
                                     colClasses = "icon_col";
                                 }
 
                                 return (
-                                    <div id={colID} className={colClasses} key={index}>
+                                    <React.Fragment key={index}>
+                                        <div className={ ` ${colClasses} ${index == value ? " open" : "" } `}>
 
-                                        {type === "folder" ?
+                                            {type === "folder" ?
 
-                                            active_status ?
-                                                <>
-                                                    <a href="#" data-row={ dataRow } onClick={(e) => {folderClick(e)} }>
-                                                        <img className="bg_image" src={ Vapor.asset('images/blank-folder-square.jpg') } alt=""/>
-                                                        <div className="icons_wrap">
-                                                            {links.slice(0, 9).map(( innerLinkIcons, index ) => {
-                                                                return (
-                                                                    <FolderLinks key={index} icons={innerLinkIcons}  checkSubStatus={checkSubStatus}/>
-                                                                )
-                                                            })}
+                                                active_status ?
+                                                    <>
+                                                        <a href="#" data-row={ dataRow } onClick={(e) => {folderClick(e, index)} }>
+                                                            <img className="bg_image" src={ Vapor.asset('images/blank-folder-square.jpg') } alt=""/>
+                                                            <div className="icons_wrap">
+                                                                {links.slice(0, 9).map(( innerLinkIcons, index ) => {
+                                                                    return (
+                                                                        <FolderLinks key={index} icons={innerLinkIcons}  checkSubStatus={checkSubStatus}/>
+                                                                    )
+                                                                })}
 
-                                                        </div>
-                                                    </a>
-                                                    <p>
-                                                        {name && name.length >
-                                                        11 ?
-                                                            name.substring(0,
-                                                                11) + "..."
-                                                            :
-                                                            name || "Link Name"
-                                                        }
-                                                    </p>
-                                                    <div id={"folder" + folderCount} className={"my_row folder"} data-parent={"#folder" + folderCount + "Parent"}>
-                                                        <div className="icons_wrap inner">
-                                                            {links.map((innerLinkFull, index) => {
-                                                                return (
-                                                                    <AccordionLinks key={index} icons={innerLinkFull} checkSubStatus={checkSubStatus}/>
-                                                                )
-                                                            })}
-                                                        </div>
-                                                    </div>
-                                                </>
+                                                            </div>
+                                                        </a>
+                                                        <p>
+                                                            {name && name.length >
+                                                            11 ?
+                                                                name.substring(0,
+                                                                    11) + "..."
+                                                                :
+                                                                name || "Link Name"
+                                                            }
+                                                        </p>
+                                                    </>
 
+                                                    :
+                                                    ""
                                                 :
-                                                ""
+
+                                                active_status ?
+                                                    <>
+                                                        <a className={!source ||
+                                                        !displayIcon ?
+                                                            "default" :
+                                                            ""} target="_blank" href={source ||
+                                                        "#"}>
+                                                            <img src={displayIcon ||
+                                                            Vapor.asset(
+                                                                'images/icon-placeholder-preview.png')} alt=""/>
+                                                        </a>
+                                                        <p>
+                                                            {name && name.length >
+                                                            11 ?
+                                                                name.substring(0,
+                                                                    11) + "..."
+                                                                :
+                                                                name || "Link Name"
+                                                            }
+                                                        </p>
+                                                    </>
+                                                    :
+                                                    ""
+                                            }
+                                        </div>
+                                        {(index + 1) % 4 === 0 || index + 1 === iconCount ?
+                                            <div className={`my_row folder ${dataRow == row ? "open" : ""}`} >
+                                                <div className="icons_wrap inner">
+                                                    {accordionLinks && dataRow == row ? accordionLinks.map((innerLinkFull, index) => {
+                                                        return (
+                                                            <AccordionLinks key={index} icons={innerLinkFull} checkSubStatus={checkSubStatus}/>
+                                                        )
+                                                    })
+                                                    :
+                                                        ""
+                                                    }
+                                                </div>
+                                            </div>
                                             :
-
-                                            active_status ?
-                                                <>
-                                                    <a className={!source ||
-                                                    !displayIcon ?
-                                                        "default" :
-                                                        ""} target="_blank" href={source ||
-                                                    "#"}>
-                                                        <img src={displayIcon ||
-                                                        Vapor.asset(
-                                                            'images/icon-placeholder-preview.png')} alt=""/>
-                                                    </a>
-                                                    <p>
-                                                        {name && name.length >
-                                                        11 ?
-                                                            name.substring(0,
-                                                                11) + "..."
-                                                            :
-                                                            name || "Link Name"
-                                                        }
-                                                    </p>
-                                                </>
-                                                :
-                                                ""
+                                            ""
                                         }
-                                    </div>
+                                    </React.Fragment>
                                 )
                             })}
                         </div>

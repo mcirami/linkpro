@@ -37,7 +37,8 @@ const Links = ({
                    userSub,
                    setFolderLinks,
                    setOriginalFolderLinks,
-                   setFolderContent
+                   setRow,
+                   setValue
 
 }) => {
 
@@ -284,20 +285,8 @@ const Links = ({
         }
 
         if (state.isPressed) {
-            const folder = document.querySelector('.my_row.folder.open');
-            if (folder) {
-                folder.classList.remove('open');
-                const folderParent = document.querySelector(folder.dataset.parent);
-                folderParent.lastElementChild.after(folder);
-            }
-
-            const folderCol = document.querySelector('.icon_col.folder.open');
-            if (folderCol) {
-                folderCol.classList.remove('open');
-            }
-
-            setFolderContent(null);
-
+            setRow(null)
+            setValue(null)
         }
 
     }, [state.isPressed]);
