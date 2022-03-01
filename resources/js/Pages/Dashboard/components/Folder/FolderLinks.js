@@ -13,6 +13,8 @@ import {Motion, spring} from 'react-motion';
 import {
     updateLinksPositions,
     updateLinkStatus,
+    getColHeight,
+    getColWidth,
 } from '../../../../Services/LinksRequest';
 import {updateFolderName} from '../../../../Services/FolderRequests';
 import AddLink from '../Link/AddLink';
@@ -76,12 +78,14 @@ const FolderLinks = ({
 
     useLayoutEffect(() => {
 
-        if (targetRef.current && folderLinks.length > 0) {
-            setSize({
-                height: getColHeight(),
-                width: getColWidth(),
-            })
-        }
+        setTimeout(() => {
+            if (targetRef.current && folderLinks.length > 0) {
+                setSize({
+                    height: getColHeight(),
+                    width: getColWidth("folder"),
+                })
+            }
+        }, 300)
 
     }, [folderLinks])
 
@@ -123,7 +127,7 @@ const FolderLinks = ({
         }
     },[]);
 
-    const getColWidth = useCallback(() => {
+    /*const getColWidth = useCallback(() => {
         const windowWidth = window.outerWidth;
         let colWidth;
         const iconsWrap = document.querySelector('.icons_wrap.add_icons');
@@ -141,9 +145,9 @@ const FolderLinks = ({
         }
 
         return colWidth;
-    });
+    });*/
 
-    const getColHeight = useCallback(() => {
+    /*const getColHeight = useCallback(() => {
         const windowWidth = window.outerWidth;
         const iconCol = document.querySelectorAll('.icons_wrap.add_icons .icon_col');
         let colHeight;
@@ -174,7 +178,7 @@ const FolderLinks = ({
         }
 
         return colHeight;
-    });
+    });*/
 
 
     let [width, height] = [size.width, size.height];
@@ -184,7 +188,7 @@ const FolderLinks = ({
         function handleResize() {
             setSize({
                 height: getColHeight(),
-                width: getColWidth(),
+                width: getColWidth("folder"),
             })
         }
 

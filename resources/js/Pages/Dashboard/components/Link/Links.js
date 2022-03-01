@@ -13,6 +13,8 @@ import {Motion, spring} from 'react-motion';
 import {
     updateLinksPositions,
     updateLinkStatus,
+    getColHeight,
+    getColWidth,
 } from '../../../../Services/LinksRequest';
 import EventBus from '../../../../Utils/Bus';
 
@@ -55,12 +57,14 @@ const Links = ({
 
     useLayoutEffect(() => {
 
-        if (targetRef.current && userLinks.length > 0) {
-            setSize({
-                height: getColHeight(),
-                width: getColWidth(),
-            })
-        }
+        setTimeout(() => {
+            if (targetRef.current && userLinks.length > 0) {
+                setSize({
+                    height: getColHeight(initialRender),
+                    width: getColWidth('main'),
+                })
+            }
+        },300)
     }, [])
 
     const [state, setState] = useState(() => ({
@@ -100,7 +104,7 @@ const Links = ({
         }
     },[]);
 
-    const getColWidth = useCallback(() => {
+ /*   const getColWidth = useCallback(() => {
         const windowWidth = window.outerWidth;
         let colWidth;
         const iconsWrap = document.querySelector('.icons_wrap.add_icons');
@@ -129,8 +133,8 @@ const Links = ({
 
         return colWidth;
     });
-
-    const getColHeight = useCallback(() => {
+*/
+    /*const getColHeight = useCallback(() => {
         const windowWidth = window.outerWidth;
         const iconCol = document.querySelectorAll('.icons_wrap.add_icons .icon_col');
         let colHeight;
@@ -161,7 +165,7 @@ const Links = ({
         }
 
         return colHeight;
-    });
+    });*/
 
 
     let [width, height] = [size.width, size.height];
@@ -170,8 +174,8 @@ const Links = ({
 
         function handleResize() {
             setSize({
-                height: getColHeight(),
-                width: getColWidth(),
+                height: getColHeight(initialRender),
+                width: getColWidth('main'),
             })
         }
 
@@ -488,7 +492,7 @@ const Links = ({
                                         <div className="icon_wrap folder">
                                             <div className="inner_icon_wrap" onClick={(e) => {fetchFolderLinks(linkID)} }>
                                                 <img src={ Vapor.asset('images/blank-folder-square.jpg')} alt=""/>
-                                                <div className={hasLinks ? "folder_icons" : "folder_icons empty"}>
+                                                <div className={hasLinks ? "folder_icons main" : "folder_icons empty"}>
                                                     {hasLinks &&
 
                                                         originalArray[key].links.slice(

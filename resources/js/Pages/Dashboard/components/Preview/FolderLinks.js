@@ -7,7 +7,7 @@ const FolderLinks = ({icons, checkSubStatus}) => {
 
     return (
 
-        <div className="icon_col">
+        <div className="image_col">
             {active_status ?
                 <img src={displayIcon} alt={name} title={name}/>
                 :

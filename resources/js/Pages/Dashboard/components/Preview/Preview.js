@@ -302,9 +302,9 @@ const Preview = ({
 
                                                 active_status ?
                                                     <>
-                                                        <a href="#" data-row={ dataRow } onClick={(e) => {folderClick(e, index)} }>
+                                                        <a className="inner_icon_wrap" href="#" data-row={ dataRow } onClick={(e) => {folderClick(e, index)} }>
                                                             <img className="bg_image" src={ Vapor.asset('images/blank-folder-square.jpg') } alt=""/>
-                                                            <div className="icons_wrap">
+                                                            <div className="folder_icons preview">
                                                                 {links.slice(0, 9).map(( innerLinkIcons, index ) => {
                                                                     return (
                                                                         <FolderLinks key={index} icons={innerLinkIcons}  checkSubStatus={checkSubStatus}/>

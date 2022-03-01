@@ -55,9 +55,9 @@
                                             @if($link->active_status)
                                                 <a href="#">
                                                     <img src="{{asset('images/blank-folder-square.jpg')}}" alt="">
-                                                    <div class="icons_wrap">
+                                                    <div class="folder_icons live">
                                                         @foreach( array_slice($link->links, 0, 9) as $folderLink)
-                                                            <div class="icon_col">
+                                                            <div class="image_col">
                                                                 <img src="{{ $folderLink["icon"] }}" alt="{{$folderLink["name"]}}" title="{{$folderLink["name"]}}">
                                                             </div>
                                                         @endforeach

@@ -422,100 +422,97 @@
     }
 }
 
-.icon_breadcrumb {
-    padding: 0 40px;
-    margin-bottom: 10px;
+.folder_icons {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    -webkit-justify-content: flex-start;
+    align-items: flex-start;
+    -webkit-align-items: flex-start;
+    row-gap: 3px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 4% 7%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-row-gap: 3px;
 
-    @media all and (max-width: 768px) {
-        padding: 0 30px;
-    }
+    &.main {
+        @media all and (max-width: 1199px) and (min-width: 992px)   {
+            grid-template-rows: repeat(3, 2vw);
+        }
 
-    .breadcrumb_links {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-orient: horizontal;
-        -webkit-box-direction: normal;
-        -ms-flex-direction: row;
-        flex-direction: row;
-        -ms-flex-wrap: nowrap;
-        flex-wrap: nowrap;
-        justify-content: space-between;
-        -webkit-justify-content: space-between;
-        align-items: center;
-        -webkit-align-items: center;
-        position: relative;
-
-        a {
-            @include ossemibold;
-            font-size: 15px;
-            margin-right:auto;
-
-            &:first-child {
-                margin-right: 2px;
-            }
+        @media screen and (max-width: 550px) {
+            grid-template-rows: repeat(3, 1.2em);
+            padding: 2% 7%;
         }
     }
 
-    .delete_icon {
-        position: relative;
-        width: 50%;
+    .image_col {
+        @supports not (display: grid) {
+            width: 31.7%;
+            margin-right: 2%;
+            margin-bottom: 3px;
 
-        .hover_text {
-            justify-content: flex-end;
-            -webkit-justify-content: flex-end;
-            top: -30px;
-            right: 0;
-
-            p {
-                @include osregular;
-                color: $black;
-                font-size: 12px;
-                margin-left: auto;
-                border: none;
+            &:nth-child(3n) {
+                margin-right: 0
             }
         }
 
-        &:hover {
-            .hover_text {
-                opacity: 1;
-            }
+        img {
+            border-radius: 34% !important;
+            -webkit-border-radius: 34% !important;
+            -moz-border-radius: 34% !important;
         }
     }
 
-    a.delete {
+    &.preview {
+        grid-template-rows: repeat(3, 1.2em);
+        padding: 1% 7%;
+
+        @media all and (max-width: 550px) {
+            grid-template-rows: repeat(3, 0.7em);
+        }
+    }
+
+    &.live {
+        @media screen and (max-width: 450px) {
+            grid-template-rows: repeat(3, 5vw);
+            padding: 1% 7%;
+        }
+    }
+
+    &.empty {
         display: block;
-        color: $red;
-        width: 30px;
-        height: 30px;
-        float: right;
 
-        &:hover {
-            color: $darkGray;
-        }
+        p {
+            @include osbold;
+            line-height: 1.2;
+            margin: 0;
+            font-size: 16px;
+            text-align: center;
+            color: $blue;
 
-        svg {
-            width: 100%;
-            height: 100%;
-        }
-    }
+            @media all and (max-width: 768px) {
+                font-size: 2.3vw;
+            }
 
-    p {
-        @include osbold;
-        color: $blue;
-        font-size: 20px;
-        text-align: center;
-        margin: 0 0 10px;
-        border-bottom: 2px solid $blue;
-    }
+            span {
+                font-size: 20px;
 
-    .back {
-        float: left;
-
-        svg {
-            float: left;
-            width: 18px;
-            height: 24px;
+                @media all and (max-width: 768px) {
+                    font-size: 3.5vw !important;
+                }
+            }
         }
     }
 }

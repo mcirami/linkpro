@@ -1,6 +1,7 @@
 import axios from 'axios';
 import EventBus from '../Utils/Bus';
 import {icons} from './IconObjects';
+import getWindow from '@popperjs/core/lib/dom-utils/getWindow';
 
 /**
  * Submit a request to add a new link
@@ -275,5 +276,100 @@ export const getAllLinks = (pageID) => {
     });
 }
 
-export default addLink;
+export const getColHeight = (initialRender) => {
 
+    const windowWidth = window.outerWidth;
+    const iconCol = document.querySelectorAll('.icons_wrap.add_icons .icon_col');
+    let colHeight;
+    const offsetHeight = iconCol[0].clientHeight;
+
+    console.log(offsetHeight);
+
+    /*if (initialRender.current) {*/
+
+        colHeight = offsetHeight - 15;
+
+        /*if (windowWidth > 1500) {
+            colHeight = 230;
+        } else if (windowWidth > 1300) {
+            colHeight = (windowWidth/2) * .30 + 10;
+        } else if (windowWidth > 1200) {
+            colHeight = (windowWidth/2) * .30 + 20;
+        } else if (windowWidth > 1100) {
+            colHeight = (windowWidth/2) * .30 + 30;
+        } else if (windowWidth > 992) {
+            colHeight = (windowWidth/2) * .30 + 40;
+        } else if (windowWidth > 815) {
+            colHeight = (windowWidth/2) * .45 + 40;
+        } else if (windowWidth > 600) {
+            colHeight = (windowWidth/2) * .45 + 50;
+        } else if (windowWidth > 500) {
+            colHeight = (windowWidth/2) * .45 + 55;
+        } else {
+            colHeight = (windowWidth/2) * .45 + 60;
+        }*/
+    /*} else {
+        //colHeight = offsetHeight - 15;
+    }*/
+
+    return colHeight;
+}
+
+export const getColWidth = (type) => {
+    const windowWidth = window.outerWidth;
+    let colWidth;
+    const iconsWrap = document.querySelector('.icons_wrap.add_icons');
+
+    if (iconsWrap) {
+
+        if (type === "main") {
+
+            if (windowWidth < 500) {
+                colWidth = (iconsWrap.clientWidth / 4) - 7;
+            } else {
+                colWidth = (iconsWrap.clientWidth / 4) - 10;
+            }
+
+        } else {
+            if (windowWidth < 500) {
+                colWidth = (iconsWrap.clientWidth / 3) - 10;
+            } else {
+                colWidth = (iconsWrap.clientWidth / 3) - 15;
+            }
+
+            /*if (iconsWrap) {*/
+
+            /*} else {
+                if (windowWidth < 992) {
+                    colWidth = (windowWidth / 3) - 20;
+                } else if (windowWidth < 1500) {
+                    colWidth = (windowWidth * .396633) / 3 + 20;
+                } else {
+                    colWidth = 275;
+                }
+            }*/
+        }
+
+        /*if (windowWidth < 550) {
+            colWidth = (windowWidth / 4) - 28;
+        } else if (windowWidth < 768) {
+            colWidth = (windowWidth / 4) - 30;
+        } else {
+            colWidth = (iconsWrap.clientWidth / 4) - 15;
+        }*/
+    } /*else {
+        if (windowWidth < 768) {
+            colWidth = (windowWidth / 4) - 30;
+        } else if (windowWidth < 992) {
+            colWidth = (windowWidth / 4) - 20;
+        } else if (windowWidth < 1500) {
+            colWidth = (windowWidth * .396633) / 4 + 20;
+        } else {
+            colWidth = 175;
+        }
+    }*/
+
+    return colWidth;
+}
+
+export default addLink;
