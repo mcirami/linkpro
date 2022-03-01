@@ -1,6 +1,7 @@
 import React from 'react';
+import {checkSubStatus} from '../../../../Services/UserService';
 
-const FolderLinks = ({icons, checkSubStatus}) => {
+const FolderLinks = ({icons}) => {
 
     const {id, name, icon, active_status} = icons
     const displayIcon = checkSubStatus(icon);

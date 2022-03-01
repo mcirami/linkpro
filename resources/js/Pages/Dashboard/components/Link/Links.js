@@ -16,6 +16,7 @@ import {
     getColHeight,
     getColWidth,
 } from '../../../../Services/LinksRequest';
+import {checkSubStatus} from '../../../../Services/UserService';
 import EventBus from '../../../../Utils/Bus';
 
 const springSetting1 = { stiffness: 180, damping: 10 };
@@ -60,7 +61,7 @@ const Links = ({
         setTimeout(() => {
             if (targetRef.current && userLinks.length > 0) {
                 setSize({
-                    height: getColHeight(initialRender),
+                    height: getColHeight(),
                     width: getColWidth('main'),
                 })
             }
@@ -104,77 +105,13 @@ const Links = ({
         }
     },[]);
 
- /*   const getColWidth = useCallback(() => {
-        const windowWidth = window.outerWidth;
-        let colWidth;
-        const iconsWrap = document.querySelector('.icons_wrap.add_icons');
-
-        if (iconsWrap) {
-            //colWidth = (iconsWrap.clientWidth / 4) - 15;
-
-            if (windowWidth < 550) {
-                colWidth = (windowWidth / 4) - 28;
-            } else if (windowWidth < 768) {
-                colWidth = (windowWidth / 4) - 30;
-            } else {
-                colWidth = (iconsWrap.clientWidth / 4) - 15;
-            }
-        } else {
-            if (windowWidth < 768) {
-                colWidth = (windowWidth / 4) - 30;
-            } else if (windowWidth < 992) {
-                colWidth = (windowWidth / 4) - 20;
-            } else if (windowWidth < 1500) {
-                colWidth = (windowWidth * .396633) / 4 + 20;
-            } else {
-                colWidth = 175;
-            }
-        }
-
-        return colWidth;
-    });
-*/
-    /*const getColHeight = useCallback(() => {
-        const windowWidth = window.outerWidth;
-        const iconCol = document.querySelectorAll('.icons_wrap.add_icons .icon_col');
-        let colHeight;
-        const offsetHeight = iconCol[0].clientHeight;
-
-        if (initialRender.current) {
-            if (windowWidth > 1500) {
-                colHeight = 230;
-            } else if (windowWidth > 1300) {
-                colHeight = (windowWidth/2) * .30 + 10;
-            } else if (windowWidth > 1200) {
-                colHeight = (windowWidth/2) * .30 + 20;
-            } else if (windowWidth > 1100) {
-                colHeight = (windowWidth/2) * .30 + 30;
-            } else if (windowWidth > 992) {
-                colHeight = (windowWidth/2) * .30 + 40;
-            } else if (windowWidth > 815) {
-                colHeight = (windowWidth/2) * .45 + 40;
-            } else if (windowWidth > 600) {
-                colHeight = (windowWidth/2) * .45 + 50;
-            } else if (windowWidth > 500) {
-                colHeight = (windowWidth/2) * .45 + 55;
-            } else {
-                colHeight = (windowWidth/2) * .45 + 60;
-            }
-        } else {
-            colHeight = offsetHeight - 15;
-        }
-
-        return colHeight;
-    });*/
-
-
     let [width, height] = [size.width, size.height];
 
     useEffect(() => {
 
         function handleResize() {
             setSize({
-                height: getColHeight(initialRender),
+                height: getColHeight(),
                 width: getColWidth('main'),
             })
         }
@@ -385,7 +322,7 @@ const Links = ({
 
     }
 
-    const checkSubStatus = (icon) => {
+    /*const checkSubStatus = (icon) => {
 
         if (icon && icon.toString().includes('custom')) {
             if (userSub) {
@@ -402,7 +339,7 @@ const Links = ({
         } else {
             return icon;
         }
-    }
+    }*/
 
     const fetchFolderLinks = async (linkID) => {
         const url = 'folder/links/' + linkID;
@@ -501,13 +438,10 @@ const Links = ({
 
                                                                 const {id, icon} = innerLink;
 
-                                                                const displayIcon = checkSubStatus(
-                                                                    icon);
+                                                                const displayIcon = checkSubStatus(icon);
                                                                 return (
                                                                     <div className="image_col" key={index}>
-                                                                        <img src={displayIcon ||
-                                                                        Vapor.asset(
-                                                                            'images/icon-placeholder.png')} alt=""/>
+                                                                        <img src={displayIcon} alt=""/>
                                                                     </div>
                                                                 )
                                                             })

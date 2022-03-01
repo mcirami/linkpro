@@ -10,6 +10,7 @@ import {IoIosLock, IoIosCloseCircleOutline} from 'react-icons/io';
 import {BiHelpCircle} from 'react-icons/bi';
 import FolderLinks from './FolderLinks';
 import AccordionLinks from './AccordionLinks';
+import {checkSubStatus} from '../../../../Services/UserService';
 
 const Preview = ({
                      setRef,
@@ -77,25 +78,6 @@ const Preview = ({
             window.removeEventListener('resize', handleResize);
         }
     }, []);
-
-    const checkSubStatus = (icon) => {
-
-        if (icon && icon.toString().includes('custom')) {
-            if (userSub) {
-                const {braintree_status, ends_at} = {...userSub};
-                const currentDate = new Date().valueOf();
-                const endsAt = new Date(ends_at).valueOf();
-
-                if ((braintree_status === 'active' || braintree_status === 'pending') || endsAt > currentDate) {
-                    return icon;
-                } else {
-                    return null;
-                }
-            }
-        } else {
-            return icon;
-        }
-    }
 
     useLayoutEffect(() => {
 
@@ -307,7 +289,7 @@ const Preview = ({
                                                             <div className="folder_icons preview">
                                                                 {links.slice(0, 9).map(( innerLinkIcons, index ) => {
                                                                     return (
-                                                                        <FolderLinks key={index} icons={innerLinkIcons}  checkSubStatus={checkSubStatus}/>
+                                                                        <FolderLinks key={index} icons={innerLinkIcons} />
                                                                     )
                                                                 })}
 
@@ -335,9 +317,7 @@ const Preview = ({
                                                             "default" :
                                                             ""} target="_blank" href={source ||
                                                         "#"}>
-                                                            <img src={displayIcon ||
-                                                            Vapor.asset(
-                                                                'images/icon-placeholder-preview.png')} alt=""/>
+                                                            <img src={displayIcon} alt=""/>
                                                         </a>
                                                         <p>
                                                             {name && name.length >
@@ -358,7 +338,7 @@ const Preview = ({
                                                 <div className="icons_wrap inner">
                                                     {accordionLinks && dataRow == row ? accordionLinks.map((innerLinkFull, index) => {
                                                         return (
-                                                            <AccordionLinks key={index} icons={innerLinkFull} checkSubStatus={checkSubStatus}/>
+                                                            <AccordionLinks key={index} icons={innerLinkFull} />
                                                         )
                                                     })
                                                     :

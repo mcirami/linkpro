@@ -1,6 +1,7 @@
 import React from 'react';
+import {checkSubStatus} from '../../../../Services/UserService';
 
-const AccordionLinks = ({icons, checkSubStatus}) => {
+const AccordionLinks = ({icons}) => {
 
     const {id, name, email, phone, icon, url, active_status} = icons
     let source;
