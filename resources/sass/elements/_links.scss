@@ -97,6 +97,12 @@
             -ms-flex-wrap: nowrap;
             flex-wrap: nowrap;
 
+            @media screen and (max-width: 350px) {
+                border-radius: 10%;
+                -webkit-border-radius: 10%;
+                -moz-border-radius: 10%;
+            }
+
             img {
                 border-radius: 20%;
                 -webkit-border-radius: 20%;
@@ -539,6 +545,10 @@
                 color: $black;
                 margin: 0;
                 font-size: 16px;
+
+                @media screen and (max-width: 350px) {
+                    font-size: 12px;
+                }
             }
 
             .lock_icon {
@@ -600,6 +610,10 @@
         @media all and (max-width: 550px) {
             font-size: 16px;
         }
+
+        @media screen and (max-width: 350px) {
+            font-size: 14px;
+        }
     }
 
     .icon_wrap {
@@ -625,6 +639,11 @@
         svg {
             width: 15px;
             height: 15px;
+
+            @media screen and (max-width: 350px) {
+                width: 10px;
+                height: 10px;
+            }
         }
     }
 }
@@ -707,6 +726,20 @@
             @media all and (min-width: 769px) {
                 opacity: 1;
             }
+        }
+    }
+
+    .react-switch-bg {
+        @media screen and (max-width: 350px) {
+            height: 16px !important;
+            width: 52px !important;
+        }
+    }
+
+    .react-switch-handle {
+        @media screen and (max-width: 350px) {
+            height: 13px !important;
+            width: 13px !important;
         }
     }
 }

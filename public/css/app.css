@@ -11407,6 +11407,11 @@ main {
     padding: 40px 20px;
   }
 }
+@media screen and (max-width: 300px) {
+  .card.edit_page {
+    padding: 0;
+  }
+}
 
 button {
   border: none;
@@ -12401,6 +12406,13 @@ header.guest_header .col.right {
   flex-direction: column;
   flex-wrap: nowrap;
 }
+@media screen and (max-width: 350px) {
+  #links_page .icons_wrap .icon_col {
+    border-radius: 10%;
+    -webkit-border-radius: 10%;
+    -moz-border-radius: 10%;
+  }
+}
 #links_page .icons_wrap .icon_col img {
   border-radius: 20%;
   -webkit-border-radius: 20%;
@@ -12766,6 +12778,11 @@ header.guest_header .col.right {
   margin: 0;
   font-size: 16px;
 }
+@media screen and (max-width: 350px) {
+  .page_settings .column_wrap .column_content h3, .page_settings .column_wrap .column_content .h3 {
+    font-size: 12px;
+  }
+}
 .page_settings .column_wrap .column_content .lock_icon {
   color: #0ba921;
   position: relative;
@@ -12809,6 +12826,11 @@ header.guest_header .col.right {
     font-size: 16px;
   }
 }
+@media screen and (max-width: 350px) {
+  .add_more_icons h3, .add_more_icons .h3 {
+    font-size: 14px;
+  }
+}
 .add_more_icons .icon_wrap {
   display: flex;
   flex-direction: row;
@@ -12825,6 +12847,12 @@ header.guest_header .col.right {
 .add_more_icons .icon_wrap svg {
   width: 15px;
   height: 15px;
+}
+@media screen and (max-width: 350px) {
+  .add_more_icons .icon_wrap svg {
+    width: 10px;
+    height: 10px;
+  }
 }
 
 .icon_message {
@@ -12891,6 +12919,18 @@ header.guest_header .col.right {
 @media all and (min-width: 769px) {
   .switch_wrap:hover .hover_text {
     opacity: 1;
+  }
+}
+@media screen and (max-width: 350px) {
+  .switch_wrap .react-switch-bg {
+    height: 16px !important;
+    width: 52px !important;
+  }
+}
+@media screen and (max-width: 350px) {
+  .switch_wrap .react-switch-handle {
+    height: 13px !important;
+    width: 13px !important;
   }
 }
 
@@ -13665,6 +13705,11 @@ textarea {
   height: 100px;
   width: 100%;
 }
+@media screen and (max-width: 350px) {
+  textarea {
+    font-size: 12px;
+  }
+}
 
 form {
   position: relative;
@@ -13698,6 +13743,11 @@ label.custom {
   -webkit-justify-content: space-between;
   align-items: center;
   -webkit-align-items: center;
+}
+@media screen and (max-width: 350px) {
+  label.custom {
+    font-size: 12px;
+  }
 }
 label.custom:hover {
   cursor: pointer;
@@ -13740,6 +13790,11 @@ form .bottom_row a {
 }
 .edit_form form input {
   width: 100%;
+}
+@media screen and (max-width: 350px) {
+  .edit_form form input {
+    font-size: 12px;
+  }
 }
 .edit_form form.link_name .status {
   height: 15px;
@@ -15422,6 +15477,11 @@ form .bottom_row a {
   color: #908e8e;
   font-size: 12px;
 }
+@media screen and (max-width: 350px) {
+  .my_row.info_text .char_count {
+    font-size: 10px;
+  }
+}
 .my_row.info_text .char_count span {
   font-family: "opensanssemibold", sans-serif;
 }
@@ -15432,6 +15492,11 @@ form .bottom_row a {
   margin-bottom: 0;
   font-size: 12px;
   color: #908e8e;
+}
+@media screen and (max-width: 350px) {
+  .my_row.info_text .char_max {
+    font-size: 10px;
+  }
 }
 .my_row.info_text .char_max.red {
   color: #f24d1d;
@@ -15471,8 +15536,10 @@ form .bottom_row a {
 }
 @media screen and (max-width: 550px) {
   .folder_icons.main {
-    grid-template-rows: repeat(3, 1.2em);
-    padding: 2% 7%;
+    align-items: center;
+    -webkit-align-items: center;
+    grid-template-rows: repeat(3, 0.7em);
+    padding: 7%;
   }
 }
 @supports not (display: grid) {
