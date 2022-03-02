@@ -172,9 +172,9 @@ jQuery(document).ready(function($) {
             )
             .catch((error) => {
                 if (error.response !== undefined) {
-                    console.log("ERROR:: ", error.response.data);
+                    console.error("ERROR:: ", error.response.data);
                 } else {
-                    console.log("ERROR:: ", error);
+                    console.error("ERROR:: ", error);
                 }
 
                 return {
@@ -333,9 +333,9 @@ jQuery(document).ready(function($) {
 
                 ).catch(error => {
                     if (error.response) {
-                        console.log(error.response);
+                        console.error(error.response);
                     } else {
-                        console.log("ERROR:: ", error);
+                        console.error("ERROR:: ", error);
                     }
                 });
             })
@@ -345,13 +345,13 @@ jQuery(document).ready(function($) {
     function trackFolderClick(folderID) {
         axios.post('/folder-click/' + folderID,).then(
             (response) => {
-                console.log(JSON.stringify(response.data.message));
+                //console.log(JSON.stringify(response.data.message));
             },
         ).catch(error => {
             if (error.response) {
-                console.log(error.response);
+                console.error(error.response);
             } else {
-                console.log("ERROR:: ", error);
+                console.error("ERROR:: ", error);
             }
         });
     }

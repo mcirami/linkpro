@@ -1,5 +1,5 @@
 import React from 'react';
-import {checkSubStatus} from '../../../../Services/UserService';
+import {checkIcon} from '../../../../Services/UserService';
 
 const AccordionLinks = ({icons}) => {
 
@@ -13,13 +13,12 @@ const AccordionLinks = ({icons}) => {
         source = url;
     }
 
-    const displayIcon = checkSubStatus(icon);
     return (
         <div className="icon_col">
             {active_status ?
                 <>
                     <a href={source} target="_blank">
-                        <img src={displayIcon} alt={name} title={name}/>
+                        <img src={checkIcon(icon, "preview")} alt={name} title={name}/>
                     </a>
                     <p>
                         {name && name.length >

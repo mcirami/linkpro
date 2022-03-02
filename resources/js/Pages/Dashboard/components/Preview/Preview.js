@@ -10,7 +10,7 @@ import {IoIosLock, IoIosCloseCircleOutline} from 'react-icons/io';
 import {BiHelpCircle} from 'react-icons/bi';
 import FolderLinks from './FolderLinks';
 import AccordionLinks from './AccordionLinks';
-import {checkSubStatus} from '../../../../Services/UserService';
+import {checkIcon, checkSubStatus} from '../../../../Services/UserService';
 
 const Preview = ({
                      setRef,
@@ -42,18 +42,10 @@ const Preview = ({
 
     useEffect(() => {
 
-        if (userSub) {
-            const {braintree_status, ends_at, name} = {...userSub};
-            const currentDate = new Date().valueOf();
-            const endsAt = new Date(ends_at).valueOf();
-
-            if (braintree_status === 'active' || braintree_status === 'pending' || endsAt > currentDate) {
-                setIconCount(userLinks.length)
-            } else {
-                setIconCount(8)
-            }
+        if (checkSubStatus()) {
+            setIconCount(userLinks.length)
         } else {
-            setIconCount(8)
+            setIconCount(8);
         }
 
     }, [userLinks]);
@@ -241,7 +233,7 @@ const Preview = ({
 
                             {userLinks.slice(0, iconCount).map(( linkItem, index ) => {
 
-                                const {
+                                let {
                                     id,
                                     type,
                                     name,
@@ -252,20 +244,18 @@ const Preview = ({
                                     active_status,
                                     links
                                 } = linkItem;
-                                let source;
+
                                 if (email) {
-                                    source = "mailto:" + email;
+                                    url = "mailto:" + email;
                                 } else if (phone) {
-                                    source = "tel:" + phone;
-                                } else {
-                                    source = url;
+                                    url = "tel:" + phone;
                                 }
 
                                 const dataRow = Math.ceil((index + 1) / 4);
 
                                 let displayIcon = null;
                                 if(!type) {
-                                    displayIcon = checkSubStatus(icon);
+                                    displayIcon = checkIcon(icon, "preview");
                                 }
 
                                 let colClasses = "";
@@ -312,10 +302,10 @@ const Preview = ({
 
                                                 active_status ?
                                                     <>
-                                                        <a className={!source ||
+                                                        <a className={!url ||
                                                         !displayIcon ?
                                                             "default" :
-                                                            ""} target="_blank" href={source ||
+                                                            ""} target="_blank" href={url ||
                                                         "#"}>
                                                             <img src={displayIcon} alt=""/>
                                                         </a>

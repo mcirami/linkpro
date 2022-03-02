@@ -16,7 +16,7 @@ import {
     getColHeight,
     getColWidth,
 } from '../../../../Services/LinksRequest';
-import {checkSubStatus} from '../../../../Services/UserService';
+import {checkIcon} from '../../../../Services/UserService';
 import EventBus from '../../../../Utils/Bus';
 
 const springSetting1 = { stiffness: 180, damping: 10 };
@@ -322,25 +322,6 @@ const Links = ({
 
     }
 
-    /*const checkSubStatus = (icon) => {
-
-        if (icon && icon.toString().includes('custom')) {
-            if (userSub) {
-                const {braintree_status, ends_at} = {...userSub};
-                const currentDate = new Date().valueOf();
-                const endsAt = new Date(ends_at).valueOf();
-
-                if ((braintree_status === 'active' || braintree_status === 'pending') || endsAt > currentDate) {
-                    return icon;
-                } else {
-                    return null;
-                }
-            }
-        } else {
-            return icon;
-        }
-    }*/
-
     const fetchFolderLinks = async (linkID) => {
         const url = 'folder/links/' + linkID;
         const response = await fetch(url);
@@ -397,7 +378,7 @@ const Links = ({
                     //displayIcon = null;
                     hasLinks = originalArray[key].links.length > 0;
                 } else {
-                    displayIcon = checkSubStatus(originalArray[key].icon);
+                    displayIcon = checkIcon(originalArray[key].icon);
                 }
 
                 return (
@@ -438,10 +419,9 @@ const Links = ({
 
                                                                 const {id, icon} = innerLink;
 
-                                                                const displayIcon = checkSubStatus(icon);
                                                                 return (
                                                                     <div className="image_col" key={index}>
-                                                                        <img src={displayIcon} alt=""/>
+                                                                        <img src={checkIcon(icon)} alt=""/>
                                                                     </div>
                                                                 )
                                                             })
@@ -456,10 +436,7 @@ const Links = ({
                                             handleOnClick(linkID)
                                         }}>
                                             <div className="image_wrap">
-                                                <img src={displayIcon ||
-                                                Vapor.asset(
-                                                    'images/icon-placeholder.png')} alt=""/>
-                                                {/*<div className="hover_text"><p><img src='/images/icon-placeholder.png' alt=""/></p></div>*/}
+                                                <img src={displayIcon} alt=""/>
                                             </div>
                                         </div>
                                     }
