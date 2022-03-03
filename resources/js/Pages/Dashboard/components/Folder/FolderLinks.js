@@ -8,7 +8,12 @@ import React, {
 } from 'react';
 import {MdDeleteForever, MdDragHandle, MdChevronLeft} from 'react-icons/md';
 import Switch from "react-switch";
-import {UserLinksContext, OriginalArrayContext} from '../App';
+import {
+    UserLinksContext,
+    OriginalArrayContext,
+    FolderLinksContext,
+    OriginalFolderLinksContext,
+} from '../App';
 import {Motion, spring} from 'react-motion';
 import {
     updateLinksPositions,
@@ -41,10 +46,6 @@ const FolderLinks = ({
                          setOptionText,
                          setEditFolderID,
                          setEditID,
-                         folderLinks,
-                         setFolderLinks,
-                         originalFolderLinks,
-                         setOriginalFolderLinks,
                          setShowNewForm,
                          setShowConfirmFolderDelete
 
@@ -52,6 +53,9 @@ const FolderLinks = ({
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
     const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
+    const { folderLinks, setFolderLinks } = useContext(FolderLinksContext);
+    const { originalFolderLinks, setOriginalFolderLinks } = useContext(OriginalFolderLinksContext);
+
 
     const [ currentFolder, setCurrentFolder ] = useState(
         userLinks.find(function(e) {

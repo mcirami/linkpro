@@ -1,22 +1,21 @@
 import React, {useContext} from 'react';
 import {MdCheckCircle} from 'react-icons/md';
 import {deleteLink, updateLinkStatus} from '../../../Services/LinksRequest';
-import {UserLinksContext, OriginalArrayContext} from './App';
+import {UserLinksContext, OriginalArrayContext, FolderLinksContext, OriginalFolderLinksContext} from './App';
 import {element} from 'prop-types';
 
 export const ConfirmPopup = ({
                                  editID,
                                  setEditID,
                                  setShowConfirmPopup,
-                                 folderLinks,
-                                 setFolderLinks,
-                                 originalFolderLinks,
-                                 setOriginalFolderLinks,
                                  folderID
                              }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
     const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
+
+    const { folderLinks, setFolderLinks } = useContext(FolderLinksContext);
+    const { originalFolderLinks, setOriginalFolderLinks } = useContext(OriginalFolderLinksContext);
 
     const deleteItem = (e) => {
         e.preventDefault();

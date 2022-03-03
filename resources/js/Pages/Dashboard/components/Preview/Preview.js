@@ -19,7 +19,6 @@ const Preview = ({
                      profileFileName,
                      completedProfileCrop,
                      profileRef,
-                     userSub,
                      row,
                      setRow,
                      value,

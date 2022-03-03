@@ -97,4 +97,24 @@ export const updateFolderName = (folderID, packets) => {
     });
 }
 
+export const fetchFolderLinks = async (linkID) => {
+    const url = 'folder/links/' + linkID;
+    const response = await fetch(url);
+    const folderLinks = await response.json();
+
+    setOriginalFolderLinks(folderLinks["links"]);
+    setFolderLinks(folderLinks["links"]);
+    setEditFolderID(linkID);
+
+    setTimeout(function(){
+        document.querySelector('#scrollTo').scrollIntoView({
+            behavior: 'smooth',
+            block: "start",
+            inline: "nearest"
+        });
+
+    }, 800)
+
+}
+
 export default addFolder;

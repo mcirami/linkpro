@@ -1,7 +1,12 @@
 import { ImPlus } from "react-icons/im";
 import addFolder from '../../../../Services/FolderRequests';
 import React, {useContext} from 'react';
-import {PageContext, UserLinksContext, OriginalArrayContext} from '../App';
+import {
+    PageContext,
+    UserLinksContext,
+    OriginalArrayContext,
+    FolderLinksContext, OriginalFolderLinksContext,
+} from '../App';
 import {updateContentHeight} from '../../../../Services/LinksRequest';
 
 const AddFolder = ({
@@ -9,12 +14,13 @@ const AddFolder = ({
                        setShowUpgradePopup,
                        setOptionText,
                        setEditFolderID,
-                       setFolderLinks,
-                       setOriginalFolderLinks }) => {
+}) => {
 
     const  { pageSettings } = useContext(PageContext);
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
     const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
+    const { folderLinks, setFolderLinks } = useContext(FolderLinksContext);
+    const { originalFolderLinks, setOriginalFolderLinks } = useContext(OriginalFolderLinksContext);
 
     const handleClick = (e) => {
         e.preventDefault();

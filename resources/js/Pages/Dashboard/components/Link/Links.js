@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 import {MdDragHandle} from 'react-icons/md';
 import Switch from "react-switch";
-import {UserLinksContext, OriginalArrayContext} from '../App';
+import {UserLinksContext, OriginalArrayContext, FolderLinksContext, OriginalFolderLinksContext} from '../App';
 import {Motion, spring} from 'react-motion';
 import {
     updateLinksPositions,
@@ -37,9 +37,6 @@ function clamp(n, min, max) {
 const Links = ({
                    setEditID,
                    setEditFolderID,
-                   userSub,
-                   setFolderLinks,
-                   setOriginalFolderLinks,
                    setRow,
                    setValue
 
@@ -47,6 +44,8 @@ const Links = ({
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
     const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
+    const { folderLinks, setFolderLinks } = useContext(FolderLinksContext);
+    const { originalFolderLinks, setOriginalFolderLinks } = useContext(OriginalFolderLinksContext);
 
     const initialRender = useRef(true);
     const targetRef = useRef();

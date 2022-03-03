@@ -58,7 +58,16 @@
                                                     <div class="folder_icons live">
                                                         @foreach( array_slice($link->links, 0, 9) as $folderLink)
                                                             <div class="image_col">
-                                                                <img src="{{ $folderLink["icon"] }}" alt="{{$folderLink["name"]}}" title="{{$folderLink["name"]}}">
+                                                                @if ( str_contains($folderLink["icon"], "custom") )
+                                                                    @if ( $subscription[0]["braintree_status"] == "active" || $subscription[0]["braintree_status"] == "pending" || $subscription[0]["ends_at"] > \Carbon\Carbon::now() )
+                                                                        @php $icon =  $folderLink["icon"] @endphp
+                                                                    @else
+                                                                        @php $icon =  null @endphp
+                                                                    @endif
+                                                                @else
+                                                                    @php $icon =  $folderLink["icon"] @endphp
+                                                                @endif
+                                                                <img src="{{ $icon ? : asset('/images/icon-placeholder-preview.png') }}" alt="{{$folderLink["name"]}}" title="{{$folderLink["name"]}}">
                                                             </div>
                                                         @endforeach
                                                     </div>
@@ -84,7 +93,16 @@
                                                             @endif
                                                             <div class="icon_col">
                                                                 <a class="link_tracker" href="{{$source}}" target="_blank" data-id="{{$folderLink["id"]}}">
-                                                                    <img src="{{ $folderLink["icon"] }}" alt="{{ $folderLink["name"] }}" title="{{ $folderLink["name"] }}" />
+                                                                    @if ( str_contains($folderLink["icon"], "custom") )
+                                                                        @if ( $subscription[0]["braintree_status"] == "active" || $subscription[0]["braintree_status"] == "pending" || $subscription[0]["ends_at"] > \Carbon\Carbon::now() )
+                                                                            @php $icon =  $folderLink["icon"] @endphp
+                                                                        @else
+                                                                            @php $icon =  null @endphp
+                                                                        @endif
+                                                                    @else
+                                                                        @php $icon =  $folderLink["icon"] @endphp
+                                                                    @endif
+                                                                    <img src="{{ $icon ? : asset('/images/icon-placeholder-preview.png') }}" alt="{{ $folderLink["name"] }}" title="{{ $folderLink["name"] }}" />
                                                                 </a>
                                                                 @php if ($folderLink["name"] && strlen($folderLink["name"]) > 11 ) {
                                                                         $name = substr($folderLink["name"], 0, 11) . "...";
