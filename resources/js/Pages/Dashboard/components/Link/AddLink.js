@@ -8,8 +8,9 @@ const AddLink = ({userSub, setShowUpgradePopup, setOptionText, setShowNewForm })
     const handleClick = (e) => {
         e.preventDefault();
 
-        const count = userLinks.length;
-
+        const newUserLinks = userLinks.filter(element => !element.type);
+        const count = newUserLinks.length;
+        
         if (count < 8 || ( (userSub && userSub["braintree_status"] === "active") || (userSub && userSub["braintree_status"] === "pending") ) || (userSub && new Date(userSub["ends_at"]).valueOf()) > new Date().valueOf() ) {
 
             setShowNewForm(true);

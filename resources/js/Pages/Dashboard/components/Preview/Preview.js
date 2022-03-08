@@ -28,6 +28,7 @@ const Preview = ({
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
     const {pageSettings, setPageSettings} = useContext(PageContext);
     const [iconCount, setIconCount] = useState(null);
+    const [subStatus, setSubStatus] = useState(checkSubStatus());
 
     const myStyle = {
         background: "url(" + pageSettings["header_img"] + ") no-repeat",
@@ -41,7 +42,7 @@ const Preview = ({
 
     useEffect(() => {
 
-        if (checkSubStatus()) {
+        if (subStatus) {
             setIconCount(userLinks.length)
         } else {
             setIconCount(8);
@@ -78,7 +79,7 @@ const Preview = ({
             const box = document.querySelector('.inner_content_wrap');
             const innerContent = document.getElementById('preview_wrap');
 
-            let pixelsToMinus = 0;
+            let pixelsToMinus;
             if (windowWidth > 551) {
                 pixelsToMinus = 35;
             } else {
@@ -267,61 +268,59 @@ const Preview = ({
 
                                 return (
                                     <React.Fragment key={index}>
-                                        <div className={ ` ${colClasses} ${index == value ? " open" : "" } `}>
 
-                                            {type === "folder" ?
+                                        {type === "folder" ?
+                                            active_status && subStatus ?
+                                                <div className={ ` ${colClasses} ${index == value ? " open" : "" } `}>
+                                                    <a className="inner_icon_wrap" href="#" data-row={ dataRow } onClick={(e) => {folderClick(e, index)} }>
+                                                        <img className="bg_image" src={ Vapor.asset('images/blank-folder-square.jpg') } alt=""/>
+                                                        <div className="folder_icons preview">
+                                                            {links.slice(0, 9).map(( innerLinkIcons, index ) => {
+                                                                return (
+                                                                    <FolderLinks key={index} icons={innerLinkIcons} />
+                                                                )
+                                                            })}
 
-                                                active_status ?
-                                                    <>
-                                                        <a className="inner_icon_wrap" href="#" data-row={ dataRow } onClick={(e) => {folderClick(e, index)} }>
-                                                            <img className="bg_image" src={ Vapor.asset('images/blank-folder-square.jpg') } alt=""/>
-                                                            <div className="folder_icons preview">
-                                                                {links.slice(0, 9).map(( innerLinkIcons, index ) => {
-                                                                    return (
-                                                                        <FolderLinks key={index} icons={innerLinkIcons} />
-                                                                    )
-                                                                })}
-
-                                                            </div>
-                                                        </a>
-                                                        <p>
-                                                            {name && name.length >
-                                                            11 ?
-                                                                name.substring(0,
-                                                                    11) + "..."
-                                                                :
-                                                                name || "Link Name"
-                                                            }
-                                                        </p>
-                                                    </>
-
-                                                    :
-                                                    ""
+                                                        </div>
+                                                    </a>
+                                                    <p>
+                                                        {name && name.length >
+                                                        11 ?
+                                                            name.substring(0,
+                                                                11) + "..."
+                                                            :
+                                                            name || "Link Name"
+                                                        }
+                                                    </p>
+                                                </div>
                                                 :
+                                                subStatus && <div className={ ` ${colClasses} `}>
+                                                </div>
+                                            :
 
-                                                active_status ?
-                                                    <>
-                                                        <a className={!url ||
-                                                        !displayIcon ?
-                                                            "default" :
-                                                            ""} target="_blank" href={url ||
-                                                        "#"}>
-                                                            <img src={displayIcon} alt=""/>
-                                                        </a>
-                                                        <p>
-                                                            {name && name.length >
-                                                            11 ?
-                                                                name.substring(0,
-                                                                    11) + "..."
-                                                                :
-                                                                name || "Link Name"
-                                                            }
-                                                        </p>
-                                                    </>
-                                                    :
-                                                    ""
-                                            }
-                                        </div>
+                                            active_status ?
+                                                <div className={ ` ${colClasses} `}>
+                                                    <a className={!url ||
+                                                    !displayIcon ?
+                                                        "default" :
+                                                        ""} target="_blank" href={url ||
+                                                    "#"}>
+                                                        <img src={displayIcon} alt=""/>
+                                                    </a>
+                                                    <p>
+                                                        {name && name.length >
+                                                        11 ?
+                                                            name.substring(0,
+                                                                11) + "..."
+                                                            :
+                                                            name || "Link Name"
+                                                        }
+                                                    </p>
+                                                </div>
+                                                :
+                                                ""
+                                        }
+
                                         {(index + 1) % 4 === 0 || index + 1 === iconCount ?
                                             <div className={`my_row folder ${dataRow == row ? "open" : ""}`} >
                                                 <div className="icons_wrap inner">

@@ -306,6 +306,8 @@ function App() {
                                                                 userSub={userSub}
                                                                 setRow={setRow}
                                                                 setValue={setValue}
+                                                                setShowUpgradePopup={setShowUpgradePopup}
+                                                                setOptionText={setOptionText}
                                                             />
                                                         </ErrorBoundary>
 

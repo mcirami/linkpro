@@ -74,6 +74,9 @@ class LinkController extends Controller
         $linkService->deleteLink($link);
         $linkService->updateLinksPositions($allRequest);
 
-        return response()->json(['message' => 'Icon Has Been Deleted']);
+        $page = Page::where('id', $link->page_id)->first();
+        $allLinks = $linkService->getAllLinks($page);
+
+        return response()->json(['message' => 'Icon Has Been Deleted', 'links' => $allLinks]);
     }
 }

@@ -16,7 +16,7 @@ import {
     getColHeight,
     getColWidth,
 } from '../../../../Services/LinksRequest';
-import {checkIcon} from '../../../../Services/UserService';
+import {checkIcon, checkSubStatus} from '../../../../Services/UserService';
 import EventBus from '../../../../Utils/Bus';
 
 const springSetting1 = { stiffness: 180, damping: 10 };
@@ -24,6 +24,7 @@ const springSetting2 = { stiffness: 120, damping: 17 };
 
 function reinsert(arr, from, to) {
     const _arr = arr.slice(0);
+
     const val = _arr[from];
     _arr.splice(from, 1);
     _arr.splice(to, 0, val);
@@ -38,7 +39,9 @@ const Links = ({
                    setEditID,
                    setEditFolderID,
                    setRow,
-                   setValue
+                   setValue,
+                   setShowUpgradePopup,
+                   setOptionText
 
 }) => {
 
@@ -46,6 +49,7 @@ const Links = ({
     const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
     const { folderLinks, setFolderLinks } = useContext(FolderLinksContext);
     const { originalFolderLinks, setOriginalFolderLinks } = useContext(OriginalFolderLinksContext);
+    const [subStatus, setSubStatus] = useState(checkSubStatus());
 
     const initialRender = useRef(true);
     const targetRef = useRef();
@@ -180,6 +184,8 @@ const Links = ({
         [state]
     );
 
+
+
     const handleTouchMove = useCallback((e) => {
             e.preventDefault();
             /*document.querySelector('body').classList.add('fixed');*/
@@ -234,76 +240,98 @@ const Links = ({
     const handleChange = (currentItem, hasLinks, type) => {
 
         if(hasLinks) {
-            const newStatus = !currentItem.active_status;
 
-            let url = "";
+            if ((currentItem.type && currentItem.type === "folder") && !subStatus) {
+                const popup = document.querySelector('#upgrade_popup');
+                setShowUpgradePopup(true);
+                popup.classList.add('open');
+                setOptionText("enable your folders");
 
-            if (currentItem.type && currentItem.type === "folder") {
-                url = "/dashboard/folder/status/";
+                setTimeout(() => {
+                    document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
+                        e.preventDefault();
+                        setShowUpgradePopup(false);
+                        popup.classList.remove('open');
+                    });
+                }, 500);
+
+
             } else {
-                url = "/dashboard/links/status/"
-            }
+                const newStatus = !currentItem.active_status;
 
-            const packets = {
-                active_status: newStatus,
-            };
+                let url = "";
 
-            updateLinkStatus(packets, currentItem.id, url).then((data) => {
-
-                if (data.success) {
-
-                    if (type === "folder") {
-                        setOriginalArray(
-                            originalArray.map((item) => {
-                                if (item.id === currentItem.id && type === "folder") {
-                                    return {
-                                        ...item,
-                                        active_status: newStatus,
-                                    };
-                                }
-                                return item;
-                            })
-                        )
-                        setUserLinks(
-                            userLinks.map((item) => {
-                                if (item.id === currentItem.id && type === "folder") {
-                                    return {
-                                        ...item,
-                                        active_status: newStatus,
-                                    };
-                                }
-                                return item;
-                            })
-                        )
-                    } else {
-                        setOriginalArray(
-                            originalArray.map((item) => {
-                                if (item.id === currentItem.id && type !== "folder") {
-                                    return {
-                                        ...item,
-                                        active_status: newStatus,
-                                    };
-                                }
-                                return item;
-                            })
-                        )
-                        setUserLinks(
-                            userLinks.map((item) => {
-                                if (item.id === currentItem.id && type !== "folder") {
-                                    return {
-                                        ...item,
-                                        active_status: newStatus,
-                                    };
-                                }
-                                return item;
-                            })
-                        )
-                    }
-
+                if (currentItem.type && currentItem.type === "folder") {
+                    url = "/dashboard/folder/status/";
+                } else {
+                    url = "/dashboard/links/status/"
                 }
-            })
+
+                const packets = {
+                    active_status: newStatus,
+                };
+
+                updateLinkStatus(packets, currentItem.id, url).then((data) => {
+
+                    if (data.success) {
+
+                        if (type === "folder") {
+                            setOriginalArray(
+                                originalArray.map((item) => {
+                                    if (item.id === currentItem.id && type ===
+                                        "folder") {
+                                        return {
+                                            ...item,
+                                            active_status: newStatus,
+                                        };
+                                    }
+                                    return item;
+                                })
+                            )
+                            setUserLinks(
+                                userLinks.map((item) => {
+                                    if (item.id === currentItem.id && type ===
+                                        "folder") {
+                                        return {
+                                            ...item,
+                                            active_status: newStatus,
+                                        };
+                                    }
+                                    return item;
+                                })
+                            )
+                        } else {
+                            setOriginalArray(
+                                originalArray.map((item) => {
+                                    if (item.id === currentItem.id && type !==
+                                        "folder") {
+                                        return {
+                                            ...item,
+                                            active_status: newStatus,
+                                        };
+                                    }
+                                    return item;
+                                })
+                            )
+                            setUserLinks(
+                                userLinks.map((item) => {
+                                    if (item.id === currentItem.id && type !==
+                                        "folder") {
+                                        return {
+                                            ...item,
+                                            active_status: newStatus,
+                                        };
+                                    }
+                                    return item;
+                                })
+                            )
+                        }
+
+                    }
+                })
+            }
         } else {
-            EventBus.dispatch("error", {message: "Add  Icons Before Enabling"});
+            EventBus.dispatch("error", {message: "Add Icons Before Enabling"});
         }
     };
 
@@ -322,22 +350,39 @@ const Links = ({
     }
 
     const fetchFolderLinks = async (linkID) => {
-        const url = 'folder/links/' + linkID;
-        const response = await fetch(url);
-        const folderLinks = await response.json();
 
-        setOriginalFolderLinks(folderLinks["links"]);
-        setFolderLinks(folderLinks["links"]);
-        setEditFolderID(linkID);
+        if(subStatus) {
+            const url = 'folder/links/' + linkID;
+            const response = await fetch(url);
+            const folderLinks = await response.json();
 
-        setTimeout(function(){
-            document.querySelector('#scrollTo').scrollIntoView({
-                behavior: 'smooth',
-                block: "start",
-                inline: "nearest"
-            });
+            setOriginalFolderLinks(folderLinks["links"]);
+            setFolderLinks(folderLinks["links"]);
+            setEditFolderID(linkID);
 
-        }, 800)
+            setTimeout(function(){
+                document.querySelector('#scrollTo').scrollIntoView({
+                    behavior: 'smooth',
+                    block: "start",
+                    inline: "nearest"
+                });
+
+            }, 800)
+
+        } else {
+            const popup = document.querySelector('#upgrade_popup');
+            setShowUpgradePopup(true);
+            popup.classList.add('open');
+            setOptionText("access your folders");
+
+            setTimeout(() => {
+                document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    setShowUpgradePopup(false);
+                    popup.classList.remove('open');
+                });
+            }, 500);
+        }
 
     }
 

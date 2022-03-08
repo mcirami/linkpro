@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Folder;
+use App\Models\Page;
 use App\Services\LinkService;
 use Illuminate\Http\Request;
 use App\Services\FolderService;
@@ -52,6 +53,9 @@ class FolderController extends Controller
         $folderService->deleteFolder($folder);
         $linkService->updateLinksPositions($allRequest);
 
-        return response()->json(['message' => "Folder Deleted"]);
+        $page = Page::where('id', $folder->page_id)->first();
+        $allLinks = $linkService->getAllLinks($page);
+
+        return response()->json(['message' => "Folder Deleted", 'links' => $allLinks]);
     }
 }

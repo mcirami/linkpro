@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Traits;
 
+use Carbon\Carbon;
+
 trait UserTrait {
 
     public function getUserSubscriptions($user) {
@@ -27,5 +29,17 @@ trait UserTrait {
                 $page->save();
             }
         }
+    }
+
+    public function checkUserSubscription($user) {
+
+        $userSub = $this->getUserSubscriptions($user);
+
+        if(empty($userSub) || ($userSub->ends_at && $userSub->ends_at < Carbon::now())) {
+            return false;
+        }
+
+        return true;
+
     }
 }

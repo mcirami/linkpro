@@ -156,10 +156,13 @@ export const deleteLink = (packets, itemID) => {
 
     return axios.post('/dashboard/links/delete/' + itemID, packets).then(
         (response) => {
+            const links = response.data.links;
             const returnMessage = JSON.stringify(response.data.message);
             EventBus.dispatch("success", {message: returnMessage});
 
+            console.log(links);
             return {
+                links : links,
                 success : true,
             }
         }
