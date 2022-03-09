@@ -28,17 +28,17 @@ trait SubscriptionTrait {
 
     public function checkPromoCode($planID, $userCode) {
 
-        if ( $planID == "premier" && strtolower( $userCode ) == "premier6months" ) {
-            $match = "Premier6Months";
-        } elseif ( $planID == "premier" && strtolower( $userCode ) == "premier1month" ) {
-            $match = "Premier1Month";
-        } elseif($planID == "premier" && strtolower( $userCode ) == "premier4life") {
+        if ( $planID == "premier" && strtolower( $userCode ) == "6freepremier" ) {
+            $match = "6FreePremier";
+        } elseif ( $planID == "premier" && strtolower( $userCode ) == "1freepremier" ) {
+            $match = "1FreePremier";
+        } elseif($planID == "premier" && strtolower( $userCode ) == "freepremier") {
             $match = "bypass";
-        } elseif ( $planID == "pro" && strtolower( $userCode ) == "pro6months" ) {
-            $match = "Pro6Months";
-        } elseif ( $planID == "pro" && strtolower( $userCode ) == "pro1month" ) {
-            $match = "Pro1Month";
-        } elseif ( $planID == "pro" && strtolower( $userCode ) == "pro4life" ) {
+        } elseif ( $planID == "pro" && strtolower( $userCode ) == "6freepro" ) {
+            $match = "6FreePro";
+        } elseif ( $planID == "pro" && strtolower( $userCode ) == "1freepro" ) {
+            $match = "1FreePro";
+        } elseif ( $planID == "pro" && strtolower( $userCode ) == "freepro" ) {
             $match = "bypass";
         } else {
             $match = null;

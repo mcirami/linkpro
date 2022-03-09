@@ -42,13 +42,9 @@ export const ConfirmFolderDelete = ({
 
             if(data.success) {
 
-                setOriginalArray(
-                    newOriginalArray.map((link, index) => ({...link, position: index}))
-                )
+                setOriginalArray(data.links)
 
-                setUserLinks(
-                    newArray.map((link, index) => ({...link, position: index}))
-                )
+                setUserLinks(data.links)
 
                 setEditFolderID(null);
                 updateContentHeight();

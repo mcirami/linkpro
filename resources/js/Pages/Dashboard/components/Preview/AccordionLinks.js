@@ -1,6 +1,7 @@
 import React from 'react';
+import {checkIcon} from '../../../../Services/UserService';
 
-const AccordionLinks = ({icons, checkSubStatus}) => {
+const AccordionLinks = ({icons}) => {
 
     const {id, name, email, phone, icon, url, active_status} = icons
     let source;
@@ -12,13 +13,12 @@ const AccordionLinks = ({icons, checkSubStatus}) => {
         source = url;
     }
 
-    const displayIcon = checkSubStatus(icon);
     return (
         <div className="icon_col">
             {active_status ?
                 <>
                     <a href={source} target="_blank">
-                        <img src={displayIcon} alt={name} title={name}/>
+                        <img src={checkIcon(icon, "preview")} alt={name} title={name}/>
                     </a>
                     <p>
                         {name && name.length >

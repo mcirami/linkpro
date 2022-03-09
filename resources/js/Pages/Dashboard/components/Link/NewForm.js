@@ -7,7 +7,13 @@ import React, {
     useState,
 } from 'react';
 import IconList from "./IconList";
-import { UserLinksContext, OriginalArrayContext, PageContext } from '../App';
+import {
+    UserLinksContext,
+    OriginalArrayContext,
+    PageContext,
+    FolderLinksContext,
+    OriginalFolderLinksContext,
+} from '../App';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
 import InputComponent from './InputComponent';
@@ -32,15 +38,13 @@ const NewForm = ({
                      userSub,
                      folderID,
                      setEditFolderID,
-                     folderLinks,
-                     setFolderLinks,
-                     originalFolderLinks,
-                     setOriginalFolderLinks
                   }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
     const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
     const  { pageSettings, setPageSettings } = useContext(PageContext);
+    const { folderLinks, setFolderLinks } = useContext(FolderLinksContext);
+    const { originalFolderLinks, setOriginalFolderLinks } = useContext(OriginalFolderLinksContext);
 
 
     const iconRef = createRef(null)

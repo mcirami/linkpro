@@ -4,7 +4,7 @@
     <div class="container">
 
         <h2 class="page_title">Pages</h2>
-        <div class="card">
+        <div class="card edit_page">
             <div id="links_page">
                 <div id="root"></div>
             </div>

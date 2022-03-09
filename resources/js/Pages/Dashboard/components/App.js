@@ -32,6 +32,8 @@ const customIcons = user.userIcons;
 
 export const UserLinksContext = createContext();
 export const OriginalArrayContext = createContext();
+export const FolderLinksContext = createContext();
+export const OriginalFolderLinksContext = createContext()
 export const PageContext = createContext();
 
 function pageReducer(state, item) {
@@ -75,7 +77,7 @@ function App() {
     useEffect(() => {
 
         const count = userLinks.length;
-        if ( count > 8 && userSub && userSub["braintree_status"] === "canceled" && new Date(userSub["ends_at"]).valueOf() < new Date().valueOf() )   {
+        if (userSub && userSub["braintree_status"] === "canceled" && new Date(userSub["ends_at"]).valueOf() < new Date().valueOf() )   {
             setSubStatus(false);
         } else {
             setSubStatus(true)
@@ -153,202 +155,187 @@ function App() {
                             />
                         }
                     </div>
+                    <FolderLinksContext.Provider value={{ folderLinks, setFolderLinks}} >
+                        <OriginalFolderLinksContext.Provider value={{ originalFolderLinks, setOriginalFolderLinks}} >
+                            <div id="confirm_popup_link">
+                                {showConfirmPopup &&
+                                <ConfirmPopup
+                                    editID={editID}
+                                    setEditID={setEditID}
+                                    setShowConfirmPopup={setShowConfirmPopup}
+                                    folderID={editFolderID}
+                                />
+                                }
+                            </div>
 
-                    <div id="confirm_popup_link">
-                        {showConfirmPopup &&
-                        <ConfirmPopup
-                            editID={editID}
-                            setEditID={setEditID}
-                            setShowConfirmPopup={setShowConfirmPopup}
-                            folderLinks={folderLinks}
-                            setFolderLinks={setFolderLinks}
-                            originalFolderLinks={originalFolderLinks}
-                            setOriginalFolderLinks={setOriginalFolderLinks}
-                            folderID={editFolderID}
-                        />
-                        }
-                    </div>
 
-                    <div id="confirm_folder_popup_link">
-                        {showConfirmFolderDelete &&
-                        <ConfirmFolderDelete
-                            setShowConfirmFolderDelete={setShowConfirmFolderDelete}
-                            folderID={editFolderID}
-                            setEditFolderID={setEditFolderID}
-                        />
-                        }
-                    </div>
+                            <div id="confirm_folder_popup_link">
+                                {showConfirmFolderDelete &&
+                                <ConfirmFolderDelete
+                                    setShowConfirmFolderDelete={setShowConfirmFolderDelete}
+                                    folderID={editFolderID}
+                                    setEditFolderID={setEditFolderID}
+                                />
+                                }
+                            </div>
 
-                    <PageContext.Provider value={{ pageSettings, setPageSettings }}>
-                        <div className="left_column">
-                            <PageNav
-                                allUserPages={allUserPages}
-                                setAllUserPages={setAllUserPages}
-                                userSub={userSub}
-                                setShowUpgradePopup={setShowUpgradePopup}
-                                setOptionText={setOptionText}
-                            />
-
-                            <div className="content_wrap my_row" id="left_col_wrap">
-                                <div className="top_section">
-                                    <PageName />
-
-                                    <PasswordProtect
+                            <PageContext.Provider value={{ pageSettings, setPageSettings }}>
+                                <div className="left_column">
+                                    <PageNav
+                                        allUserPages={allUserPages}
+                                        setAllUserPages={setAllUserPages}
                                         userSub={userSub}
                                         setShowUpgradePopup={setShowUpgradePopup}
                                         setOptionText={setOptionText}
                                     />
 
-                                    <PageHeader
-                                        setRef={ref}
-                                        completedCrop={completedCrop}
-                                        setCompletedCrop={setCompletedCrop}
-                                        fileName={fileName}
-                                        setFileName={setFileName}
-                                        setShowLoader={setShowLoader}
-                                    />
+                                    <div className="content_wrap my_row" id="left_col_wrap">
+                                        <div className="top_section">
+                                            <PageName />
 
-                                    <PageProfile
-                                        profileRef={profileRef}
-                                        completedProfileCrop={completedProfileCrop}
-                                        setCompletedProfileCrop={setCompletedProfileCrop}
-                                        profileFileName={profileFileName}
-                                        setProfileFileName={setProfileFileName}
-                                        setShowLoader={setShowLoader}
-                                    />
-
-                                    <PageTitle />
-                                    <PageBio />
-
-                                    <ShowPreviewButton />
-
-                                    {subStatus ? "" :
-                                        <div className="icon_message">
-                                            <p>Your plan has been downgraded to Free. Your link will only display up to 8 icons max.</p>
-                                            <a className="button blue" href="/plans">Upgrade</a>
-                                        </div>
-                                    }
-                                </div>
-
-                                <div className="my_row view_live_link link_row">
-                                    <a className="button green w-100" target="_blank" href={host +
-                                    '/' +
-                                    pageSettings['name']}>Open Live Page</a>
-                                </div>
-
-                                {editID ?
-                                    <EditForm
-                                        folderID={editFolderID}
-                                        setEditFolderID={setEditFolderID}
-                                        editID={editID}
-                                        setEditID={setEditID}
-                                        folderLinks={folderLinks}
-                                        setFolderLinks={setFolderLinks}
-                                        originalFolderLinks={originalFolderLinks}
-                                        setOriginalFolderLinks={setOriginalFolderLinks}
-                                        setShowUpgradePopup={setShowUpgradePopup}
-                                        setShowConfirmPopup={setShowConfirmPopup}
-                                        setOptionText={setOptionText}
-                                        userSub={userSub}
-                                        customIconArray={customIconArray}
-                                        setCustomIconArray={setCustomIconArray}
-                                        setShowLoader={setShowLoader}
-                                    />
-                                    :
-                                    showNewForm ?
-                                        <NewForm
-                                            setShowNewForm={setShowNewForm}
-                                            setShowUpgradePopup={setShowUpgradePopup}
-                                            setOptionText={setOptionText}
-                                            userSub={userSub}
-                                            customIconArray={customIconArray}
-                                            setCustomIconArray={setCustomIconArray}
-                                            setShowLoader={setShowLoader}
-                                            folderID={editFolderID}
-                                            setEditFolderID={setEditFolderID}
-                                            folderLinks={folderLinks}
-                                            setFolderLinks={setFolderLinks}
-                                            originalFolderLinks={originalFolderLinks}
-                                            setOriginalFolderLinks={setOriginalFolderLinks}
-                                        />
-                                        :
-                                        editFolderID ?
-
-                                            <FolderLinks
-                                                folderID={editFolderID}
-                                                folderLinks={folderLinks}
-                                                setFolderLinks={setFolderLinks}
-                                                originalFolderLinks={originalFolderLinks}
-                                                setOriginalFolderLinks={setOriginalFolderLinks}
+                                            <PasswordProtect
                                                 userSub={userSub}
                                                 setShowUpgradePopup={setShowUpgradePopup}
                                                 setOptionText={setOptionText}
-                                                setEditFolderID={setEditFolderID}
-                                                setEditID={setEditID}
-                                                setShowNewForm={setShowNewForm}
-                                                setShowConfirmFolderDelete={setShowConfirmFolderDelete}
                                             />
 
+                                            <PageHeader
+                                                setRef={ref}
+                                                completedCrop={completedCrop}
+                                                setCompletedCrop={setCompletedCrop}
+                                                fileName={fileName}
+                                                setFileName={setFileName}
+                                                setShowLoader={setShowLoader}
+                                            />
+
+                                            <PageProfile
+                                                profileRef={profileRef}
+                                                completedProfileCrop={completedProfileCrop}
+                                                setCompletedProfileCrop={setCompletedProfileCrop}
+                                                profileFileName={profileFileName}
+                                                setProfileFileName={setProfileFileName}
+                                                setShowLoader={setShowLoader}
+                                            />
+
+                                            <PageTitle />
+                                            <PageBio />
+
+                                            <ShowPreviewButton />
+
+                                            {subStatus ? "" :
+                                                <div className="icon_message">
+                                                    <p>Your plan has been downgraded to Free. Your link will only display up to 8 icons max, any custom icons you used will have to be changed to use our standard icons and any folders you added will not be shown.</p>
+                                                    <a className="button blue" href="/plans">Upgrade</a>
+                                                </div>
+                                            }
+                                        </div>
+
+                                        <div className="my_row view_live_link link_row">
+                                            <a className="button green w-100" target="_blank" href={host +
+                                            '/' +
+                                            pageSettings['name']}>Open Live Page</a>
+                                        </div>
+
+                                        {editID ?
+                                            <EditForm
+                                                folderID={editFolderID}
+                                                setEditFolderID={setEditFolderID}
+                                                editID={editID}
+                                                setEditID={setEditID}
+                                                setShowUpgradePopup={setShowUpgradePopup}
+                                                setShowConfirmPopup={setShowConfirmPopup}
+                                                setOptionText={setOptionText}
+                                                userSub={userSub}
+                                                customIconArray={customIconArray}
+                                                setCustomIconArray={setCustomIconArray}
+                                                setShowLoader={setShowLoader}
+                                            />
                                             :
-                                        <>
-                                            <div className="my_row link_row">
-                                                <div className="add_more_icons">
-                                                    <AddLink
-                                                        setShowNewForm={setShowNewForm}
-                                                        userSub={userSub}
-                                                        setShowUpgradePopup={setShowUpgradePopup}
-                                                        setOptionText={setOptionText}
-                                                    />
-                                                </div>
-                                                <div className="add_more_icons">
-                                                    <AddFolder
+                                            showNewForm ?
+                                                <NewForm
+                                                    setShowNewForm={setShowNewForm}
+                                                    setShowUpgradePopup={setShowUpgradePopup}
+                                                    setOptionText={setOptionText}
+                                                    userSub={userSub}
+                                                    customIconArray={customIconArray}
+                                                    setCustomIconArray={setCustomIconArray}
+                                                    setShowLoader={setShowLoader}
+                                                    folderID={editFolderID}
+                                                    setEditFolderID={setEditFolderID}
+                                                />
+                                                :
+                                                editFolderID ?
+
+                                                    <FolderLinks
+                                                        folderID={editFolderID}
                                                         userSub={userSub}
                                                         setShowUpgradePopup={setShowUpgradePopup}
                                                         setOptionText={setOptionText}
                                                         setEditFolderID={setEditFolderID}
-                                                        setFolderLinks={setFolderLinks}
-                                                        setOriginalFolderLinks={setOriginalFolderLinks}
-                                                    />
-                                                </div>
-                                            </div>
-
-                                            <div className="icons_wrap add_icons icons">
-                                                <ErrorBoundary FallbackComponent={ErrorFallback} onError={myErrorHandler}>
-                                                    <Links
                                                         setEditID={setEditID}
-                                                        setEditFolderID={setEditFolderID}
-                                                        userSub={userSub}
-                                                        setFolderLinks={setFolderLinks}
-                                                        setOriginalFolderLinks={setOriginalFolderLinks}
-                                                        setRow={setRow}
-                                                        setValue={setValue}
+                                                        setShowNewForm={setShowNewForm}
+                                                        setShowConfirmFolderDelete={setShowConfirmFolderDelete}
                                                     />
-                                                </ErrorBoundary>
 
-                                            </div>
-                                        </>
+                                                    :
+                                                <>
+                                                    <div className="my_row link_row">
+                                                        <div className="add_more_icons">
+                                                            <AddLink
+                                                                setShowNewForm={setShowNewForm}
+                                                                userSub={userSub}
+                                                                setShowUpgradePopup={setShowUpgradePopup}
+                                                                setOptionText={setOptionText}
+                                                            />
+                                                        </div>
+                                                        <div className="add_more_icons">
+                                                            <AddFolder
+                                                                userSub={userSub}
+                                                                setShowUpgradePopup={setShowUpgradePopup}
+                                                                setOptionText={setOptionText}
+                                                                setEditFolderID={setEditFolderID}
+                                                            />
+                                                        </div>
+                                                    </div>
 
-                                }
+                                                    <div className="icons_wrap add_icons icons">
+                                                        <ErrorBoundary FallbackComponent={ErrorFallback} onError={myErrorHandler}>
+                                                            <Links
+                                                                setEditID={setEditID}
+                                                                setEditFolderID={setEditFolderID}
+                                                                userSub={userSub}
+                                                                setRow={setRow}
+                                                                setValue={setValue}
+                                                                setShowUpgradePopup={setShowUpgradePopup}
+                                                                setOptionText={setOptionText}
+                                                            />
+                                                        </ErrorBoundary>
+
+                                                    </div>
+                                                </>
+
+                                        }
 
 
-                            </div>
-                        </div>
-                        <div className="right_column links_col preview">
-                            <Preview
-                                setRef={ref}
-                                profileRef={profileRef}
-                                completedCrop={completedCrop}
-                                completedProfileCrop={completedProfileCrop}
-                                fileName={fileName}
-                                profileFileName={profileFileName}
-                                userSub={userSub}
-                                row={row}
-                                setRow={setRow}
-                                value={value}
-                                setValue={setValue}
-                            />
-                        </div>
-                    </PageContext.Provider>
+                                    </div>
+                                </div>
+                                <div className="right_column links_col preview">
+                                    <Preview
+                                        setRef={ref}
+                                        profileRef={profileRef}
+                                        completedCrop={completedCrop}
+                                        completedProfileCrop={completedProfileCrop}
+                                        fileName={fileName}
+                                        profileFileName={profileFileName}
+                                        row={row}
+                                        setRow={setRow}
+                                        value={value}
+                                        setValue={setValue}
+                                    />
+                                </div>
+                            </PageContext.Provider>
+                        </OriginalFolderLinksContext.Provider>
+                    </FolderLinksContext.Provider>
                 </OriginalArrayContext.Provider>
             </UserLinksContext.Provider>
         </div>

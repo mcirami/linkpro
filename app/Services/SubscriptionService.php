@@ -562,26 +562,26 @@ class SubscriptionService {
 
 
         if ($match) {
-            if ( $planID == "premier" && strtolower( $code ) == "premier6months" ) {
+            if ( $planID == "premier" && strtolower( $code ) == "6freepremier" ) {
                 $message = "Congrats! Your 6 Month Premier Membership is activated!";
-            } elseif ( $planID == "premier" && strtolower( $code ) == "premier1month" ) {
+            } elseif ( $planID == "premier" && strtolower( $code ) == "1freepremier" ) {
                 $message = "Congrats! Your 1 Month Premier Membership is activated!";
-            } elseif($planID == "premier" && strtolower( $code ) == "premier4life") {
+            } elseif($planID == "premier" && strtolower( $code ) == "freepremier") {
                 $message = "Congrats! Your Lifetime Premier Membership is activated!";
-            } elseif ( $planID == "pro" && strtolower( $code ) == "pro6months" ) {
+            } elseif ( $planID == "pro" && strtolower( $code ) == "6freepro" ) {
                 $message = "Congrats! Your 6 Month Pro Membership is activated!";
-            } elseif ( $planID == "pro" && strtolower( $code ) == "pro1month" ) {
+            } elseif ( $planID == "pro" && strtolower( $code ) == "1freepro" ) {
                 $message = "Congrats! Your 1 Month Pro Membership is activated!";
-            } elseif ( $planID == "pro" && strtolower( $code ) == "pro4life" ) {
+            } elseif ( $planID == "pro" && strtolower( $code ) == "freepro" ) {
                 $message = "Congrats! Your Lifetime Pro Membership is activated!";
             }
 
             $success = true;
 
         } else {
-            if ( $planID == "premier" && (strtolower( $code ) == "pro6months" || strtolower( $code ) == "pro1month" || strtolower( $code ) == "pro4life" )) {
+            if ( $planID == "premier" && (strtolower( $code ) == "6freepro" || strtolower( $code ) == "1freepro" || strtolower( $code ) == "freepro" )) {
                 $message = "Sorry, your Promo Code is invalid. All promo codes entered MUST match the membership type.";
-            } elseif ($planID == "pro" && (strtolower( $code ) == "premier6months" || strtolower( $code ) == "premier1month" || strtolower( $code ) == "premier4life" )) {
+            } elseif ($planID == "pro" && (strtolower( $code ) == "6freepremier" || strtolower( $code ) == "1freepremier" || strtolower( $code ) == "freepremier" )) {
                 $message = "Sorry, your Promo Code is invalid. All promo codes entered MUST match the membership type.";
             } else {
                 $message = "Sorry, your Promo Code is invalid.";

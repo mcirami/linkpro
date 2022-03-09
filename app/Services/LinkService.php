@@ -14,36 +14,39 @@ class LinkService {
     public function getAllLinks($page) {
 
         $folderArray = [];
-        $links = $page->links()->where('folder_id', null)
+        $linksArray = $page->links()->where('folder_id', null)
                      ->orderBy('position', 'asc')
                      ->get()->toArray();
 
         $folders = $page->folders()->orderBy('position', 'asc')->get();
 
-        foreach ($folders as $folder) {
-            $mylinks = json_decode($folder->link_ids);
+        if (!empty($folders)) {
+            foreach ( $folders as $folder ) {
+                $mylinks = json_decode( $folder->link_ids );
 
-            $linksArray = [];
+                $folderLinksArray = [];
 
-            if (!empty($mylinks)) {
+                if ( ! empty( $mylinks ) ) {
 
-                $linksArray = Link::whereIn('id', $mylinks)->orderBy('position', 'asc')->get()->toArray();
+                    $folderLinksArray = Link::whereIn( 'id', $mylinks )->orderBy( 'position', 'asc' )->get()->toArray();
+                }
+
+                $linkObject = [
+                    'id'            => $folder["id"],
+                    'name'          => $folder["folder_name"],
+                    'type'          => 'folder',
+                    'position'      => $folder["position"],
+                    'links'         => $folderLinksArray,
+                    'active_status' => $folder["active_status"]
+                ];
+
+                array_push( $folderArray, $linkObject );
             }
 
-            $linkObject = [
-                'id' => $folder["id"],
-                'name' => $folder["folder_name"],
-                'type' => 'folder',
-                'position' => $folder["position"],
-                'links' => $linksArray,
-                'active_status' => $folder["active_status"]
-            ];
+            $linksArray = array_merge( $linksArray, $folderArray );
+            usort($linksArray, array($this, "sortArray" ));
 
-            array_push($folderArray, $linkObject);
         }
-
-        $linksArray = array_merge($links, $folderArray);
-        usort($linksArray, array($this, "sortArray" ));
 
         return $linksArray;
     }

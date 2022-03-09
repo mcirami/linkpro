@@ -8,72 +8,6 @@
         position: relative;
         overflow: hidden;
 
-        .folder_icons {
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex;
-            -webkit-box-orient: horizontal;
-            -webkit-box-direction: normal;
-            -ms-flex-direction: row;
-            flex-direction: row;
-            -ms-flex-wrap: wrap;
-            flex-wrap: wrap;
-            justify-content: flex-start;
-            -webkit-justify-content: flex-start;
-            align-items: flex-start;
-            -webkit-align-items: flex-start;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 7%;
-
-            .image_col {
-                width: 31.7%;
-                margin-right: 2%;
-                margin-bottom: 3px;
-
-                &:nth-child(3n) {
-                    margin-right: 0
-                }
-
-                img {
-                    border-radius: 34% !important;
-                    -webkit-border-radius: 34% !important;
-                    -moz-border-radius: 34% !important;
-                }
-            }
-
-            &.empty {
-                justify-content: center;
-                -webkit-justify-content: center;
-                align-items: center;
-                -webkit-align-items: center;
-                height: 100%;
-
-                p {
-                    @include osbold;
-                    line-height: 1.2;
-                    margin: 0;
-                    font-size: 16px;
-                    text-align: center;
-                    color: $blue;
-
-                    @media all and (max-width: 768px) {
-                        font-size: 2.3vw;
-                    }
-
-                    span {
-                        font-size: 20px;
-
-                        @media all and (max-width: 768px) {
-                            font-size: 3.5vw !important;
-                        }
-                    }
-                }
-            }
-        }
-
         &:hover {
             cursor: pointer;
 
@@ -98,12 +32,8 @@
 }
 
 .folder_name {
-    padding: 0 40px;
+    padding: 0 5%;
     margin-bottom: 20px;
-
-    @media all and (max-width: 768px) {
-        padding: 0 30px;
-    }
 
     input {
         width: 100%;
@@ -166,5 +96,99 @@
             }
         }
 
+    }
+}
+
+.icon_breadcrumb {
+    padding: 0 5%;
+    margin-bottom: 10px;
+
+    .breadcrumb_links {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        -webkit-justify-content: space-between;
+        align-items: center;
+        -webkit-align-items: center;
+        position: relative;
+
+        a {
+            @include ossemibold;
+            font-size: 15px;
+            margin-right:auto;
+
+            &:first-child {
+                margin-right: 2px;
+            }
+        }
+    }
+
+    .delete_icon {
+        position: relative;
+        width: 50%;
+
+        .hover_text {
+            justify-content: flex-end;
+            -webkit-justify-content: flex-end;
+            top: -30px;
+            right: 0;
+
+            p {
+                @include osregular;
+                color: $black;
+                font-size: 12px;
+                margin-left: auto;
+                border: none;
+            }
+        }
+
+        &:hover {
+            .hover_text {
+                opacity: 1;
+            }
+        }
+    }
+
+    a.delete {
+        display: block;
+        color: $red;
+        width: 30px;
+        height: 30px;
+        float: right;
+
+        &:hover {
+            color: $darkGray;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    p {
+        @include osbold;
+        color: $blue;
+        font-size: 20px;
+        text-align: center;
+        margin: 0 0 10px;
+        border-bottom: 2px solid $blue;
+    }
+
+    .back {
+        float: left;
+
+        svg {
+            float: left;
+            width: 18px;
+            height: 24px;
+        }
     }
 }

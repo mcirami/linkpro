@@ -11,7 +11,6 @@ export const addLink = (packets) => {
     return axios.post('/dashboard/links/new', packets)
     .then(
         (response) => {
-            //console.log(JSON.stringify(response.data));
             const returnMessage = JSON.stringify(response.data.message);
             EventBus.dispatch("success", {message: returnMessage});
             const link_id = response.data.link_id;
@@ -42,10 +41,10 @@ export const addLink = (packets) => {
             } else if (error.response.data.errors.phone !== undefined) {
                 EventBus.dispatch("error", { message: error.response.data.errors.phone[0] });
             } else {
-                console.log(error.response);
+                console.error(error.response);
             }
         } else {
-            console.log("ERROR:: ", error);
+            console.error("ERROR:: ", error);
         }
 
         return {
@@ -88,11 +87,11 @@ export const updateLink = (packets, editID) => {
             } else if (error.response.data.errors.phone !== undefined) {
                 EventBus.dispatch("error", { message: error.response.data.errors.phone[0] });
             } else {
-                console.log(error.response);
+                console.error(error.response);
             }
 
         } else {
-            console.log("ERROR:: ", error);
+            console.error("ERROR:: ", error);
         }
 
         return {
@@ -112,7 +111,7 @@ export const updateLinksPositions = (packets) => {
             console.log(JSON.stringify(response.data.message))
         }
     ).catch((error) => {
-        console.log("ERROR:: ", error.response.data);
+        console.error("ERROR:: ", error.response.data);
     });
 
 }
@@ -126,7 +125,6 @@ export const updateLinkStatus = (packets, itemID, url) => {
     return axios.post(url + itemID, packets)
     .then(
         (response) => {
-            //console.log(JSON.stringify(response.data))
             const returnMessage = JSON.stringify(response.data.message);
             EventBus.dispatch("success", { message: returnMessage });
 
@@ -137,9 +135,9 @@ export const updateLinkStatus = (packets, itemID, url) => {
     )
     .catch((error) => {
         if (error.response !== undefined) {
-            console.log("ERROR:: ", error.response.data);
+            console.error("ERROR:: ", error.response.data);
         } else {
-            console.log("ERROR:: ", error);
+            console.error("ERROR:: ", error);
         }
 
         return {
@@ -158,21 +156,23 @@ export const deleteLink = (packets, itemID) => {
 
     return axios.post('/dashboard/links/delete/' + itemID, packets).then(
         (response) => {
-            //response => console.log(JSON.stringify(response.data)),
+            const links = response.data.links;
             const returnMessage = JSON.stringify(response.data.message);
             EventBus.dispatch("success", {message: returnMessage});
 
+            console.log(links);
             return {
+                links : links,
                 success : true,
             }
         }
 
     ).catch(error => {
         if (error.response) {
-            console.log(error.response.data.message);
+            console.error(error.response.data.message);
             EventBus.dispatch("error", { message: error.response.data.message });
         } else {
-            console.log("ERROR:: ", error);
+            console.error("ERROR:: ", error);
         }
 
         return {
@@ -252,7 +252,6 @@ export const getAllLinks = (pageID) => {
 
     return axios.get('/dashboard/page/get-links/' + pageID).then(
         (response) => {
-            //response => console.log(JSON.stringify(response.data)),
             const userLinks = response.data.userLinks;
 
             return {
@@ -263,10 +262,9 @@ export const getAllLinks = (pageID) => {
 
     ).catch(error => {
         if (error.response) {
-            console.log(error.response.data.message);
-            //EventBus.dispatch("error", { message: error.response.data.message });
+            console.error(error.response.data.message);
         } else {
-            console.log("ERROR:: ", error);
+            console.error("ERROR:: ", error);
         }
 
         return {
@@ -275,5 +273,42 @@ export const getAllLinks = (pageID) => {
     });
 }
 
-export default addLink;
+export const getColHeight = () => {
 
+    const iconCol = document.querySelectorAll('.icons_wrap.add_icons .icon_col');
+    let colHeight;
+    const offsetHeight = iconCol[0].clientHeight;
+
+    colHeight = offsetHeight - 15;
+
+    return colHeight;
+}
+
+export const getColWidth = (type) => {
+    const windowWidth = window.outerWidth;
+    let colWidth;
+    const iconsWrap = document.querySelector('.icons_wrap.add_icons');
+
+    if (iconsWrap) {
+
+        if (type === "main") {
+
+            if (windowWidth < 500) {
+                colWidth = (iconsWrap.clientWidth / 4) - 7;
+            } else {
+                colWidth = (iconsWrap.clientWidth / 4) - 10;
+            }
+
+        } else {
+            if (windowWidth < 500) {
+                colWidth = (iconsWrap.clientWidth / 3) - 10;
+            } else {
+                colWidth = (iconsWrap.clientWidth / 3) - 15;
+            }
+        }
+    }
+
+    return colWidth;
+}
+
+export default addLink;

@@ -8,11 +8,18 @@ import React, {
 } from 'react';
 import {MdDeleteForever, MdDragHandle, MdChevronLeft} from 'react-icons/md';
 import Switch from "react-switch";
-import {UserLinksContext, OriginalArrayContext} from '../App';
+import {
+    UserLinksContext,
+    OriginalArrayContext,
+    FolderLinksContext,
+    OriginalFolderLinksContext,
+} from '../App';
 import {Motion, spring} from 'react-motion';
 import {
     updateLinksPositions,
     updateLinkStatus,
+    getColHeight,
+    getColWidth,
 } from '../../../../Services/LinksRequest';
 import {updateFolderName} from '../../../../Services/FolderRequests';
 import AddLink from '../Link/AddLink';
@@ -39,10 +46,6 @@ const FolderLinks = ({
                          setOptionText,
                          setEditFolderID,
                          setEditID,
-                         folderLinks,
-                         setFolderLinks,
-                         originalFolderLinks,
-                         setOriginalFolderLinks,
                          setShowNewForm,
                          setShowConfirmFolderDelete
 
@@ -50,6 +53,9 @@ const FolderLinks = ({
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
     const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
+    const { folderLinks, setFolderLinks } = useContext(FolderLinksContext);
+    const { originalFolderLinks, setOriginalFolderLinks } = useContext(OriginalFolderLinksContext);
+
 
     const [ currentFolder, setCurrentFolder ] = useState(
         userLinks.find(function(e) {
@@ -76,12 +82,14 @@ const FolderLinks = ({
 
     useLayoutEffect(() => {
 
-        if (targetRef.current && folderLinks.length > 0) {
-            setSize({
-                height: getColHeight(),
-                width: getColWidth(),
-            })
-        }
+        setTimeout(() => {
+            if (targetRef.current && folderLinks.length > 0) {
+                setSize({
+                    height: getColHeight(),
+                    width: getColWidth("folder"),
+                })
+            }
+        }, 300)
 
     }, [folderLinks])
 
@@ -123,60 +131,6 @@ const FolderLinks = ({
         }
     },[]);
 
-    const getColWidth = useCallback(() => {
-        const windowWidth = window.outerWidth;
-        let colWidth;
-        const iconsWrap = document.querySelector('.icons_wrap.add_icons');
-
-        if (iconsWrap) {
-            colWidth = (iconsWrap.clientWidth / 3) - 15;
-        } else {
-            if (windowWidth < 992) {
-                colWidth = (windowWidth / 3) - 20;
-            } else if (windowWidth < 1500) {
-                colWidth = (windowWidth * .396633) / 3 + 20;
-            } else {
-                colWidth = 275;
-            }
-        }
-
-        return colWidth;
-    });
-
-    const getColHeight = useCallback(() => {
-        const windowWidth = window.outerWidth;
-        const iconCol = document.querySelectorAll('.icons_wrap.add_icons .icon_col');
-        let colHeight;
-        const offsetHeight = iconCol[0].clientHeight;
-
-        if (initialRender.current) {
-            if (windowWidth > 1500) {
-                colHeight = 265;
-            } else if (windowWidth > 1300) {
-                colHeight = (windowWidth/2) * .30 + 30;
-            } else if (windowWidth > 1200) {
-                colHeight = (windowWidth/2) * .30 + 40;
-            } else if (windowWidth > 1100) {
-                colHeight = (windowWidth/2) * .30 + 50;
-            } else if (windowWidth > 992) {
-                colHeight = (windowWidth/2) * .30 + 60;
-            } else if (windowWidth > 815) {
-                colHeight = (windowWidth/2) * .45 + 70;
-            } else if (windowWidth > 600) {
-                colHeight = (windowWidth/2) * .45 + 80;
-            } else if (windowWidth > 500) {
-                colHeight = (windowWidth/2) * .45 + 85;
-            } else {
-                colHeight = (windowWidth/2) * .45 + 90;
-            }
-        } else {
-            colHeight = offsetHeight - 15;
-        }
-
-        return colHeight;
-    });
-
-
     let [width, height] = [size.width, size.height];
 
     useEffect(() => {
@@ -184,7 +138,7 @@ const FolderLinks = ({
         function handleResize() {
             setSize({
                 height: getColHeight(),
-                width: getColWidth(),
+                width: getColWidth("folder"),
             })
         }
 
@@ -283,14 +237,12 @@ const FolderLinks = ({
 
     const handleTouchMove = useCallback((e) => {
             e.preventDefault();
-            /*document.querySelector('body').classList.add('fixed');*/
             handleMouseMove(e.touches[0]);
         },
         [handleMouseMove]
     );
 
     const handleMouseUp = useCallback(() => {
-        /*document.querySelector('body').classList.remove('fixed');*/
         setState((state) => ({
             ...state,
             isPressed: false,

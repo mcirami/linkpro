@@ -97,6 +97,12 @@
             -ms-flex-wrap: nowrap;
             flex-wrap: nowrap;
 
+            @media screen and (max-width: 350px) {
+                border-radius: 10%;
+                -webkit-border-radius: 10%;
+                -moz-border-radius: 10%;
+            }
+
             img {
                 border-radius: 20%;
                 -webkit-border-radius: 20%;
@@ -161,7 +167,7 @@
                 float: left;
                 padding: 0 14% 5px;
 
-                @media screen and (max-width: 768px) {
+                @media all and (max-width: 1199px) {
                     padding: 0 10% 5px;
                 }
 
@@ -225,16 +231,6 @@
 
             &.folder {
 
-                a {
-
-                    .icons_wrap {
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        background: none !important;
-                    }
-                }
-
                 &:after {
                     content: '';
                     width: 15px;
@@ -262,13 +258,19 @@
                 }
 
                 a {
-                    border: 1px solid $lightGray;
+                    /*border: 1px solid $lightGray;
                     padding: 0;
                     border-radius: 20px;
                     -webkit-border-radius: 20px;
-                    -moz-border-radius: 20px;
+                    -moz-border-radius: 20px;*/
+                    position: relative;
+                    overflow: hidden;
 
-                    .icons_wrap {
+                    /*.icons_wrap {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        background: none !important;
                         padding: 10px;
 
                         .icon_col {
@@ -283,7 +285,7 @@
                                 margin-right: 1.6%;
                             }
                         }
-                    }
+                    }*/
                 }
             }
         }
@@ -301,7 +303,11 @@
             }
 
             @media all and (max-width: 992px) {
-                padding: 0 3%;
+                padding: 0 2.5%;
+            }
+
+            @media all and (max-width: 550px) {
+                padding: 0 4%;
             }
         }
 
@@ -539,6 +545,10 @@
                 color: $black;
                 margin: 0;
                 font-size: 16px;
+
+                @media screen and (max-width: 350px) {
+                    font-size: 12px;
+                }
             }
 
             .lock_icon {
@@ -582,6 +592,7 @@
     align-items: center;
     -webkit-align-items: center;
     padding: 0 5%;
+    margin-bottom: 10px;
 
     &.view_live_link {
         margin-bottom: 20px;
@@ -598,6 +609,10 @@
 
         @media all and (max-width: 550px) {
             font-size: 16px;
+        }
+
+        @media screen and (max-width: 350px) {
+            font-size: 14px;
         }
     }
 
@@ -624,6 +639,11 @@
         svg {
             width: 15px;
             height: 15px;
+
+            @media screen and (max-width: 350px) {
+                width: 10px;
+                height: 10px;
+            }
         }
     }
 }
@@ -706,6 +726,20 @@
             @media all and (min-width: 769px) {
                 opacity: 1;
             }
+        }
+    }
+
+    .react-switch-bg {
+        @media screen and (max-width: 350px) {
+            height: 16px !important;
+            width: 52px !important;
+        }
+    }
+
+    .react-switch-handle {
+        @media screen and (max-width: 350px) {
+            height: 13px !important;
+            width: 13px !important;
         }
     }
 }

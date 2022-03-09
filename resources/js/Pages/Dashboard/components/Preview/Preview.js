@@ -10,6 +10,7 @@ import {IoIosLock, IoIosCloseCircleOutline} from 'react-icons/io';
 import {BiHelpCircle} from 'react-icons/bi';
 import FolderLinks from './FolderLinks';
 import AccordionLinks from './AccordionLinks';
+import {checkIcon, checkSubStatus} from '../../../../Services/UserService';
 
 const Preview = ({
                      setRef,
@@ -18,7 +19,6 @@ const Preview = ({
                      profileFileName,
                      completedProfileCrop,
                      profileRef,
-                     userSub,
                      row,
                      setRow,
                      value,
@@ -28,6 +28,7 @@ const Preview = ({
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
     const {pageSettings, setPageSettings} = useContext(PageContext);
     const [iconCount, setIconCount] = useState(null);
+    const [subStatus, setSubStatus] = useState(checkSubStatus());
 
     const myStyle = {
         background: "url(" + pageSettings["header_img"] + ") no-repeat",
@@ -41,18 +42,10 @@ const Preview = ({
 
     useEffect(() => {
 
-        if (userSub) {
-            const {braintree_status, ends_at, name} = {...userSub};
-            const currentDate = new Date().valueOf();
-            const endsAt = new Date(ends_at).valueOf();
-
-            if (braintree_status === 'active' || braintree_status === 'pending' || endsAt > currentDate) {
-                setIconCount(userLinks.length)
-            } else {
-                setIconCount(8)
-            }
+        if (subStatus) {
+            setIconCount(userLinks.length)
         } else {
-            setIconCount(8)
+            setIconCount(8);
         }
 
     }, [userLinks]);
@@ -78,25 +71,6 @@ const Preview = ({
         }
     }, []);
 
-    const checkSubStatus = (icon) => {
-
-        if (icon && icon.toString().includes('custom')) {
-            if (userSub) {
-                const {braintree_status, ends_at} = {...userSub};
-                const currentDate = new Date().valueOf();
-                const endsAt = new Date(ends_at).valueOf();
-
-                if ((braintree_status === 'active' || braintree_status === 'pending') || endsAt > currentDate) {
-                    return icon;
-                } else {
-                    return null;
-                }
-            }
-        } else {
-            return icon;
-        }
-    }
-
     useLayoutEffect(() => {
 
         function handleResize() {
@@ -105,7 +79,7 @@ const Preview = ({
             const box = document.querySelector('.inner_content_wrap');
             const innerContent = document.getElementById('preview_wrap');
 
-            let pixelsToMinus = 0;
+            let pixelsToMinus;
             if (windowWidth > 551) {
                 pixelsToMinus = 35;
             } else {
@@ -259,7 +233,7 @@ const Preview = ({
 
                             {userLinks.slice(0, iconCount).map(( linkItem, index ) => {
 
-                                const {
+                                let {
                                     id,
                                     type,
                                     name,
@@ -270,20 +244,18 @@ const Preview = ({
                                     active_status,
                                     links
                                 } = linkItem;
-                                let source;
+
                                 if (email) {
-                                    source = "mailto:" + email;
+                                    url = "mailto:" + email;
                                 } else if (phone) {
-                                    source = "tel:" + phone;
-                                } else {
-                                    source = url;
+                                    url = "tel:" + phone;
                                 }
 
                                 const dataRow = Math.ceil((index + 1) / 4);
 
                                 let displayIcon = null;
                                 if(!type) {
-                                    displayIcon = checkSubStatus(icon);
+                                    displayIcon = checkIcon(icon, "preview");
                                 }
 
                                 let colClasses = "";
@@ -296,69 +268,65 @@ const Preview = ({
 
                                 return (
                                     <React.Fragment key={index}>
-                                        <div className={ ` ${colClasses} ${index == value ? " open" : "" } `}>
 
-                                            {type === "folder" ?
+                                        {type === "folder" ?
+                                            active_status && subStatus ?
+                                                <div className={ ` ${colClasses} ${index == value ? " open" : "" } `}>
+                                                    <a className="inner_icon_wrap" href="#" data-row={ dataRow } onClick={(e) => {folderClick(e, index)} }>
+                                                        <img className="bg_image" src={ Vapor.asset('images/blank-folder-square.jpg') } alt=""/>
+                                                        <div className="folder_icons preview">
+                                                            {links.slice(0, 9).map(( innerLinkIcons, index ) => {
+                                                                return (
+                                                                    <FolderLinks key={index} icons={innerLinkIcons} />
+                                                                )
+                                                            })}
 
-                                                active_status ?
-                                                    <>
-                                                        <a href="#" data-row={ dataRow } onClick={(e) => {folderClick(e, index)} }>
-                                                            <img className="bg_image" src={ Vapor.asset('images/blank-folder-square.jpg') } alt=""/>
-                                                            <div className="icons_wrap">
-                                                                {links.slice(0, 9).map(( innerLinkIcons, index ) => {
-                                                                    return (
-                                                                        <FolderLinks key={index} icons={innerLinkIcons}  checkSubStatus={checkSubStatus}/>
-                                                                    )
-                                                                })}
-
-                                                            </div>
-                                                        </a>
-                                                        <p>
-                                                            {name && name.length >
-                                                            11 ?
-                                                                name.substring(0,
-                                                                    11) + "..."
-                                                                :
-                                                                name || "Link Name"
-                                                            }
-                                                        </p>
-                                                    </>
-
-                                                    :
-                                                    ""
+                                                        </div>
+                                                    </a>
+                                                    <p>
+                                                        {name && name.length >
+                                                        11 ?
+                                                            name.substring(0,
+                                                                11) + "..."
+                                                            :
+                                                            name || "Link Name"
+                                                        }
+                                                    </p>
+                                                </div>
                                                 :
+                                                subStatus && <div className={ ` ${colClasses} `}>
+                                                </div>
+                                            :
 
-                                                active_status ?
-                                                    <>
-                                                        <a className={!source ||
-                                                        !displayIcon ?
-                                                            "default" :
-                                                            ""} target="_blank" href={source ||
-                                                        "#"}>
-                                                            <img src={displayIcon ||
-                                                            Vapor.asset(
-                                                                'images/icon-placeholder-preview.png')} alt=""/>
-                                                        </a>
-                                                        <p>
-                                                            {name && name.length >
-                                                            11 ?
-                                                                name.substring(0,
-                                                                    11) + "..."
-                                                                :
-                                                                name || "Link Name"
-                                                            }
-                                                        </p>
-                                                    </>
-                                                    :
-                                                    ""
-                                            }
-                                        </div>
+                                            active_status ?
+                                                <div className={ ` ${colClasses} `}>
+                                                    <a className={!url ||
+                                                    !displayIcon ?
+                                                        "default" :
+                                                        ""} target="_blank" href={url ||
+                                                    "#"}>
+                                                        <img src={displayIcon} alt=""/>
+                                                    </a>
+                                                    <p>
+                                                        {name && name.length >
+                                                        11 ?
+                                                            name.substring(0,
+                                                                11) + "..."
+                                                            :
+                                                            name || "Link Name"
+                                                        }
+                                                    </p>
+                                                </div>
+                                                :
+                                                ""
+                                        }
+
                                         {(index + 1) % 4 === 0 || index + 1 === iconCount ?
                                             <div className={`my_row folder ${dataRow == row ? "open" : ""}`} >
                                                 <div className="icons_wrap inner">
                                                     {accordionLinks && dataRow == row ? accordionLinks.map((innerLinkFull, index) => {
                                                         return (
-                                                            <AccordionLinks key={index} icons={innerLinkFull} checkSubStatus={checkSubStatus}/>
+                                                            <AccordionLinks key={index} icons={innerLinkFull} />
                                                         )
                                                     })
                                                     :
