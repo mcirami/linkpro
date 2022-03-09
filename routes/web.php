@@ -11,6 +11,7 @@ use App\Http\Controllers\TrackingController;
 use App\Http\Controllers\FolderController;
 use App\Http\Controllers\IconController;
 use App\Http\Controllers\UtilityController;
+use \App\Http\Controllers\WebhookController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,23 +32,6 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/links', [App\Http\Controllers\VoyagerFilterController::class, 'index']);
     Route::post('/referrals', [App\Http\Controllers\VoyagerFilterController::class, 'index']);
 });
-
-Route::get('/', function () {
-    return view('home');
-})->name('guest-home');
-Route::get('/terms-and-conditions', function () {
-    return view('utility.terms');
-})->name('terms');
-Route::get('/privacy-policy', function () {
-    return view('utility.privacy');
-})->name('privacy');
-Route::get('/how-it-works', function () {
-    return view('utility.how-it-works');
-})->name('how-it-works');
-Route::get('/plan-options', function () {
-    return view('subscription.public-plans');
-})->name('public.plans');
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
 
@@ -114,6 +98,15 @@ Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated']], function() {
 Route::group(['middleware' => 'web'], function() {
 
     Route::get('/get-icons', [IconController::class, 'getIcons']);
+
+    Route::post('braintree/webhooks', [WebhookController::class, '']);
+
+    Route::view('/','home')->name('guest-home');
+    Route::view('/terms-and-conditions', 'utility.terms')->name('terms');
+    Route::view('/privacy-policy', 'utility.privacy')->name('privacy');
+    Route::view('/how-it-works', 'utility.how-it-works')->name('how-it-works');
+    Route::view('/plan-options', 'subscription.public-plans')->name('public.plans');
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     Route::post('/check-page-auth/{page}', [PageController::class, 'pageAuth'])->name('check.page.auth');
     Route::get('/email-subscription/{user}', [UserController::class, 'emailSubscription'])->name('email.subscription');

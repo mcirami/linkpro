@@ -14584,7 +14584,7 @@ form .bottom_row a {
   font-family: "opensansbold", sans-serif;
   color: #000;
   text-align: center;
-  margin-top: auto;
+  /*margin-top: auto;*/
 }
 .form_page.plans .my_row .column.update_info .form_buttons {
   margin-top: auto;
@@ -14694,8 +14694,8 @@ form .bottom_row a {
 .form_page.plans .column.free .my_row.three_columns .column {
   padding: 0;
   border: none;
-  justify-content: center;
-  -webkit-justify-content: center;
+  justify-content: flex-start;
+  -webkit-justify-content: flex-start;
 }
 .form_page.plans .column.free .my_row.three_columns .column:nth-child(2) {
   align-items: center;
