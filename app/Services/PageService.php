@@ -32,7 +32,7 @@ class PageService {
         return ($a["position"] > $b["position"] ? +1 : -1);
     }
 
-    public function showPage($page) {
+    public function getUserLinks($page, $subscribed) {
 
         $expire = 6 * 30 * 86400;
         Cookie::queue('lp_page_referral', $page->user_id, $expire);
@@ -43,9 +43,7 @@ class PageService {
                      ->orderBy('position', 'asc')
                      ->get()->toArray();
 
-        $user = User::findOrFail($page->user_id);
-
-        if($this->checkUserSubscription($user)) {
+        if($subscribed) {
 
             $folderArray = [];
             $folders     = $page->folders()->orderBy( 'position', 'asc' )->get();

@@ -7,6 +7,8 @@ use App\Http\Requests\PageNameRequest;
 use App\Http\Requests\PagePassword;
 use App\Http\Requests\PageTitleRequest;
 use App\Models\Page;
+use App\Models\Subscription;
+use App\Models\User;
 use App\Services\PageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +25,10 @@ class PageController extends Controller
             return abort(404);
         }
 
-        $links = $pageService->showPage($page);
+        $user = User::findOrFail($page->user_id);
+        $subscribed = $this->checkUserSubscription($user);
+
+        $links = $pageService->getUserLinks($page, $subscribed);
 
         $value = session('authorized');
 
@@ -38,6 +43,7 @@ class PageController extends Controller
                 'links' => $links,
                 'page'  => $page,
                 'authorized' => $value,
+                'subscribed' => $subscribed
             ]);
         }
 

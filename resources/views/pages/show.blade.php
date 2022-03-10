@@ -2,9 +2,9 @@
 
 @section('content')
 
-    @php
+   {{-- @php
         $subscription = \App\Models\Subscription::where('user_id', $page->user_id)->get();
-    @endphp
+    @endphp--}}
 
     <div id="links_page">
         <div class="links_col my_row">
@@ -30,10 +30,7 @@
                             {!! $page->bio ? "<p>" . $page->bio . "</p>" : "" !!}
                         </div>
                     </div>
-                    @if ( $page->is_protected && $authorized ||
-                            !$page->is_protected ||
-                            ( !$subscription->isEmpty() && $subscription[0]["braintree_status"] == "canceled" && $subscription[0]["ends_at"] < \Carbon\Carbon::now())
-                            )
+                    @if ( $page->is_protected && $authorized || !$page->is_protected )
                         <div class="icons_wrap main">
                             @php
                                 $count = 0;
@@ -42,7 +39,7 @@
 
                             @foreach($links as $index => $link)
                                 @php ++$count @endphp
-                                @if ( $count < 9 || ($count > 8 && !$subscription->isEmpty() && ($subscription[0]["braintree_status"] == "active" || $subscription[0]["braintree_status"] == "pending" || $subscription[0]["ends_at"] > \Carbon\Carbon::now()) ) )
+                                @if ( $count < 9 || ($count > 8 && $subscribed ) )
 
                                     @php ++$folderCount;
                                         $dataRow = ceil(($index + 1) / 4);
@@ -59,7 +56,7 @@
                                                         @foreach( array_slice($link->links, 0, 9) as $folderLink)
                                                             <div class="image_col">
                                                                 @if ( str_contains($folderLink["icon"], "custom") )
-                                                                    @if ( $subscription[0]["braintree_status"] == "active" || $subscription[0]["braintree_status"] == "pending" || $subscription[0]["ends_at"] > \Carbon\Carbon::now() )
+                                                                    @if ( $subscribed )
                                                                         @php $icon =  $folderLink["icon"] @endphp
                                                                     @else
                                                                         @php $icon =  null @endphp
@@ -94,7 +91,7 @@
                                                             <div class="icon_col">
                                                                 <a class="link_tracker" href="{{$source}}" target="_blank" data-id="{{$folderLink["id"]}}">
                                                                     @if ( str_contains($folderLink["icon"], "custom") )
-                                                                        @if ( $subscription[0]["braintree_status"] == "active" || $subscription[0]["braintree_status"] == "pending" || $subscription[0]["ends_at"] > \Carbon\Carbon::now() )
+                                                                        @if ( $subscribed )
                                                                             @php $icon =  $folderLink["icon"] @endphp
                                                                         @else
                                                                             @php $icon =  null @endphp
@@ -134,7 +131,7 @@
                                                    rel="nofollow"
                                                 >
                                                     @if ( str_contains($link->icon, "custom") )
-                                                        @if ( $subscription[0]["braintree_status"] == "active" || $subscription[0]["braintree_status"] == "pending" || $subscription[0]["ends_at"] > \Carbon\Carbon::now() )
+                                                        @if ( $subscribed )
                                                             @php $icon =  $link->icon @endphp
                                                         @else
                                                             @php $icon =  null @endphp
