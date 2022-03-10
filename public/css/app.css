@@ -13072,7 +13072,7 @@ header.guest_header .col.right {
 }
 @media all and (max-width: 550px) {
   #links_page .links_col .links_wrap .profile_content .lock_icon {
-    top: 42px;
+    top: 31px;
   }
 }
 #links_page .links_col .links_wrap .profile_content .lock_icon svg {
@@ -13351,10 +13351,11 @@ header.guest_header .col.right {
 }
 #links_page .links_col .links_wrap.preview .inner_content .profile_content {
   background: #ffffff;
+  padding: 10px 15px 30px;
 }
 @media all and (max-width: 550px) {
   #links_page .links_col .links_wrap.preview .inner_content .profile_content {
-    padding: 10px;
+    padding: 10px 20px 10px;
   }
 }
 #links_page .links_col .links_wrap.preview .inner_content .profile_content .profile_img_column {

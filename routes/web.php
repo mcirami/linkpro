@@ -33,6 +33,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/referrals', [App\Http\Controllers\VoyagerFilterController::class, 'index']);
 });
 
+Route::post('braintree/webhooks', [WebhookController::class, 'subscriptionExpired']);
+
 Auth::routes();
 
 // laravel-links.com/dashboard
@@ -98,8 +100,6 @@ Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated']], function() {
 Route::group(['middleware' => 'web'], function() {
 
     Route::get('/get-icons', [IconController::class, 'getIcons']);
-
-    Route::post('braintree/webhooks', [WebhookController::class, '']);
 
     Route::view('/','home')->name('guest-home');
     Route::view('/terms-and-conditions', 'utility.terms')->name('terms');
