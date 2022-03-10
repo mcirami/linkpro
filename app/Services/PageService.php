@@ -4,6 +4,7 @@
 namespace App\Services;
 use App\Models\Link;
 use App\Models\Page;
+use App\Models\User;
 use App\Notifications\WelcomeNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -42,7 +43,9 @@ class PageService {
                      ->orderBy('position', 'asc')
                      ->get()->toArray();
 
-        if($this->checkUserSubscription($this->user)) {
+        $user = User::findOrFail($page->user_id);
+
+        if($this->checkUserSubscription($user)) {
 
             $folderArray = [];
             $folders     = $page->folders()->orderBy( 'position', 'asc' )->get();
