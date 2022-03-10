@@ -51,12 +51,14 @@ class WebhookController extends Controller
 
                     $userPage->save();
 
-                    $folders = Folder::where('page_id', $userPage->id)->get();
-                    if (!empty($folders)) {
-                        foreach($folders as $folder) {
-                            if($folder->active_status){
-                                $folder->active_status = 0;
-                                $folder->save();
+                    if($userPage->default) {
+                        $folders = Folder::where( 'page_id', $userPage->id )->get();
+                        if ( ! empty( $folders ) ) {
+                            foreach ( $folders as $folder ) {
+                                if ( $folder->active_status ) {
+                                    $folder->active_status = 0;
+                                    $folder->save();
+                                }
                             }
                         }
                     }
