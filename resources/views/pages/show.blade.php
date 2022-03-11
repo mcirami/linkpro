@@ -46,7 +46,7 @@
                                     @endphp
                                     @if(property_exists( $link, "type" ) && $link->type == "folder")
                                         <div id="folder{{$folderCount}}Parent"
-                                             class="icon_col folder folder_tracker"
+                                             class="icon_col @if($link->active_status) folder folder_tracker @endif"
                                              data-id="{{$link->id}}"
                                              data-row="{{ $dataRow }}">
                                             @if($link->active_status)
