@@ -208,7 +208,7 @@
                     @include osbold;
                     color: $black;
                     text-align: center;
-                    margin-top: auto;
+                    /*margin-top: auto;*/
                 }
 
                 &.update_info {
@@ -358,8 +358,8 @@
                 .column {
                     padding: 0;
                     border: none;
-                    justify-content: center;
-                    -webkit-justify-content: center;
+                    justify-content: flex-start;
+                    -webkit-justify-content: flex-start;
 
                     &:nth-child(2) {
                         align-items: center;

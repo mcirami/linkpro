@@ -99,27 +99,6 @@ class LoginController extends Controller
             return redirect( '/register/step-two' );
         } else {
 
-            $subscription = $user->subscriptions()->first();
-
-            if ($subscription && $subscription->braintree_status == 'canceled') {
-                if ($subscription->ends_at < Carbon::now()) {
-                    if( $subscription->name == "premier") {
-                        foreach ( $userPages as $userPage ) {
-                            if ( $userPage->is_protected ) {
-                                $userPage->is_protected = 0;
-                                $userPage->password = null;
-                            }
-                            if (!$userPage->default) {
-                                $userPage->disabled = true;
-                            }
-                            $userPage->save();
-                        }
-                    }
-
-                    $subscription->update(['name', 'free']);
-                }
-            }
-
             $previousURL = Session::get('url.intended');
             if ($previousURL) {
                 return Redirect::intended();

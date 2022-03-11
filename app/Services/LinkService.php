@@ -6,51 +6,41 @@ namespace App\Services;
 use App\Models\Folder;
 use App\Models\Link;
 use App\Models\Page;
+use App\Http\Traits\LinkTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class LinkService {
 
+    use LinkTrait;
+
+    /**
+     * @param $page
+     *
+     * @return array|mixed
+     */
     public function getAllLinks($page) {
 
-        $folderArray = [];
-        $linksArray = $page->links()->where('folder_id', null)
+
+        $allLinks = $page->links()->where('folder_id', null)
                      ->orderBy('position', 'asc')
                      ->get()->toArray();
 
-        $folders = $page->folders()->orderBy('position', 'asc')->get();
+        $folderLinks = $this->getFolderLinks($page);
 
-        if (!empty($folders)) {
-            foreach ( $folders as $folder ) {
-                $mylinks = json_decode( $folder->link_ids );
-
-                $folderLinksArray = [];
-
-                if ( ! empty( $mylinks ) ) {
-
-                    $folderLinksArray = Link::whereIn( 'id', $mylinks )->orderBy( 'position', 'asc' )->get()->toArray();
-                }
-
-                $linkObject = [
-                    'id'            => $folder["id"],
-                    'name'          => $folder["folder_name"],
-                    'type'          => 'folder',
-                    'position'      => $folder["position"],
-                    'links'         => $folderLinksArray,
-                    'active_status' => $folder["active_status"]
-                ];
-
-                array_push( $folderArray, $linkObject );
-            }
-
-            $linksArray = array_merge( $linksArray, $folderArray );
-            usort($linksArray, array($this, "sortArray" ));
-
+        if (!empty($folderLinks)) {
+            $allLinks = array_merge( $allLinks, $folderLinks );
+            usort($allLinks, array($this, "sortArray" ));
         }
 
-        return $linksArray;
+        return $allLinks;
     }
 
+    /**
+     * @param $request
+     *
+     * @return array
+     */
     public function addLink($request) {
 
         $page = Page::findOrFail($request->page_id);
@@ -140,6 +130,12 @@ class LinkService {
 
     }
 
+    /**
+     * @param $request
+     * @param $link
+     *
+     * @return string|null
+     */
     public function updateLink($request, $link) {
 
         if (str_contains($request->icon, 'tmp/') ) {
@@ -181,6 +177,12 @@ class LinkService {
         return null;
     }
 
+    /**
+     * @param $request
+     * @param $link
+     *
+     * @return string
+     */
     public function updateLinkStatus($request, $link) {
 
         $link->update($request->only(['active_status']));
@@ -193,6 +195,9 @@ class LinkService {
         return $message;
     }
 
+    /**
+     * @param $request
+     */
     public function updateLinksPositions($request) {
 
         if ($request["userLinks"] && !empty($request['userLinks']) ) {
@@ -225,6 +230,9 @@ class LinkService {
 
     }
 
+    /**
+     * @param $link
+     */
     public function deleteLink($link) {
 
         if ($link->icon && $link->url) {
@@ -250,6 +258,12 @@ class LinkService {
         $link->delete();
     }
 
+    /**
+     * @param $a
+     * @param $b
+     *
+     * @return int
+     */
     public function sortArray($a, $b) {
 
         return ($a["position"] > $b["position"] ? +1 : -1);

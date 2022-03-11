@@ -7,10 +7,12 @@ use App\Http\Requests\PageNameRequest;
 use App\Http\Requests\PagePassword;
 use App\Http\Requests\PageTitleRequest;
 use App\Models\Page;
+use App\Models\User;
 use App\Services\PageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\UserTrait;
+use Illuminate\Support\Facades\Cookie;
 
 class PageController extends Controller
 {
@@ -23,7 +25,15 @@ class PageController extends Controller
             return abort(404);
         }
 
-        $links = $pageService->showPage($page);
+        $expire = 6 * 30 * 86400;
+        Cookie::queue('lp_page_referral', $page->user_id, $expire);
+
+        $page->pageVisits()->create();
+
+        $user = User::findOrFail($page->user_id);
+        $subscribed = $this->checkUserSubscription($user);
+
+        $links = $pageService->getUserLinks($page, $subscribed);
 
         $value = session('authorized');
 
@@ -38,6 +48,7 @@ class PageController extends Controller
                 'links' => $links,
                 'page'  => $page,
                 'authorized' => $value,
+                'subscribed' => $subscribed
             ]);
         }
 
@@ -89,11 +100,9 @@ class PageController extends Controller
             return abort(404);
         }
 
-        $links = $pageService->editPage($user, $page);
+        $pageService->editPage($user, $page);
 
-        return view('pages.edit', [
-            'links' => $links,
-        ]);
+        return view('pages.edit');
     }
 
     public function updateHeaderImage(Request $request, Page $page, PageService $pageService) {
