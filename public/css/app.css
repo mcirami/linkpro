@@ -12916,6 +12916,11 @@ header.guest_header .col.right {
 .switch_wrap {
   position: relative;
 }
+@media all and (max-width: 768px) {
+  .switch_wrap .hover_text {
+    display: none;
+  }
+}
 @media all and (min-width: 769px) {
   .switch_wrap:hover .hover_text {
     opacity: 1;

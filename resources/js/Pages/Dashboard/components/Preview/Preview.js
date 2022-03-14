@@ -297,45 +297,55 @@ const Preview = ({
                                                 subStatus && <div className={ ` ${colClasses} `}>
                                                 </div>
                                             :
-
-                                            active_status ?
-                                                <div className={ ` ${colClasses} `}>
-                                                    <a className={!url ||
-                                                    !displayIcon ?
-                                                        "default" :
-                                                        ""} target="_blank" href={url ||
-                                                    "#"}>
-                                                        <img src={displayIcon} alt=""/>
-                                                    </a>
-                                                    <p>
-                                                        {name && name.length >
-                                                        11 ?
-                                                            name.substring(0,
-                                                                11) + "..."
-                                                            :
-                                                            name || "Link Name"
-                                                        }
-                                                    </p>
-                                                </div>
-                                                :
-                                                ""
+                                            <div className={ ` ${colClasses} `}>
+                                                {active_status ?
+                                                    <>
+                                                        <a className={!url ||
+                                                        !displayIcon ?
+                                                            "default" :
+                                                            ""} target="_blank" href={url ||
+                                                        "#"}>
+                                                            <img src={displayIcon} alt=""/>
+                                                        </a>
+                                                        <p>
+                                                            {name && name.length >
+                                                            11 ?
+                                                                name.substring(0,
+                                                                    11) + "..."
+                                                                :
+                                                                name || "Link Name"
+                                                            }
+                                                        </p>
+                                                    </>
+                                                    :
+                                                    ""
+                                                }
+                                            </div>
                                         }
 
-                                        {(index + 1) % 4 === 0 || index + 1 === iconCount ?
-                                            <div className={`my_row folder ${dataRow == row ? "open" : ""}`} >
-                                                <div className="icons_wrap inner">
-                                                    {accordionLinks && dataRow == row ? accordionLinks.map((innerLinkFull, index) => {
-                                                        return (
-                                                            <AccordionLinks key={index} icons={innerLinkFull} />
-                                                        )
-                                                    })
+                                        {subStatus &&
+                                            <>
+                                                {(index + 1) % 4 === 0 || index + 1 ===
+                                                iconCount ?
+                                                    <div className={`my_row folder ${dataRow == row ? "open" : ""}`}>
+                                                        <div className="icons_wrap inner">
+                                                            {accordionLinks && dataRow == row ?
+                                                                accordionLinks.map((
+                                                                    innerLinkFull,
+                                                                    index) => {
+                                                                    return (
+                                                                        <AccordionLinks key={index} icons={innerLinkFull}/>
+                                                                    )
+                                                                })
+                                                                :
+                                                                ""
+                                                            }
+                                                        </div>
+                                                    </div>
                                                     :
-                                                        ""
-                                                    }
-                                                </div>
-                                            </div>
-                                            :
-                                            ""
+                                                    ""
+                                                }
+                                            </>
                                         }
                                     </React.Fragment>
                                 )
