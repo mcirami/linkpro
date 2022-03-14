@@ -3,14 +3,16 @@ import React, {
     useState,
     useEffect,
     useLayoutEffect,
-    useRef,
 } from 'react';
-import {UserLinksContext, PageContext} from '../App';
-import {IoIosLock, IoIosCloseCircleOutline} from 'react-icons/io';
-import {BiHelpCircle} from 'react-icons/bi';
+import {UserLinksContext} from '../App';
+import {IoIosCloseCircleOutline} from 'react-icons/io';
 import FolderLinks from './FolderLinks';
 import AccordionLinks from './AccordionLinks';
 import {checkIcon, checkSubStatus} from '../../../../Services/UserService';
+import Header from './Header';
+import ProfileImage from './ProfileImage';
+import ProfileText from './ProfileText';
+import Folder from './Folder';
 
 const Preview = ({
                      setRef,
@@ -26,14 +28,8 @@ const Preview = ({
 }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
-    const {pageSettings, setPageSettings} = useContext(PageContext);
     const [iconCount, setIconCount] = useState(null);
     const [subStatus, setSubStatus] = useState(checkSubStatus());
-
-    const myStyle = {
-        background: "url(" + pageSettings["header_img"] + ") no-repeat",
-        backgroundSize: "cover",
-    };
 
     const ClosePreview = () => {
         document.querySelector('.links_col.preview').classList.remove('show');
@@ -111,20 +107,6 @@ const Preview = ({
         box.style.maxHeight = innerContent.offsetHeight - pixelsToMinus + "px";
     }, []);
 
-    const folderClick = (e, index) => {
-        e.preventDefault();
-
-        const clickedDiv = e.currentTarget.parentNode;
-
-        if (clickedDiv.classList.contains('open')) {
-            setRow(null);
-            setValue(null);
-        } else {
-            setRow(clickedDiv.firstChild.dataset.row);
-            setValue(index);
-        }
-    }
-
     let folderCount = 0;
 
     const accordionLinks = value !== null ? userLinks[value].links : null;
@@ -139,95 +121,19 @@ const Preview = ({
             <div className="links_wrap preview">
                 <div className="inner_content" id="preview_wrap">
                     <div className="inner_content_wrap">
-                        {!pageSettings["header_img"] && !fileName ?
-                            <div className="page_header default">
-                                <img src={ Vapor.asset("images/default-img.png") } alt=""/>
-                            </div>
-                            :
-                            ""
-                        }
-
-                        {pageSettings["header_img"] && !fileName ?
-                            <div className="page_header" style={myStyle}>
-                            </div>
-                            :
-                            <div className="page_header canvas"
-                                 style={{
-                                     width: completedCrop ? `100%` : 0,
-                                     height: completedCrop ? `auto` : 0,
-                                 }}>
-                                <canvas
-                                    ref={setRef}
-                                    // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
-                                    style={{
-                                        backgroundImage: setRef,
-                                        /*width: Math.round(completedCrop?.width ?? 0),
-                                        height: Math.round(completedCrop?.height ?? 0)*/
-                                        width: completedCrop ? `100%` : 0,
-                                        height: completedCrop ? `auto` : 0,
-                                        borderTopRightRadius: `12%`,
-                                        borderTopLeftRadius: `12%`,
-                                    }}
-                                />
-                            </div>
-                        }
+                        <Header
+                            setRef={setRef}
+                            completedCrop={completedCrop}
+                            fileName={fileName}
+                        />
 
                         <div className="profile_content">
-                            {pageSettings["is_protected"] ?
-                                <span className="lock_icon">
-                                    <span className="tooltip_icon">
-                                        <BiHelpCircle />
-                                        <p className="tooltip">
-                                            Link is password protected
-                                        </p>
-                                    </span>
-                                    <IoIosLock/>
-
-                                </span>
-                                :
-                                ""
-                            }
-                            <div className={pageSettings["profile_img"] &&
-                            !profileFileName || profileFileName ?
-                                "profile_img_column" :
-                                "profile_img_column default"}>
-                                {!profileFileName ?
-                                    <div className="profile_image">
-                                        <div className="image_wrap">
-                                            <img src={pageSettings["profile_img"] ||
-                                            Vapor.asset("images/default-img.png") } alt=""/>
-                                        </div>
-                                    </div>
-                                    :
-                                    <div className={"profile_image"}>
-                                        <div className="image_wrap">
-                                            <canvas
-                                                ref={profileRef}
-                                                // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
-                                                style={{
-                                                    backgroundImage: profileRef,
-                                                    backgroundSize: `cover`,
-                                                    backgroundRepeat: `no-repeat`,
-                                                    /*width: Math.round(completedCrop?.width ?? 0),
-                                                    height: Math.round(completedCrop?.height ?? 0)*/
-                                                    width: completedProfileCrop ?
-                                                        `100%` :
-                                                        0,
-                                                    height: completedProfileCrop ?
-                                                        `100%` :
-                                                        0,
-                                                    borderRadius: `50px`,
-                                                }}
-                                            />
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                            <div className="profile_text">
-                                <h2>{pageSettings["title"] || "Add Title"}</h2>
-                                <p>{pageSettings["bio"] ||
-                                "Add Bio or Slogan"}</p>
-                            </div>
+                            <ProfileImage
+                                profileFileName={profileFileName}
+                                completedProfileCrop={completedProfileCrop}
+                                profileRef={profileRef}
+                            />
+                            <ProfileText />
                         </div>
                         <div className="icons_wrap main">
 
@@ -271,28 +177,15 @@ const Preview = ({
 
                                         {type === "folder" ?
                                             active_status && subStatus ?
-                                                <div className={ ` ${colClasses} ${index == value ? " open" : "" } `}>
-                                                    <a className="inner_icon_wrap" href="#" data-row={ dataRow } onClick={(e) => {folderClick(e, index)} }>
-                                                        <img className="bg_image" src={ Vapor.asset('images/blank-folder-square.jpg') } alt=""/>
-                                                        <div className="folder_icons preview">
-                                                            {links.slice(0, 9).map(( innerLinkIcons, index ) => {
-                                                                return (
-                                                                    <FolderLinks key={index} icons={innerLinkIcons} />
-                                                                )
-                                                            })}
-
-                                                        </div>
-                                                    </a>
-                                                    <p>
-                                                        {name && name.length >
-                                                        11 ?
-                                                            name.substring(0,
-                                                                11) + "..."
-                                                            :
-                                                            name || "Link Name"
-                                                        }
-                                                    </p>
-                                                </div>
+                                                <Folder
+                                                    colClasses={colClasses}
+                                                    mainIndex={index}
+                                                    links={links}
+                                                    setRow={setRow}
+                                                    value={value}
+                                                    setValue={setValue}
+                                                    dataRow={dataRow}
+                                                />
                                                 :
                                                 subStatus && <div className={ ` ${colClasses} `}>
                                                 </div>
