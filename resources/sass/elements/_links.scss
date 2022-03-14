@@ -107,7 +107,7 @@
                 border-radius: 20%;
                 -webkit-border-radius: 20%;
                 -moz-border-radius: 20%;
-                border: 1px solid $lightGray;
+                border: 1px solid $gray;
             }
 
             span {
@@ -719,6 +719,12 @@
 
 .switch_wrap {
     position: relative;
+
+    .hover_text {
+        @media all and (max-width: 768px) {
+            display: none;
+        }
+    }
 
     &:hover {
 

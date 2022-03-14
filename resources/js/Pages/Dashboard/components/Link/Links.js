@@ -59,7 +59,7 @@ const Links = ({
         width: 0
     });
 
-    useLayoutEffect(() => {
+    useEffect(() => {
 
         setTimeout(() => {
             if (targetRef.current && userLinks.length > 0) {
@@ -68,7 +68,7 @@ const Links = ({
                     width: getColWidth('main'),
                 })
             }
-        },300)
+        },500)
     }, [])
 
     const [state, setState] = useState(() => ({
@@ -80,28 +80,46 @@ const Links = ({
 
     useEffect(() => {
 
+        setTimeout(() => {
+            const iconsWrap = document.querySelector('.icons_wrap');
+            const icons = document.querySelectorAll('.add_icons .icon_col');
+
+            if (icons.length > 0) {
+                const colHeight = icons[0].clientHeight;
+                const rowCount = Math.ceil(icons.length / 4);
+                let divHeight = rowCount * colHeight - 40;
+                if (userLinks.length < 5) {
+                    divHeight += 20;
+                }
+                iconsWrap.style.minHeight = divHeight + "px";
+            } else {
+                iconsWrap.style.minHeight = "200px";
+            }
+        },600)
+    }, []);
+
+    useEffect(() => {
+
         function handleResize() {
 
-            setTimeout(() => {
-                const iconsWrap = document.querySelector('.icons_wrap');
-                const icons = document.querySelectorAll('.add_icons .icon_col');
+            const iconsWrap = document.querySelector('.icons_wrap');
+            const icons = document.querySelectorAll('.add_icons .icon_col');
 
-                if (icons.length > 0) {
-                    const colHeight = icons[0].clientHeight;
-                    const rowCount = Math.ceil(icons.length / 4);
-                    let divHeight = rowCount * colHeight - 40;
-                    if (userLinks.length < 5) {
-                        divHeight += 20;
-                    }
-                    iconsWrap.style.minHeight = divHeight + "px";
-                } else {
-                    iconsWrap.style.minHeight = "200px";
+            if (icons.length > 0) {
+                const colHeight = icons[0].clientHeight;
+                const rowCount = Math.ceil(icons.length / 4);
+                let divHeight = rowCount * colHeight - 40;
+                if (userLinks.length < 5) {
+                    divHeight += 20;
                 }
-            }, 500)
+                iconsWrap.style.minHeight = divHeight + "px";
+            } else {
+                iconsWrap.style.minHeight = "200px";
+            }
         }
 
         window.addEventListener('resize', handleResize);
-        handleResize()
+        //handleResize()
 
         return () => {
             window.removeEventListener('resize', handleResize);
@@ -253,7 +271,7 @@ const Links = ({
                         setShowUpgradePopup(false);
                         popup.classList.remove('open');
                     });
-                }, 500);
+                }, 300);
 
 
             } else {
@@ -345,7 +363,7 @@ const Links = ({
                 inline: "nearest"
             });
 
-        }, 800)
+        }, 300)
 
     }
 
@@ -367,7 +385,7 @@ const Links = ({
                     inline: "nearest"
                 });
 
-            }, 800)
+            }, 300)
 
         } else {
             const popup = document.querySelector('#upgrade_popup');
@@ -381,7 +399,7 @@ const Links = ({
                     setShowUpgradePopup(false);
                     popup.classList.remove('open');
                 });
-            }, 500);
+            }, 300);
         }
 
     }

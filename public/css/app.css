@@ -12417,7 +12417,7 @@ header.guest_header .col.right {
   border-radius: 20%;
   -webkit-border-radius: 20%;
   -moz-border-radius: 20%;
-  border: 1px solid #f4f4f4;
+  border: 1px solid #d4d2d2;
 }
 #links_page .icons_wrap .icon_col span {
   background: #ffffff;
@@ -12915,6 +12915,11 @@ header.guest_header .col.right {
 
 .switch_wrap {
   position: relative;
+}
+@media all and (max-width: 768px) {
+  .switch_wrap .hover_text {
+    display: none;
+  }
 }
 @media all and (min-width: 769px) {
   .switch_wrap:hover .hover_text {
