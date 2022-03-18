@@ -11,7 +11,7 @@
             <div class="links_wrap live_page">
                 <div class="inner_content live_page">
                     <div class="page_header @if (!$page->header_img) default @endif"
-                         @if ($page->header_img) style="background: url({{ $page->header_img }}) no-repeat; background-size: cover;" @endif
+                         @if ($page->header_img) style="background: url({{ $page->header_img }}) no-repeat; background-size: cover;background-position: center bottom;" @endif
                     >
                         @if (!$page->header_img)
                             <img src={{ asset( 'images/default-img.png' ) }} alt="" />

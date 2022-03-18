@@ -7,12 +7,13 @@ use App\Models\Folder;
 use App\Models\Link;
 use App\Models\Page;
 use App\Http\Traits\LinkTrait;
+use App\Http\Traits\IconTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class LinkService {
 
-    use LinkTrait;
+    use LinkTrait, IconTrait;
 
     /**
      * @param $page
@@ -46,17 +47,8 @@ class LinkService {
         $page = Page::findOrFail($request->page_id);
 
         if (str_contains($request->icon, 'tmp/') ) {
-            $userID = Auth::id();
-            $imgName = $userID . '-' . time() . '.' . $request->ext;
-            $path = 'custom-icons/' . $userID . '/' . $imgName;
 
-            Storage::disk('s3')->delete($path);
-            Storage::disk('s3')->copy(
-                $request->icon,
-                str_replace($request->icon, $path, $request->icon)
-            );
-
-            $iconPath = Storage::disk('s3')->url($path);
+            $iconPath = $this->saveCustomIcon($request);
 
         } else {
             $iconPath = $request->icon;
@@ -139,18 +131,8 @@ class LinkService {
     public function updateLink($request, $link) {
 
         if (str_contains($request->icon, 'tmp/') ) {
-            $userID = Auth::id();
-            $imgName = $userID . '-' . time() . '.' . $request->ext;
-            $path = 'custom-icons/' . $userID . '/' . $imgName;
 
-            Storage::disk('s3')->delete($path);
-            Storage::disk('s3')->copy(
-                $request->icon,
-                str_replace($request->icon, $path, $request->icon)
-            );
-
-
-            $iconPath = Storage::disk('s3')->url($path);
+            $iconPath = $this->saveCustomIcon($request);
 
             $link->update([
                 'name' => $request->name,

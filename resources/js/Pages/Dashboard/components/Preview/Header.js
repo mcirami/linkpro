@@ -11,7 +11,6 @@ const Header = ({
     const myStyle = {
         background: "url(" + pageSettings["header_img"] + ") no-repeat",
         backgroundSize: "cover",
-        backgroundPosition: "bottom",
     };
 
     return (

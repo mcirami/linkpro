@@ -4,6 +4,9 @@
 namespace App\Http\Traits;
 
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
 trait IconTrait {
 
     public function iconArray() {
@@ -89,5 +92,20 @@ trait IconTrait {
             "Zelle",
             "Zillow",
         );
+    }
+
+    public function saveCustomIcon($request) {
+
+        $userID = Auth::id();
+        $imgName = $userID . '-' . time() . '.' . $request->ext;
+        $path = 'custom-icons/' . $userID . '/' . $imgName;
+
+        Storage::disk('s3')->delete($path);
+        Storage::disk('s3')->copy(
+            $request->icon,
+            str_replace($request->icon, $path, $request->icon)
+        );
+
+        return  Storage::disk('s3')->url($path);
     }
 }

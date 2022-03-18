@@ -18,6 +18,7 @@ class WebhookController extends Controller
 
         $gateway = $this->createGateway();
 
+        /* FOR TESTING */
         /*$notification = $gateway->webhookTesting()->sampleNotification(
             WebhookNotification::SUBSCRIPTION_CANCELED,
             'my_id'
@@ -53,7 +54,7 @@ class WebhookController extends Controller
 
                     if($userPage->default) {
                         $folders = Folder::where( 'page_id', $userPage->id )->get();
-                        if ( ! empty( $folders ) ) {
+                        if ( !empty( $folders ) ) {
                             foreach ( $folders as $folder ) {
                                 if ( $folder->active_status ) {
                                     $folder->active_status = 0;
