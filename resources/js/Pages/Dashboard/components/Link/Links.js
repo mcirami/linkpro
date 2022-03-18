@@ -85,9 +85,9 @@ const Links = ({
             const icons = document.querySelectorAll('.add_icons .icon_col');
 
             if (icons.length > 0) {
-                const colHeight = icons[0].clientHeight;
+                const colHeight = icons[0].getBoundingClientRect().height;
                 const rowCount = Math.ceil(icons.length / 4);
-                let divHeight = rowCount * colHeight - 40;
+                let divHeight = rowCount * colHeight + 45;
                 if (userLinks.length < 5) {
                     divHeight += 20;
                 }
@@ -95,6 +95,14 @@ const Links = ({
             } else {
                 iconsWrap.style.minHeight = "200px";
             }
+
+            let positionArray = [];
+
+            Array.from(icons).map((icon) => {
+                positionArray.push(icon.getBoundingClientRect());
+            })
+
+            console.log(positionArray);
         },600)
     }, []);
 
@@ -182,6 +190,7 @@ const Links = ({
 
             if (isPressed) {
                 const mouseXY = [pageX - dx, pageY - dy];
+                console.log(mouseXY);
                 const col = clamp(Math.floor(mouseXY[0] / width), 0, 3);
                 const row = clamp(
                     Math.floor(mouseXY[1] / height),
