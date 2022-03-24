@@ -7,9 +7,13 @@ export const checkSubStatus = () => {
         const currentDate = new Date().valueOf();
         const endsAt = new Date(ends_at).valueOf();
 
+        console.log(userSub);
+
         return (braintree_status === 'active' || braintree_status ===
             'pending') || endsAt > currentDate;
+
     }
+
 
     return false;
 }

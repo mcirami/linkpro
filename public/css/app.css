@@ -12029,7 +12029,6 @@ button {
 }
 .page_menu_row .menu_wrap .menu_icon svg {
   width: 100%;
-  height: 100%;
   margin: auto;
 }
 
@@ -13484,7 +13483,7 @@ header.guest_header .col.right {
 }
 @media screen and (max-width: 550px) {
   #links_page .links_col .links_wrap .inner_content.live_page .profile_text h2, #links_page .links_col .links_wrap .inner_content.live_page .profile_text .h2 {
-    font-size: 6vw;
+    font-size: 5.5vw;
   }
 }
 #links_page .links_col .links_wrap .inner_content.live_page .profile_text p {
@@ -13895,11 +13894,6 @@ form .bottom_row a {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
 }
-@media all and (max-width: 992px) {
-  #links_page .edit_form.popup .link_form, #links_page .edit_form.link .link_form {
-    padding: 40px 20px 20px;
-  }
-}
 @media all and (max-width: 768px) {
   #links_page .edit_form.popup .link_form, #links_page .edit_form.link .link_form {
     padding: 40px 20px 10px;
@@ -13941,9 +13935,6 @@ form .bottom_row a {
 }
 #links_page .edit_form.link {
   border-top: none;
-}
-#links_page .edit_form.link .link_form {
-  padding: 20px 40px 0;
 }
 #links_page .edit_form.password {
   margin-bottom: 0;

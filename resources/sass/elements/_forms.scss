@@ -305,10 +305,6 @@ form .bottom_row a {
                 -webkit-border-radius: 12px;
                 -moz-border-radius: 12px;
 
-                @media all and (max-width: 992px) {
-                    padding: 40px 20px 20px;
-                }
-
                 @media all and (max-width: 768px) {
                     padding: 40px 20px 10px;
                 }
@@ -355,10 +351,6 @@ form .bottom_row a {
 
         &.link {
             border-top: none;
-
-            .link_form {
-                padding: 20px 40px 0;
-            }
         }
 
         &.password {

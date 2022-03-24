@@ -265,17 +265,18 @@ function App() {
                                                 />
                                                 :
                                                 editFolderID ?
-
-                                                    <FolderLinks
-                                                        folderID={editFolderID}
-                                                        userSub={userSub}
-                                                        setShowUpgradePopup={setShowUpgradePopup}
-                                                        setOptionText={setOptionText}
-                                                        setEditFolderID={setEditFolderID}
-                                                        setEditID={setEditID}
-                                                        setShowNewForm={setShowNewForm}
-                                                        setShowConfirmFolderDelete={setShowConfirmFolderDelete}
-                                                    />
+                                                    <ErrorBoundary FallbackComponent={ErrorFallback} onError={myErrorHandler}>
+                                                        <FolderLinks
+                                                            folderID={editFolderID}
+                                                            userSub={userSub}
+                                                            setShowUpgradePopup={setShowUpgradePopup}
+                                                            setOptionText={setOptionText}
+                                                            setEditFolderID={setEditFolderID}
+                                                            setEditID={setEditID}
+                                                            setShowNewForm={setShowNewForm}
+                                                            setShowConfirmFolderDelete={setShowConfirmFolderDelete}
+                                                        />
+                                                    </ErrorBoundary>
 
                                                     :
                                                 <>
