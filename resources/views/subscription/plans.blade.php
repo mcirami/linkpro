@@ -97,18 +97,10 @@
                             <div class="button_row">
                                 @if (($subscription && $subscription->name == "premier") && ($subscription->braintree_status == "active" || $subscription->braintree_status == "pending"))
                                     <span class='button disabled'>Current</span>
-                                @elseif ($subscription && ($subscription->braintree_status == "active" || $subscription->braintree_status == "pending") )
+                                @elseif ($subscription && ($subscription->braintree_status == "active" || $subscription->braintree_status == "pending") && $subscription->braintree_id != "bypass" )
                                     <button class="open_popup button black_gradient" data-type="upgrade" data-level="premier">
                                         Go Premier
                                     </button>
-                                    {{--<form method="post" action="{{ url('/change-plan') }}">
-                                        @csrf
-                                        <input type="hidden" name="level" value="premier">
-                                        <input type="hidden" name="plan" data-level="corporate" id="corporate" value="price_1JS1qkGIBktjIJUPVSjN20LH">
-                                        <button class='button black_gradient' type="submit">
-                                            Go Corporate
-                                        </button>
-                                    </form>--}}
                                 @else
                                     <a class='button black_gradient' href='{{ url('/subscribe?plan=premier') }}'>
                                         Go Premier

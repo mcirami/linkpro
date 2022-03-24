@@ -401,6 +401,7 @@ form .bottom_row a {
     }
 
     .payment_form_wrap {
+        position: relative;
         padding: 0 40px;
 
         @media all and (max-width: 992px) {
@@ -862,5 +863,37 @@ form .bottom_row a {
         width: 18px;
         height: 18px;
         color: $blue;
+    }
+}
+
+#loading_spinner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-items: center;
+    -webkit-align-items: center;
+    background: rgba(0,0,0,.3);
+    z-index: 998;
+
+    &.active {
+        display: flex;
+        display: -webkit-box;
+        display: -ms-flexbox;
+    }
+
+    img {
+        max-width: 200px;
+        z-index: 999;
     }
 }

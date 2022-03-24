@@ -36,8 +36,13 @@ class SubscriptionService {
     public function showPurchasePage() {
 
         $activeSubs = $this->getUserSubscriptions($this->user);
+        $bypass = null;
+
         if (empty($activeSubs)) {
             $existing = null;
+        } elseif ($activeSubs->braintree_id == "bypass") {
+            $existing = null;
+            $bypass = true;
         } else {
             $existing = true;
         }
@@ -46,7 +51,7 @@ class SubscriptionService {
 
         $customerID = $this->user->braintree_id;
 
-        if ($customerID) {
+        if ($customerID && $customerID != "bypass") {
             $token = $gateway->ClientToken()->generate([
                 'customerId' => $customerID
             ]);
@@ -66,7 +71,8 @@ class SubscriptionService {
             'plan' => $plan,
             'token' => $token,
             'amount' => $amount,
-            'existing' => $existing
+            'existing' => $existing,
+            'bypass' => $bypass
         ];
 
         return $data;
@@ -237,111 +243,122 @@ class SubscriptionService {
 
         $activeSubs = $this->getUserSubscriptions($this->user);
 
-        $gateway = $this->createGateway();
+        if ($activeSubs->braintree_id == "bypass") {
 
-        if($request->level == "premier") {
+            $activeSubs->update( [ 'name' => "premier" ] );
 
-            $result = $gateway->subscription()->update($activeSubs->braintree_id, [
-                'price' => '19.99',
-                'planId' => 'premier'
-            ]);
-
-            if ($result->success) {
-                $activeSubs->update(['name' => "premier"]);
-
-                $userPages = $this->getUserPages($this->user);
-
-                if (count($userPages) > 1) {
-                    foreach ($userPages as $userPage) {
-                        if ( $userPage->disabled ) {
-                            $userPage->disabled = false;
-                            $userPage->save();
-                        }
-                    }
-                }
-
-                if ($this->user->email_subscription) {
-
-                    $userData = ( [
-                        'plan'    => 'Premier',
-                        'userID'  => $this->user->id,
-                    ] );
-
-                    $this->user->notify( new NotifyAboutUpgrade( $userData ) );
-                }
-
-                $data = [
-                    "success" => true,
-                    "message" => "Your plan has been upgraded to the Premier level"
-                ];
-
-            } else {
-                $errorString = "";
-
-                foreach ($result->errors->deepAll() as $error) {
-                    $errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
-                }
-
-                $data = [
-                    "success" => false,
-                    "message" => 'An error occurred with the message: '. $result->message
-                ];
-                //return back()->withErrors('An error occurred with the message: '. $result->message);
-            }
-
+            $data = [
+                "success" => true,
+                "message" => "Your plan has been upgraded to the Premier level"
+            ];
 
         } else {
-            $result = $gateway->subscription()->update($activeSubs->braintree_id, [
-                'price' => '4.99',
-                'planId' => 'pro'
-            ]);
+            $gateway = $this->createGateway();
 
-            if ($result->success) {
-                $activeSubs->update(['name' => "pro"]);
+            if ( $request->level == "premier" ) {
 
-                $userPages = $this->getUserPages($this->user);
+                $result = $gateway->subscription()->update( $activeSubs->braintree_id, [
+                    'price'  => '19.99',
+                    'planId' => 'premier'
+                ] );
 
-                foreach ($userPages as $userPage) {
-                    if ($userPage->is_protected) {
-                        $userPage->is_protected = 0;
-                        $userPage->password = null;
-                    }
+                if ( $result->success ) {
+                    $activeSubs->update( [ 'name' => "premier" ] );
 
-                    if (count($userPages) > 1) {
+                    $userPages = $this->getUserPages( $this->user );
 
-                        if ( $request->defaultPage ) {
-                            if ( $request->defaultPage == $userPage->id ) {
-                                $userPage->default  = true;
+                    if ( count( $userPages ) > 1 ) {
+                        foreach ( $userPages as $userPage ) {
+                            if ( $userPage->disabled ) {
                                 $userPage->disabled = false;
-                                $this->user->update(['username' => $userPage->name]);
-                            } else {
-                                $userPage->default  = false;
-                                $userPage->disabled = true;
+                                $userPage->save();
                             }
                         }
                     }
 
-                    $userPage->save();
+                    if ( $this->user->email_subscription ) {
+
+                        $userData = ( [
+                            'plan'   => 'Premier',
+                            'userID' => $this->user->id,
+                        ] );
+
+                        $this->user->notify( new NotifyAboutUpgrade( $userData ) );
+                    }
+
+                    $data = [
+                        "success" => true,
+                        "message" => "Your plan has been upgraded to the Premier level"
+                    ];
+
+                } else {
+                    $errorString = "";
+
+                    foreach ( $result->errors->deepAll() as $error ) {
+                        $errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
+                    }
+
+                    $data = [
+                        "success" => false,
+                        "message" => 'An error occurred with the message: ' . $result->message
+                    ];
+                    //return back()->withErrors('An error occurred with the message: '. $result->message);
                 }
 
-                $data = [
-                    "success" => true,
-                    "message" => "Your plan has been downgraded to the Pro level"
-                ];
 
             } else {
-                $errorString = "";
+                $result = $gateway->subscription()->update( $activeSubs->braintree_id, [
+                    'price'  => '4.99',
+                    'planId' => 'pro'
+                ] );
 
-                foreach ($result->errors->deepAll() as $error) {
-                    $errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
+                if ( $result->success ) {
+                    $activeSubs->update( [ 'name' => "pro" ] );
+
+                    $userPages = $this->getUserPages( $this->user );
+
+                    foreach ( $userPages as $userPage ) {
+                        if ( $userPage->is_protected ) {
+                            $userPage->is_protected = 0;
+                            $userPage->password     = null;
+                        }
+
+                        if ( count( $userPages ) > 1 ) {
+
+                            if ( $request->defaultPage ) {
+                                if ( $request->defaultPage == $userPage->id ) {
+                                    $userPage->default  = true;
+                                    $userPage->disabled = false;
+                                    $this->user->update( [ 'username' => $userPage->name ] );
+                                } else {
+                                    $userPage->default  = false;
+                                    $userPage->disabled = true;
+                                }
+                            }
+                        }
+
+                        $userPage->save();
+                    }
+
+                    $data = [
+                        "success" => true,
+                        "message" => "Your plan has been downgraded to the Pro level"
+                    ];
+
+                } else {
+                    $errorString = "";
+
+                    foreach ( $result->errors->deepAll() as $error ) {
+                        $errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
+                    }
+
+                    $data = [
+                        "success" => false,
+                        "message" => 'An error occurred with the message: ' . $result->message
+                    ];
                 }
 
-                $data = [
-                    "success" => false,
-                    "message" => 'An error occurred with the message: '. $result->message
-                ];
             }
-
 
         }
 
@@ -527,7 +544,7 @@ class SubscriptionService {
 
     public function createManualSubscription($code) {
 
-        if (strtolower( $code ) == "premier4life") {
+        if (strtolower( $code ) == "freepremier") {
             $subName = "premier";
         } else {
             $subName = "pro";

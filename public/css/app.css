@@ -14040,6 +14040,7 @@ form .bottom_row a {
   width: 100%;
 }
 .form_page.checkout .payment_form_wrap {
+  position: relative;
   padding: 0 40px;
 }
 @media all and (max-width: 992px) {
@@ -14377,6 +14378,31 @@ form .bottom_row a {
   width: 18px;
   height: 18px;
   color: #424fcf;
+}
+
+#loading_spinner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  -webkit-justify-content: center;
+  align-items: center;
+  -webkit-align-items: center;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 998;
+}
+#loading_spinner.active {
+  display: flex;
+  display: -ms-flexbox;
+}
+#loading_spinner img {
+  max-width: 200px;
+  z-index: 999;
 }
 
 .form_page .pricing {
@@ -14829,6 +14855,10 @@ form .bottom_row a {
   flex-wrap: nowrap;
   justify-content: center;
   -webkit-justify-content: center;
+  gap: 20px;
+  column-gap: 20px;
+  -webkit-column-gap: 20px;
+  -moz-column-gap: 20px;
 }
 #popup_choose_level .box .button.confirm_change_plan, #popup_choose_level .box button.black_gradient, #popup_payment_method .box .button.confirm_change_plan, #popup_payment_method .box button.black_gradient, #confirm_popup .box .button.confirm_change_plan, #confirm_popup .box button.black_gradient, #upgrade_popup .box .button.confirm_change_plan, #upgrade_popup .box button.black_gradient, #confirm_popup_link .box .button.confirm_change_plan, #confirm_popup_link .box button.black_gradient, #confirm_folder_popup_link .box .button.confirm_change_plan, #confirm_folder_popup_link .box button.black_gradient, #confirm_cancel_popup .box .button.confirm_change_plan, #confirm_cancel_popup .box button.black_gradient, #confirm_change_plan_details .box .button.confirm_change_plan, #confirm_change_plan_details .box button.black_gradient, #confirm_cancel_details .box .button.confirm_change_plan, #confirm_cancel_details .box button.black_gradient {
   width: auto;

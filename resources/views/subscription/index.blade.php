@@ -106,12 +106,23 @@
                                     </div>
                                 </div>
                                 <div class="my_row">
-                                    <form method="post" id="payment-form" action="{{ $existing ? route('subscribe.resume') : route('subscribe.post') }}">
+                                    @php
+                                        if ($bypass == true) {
+                                            $route = route('subscribe.change.plan');
+                                        } elseif ($existing) {
+	                                        $route = route('subscribe.resume');
+                                        } else {
+	                                        $route = route('subscribe.post');
+                                        }
+                                    @endphp
+
+                                    <form method="post" id="payment-form" action="{{ $route }}">
                                         @csrf
                                         <section>
                                             <input type="hidden" name="level" value="{{ $plan }}">
                                             <input type="hidden" name="planId" value="{{ $plan == 'pro' ?  'pro' : 'premier'}}">
                                             <input id="form_discount_code" type="hidden" name="discountCode">
+                                            <input type="hidden" id="bypass" value=null>
                                             <div class="drop_in_wrap">
                                                 <div class="bt-drop-in-wrapper">
                                                     <div id="bt-dropin"></div>
@@ -122,6 +133,10 @@
                                         <input id="nonce" name="payment_method_nonce" type="hidden" />
                                         <button class="button blue" type="submit"><span>Submit</span></button>
                                     </form>
+
+                                    <div id="loading_spinner">
+                                        <img src="{{ asset( 'images/spinner.svg' ) }}" alt="">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -135,8 +150,10 @@
     <script src="https://js.braintreegateway.com/web/3.82.0/js/apple-pay.min.js"></script>
     <script src="https://js.braintreegateway.com/web/3.82.0/js/data-collector.min.js"></script>
     <script>
+        let spinner = document.querySelector('#loading_spinner');
         var form = document.querySelector('#payment-form');
         var client_token = "{{ $token }}";
+        spinner.classList.remove('active');
         braintree.dropin.create({
             authorization: client_token,
             selector: '#bt-dropin',
@@ -177,12 +194,14 @@
             form.addEventListener('submit', function (event) {
                 event.preventDefault();
 
+                spinner.classList.add('active');
+
                 const code = document.querySelector('#form_discount_code').value;
 
-                if(code.toLowerCase() === "premier4life" || code.toLowerCase() === "pro4life" ) {
+                if (code.toLowerCase() === "freepremier" || code.toLowerCase() === "freepro") {
                     form.submit();
                 } else {
-                    instance.requestPaymentMethod(function (err, payload) {
+                    instance.requestPaymentMethod(function(err, payload) {
                         if (err) {
                             console.log('Request Payment Method Error', err);
                             return;

@@ -20,7 +20,11 @@ class SubscriptionController extends Controller
 
         $data = $subscriptionService->showPurchasePage();
 
-        return view('subscription.index', [ 'plan' => $data['plan'], 'token' => $data['token'], 'amount' => $data["amount"], 'existing' => $data["existing"] ]);
+        return view('subscription.index', [ 'plan' => $data['plan'],
+                                            'token' => $data['token'],
+                                            'amount' => $data["amount"],
+                                            'existing' => $data["existing"],
+                                            'bypass' => $data['bypass'] ]);
     }
 
     /**
