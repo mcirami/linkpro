@@ -6,7 +6,6 @@ import React, {
 } from 'react';
 import {UserLinksContext} from '../App';
 import {IoIosCloseCircleOutline} from 'react-icons/io';
-import FolderLinks from './FolderLinks';
 import AccordionLinks from './AccordionLinks';
 import {checkIcon, checkSubStatus} from '../../../../Services/UserService';
 import Header from './Header';
