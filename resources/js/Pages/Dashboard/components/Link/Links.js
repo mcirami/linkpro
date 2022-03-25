@@ -41,15 +41,16 @@ const Links = ({
                    setRow,
                    setValue,
                    setShowUpgradePopup,
-                   setOptionText
+                   setOptionText,
+                   subStatus
 
-}) => {
+
+               }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
     const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
     const { folderLinks, setFolderLinks } = useContext(FolderLinksContext);
     const { originalFolderLinks, setOriginalFolderLinks } = useContext(OriginalFolderLinksContext);
-    const [subStatus, setSubStatus] = useState(checkSubStatus());
 
     const initialRender = useRef(true);
     const targetRef = useRef();

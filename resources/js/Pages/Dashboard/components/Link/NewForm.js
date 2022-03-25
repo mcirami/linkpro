@@ -35,9 +35,9 @@ const NewForm = ({
                      setShowLoader,
                      setShowUpgradePopup,
                      setOptionText,
-                     userSub,
                      folderID,
                      setEditFolderID,
+                     subStatus
                   }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
@@ -45,7 +45,6 @@ const NewForm = ({
     const  { pageSettings, setPageSettings } = useContext(PageContext);
     const { folderLinks, setFolderLinks } = useContext(FolderLinksContext);
     const { originalFolderLinks, setOriginalFolderLinks } = useContext(OriginalFolderLinksContext);
-
 
     const iconRef = createRef(null)
     const [completedIconCrop, setCompletedIconCrop] = useState(null);
@@ -59,7 +58,6 @@ const NewForm = ({
     const [customIcon, setCustomIcon] = useState(null);
 
     const [radioValue, setRadioValue] = useState("standard");
-    const [subStatus, setSubStatus] = useState(false);
 
     const [inputType, setInputType] = useState("url");
 
@@ -72,13 +70,6 @@ const NewForm = ({
         email: null,
         phone: null
     }))
-
-    useEffect (() => {
-        if (!userSub || userSub["ends_at"] && new Date(userSub["ends_at"]).valueOf() < new Date().valueOf()) {
-            setSubStatus(true);
-        }
-
-    }, [setSubStatus]);
 
     const [charactersLeft, setCharactersLeft] = useState();
 
@@ -169,7 +160,7 @@ const NewForm = ({
             let data;
 
             if (URL && currentLink.name) {
-                data = checkURL(URL, currentLink.name, null, subStatus);
+                data = checkURL(URL, currentLink.name, null, !subStatus);
             } else {
                 data = {
                     success: true,
@@ -512,7 +503,7 @@ const NewForm = ({
     }
 
     const handleOnClick = e => {
-        if (subStatus) {
+        if (!subStatus) {
 
             let text;
             if (e.target.dataset.type === "custom" ) {
@@ -633,12 +624,12 @@ const NewForm = ({
                                             <label htmlFor="custom_radio">
                                                 <input id="custom_radio" type="radio" value="custom" name="icon_type"
                                                        onChange={(e) => { setRadioValue(e.target.value) }}
-                                                       disabled={subStatus}
+                                                       disabled={!subStatus}
                                                        checked={radioValue === "custom"}
                                                 />
                                                 Custom Icons
                                             </label>
-                                            {subStatus && <span className="disabled_wrap" data-type="custom" onClick={(e) => handleOnClick(e)} />}
+                                            {!subStatus && <span className="disabled_wrap" data-type="custom" onClick={(e) => handleOnClick(e)} />}
                                         </div>
                                     </div>
 
@@ -685,10 +676,10 @@ const NewForm = ({
                                     value={currentLink.name || ""}
                                     placeholder="Link Name"
                                     onChange={(e) => handleLinkName(e)}
-                                    disabled={subStatus}
-                                    className={subStatus ? "disabled" : ""}
+                                    disabled={!subStatus}
+                                    className={!subStatus ? "disabled" : ""}
                                 />
-                                {subStatus && <span className="disabled_wrap" data-type="name" onClick={(e) => handleOnClick(e)}> </span>}
+                                {!subStatus && <span className="disabled_wrap" data-type="name" onClick={(e) => handleOnClick(e)}> </span>}
                             </div>
                             <div className="my_row info_text title">
                                 <p className="char_max">Max 11 Characters Shown</p>

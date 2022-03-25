@@ -12030,6 +12030,7 @@ button {
 .page_menu_row .menu_wrap .menu_icon svg {
   width: 100%;
   margin: auto;
+  height: auto;
 }
 
 header.guest_header {

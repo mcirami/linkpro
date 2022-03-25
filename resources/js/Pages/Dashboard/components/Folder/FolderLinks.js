@@ -41,7 +41,7 @@ function clamp(n, min, max) {
 
 const FolderLinks = ({
                          folderID,
-                         userSub,
+                         subStatus,
                          setShowUpgradePopup,
                          setOptionText,
                          setEditFolderID,
@@ -55,7 +55,6 @@ const FolderLinks = ({
     const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
     const { folderLinks, setFolderLinks } = useContext(FolderLinksContext);
     const { originalFolderLinks, setOriginalFolderLinks } = useContext(OriginalFolderLinksContext);
-
 
     const [ currentFolder, setCurrentFolder ] = useState(
         userLinks.find(function(e) {
@@ -383,18 +382,8 @@ const FolderLinks = ({
 
     const checkSubStatus = (icon) => {
 
-        if (icon && icon.toString().includes('custom')) {
-            if (userSub) {
-                const {braintree_status, ends_at} = {...userSub};
-                const currentDate = new Date().valueOf();
-                const endsAt = new Date(ends_at).valueOf();
-
-                if ((braintree_status === 'active' || braintree_status === 'pending') || endsAt > currentDate) {
-                    return icon;
-                } else {
-                    return null;
-                }
-            }
+        if (icon && icon.toString().includes('custom') && subStatus) {
+            return icon;
         } else {
             return icon;
         }
@@ -509,7 +498,6 @@ const FolderLinks = ({
                 <div className="add_more_icons">
                     <AddLink
                         setShowNewForm={setShowNewForm}
-                        userSub={userSub}
                         setShowUpgradePopup={setShowUpgradePopup}
                         setOptionText={setOptionText}
                     />

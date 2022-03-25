@@ -7,7 +7,7 @@ import Switch from "react-switch";
 import EventBus from '../../../../Utils/Bus';
 import {passwordProtect, passwordStatus} from '../../../../Services/PageRequests';
 
-const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
+const PasswordProtect = ({ userSub, subStatus, setShowUpgradePopup, setOptionText }) => {
 
     const { pageSettings, setPageSettings } = useContext(PageContext);
 
@@ -88,17 +88,10 @@ const PasswordProtect = ({ userSub, setShowUpgradePopup, setOptionText }) => {
     const handleClick = (e) => {
         e.preventDefault();
 
-        if (userSub) {
-            const {braintree_status, ends_at, name} = {...userSub};
-            const currentDate = new Date().valueOf();
-            const endsAt = new Date(ends_at).valueOf();
+        const {name} = {...userSub};
 
-            if (( (braintree_status === 'active' || braintree_status === 'pending') && (name === "premier" || name === "custom") ) || endsAt > currentDate && (name === "premier" || name === "custom") ) {
-                setIsEditing(true);
-            } else if (name === "pro" || endsAt < currentDate) {
-                showPopup();
-            }
-
+        if (( subStatus && (name === "premier" || name === "custom") ) ) {
+            setIsEditing(true);
         } else {
             showPopup();
         }

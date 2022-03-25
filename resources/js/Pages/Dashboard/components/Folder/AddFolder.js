@@ -1,19 +1,19 @@
 import { ImPlus } from "react-icons/im";
 import addFolder from '../../../../Services/FolderRequests';
 import React, {useContext} from 'react';
+
 import {
     PageContext,
     UserLinksContext,
     OriginalArrayContext,
     FolderLinksContext, OriginalFolderLinksContext,
 } from '../App';
-import {updateContentHeight} from '../../../../Services/LinksRequest';
 
 const AddFolder = ({
-                       userSub,
                        setShowUpgradePopup,
                        setOptionText,
                        setEditFolderID,
+                       subStatus
 }) => {
 
     const  { pageSettings } = useContext(PageContext);
@@ -25,7 +25,7 @@ const AddFolder = ({
     const handleClick = (e) => {
         e.preventDefault();
 
-        if ( (userSub && userSub["braintree_status"] === "active") || (userSub && userSub["braintree_status"] === "pending") || (userSub && new Date(userSub["ends_at"]).valueOf()) > new Date().valueOf() ) {
+        if ( subStatus ) {
 
             const packets = {
                 pageID: pageSettings["id"]
@@ -46,10 +46,6 @@ const AddFolder = ({
                     }
                     setOriginalArray(newOriginalArray.concat(newFolderObject));
                     setUserLinks(newLinks.concat(newFolderObject));
-
-                    //updateContentHeight(originalArray);
-
-                    //setEditFolderID(data.id);
 
                     fetchFolderLinks(data.id);
                 }

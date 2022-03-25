@@ -23,12 +23,12 @@ const Preview = ({
                      row,
                      setRow,
                      value,
-                     setValue
+                     setValue,
+                     subStatus
 }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
     const [iconCount, setIconCount] = useState(null);
-    const [subStatus, setSubStatus] = useState(checkSubStatus());
 
     const ClosePreview = () => {
         document.querySelector('.links_col.preview').classList.remove('show');

@@ -2,7 +2,7 @@ import { ImPlus } from "react-icons/im";
 import {useContext} from 'react';
 import {UserLinksContext} from '../App';
 
-const AddLink = ({userSub, setShowUpgradePopup, setOptionText, setShowNewForm }) => {
+const AddLink = ({subStatus, setShowUpgradePopup, setOptionText, setShowNewForm }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
     const handleClick = (e) => {
@@ -10,8 +10,8 @@ const AddLink = ({userSub, setShowUpgradePopup, setOptionText, setShowNewForm })
 
         const newUserLinks = userLinks.filter(element => !element.type);
         const count = newUserLinks.length;
-        
-        if (count < 8 || ( (userSub && userSub["braintree_status"] === "active") || (userSub && userSub["braintree_status"] === "pending") ) || (userSub && new Date(userSub["ends_at"]).valueOf()) > new Date().valueOf() ) {
+
+        if (count < 8 || subStatus ) {
 
             setShowNewForm(true);
 

@@ -1,4 +1,4 @@
-import React, {useState, useReducer, createContext, createRef, useCallback, useEffect} from 'react';
+import React, {useState, useReducer, createContext, createRef, useEffect} from 'react';
 import Preview from './Preview/Preview';
 import Links from './Link/Links';
 import myLinksArray from './Link/LinkItems';
@@ -23,6 +23,8 @@ import { ConfirmFolderDelete } from './ConfirmFolderDelete';
 import {ErrorBoundary} from 'react-error-boundary';
 import {updateLinksPositions, getAllLinks} from '../../../Services/LinksRequest';
 import {toolTipPosition, toolTipClick} from '../../../Services/PageRequests';
+import {checkSubStatus} from '../../../Services/UserService';
+import DowngradeAlert from './DowngradeAlert';
 /*import {isMobile} from 'react-device-detect';*/
 
 const page = user.page;
@@ -67,23 +69,12 @@ function App() {
     const [completedProfileCrop, setCompletedProfileCrop] = useState(null);
     const [profileFileName, setProfileFileName] = useState(null);
 
-    const [subStatus, setSubStatus] = useState(true);
+    const [subStatus, setSubStatus] = useState(checkSubStatus());
 
     const [showLoader, setShowLoader] = useState(false);
 
     const [row, setRow] = useState(null);
     const [value, setValue] = useState(null);
-
-    useEffect(() => {
-
-        const count = userLinks.length;
-        if (userSub && userSub["braintree_status"] === "canceled" && new Date(userSub["ends_at"]).valueOf() < new Date().valueOf() )   {
-            setSubStatus(false);
-        } else {
-            setSubStatus(true)
-        }
-
-    }, [userLinks])
 
     useEffect(() => {
         toolTipPosition();
@@ -185,6 +176,7 @@ function App() {
                                         allUserPages={allUserPages}
                                         setAllUserPages={setAllUserPages}
                                         userSub={userSub}
+                                        subStatus={subStatus}
                                         setShowUpgradePopup={setShowUpgradePopup}
                                         setOptionText={setOptionText}
                                     />
@@ -195,6 +187,7 @@ function App() {
 
                                             <PasswordProtect
                                                 userSub={userSub}
+                                                subStatus={subStatus}
                                                 setShowUpgradePopup={setShowUpgradePopup}
                                                 setOptionText={setOptionText}
                                             />
@@ -222,12 +215,10 @@ function App() {
 
                                             <ShowPreviewButton />
 
-                                            {subStatus ? "" :
-                                                <div className="icon_message">
-                                                    <p>Your plan has been downgraded to Free. Your link will only display up to 8 icons max, any custom icons you used will have to be changed to use our standard icons and any folders you added will not be shown.</p>
-                                                    <a className="button blue" href="/plans">Upgrade</a>
-                                                </div>
-                                            }
+                                            <DowngradeAlert
+                                                userSub={userSub}
+                                                subStatus={subStatus}
+                                            />
                                         </div>
 
                                         <div className="my_row view_live_link link_row">
@@ -245,10 +236,10 @@ function App() {
                                                 setShowUpgradePopup={setShowUpgradePopup}
                                                 setShowConfirmPopup={setShowConfirmPopup}
                                                 setOptionText={setOptionText}
-                                                userSub={userSub}
                                                 customIconArray={customIconArray}
                                                 setCustomIconArray={setCustomIconArray}
                                                 setShowLoader={setShowLoader}
+                                                subStatus={subStatus}
                                             />
                                             :
                                             showNewForm ?
@@ -256,19 +247,19 @@ function App() {
                                                     setShowNewForm={setShowNewForm}
                                                     setShowUpgradePopup={setShowUpgradePopup}
                                                     setOptionText={setOptionText}
-                                                    userSub={userSub}
                                                     customIconArray={customIconArray}
                                                     setCustomIconArray={setCustomIconArray}
                                                     setShowLoader={setShowLoader}
                                                     folderID={editFolderID}
                                                     setEditFolderID={setEditFolderID}
+                                                    subStatus={subStatus}
                                                 />
                                                 :
                                                 editFolderID ?
                                                     <ErrorBoundary FallbackComponent={ErrorFallback} onError={myErrorHandler}>
                                                         <FolderLinks
                                                             folderID={editFolderID}
-                                                            userSub={userSub}
+                                                            subStatus={subStatus}
                                                             setShowUpgradePopup={setShowUpgradePopup}
                                                             setOptionText={setOptionText}
                                                             setEditFolderID={setEditFolderID}
@@ -284,14 +275,14 @@ function App() {
                                                         <div className="add_more_icons">
                                                             <AddLink
                                                                 setShowNewForm={setShowNewForm}
-                                                                userSub={userSub}
+                                                                subStatus={subStatus}
                                                                 setShowUpgradePopup={setShowUpgradePopup}
                                                                 setOptionText={setOptionText}
                                                             />
                                                         </div>
                                                         <div className="add_more_icons">
                                                             <AddFolder
-                                                                userSub={userSub}
+                                                                subStatus={subStatus}
                                                                 setShowUpgradePopup={setShowUpgradePopup}
                                                                 setOptionText={setOptionText}
                                                                 setEditFolderID={setEditFolderID}
@@ -304,7 +295,7 @@ function App() {
                                                             <Links
                                                                 setEditID={setEditID}
                                                                 setEditFolderID={setEditFolderID}
-                                                                userSub={userSub}
+                                                                subStatus={subStatus}
                                                                 setRow={setRow}
                                                                 setValue={setValue}
                                                                 setShowUpgradePopup={setShowUpgradePopup}
@@ -332,6 +323,7 @@ function App() {
                                         setRow={setRow}
                                         value={value}
                                         setValue={setValue}
+                                        subStatus={subStatus}
                                     />
                                 </div>
                             </PageContext.Provider>

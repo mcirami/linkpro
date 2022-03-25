@@ -191,7 +191,7 @@ export const checkURL = (url, name, custom, subStatus) => {
 
         let icon = icons.find(icon => icon.name === name);
 
-        if (icon && icon.required_in_url && subStatus) {
+        if (icon && icon.required_in_url && !subStatus) {
             if (url.toLowerCase().includes(icon.required_in_url)) {
 
                 const returnURL = checkForHttp(url);

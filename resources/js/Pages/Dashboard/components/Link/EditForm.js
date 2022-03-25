@@ -22,12 +22,12 @@ const EditForm = ({
                       setShowUpgradePopup,
                       setShowConfirmPopup,
                       setOptionText,
-                      userSub,
                       customIconArray,
                       setCustomIconArray,
                       setShowLoader,
                       folderID,
                       setEditFolderID,
+                      subStatus
 }) => {
 
     const { userLinks, setUserLinks } = useContext(UserLinksContext);
@@ -48,7 +48,6 @@ const EditForm = ({
     const [customIcon, setCustomIcon] = useState(null);
 
     const [radioValue, setRadioValue] = useState("standard");
-    const [subStatus, setSubStatus] = useState(false);
 
     let iconArray = getIconPaths(iconPaths);
 
@@ -62,13 +61,6 @@ const EditForm = ({
     const [inputType, setInputType] = useState(
         currentLink.email && "email" || currentLink.url && "url" || currentLink.phone && "phone"
     );
-
-    useEffect (() => {
-        if (!userSub || userSub["ends_at"] && new Date(userSub["ends_at"]).valueOf() < new Date().valueOf()) {
-            setSubStatus(true);
-        }
-
-    }, [setSubStatus]);
 
     const [charactersLeft, setCharactersLeft] = useState();
 
@@ -562,7 +554,7 @@ const EditForm = ({
     }
 
     const handleOnClick = e => {
-        if (subStatus) {
+        if (!subStatus) {
 
             let text;
             if (e.target.dataset.type === "custom" ) {
@@ -695,11 +687,11 @@ const EditForm = ({
                                             <label htmlFor="custom_radio">
                                                 <input id="custom_radio" type="radio" value="custom" name="icon_type"
                                                        onChange={(e) => {setRadioValue(e.target.value); }}
-                                                       disabled={subStatus}
+                                                       disabled={!subStatus}
                                                 />
                                                 Custom Icons
                                             </label>
-                                            {subStatus && <span className="disabled_wrap" data-type="custom" onClick={(e) => handleOnClick(e)} />}
+                                            {!subStatus && <span className="disabled_wrap" data-type="custom" onClick={(e) => handleOnClick(e)} />}
                                         </div>
                                     </div>
 
@@ -746,10 +738,10 @@ const EditForm = ({
                                     value={currentLink.name || ""}
                                     placeholder="Link Name"
                                     onChange={(e) => handleLinkName(e)}
-                                    disabled={subStatus}
-                                    className={subStatus ? "disabled" : ""}
+                                    disabled={!subStatus}
+                                    className={!subStatus ? "disabled" : ""}
                                 />
-                                {subStatus && <span className="disabled_wrap" data-type="name" onClick={(e) => handleOnClick(e)}> </span>}
+                                {!subStatus && <span className="disabled_wrap" data-type="name" onClick={(e) => handleOnClick(e)}> </span>}
                             </div>
                             <div className="my_row info_text title">
                                 <p className="char_max">Max 11 Characters Shown</p>

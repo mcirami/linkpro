@@ -6,7 +6,7 @@ import {addPage} from '../../../../Services/PageRequests';
 
 let pageNames = user.allPageNames;
 
-const PageNav = ({ allUserPages, setAllUserPages, userSub, setShowUpgradePopup, setOptionText }) => {
+const PageNav = ({ allUserPages, setAllUserPages, userSub, subStatus, setShowUpgradePopup, setOptionText }) => {
 
     const { pageSettings, setPageSettings } = useContext(PageContext);
 
@@ -67,12 +67,9 @@ const PageNav = ({ allUserPages, setAllUserPages, userSub, setShowUpgradePopup, 
 
         } else if (userSub) {
 
-            const {braintree_status, ends_at, name} = {...userSub};
-            const currentDate = new Date().valueOf();
-            const endsAt = new Date(ends_at).valueOf();
+            const {name} = {...userSub};
 
-            if (( (braintree_status === 'active' || braintree_status === 'pending') && name === "premier") ||
-                endsAt > currentDate && name === "premier") {
+            if ( subStatus && name === "premier") {
 
                 if (allUserPages.length === 5) {
                     enablePopup("a custom plan to add more links");
