@@ -401,10 +401,6 @@ const NewForm = ({
                                 active_status: true
                             }
 
-                            newFolderLinks = newFolderLinks.concat(newLinkObject);
-                            setOriginalFolderLinks(newOriginalFolderLinks.concat(newLinkObject));
-                            setFolderLinks(newFolderLinks);
-
                             let folderActive = null;
                             if (newFolderLinks.length === 1) {
                                 folderActive = true;
