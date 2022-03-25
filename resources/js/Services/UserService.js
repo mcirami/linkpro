@@ -9,11 +9,11 @@ export const checkSubStatus = () => {
 
         console.log(userSub);
 
-        return (braintree_status === 'active' || braintree_status ===
-            'pending') || endsAt > currentDate;
+       if ((braintree_status === 'active' || braintree_status === 'pending') || endsAt > currentDate) {
+           return true;
+       }
 
     }
-
 
     return false;
 }
