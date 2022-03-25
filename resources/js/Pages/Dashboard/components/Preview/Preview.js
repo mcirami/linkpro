@@ -7,7 +7,7 @@ import React, {
 import {UserLinksContext} from '../App';
 import {IoIosCloseCircleOutline} from 'react-icons/io';
 import AccordionLinks from './AccordionLinks';
-import {checkIcon, checkSubStatus} from '../../../../Services/UserService';
+import {checkIcon} from '../../../../Services/UserService';
 import Header from './Header';
 import ProfileImage from './ProfileImage';
 import ProfileText from './ProfileText';
@@ -184,6 +184,7 @@ const Preview = ({
                                                     value={value}
                                                     setValue={setValue}
                                                     dataRow={dataRow}
+                                                    name={name}
                                                 />
                                                 :
                                                 subStatus && <div className={ ` ${colClasses} `}>

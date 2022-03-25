@@ -8,7 +8,8 @@ const Folder = ({
                     setRow,
                     value,
                     setValue,
-                    dataRow
+                    dataRow,
+                    name
                 }) => {
 
     const folderClick = (e, index) => {
