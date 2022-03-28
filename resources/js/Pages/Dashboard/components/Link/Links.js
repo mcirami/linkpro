@@ -14,7 +14,7 @@ import {
     updateLinksPositions,
     updateLinkStatus,
     getColHeight,
-    getColWidth,
+    getColWidth, updateContentHeight,
 } from '../../../../Services/LinksRequest';
 import {checkIcon, checkSubStatus} from '../../../../Services/UserService';
 import EventBus from '../../../../Utils/Bus';
@@ -86,13 +86,14 @@ const Links = ({
             const icons = document.querySelectorAll('.add_icons .icon_col');
 
             if (icons.length > 0) {
-                const colHeight = icons[0].clientHeight;
+                /*const colHeight = icons[0].clientHeight;
                 const rowCount = Math.ceil(icons.length / 4);
                 let divHeight = rowCount * colHeight - 40;
                 if (userLinks.length < 5) {
                     divHeight += 20;
                 }
-                iconsWrap.style.minHeight = divHeight + "px";
+                iconsWrap.style.minHeight = divHeight + "px";*/
+                updateContentHeight()
             } else {
                 iconsWrap.style.minHeight = "200px";
             }
@@ -103,19 +104,12 @@ const Links = ({
 
         function handleResize() {
 
-            const iconsWrap = document.querySelector('.icons_wrap');
             const icons = document.querySelectorAll('.add_icons .icon_col');
 
             if (icons.length > 0) {
-                const colHeight = icons[0].clientHeight;
-                const rowCount = Math.ceil(icons.length / 4);
-                let divHeight = rowCount * colHeight - 40;
-                if (userLinks.length < 5) {
-                    divHeight += 20;
-                }
-                iconsWrap.style.minHeight = divHeight + "px";
+                updateContentHeight()
             } else {
-                iconsWrap.style.minHeight = "200px";
+               document.querySelector('.icons_wrap').style.minHeight = "200px";
             }
         }
 

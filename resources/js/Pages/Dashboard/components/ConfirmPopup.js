@@ -1,6 +1,10 @@
 import React, {useContext} from 'react';
 import {MdCheckCircle} from 'react-icons/md';
-import {deleteLink, updateLinkStatus} from '../../../Services/LinksRequest';
+import {
+    deleteLink,
+    updateContentHeight,
+    updateLinkStatus,
+} from '../../../Services/LinksRequest';
 import {UserLinksContext, OriginalArrayContext, FolderLinksContext, OriginalFolderLinksContext} from './App';
 
 export const ConfirmPopup = ({
@@ -125,6 +129,7 @@ export const ConfirmPopup = ({
                         })
                     )
 
+
                 } else {
                     setOriginalArray(data.links)
                     setUserLinks(data.links);
@@ -147,7 +152,7 @@ export const ConfirmPopup = ({
         document.querySelector('#confirm_popup_link').classList.remove('open');
     }
 
-    const updateContentHeight = () => {
+    /*const updateContentHeight = () => {
 
         if (folderID && (folderLinks.length - 1 > 0) && ( (folderLinks.length - 1) % 4 === 0) )  {
             const iconsWrap = document.querySelector('.icons_wrap');
@@ -175,9 +180,7 @@ export const ConfirmPopup = ({
 
             iconsWrap.style.minHeight = divHeight + "px";
         }
-
-
-    }
+    }*/
 
     return (
 

@@ -221,9 +221,9 @@ export const checkURL = (url, name, custom, subStatus) => {
     }
 }
 
-export const updateContentHeight = ( linkArray ) => {
+export const updateContentHeight = () => {
 
-    if ((linkArray.length + 1) % 4 === 1 ) {
+    /*if ((linkArray.length + 1) % 4 === 1 ) {*/
 
         const iconsWrap = document.querySelector('.icons_wrap');
         const icons = document.querySelectorAll('.add_icons .icon_col');
@@ -231,7 +231,7 @@ export const updateContentHeight = ( linkArray ) => {
         const rowCount = Math.ceil(icons.length / 4);
         const divHeight = rowCount * colHeight - 40;
         iconsWrap.style.minHeight = divHeight + "px";
-    }
+    /*}*/
 }
 
 const checkForHttp = (url) => {
