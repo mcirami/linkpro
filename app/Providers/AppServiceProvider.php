@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 //use Braintree\Configuration;
+use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
@@ -24,13 +25,13 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(Request $request)
     {
         Schema::defaultStringLength(191);
 
-        /*Configuration::environment(env('BRAINTREE_ENV'));
-        Configuration::merchantId(env('BRAINTREE_MERCHANT_ID'));
-        Configuration::publicKey(env('BRAINTREE_PUBLIC_KEY'));
-        Configuration::privateKey(env('BRAINTREE_PRIVATE_KEY'));*/
+        if ($request->server->has('HTTP_X_ORIGINAL_HOST')) {
+            $request->server->set('HTTP_X_FORWARDED_HOST', $request->server->get('HTTP_X_ORIGINAL_HOST'));
+            $request->headers->set('X_FORWARDED_HOST', $request->server->get('HTTP_X_ORIGINAL_HOST'));
+        }
     }
 }

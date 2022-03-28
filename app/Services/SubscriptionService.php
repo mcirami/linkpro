@@ -382,10 +382,12 @@ class SubscriptionService {
         if ($result->success) {
 
             if ($result->subscription->billingPeriodEndDate) {
-                $endDateDB = $result->subscription->billingPeriodEndDate;
+                $billingEndDate = Carbon::create($result->subscription->billingPeriodEndDate);
+                $endDateDB = $billingEndDate->endOfDay();
                 $endDateMail = $result->subscription->billingPeriodEndDate->format( 'F j, Y' );
             } else {
-                $time = $result->subscription->nextBillingDate->sub(new \DateInterval('P1D'));
+                $nextBillingDate = Carbon::create($result->subscription->nextBillingDate->sub(new \DateInterval('P1D')));
+                $time = $nextBillingDate->endOfDay();
                 $endDateDB = $time->format('Y-m-d H:i:s');
                 $endDateMail = $time->format( 'F j, Y' );
             }
