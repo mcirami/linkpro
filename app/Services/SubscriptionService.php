@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\SubscriptionTrait;
 use App\Http\Traits\UserTrait;
+use Braintree\Exception;
 
 class SubscriptionService {
 
@@ -375,53 +376,91 @@ class SubscriptionService {
      */
     public function cancelSubscription($request) {
 
+        $plan = $request->plan;
         $gateway = $this->createGateway();
 
-        $result = $gateway->subscription()->cancel($request->plan);
+        try {
 
-        if ($result->success) {
+            $sub = $gateway->subscription()->find($plan);
 
-            if ($result->subscription->billingPeriodEndDate) {
-                $billingEndDate = Carbon::create($result->subscription->billingPeriodEndDate);
-                $endDateDB = $billingEndDate->endOfDay();
-                $endDateMail = $result->subscription->billingPeriodEndDate->format( 'F j, Y' );
+            $update = $gateway->subscription()->update($plan,[
+                'numberOfBillingCycles' => $sub->currentBillingCycle,
+            ]);
+
+            if ($update->success) {
+
+                $result = $gateway->subscription()->cancel($plan);
+
+                if ($result->success) {
+
+                    if ($result->subscription->billingPeriodEndDate) {
+                        $billingEndDate = Carbon::create($result->subscription->billingPeriodEndDate);
+                        $endDateDB = $billingEndDate->endOfDay();
+                        $endDateMail = $result->subscription->billingPeriodEndDate->format( 'F j, Y' );
+                    } else {
+                        $nextBillingDate = Carbon::create($result->subscription->nextBillingDate->sub(new \DateInterval('P1D')));
+                        $time = $nextBillingDate->endOfDay();
+                        $endDateDB = $time->format('Y-m-d H:i:s');
+                        $endDateMail = $time->format( 'F j, Y' );
+                    }
+
+                    $subscription = $this->getUserSubscriptions($this->user);
+                    $subscription->braintree_status = strtolower($result->subscription->status);
+                    $subscription->ends_at = $endDateDB;
+                    $subscription->save();
+
+                    if ($this->user->email_subscription) {
+
+                        $userData = ( [
+                            'end_date' => $endDateMail,
+                            'userID'   => $this->user->id,
+                        ] );
+
+                        $this->user->notify( new NotifyAboutCancelation( $userData ) );
+                    }
+
+                    $data = [
+                        "success" => true,
+                        "message" => "Your Subscription Has Been Cancelled"
+                    ];
+
+                } else {
+                    $errorString = "";
+
+                    foreach ($result->errors->deepAll() as $error) {
+                        $errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
+                    }
+
+                    $data = [
+                        "success" => false,
+                        "message" => 'An error occurred with the message: '. $result->message
+                    ];
+                }
             } else {
-                $nextBillingDate = Carbon::create($result->subscription->nextBillingDate->sub(new \DateInterval('P1D')));
-                $time = $nextBillingDate->endOfDay();
-                $endDateDB = $time->format('Y-m-d H:i:s');
-                $endDateMail = $time->format( 'F j, Y' );
+
+                $errorString = "";
+
+                foreach ($update->errors->deepAll() as $error) {
+                    $errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
+                }
+
+                $data = [
+                    "success" => false,
+                    "message" => 'An error occurred with the message: '. $update->message
+                ];
             }
 
-            $subscription = $this->getUserSubscriptions($this->user);
-            $subscription->braintree_status = strtolower($result->subscription->status);
-            $subscription->ends_at = $endDateDB;
-            $subscription->save();
+        } catch (Exception $e) {
 
-            if ($this->user->email_subscription) {
+            $errorString = explode('not found', $e );
 
-                $userData = ( [
-                    'end_date' => $endDateMail,
-                    'userID'   => $this->user->id,
-                ] );
-
-                $this->user->notify( new NotifyAboutCancelation( $userData ) );
-            }
-
-            $data = [
-                "success" => true,
-                "message" => "Your Subscription Has Been Cancelled"
-            ];
-
-        } else {
-            $errorString = "";
-
-            foreach ($result->errors->deepAll() as $error) {
+            /*foreach ($e->errors->deepAll() as $error) {
                 $errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
-            }
+            }*/
 
             $data = [
                 "success" => false,
-                "message" => 'An error occurred with the message: '. $result->message
+                "message" => 'An error occurred with the message: '. $errorString[0]
             ];
         }
 
