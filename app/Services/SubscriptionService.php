@@ -383,11 +383,15 @@ class SubscriptionService {
 
             $sub = $gateway->subscription()->find($plan);
 
-            $update = $gateway->subscription()->update($plan,[
-                'numberOfBillingCycles' => $sub->currentBillingCycle,
-            ]);
+            $update = null;
 
-            if ($update->success) {
+            if ($sub->currentBillingCycle != 0) {
+                $update = $gateway->subscription()->update( $plan, [
+                    'numberOfBillingCycles' => $sub->currentBillingCycle,
+                ] );
+            }
+
+            if ( $update == null || $update->success) {
 
                 $result = $gateway->subscription()->cancel($plan);
 
