@@ -15,9 +15,9 @@ export const getPageStats = (packets) => {
 
     ).catch(error => {
         if (error.response) {
-            console.log(error.response);
+            console.error(error.response);
         } else {
-            console.log("ERROR:: ", error);
+            console.error("ERROR:: ", error);
         }
 
         return {
@@ -43,9 +43,9 @@ export const getLinkStats = (packets) => {
 
     ).catch(error => {
         if (error.response) {
-            console.log(error.response);
+            console.error(error.response);
         } else {
-            console.log("ERROR:: ", error);
+            console.error("ERROR:: ", error);
         }
 
         return {
@@ -71,9 +71,9 @@ export const getFolderStats = (packets) => {
 
     ).catch(error => {
         if (error.response) {
-            console.log(error.response);
+            console.error(error.response);
         } else {
-            console.log("ERROR:: ", error);
+            console.error("ERROR:: ", error);
         }
 
         return {

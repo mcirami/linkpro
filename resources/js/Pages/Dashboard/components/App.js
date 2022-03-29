@@ -148,27 +148,28 @@ function App() {
                     </div>
                     <FolderLinksContext.Provider value={{ folderLinks, setFolderLinks}} >
                         <OriginalFolderLinksContext.Provider value={{ originalFolderLinks, setOriginalFolderLinks}} >
-                            <div id="confirm_popup_link">
-                                {showConfirmPopup &&
+
+                            {showConfirmPopup &&
                                 <ConfirmPopup
                                     editID={editID}
                                     setEditID={setEditID}
+                                    showConfirmPopup={showConfirmPopup}
                                     setShowConfirmPopup={setShowConfirmPopup}
                                     folderID={editFolderID}
                                 />
-                                }
-                            </div>
+                            }
 
 
-                            <div id="confirm_folder_popup_link">
-                                {showConfirmFolderDelete &&
+
+                            {showConfirmFolderDelete &&
                                 <ConfirmFolderDelete
+                                    showConfirmFolderDelete={showConfirmFolderDelete}
                                     setShowConfirmFolderDelete={setShowConfirmFolderDelete}
                                     folderID={editFolderID}
                                     setEditFolderID={setEditFolderID}
                                 />
-                                }
-                            </div>
+                            }
+
 
                             <PageContext.Provider value={{ pageSettings, setPageSettings }}>
                                 <div className="left_column">

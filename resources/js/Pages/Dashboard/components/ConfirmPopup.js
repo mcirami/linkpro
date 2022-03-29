@@ -10,6 +10,7 @@ import {UserLinksContext, OriginalArrayContext, FolderLinksContext, OriginalFold
 export const ConfirmPopup = ({
                                  editID,
                                  setEditID,
+                                 showConfirmPopup,
                                  setShowConfirmPopup,
                                  folderID
                              }) => {
@@ -139,7 +140,7 @@ export const ConfirmPopup = ({
                 setEditID(null)
                 updateContentHeight();
                 setShowConfirmPopup(false)
-                document.querySelector('#confirm_popup_link').classList.remove('open');
+                //document.querySelector('#confirm_popup_link').classList.remove('open');
             }
         })
     }
@@ -149,7 +150,7 @@ export const ConfirmPopup = ({
     const handleCancel = e => {
         e.preventDefault();
         setShowConfirmPopup(false)
-        document.querySelector('#confirm_popup_link').classList.remove('open');
+        //document.querySelector('#confirm_popup_link').classList.remove('open');
     }
 
     /*const updateContentHeight = () => {
@@ -184,7 +185,7 @@ export const ConfirmPopup = ({
 
     return (
 
-        <>
+        <div id="confirm_popup_link" className={showConfirmPopup ? 'open' : "" }>
             <div className="box">
                 <div className="icon_wrap check">
                     <MdCheckCircle/>
@@ -198,7 +199,7 @@ export const ConfirmPopup = ({
                     </form>
                 </div>
             </div>
-        </>
+        </div>
 
     )
 }

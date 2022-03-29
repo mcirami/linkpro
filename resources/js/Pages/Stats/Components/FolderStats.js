@@ -108,8 +108,7 @@ const FolderStats = ({
             }
         })
     }
-console.log(folderEndDate);
-    console.log(folderStartDate);
+
     return (
         <div className="stats_wrap my_row">
             {folderStats ?

@@ -151,7 +151,8 @@ jQuery(document).ready(function($) {
                         if (message.includes("Lifetime")) {
                             document.querySelector('#payment-form .bt-drop-in-wrapper').remove();
                             document.querySelector('#payment-form #nonce').remove();
-                            successDiv.innerHTML = "<p class='success'>" + message  + "</p>";
+                            successDiv.innerHTML = "<p class='success'>" + message  + "</p>" +
+                            "<p><span>NEXT:</span> Click 'Submit' below to activate your membership:</p>";
                         } else {
                             document.querySelector('#payment-form').classList.add('adjust');
                             successDiv.innerHTML =

@@ -129,12 +129,12 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
                 }
             })
         }).catch(error => {
-            console.log(error);
+            console.error(error);
             /*if (error.response) {
                 EventBus.dispatch("error", { message: error.response.data.errors.profile_img[0] });
-                console.log("ERROR: " + error.response);
+                console.error("ERROR: " + error.response);
             } else {
-                console.log("ERROR:: ", error);
+                console.error("ERROR:: ", error);
             }*/
         });
 

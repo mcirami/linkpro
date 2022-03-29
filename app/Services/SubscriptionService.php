@@ -582,17 +582,17 @@ class SubscriptionService {
 
         if ($match) {
             if ( $planID == "premier" && strtolower( $code ) == "6freepremier" ) {
-                $message = "Congrats! Your 6 Month Premier Membership is activated!";
+                $message = "Congrats! Your 6 Month Premier Promo Code is activated!";
             } elseif ( $planID == "premier" && strtolower( $code ) == "1freepremier" ) {
-                $message = "Congrats! Your 1 Month Premier Membership is activated!";
+                $message = "Congrats! Your 1 Month Premier Promo Code is activated!";
             } elseif($planID == "premier" && strtolower( $code ) == "freepremier") {
-                $message = "Congrats! Your Lifetime Premier Membership is activated!";
+                $message = "Congrats! Your Lifetime Premier Promo Code is activated!";
             } elseif ( $planID == "pro" && strtolower( $code ) == "6freepro" ) {
-                $message = "Congrats! Your 6 Month Pro Membership is activated!";
+                $message = "Congrats! Your 6 Month Pro Promo Code is activated!";
             } elseif ( $planID == "pro" && strtolower( $code ) == "1freepro" ) {
-                $message = "Congrats! Your 1 Month Pro Membership is activated!";
+                $message = "Congrats! Your 1 Month Pro Promo Code is activated!";
             } elseif ( $planID == "pro" && strtolower( $code ) == "freepro" ) {
-                $message = "Congrats! Your Lifetime Pro Membership is activated!";
+                $message = "Congrats! Your Lifetime Pro Promo Code is activated!";
             }
 
             $success = true;

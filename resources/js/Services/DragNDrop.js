@@ -10,11 +10,8 @@ export const gridLayout = (width, height) => {
     userLinks.map((link, index) => {
         const row = Math.floor(index / 4);
         const col = index % 4;
-        console.log(width)
         array.push(width * col, height * row)
     });
-
-    console.log(array);
 
     return array;
 }

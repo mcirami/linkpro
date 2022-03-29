@@ -41,6 +41,7 @@ export const checkIcon = (icon, type) => {
 
     if (icon && icon.toString().includes('custom')) {
         return checkSubStatus() ? icon : asset;
+        return checkSubStatus() ? icon : asset;
     } else {
         return icon;
     }

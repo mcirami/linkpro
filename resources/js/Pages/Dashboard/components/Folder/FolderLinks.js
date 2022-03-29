@@ -20,9 +20,11 @@ import {
     updateLinkStatus,
     getColHeight,
     getColWidth,
+    updateContentHeight,
 } from '../../../../Services/LinksRequest';
 import {updateFolderName} from '../../../../Services/FolderRequests';
 import AddLink from '../Link/AddLink';
+import {checkIcon} from '../../../../Services/UserService';
 
 const springSetting1 = { stiffness: 180, damping: 10 };
 const springSetting2 = { stiffness: 120, damping: 17 };
@@ -102,28 +104,22 @@ const FolderLinks = ({
 
     useEffect(() => {
 
+        const folder = true;
+        updateContentHeight(folder);
+
+    }, []);
+
+    useEffect(() => {
+
         function handleResize() {
 
-            setTimeout(() => {
-                const iconsWrap = document.querySelector('.icons_wrap');
-                const icons = document.querySelectorAll('.add_icons .icon_col');
-                if (icons.length > 0 ) {
-                    const colHeight = icons[0].clientHeight;
-                    const rowCount = Math.ceil(icons.length / 3);
-                    let divHeight = rowCount * colHeight - 40;
-                    if (folderLinks.length < 4) {
-                        divHeight += 20;
-                    }
-                    iconsWrap.style.minHeight = divHeight + "px";
-                } else {
-                    iconsWrap.style.minHeight = "200px";
-                }
-            }, 500)
+            const folder = true;
+            updateContentHeight(folder);
+
         }
 
         window.addEventListener('resize', handleResize);
-        handleResize()
-
+        //handleResize()
 
         return () => {
             window.removeEventListener('resize', handleResize);
@@ -380,14 +376,14 @@ const FolderLinks = ({
 
     }
 
-    const checkSubStatus = (icon) => {
+    /*const checkSubStatus = (icon) => {
 
         if (icon && icon.toString().includes('custom') && subStatus) {
             return icon;
         } else {
             return icon;
         }
-    }
+    }*/
 
     const handleSubmit = () => {
 
@@ -441,7 +437,7 @@ const FolderLinks = ({
 
         e.preventDefault();
         setShowConfirmFolderDelete(true);
-        document.querySelector('#confirm_folder_popup_link').classList.add('open');
+        //document.querySelector('#confirm_folder_popup_link').classList.add('open');
     }
 
     const { lastPress, isPressed, mouseXY } = state;
@@ -497,6 +493,7 @@ const FolderLinks = ({
 
                 <div className="add_more_icons">
                     <AddLink
+                        subStatus={subStatus}
                         setShowNewForm={setShowNewForm}
                         setShowUpgradePopup={setShowUpgradePopup}
                         setOptionText={setOptionText}
@@ -532,7 +529,7 @@ const FolderLinks = ({
 
                     const linkID = originalFolderLinks[key].id;
                     let displayIcon;
-                    displayIcon = checkSubStatus(originalFolderLinks[key].icon);
+                    displayIcon = checkIcon(originalFolderLinks[key].icon);
 
                     return (
                         <Motion key={key} style={style}>
@@ -564,9 +561,7 @@ const FolderLinks = ({
                                             handleOnClick(linkID)
                                         }}>
                                             <div className="image_wrap">
-                                                <img src={displayIcon ||
-                                                Vapor.asset(
-                                                    'images/icon-placeholder.png')} alt=""/>
+                                                <img src={displayIcon} alt=""/>
                                                 {/*<div className="hover_text"><p><img src='/images/icon-placeholder.png' alt=""/></p></div>*/}
                                             </div>
                                         </div>

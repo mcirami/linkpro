@@ -21,11 +21,11 @@ export const addPage = (packets) => {
             if(error.response.data.errors.name) {
                 EventBus.dispatch("error", { message: error.response.data.errors.name[0] });
             } else {
-                console.log(error.response);
+                console.error(error.response);
             }
 
         } else {
-            console.log("ERROR:: ", error);
+            console.error("ERROR:: ", error);
         }
 
         return {
@@ -53,7 +53,7 @@ export const passwordProtect = (packets, pageID) => {
             EventBus.dispatch("error",
                 {message: error.response.data.errors.password[0]});
         } else {
-            console.log("ERROR:: ", error);
+            console.error("ERROR:: ", error);
         }
 
         return {
@@ -87,12 +87,12 @@ export const passwordStatus = (packets, pageID, type, checked) => {
 
         }
     ).catch(error => {
-        //console.log("ERROR:: ", error.response.data);
+        //console.error("ERROR:: ", error.response.data);
         if (error.response) {
             EventBus.dispatch("error",
                 {message: error.response.data.errors.is_protected[0]});
         } else {
-            console.log("ERROR:: ", error);
+            console.error("ERROR:: ", error);
         }
 
         return {
@@ -118,10 +118,10 @@ export const updatePageName = (packets, pageID) => {
             if (error.response.data.errors) {
                 EventBus.dispatch("error", { message: error.response.data.errors.name[0] });
             } else {
-                console.log(error.response);
+                console.error(error.response);
             }
         } else {
-            console.log("ERROR:: ", error);
+            console.error("ERROR:: ", error);
         }
 
         return {
@@ -146,9 +146,9 @@ export const headerImage = (packets, pageID) => {
     ).catch(error => {
         if (error.response) {
             EventBus.dispatch("error", { message: error.response.data.errors.header_img[0] });
-            console.log(error.response);
+            console.error(error.response);
         } else {
-            console.log("ERROR:: ", error);
+            console.error("ERROR:: ", error);
         }
 
         return {
@@ -183,7 +183,7 @@ export const profileImage = (packets, pageID, pageDefault) => {
         if (error.response) {
             EventBus.dispatch("error", { message: error.response.data.errors.profile_img[0] });
         } else {
-            console.log("ERROR:: ", error);
+            console.error("ERROR:: ", error);
         }
 
         return {
@@ -204,9 +204,9 @@ export const pageTitle = (packets, pageID) => {
     ).catch(error => {
         if (error.response) {
             EventBus.dispatch("error", { message: error.response.data.errors.title[0] });
-            console.log(error.response);
+            console.error(error.response);
         } else {
-            console.log("ERROR:: ", error);
+            console.error("ERROR:: ", error);
         }
 
     });
@@ -222,13 +222,13 @@ export const pageBio = (packets, pageID) => {
             EventBus.dispatch("success", {message: returnMessage});
         }
     ).catch(error => {
-        //console.log("ERROR:: ", error.response.data.errors.bio[0]);
+        //console.error("ERROR:: ", error.response.data.errors.bio[0]);
 
         if (error.response) {
             EventBus.dispatch("error", {message: error.response.data.errors.bio[0]});
-            console.log(error.response);
+            console.error(error.response);
         } else {
-            console.log("ERROR:: ", error);
+            console.error("ERROR:: ", error);
         }
     });
 }

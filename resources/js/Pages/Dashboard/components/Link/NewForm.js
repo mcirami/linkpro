@@ -21,7 +21,6 @@ const iconPaths = user.icons;
 import {
     addLink,
     checkURL,
-    updateContentHeight,
     updateLinkStatus,
 } from '../../../../Services/LinksRequest';
 import {completedImageCrop, getIconPaths} from '../../../../Services/ImageService';
@@ -115,8 +114,6 @@ const NewForm = ({
 
     const onLoad = useCallback((img) => {
         imgRef.current = img;
-        const linkFormHeight = document.getElementsByClassName('link_form')[0].offsetHeight;
-        document.getElementById('left_col_wrap').style.minHeight = linkFormHeight + 160 + "px";
     }, []);
 
 
@@ -277,7 +274,6 @@ const NewForm = ({
                             )
 
                             setShowNewForm(false);
-                            updateContentHeight(folderLinks);
 
                         } else {
                             let newLinks = [...userLinks];
@@ -297,7 +293,6 @@ const NewForm = ({
                             setUserLinks(newLinks.concat(newLinkObject));
 
                             setShowNewForm(false);
-                            updateContentHeight(originalArray);
                         }
 
 
@@ -450,7 +445,6 @@ const NewForm = ({
                             setFolderLinks(newFolderLinks.concat(newLinkObject));
 
                             setShowNewForm(false);
-                            updateContentHeight(folderLinks);
 
                         } else {
                             let newLinks = [...userLinks];
@@ -471,7 +465,6 @@ const NewForm = ({
                             setUserLinks(newLinks.concat(newLinkObject));
 
                             setShowNewForm(false);
-                            updateContentHeight(originalArray);
                         }
 
                         setCustomIconArray(customIconArray => [
@@ -485,12 +478,12 @@ const NewForm = ({
                 })
 
             }).catch(error => {
-                console.log(error);
+                console.error(error);
                 /*if (error.response) {
                     EventBus.dispatch("error", { message: error.response.data.errors.profile_img[0] });
-                    console.log("ERROR: " + error.response);
+                    console.error("ERROR: " + error.response);
                 } else {
-                    console.log("ERROR:: ", error);
+                    console.error("ERROR:: ", error);
                 }*/
             });
         } else {
@@ -529,7 +522,7 @@ const NewForm = ({
 
             setCharactersLeft(11 - value.length);
 
-            setCurrentLink((state) => ({
+            setCurrentLink(() => ({
                 ...currentLink,
                 name: value
             }))

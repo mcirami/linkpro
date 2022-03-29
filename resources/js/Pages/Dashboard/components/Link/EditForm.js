@@ -105,8 +105,6 @@ const EditForm = ({
 
     const onLoad = useCallback((img) => {
         imgRef.current = img;
-        const linkFormHeight = document.getElementsByClassName('link_form')[0].offsetHeight;
-        document.getElementById('left_col_wrap').style.minHeight = linkFormHeight + 160 + "px";
     }, []);
 
 
@@ -546,9 +544,9 @@ const EditForm = ({
             })
         }).catch(error => {
             if (error.response) {
-                console.log("ERROR: " + error.response);
+                console.error("ERROR: " + error.response);
             } else {
-                console.log("ERROR:: ", error);
+                console.error("ERROR:: ", error);
             }
         });
     }
@@ -593,7 +591,7 @@ const EditForm = ({
     const handleDeleteClick = e => {
         e.preventDefault();
         setShowConfirmPopup(true);
-        document.querySelector('#confirm_popup_link').classList.add('open');
+        //document.querySelector('#confirm_popup_link').classList.add('open');
     }
 
     return (

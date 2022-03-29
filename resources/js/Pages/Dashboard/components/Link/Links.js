@@ -81,36 +81,15 @@ const Links = ({
 
     useEffect(() => {
 
-        setTimeout(() => {
-            const iconsWrap = document.querySelector('.icons_wrap');
-            const icons = document.querySelectorAll('.add_icons .icon_col');
+        updateContentHeight();
 
-            if (icons.length > 0) {
-                /*const colHeight = icons[0].clientHeight;
-                const rowCount = Math.ceil(icons.length / 4);
-                let divHeight = rowCount * colHeight - 40;
-                if (userLinks.length < 5) {
-                    divHeight += 20;
-                }
-                iconsWrap.style.minHeight = divHeight + "px";*/
-                updateContentHeight()
-            } else {
-                iconsWrap.style.minHeight = "200px";
-            }
-        },600)
     }, []);
 
     useEffect(() => {
 
         function handleResize() {
 
-            const icons = document.querySelectorAll('.add_icons .icon_col');
-
-            if (icons.length > 0) {
-                updateContentHeight()
-            } else {
-               document.querySelector('.icons_wrap').style.minHeight = "200px";
-            }
+            updateContentHeight()
         }
 
         window.addEventListener('resize', handleResize);

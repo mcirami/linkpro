@@ -160,7 +160,6 @@ export const deleteLink = (packets, itemID) => {
             const returnMessage = JSON.stringify(response.data.message);
             EventBus.dispatch("success", {message: returnMessage});
 
-            console.log(links);
             return {
                 links : links,
                 success : true,
@@ -221,17 +220,25 @@ export const checkURL = (url, name, custom, subStatus) => {
     }
 }
 
-export const updateContentHeight = () => {
+export const updateContentHeight = (folder = null) => {
 
-    /*if ((linkArray.length + 1) % 4 === 1 ) {*/
+    const icons = document.querySelectorAll('.add_icons .icon_col');
+    const iconsWrap = document.querySelector('.icons_wrap');
 
-        const iconsWrap = document.querySelector('.icons_wrap');
-        const icons = document.querySelectorAll('.add_icons .icon_col');
-        const colHeight = icons[0].clientHeight;
-        const rowCount = Math.ceil(icons.length / 4);
-        const divHeight = rowCount * colHeight - 40;
-        iconsWrap.style.minHeight = divHeight + "px";
-    /*}*/
+        if (icons.length > 0) {
+            setTimeout(() => {
+
+                const columns = folder ? 3 : 4;
+
+                const colHeight = icons[0].clientHeight;
+                const rowCount = Math.ceil(icons.length / columns);
+                const divHeight = rowCount * colHeight - 40;
+                iconsWrap.style.minHeight = divHeight + "px";
+            }, 600);
+        } else {
+            iconsWrap.style.minHeight = "200px";
+        }
+
 }
 
 const checkForHttp = (url) => {

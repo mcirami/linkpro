@@ -28,9 +28,9 @@ export const addFolder = (packets) => {
     .catch(error => {
         if (error.response) {
             //EventBus.dispatch("error", { message: error.response.data.errors.header_img[0] });
-            console.log(error.response);
+            console.error(error.response);
         } else {
-            console.log("ERROR:: ", error);
+            console.error("ERROR:: ", error);
         }
 
         return {
@@ -61,9 +61,9 @@ export const deleteFolder = (packets, folderID) => {
     .catch(error => {
         if (error.response) {
             //EventBus.dispatch("error", { message: error.response.data.errors.header_img[0] });
-            console.log(error.response);
+            console.error(error.response);
         } else {
-            console.log("ERROR:: ", error);
+            console.error("ERROR:: ", error);
         }
 
         return {
@@ -89,9 +89,9 @@ export const updateFolderName = (folderID, packets) => {
     .catch(error => {
         if (error.response) {
             //EventBus.dispatch("error", { message: error.response.data.errors.header_img[0] });
-            console.log(error.response);
+            console.error(error.response);
         } else {
-            console.log("ERROR:: ", error);
+            console.error("ERROR:: ", error);
         }
 
         return {

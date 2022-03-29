@@ -1,9 +1,11 @@
 import React, {useContext} from 'react';
 import {MdCheckCircle} from 'react-icons/md';
 import {deleteFolder} from '../../../Services/FolderRequests';
+import {updateContentHeight} from '../../../Services/LinksRequest';
 import {UserLinksContext, OriginalArrayContext} from './App';
 
 export const ConfirmFolderDelete = ({
+                                        showConfirmFolderDelete,
                                         setShowConfirmFolderDelete,
                                         folderID,
                                         setEditFolderID
@@ -25,13 +27,13 @@ export const ConfirmFolderDelete = ({
             }
 
         });
-        let newOriginalArray = originalArray.filter(element => {
+        /*let newOriginalArray = originalArray.filter(element => {
             if (element.type !== "folder") {
                 return element
             } else {
                 return element.id !== folderID
             }
-        });
+        });*/
 
         const packets = {
             userLinks: newArray,
@@ -49,7 +51,7 @@ export const ConfirmFolderDelete = ({
                 setEditFolderID(null);
                 updateContentHeight();
                 setShowConfirmFolderDelete(false);
-                document.querySelector('#confirm_folder_popup_link').classList.remove('open');
+                //document.querySelector('#confirm_folder_popup_link').classList.remove('open');
             }
         })
     }
@@ -57,10 +59,10 @@ export const ConfirmFolderDelete = ({
     const handleCancel = e => {
         e.preventDefault();
         setShowConfirmFolderDelete(false)
-        document.querySelector('#confirm_folder_popup_link').classList.remove('open');
+        //document.querySelector('#confirm_folder_popup_link').classList.remove('open');
     }
 
-    const updateContentHeight = () => {
+    /*const updateContentHeight = () => {
 
         if ( originalArray.length - 1 > 0 && (originalArray.length - 1) % 4 === 0 ) {
             const iconsWrap = document.querySelector('.icons_wrap');
@@ -75,11 +77,11 @@ export const ConfirmFolderDelete = ({
 
             iconsWrap.style.minHeight = divHeight + "px";
         }
-    }
+    }*/
 
     return (
 
-        <>
+        <div id="confirm_folder_popup_link" className={showConfirmFolderDelete ? "open" : ""}>
             <div className="box">
                 <div className="icon_wrap check">
                     <MdCheckCircle/>
@@ -93,7 +95,7 @@ export const ConfirmFolderDelete = ({
                     </form>
                 </div>
             </div>
-        </>
+        </div>
 
     )
 }
