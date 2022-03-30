@@ -127,11 +127,23 @@ class SubscriptionController extends Controller
         $data = $subscriptionService->resumeSubscription($request);
 
         if ($data["success"] == true) {
+
             return redirect()->back()->with(['success' => $data["message"]]);
+
+        } elseif ($data["bypass"]) {
+
+            $newData = $subscriptionService->updateSubscriptionManually($request->discountCode);
+
+            $user = Auth::user();
+            $page = $user->pages()->where('user_id', $user["id"])->where('default', true)->get();
+
+            if($newData["success"]) {
+                return redirect()->route('pages.edit', [$page[0]->id])->with( ['success' => $newData["message"]] );
+            }
+
         } else {
             return back()->withErrors($data["message"]);
         }
-
     }
 
     public function checkCode(Request $request, SubscriptionService $subscriptionService) {

@@ -255,6 +255,7 @@ export const toolTipClick = () => {
             element.addEventListener('click', function(e) {
                 e.preventDefault();
                 const lastChild = element.lastElementChild;
+
                 if (!lastChild.classList.contains('open') ) {
                     if (document.querySelector('.hover_text.help.open')) {
                         document.querySelector('.hover_text.help.open').classList.remove('open');
@@ -263,16 +264,12 @@ export const toolTipClick = () => {
                     }
 
                     lastChild.classList.add('open');
-                    setTimeout(function(){
-                        lastChild.scrollIntoView({
-                            behavior: 'smooth',
-                            block: "center",
-                            inline: "center"
-                        });
 
-                    }, 800)
                 } else {
-                    lastChild.classList.toggle('open');
+                    lastChild.classList.remove('open');
+                }
+
+                if (!isInViewport(lastChild)) {
                     setTimeout(function(){
                         lastChild.scrollIntoView({
                             behavior: 'smooth',
@@ -280,12 +277,19 @@ export const toolTipClick = () => {
                             inline: "center"
                         });
 
-                    }, 800)
+                    }, 400)
                 }
 
             })
         })
     }
+}
+
+const isInViewport = (lastChild) => {
+
+    const rect = lastChild.getBoundingClientRect();
+
+    return rect.top >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight);
 
 }
 

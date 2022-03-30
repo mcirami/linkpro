@@ -108,8 +108,8 @@ const PageNav = ({ allUserPages, setAllUserPages, userSub, subStatus, setShowUpg
             </div>
             <div className="menu_wrap">
 
-                <div className={userSub ? "menu_icon add_border" : "menu_icon"}>
-                    {userSub ?
+                <div className={allUserPages.length > 1 ? "menu_icon add_border" : "menu_icon"}>
+                    {allUserPages.length > 1 ?
                         <FiChevronDown/>
                         :
                         <MdAddCircleOutline/>

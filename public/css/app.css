@@ -12008,20 +12008,26 @@ button {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  width: 22px;
-  height: 22px;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  width: 24px;
+  height: 24px;
 }
 .page_menu_row .menu_wrap .menu_icon.add_border {
   border: 2px solid #424fcf;
   border-radius: 100%;
   -webkit-border-radius: 100%;
   -moz-border-radius: 100%;
+  width: 22px;
+  height: 22px;
 }
 .page_menu_row .menu_wrap .menu_icon.add_border svg {
   stroke-width: 2.8;
 }
 .page_menu_row .menu_wrap .menu_icon:hover {
-  color: #545656;
+  color: #ffffff;
+  background: #424fcf;
 }
 .page_menu_row .menu_wrap .menu_icon:hover .menu_content {
   display: block;
@@ -14322,6 +14328,11 @@ form .bottom_row a {
   -webkit-align-self: flex-start;
   margin-top: -16px;
 }
+@media screen and (max-width: 768px) {
+  .tooltip_icon {
+    padding-left: 5px;
+  }
+}
 .tooltip_icon:hover {
   cursor: help;
 }
@@ -14379,6 +14390,12 @@ form .bottom_row a {
   width: 18px;
   height: 18px;
   color: #424fcf;
+}
+@media screen and (max-width: 768px) {
+  .tooltip_icon svg {
+    height: 24px;
+    width: 24px;
+  }
 }
 
 #loading_spinner {

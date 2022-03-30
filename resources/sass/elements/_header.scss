@@ -409,14 +409,19 @@
             flex-direction: row;
             -ms-flex-wrap: nowrap;
             flex-wrap: nowrap;
-            width: 22px;
-            height: 22px;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            width: 24px;
+            height: 24px;
 
             &.add_border {
                 border: 2px solid $blue;
                 border-radius: 100%;
                 -webkit-border-radius: 100%;
                 -moz-border-radius: 100%;
+                width: 22px;
+                height: 22px;
 
                 svg {
                     stroke-width: 2.8;
@@ -425,7 +430,8 @@
             }
 
             &:hover {
-                color: $darkGray;
+                color: $white;
+                background: $blue;
 
                 .menu_content {
                     display: block;
@@ -442,10 +448,6 @@
 
     }
 }
-
-
-
-
 
 header.guest_header {
     @include boxShadow;

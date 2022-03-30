@@ -504,13 +504,14 @@ class SubscriptionService {
             ] );
         } else {
 
-            $nonce = $request->payment_method_nonce;
+            $nonce = $request->payment_method_nonce ?: null;
 
             if ( $userCode ) {
 
                 $code = $this->checkPromoCode($planID, $userCode);
 
-                if ($code) {
+                if ($code && $code != "bypass" ) {
+
                     $result = $gateway->subscription()->create( [
                         'paymentMethodNonce' => $nonce,
                         'planId'             => $planID,
@@ -522,15 +523,24 @@ class SubscriptionService {
                             ]
                         ]
                     ] );
+
+                } elseif ($code && $code == "bypass") {
+
+                    return [
+                        "success" => false,
+                        "bypass" => true,
+                    ];
+
                 } else {
+
                     $data = [
                         "success" => false,
                         "message" => "Sorry, discount code does not match"
                     ];
 
                     return $data;
-                }
 
+                }
             } else {
                 $result = $gateway->subscription()->create( [
                     'paymentMethodNonce' => $nonce,
@@ -599,6 +609,41 @@ class SubscriptionService {
             'name'             => $subName,
             'braintree_id'     => "bypass",
             'braintree_status' => "active",
+        ] );
+
+        $this->user->update(["braintree_id" => "bypass"]);
+
+        if ($this->user->email_subscription) {
+
+            $userData = ( [
+                'plan'    => $subName,
+                'userID'  => $this->user->id,
+            ] );
+
+            $this->user->notify( new NotifyAboutUpgrade( $userData ) );
+        }
+
+        return [
+            "success" => true,
+            "message" => "Your account has been upgraded!"
+        ];
+
+    }
+
+    public function updateSubscriptionManually($code) {
+
+        if (strtolower( $code ) == "freepremier") {
+            $subName = "premier";
+        } else {
+            $subName = "pro";
+        }
+
+        $activeSubs = $this->getUserSubscriptions($this->user);
+        $activeSubs->update( [
+            'name'             => $subName,
+            'braintree_id'     => "bypass",
+            'braintree_status' => "active",
+            'ends_at'          => null
         ] );
 
         $this->user->update(["braintree_id" => "bypass"]);
