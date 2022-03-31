@@ -9,11 +9,21 @@ import {MdEdit} from 'react-icons/md';
 import {PageContext} from '../App';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
-import {profileImage} from '../../../../Services/PageRequests';
+import {profileImage, toolTipClick} from '../../../../Services/PageRequests';
 import {completedImageCrop} from '../../../../Services/ImageService';
 import {BiHelpCircle} from 'react-icons/bi';
+import { Element } from  'react-scroll';
 
-const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop, profileFileName, setProfileFileName, setShowLoader}) => {
+const PageProfile = ({
+                         profileRef,
+                         completedProfileCrop,
+                         setCompletedProfileCrop,
+                         profileFileName,
+                         setProfileFileName,
+                         setShowLoader,
+                         infoIndex,
+                         setInfoIndex
+}) => {
 
     const { pageSettings, setPageSettings } = useContext(PageContext);
     const [previousImage, setPreviousImage] = useState(pageSettings['profile_img']);
@@ -22,6 +32,8 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
     const imgRef = useRef(null);
     const previewCanvasRef = profileRef;
     const [crop, setCrop] = useState({ unit: '%', width: 30, aspect: 1 });
+
+    const infoDiv = useRef();
 
     const onSelectFile = e => {
         let files = e.target.files || e.dataTransfer.files;
@@ -206,12 +218,16 @@ const PageProfile = ({profileRef, completedProfileCrop, setCompletedProfileCrop,
                 </div>
             {!profileFileName &&
                 <div className="tooltip_icon">
-                    <BiHelpCircle />
-                    <div className="hover_text help profile">
-                        <p>Here you can upload a profile image to your Page. After selecting a file (.jpg, .jpeg, .png, .gif) to upload, you can resize the image to perfection using the built-in cropping functionality.</p>
-                        <h5>Pro Tip!</h5>
-                        <p>A square profile image will be cropped to a circular shape on your page. Choose an image that will appropriately fit a circular shape!</p>
+                    <div onClick={() => toolTipClick(3, infoIndex, setInfoIndex, infoDiv)} >
+                        <BiHelpCircle />
                     </div>
+                    <Element Element name="infoText3" className={`hover_text help profile ${infoIndex === 3 ? " open" : "" }` }>
+                        <div ref={infoDiv}>
+                            <p>Here you can upload a profile image to your Page. After selecting a file (.jpg, .jpeg, .png, .gif) to upload, you can resize the image to perfection using the built-in cropping functionality.</p>
+                            <h5>Pro Tip!</h5>
+                            <p>A square profile image will be cropped to a circular shape on your page. Choose an image that will appropriately fit a circular shape!</p>
+                        </div>
+                    </Element>
                 </div>
             }
         </div>

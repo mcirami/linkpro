@@ -43,6 +43,7 @@
         "react-icons": "^4.2.0",
         "react-image-crop": "^9.0.2",
         "react-motion": "^0.5.2",
+        "react-scroll": "^1.8.6",
         "react-switch": "^6.0.0",
         "resize-observer-polyfill": "^1.5.1"
     }

@@ -76,25 +76,19 @@ function App() {
     const [row, setRow] = useState(null);
     const [value, setValue] = useState(null);
 
+    const [infoIndex, setInfoIndex] = useState(null);
+
     useEffect(() => {
         toolTipPosition();
-
-        if (window.outerWidth < 769){
-            toolTipClick();
-        }
 
     }, [])
 
 
     useEffect(() => {
-
         window.addEventListener('resize', toolTipPosition);
-        window.addEventListener('resize', toolTipClick);
-
 
         return () => {
             window.removeEventListener('resize', toolTipPosition);
-            window.removeEventListener('resize', toolTipClick);
         }
     }, []);
 
@@ -184,13 +178,18 @@ function App() {
 
                                     <div className="content_wrap my_row" id="left_col_wrap">
                                         <div className="top_section">
-                                            <PageName />
+                                            <PageName
+                                                infoIndex={infoIndex}
+                                                setInfoIndex={setInfoIndex}
+                                            />
 
                                             <PasswordProtect
                                                 userSub={userSub}
                                                 subStatus={subStatus}
                                                 setShowUpgradePopup={setShowUpgradePopup}
                                                 setOptionText={setOptionText}
+                                                infoIndex={infoIndex}
+                                                setInfoIndex={setInfoIndex}
                                             />
 
                                             <PageHeader
@@ -200,6 +199,8 @@ function App() {
                                                 fileName={fileName}
                                                 setFileName={setFileName}
                                                 setShowLoader={setShowLoader}
+                                                infoIndex={infoIndex}
+                                                setInfoIndex={setInfoIndex}
                                             />
 
                                             <PageProfile
@@ -209,10 +210,18 @@ function App() {
                                                 profileFileName={profileFileName}
                                                 setProfileFileName={setProfileFileName}
                                                 setShowLoader={setShowLoader}
+                                                infoIndex={infoIndex}
+                                                setInfoIndex={setInfoIndex}
                                             />
 
-                                            <PageTitle />
-                                            <PageBio />
+                                            <PageTitle
+                                                infoIndex={infoIndex}
+                                                setInfoIndex={setInfoIndex}
+                                            />
+                                            <PageBio
+                                                infoIndex={infoIndex}
+                                                setInfoIndex={setInfoIndex}
+                                            />
 
                                             <ShowPreviewButton />
 

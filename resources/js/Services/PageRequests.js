@@ -1,5 +1,6 @@
 import axios from 'axios';
 import EventBus from '../Utils/Bus';
+import { Link, scroller } from  'react-scroll';
 
 export const addPage = (packets) => {
 
@@ -239,55 +240,31 @@ export const toolTipPosition = () => {
 
     if (hoverText.length > 0) {
         hoverText.forEach((element) => {
-            const parentDiv = element.parentNode;
+            //const parentDiv = element.parentNode;
             const height = element.clientHeight + 25;
             element.style.top = "-" + height + "px";
         })
     }
 }
 
-export const toolTipClick = () => {
+export const toolTipClick = (index, infoIndex, setInfoIndex, infoDiv) => {
 
-    const tooltipIcon = document.querySelectorAll('.tooltip_icon');
-
-    if (tooltipIcon.length > 0 && window.outerWidth < 769) {
-        tooltipIcon.forEach((element) => {
-            element.addEventListener('click', function(e) {
-                e.preventDefault();
-                const lastChild = element.lastElementChild;
-
-                if (!lastChild.classList.contains('open') ) {
-                    if (document.querySelector('.hover_text.help.open')) {
-                        document.querySelector('.hover_text.help.open').classList.remove('open');
-                    } else if (document.querySelector('.tooltip.open')) {
-                        document.querySelector('.tooltip.open').classList.remove('open')
-                    }
-
-                    lastChild.classList.add('open');
-
-                } else {
-                    lastChild.classList.remove('open');
-                }
-
-                if (!isInViewport(lastChild)) {
-                    setTimeout(function(){
-                        lastChild.scrollIntoView({
-                            behavior: 'smooth',
-                            block: "center",
-                            inline: "center"
-                        });
-
-                    }, 400)
-                }
-
+    if (index === infoIndex) {
+        setInfoIndex(null);
+    } else {
+        setInfoIndex(index);
+        if (!isInViewport(infoDiv.current)) {
+            scroller.scrollTo('infoText' + index, {
+                duration: 1000,
+                smooth: true,
             })
-        })
+        }
     }
 }
 
-const isInViewport = (lastChild) => {
+const isInViewport = (infoDiv) => {
 
-    const rect = lastChild.getBoundingClientRect();
+    const rect = infoDiv.getBoundingClientRect();
 
     return rect.top >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight);
 
