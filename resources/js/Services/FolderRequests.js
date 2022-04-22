@@ -2,7 +2,6 @@ import axios from 'axios';
 import EventBus from '../Utils/Bus';
 
 
-
 /**
  * Submit a request to add a new link
  * return object
