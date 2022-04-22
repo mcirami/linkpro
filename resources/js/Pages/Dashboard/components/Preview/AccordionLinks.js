@@ -9,6 +9,9 @@ const AccordionLinks = ({icons}) => {
         source = "mailto:" + email;
     } else if (phone) {
         source = "tel:" + phone;
+        if(icon.includes("Facetime")) {
+            source = 'facetime:' + phone;
+        }
     } else {
         source = url;
     }

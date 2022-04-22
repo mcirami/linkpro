@@ -35,7 +35,7 @@ trait IconTrait {
             "Facetime",
             "Fiverr",
             "Flickr",
-            "Gmail",
+            "Google Mail",
             "Google Drive",
             "Google Earth",
             "Google Photos",

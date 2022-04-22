@@ -154,6 +154,10 @@ const Preview = ({
                                     url = "mailto:" + email;
                                 } else if (phone) {
                                     url = "tel:" + phone;
+                                    if(icon.includes("Facetime")) {
+                                        url = 'facetime:' + phone;
+                                    }
+
                                 }
 
                                 const dataRow = Math.ceil((index + 1) / 4);

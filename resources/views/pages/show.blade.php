@@ -2,10 +2,6 @@
 
 @section('content')
 
-   {{-- @php
-        $subscription = \App\Models\Subscription::where('user_id', $page->user_id)->get();
-    @endphp--}}
-
     <div id="links_page">
         <div class="links_col my_row">
             <div class="links_wrap live_page">
@@ -85,6 +81,9 @@
                                                                 @php $source = "mailto:" . $folderLink["email"] @endphp
                                                             @elseif ($folderLink["phone"])
                                                                 @php $source = "tel:" . $folderLink["phone"] @endphp
+                                                                @if(str_contains($folderLink["icon"], "Facetime"))
+                                                                    @php $source = "facetime:" . $folderLink["phone"] @endphp
+                                                                @endif
                                                             @else
                                                                 @php $source = $folderLink["url"] @endphp
                                                             @endif
@@ -122,6 +121,9 @@
                                                     @php $source = "mailto:" . $link->email @endphp
                                                 @elseif ($link->phone)
                                                     @php $source = "tel:" . $link->phone @endphp
+                                                    @if(str_contains($link->icon, "Facetime"))
+                                                        @php $source = "facetime:" . $link->phone @endphp
+                                                    @endif
                                                 @else
                                                   @php $source = $link->url @endphp
                                                 @endif

@@ -17,7 +17,7 @@ const IconList = ({currentLink, setCurrentLink, iconArray, radioValue, setCharac
 
                 if(name.toLowerCase().includes("mail") || name.toLowerCase().includes("yahoo") || name.toLowerCase().includes("outlook") ) {
                     setInputType("email");
-                } else if (name.toLowerCase() === "phone") {
+                } else if (name.toLowerCase() === "phone" || "facetime") {
                     setInputType("phone");
                 } else {
                     setInputType("url");
