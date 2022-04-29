@@ -20,7 +20,7 @@ class WebhookController extends Controller
 
         /* FOR TESTING */
         /*$sampleNotification = $gateway->webhookTesting()->sampleNotification(
-            WebhookNotification::SUBSCRIPTION_CANCELED,
+            WebhookNotification::SUBSCRIPTION_EXPIRED,
             'my_id'
         );
 

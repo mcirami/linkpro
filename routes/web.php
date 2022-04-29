@@ -11,7 +11,7 @@ use App\Http\Controllers\TrackingController;
 use App\Http\Controllers\FolderController;
 use App\Http\Controllers\IconController;
 use App\Http\Controllers\UtilityController;
-use \App\Http\Controllers\WebhookController;
+use App\Http\Controllers\WebhookController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,8 +32,6 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/links', [App\Http\Controllers\VoyagerFilterController::class, 'index']);
     Route::post('/referrals', [App\Http\Controllers\VoyagerFilterController::class, 'index']);
 });
-
-Route::post('braintree/webhooks', [WebhookController::class, 'subscriptionExpired']);
 
 Auth::routes();
 
@@ -98,6 +96,8 @@ Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated']], function() {
 });
 
 Route::group(['middleware' => 'web'], function() {
+
+    Route::post('/braintree/webhooks', [WebhookController::class, 'subscriptionExpired']);
 
     Route::get('/get-icons', [IconController::class, 'getIcons']);
 
