@@ -55,7 +55,7 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType }) => {
         }
 
 
-    }, [inputType])
+    }, [currentLink])
 
     const handleChange = (e, key) => {
 
@@ -86,7 +86,6 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType }) => {
     return (
 
         <>
-
             <input
                 name={name}
                 type={type}

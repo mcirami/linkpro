@@ -1,4 +1,5 @@
 import React from 'react';
+import {icons} from '../../../../Services/IconObjects';
 
 const IconList = ({currentLink, setCurrentLink, iconArray, radioValue, setCharactersLeft, customIconArray, setInputType}) => {
 
@@ -27,11 +28,18 @@ const IconList = ({currentLink, setCurrentLink, iconArray, radioValue, setCharac
                 name = currentLink.name;
             }
 
-            setCurrentLink({
-                ...currentLink,
+            let url = "";
+            let icon = icons.find(icon => icon.name === name);
+            if (icon && icon.prefix) {
+                url = icon.prefix;
+            }
+
+            setCurrentLink(prevState => ({
+                ...prevState,
                 name: name,
-                icon: source
-            })
+                icon: source,
+                url: url
+            }))
 
         } else {
             el.classList.remove('active');
