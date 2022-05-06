@@ -153,8 +153,6 @@ function App() {
                                 />
                             }
 
-
-
                             {showConfirmFolderDelete &&
                                 <ConfirmFolderDelete
                                     showConfirmFolderDelete={showConfirmFolderDelete}
@@ -163,7 +161,6 @@ function App() {
                                     setEditFolderID={setEditFolderID}
                                 />
                             }
-
 
                             <PageContext.Provider value={{ pageSettings, setPageSettings }}>
                                 <div className="left_column">

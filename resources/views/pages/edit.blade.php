@@ -4,11 +4,11 @@
     <div class="container">
 
         <h2 class="page_title">Pages</h2>
-        <div class="card edit_page">
+        <section class="card edit_page">
             <div id="links_page">
                 <div id="root"></div>
             </div>
-        </div>
+        </section>
 
         @if (session()->has('success'))
             <div class="message_wrap">
