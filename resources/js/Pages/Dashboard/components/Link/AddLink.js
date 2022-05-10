@@ -27,13 +27,6 @@ const AddLink = ({subStatus, setShowUpgradePopup, setOptionText, setShowNewForm 
         } else {
             setShowUpgradePopup(true);
             setOptionText("add more icons");
-
-            setTimeout(() => {
-                document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
-                    e.preventDefault();
-                    setShowUpgradePopup(false);
-                });
-            }, 500);
         }
     };
 

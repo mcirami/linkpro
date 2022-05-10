@@ -563,14 +563,6 @@ const EditForm = ({
 
             setShowUpgradePopup(true);
             setOptionText(text);
-
-            setTimeout(() => {
-                document.querySelector('#upgrade_popup .close_popup').
-                    addEventListener('click', function(e) {
-                        e.preventDefault();
-                        setShowUpgradePopup(false);
-                    });
-            }, 500);
         }
     }
 
@@ -588,7 +580,6 @@ const EditForm = ({
     const handleDeleteClick = e => {
         e.preventDefault();
         setShowConfirmPopup(true);
-        //document.querySelector('#confirm_popup_link').classList.add('open');
     }
 
     return (

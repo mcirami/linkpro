@@ -185,14 +185,13 @@ const Links = ({
 
     const handleTouchMove = useCallback((e) => {
             e.preventDefault();
-            /*document.querySelector('body').classList.add('fixed');*/
             handleMouseMove(e.touches[0]);
         },
         [handleMouseMove]
     );
 
     const handleMouseUp = useCallback(() => {
-        /*document.querySelector('body').classList.remove('fixed');*/
+
         setState((state) => ({
             ...state,
             isPressed: false,
@@ -241,14 +240,6 @@ const Links = ({
             if ((currentItem.type && currentItem.type === "folder") && !subStatus) {
                 setShowUpgradePopup(true);
                 setOptionText("enable your folders");
-
-                setTimeout(() => {
-                    document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
-                        e.preventDefault();
-                        setShowUpgradePopup(false);
-                    });
-                }, 300);
-
 
             } else {
                 const newStatus = !currentItem.active_status;
@@ -330,13 +321,6 @@ const Links = ({
         } else {
             setShowUpgradePopup(true);
             setOptionText("access your folders");
-
-            setTimeout(() => {
-                document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
-                    e.preventDefault();
-                    setShowUpgradePopup(false);
-                });
-            }, 300);
         }
 
     }

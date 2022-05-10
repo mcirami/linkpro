@@ -137,6 +137,7 @@ function App() {
                         <UpgradePopup
                             optionText={optionText}
                             showUpgradePopup={showUpgradePopup}
+                            setShowUpgradePopup={setShowUpgradePopup}
                         />
                     }
 

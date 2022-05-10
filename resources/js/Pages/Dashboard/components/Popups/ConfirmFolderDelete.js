@@ -27,13 +27,6 @@ export const ConfirmFolderDelete = ({
             }
 
         });
-        /*let newOriginalArray = originalArray.filter(element => {
-            if (element.type !== "folder") {
-                return element
-            } else {
-                return element.id !== folderID
-            }
-        });*/
 
         const packets = {
             userLinks: newArray,
@@ -51,7 +44,6 @@ export const ConfirmFolderDelete = ({
                 setEditFolderID(null);
                 updateContentHeight();
                 setShowConfirmFolderDelete(false);
-                //document.querySelector('#confirm_folder_popup_link').classList.remove('open');
             }
         })
     }
@@ -59,25 +51,7 @@ export const ConfirmFolderDelete = ({
     const handleCancel = e => {
         e.preventDefault();
         setShowConfirmFolderDelete(false)
-        //document.querySelector('#confirm_folder_popup_link').classList.remove('open');
     }
-
-    /*const updateContentHeight = () => {
-
-        if ( originalArray.length - 1 > 0 && (originalArray.length - 1) % 4 === 0 ) {
-            const iconsWrap = document.querySelector('.icons_wrap');
-            const icons = document.querySelectorAll('.add_icons .icon_col');
-            const colHeight = icons[0].clientHeight;
-            const rowCount = Math.ceil(icons.length / 4);
-            let divHeight = rowCount * colHeight - 40;
-
-            if (originalArray.length - 1 < 5) {
-                divHeight += 20;
-            }
-
-            iconsWrap.style.minHeight = divHeight + "px";
-        }
-    }*/
 
     return (
 

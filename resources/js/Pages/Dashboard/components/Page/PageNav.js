@@ -90,13 +90,6 @@ const PageNav = ({ allUserPages, setAllUserPages, userSub, subStatus, setShowUpg
 
         setShowUpgradePopup(true);
         setOptionText(text);
-
-        setTimeout(() => {
-            document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
-                e.preventDefault();
-                setShowUpgradePopup(false);
-            });
-        }, 500);
     }
 
     return (

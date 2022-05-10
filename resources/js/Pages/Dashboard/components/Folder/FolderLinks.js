@@ -398,7 +398,6 @@ const FolderLinks = ({
 
         e.preventDefault();
         setShowConfirmFolderDelete(true);
-        //document.querySelector('#confirm_folder_popup_link').classList.add('open');
     }
 
     const { lastPress, isPressed, mouseXY } = state;

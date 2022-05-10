@@ -116,12 +116,6 @@ const PasswordProtect = ({
         setShowUpgradePopup(true);
         setOptionText("password protect your page");
 
-        setTimeout(() => {
-            document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
-                e.preventDefault();
-                setShowUpgradePopup(false);
-            });
-        }, 500);
     }
 
     const handleCharMin = (e) => {

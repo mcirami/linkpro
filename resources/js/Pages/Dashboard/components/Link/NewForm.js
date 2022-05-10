@@ -479,12 +479,6 @@ const NewForm = ({
 
             }).catch(error => {
                 console.error(error);
-                /*if (error.response) {
-                    EventBus.dispatch("error", { message: error.response.data.errors.profile_img[0] });
-                    console.error("ERROR: " + error.response);
-                } else {
-                    console.error("ERROR:: ", error);
-                }*/
             });
         } else {
             EventBus.dispatch("error", { message: "Icon URL and Name is Required" });
@@ -503,14 +497,6 @@ const NewForm = ({
 
             setShowUpgradePopup(true);
             setOptionText(text);
-
-            setTimeout(() => {
-                document.querySelector('#upgrade_popup .close_popup').
-                    addEventListener('click', function(e) {
-                        e.preventDefault();
-                        setShowUpgradePopup(false);
-                    });
-            }, 500);
         }
     }
 

@@ -54,13 +54,6 @@ const AddFolder = ({
         } else {
             setShowUpgradePopup(true);
             setOptionText("add folders");
-
-            setTimeout(() => {
-                document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
-                    e.preventDefault();
-                    setShowUpgradePopup(false);
-                });
-            }, 500);
         }
     };
 
