@@ -1,5 +1,5 @@
 import {useCallback, useContext} from 'react';
-import {UserLinksContext} from '../Pages/Dashboard/components/App';
+import {UserLinksContext} from '../Pages/Dashboard/App';
 
 export const gridLayout = (width, height) => {
 

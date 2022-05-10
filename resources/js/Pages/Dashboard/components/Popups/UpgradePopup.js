@@ -1,9 +1,9 @@
 import React from 'react';
-export const UpgradePopup = ({optionText}) => {
+export const UpgradePopup = ({optionText, showUpgradePopup}) => {
 
     return (
 
-        <>
+        <div id="upgrade_popup" className={ showUpgradePopup ? "open" : "" }>
             <a className="close_popup" href="#">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-circle" viewBox="0 0 16 16">
                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -18,7 +18,7 @@ export const UpgradePopup = ({optionText}) => {
                 <h3>Upgrade to <span className="option_text">{ optionText }</span> and much more!</h3>
                 <a className="button blue" href='/plans'>Learn More</a>
             </div>
-        </>
+        </div>
 
     )
 }

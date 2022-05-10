@@ -4,7 +4,7 @@ import React, {
     useEffect,
     useLayoutEffect,
 } from 'react';
-import {UserLinksContext} from '../App';
+import {UserLinksContext} from '../../App';
 import {IoIosCloseCircleOutline} from 'react-icons/io';
 import AccordionLinks from './AccordionLinks';
 import {checkIcon} from '../../../../Services/UserService';

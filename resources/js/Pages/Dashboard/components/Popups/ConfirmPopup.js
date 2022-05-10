@@ -4,8 +4,8 @@ import {
     deleteLink,
     updateContentHeight,
     updateLinkStatus,
-} from '../../../Services/LinksRequest';
-import {UserLinksContext, OriginalArrayContext, FolderLinksContext, OriginalFolderLinksContext} from './App';
+} from '../../../../Services/LinksRequest';
+import {UserLinksContext, OriginalArrayContext, FolderLinksContext, OriginalFolderLinksContext} from '../../App';
 
 export const ConfirmPopup = ({
                                  editID,
@@ -193,9 +193,9 @@ export const ConfirmPopup = ({
                 <h2>Confirm</h2>
                 <div className="text_wrap">
                     <p className="confirm_text">Are you sure you want to delete this icon?</p>
-                    <form action="" className="button_row">
-                        <a className="button green" href="#" onClick={deleteItem}>Yes</a>
-                        <a className="button transparent gray" href="#" onClick={handleCancel}>No</a>
+                    <form action="resources/js/Pages/Dashboard/ConfirmPopup" className="button_row">
+                        <a className="button green" href="resources/js/Pages/Dashboard/ConfirmPopup#" onClick={deleteItem}>Yes</a>
+                        <a className="button transparent gray" href="resources/js/Pages/Dashboard/ConfirmPopup#" onClick={handleCancel}>No</a>
                     </form>
                 </div>
             </div>

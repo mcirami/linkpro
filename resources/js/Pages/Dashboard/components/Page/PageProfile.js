@@ -6,7 +6,7 @@ import React, {
     useEffect,
 } from 'react';
 import {MdEdit} from 'react-icons/md';
-import {PageContext} from '../App';
+import {PageContext} from '../../App';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
 import {profileImage, toolTipClick} from '../../../../Services/PageRequests';
@@ -221,7 +221,7 @@ const PageProfile = ({
                     <div onClick={() => toolTipClick(3, infoIndex, setInfoIndex, infoDiv)} >
                         <BiHelpCircle />
                     </div>
-                    <Element Element name="infoText3" className={`hover_text help profile ${infoIndex === 3 ? " open" : "" }` }>
+                    <Element name="infoText3" className={`hover_text help profile ${infoIndex === 3 ? " open" : "" }` }>
                         <div ref={infoDiv}>
                             <p>Here you can upload a profile image to your Page. After selecting a file (.jpg, .jpeg, .png, .gif) to upload, you can resize the image to perfection using the built-in cropping functionality.</p>
                             <h5>Pro Tip!</h5>

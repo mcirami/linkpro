@@ -1,6 +1,6 @@
 import React, {useContext, useRef, useState} from 'react';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
-import {PageContext} from '../App';
+import {PageContext} from '../../App';
 import {updatePageName, toolTipClick} from '../../../../Services/PageRequests';
 import {BiHelpCircle} from 'react-icons/bi';
 import { Element } from  'react-scroll';
@@ -88,7 +88,7 @@ const PageName = ({infoIndex, setInfoIndex}) => {
            <form className="link_name">
                 <input name="name" type="text" defaultValue={name}
                        onChange={ checkPageName }
-                       onKeyPress={ event => {
+                       onKeyDown={ event => {
                                if(event.key === 'Enter') {
                                    handleSubmit(event);
                                }

@@ -1,6 +1,6 @@
 import React, {useContext, useState, useEffect, useRef} from 'react';
 import axios from "axios";
-import {PageContext} from '../App';
+import {PageContext} from '../../App';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import {BiHelpCircle} from 'react-icons/bi';
 import {pageBio, toolTipClick} from '../../../../Services/PageRequests';
@@ -51,7 +51,7 @@ const PageBio = ({ infoIndex, setInfoIndex }) => {
                           placeholder="Add Bio or Slogan (Optional)"
                           defaultValue={pageSettings["bio"] || ""}
                           onChange={(e) => handleChange(e) }
-                          onKeyPress={ event => {
+                          onKeyDown={ event => {
                                   if(event.key === 'Enter') {
                                       handleSubmit(event);
                                   }

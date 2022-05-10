@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import IconList from "./IconList";
 import {MdDeleteForever} from 'react-icons/md';
-import { UserLinksContext, OriginalArrayContext, PageContext, FolderLinksContext, OriginalFolderLinksContext } from '../App';
+import { UserLinksContext, OriginalArrayContext, PageContext, FolderLinksContext, OriginalFolderLinksContext } from '../../App';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
 import InputComponent from './InputComponent';
@@ -561,9 +561,7 @@ const EditForm = ({
                 text = "change link name"
             }
 
-            const popup = document.querySelector('#upgrade_popup');
             setShowUpgradePopup(true);
-            popup.classList.add('open');
             setOptionText(text);
 
             setTimeout(() => {
@@ -571,7 +569,6 @@ const EditForm = ({
                     addEventListener('click', function(e) {
                         e.preventDefault();
                         setShowUpgradePopup(false);
-                        popup.classList.remove('open');
                     });
             }, 500);
         }

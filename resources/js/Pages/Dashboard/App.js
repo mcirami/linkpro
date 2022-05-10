@@ -1,30 +1,30 @@
 import React, {useState, useReducer, createContext, createRef, useEffect} from 'react';
-import Preview from './Preview/Preview';
-import Links from './Link/Links';
-import myLinksArray from './Link/LinkItems';
-import PageHeader from './Page/PageHeader';
-import PageProfile from './Page/PageProfile';
-import PageName from './Page/PageName';
-import PageNav from './Page/PageNav';
-import PageTitle from './Page/PageTitle';
-import PageBio from './Page/PageBio';
-import AddLink from './Link/AddLink';
-import PasswordProtect from './Page/PasswordProtect';
-import ShowPreviewButton from './Preview/ShowPreviewButton';
-import { Flash } from '../../Flash';
-import EditForm from './Link/EditForm';
-import { UpgradePopup } from './UpgradePopup';
-import { ConfirmPopup } from './ConfirmPopup';
+import Preview from './components/Preview/Preview';
+import Links from './components/Link/Links';
+import myLinksArray from './components/Link/LinkItems';
+import PageHeader from './components/Page/PageHeader';
+import PageProfile from './components/Page/PageProfile';
+import PageName from './components/Page/PageName';
+import PageNav from './components/Page/PageNav';
+import PageTitle from './components/Page/PageTitle';
+import PageBio from './components/Page/PageBio';
+import AddLink from './components/Link/AddLink';
+import PasswordProtect from './components/Page/PasswordProtect';
+import ShowPreviewButton from './components/Preview/ShowPreviewButton';
+import { Flash } from '../Flash';
+import EditForm from './components/Link/EditForm';
+import { UpgradePopup } from './components/Popups/UpgradePopup';
+import { ConfirmPopup } from './components/Popups/ConfirmPopup';
 import { Loader } from './Loader';
-import NewForm from './Link/NewForm';
-import AddFolder from './Folder/AddFolder';
-import FolderLinks from './Folder/FolderLinks';
-import { ConfirmFolderDelete } from './ConfirmFolderDelete';
+import NewForm from './components/Link/NewForm';
+import AddFolder from './components/Folder/AddFolder';
+import FolderLinks from './components/Folder/FolderLinks';
+import { ConfirmFolderDelete } from './components/Popups/ConfirmFolderDelete';
 import {ErrorBoundary} from 'react-error-boundary';
-import {updateLinksPositions, getAllLinks} from '../../../Services/LinksRequest';
-import {toolTipPosition, toolTipClick} from '../../../Services/PageRequests';
-import {checkSubStatus} from '../../../Services/UserService';
-import DowngradeAlert from './DowngradeAlert';
+import {updateLinksPositions, getAllLinks} from '../../Services/LinksRequest';
+import {toolTipPosition, toolTipClick} from '../../Services/PageRequests';
+import {checkSubStatus} from '../../Services/UserService';
+import DowngradeAlert from './components/Popups/DowngradeAlert';
 /*import {isMobile} from 'react-device-detect';*/
 
 const page = user.page;
@@ -133,13 +133,13 @@ function App() {
                     <Loader showLoader={showLoader} />
                     <Flash />
 
-                    <div id="upgrade_popup">
-                        {showUpgradePopup &&
-                            <UpgradePopup
-                                optionText={optionText}
-                            />
-                        }
-                    </div>
+                    {showUpgradePopup &&
+                        <UpgradePopup
+                            optionText={optionText}
+                            showUpgradePopup={showUpgradePopup}
+                        />
+                    }
+
                     <FolderLinksContext.Provider value={{ folderLinks, setFolderLinks}} >
                         <OriginalFolderLinksContext.Provider value={{ originalFolderLinks, setOriginalFolderLinks}} >
 

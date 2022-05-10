@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState, useRef} from 'react';
-import {PageContext} from '../App';
+import {PageContext} from '../../App';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import {pageTitle, toolTipClick} from '../../../../Services/PageRequests';
 import {BiHelpCircle} from 'react-icons/bi';
@@ -52,7 +52,7 @@ const PageTitle = ({ infoIndex, setInfoIndex }) => {
                        placeholder="Add Title"
                        defaultValue={pageSettings["title"] || ""}
                        onChange={(e) => handleChange(e) }
-                       onKeyPress={ event => {
+                       onKeyDown={ event => {
                                if(event.key === 'Enter') {
                                    handleSubmit(event);
                                }

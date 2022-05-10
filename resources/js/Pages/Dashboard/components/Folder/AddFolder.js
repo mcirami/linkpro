@@ -7,7 +7,7 @@ import {
     UserLinksContext,
     OriginalArrayContext,
     FolderLinksContext, OriginalFolderLinksContext,
-} from '../App';
+} from '../../App';
 
 const AddFolder = ({
                        setShowUpgradePopup,
@@ -52,16 +52,13 @@ const AddFolder = ({
             })
 
         } else {
-            const popup = document.querySelector('#upgrade_popup');
             setShowUpgradePopup(true);
-            popup.classList.add('open');
             setOptionText("add folders");
 
             setTimeout(() => {
                 document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
                     e.preventDefault();
                     setShowUpgradePopup(false);
-                    popup.classList.remove('open');
                 });
             }, 500);
         }

@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {PageContext} from '../App';
+import {PageContext} from '../../App';
 
 const Header = ({
                     setRef,

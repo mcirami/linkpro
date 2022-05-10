@@ -1,8 +1,8 @@
 import React, {useContext} from 'react';
 import {MdCheckCircle} from 'react-icons/md';
-import {deleteFolder} from '../../../Services/FolderRequests';
-import {updateContentHeight} from '../../../Services/LinksRequest';
-import {UserLinksContext, OriginalArrayContext} from './App';
+import {deleteFolder} from '../../../../Services/FolderRequests';
+import {updateContentHeight} from '../../../../Services/LinksRequest';
+import {UserLinksContext, OriginalArrayContext} from '../../App';
 
 export const ConfirmFolderDelete = ({
                                         showConfirmFolderDelete,
@@ -89,9 +89,9 @@ export const ConfirmFolderDelete = ({
                 <h2>Confirm</h2>
                 <div className="text_wrap">
                     <p className="confirm_text">Are you sure you want to delete this folder?</p>
-                    <form action="" className="button_row">
-                        <a className="button green" href="#" onClick={deleteItem}>Yes</a>
-                        <a className="button transparent gray" href="#" onClick={handleCancel}>No</a>
+                    <form action="resources/js/Pages/Dashboard/ConfirmFolderDelete" className="button_row">
+                        <a className="button green" href="resources/js/Pages/Dashboard/ConfirmFolderDelete#" onClick={deleteItem}>Yes</a>
+                        <a className="button transparent gray" href="resources/js/Pages/Dashboard/ConfirmFolderDelete#" onClick={handleCancel}>No</a>
                     </form>
                 </div>
             </div>

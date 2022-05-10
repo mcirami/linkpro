@@ -17,7 +17,7 @@ window.Vapor = require('laravel-vapor');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 if (document.getElementById('root')) {
-    require('./Pages/Dashboard/components/Index');
+    require('./Pages/Dashboard');
 }
 if (document.getElementById('create_page')) {
     require('./Pages/Register/Index');

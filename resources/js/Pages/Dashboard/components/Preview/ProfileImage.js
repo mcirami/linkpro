@@ -1,7 +1,7 @@
 import {BiHelpCircle} from 'react-icons/bi';
 import {IoIosLock} from 'react-icons/io';
 import React, {useContext} from 'react';
-import {PageContext} from '../App';
+import {PageContext} from '../../App';
 
 const ProfileImage = ({
                           profileFileName,

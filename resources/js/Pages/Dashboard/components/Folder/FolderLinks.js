@@ -13,7 +13,7 @@ import {
     OriginalArrayContext,
     FolderLinksContext,
     OriginalFolderLinksContext,
-} from '../App';
+} from '../../App';
 import {Motion, spring} from 'react-motion';
 import {
     updateLinksPositions,
@@ -25,6 +25,13 @@ import {
 import {updateFolderName} from '../../../../Services/FolderRequests';
 import AddLink from '../Link/AddLink';
 import {checkIcon} from '../../../../Services/UserService';
+import {
+    UpdateFolderLinkStatus,
+    UpdateOrigFolderLinkStatus,
+    UpdateOriginalLinksStatusFromFolder,
+    UpdateUserLinksStatusFromFolder,
+} from '../../../../Services/SetStates';
+import folder from '../Preview/Folder';
 
 const springSetting1 = { stiffness: 180, damping: 10 };
 const springSetting2 = { stiffness: 120, damping: 17 };
@@ -283,81 +290,35 @@ const FolderLinks = ({
         .then((data) => {
 
             if(data.success) {
-                setFolderLinks(
-                    folderLinks.map((item) => {
-                        if (item.id === currentItem.id) {
-                            return {
-                                ...item,
-                                active_status: newStatus,
-                            };
-                        }
-                        return item;
-                    })
-                )
 
-                setOriginalFolderLinks(
-                    originalFolderLinks.map((item) => {
-                        if (item.id === currentItem.id) {
-                            return {
-                                ...item,
-                                active_status: newStatus,
-                            };
-                        }
-                        return item;
-                    })
-                )
+                UpdateFolderLinkStatus(
+                    currentItem.id,
+                    newStatus,
+                    setFolderLinks,
+                    folderLinks
+                );
+                UpdateOrigFolderLinkStatus(
+                    currentItem.id,
+                    newStatus,
+                    setOriginalFolderLinks,
+                    originalFolderLinks
+                );
 
-                setUserLinks(
-                    userLinks.map((item) => {
-                        if (item.id === folderID && item.type === "folder") {
+                UpdateUserLinksStatusFromFolder(
+                    folderID,
+                    currentItem.id,
+                    newStatus,
+                    userLinks,
+                    setUserLinks
+                );
+                UpdateOriginalLinksStatusFromFolder(
+                    folderID,
+                    currentItem.id,
+                    newStatus,
+                    originalArray,
+                    setOriginalArray
+                );
 
-                            const newItemLinks = item.links.map((linkItem) => {
-
-                                if (linkItem.id === currentItem.id) {
-
-                                    return {
-                                        ...linkItem,
-                                        active_status: newStatus,
-                                    }
-                                }
-
-                                return linkItem;
-                            })
-
-                            return {
-                                ...item,
-                                links: newItemLinks
-                            }
-                        }
-                        return item;
-                    })
-                )
-
-                setOriginalArray(
-                    originalArray.map((item) => {
-                        if (item.id === folderID && item.type === "folder") {
-
-                            const newItemLinks = item.links.map((linkItem) => {
-
-                                if (linkItem.id === currentItem.id) {
-
-                                    return {
-                                        ...linkItem,
-                                        active_status: newStatus,
-                                    }
-                                }
-
-                                return linkItem
-                            })
-
-                            return {
-                                ...item,
-                                links: newItemLinks
-                            }
-                        }
-                        return item;
-                    })
-                )
             }
         })
     };

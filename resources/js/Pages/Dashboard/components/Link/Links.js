@@ -8,16 +8,21 @@ import React, {
 } from 'react';
 import {MdDragHandle} from 'react-icons/md';
 import Switch from "react-switch";
-import {UserLinksContext, OriginalArrayContext, FolderLinksContext, OriginalFolderLinksContext} from '../App';
+import {UserLinksContext, OriginalArrayContext, FolderLinksContext, OriginalFolderLinksContext} from '../../App';
 import {Motion, spring} from 'react-motion';
 import {
     updateLinksPositions,
     updateLinkStatus,
     getColHeight,
-    getColWidth, updateContentHeight,
+    getColWidth,
+    updateContentHeight,
 } from '../../../../Services/LinksRequest';
-import {checkIcon, checkSubStatus} from '../../../../Services/UserService';
+import {checkIcon} from '../../../../Services/UserService';
 import EventBus from '../../../../Utils/Bus';
+import {
+    UpdateOriginalLinksStatus,
+    UpdateUserLinksStatus,
+} from '../../../../Services/SetStates';
 
 const springSetting1 = { stiffness: 180, damping: 10 };
 const springSetting2 = { stiffness: 120, damping: 17 };
@@ -234,16 +239,13 @@ const Links = ({
         if(hasLinks) {
 
             if ((currentItem.type && currentItem.type === "folder") && !subStatus) {
-                const popup = document.querySelector('#upgrade_popup');
                 setShowUpgradePopup(true);
-                popup.classList.add('open');
                 setOptionText("enable your folders");
 
                 setTimeout(() => {
                     document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
                         e.preventDefault();
                         setShowUpgradePopup(false);
-                        popup.classList.remove('open');
                     });
                 }, 300);
 
@@ -267,57 +269,21 @@ const Links = ({
 
                     if (data.success) {
 
-                        if (type === "folder") {
-                            setOriginalArray(
-                                originalArray.map((item) => {
-                                    if (item.id === currentItem.id && type ===
-                                        "folder") {
-                                        return {
-                                            ...item,
-                                            active_status: newStatus,
-                                        };
-                                    }
-                                    return item;
-                                })
-                            )
-                            setUserLinks(
-                                userLinks.map((item) => {
-                                    if (item.id === currentItem.id && type ===
-                                        "folder") {
-                                        return {
-                                            ...item,
-                                            active_status: newStatus,
-                                        };
-                                    }
-                                    return item;
-                                })
-                            )
-                        } else {
-                            setOriginalArray(
-                                originalArray.map((item) => {
-                                    if (item.id === currentItem.id && type !==
-                                        "folder") {
-                                        return {
-                                            ...item,
-                                            active_status: newStatus,
-                                        };
-                                    }
-                                    return item;
-                                })
-                            )
-                            setUserLinks(
-                                userLinks.map((item) => {
-                                    if (item.id === currentItem.id && type !==
-                                        "folder") {
-                                        return {
-                                            ...item,
-                                            active_status: newStatus,
-                                        };
-                                    }
-                                    return item;
-                                })
-                            )
-                        }
+                        UpdateOriginalLinksStatus(
+                            setOriginalArray,
+                            originalArray,
+                            type,
+                            currentItem.id,
+                            newStatus
+                        );
+
+                        UpdateUserLinksStatus(
+                            setUserLinks,
+                            userLinks,
+                            type,
+                            currentItem.id,
+                            newStatus
+                        )
 
                     }
                 })
@@ -362,16 +328,13 @@ const Links = ({
             }, 300)
 
         } else {
-            const popup = document.querySelector('#upgrade_popup');
             setShowUpgradePopup(true);
-            popup.classList.add('open');
             setOptionText("access your folders");
 
             setTimeout(() => {
                 document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
                     e.preventDefault();
                     setShowUpgradePopup(false);
-                    popup.classList.remove('open');
                 });
             }, 300);
         }

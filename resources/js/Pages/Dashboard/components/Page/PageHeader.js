@@ -7,7 +7,7 @@ import React, {
     createContext,
 } from 'react';
 import {MdEdit} from 'react-icons/md';
-import { PageContext } from '../App';
+import { PageContext } from '../../App';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
 import {headerImage, toolTipClick} from '../../../../Services/PageRequests';

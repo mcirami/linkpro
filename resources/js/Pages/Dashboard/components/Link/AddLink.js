@@ -1,6 +1,6 @@
 import { ImPlus } from "react-icons/im";
 import {useContext} from 'react';
-import {UserLinksContext} from '../App';
+import {UserLinksContext} from '../../App';
 
 const AddLink = ({subStatus, setShowUpgradePopup, setOptionText, setShowNewForm }) => {
 
@@ -25,16 +25,13 @@ const AddLink = ({subStatus, setShowUpgradePopup, setOptionText, setShowNewForm 
             }, 800)
 
         } else {
-            const popup = document.querySelector('#upgrade_popup');
             setShowUpgradePopup(true);
-            popup.classList.add('open');
             setOptionText("add more icons");
 
             setTimeout(() => {
                 document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
                     e.preventDefault();
                     setShowUpgradePopup(false);
-                    popup.classList.remove('open');
                 });
             }, 500);
         }

@@ -1,7 +1,7 @@
 import React, {useContext, useState, useEffect} from 'react';
 import {MdAddCircleOutline} from 'react-icons/md';
 import {FiThumbsDown, FiThumbsUp, FiChevronDown} from 'react-icons/Fi';
-import {PageContext} from '../App';
+import {PageContext} from '../../App';
 import {addPage} from '../../../../Services/PageRequests';
 
 let pageNames = user.allPageNames;
@@ -89,14 +89,12 @@ const PageNav = ({ allUserPages, setAllUserPages, userSub, subStatus, setShowUpg
     const enablePopup = (text) => {
 
         setShowUpgradePopup(true);
-        document.querySelector('#upgrade_popup').classList.add('open');
         setOptionText(text);
 
         setTimeout(() => {
             document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
                 e.preventDefault();
                 setShowUpgradePopup(false);
-                document.querySelector('#upgrade_popup').classList.remove('open');
             });
         }, 500);
     }
@@ -147,7 +145,7 @@ const PageNav = ({ allUserPages, setAllUserPages, userSub, subStatus, setShowUpg
                             <input name="name" type="text"
                                    placeholder="Link Name"
                                    onChange={ checkPageName }
-                                   onKeyPress={ event => {
+                                   onKeyDown={ event => {
                                        if(event.key === 'Enter') {
                                            handleSubmit(event);
                                        }

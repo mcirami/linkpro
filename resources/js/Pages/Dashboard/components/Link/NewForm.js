@@ -13,7 +13,7 @@ import {
     PageContext,
     FolderLinksContext,
     OriginalFolderLinksContext,
-} from '../App';
+} from '../../App';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
 import InputComponent from './InputComponent';
@@ -501,9 +501,7 @@ const NewForm = ({
                 text = "change link name"
             }
 
-            const popup = document.querySelector('#upgrade_popup');
             setShowUpgradePopup(true);
-            popup.classList.add('open');
             setOptionText(text);
 
             setTimeout(() => {
@@ -511,7 +509,6 @@ const NewForm = ({
                     addEventListener('click', function(e) {
                         e.preventDefault();
                         setShowUpgradePopup(false);
-                        popup.classList.remove('open');
                     });
             }, 500);
         }

@@ -1,6 +1,6 @@
 import {IoIosLock} from 'react-icons/io';
 import React, {useContext, useEffect, useState, useRef} from 'react';
-import {PageContext} from '../App';
+import {PageContext} from '../../App';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import {BiHelpCircle} from 'react-icons/bi';
 import Switch from "react-switch";
@@ -112,17 +112,14 @@ const PasswordProtect = ({
     }
 
     const showPopup = () => {
-        const popup = document.querySelector('#upgrade_popup');
 
         setShowUpgradePopup(true);
-        popup.classList.add('open');
         setOptionText("password protect your page");
 
         setTimeout(() => {
             document.querySelector('#upgrade_popup .close_popup').addEventListener('click', function(e) {
                 e.preventDefault();
                 setShowUpgradePopup(false);
-                popup.classList.remove('open');
             });
         }, 500);
     }
@@ -153,7 +150,6 @@ const PasswordProtect = ({
     return (
         <div className={isEditing ? "my_row page_settings mb-0" : "my_row page_settings" } key={ pageSettings['id'] }>
 
-
                 { isEditing ?
                         <div className="edit_form password">
                             <form onSubmit={handleSubmit}>
@@ -177,7 +173,7 @@ const PasswordProtect = ({
                                            defaultValue={password || "" }
                                            placeholder="Enter Password"
                                            onChange={(e) => handleCharMin(e) }
-                                           onKeyPress={ event => {
+                                           onKeyDown={ event => {
                                                    if(event.key === 'Enter') {
                                                        handleSubmit(event);
                                                    }
