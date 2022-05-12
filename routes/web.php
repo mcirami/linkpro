@@ -76,7 +76,10 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/stats/link/range', [TrackingController::class, 'getLinkStatsRange']);
     Route::post('/stats/page/range', [TrackingController::class, 'getPageStatsRange']);
     Route::post('/stats/folder/range', [TrackingController::class, 'getFolderStatsRange']);
-    Route::get('/stats/get', [TrackingController::class, 'getStats']);
+    Route::get('/stats/get/page', [TrackingController::class, 'getPageStats']);
+    Route::get('/stats/get/link', [TrackingController::class, 'getLinkStats']);
+    Route::get('/stats/get/deleted', [TrackingController::class, 'getDeletedStats']);
+    Route::get('/stats/get/folder', [TrackingController::class, 'getFolderStats']);
     Route::get('/stats', [TrackingController::class, 'show'])->name('stats');
 
     Route::post('/folder/new', [FolderController::class, 'store'])->name('add.folder');

@@ -19,19 +19,18 @@ class TrackingController extends Controller
     }
 
     /**
+     * Get page stats for today
+     *
      * @param TrackingServices $tracking
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getStats(TrackingServices $tracking) {
+    public function getPageStats(TrackingServices $tracking) {
 
-        $data = $tracking->getAllStats();
+        $data = $tracking->getTodaysPageStats();
 
         return response()->json([
-            'pageStats' => $data["pageStats"],
-            'linkStats' => $data["linkStats"],
-            'deletedStats' => $data["deletedStats"],
-            'folderStats' => $data['folderStats']
+            'pageStats' => $data,
         ]);
     }
 
@@ -49,6 +48,22 @@ class TrackingController extends Controller
     }
 
     /**
+     * Get page stats for today
+     *
+     * @param TrackingServices $tracking
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getLinkStats(TrackingServices $tracking) {
+
+        $data = $tracking->getTodaysLinkStats();
+
+        return response()->json([
+            'linkStats' => $data,
+        ]);
+    }
+
+    /**
      * @param Request $request
      * @param TrackingServices $tracking
      *
@@ -59,6 +74,38 @@ class TrackingController extends Controller
         $data = $tracking->getLinksDateRangeStats($request);
 
         return response()->json(['data' => $data]);
+    }
+
+    /**
+     * Get deleted link stats for today
+     *
+     * @param TrackingServices $tracking
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getDeletedStats(TrackingServices $tracking) {
+
+        $data = $tracking->getTodaysDeletedStats();
+
+        return response()->json([
+            'deletedStats' => $data,
+        ]);
+    }
+
+    /**
+     * Get folder stats for today
+     *
+     * @param TrackingServices $tracking
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getFolderStats(TrackingServices $tracking) {
+
+        $data = $tracking->getTodaysFolderStats();
+
+        return response()->json([
+            'folderStats' => $data,
+        ]);
     }
 
     public function getFolderStatsRange(Request $request, TrackingServices $tracking) {

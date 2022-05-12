@@ -36,6 +36,19 @@ class TrackingServices {
     }
 
     /**
+     * Get Page stats for Current day
+     *
+     * @return array
+     */
+    public function getTodaysPageStats() {
+        $startDate = Carbon::now()->startOfDay();
+        $endDate = Carbon::now()->endOfDay();
+
+        return $this->getPageStats($startDate, $endDate);
+
+    }
+
+    /**
      * Get Page stats from date range entered
      *
      * @param $request
@@ -56,6 +69,19 @@ class TrackingServices {
         }
 
         return $data;
+    }
+
+    /**
+     * Get Link stats for Current day
+     *
+     * @return array
+     */
+    public function getTodaysLinkStats() {
+        $startDate = Carbon::now()->startOfDay();
+        $endDate = Carbon::now()->endOfDay();
+
+        return $this->getLinkStats($startDate, $endDate);
+
     }
 
     /**
@@ -88,6 +114,32 @@ class TrackingServices {
             'currentData'=> $currentData,
             'pastData' => $pastData
         ];
+    }
+
+    /**
+     * Get Deleted link stats for Current day
+     *
+     * @return array
+     */
+    public function getTodaysDeletedStats() {
+        $startDate = Carbon::now()->startOfDay();
+        $endDate = Carbon::now()->endOfDay();
+
+        return $this->getDeletedLinksStats($startDate, $endDate);
+
+    }
+
+    /**
+     * Get Deleted link stats for Current day
+     *
+     * @return array
+     */
+    public function getTodaysFolderStats() {
+        $startDate = Carbon::now()->startOfDay();
+        $endDate = Carbon::now()->endOfDay();
+
+        return $this->getFolderStats($startDate, $endDate);
+
     }
 
     public function getFolderDateRangeStats($request) {

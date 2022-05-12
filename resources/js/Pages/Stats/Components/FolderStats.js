@@ -195,43 +195,7 @@ const FolderStats = ({
                     )
                 })
             }
-            {/*<div className="table_wrap my_row table-responsive">
-                <table className="table table-borderless mb-0">
-                    <thead>
-                    <tr>
-                        <th scope="col">
-                            <h5>Past Icons</h5>
-                        </th>
-                        <th scope="col">
-                            <h5>Icon Name</h5>
-                        </th>
-                        <th scope="col">
-                            <h5>Icon Clicks</h5>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {deletedStats.map((item, index) => {
-                        const {iconName, icon, visits} = item;
-
-                        return (
-                            <tr key={index}>
-                                <td>
-                                    <img src={icon} />
-                                </td>
-                                <td>
-                                    <p>{iconName}</p>
-                                </td>
-                                <td>
-                                    <p className="animate">{visits}</p>
-                                </td>
-                            </tr>
-                        )
-                    })}
-                    </tbody>
-                </table>
-            </div>*/}
-                </>
+            </>
                 :
                 <h3>No Stats Available</h3>
             }

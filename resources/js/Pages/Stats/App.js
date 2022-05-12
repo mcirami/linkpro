@@ -4,7 +4,7 @@ import PageStats from './Components/PageStats';
 import LinkStats from './Components/LinkStats';
 import FolderStats from './Components/FolderStats';
 
-const url = '/stats/get';
+//const url = '/stats/get';
 function App() {
 
     const [pageStats, setPageStats] = useState([])
@@ -25,9 +25,20 @@ function App() {
     const [folderEndDate, setFolderEndDate] = useState(null);
     const [folderDropdownValue, setFolderDropdownValue] = useState(1);
 
-    const fetchLinkStats = async () => {
+    const fetchStats = async () => {
 
-        try {
+        const pageUrl = '/stats/get/page';
+        const linkUrl = '/stats/get/link';
+        const deletedUrl = '/stats/get/deleted';
+        const folderUrl = '/stats/get/folder';
+
+        const responses = await Promise.allSettled([fetchAllStats(pageUrl), fetchAllStats(linkUrl), fetchAllStats(deletedUrl), fetchAllStats(folderUrl)])
+
+        setPageStats(responses[0]['value']['pageStats'])
+        setLinkStats(responses[1]['value']['linkStats']);
+        setDeletedStats(responses[2]['value']['deletedStats']);
+        setFolderStats(responses[3]['value']['folderStats'])
+       /* try {
             const response = await fetch(url);
             const newStats = await response.json();
             setPageStats(newStats["pageStats"]);
@@ -41,12 +52,17 @@ function App() {
 
         } catch (error) {
             console.error(error);
-        }
+        }*/
     }
 
     useEffect(() => {
-        fetchLinkStats()
+        fetchStats()
     }, []);
+
+    const fetchAllStats = async (url) => {
+        const response = await fetch(url);
+        return await response.json();
+    }
 
     const handleClick = e => {
         e.preventDefault();
