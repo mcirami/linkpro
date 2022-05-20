@@ -245,10 +245,14 @@ const checkForHttp = (url) => {
 
     let returnURL = null;
 
-    if (url.includes('https://')) {
+    if (url.includes('http')) {
+
         returnURL = url;
+
     } else {
+
         returnURL = 'https://' + url;
+
     }
 
     return returnURL;
