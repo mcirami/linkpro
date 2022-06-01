@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Folder;
+use App\Models\Referral;
 use App\Models\Subscription;
 use App\Models\User;
 use Carbon\Carbon;
@@ -32,7 +33,7 @@ class WebhookController extends Controller
             $sampleNotification['bt_payload']
         );
 
-        if ( $notification->kind === 'subscription_expired' ) {
+        if ( $notification->kind == 'subscription_expired' ) {
             Log::channel( 'webhooks' )->info( Carbon::now() .
                                               " --- bt_signature --- " .
                                               $sampleNotification['bt_signature'] .
@@ -100,5 +101,79 @@ class WebhookController extends Controller
 
             header( "HTTP/1.1 200 OK" );
         }
+    }
+
+    public function chargedSuccessfully() {
+
+        $gateway = $this->createGateway();
+
+        /* FOR TESTING */
+        $sampleNotification = $gateway->webhookTesting()->sampleNotification(
+            WebhookNotification::SUBSCRIPTION_CHARGED_SUCCESSFULLY,
+            'kgztvm'
+        );
+
+        $notification = $gateway->webhookNotification()->parse(
+            $sampleNotification['bt_signature'],
+            $sampleNotification['bt_payload']
+        );
+
+        if ( $notification->kind == 'subscription_charged_successfully' ) {
+
+            $subId = $notification->subscription->id;
+            $planId = 'pro';
+
+            $subscription = Subscription::where('braintree_id', $subId )->first();
+            $referral = Referral::where('referral_id', $subscription->user_id)->first();
+            //$recurringCount = $referral->reccuring_count + 1;
+
+            if ($referral != null) {
+                $created = Carbon::parse($referral->created_at->startOfDay());
+                //$startDate = Carbon::now()->startOfDay();
+                $today = Carbon::now();
+                $diff = $created->diffInDays( $today );
+
+                if ($diff > 0) {
+                    Referral::create([
+                        'referral_id' => $referral->referral_id,
+                        'user_id' => $referral->user_id,
+                        'subscription_id' => $subscription->id,
+                        'plan_id' => $planId
+                    ]);
+                }
+            }
+
+            Log::channel( 'webhooks' )->info( Carbon::now() .
+                                              " --- bt_signature --- " .
+                                              $sampleNotification['bt_signature'] .
+                                              " --- bt_payload --- " .
+                                              $sampleNotification['bt_payload'] .
+                                              "--- kind --- " .
+                                              $notification->kind .
+                                              "--- notificaton ---" .
+                                              "--- plan id ---" .
+                                              $subId
+            );
+        }
+        /******/
+
+        /*if (
+            isset($_POST["bt_signature"]) &&
+            isset($_POST["bt_payload"])
+        ) {
+            $notification = $gateway->webhookNotification()->parse(
+                $_POST["bt_signature"],
+                $_POST["bt_payload"]
+            );
+
+            Log::channel('webhooks')->info($notification->timestamp->format('D M j G:i:s T Y') .  "--- Before IF statement --- Kind: " . $notification->kind . " --- Sub ID:" . $notification->subscription->id);
+
+            if ( $notification->kind == 'subscription_charged_successfully' ) {
+
+                $subId = $notification->subscription->id;
+                $planId = $notification->subscription->planId;
+
+            }
+        }*/
     }
 }

@@ -100,7 +100,8 @@ Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated']], function() {
 
 Route::group(['middleware' => 'web'], function() {
 
-    Route::post('/braintree/webhooks', [WebhookController::class, 'subscriptionExpired']);
+    Route::post('/braintree/webhooks/subscription-expired', [WebhookController::class, 'subscriptionExpired']);
+    Route::post('/braintree/webhooks/charged-successfully', [WebhookController::class, 'chargedSuccessfully']);
 
     Route::get('/get-icons', [IconController::class, 'getIcons']);
 

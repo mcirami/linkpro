@@ -47,12 +47,21 @@ trait SubscriptionTrait {
         return $match;
     }
 
-    public function addReferralSubID($user, $subscriptionID) {
+    public function addReferralSubID($user, $subscriptionID, $planID) {
 
-        $referral = Referral::where('referral_id', $user->id)->get();
+        $referral = Referral::where('referral_id', $user->id)->first();
 
-        if ($referral->isNotEmpty()) {
-            $referral[0]->update(['subscription_id' => $subscriptionID]);
+        if ($referral != null) {
+
+            $user_id = $referral->user_id;
+            $referral_id = $user->id;
+
+            Referral::create([
+                'user_id' => $user_id,
+                'referral_id' => $referral_id,
+                'subscription_id' => $subscriptionID,
+                'plan_id' => $planID
+            ]);
         }
 
     }

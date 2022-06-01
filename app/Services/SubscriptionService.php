@@ -167,7 +167,7 @@ class SubscriptionService {
                     'braintree_status' => strtolower( $result->subscription->status ),
                 ] );
 
-                $this->addReferralSubID($this->user, $subscription->id);
+                $this->addReferralSubID($this->user, $subscription->id, $result->subscription->planId);
 
                 $paymentMethod = strtolower( get_class( $customer->customer->paymentMethods[0] ) );
                 //$paymentMethod = $result->subscription->transactions[0]->paymentInstrumentType;
