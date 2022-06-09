@@ -161,4 +161,35 @@ trait TrackingTrait {
         ];
     }
 
+    public function getMyDates() {
+
+        if (isset($_GET['startDate']) && isset($_GET['endDate'])) {
+
+            $startDate = Carbon::createFromTimestamp($_GET['startDate'])->startOfDay();
+            $endDate = Carbon::createFromTimestamp($_GET['endDate'])->endOfDay();
+
+        } else if (isset($_GET['dateValue'])) {
+
+            $getData = $this->getDateRange($_GET['dateValue']);
+
+            $startDate = $getData['startDate'];
+            $endDate = $getData['endDate'];
+
+        } else if (isset($_GET['clear'])) {
+
+            $startDate = null;
+            $endDate = null;
+
+        } else {
+            $getData = $this->getDateRange(1);
+
+            $startDate = $getData['startDate'];
+            $endDate = $getData['endDate'];
+        }
+
+        return [
+            'startDate' => $startDate,
+            'endDate' => $endDate
+        ];
+    }
 }

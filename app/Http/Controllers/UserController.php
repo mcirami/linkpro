@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserRequest;
-use App\Models\Referral;
 use App\Services\UserService;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -21,12 +19,6 @@ class UserController extends Controller
     }
 
     public function edit(UserService $userService) {
-
-        $referral = Referral::where('referral_id', 23)->first();
-        $start = Carbon::parse($referral->created_at->startOfDay());
-        $today = Carbon::now();
-        $diff = $start->diffInDays( $today );
-        dd($diff);
 
         $data = $userService->getUserInfo();
 

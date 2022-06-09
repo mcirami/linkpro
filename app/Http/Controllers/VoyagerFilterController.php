@@ -57,32 +57,41 @@ class VoyagerFilterController extends \TCG\Voyager\Http\Controllers\VoyagerBaseC
         if (strlen($dataType->model_name) != 0) {
             $model = app($dataType->model_name);
 
+            //check if my custom filter parameters are set in url and which ones are set. Grab the parameters, get the date range and query the model.
             if (isset($_GET['startDate']) && isset($_GET['endDate'])) {
 
-                $requestStartDate = $_GET['startDate'];
-                $requestEndDate = $_GET['endDate'];
+                $startDate = Carbon::createFromTimestamp($_GET['startDate'])->startOfDay();
+                $endDate = Carbon::createFromTimestamp($_GET['endDate'])->endOfDay();
 
-                $startDate = Carbon::createFromTimestamp($requestStartDate)->startOfDay();
-                $endDate = Carbon::createFromTimestamp($requestEndDate)->endOfDay();
-
-                $query = $model::select($dataType->name.'.*')->whereBetween('created_at', [ $startDate, $endDate ]);
+                if ($dataType->name == 'referrals') {
+                    $query = $model::select($dataType->name.'.*')->whereBetween('updated_at', [ $startDate, $endDate ]);
+                } else {
+                    $query = $model::select($dataType->name.'.*')->whereBetween('created_at', [ $startDate, $endDate ]);
+                }
 
             } else if (isset($_GET['dateValue'])) {
 
-                $dateValue = $_GET['dateValue'];
+                $getData = $this->getDateRange($_GET['dateValue']);
 
-                $getData = $this->getDateRange($dateValue);
+                if ($dataType->name == 'referrals') {
 
-                $query = $model::select($dataType->name.'.*')->whereBetween('created_at', [ $getData['startDate'], $getData['endDate'] ]);
+                    $query = $model::select( $dataType->name . '.*' )->whereBetween( 'updated_at',
+                        [ $getData['startDate'], $getData['endDate'] ] );
+                } else {
+                    $query = $model::select( $dataType->name . '.*' )->whereBetween( 'created_at',
+                        [ $getData['startDate'], $getData['endDate'] ] );
+                }
 
             } else if (isset($_GET['clear'])) {
                 $query = $model::select($dataType->name.'.*');
             } else {
                 $getData = $this->getDateRange(1);
-                $query = $model::select($dataType->name.'.*')->whereBetween('created_at', [ $getData['startDate'], $getData['endDate'] ]);
-
+                if ($dataType->name == 'referrals') {
+                    $query = $model::select($dataType->name.'.*')->whereBetween('updated_at', [ $getData['startDate'], $getData['endDate'] ]);
+                } else {
+                    $query = $model::select($dataType->name.'.*')->whereBetween('created_at', [ $getData['startDate'], $getData['endDate'] ]);
+                }
             }
-
 
             if ($dataType->scope && $dataType->scope != '' && method_exists($model, 'scope'.ucfirst($dataType->scope))) {
                 $query->{$dataType->scope}();

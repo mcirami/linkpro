@@ -78,7 +78,9 @@
                                         </a>
                                         <div class="content_wrap">
                                             <h3>Users Referred</h3>
-                                            @php $referrals = \App\Models\Referral::where('user_id', $dataTypeContent["id"])->get(); @endphp
+                                            @php
+                                                $referrals = collect(\App\Models\Referral::distinct('referral_id')->where('user_id', $dataTypeContent["id"])->get())->unique('referral_id');
+	                                        @endphp
 
                                             @if ($referrals->isNotEmpty())
                                                 <ul>

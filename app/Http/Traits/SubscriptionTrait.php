@@ -47,7 +47,7 @@ trait SubscriptionTrait {
         return $match;
     }
 
-    public function addReferralSubID($user, $subscriptionID, $planID) {
+   /* public function addReferralSubID($user, $subscriptionID, $planID) {
 
         $referral = Referral::where('referral_id', $user->id)->first();
 
@@ -63,6 +63,18 @@ trait SubscriptionTrait {
                 'plan_id' => $planID
             ]);
         }
+    }*/
 
-    }
+   /* public function updateReferral($planID, $userID) {
+
+        $referral = Referral::where('referral_id', $userID)->orderBy('updated_at', 'DESC')->first();
+
+        if ($referral != null) {
+
+            $referral->update([
+                'plan_id' => $planID
+            ]);
+
+        }
+    }*/
 }
