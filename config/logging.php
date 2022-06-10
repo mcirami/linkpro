@@ -111,7 +111,7 @@ return [
             'formatter' => Monolog\Formatter\JsonFormatter::class,
             'cloudwatch_stream_name' => 'vapor-linkpro-staging',
             'sdk' => [
-                'region' => 'eu-east-2',
+                'region' => 'us-east-2',
                 'version' => 'latest',
                 'credentials' => [
                     'key' => env('AWS_CW_ACCESS'),

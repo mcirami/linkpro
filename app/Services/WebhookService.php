@@ -123,10 +123,18 @@ class WebhookService {
      */
     public function webhookTest($gateway, $type) {
 
-        $sampleNotification = $gateway->webhookTesting()->sampleNotification(
-            WebhookNotification::$type,
-            'kgztvm'
-        );
+        if ($type == 'SUBSCRIPTION_CHARGED_SUCCESSFULLY') {
+            $sampleNotification = $gateway->webhookTesting()->sampleNotification(
+                WebhookNotification::SUBSCRIPTION_CHARGED_SUCCESSFULLY,
+                    'kgztvm'
+                );
+        } else if ($type == 'SUBSCRIPTION_EXPIRED') {
+            $sampleNotification = $gateway->webhookTesting()->sampleNotification(
+                WebhookNotification::SUBSCRIPTION_EXPIRED,
+                'kgztvm'
+            );
+        }
+
 
         $notification = $gateway->webhookNotification()->parse(
             $sampleNotification['bt_signature'],
