@@ -18,6 +18,10 @@ class WebhookService {
      */
     public function expired($notification) {
 
+        Log::channel( 'cloudwatch' )->info( $notification->timestamp->format('D M j G:i:s T Y') .
+                                            " --- Before If notification->kind--- "
+        );
+
         if ( $notification->kind == 'subscription_expired' ) {
             $subscription = Subscription::where('braintree_id', $notification->subscription->id )->first();
             $user         = User::findOrFail( $subscription->user_id );
@@ -52,7 +56,14 @@ class WebhookService {
 
             $subscription->update( [ 'name' => 'free' ] );
 
-            Log::channel('webhooks')->info($notification->timestamp->format('D M j G:i:s T Y') . $notification->kind . " --- " . $notification->subscription->id);
+            //Log::channel('webhooks')->info($notification->timestamp->format('D M j G:i:s T Y') . $notification->kind . " --- " . $notification->subscription->id);
+
+            Log::channel( 'cloudwatch' )->info( $notification->timestamp->format('D M j G:i:s T Y') .
+                                                "-- kind --"
+                                                . $notification->kind .
+                                                "-- Sub ID -- " .
+                                                $notification->subscription->id
+            );
 
             header( "HTTP/1.1 200 OK" );
         }
@@ -103,7 +114,16 @@ class WebhookService {
                 }
             }
 
-            Log::channel( 'webhooks' )->info( $notification->timestamp->format('D M j G:i:s T Y') .
+            /*Log::channel( 'webhooks' )->info( $notification->timestamp->format('D M j G:i:s T Y') .
+                                              " --- kind --- " .
+                                              $notification->kind .
+                                              " --- plan id --- " .
+                                              $planId .
+                                              " --- sub id --- " .
+                                              $subId
+            );*/
+
+            Log::channel( 'cloudwatch' )->info( $notification->timestamp->format('D M j G:i:s T Y') .
                                               " --- kind --- " .
                                               $notification->kind .
                                               " --- plan id --- " .

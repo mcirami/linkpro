@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Referral;
-use App\Models\Subscription;
 use App\Services\WebhookService;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use App\Http\Traits\SubscriptionTrait;
 
@@ -19,9 +16,11 @@ class WebhookController extends Controller
         $gateway = $this->createGateway();
 
         /**for testing **/
-        $webhookService->webhookTest($gateway, 'SUBSCRIPTION_EXPIRED');
+        //$webhookService->webhookTest($gateway, 'SUBSCRIPTION_EXPIRED');
 
-        /*if (
+        Log::channel( 'cloudwatch' )->info( " --- WebHook Fired --- " );
+
+        if (
             isset($_POST["bt_signature"]) &&
             isset($_POST["bt_payload"])
         ) {
@@ -32,7 +31,7 @@ class WebhookController extends Controller
 
             $webhookService->expired($notification);
 
-        }*/
+        }
     }
 
     public function chargedSuccessfully(WebhookService $webhookService) {
@@ -40,9 +39,9 @@ class WebhookController extends Controller
         $gateway = $this->createGateway();
 
         /**for testing **/
-        $webhookService->webhookTest($gateway, 'SUBSCRIPTION_CHARGED_SUCCESSFULLY');
+        //$webhookService->webhookTest($gateway, 'SUBSCRIPTION_CHARGED_SUCCESSFULLY');
 
-        /*if (
+        if (
             isset($_POST["bt_signature"]) &&
             isset($_POST["bt_payload"])
         ) {
@@ -52,6 +51,6 @@ class WebhookController extends Controller
             );
 
             $webhookService->charged($notification);
-        }*/
+        }
     }
 }
