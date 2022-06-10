@@ -19,9 +19,9 @@ class WebhookController extends Controller
         $gateway = $this->createGateway();
 
         /**for testing **/
-        //$webhookService->webhookTest($gateway);
+        $webhookService->webhookTest($gateway, 'SUBSCRIPTION_EXPIRED');
 
-        if (
+        /*if (
             isset($_POST["bt_signature"]) &&
             isset($_POST["bt_payload"])
         ) {
@@ -32,7 +32,7 @@ class WebhookController extends Controller
 
             $webhookService->expired($notification);
 
-        }
+        }*/
     }
 
     public function chargedSuccessfully(WebhookService $webhookService) {
@@ -40,9 +40,9 @@ class WebhookController extends Controller
         $gateway = $this->createGateway();
 
         /**for testing **/
-        //$webhookService->webhookTest($gateway);
+        $webhookService->webhookTest($gateway, 'SUBSCRIPTION_CHARGED_SUCCESSFULLY');
 
-        if (
+        /*if (
             isset($_POST["bt_signature"]) &&
             isset($_POST["bt_payload"])
         ) {
@@ -52,6 +52,6 @@ class WebhookController extends Controller
             );
 
             $webhookService->charged($notification);
-        }
+        }*/
     }
 }

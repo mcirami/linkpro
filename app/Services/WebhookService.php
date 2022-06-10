@@ -121,10 +121,10 @@ class WebhookService {
      *
      * @return void
      */
-    public function webhookTest($gateway) {
+    public function webhookTest($gateway, $type) {
 
         $sampleNotification = $gateway->webhookTesting()->sampleNotification(
-            WebhookNotification::SUBSCRIPTION_CHARGED_SUCCESSFULLY,
+            WebhookNotification::$type,
             'kgztvm'
         );
 
@@ -133,13 +133,14 @@ class WebhookService {
             $sampleNotification['bt_payload']
         );
 
-        if ( $notification->kind == 'subscription_charged_successfully' ) {
-
-            Log::channel( 'webhooks' )->info( $notification->timestamp->format('D M j G:i:s T Y') .
-                                              " --- kind --- " .
-                                              $notification->kind
-            );
-        }
+        /*Log::channel( 'webhooks' )->info( $notification->timestamp->format('D M j G:i:s T Y') .
+                                          " --- kind --- " .
+                                          $notification->kind
+        );*/
+        Log::channel( 'cloudwatch' )->info( $notification->timestamp->format('D M j G:i:s T Y') .
+                                          " --- kind --- " .
+                                          $notification->kind
+        );
 
     }
 }

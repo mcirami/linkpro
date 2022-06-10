@@ -105,6 +105,27 @@ return [
             'driver' => 'single',
             'path' => storage_path('logs/webhook.log'),
         ],
+        'cloudwatch' => [
+            'driver' => 'custom',
+            'via' => \App\Logging\CloudWatchLoggerFactory::class,
+            'formatter' => Monolog\Formatter\JsonFormatter::class,
+            'cloudwatch_stream_name' => 'vapor-linkpro-staging',
+            'sdk' => [
+                'region' => 'eu-east-2',
+                'version' => 'latest',
+                'credentials' => [
+                    'key' => env('AWS_CW_ACCESS'),
+                    'secret' => env('AWS_CW_SECRET')
+                ]
+            ],
+            'retention' => 730,
+            'level' => 'debug',
+        ],
+        'vapor' => [
+            'driver' => 'stack',
+            'channels' => ['stderr', 'cloudwatch'],
+            'ignore_exceptions' => false,
+        ],
     ],
 
 ];
