@@ -109,7 +109,7 @@ return [
             'driver' => 'custom',
             'via' => \App\Logging\CloudWatchLoggerFactory::class,
             'formatter' => Monolog\Formatter\JsonFormatter::class,
-            'cloudwatch_stream_name' => 'vapor-linkpro-staging',
+            'cloudwatch_stream_name' => 'vapor-linkpro-logs',
             'sdk' => [
                 'region' => 'us-east-2',
                 'version' => 'latest',
