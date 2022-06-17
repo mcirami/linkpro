@@ -2,13 +2,17 @@ import React, {
     useCallback,
     useRef,
     useEffect,
-    useLayoutEffect,
     useState,
     useContext,
 } from 'react';
 import {MdDragHandle} from 'react-icons/md';
 import Switch from "react-switch";
-import {UserLinksContext, OriginalArrayContext, FolderLinksContext, OriginalFolderLinksContext} from '../../App';
+import {
+    UserLinksContext, 
+    OriginalArrayContext,
+    FolderLinksContext,
+    OriginalFolderLinksContext
+} from '../../App';
 import {Motion, spring} from 'react-motion';
 import {
     updateLinksPositions,
@@ -52,7 +56,7 @@ const Links = ({
 
                }) => {
 
-    const { userLinks, setUserLinks } = useContext(UserLinksContext);
+    const { userLinks, dispatch, LINKS_ACTIONS } = useContext(UserLinksContext);
     const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
     const { folderLinks, setFolderLinks } = useContext(FolderLinksContext);
     const { originalFolderLinks, setOriginalFolderLinks } = useContext(OriginalFolderLinksContext);
@@ -256,7 +260,8 @@ const Links = ({
                     active_status: newStatus,
                 };
 
-                updateLinkStatus(packets, currentItem.id, url).then((data) => {
+                updateLinkStatus(packets, currentItem.id, url)
+                .then((data) => {
 
                     if (data.success) {
 
@@ -268,13 +273,15 @@ const Links = ({
                             newStatus
                         );
 
-                        UpdateUserLinksStatus(
+                       /* UpdateUserLinksStatus(
                             setUserLinks,
                             userLinks,
                             type,
                             currentItem.id,
                             newStatus
-                        )
+                        )*/
+
+                        dispatch( { type: LINKS_ACTIONS.UPDATE_STATUS, payload: {id: currentItem.id}} )
 
                     }
                 })

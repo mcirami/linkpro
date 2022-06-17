@@ -25,7 +25,8 @@ import {updateLinksPositions, getAllLinks} from '../../Services/LinksRequest';
 import {toolTipPosition, toolTipClick} from '../../Services/PageRequests';
 import {checkSubStatus} from '../../Services/UserService';
 import DowngradeAlert from './components/Popups/DowngradeAlert';
-/*import {isMobile} from 'react-device-detect';*/
+import {UpdateUserLinksStatus} from '../../Services/SetStates';
+import {LINKS_ACTIONS, reducer} from '../../Services/Reducer';
 
 const page = user.page;
 const userPages = user.user_pages;
@@ -38,15 +39,14 @@ export const FolderLinksContext = createContext();
 export const OriginalFolderLinksContext = createContext()
 export const PageContext = createContext();
 
-function pageReducer(state, item) {
-    return item
-}
 
 function App() {
 
-    const [userLinks, setUserLinks] = useState(myLinksArray);
+    //const [userLinks, setUserLinks] = useState(myLinksArray);
+    const [userLinks, dispatch] = useReducer(reducer, myLinksArray);
+
     const [originalArray, setOriginalArray] = useState(myLinksArray);
-    const [pageSettings, setPageSettings] = useReducer(pageReducer, page);
+    const [pageSettings, setPageSettings] = useState(page);
 
     const [folderLinks, setFolderLinks] = useState([])
     const [originalFolderLinks, setOriginalFolderLinks] = useState([])
@@ -128,7 +128,7 @@ function App() {
     return (
         <div className="my_row page_wrap">
 
-            <UserLinksContext.Provider value={{ userLinks, setUserLinks}} >
+            <UserLinksContext.Provider value={{userLinks, dispatch, LINKS_ACTIONS }} >
                 <OriginalArrayContext.Provider value={{ originalArray, setOriginalArray}} >
                     <Loader showLoader={showLoader} />
                     <Flash />
