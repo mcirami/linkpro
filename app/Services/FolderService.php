@@ -8,6 +8,7 @@ use App\Models\Folder;
 use App\Models\Link;
 use App\Models\Page;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class FolderService {
 
@@ -26,12 +27,13 @@ class FolderService {
         }
 
         $folder = $page->folders()->create([
+            'uuid' => Str::uuid()->toString(),
             'user_id' => $user,
-            'position' => $position
+            'position' => $position,
         ]);
 
         return [
-            "id" => $folder->id,
+            "id" => $folder->uuid,
             "position" => $position
         ];
 

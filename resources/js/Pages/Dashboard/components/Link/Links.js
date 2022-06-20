@@ -8,7 +8,7 @@ import React, {
 import {MdDragHandle} from 'react-icons/md';
 import Switch from "react-switch";
 import {
-    UserLinksContext, 
+    UserLinksContext,
     OriginalArrayContext,
     FolderLinksContext,
     OriginalFolderLinksContext
@@ -304,6 +304,8 @@ const Links = ({
         }, 300)
 
     }
+
+    console.log(userLinks);
 
     const fetchFolderLinks = async (linkID) => {
 

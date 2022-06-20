@@ -24,7 +24,7 @@ trait LinkTrait {
                 }
 
                 $linkObject = [
-                    'id'            => $folder["id"],
+                    'id'            => $folder["uuid"],
                     'name'          => $folder["folder_name"],
                     'type'          => 'folder',
                     'position'      => $folder["position"],

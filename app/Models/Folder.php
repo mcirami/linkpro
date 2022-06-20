@@ -9,12 +9,16 @@ class Folder extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'uuid';
+    public $incrementing = false;
+    protected $keyType = 'string';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
+        'uuid',
         'user_id',
         'page_id',
         'link_ids',

@@ -8,7 +8,7 @@ export function reducer(userLinks, action) {
     switch (action.type) {
         case LINKS_ACTIONS.UPDATE_STATUS:
             return userLinks.map(userLink => {
-                if (userLink.id === action.payload.id) {
+                if (userLink.id ?? userLink.uuid === action.payload.id) {
 
                     return {
                         ...userLink,

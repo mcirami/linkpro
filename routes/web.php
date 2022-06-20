@@ -12,6 +12,7 @@ use App\Http\Controllers\FolderController;
 use App\Http\Controllers\IconController;
 use App\Http\Controllers\UtilityController;
 use App\Http\Controllers\WebhookController;
+use App\Http\Controllers\CustomCommandsConrtroller;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -83,6 +84,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/stats', [TrackingController::class, 'show'])->name('stats');
 
     Route::post('/folder/new', [FolderController::class, 'store'])->name('add.folder');
+
+    Route::get('/custom-commands', [CustomCommandsConrtroller::class, 'setUUID']);
 
 });
 
