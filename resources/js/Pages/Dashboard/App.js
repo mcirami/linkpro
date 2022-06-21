@@ -26,7 +26,16 @@ import {toolTipPosition, toolTipClick} from '../../Services/PageRequests';
 import {checkSubStatus} from '../../Services/UserService';
 import DowngradeAlert from './components/Popups/DowngradeAlert';
 import {UpdateUserLinksStatus} from '../../Services/SetStates';
-import {LINKS_ACTIONS, reducer} from '../../Services/Reducer';
+import {
+    FOLDER_LINKS_ACTIONS,
+    ORIG_FOLDER_LINKS_ACTIONS,
+    LINKS_ACTIONS,
+    ORIGINAL_LINKS_ACTIONS,
+    folderLinksReducer,
+    origFolderLinksReducer,
+    origLinksReducer,
+    reducer,
+} from '../../Services/Reducer';
 
 const page = user.page;
 const userPages = user.user_pages;
@@ -42,14 +51,20 @@ export const PageContext = createContext();
 
 function App() {
 
+    /* Separating user links array into 2, in order for drag and drop to work properly.
+    only 1 state should be updated on drag and drop but both need to be updated for any type of CRUD action  */
+
     //const [userLinks, setUserLinks] = useState(myLinksArray);
     const [userLinks, dispatch] = useReducer(reducer, myLinksArray);
+    //const [originalArray, setOriginalArray] = useState(myLinksArray);
+    const [originalArray, dispatchOrig] = useReducer(origLinksReducer, myLinksArray);
+    //const [folderLinks, setFolderLinks] = useState([])
+    const [folderLinks, dispatchFolderLinks] = useReducer(folderLinksReducer, []);
+    //const [originalFolderLinks, setOriginalFolderLinks] = useState([])
+    const [originalFolderLinks, dispatchOrigFolderLinks] = useReducer(origFolderLinksReducer, [])
 
-    const [originalArray, setOriginalArray] = useState(myLinksArray);
+
     const [pageSettings, setPageSettings] = useState(page);
-
-    const [folderLinks, setFolderLinks] = useState([])
-    const [originalFolderLinks, setOriginalFolderLinks] = useState([])
 
     const [allUserPages, setAllUserPages] = useState(userPages);
     const [editID, setEditID] = useState(null);
@@ -129,7 +144,7 @@ function App() {
         <div className="my_row page_wrap">
 
             <UserLinksContext.Provider value={{userLinks, dispatch, LINKS_ACTIONS }} >
-                <OriginalArrayContext.Provider value={{ originalArray, setOriginalArray}} >
+                <OriginalArrayContext.Provider value={{ originalArray, dispatchOrig, ORIGINAL_LINKS_ACTIONS}} >
                     <Loader showLoader={showLoader} />
                     <Flash />
 
@@ -141,8 +156,8 @@ function App() {
                         />
                     }
 
-                    <FolderLinksContext.Provider value={{ folderLinks, setFolderLinks}} >
-                        <OriginalFolderLinksContext.Provider value={{ originalFolderLinks, setOriginalFolderLinks}} >
+                    <FolderLinksContext.Provider value={{ folderLinks, dispatchFolderLinks, FOLDER_LINKS_ACTIONS}} >
+                        <OriginalFolderLinksContext.Provider value={{ originalFolderLinks, dispatchOrigFolderLinks, ORIG_FOLDER_LINKS_ACTIONS}} >
 
                             {showConfirmPopup &&
                                 <ConfirmPopup

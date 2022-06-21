@@ -32,6 +32,7 @@ import {
     UpdateUserLinksStatusFromFolder,
 } from '../../../../Services/SetStates';
 import folder from '../Preview/Folder';
+import {FOLDER_LINKS_ACTIONS} from '../../../../Services/Reducer';
 
 const springSetting1 = { stiffness: 180, damping: 10 };
 const springSetting2 = { stiffness: 120, damping: 17 };
@@ -60,10 +61,11 @@ const FolderLinks = ({
 
                }) => {
 
-    const { userLinks, setUserLinks } = useContext(UserLinksContext);
-    const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
-    const { folderLinks, setFolderLinks } = useContext(FolderLinksContext);
-    const { originalFolderLinks, setOriginalFolderLinks } = useContext(OriginalFolderLinksContext);
+    const { userLinks, dispatch, LINKS_ACTIONS  } = useContext(UserLinksContext);
+    const { originalArray, dispatchOrig, ORIGINAL_LINKS_ACTIONS } = useContext(OriginalArrayContext);
+
+    const { folderLinks, dispatchFolderLinks, FOLDER_LINKS_ACTIONS } = useContext(FolderLinksContext);
+    const { originalFolderLinks, dispatchOrigFolderLinks, ORIG_FOLDER_LINKS_ACTIONS } = useContext(OriginalFolderLinksContext);
 
     const [ currentFolder, setCurrentFolder ] = useState(
         userLinks.find(function(e) {
@@ -126,7 +128,6 @@ const FolderLinks = ({
         }
 
         window.addEventListener('resize', handleResize);
-        //handleResize()
 
         return () => {
             window.removeEventListener('resize', handleResize);
@@ -203,35 +204,10 @@ const FolderLinks = ({
                     index,
                 );
                 setState((state) => ({ ...state, mouseXY }));
-                setFolderLinks(newOrder);
 
-                setOriginalArray(originalArray.map((item) => {
-                        if (item.id === folderID && item.type === "folder") {
-
-                            return {
-                                ...item,
-                                links: newOrder
-                            }
-                        }
-
-                        return item;
-
-                    })
-                )
-
-                setUserLinks(userLinks.map((item) => {
-                        if (item.id === folderID && item.type === "folder") {
-
-                            return {
-                                ...item,
-                                links: newOrder
-                            }
-                        }
-
-                        return item;
-
-                    })
-                )
+                dispatchFolderLinks({ type: FOLDER_LINKS_ACTIONS.SET_FOLDER_LINKS, payload: {links: newOrder}})
+                dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.SET_FOLDER_LINKS_ORDER, payload: {links: newOrder, id: folderID}})
+                dispatch({ type: LINKS_ACTIONS.SET_FOLDER_LINKS_ORDER, payload: {links: newOrder, id: folderID}})
             }
         },
         [state]
@@ -291,33 +267,10 @@ const FolderLinks = ({
 
             if(data.success) {
 
-                UpdateFolderLinkStatus(
-                    currentItem.id,
-                    newStatus,
-                    setFolderLinks,
-                    folderLinks
-                );
-                UpdateOrigFolderLinkStatus(
-                    currentItem.id,
-                    newStatus,
-                    setOriginalFolderLinks,
-                    originalFolderLinks
-                );
-
-                UpdateUserLinksStatusFromFolder(
-                    folderID,
-                    currentItem.id,
-                    newStatus,
-                    userLinks,
-                    setUserLinks
-                );
-                UpdateOriginalLinksStatusFromFolder(
-                    folderID,
-                    currentItem.id,
-                    newStatus,
-                    originalArray,
-                    setOriginalArray
-                );
+                dispatchFolderLinks({ type: FOLDER_LINKS_ACTIONS.UPDATE_FOLDER_LINKS_STATUS, payload: {id: currentItem.id } })
+                dispatchOrigFolderLinks({ type: ORIG_FOLDER_LINKS_ACTIONS.UPDATE_ORIG_FOLDER_LINKS_STATUS, payload: {id: currentItem.id}})
+                dispatch ({ type: LINKS_ACTIONS.UPDATE_LINKS_STATUS_FROM_FOLDER, payload: {id: currentItem.id, folderID: folderID } })
+                dispatchOrig ({ type: ORIGINAL_LINKS_ACTIONS.UPDATE_ORIGINAL_LINKS_STATUS_FROM_FOLDER, payload: {id: currentItem.id, folderID: folderID } })
 
             }
         })
@@ -336,15 +289,6 @@ const FolderLinks = ({
         }, 800)
 
     }
-
-    /*const checkSubStatus = (icon) => {
-
-        if (icon && icon.toString().includes('custom') && subStatus) {
-            return icon;
-        } else {
-            return icon;
-        }
-    }*/
 
     const handleSubmit = () => {
 
@@ -491,6 +435,7 @@ const FolderLinks = ({
                     let displayIcon;
                     displayIcon = checkIcon(originalFolderLinks[key].icon);
 
+
                     return (
                         <Motion key={key} style={style}>
                             {({ translateX, translateY, scale }) => (
@@ -522,7 +467,6 @@ const FolderLinks = ({
                                         }}>
                                             <div className="image_wrap">
                                                 <img src={displayIcon} alt=""/>
-                                                {/*<div className="hover_text"><p><img src='/images/icon-placeholder.png' alt=""/></p></div>*/}
                                             </div>
                                         </div>
 

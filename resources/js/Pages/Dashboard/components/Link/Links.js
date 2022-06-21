@@ -27,6 +27,7 @@ import {
     UpdateOriginalLinksStatus,
     UpdateUserLinksStatus,
 } from '../../../../Services/SetStates';
+import {ORIG_FOLDER_LINKS_ACTIONS} from '../../../../Services/Reducer';
 
 const springSetting1 = { stiffness: 180, damping: 10 };
 const springSetting2 = { stiffness: 120, damping: 17 };
@@ -57,9 +58,9 @@ const Links = ({
                }) => {
 
     const { userLinks, dispatch, LINKS_ACTIONS } = useContext(UserLinksContext);
-    const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
-    const { folderLinks, setFolderLinks } = useContext(FolderLinksContext);
-    const { originalFolderLinks, setOriginalFolderLinks } = useContext(OriginalFolderLinksContext);
+    const { originalArray, dispatchOrig, ORIGINAL_LINKS_ACTIONS } = useContext(OriginalArrayContext);
+    const { folderLinks, dispatchFolderLinks, FOLDER_LINKS_ACTIONS } = useContext(FolderLinksContext);
+    const { originalFolderLinks, dispatchOrigFolderLinks, ORIG_FOLDER_LINKS_ACTIONS } = useContext(OriginalFolderLinksContext);
 
     const initialRender = useRef(true);
     const targetRef = useRef();
@@ -102,7 +103,6 @@ const Links = ({
         }
 
         window.addEventListener('resize', handleResize);
-        //handleResize()
 
         return () => {
             window.removeEventListener('resize', handleResize);
@@ -179,7 +179,7 @@ const Links = ({
                     index,
                 );
                 setState((state) => ({ ...state, mouseXY }));
-                setUserLinks(newOrder);
+                dispatch ({ type: LINKS_ACTIONS.SET_LINKS, payload: {links: newOrder}})
             }
         },
         [state]
@@ -265,23 +265,8 @@ const Links = ({
 
                     if (data.success) {
 
-                        UpdateOriginalLinksStatus(
-                            setOriginalArray,
-                            originalArray,
-                            type,
-                            currentItem.id,
-                            newStatus
-                        );
-
-                       /* UpdateUserLinksStatus(
-                            setUserLinks,
-                            userLinks,
-                            type,
-                            currentItem.id,
-                            newStatus
-                        )*/
-
-                        dispatch( { type: LINKS_ACTIONS.UPDATE_STATUS, payload: {id: currentItem.id}} )
+                        dispatchOrig( { type: ORIGINAL_LINKS_ACTIONS.UPDATE_ORIGINAL_LINKS_STATUS, payload: {id: currentItem.id}} )
+                        dispatch( { type: LINKS_ACTIONS.UPDATE_LINKS_STATUS, payload: {id: currentItem.id}} )
 
                     }
                 })
@@ -305,8 +290,6 @@ const Links = ({
 
     }
 
-    console.log(userLinks);
-
     const fetchFolderLinks = async (linkID) => {
 
         if(subStatus) {
@@ -314,8 +297,8 @@ const Links = ({
             const response = await fetch(url);
             const folderLinks = await response.json();
 
-            setOriginalFolderLinks(folderLinks["links"]);
-            setFolderLinks(folderLinks["links"]);
+            dispatchOrigFolderLinks({ type: ORIG_FOLDER_LINKS_ACTIONS.SET_ORIG_FOLDER_LINKS, payload: {links: folderLinks["links"]} })
+            dispatchFolderLinks({ type: FOLDER_LINKS_ACTIONS.SET_FOLDER_LINKS, payload: {links: folderLinks["links"]} })
             setEditFolderID(linkID);
 
             setTimeout(function(){
@@ -367,7 +350,6 @@ const Links = ({
                 let hasLinks = true;
                 let displayIcon;
                 if (type === "folder") {
-                    //displayIcon = null;
                     hasLinks = originalArray[key].links.length > 0;
                 } else {
                     displayIcon = checkIcon(originalArray[key].icon);

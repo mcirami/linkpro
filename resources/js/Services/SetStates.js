@@ -1,7 +1,7 @@
 import React from 'react';
 
 //updates status on userLinks state
-export const UpdateUserLinksStatus = (
+/*export const UpdateUserLinksStatus = (
     setUserLinks,
     userLinks,
     type,
@@ -78,8 +78,8 @@ export const UpdateOriginalLinksStatus = (
         )
     }
 
-};
-
+};*/
+/*
 export const UpdateFolderLinkStatus = (
     id,
     status,
@@ -118,7 +118,8 @@ export const UpdateOrigFolderLinkStatus = (
             return item;
         })
     )
-}
+}*/
+/*
 
 export const UpdateUserLinksStatusFromFolder = (
     folderID,
@@ -188,3 +189,4 @@ export const UpdateOriginalLinksStatusFromFolder = (
         })
     )
 }
+*/
