@@ -25,14 +25,13 @@ import {
 import {updateFolderName} from '../../../../Services/FolderRequests';
 import AddLink from '../Link/AddLink';
 import {checkIcon} from '../../../../Services/UserService';
-import {
-    UpdateFolderLinkStatus,
-    UpdateOrigFolderLinkStatus,
-    UpdateOriginalLinksStatusFromFolder,
-    UpdateUserLinksStatusFromFolder,
-} from '../../../../Services/SetStates';
 import folder from '../Preview/Folder';
-import {FOLDER_LINKS_ACTIONS} from '../../../../Services/Reducer';
+import {
+    LINKS_ACTIONS,
+    ORIGINAL_LINKS_ACTIONS,
+    FOLDER_LINKS_ACTIONS,
+    ORIG_FOLDER_LINKS_ACTIONS
+} from '../../../../Services/Reducer';
 
 const springSetting1 = { stiffness: 180, damping: 10 };
 const springSetting2 = { stiffness: 120, damping: 17 };
@@ -61,11 +60,11 @@ const FolderLinks = ({
 
                }) => {
 
-    const { userLinks, dispatch, LINKS_ACTIONS  } = useContext(UserLinksContext);
-    const { originalArray, dispatchOrig, ORIGINAL_LINKS_ACTIONS } = useContext(OriginalArrayContext);
+    const { userLinks, dispatch  } = useContext(UserLinksContext);
+    const { originalArray, dispatchOrig } = useContext(OriginalArrayContext);
 
-    const { folderLinks, dispatchFolderLinks, FOLDER_LINKS_ACTIONS } = useContext(FolderLinksContext);
-    const { originalFolderLinks, dispatchOrigFolderLinks, ORIG_FOLDER_LINKS_ACTIONS } = useContext(OriginalFolderLinksContext);
+    const { folderLinks, dispatchFolderLinks } = useContext(FolderLinksContext);
+    const { originalFolderLinks, dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);
 
     const [ currentFolder, setCurrentFolder ] = useState(
         userLinks.find(function(e) {
@@ -301,7 +300,7 @@ const FolderLinks = ({
 
             if(data.success) {
 
-                setUserLinks(
+                /*setUserLinks(
                     userLinks.map((item) => {
                         if (item.id === folderID && item.type === "folder") {
                             item.name = currentFolder.name;
@@ -311,8 +310,10 @@ const FolderLinks = ({
 
                         return item
                     })
-                )
-                setOriginalArray(
+                )*/
+
+                dispatch({ type: LINKS_ACTIONS.UPDATE_FOLDER_NAME, payload: {folderID: folderID, name: currentFolder.name} })
+                /*setOriginalArray(
                     originalArray.map((item) => {
                         if (item.id === folderID && item.type === "folder") {
                             item.name = currentFolder.name;
@@ -322,7 +323,8 @@ const FolderLinks = ({
 
                         return item
                     })
-                )
+                )*/
+                dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.UPDATE_FOLDER_NAME, payload: {folderID: folderID, name: currentFolder.name} })
             }
         })
     }

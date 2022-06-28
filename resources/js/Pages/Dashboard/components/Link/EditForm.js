@@ -16,6 +16,13 @@ import {updateLink, checkURL} from '../../../../Services/LinksRequest';
 import {completedImageCrop, getIconPaths} from '../../../../Services/ImageService';
 import {BiChevronLeft, BiChevronsLeft} from 'react-icons/bi';
 
+import {
+    LINKS_ACTIONS,
+    ORIGINAL_LINKS_ACTIONS,
+    FOLDER_LINKS_ACTIONS,
+    ORIG_FOLDER_LINKS_ACTIONS
+} from '../../../../Services/Reducer';
+
 const EditForm = ({
                       editID,
                       setEditID,
@@ -30,11 +37,11 @@ const EditForm = ({
                       subStatus
 }) => {
 
-    const { userLinks, setUserLinks } = useContext(UserLinksContext);
-    const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
+    const { userLinks, dispatch  } = useContext(UserLinksContext);
+    const { originalArray, dispatchOrig } = useContext(OriginalArrayContext);
+    const { folderLinks, dispatchFolderLinks } = useContext(FolderLinksContext);
+    const { originalFolderLinks, dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);
     const  { pageSettings, setPageSettings } = useContext(PageContext);
-    const { folderLinks, setFolderLinks } = useContext(FolderLinksContext);
-    const { originalFolderLinks, setOriginalFolderLinks } = useContext(OriginalFolderLinksContext);
 
     const iconRef = createRef(null)
     const [completedIconCrop, setCompletedIconCrop] = useState(null);
@@ -192,7 +199,7 @@ const EditForm = ({
 
                     if (data.success) {
                         if(folderID) {
-                            setFolderLinks(
+                            /*setFolderLinks(
                                 folderLinks.map((item) => {
                                     if (item.id === editID) {
                                         return {
@@ -207,9 +214,10 @@ const EditForm = ({
 
                                     return item;
                                 })
-                            )
-
-                            setOriginalFolderLinks(
+                            )*/
+                            dispatchFolderLinks({ type: FOLDER_LINKS_ACTIONS.UPDATE_FOLDER_LINKS, payload: {editID: editID, currentLink: currentLink, url: URL} })
+                            dispatchOrigFolderLinks({ type: ORIG_FOLDER_LINKS_ACTIONS.UPDATE_FOLDER_LINKS, payload: {editID: editID, currentLink: currentLink, url: URL} })
+                            /*setOriginalFolderLinks(
                                 originalFolderLinks.map((item) => {
                                     if (item.id === editID) {
                                         return {
@@ -224,9 +232,9 @@ const EditForm = ({
 
                                     return item;
                                 })
-                            )
+                            )*/
 
-                            setUserLinks(
+                            /*setUserLinks(
                                 userLinks.map((item) => {
                                     if (item.id === folderID && item.type === "folder") {
 
@@ -255,9 +263,12 @@ const EditForm = ({
 
                                     return item;
                                 })
-                            )
+                            )*/
 
-                            setOriginalArray(
+                            dispatch({ type: LINKS_ACTIONS.UPDATE_LINK_IN_FOLDER, payload: {folderID: folderID, editID: editID, currentLink: currentLink, url: URL} })
+                            dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK_IN_FOLDER, payload: {folderID: folderID, editID: editID, currentLink: currentLink, url: URL} })
+
+                            /*setOriginalArray(
                                 originalArray.map((item) => {
                                     if (item.id === folderID && item.type === "folder") {
 
@@ -286,10 +297,10 @@ const EditForm = ({
 
                                     return item;
                                 })
-                            )
+                            )*/
 
                         } else {
-                            setUserLinks (
+                            /*setUserLinks (
                                 userLinks.map((item) => {
                                     if (item.id === editID && item.type !== "folder") {
                                         return {
@@ -304,9 +315,11 @@ const EditForm = ({
 
                                     return item;
                                 })
-                            )
+                            )*/
 
-                            setOriginalArray (
+                            dispatch({ type: LINKS_ACTIONS.UPDATE_LINK, payload: {editID: editID, currentLink: currentLink, url: URL} })
+
+                            /*setOriginalArray (
                                 originalArray.map((item) => {
                                     if (item.id === editID && item.type !== "folder") {
                                         return {
@@ -321,7 +334,9 @@ const EditForm = ({
 
                                     return item;
                                 })
-                            )
+                            )*/
+
+                            dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK, payload: {editID: editID, currentLink: currentLink, url: URL} })
                         }
 
                         setEditID(null)
@@ -403,7 +418,7 @@ const EditForm = ({
 
                     if (folderID) {
 
-                        setFolderLinks(
+                        /*setFolderLinks(
                             folderLinks.map((item) => {
                                 if (item.id === editID) {
                                     return {
@@ -418,9 +433,11 @@ const EditForm = ({
 
                                 return item;
                             })
-                        )
+                        )*/
+                        dispatchFolderLinks({ type: FOLDER_LINKS_ACTIONS.UPDATE_FOLDER_LINKS, payload: {editID: editID, currentLink: currentLink, url: URL} })
+                        dispatchOrigFolderLinks({ type: ORIG_FOLDER_LINKS_ACTIONS.UPDATE_FOLDER_LINKS, payload: {editID: editID, currentLink: currentLink, url: URL} })
 
-                        setOriginalFolderLinks(
+                        /*setOriginalFolderLinks(
                             originalFolderLinks.map((item) => {
                                 if (item.id === editID) {
                                     return {
@@ -435,9 +452,12 @@ const EditForm = ({
 
                                 return item;
                             })
-                        )
+                        )*/
 
-                        setUserLinks(
+                        dispatch({ type: LINKS_ACTIONS.UPDATE_LINK_IN_FOLDER, payload: {folderID: folderID, editID: editID, currentLink: currentLink, url: URL} })
+                        dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK_IN_FOLDER, payload: {folderID: folderID, editID: editID, currentLink: currentLink, url: URL} })
+
+                        /*setUserLinks(
                             userLinks.map((item) => {
                                 if (item.id === folderID && item.type === "folder") {
 
@@ -497,10 +517,10 @@ const EditForm = ({
 
                                 return item;
                             })
-                        )
+                        )*/
 
                     } else {
-                        setUserLinks (
+                        /*setUserLinks (
                             userLinks.map((item) => {
                                 if (item.id === editID && item.type !== "folder") {
                                     return {
@@ -515,8 +535,12 @@ const EditForm = ({
 
                                 return item;
                             })
-                        )
-                        setOriginalArray (
+                        )*/
+
+                        dispatch({ type: LINKS_ACTIONS.UPDATE_LINK, payload: {editID: editID, currentLink: currentLink, url: URL} })
+                        dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK, payload: {editID: editID, currentLink: currentLink, url: URL} })
+
+                        /*setOriginalArray (
                             originalArray.map((item) => {
                                 if (item.id === editID && item.type !== "folder") {
                                     return {
@@ -531,7 +555,7 @@ const EditForm = ({
 
                                 return item;
                             })
-                        )
+                        )*/
                     }
 
                     setCustomIconArray( customIconArray => [

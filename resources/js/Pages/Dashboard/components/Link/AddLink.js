@@ -4,7 +4,7 @@ import {UserLinksContext} from '../../App';
 
 const AddLink = ({subStatus, setShowUpgradePopup, setOptionText, setShowNewForm }) => {
 
-    const { userLinks, setUserLinks } = useContext(UserLinksContext);
+    const { userLinks } = useContext(UserLinksContext);
     const handleClick = (e) => {
         e.preventDefault();
 

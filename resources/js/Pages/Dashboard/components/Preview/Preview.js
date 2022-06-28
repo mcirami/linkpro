@@ -27,7 +27,7 @@ const Preview = ({
                      subStatus
 }) => {
 
-    const { userLinks, setUserLinks } = useContext(UserLinksContext);
+    const { userLinks } = useContext(UserLinksContext);
     const [iconCount, setIconCount] = useState(null);
 
     const ClosePreview = () => {

@@ -9,7 +9,7 @@ const ProfileImage = ({
                           profileRef,
                       }) => {
 
-    const {pageSettings, setPageSettings} = useContext(PageContext);
+    const {pageSettings} = useContext(PageContext);
 
     return (
 

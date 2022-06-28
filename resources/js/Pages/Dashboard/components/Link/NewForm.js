@@ -26,6 +26,12 @@ import {
 import {completedImageCrop, getIconPaths} from '../../../../Services/ImageService';
 import EventBus from '../../../../Utils/Bus';
 import { BiChevronLeft, BiChevronsLeft,  } from "react-icons/bi";
+import {
+    LINKS_ACTIONS,
+    ORIGINAL_LINKS_ACTIONS,
+    FOLDER_LINKS_ACTIONS,
+    ORIG_FOLDER_LINKS_ACTIONS
+} from '../../../../Services/Reducer';
 
 const NewForm = ({
                      setShowNewForm,
@@ -39,12 +45,12 @@ const NewForm = ({
                      subStatus
                   }) => {
 
-    const { userLinks, setUserLinks } = useContext(UserLinksContext);
-    const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
-    const  { pageSettings, setPageSettings } = useContext(PageContext);
-    const { folderLinks, setFolderLinks } = useContext(FolderLinksContext);
-    const { originalFolderLinks, setOriginalFolderLinks } = useContext(OriginalFolderLinksContext);
+    const { userLinks, dispatch } = useContext(UserLinksContext);
+    const { originalArray, dispatchOrig } = useContext(OriginalArrayContext);
+    const { folderLinks, dispatchFolderLinks } = useContext(FolderLinksContext);
+    const { originalFolderLinks, dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);
 
+    const  { pageSettings, setPageSettings } = useContext(PageContext);
     const iconRef = createRef(null)
     const [completedIconCrop, setCompletedIconCrop] = useState(null);
     const [iconSelected, setIconSelected] = useState(false);
@@ -223,8 +229,11 @@ const NewForm = ({
                             }
 
                             newFolderLinks = newFolderLinks.concat(newLinkObject);
-                            setOriginalFolderLinks(newOriginalFolderLinks.concat(newLinkObject));
-                            setFolderLinks(newFolderLinks);
+                            //setOriginalFolderLinks(newOriginalFolderLinks.concat(newLinkObject));
+                            dispatchOrigFolderLinks({ type: ORIG_FOLDER_LINKS_ACTIONS.SET_ORIG_FOLDER_LINKS, payload: {links: newOriginalFolderLinks.concat(newLinkObject)} })
+                            //setFolderLinks(newFolderLinks);
+                            dispatchFolderLinks({ type: FOLDER_LINKS_ACTIONS.SET_FOLDER_LINKS, payload: {links: newFolderLinks}});
+
 
                             let folderActive = null;
                             if (newFolderLinks.length === 1) {
@@ -237,7 +246,7 @@ const NewForm = ({
                                 updateLinkStatus(packets, folderID, url);
                             }
 
-                            setUserLinks (
+                            /*setUserLinks (
                                 userLinks.map((item) => {
 
                                     if (item.id === folderID && item.type === "folder") {
@@ -254,9 +263,11 @@ const NewForm = ({
                                     return item;
 
                                 })
-                            )
+                            )*/
 
-                            setOriginalArray (
+                            dispatch({ type: LINKS_ACTIONS.ADD_NEW_IN_FOLDER, payload: {newLinkObject: newLinkObject, folderActive: folderActive, folderID: folderID}})
+                            dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.ADD_NEW_IN_FOLDER, payload: {newLinkObject: newLinkObject, folderActive: folderActive, folderID: folderID}})
+                            /*setOriginalArray (
                                 originalArray.map((item) => {
                                     if (item.id === folderID && item.type === "folder") {
                                         const itemLinks = item.links.concat(newLinkObject)
@@ -271,7 +282,7 @@ const NewForm = ({
                                     return item;
 
                                 })
-                            )
+                            )*/
 
                             setShowNewForm(false);
 
@@ -289,8 +300,10 @@ const NewForm = ({
                                 position: data.position,
                                 active_status: true
                             }
-                            setOriginalArray(originalLinks.concat(newLinkObject));
-                            setUserLinks(newLinks.concat(newLinkObject));
+                            //setOriginalArray(originalLinks.concat(newLinkObject));
+                            dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS, payload: {links: originalLinks.concat(newLinkObject)}})
+                            //setUserLinks(newLinks.concat(newLinkObject));
+                            dispatch({ type: LINKS_ACTIONS.SET_LINKS, payload: {links: newLinks.concat(newLinkObject)}})
 
                             setShowNewForm(false);
                         }
@@ -407,7 +420,10 @@ const NewForm = ({
                                 updateLinkStatus(packets, folderID, url);
                             }
 
-                            setUserLinks (
+                            dispatch({ type: LINKS_ACTIONS.ADD_NEW_IN_FOLDER, payload: {newLinkObject: newLinkObject, folderActive: folderActive, folderID: folderID}})
+                            dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.ADD_NEW_IN_FOLDER, payload: {newLinkObject: newLinkObject, folderActive: folderActive, folderID: folderID}})
+
+                            /*setUserLinks (
                                 userLinks.map((item) => {
                                     if (item.id === folderID && item.type === "folder") {
                                         const itemLinks = item.links.concat(newLinkObject)
@@ -422,9 +438,9 @@ const NewForm = ({
                                     return item;
 
                                 })
-                            )
+                            )*/
 
-                            setOriginalArray (
+                            /*setOriginalArray (
                                 originalArray.map((item) => {
                                     if (item.id === folderID && item.type === "folder") {
                                         const itemLinks = item.links.concat(newLinkObject)
@@ -439,10 +455,14 @@ const NewForm = ({
                                     return item;
 
                                 })
-                            )
+                            )*/
 
-                            setOriginalFolderLinks(newOriginalFolderLinks.concat(newLinkObject));
-                            setFolderLinks(newFolderLinks.concat(newLinkObject));
+                            //setOriginalFolderLinks(newOriginalFolderLinks.concat(newLinkObject));
+                            dispatchOrigFolderLinks({ type: ORIG_FOLDER_LINKS_ACTIONS.SET_ORIG_FOLDER_LINKS, payload: {links: newOriginalFolderLinks.concat(newLinkObject)} })
+                            //setFolderLinks(newFolderLinks.concat(newLinkObject));
+                            dispatchFolderLinks({ type: FOLDER_LINKS_ACTIONS.SET_FOLDER_LINKS, payload: {links: newFolderLinks.concat(newLinkObject)}});
+
+
 
                             setShowNewForm(false);
 
@@ -461,8 +481,12 @@ const NewForm = ({
                                 active_status: true
                             }
 
-                            setOriginalArray(originalLinks.concat(newLinkObject));
+                            /*setOriginalArray(originalLinks.concat(newLinkObject));
                             setUserLinks(newLinks.concat(newLinkObject));
+                            */
+
+                            dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS, payload: {links: originalLinks.concat(newLinkObject)}})
+                            dispatch({ type: LINKS_ACTIONS.SET_LINKS, payload: {links: newLinks.concat(newLinkObject)}})
 
                             setShowNewForm(false);
                         }

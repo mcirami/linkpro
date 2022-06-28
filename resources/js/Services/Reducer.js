@@ -4,7 +4,11 @@ export const LINKS_ACTIONS = {
     SET_LINKS: 'set-links',
     SET_FOLDER_LINKS_ORDER: 'set-folder-links-order',
     UPDATE_LINKS_STATUS: 'update-links-status',
-    UPDATE_LINKS_STATUS_FROM_FOLDER: 'update-links-status-from-folder'
+    UPDATE_LINKS_STATUS_FROM_FOLDER: 'update-links-status-from-folder',
+    ADD_NEW_IN_FOLDER: 'add-new-in-folder',
+    UPDATE_FOLDER_NAME: 'update-folder-name',
+    UPDATE_LINK: 'update-link',
+    UPDATE_LINK_IN_FOLDER: 'update-link-in-folder',
 }
 
 export function reducer(userLinks, action) {
@@ -70,6 +74,85 @@ export function reducer(userLinks, action) {
                 }
                 return item;
             })
+        case LINKS_ACTIONS.ADD_NEW_IN_FOLDER:
+
+            return userLinks.map((item) => {
+
+                if (item.id === action.payload.folderID) {
+
+                    const itemLinks = item.links.concat(action.payload.newLinkObject)
+
+                    return {
+                        ...item,
+                        active_status: action.payload.folderActive || item.active_status,
+                        links: itemLinks
+                    }
+                }
+
+                return item;
+
+            })
+
+        case LINKS_ACTIONS.UPDATE_FOLDER_NAME:
+
+            return userLinks.map((item) => {
+                if (item.id === action.payload.folderID) {
+                    item.name = action.payload.name;
+
+                    return item
+                }
+
+                return item
+            })
+
+        case LINKS_ACTIONS.UPDATE_LINK:
+
+            return userLinks.map((item) => {
+                if (item.id === action.payload.editID ) {
+                    return {
+                        ...item,
+                        name: action.payload.currentLink.name,
+                        url: action.payload.url,
+                        email: action.payload.currentLink.email,
+                        phone: action.payload.currentLink.phone,
+                        icon: action.payload.currentLink.icon
+                    }
+                }
+
+                return item;
+            })
+
+        case LINKS_ACTIONS.UPDATE_LINK_IN_FOLDER:
+
+            return userLinks.map((item) => {
+                if (item.id === action.payload.folderID) {
+
+                    const newItemsLinks = item.links.map((linkItem) => {
+
+                        if (linkItem.id === action.payload.editID) {
+
+                            return  {
+                                ...linkItem,
+                                name: action.payload.currentLink.name,
+                                url: action.payload.url,
+                                email: action.payload.currentLink.email,
+                                phone: action.payload.currentLink.phone,
+                                icon: action.payload.currentLink.icon
+                            }
+                        }
+
+                        return linkItem
+                    })
+
+                    return {
+                        ...item,
+                        links: newItemsLinks
+                    }
+                }
+
+                return item;
+            })
+
         default:
             return myLinksArray;
     }
@@ -80,6 +163,10 @@ export const ORIGINAL_LINKS_ACTIONS = {
     SET_FOLDER_LINKS_ORDER: 'set-folder-links-order',
     UPDATE_ORIGINAL_LINKS_STATUS: 'update-original-links-status',
     UPDATE_ORIGINAL_LINKS_STATUS_FROM_FOLDER: 'update-original-links-status_from_folder',
+    ADD_NEW_IN_FOLDER: 'add-new-in-folder',
+    UPDATE_FOLDER_NAME: 'update-folder-name',
+    UPDATE_LINK: 'update-link',
+    UPDATE_LINK_IN_FOLDER: 'update-link-in-folder',
 }
 
 export function origLinksReducer(originalArray, action) {
@@ -146,6 +233,85 @@ export function origLinksReducer(originalArray, action) {
                 return item;
             })
 
+        case ORIGINAL_LINKS_ACTIONS.ADD_NEW_IN_FOLDER:
+
+            return originalArray.map((item) => {
+
+                if (item.id === action.payload.folderID) {
+
+                    const itemLinks = item.links.concat(action.payload.newLinkObject)
+
+                    return {
+                        ...item,
+                        active_status: action.payload.folderActive || item.active_status,
+                        links: itemLinks
+                    }
+                }
+
+                return item;
+
+            })
+
+        case ORIGINAL_LINKS_ACTIONS.UPDATE_FOLDER_NAME:
+
+            return originalArray.map((item) => {
+                if (item.id === action.payload.folderID) {
+                    item.name = action.payload.name;
+
+                    return item
+                }
+
+                return item
+            })
+
+        case ORIGINAL_LINKS_ACTIONS.UPDATE_LINK:
+
+            return originalArray.map((item) => {
+                if (item.id === action.payload.editID ) {
+                    return {
+                        ...item,
+                        name: action.payload.currentLink.name,
+                        url: action.payload.url,
+                        email: action.payload.currentLink.email,
+                        phone: action.payload.currentLink.phone,
+                        icon: action.payload.currentLink.icon
+                    }
+                }
+
+                return item;
+            })
+
+        case ORIGINAL_LINKS_ACTIONS.UPDATE_LINK_IN_FOLDER:
+
+            return originalArray.map((item) => {
+                if (item.id === action.payload.folderID) {
+
+                    const newItemsLinks = item.links.map((linkItem) => {
+
+                        if (linkItem.id === action.payload.editID) {
+
+                            return  {
+                                ...linkItem,
+                                name: action.payload.currentLink.name,
+                                url: action.payload.url,
+                                email: action.payload.currentLink.email,
+                                phone: action.payload.currentLink.phone,
+                                icon: action.payload.currentLink.icon
+                            }
+                        }
+
+                        return linkItem
+                    })
+
+                    return {
+                        ...item,
+                        links: newItemsLinks
+                    }
+                }
+
+                return item;
+            })
+
         default:
 
             return myLinksArray;
@@ -154,7 +320,8 @@ export function origLinksReducer(originalArray, action) {
 
 export const FOLDER_LINKS_ACTIONS = {
     SET_FOLDER_LINKS: 'set-folder-links',
-    UPDATE_FOLDER_LINKS_STATUS: 'update-folder-links-status'
+    UPDATE_FOLDER_LINKS_STATUS: 'update-folder-links-status',
+    UPDATE_FOLDER_LINKS: 'update-folder-links',
 }
 
 export function folderLinksReducer(folderLinks, action) {
@@ -180,6 +347,23 @@ export function folderLinksReducer(folderLinks, action) {
                 return item;
             })
 
+        case FOLDER_LINKS_ACTIONS.UPDATE_FOLDER_LINKS:
+
+            return folderLinks.map((item) => {
+                if (item.id === action.payload.editID) {
+                    return {
+                        ...item,
+                        name: action.payload.currentLink.name,
+                        url: action.payload.url,
+                        email: action.payload.currentLink.email,
+                        phone: action.payload.currentLink.phone,
+                        icon: action.payload.currentLink.icon
+                    }
+                }
+
+                return item;
+            })
+
         default:
 
             return folderLinks;
@@ -188,7 +372,8 @@ export function folderLinksReducer(folderLinks, action) {
 
 export const ORIG_FOLDER_LINKS_ACTIONS = {
     SET_ORIG_FOLDER_LINKS: 'set-orig-folder-links',
-    UPDATE_ORIG_FOLDER_LINKS_STATUS: 'update-orig-folder-links-status'
+    UPDATE_ORIG_FOLDER_LINKS_STATUS: 'update-orig-folder-links-status',
+    UPDATE_FOLDER_LINKS: 'update-folder-links',
 }
 
 export function origFolderLinksReducer(origFolderLinks, action) {
@@ -211,6 +396,23 @@ export function origFolderLinksReducer(origFolderLinks, action) {
                     }
 
                 }
+                return item;
+            })
+
+        case ORIG_FOLDER_LINKS_ACTIONS.UPDATE_FOLDER_LINKS:
+
+            return origFolderLinks.map((item) => {
+                if (item.id === action.payload.editID) {
+                    return {
+                        ...item,
+                        name: action.payload.currentLink.name,
+                        url: action.payload.url,
+                        email: action.payload.currentLink.email,
+                        phone: action.payload.currentLink.phone,
+                        icon: action.payload.currentLink.icon
+                    }
+                }
+
                 return item;
             })
 

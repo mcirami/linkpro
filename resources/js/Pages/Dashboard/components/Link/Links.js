@@ -23,11 +23,13 @@ import {
 } from '../../../../Services/LinksRequest';
 import {checkIcon} from '../../../../Services/UserService';
 import EventBus from '../../../../Utils/Bus';
+
 import {
-    UpdateOriginalLinksStatus,
-    UpdateUserLinksStatus,
-} from '../../../../Services/SetStates';
-import {ORIG_FOLDER_LINKS_ACTIONS} from '../../../../Services/Reducer';
+    LINKS_ACTIONS,
+    ORIGINAL_LINKS_ACTIONS,
+    FOLDER_LINKS_ACTIONS,
+    ORIG_FOLDER_LINKS_ACTIONS
+} from '../../../../Services/Reducer';
 
 const springSetting1 = { stiffness: 180, damping: 10 };
 const springSetting2 = { stiffness: 120, damping: 17 };
@@ -57,10 +59,10 @@ const Links = ({
 
                }) => {
 
-    const { userLinks, dispatch, LINKS_ACTIONS } = useContext(UserLinksContext);
-    const { originalArray, dispatchOrig, ORIGINAL_LINKS_ACTIONS } = useContext(OriginalArrayContext);
-    const { folderLinks, dispatchFolderLinks, FOLDER_LINKS_ACTIONS } = useContext(FolderLinksContext);
-    const { originalFolderLinks, dispatchOrigFolderLinks, ORIG_FOLDER_LINKS_ACTIONS } = useContext(OriginalFolderLinksContext);
+    const { userLinks, dispatch } = useContext(UserLinksContext);
+    const { originalArray, dispatchOrig } = useContext(OriginalArrayContext);
+    const { folderLinks, dispatchFolderLinks } = useContext(FolderLinksContext);
+    const { originalFolderLinks, dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);
 
     const initialRender = useRef(true);
     const targetRef = useRef();

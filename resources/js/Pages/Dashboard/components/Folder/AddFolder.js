@@ -6,8 +6,16 @@ import {
     PageContext,
     UserLinksContext,
     OriginalArrayContext,
-    FolderLinksContext, OriginalFolderLinksContext,
+    FolderLinksContext,
+    OriginalFolderLinksContext
 } from '../../App';
+
+import {
+    LINKS_ACTIONS,
+    ORIGINAL_LINKS_ACTIONS,
+    FOLDER_LINKS_ACTIONS,
+    ORIG_FOLDER_LINKS_ACTIONS
+} from '../../../../Services/Reducer';
 
 const AddFolder = ({
                        setShowUpgradePopup,
@@ -17,10 +25,10 @@ const AddFolder = ({
 }) => {
 
     const  { pageSettings } = useContext(PageContext);
-    const { userLinks, setUserLinks } = useContext(UserLinksContext);
-    const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
-    const { folderLinks, setFolderLinks } = useContext(FolderLinksContext);
-    const { originalFolderLinks, setOriginalFolderLinks } = useContext(OriginalFolderLinksContext);
+    const { userLinks, dispatch } = useContext(UserLinksContext);
+    const { originalArray, dispatchOrig } = useContext(OriginalArrayContext);
+    const { dispatchFolderLinks } = useContext(FolderLinksContext);
+    const { dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);
 
     const handleClick = (e) => {
         e.preventDefault();
@@ -44,8 +52,12 @@ const AddFolder = ({
                         position: data.position,
                         links: []
                     }
-                    setOriginalArray(newOriginalArray.concat(newFolderObject));
-                    setUserLinks(newLinks.concat(newFolderObject));
+
+                    dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS, payload: {links: newOriginalArray.concat(newFolderObject) }})
+                    dispatch({ type: LINKS_ACTIONS.SET_LINKS, payload: {links: newLinks.concat(newFolderObject) }})
+
+                    //setOriginalArray(newOriginalArray.concat(newFolderObject));
+                   // setUserLinks(newLinks.concat(newFolderObject));
 
                     fetchFolderLinks(data.id);
                 }
@@ -62,8 +74,12 @@ const AddFolder = ({
         const response = await fetch(url);
         const folderLinks = await response.json();
 
-        setOriginalFolderLinks(folderLinks["links"]);
-        setFolderLinks(folderLinks["links"]);
+        dispatchOrigFolderLinks({ type: ORIG_FOLDER_LINKS_ACTIONS.SET_ORIG_FOLDER_LINKS, payload: {links: folderLinks["links"] }})
+        dispatchFolderLinks({ type: FOLDER_LINKS_ACTIONS.SET_FOLDER_LINKS, payload: {links: folderLinks["links"] }});
+
+        /*setOriginalFolderLinks(folderLinks["links"]);
+        setFolderLinks(folderLinks["links"]);*/
+
         setEditFolderID(folderID);
 
         setTimeout(function(){

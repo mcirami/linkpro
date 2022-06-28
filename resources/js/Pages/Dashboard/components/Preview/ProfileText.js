@@ -3,7 +3,7 @@ import {PageContext} from '../../App';
 
 const ProfileText = () => {
 
-    const {pageSettings, setPageSettings} = useContext(PageContext);
+    const {pageSettings} = useContext(PageContext);
 
     return (
         <div className="profile_text">

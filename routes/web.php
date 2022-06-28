@@ -85,8 +85,6 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::post('/folder/new', [FolderController::class, 'store'])->name('add.folder');
 
-    Route::get('/custom-commands', [CustomCommandsConrtroller::class, 'setUUID']);
-
 });
 
 Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated'], 'prefix' => 'dashboard'], function() {
