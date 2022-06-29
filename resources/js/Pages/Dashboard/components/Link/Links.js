@@ -61,8 +61,8 @@ const Links = ({
 
     const { userLinks, dispatch } = useContext(UserLinksContext);
     const { originalArray, dispatchOrig } = useContext(OriginalArrayContext);
-    const { folderLinks, dispatchFolderLinks } = useContext(FolderLinksContext);
-    const { originalFolderLinks, dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);
+    const { dispatchFolderLinks } = useContext(FolderLinksContext);
+    const { dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);
 
     const initialRender = useRef(true);
     const targetRef = useRef();

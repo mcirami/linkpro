@@ -229,11 +229,9 @@ const NewForm = ({
                             }
 
                             newFolderLinks = newFolderLinks.concat(newLinkObject);
-                            //setOriginalFolderLinks(newOriginalFolderLinks.concat(newLinkObject));
-                            dispatchOrigFolderLinks({ type: ORIG_FOLDER_LINKS_ACTIONS.SET_ORIG_FOLDER_LINKS, payload: {links: newOriginalFolderLinks.concat(newLinkObject)} })
-                            //setFolderLinks(newFolderLinks);
-                            dispatchFolderLinks({ type: FOLDER_LINKS_ACTIONS.SET_FOLDER_LINKS, payload: {links: newFolderLinks}});
 
+                            dispatchOrigFolderLinks({ type: ORIG_FOLDER_LINKS_ACTIONS.SET_ORIG_FOLDER_LINKS, payload: {links: newOriginalFolderLinks.concat(newLinkObject)} })
+                            dispatchFolderLinks({ type: FOLDER_LINKS_ACTIONS.SET_FOLDER_LINKS, payload: {links: newFolderLinks}});
 
                             let folderActive = null;
                             if (newFolderLinks.length === 1) {
@@ -246,43 +244,8 @@ const NewForm = ({
                                 updateLinkStatus(packets, folderID, url);
                             }
 
-                            /*setUserLinks (
-                                userLinks.map((item) => {
-
-                                    if (item.id === folderID && item.type === "folder") {
-
-                                        const itemLinks = item.links.concat(newLinkObject)
-
-                                        return {
-                                            ...item,
-                                            active_status: folderActive || item.active_status,
-                                            links: itemLinks
-                                        }
-                                    }
-
-                                    return item;
-
-                                })
-                            )*/
-
                             dispatch({ type: LINKS_ACTIONS.ADD_NEW_IN_FOLDER, payload: {newLinkObject: newLinkObject, folderActive: folderActive, folderID: folderID}})
                             dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.ADD_NEW_IN_FOLDER, payload: {newLinkObject: newLinkObject, folderActive: folderActive, folderID: folderID}})
-                            /*setOriginalArray (
-                                originalArray.map((item) => {
-                                    if (item.id === folderID && item.type === "folder") {
-                                        const itemLinks = item.links.concat(newLinkObject)
-
-                                        return {
-                                            ...item,
-                                            active_status: folderActive || item.active_status,
-                                            links: itemLinks
-                                        }
-                                    }
-
-                                    return item;
-
-                                })
-                            )*/
 
                             setShowNewForm(false);
 
@@ -300,9 +263,8 @@ const NewForm = ({
                                 position: data.position,
                                 active_status: true
                             }
-                            //setOriginalArray(originalLinks.concat(newLinkObject));
+
                             dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS, payload: {links: originalLinks.concat(newLinkObject)}})
-                            //setUserLinks(newLinks.concat(newLinkObject));
                             dispatch({ type: LINKS_ACTIONS.SET_LINKS, payload: {links: newLinks.concat(newLinkObject)}})
 
                             setShowNewForm(false);
@@ -423,46 +385,8 @@ const NewForm = ({
                             dispatch({ type: LINKS_ACTIONS.ADD_NEW_IN_FOLDER, payload: {newLinkObject: newLinkObject, folderActive: folderActive, folderID: folderID}})
                             dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.ADD_NEW_IN_FOLDER, payload: {newLinkObject: newLinkObject, folderActive: folderActive, folderID: folderID}})
 
-                            /*setUserLinks (
-                                userLinks.map((item) => {
-                                    if (item.id === folderID && item.type === "folder") {
-                                        const itemLinks = item.links.concat(newLinkObject)
-
-                                        return {
-                                            ...item,
-                                            active_status: folderActive || item.active_status,
-                                            links: itemLinks
-                                        }
-                                    }
-
-                                    return item;
-
-                                })
-                            )*/
-
-                            /*setOriginalArray (
-                                originalArray.map((item) => {
-                                    if (item.id === folderID && item.type === "folder") {
-                                        const itemLinks = item.links.concat(newLinkObject)
-
-                                        return {
-                                            ...item,
-                                            active_status: folderActive || item.active_status,
-                                            links: itemLinks
-                                        }
-                                    }
-
-                                    return item;
-
-                                })
-                            )*/
-
-                            //setOriginalFolderLinks(newOriginalFolderLinks.concat(newLinkObject));
                             dispatchOrigFolderLinks({ type: ORIG_FOLDER_LINKS_ACTIONS.SET_ORIG_FOLDER_LINKS, payload: {links: newOriginalFolderLinks.concat(newLinkObject)} })
-                            //setFolderLinks(newFolderLinks.concat(newLinkObject));
                             dispatchFolderLinks({ type: FOLDER_LINKS_ACTIONS.SET_FOLDER_LINKS, payload: {links: newFolderLinks.concat(newLinkObject)}});
-
-
 
                             setShowNewForm(false);
 
@@ -481,10 +405,6 @@ const NewForm = ({
                                 active_status: true
                             }
 
-                            /*setOriginalArray(originalLinks.concat(newLinkObject));
-                            setUserLinks(newLinks.concat(newLinkObject));
-                            */
-
                             dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS, payload: {links: originalLinks.concat(newLinkObject)}})
                             dispatch({ type: LINKS_ACTIONS.SET_LINKS, payload: {links: newLinks.concat(newLinkObject)}})
 
@@ -495,8 +415,6 @@ const NewForm = ({
                             ...customIconArray,
                             data.icon_path
                         ]);
-
-
 
                     }
                 })

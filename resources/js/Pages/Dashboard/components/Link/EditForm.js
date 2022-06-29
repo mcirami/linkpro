@@ -52,7 +52,7 @@ const EditForm = ({
     const imgRef = useRef(null);
     const previewCanvasRef = iconRef;
     const [crop, setCrop] = useState({ unit: '%', width: 30, aspect: 1 });
-    const [customIcon, setCustomIcon] = useState(null);
+    const [customIcon] = useState(null);
 
     const [radioValue, setRadioValue] = useState("standard");
 
@@ -199,143 +199,17 @@ const EditForm = ({
 
                     if (data.success) {
                         if(folderID) {
-                            /*setFolderLinks(
-                                folderLinks.map((item) => {
-                                    if (item.id === editID) {
-                                        return {
-                                            ...item,
-                                            name: currentLink.name,
-                                            url: URL,
-                                            email: currentLink.email,
-                                            phone: currentLink.phone,
-                                            icon: currentLink.icon
-                                        }
-                                    }
 
-                                    return item;
-                                })
-                            )*/
                             dispatchFolderLinks({ type: FOLDER_LINKS_ACTIONS.UPDATE_FOLDER_LINKS, payload: {editID: editID, currentLink: currentLink, url: URL} })
                             dispatchOrigFolderLinks({ type: ORIG_FOLDER_LINKS_ACTIONS.UPDATE_FOLDER_LINKS, payload: {editID: editID, currentLink: currentLink, url: URL} })
-                            /*setOriginalFolderLinks(
-                                originalFolderLinks.map((item) => {
-                                    if (item.id === editID) {
-                                        return {
-                                            ...item,
-                                            name: currentLink.name,
-                                            url: URL,
-                                            email: currentLink.email,
-                                            phone: currentLink.phone,
-                                            icon: currentLink.icon
-                                        }
-                                    }
-
-                                    return item;
-                                })
-                            )*/
-
-                            /*setUserLinks(
-                                userLinks.map((item) => {
-                                    if (item.id === folderID && item.type === "folder") {
-
-                                        const newItemsLinks = item.links.map((linkItem) => {
-
-                                            if (linkItem.id === editID) {
-
-                                                return  {
-                                                    ...linkItem,
-                                                    name: currentLink.name,
-                                                    url: URL,
-                                                    email: currentLink.email,
-                                                    phone: currentLink.phone,
-                                                    icon: currentLink.icon
-                                                }
-                                            }
-
-                                            return linkItem
-                                        })
-
-                                        return {
-                                            ...item,
-                                            links: newItemsLinks
-                                        }
-                                    }
-
-                                    return item;
-                                })
-                            )*/
 
                             dispatch({ type: LINKS_ACTIONS.UPDATE_LINK_IN_FOLDER, payload: {folderID: folderID, editID: editID, currentLink: currentLink, url: URL} })
                             dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK_IN_FOLDER, payload: {folderID: folderID, editID: editID, currentLink: currentLink, url: URL} })
 
-                            /*setOriginalArray(
-                                originalArray.map((item) => {
-                                    if (item.id === folderID && item.type === "folder") {
-
-                                        const newItemsLinks = item.links.map((linkItem) => {
-
-                                            if (linkItem.id === editID) {
-
-                                                return {
-                                                    ...item,
-                                                    name: currentLink.name,
-                                                    url: URL,
-                                                    email: currentLink.email,
-                                                    phone: currentLink.phone,
-                                                    icon: currentLink.icon
-                                                }
-                                            }
-
-                                            return linkItem
-                                        })
-
-                                        return {
-                                            ...item,
-                                            links: newItemsLinks
-                                        }
-                                    }
-
-                                    return item;
-                                })
-                            )*/
 
                         } else {
-                            /*setUserLinks (
-                                userLinks.map((item) => {
-                                    if (item.id === editID && item.type !== "folder") {
-                                        return {
-                                            ...item,
-                                            name: currentLink.name,
-                                            url: URL,
-                                            email: currentLink.email,
-                                            phone: currentLink.phone,
-                                            icon: currentLink.icon
-                                        }
-                                    }
-
-                                    return item;
-                                })
-                            )*/
 
                             dispatch({ type: LINKS_ACTIONS.UPDATE_LINK, payload: {editID: editID, currentLink: currentLink, url: URL} })
-
-                            /*setOriginalArray (
-                                originalArray.map((item) => {
-                                    if (item.id === editID && item.type !== "folder") {
-                                        return {
-                                            ...item,
-                                            name: currentLink.name,
-                                            url: URL,
-                                            email: currentLink.email,
-                                            phone: currentLink.phone,
-                                            icon: currentLink.icon
-                                        }
-                                    }
-
-                                    return item;
-                                })
-                            )*/
-
                             dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK, payload: {editID: editID, currentLink: currentLink, url: URL} })
                         }
 
@@ -418,144 +292,17 @@ const EditForm = ({
 
                     if (folderID) {
 
-                        /*setFolderLinks(
-                            folderLinks.map((item) => {
-                                if (item.id === editID) {
-                                    return {
-                                        ...item,
-                                        name: currentLink.name,
-                                        url: URL,
-                                        email: currentLink.email,
-                                        phone: currentLink.phone,
-                                        icon: data.iconPath
-                                    }
-                                }
-
-                                return item;
-                            })
-                        )*/
                         dispatchFolderLinks({ type: FOLDER_LINKS_ACTIONS.UPDATE_FOLDER_LINKS, payload: {editID: editID, currentLink: currentLink, url: URL} })
                         dispatchOrigFolderLinks({ type: ORIG_FOLDER_LINKS_ACTIONS.UPDATE_FOLDER_LINKS, payload: {editID: editID, currentLink: currentLink, url: URL} })
-
-                        /*setOriginalFolderLinks(
-                            originalFolderLinks.map((item) => {
-                                if (item.id === editID) {
-                                    return {
-                                        ...item,
-                                        name: currentLink.name,
-                                        url: URL,
-                                        email: currentLink.email,
-                                        phone: currentLink.phone,
-                                        icon: data.iconPath
-                                    }
-                                }
-
-                                return item;
-                            })
-                        )*/
 
                         dispatch({ type: LINKS_ACTIONS.UPDATE_LINK_IN_FOLDER, payload: {folderID: folderID, editID: editID, currentLink: currentLink, url: URL} })
                         dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK_IN_FOLDER, payload: {folderID: folderID, editID: editID, currentLink: currentLink, url: URL} })
 
-                        /*setUserLinks(
-                            userLinks.map((item) => {
-                                if (item.id === folderID && item.type === "folder") {
-
-                                    const newItemLinks = item.links.map((linkItem) => {
-
-                                        if (linkItem.id === editID) {
-
-                                            return {
-                                                ...item,
-                                                name: currentLink.name,
-                                                url: URL,
-                                                email: currentLink.email,
-                                                phone: currentLink.phone,
-                                                icon: data.iconPath
-                                            }
-                                        }
-
-                                        return linkItem
-                                    })
-
-                                    return {
-                                        ...item,
-                                        links: newItemLinks
-                                    }
-                                }
-
-                                return item;
-                            })
-                        )
-
-                        setOriginalArray(
-                            originalArray.map((item) => {
-                                if (item.id === folderID && item.type === "folder") {
-
-                                    const newItemLinks = item.links.map((linkItem) => {
-
-                                        if (linkItem.id === editID) {
-
-                                            return {
-                                                ...item,
-                                                name: currentLink.name,
-                                                url: URL,
-                                                email: currentLink.email,
-                                                phone: currentLink.phone,
-                                                icon: data.iconPath
-                                            }
-                                        }
-
-                                        return linkItem
-                                    })
-
-                                    return {
-                                        ...item,
-                                        links: newItemLinks
-                                    }
-                                }
-
-                                return item;
-                            })
-                        )*/
-
                     } else {
-                        /*setUserLinks (
-                            userLinks.map((item) => {
-                                if (item.id === editID && item.type !== "folder") {
-                                    return {
-                                        ...item,
-                                        name: currentLink.name,
-                                        url: URL,
-                                        email: currentLink.email,
-                                        phone: currentLink.phone,
-                                        icon: data.iconPath
-                                    }
-                                }
-
-                                return item;
-                            })
-                        )*/
 
                         dispatch({ type: LINKS_ACTIONS.UPDATE_LINK, payload: {editID: editID, currentLink: currentLink, url: URL} })
                         dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK, payload: {editID: editID, currentLink: currentLink, url: URL} })
 
-                        /*setOriginalArray (
-                            originalArray.map((item) => {
-                                if (item.id === editID && item.type !== "folder") {
-                                    return {
-                                        ...item,
-                                        name: currentLink.name,
-                                        url: URL,
-                                        email: currentLink.email,
-                                        phone: currentLink.phone,
-                                        icon: data.iconPath
-                                    }
-                                }
-
-                                return item;
-                            })
-                        )*/
                     }
 
                     setCustomIconArray( customIconArray => [

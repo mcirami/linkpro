@@ -31,13 +31,11 @@ export const ConfirmPopup = ({
         e.preventDefault();
 
         let newFolderArray;
-        /*let newOriginalFolderLinks = null;*/
         let newArray;
         let newOriginalArray;
 
         if (folderID) {
             newFolderArray = folderLinks.filter(element => element.id !== editID);
-            /*newOriginalFolderLinks = originalFolderLinks.filter(element => element.id !== editID);*/
             newArray = userLinks.map((item) => {
                 if (item.id === folderID && item.type === "folder") {
                     const itemLinks = item.links.filter(element => element.id !== editID)
@@ -77,10 +75,9 @@ export const ConfirmPopup = ({
                 if (folderID) {
 
                     const newFolderLinks = data.links.find(el => el.id === folderID);
-                    //setOriginalFolderLinks(newFolderLinks.links);
+
                     dispatchOrigFolderLinks({ type: ORIG_FOLDER_LINKS_ACTIONS.SET_ORIG_FOLDER_LINKS, payload: {links: newFolderLinks.links} })
                     dispatchFolderLinks({ type: FOLDER_LINKS_ACTIONS.SET_FOLDER_LINKS, payload: {links: newFolderLinks.links} })
-                    //setFolderLinks(newFolderLinks.links);
 
                     let folderActive = null;
                     if (newFolderArray.length === 0) {
@@ -94,59 +91,13 @@ export const ConfirmPopup = ({
                         updateLinkStatus(packets, folderID, url);
                     }
 
-                    /*setOriginalArray(
-                        newOriginalArray.map((item) => {
-                            if (item.id === folderID && item.type === "folder") {
-                                //const itemLinks = item.links.concat(newLinkObject)
-                                const newOrder = item.links.map((link, index) => {
-                                    return {
-                                        ...link,
-                                        position: index
-                                    }
-                                })
-
-                                return {
-                                    ...item,
-                                    active_status: folderActive !== null ? folderActive : item.active_status,
-                                    links: newOrder
-                                }
-                            }
-
-                            return item;
-                        })
-                    )*/
-
                     dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINKS_POSITIONS, payload: {links: newArray, folderActive: folderActive, folderID: folderID} })
-                    /*setUserLinks(
-                        newArray.map((item) => {
-                            if (item.id === folderID && item.type === "folder") {
-                                //const itemLinks = item.links.concat(newLinkObject)
-                                const newOrder = item.links.map((link, index) => {
-                                    return {
-                                        ...link,
-                                        position: index
-                                    }
-                                })
-
-                                return {
-                                    ...item,
-                                    active_status: folderActive === false ? folderActive : item.active_status,
-                                    links: newOrder
-                                }
-                            }
-
-                            return item;
-                        })
-                    )*/
                     dispatch({ type: LINKS_ACTIONS.UPDATE_LINKS_POSITIONS, payload: {links: newArray, folderActive: folderActive, folderID: folderID} })
 
                 } else {
                     dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS, payload: {links: data.links}})
-                    //setOriginalArray(data.links)
                     dispatch({ type: LINKS_ACTIONS.SET_LINKS, payload: {links: data.links} })
-                    //setUserLinks(data.links);
                 }
-
 
                 setEditID(null)
                 updateContentHeight();

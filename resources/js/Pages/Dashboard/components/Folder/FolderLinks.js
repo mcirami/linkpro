@@ -61,7 +61,7 @@ const FolderLinks = ({
                }) => {
 
     const { userLinks, dispatch  } = useContext(UserLinksContext);
-    const { originalArray, dispatchOrig } = useContext(OriginalArrayContext);
+    const { dispatchOrig } = useContext(OriginalArrayContext);
 
     const { folderLinks, dispatchFolderLinks } = useContext(FolderLinksContext);
     const { originalFolderLinks, dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);
@@ -300,30 +300,7 @@ const FolderLinks = ({
 
             if(data.success) {
 
-                /*setUserLinks(
-                    userLinks.map((item) => {
-                        if (item.id === folderID && item.type === "folder") {
-                            item.name = currentFolder.name;
-
-                            return item
-                        }
-
-                        return item
-                    })
-                )*/
-
                 dispatch({ type: LINKS_ACTIONS.UPDATE_FOLDER_NAME, payload: {folderID: folderID, name: currentFolder.name} })
-                /*setOriginalArray(
-                    originalArray.map((item) => {
-                        if (item.id === folderID && item.type === "folder") {
-                            item.name = currentFolder.name;
-
-                            return item
-                        }
-
-                        return item
-                    })
-                )*/
                 dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.UPDATE_FOLDER_NAME, payload: {folderID: folderID, name: currentFolder.name} })
             }
         })

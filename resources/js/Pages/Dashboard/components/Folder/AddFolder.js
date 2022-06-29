@@ -56,9 +56,6 @@ const AddFolder = ({
                     dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS, payload: {links: newOriginalArray.concat(newFolderObject) }})
                     dispatch({ type: LINKS_ACTIONS.SET_LINKS, payload: {links: newLinks.concat(newFolderObject) }})
 
-                    //setOriginalArray(newOriginalArray.concat(newFolderObject));
-                   // setUserLinks(newLinks.concat(newFolderObject));
-
                     fetchFolderLinks(data.id);
                 }
             })
@@ -76,9 +73,6 @@ const AddFolder = ({
 
         dispatchOrigFolderLinks({ type: ORIG_FOLDER_LINKS_ACTIONS.SET_ORIG_FOLDER_LINKS, payload: {links: folderLinks["links"] }})
         dispatchFolderLinks({ type: FOLDER_LINKS_ACTIONS.SET_FOLDER_LINKS, payload: {links: folderLinks["links"] }});
-
-        /*setOriginalFolderLinks(folderLinks["links"]);
-        setFolderLinks(folderLinks["links"]);*/
 
         setEditFolderID(folderID);
 
