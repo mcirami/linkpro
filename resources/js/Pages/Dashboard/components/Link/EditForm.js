@@ -38,10 +38,10 @@ const EditForm = ({
 }) => {
 
     const { userLinks, dispatch  } = useContext(UserLinksContext);
-    const { originalArray, dispatchOrig } = useContext(OriginalArrayContext);
+    const { dispatchOrig } = useContext(OriginalArrayContext);
     const { folderLinks, dispatchFolderLinks } = useContext(FolderLinksContext);
-    const { originalFolderLinks, dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);
-    const  { pageSettings, setPageSettings } = useContext(PageContext);
+    const { dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);
+    const  { pageSettings } = useContext(PageContext);
 
     const iconRef = createRef(null)
     const [completedIconCrop, setCompletedIconCrop] = useState(null);

@@ -6,6 +6,12 @@ import {
     updateLinkStatus,
 } from '../../../../Services/LinksRequest';
 import {UserLinksContext, OriginalArrayContext, FolderLinksContext, OriginalFolderLinksContext} from '../../App';
+import {
+    LINKS_ACTIONS,
+    ORIGINAL_LINKS_ACTIONS,
+    FOLDER_LINKS_ACTIONS,
+    ORIG_FOLDER_LINKS_ACTIONS
+} from '../../../../Services/Reducer';
 
 export const ConfirmPopup = ({
                                  editID,
@@ -15,11 +21,11 @@ export const ConfirmPopup = ({
                                  folderID
                              }) => {
 
-    const { userLinks, setUserLinks } = useContext(UserLinksContext);
-    const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
+    const { userLinks, dispatch  } = useContext(UserLinksContext);
+    const { originalArray, dispatchOrig } = useContext(OriginalArrayContext);
+    const { folderLinks, dispatchFolderLinks } = useContext(FolderLinksContext);
+    const { dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);
 
-    const { folderLinks, setFolderLinks } = useContext(FolderLinksContext);
-    const { originalFolderLinks, setOriginalFolderLinks } = useContext(OriginalFolderLinksContext);
 
     const deleteItem = (e) => {
         e.preventDefault();
@@ -71,8 +77,10 @@ export const ConfirmPopup = ({
                 if (folderID) {
 
                     const newFolderLinks = data.links.find(el => el.id === folderID);
-                    setOriginalFolderLinks(newFolderLinks.links);
-                    setFolderLinks(newFolderLinks.links);
+                    //setOriginalFolderLinks(newFolderLinks.links);
+                    dispatchOrigFolderLinks({ type: ORIG_FOLDER_LINKS_ACTIONS.SET_ORIG_FOLDER_LINKS, payload: {links: newFolderLinks.links} })
+                    dispatchFolderLinks({ type: FOLDER_LINKS_ACTIONS.SET_FOLDER_LINKS, payload: {links: newFolderLinks.links} })
+                    //setFolderLinks(newFolderLinks.links);
 
                     let folderActive = null;
                     if (newFolderArray.length === 0) {
@@ -86,7 +94,7 @@ export const ConfirmPopup = ({
                         updateLinkStatus(packets, folderID, url);
                     }
 
-                    setOriginalArray(
+                    /*setOriginalArray(
                         newOriginalArray.map((item) => {
                             if (item.id === folderID && item.type === "folder") {
                                 //const itemLinks = item.links.concat(newLinkObject)
@@ -106,9 +114,10 @@ export const ConfirmPopup = ({
 
                             return item;
                         })
-                    )
+                    )*/
 
-                    setUserLinks(
+                    dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINKS_POSITIONS, payload: {links: newArray, folderActive: folderActive, folderID: folderID} })
+                    /*setUserLinks(
                         newArray.map((item) => {
                             if (item.id === folderID && item.type === "folder") {
                                 //const itemLinks = item.links.concat(newLinkObject)
@@ -128,12 +137,14 @@ export const ConfirmPopup = ({
 
                             return item;
                         })
-                    )
-
+                    )*/
+                    dispatch({ type: LINKS_ACTIONS.UPDATE_LINKS_POSITIONS, payload: {links: newArray, folderActive: folderActive, folderID: folderID} })
 
                 } else {
-                    setOriginalArray(data.links)
-                    setUserLinks(data.links);
+                    dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS, payload: {links: data.links}})
+                    //setOriginalArray(data.links)
+                    dispatch({ type: LINKS_ACTIONS.SET_LINKS, payload: {links: data.links} })
+                    //setUserLinks(data.links);
                 }
 
 

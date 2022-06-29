@@ -9,6 +9,7 @@ export const LINKS_ACTIONS = {
     UPDATE_FOLDER_NAME: 'update-folder-name',
     UPDATE_LINK: 'update-link',
     UPDATE_LINK_IN_FOLDER: 'update-link-in-folder',
+    UPDATE_LINKS_POSITIONS: 'update-links-positions',
 }
 
 export function reducer(userLinks, action) {
@@ -153,6 +154,28 @@ export function reducer(userLinks, action) {
                 return item;
             })
 
+        case LINKS_ACTIONS.UPDATE_LINKS_POSITIONS:
+
+            return action.payload.links.map((item) => {
+                if (item.id === action.payload.folderID) {
+                    //const itemLinks = item.links.concat(newLinkObject)
+                    const newOrder = item.links.map((link, index) => {
+                        return {
+                            ...link,
+                            position: index
+                        }
+                    })
+
+                    return {
+                        ...item,
+                        active_status: action.payload.folderActive === false ? action.payload.folderActive : item.active_status,
+                        links: newOrder
+                    }
+                }
+
+                return item;
+            })
+
         default:
             return myLinksArray;
     }
@@ -167,6 +190,7 @@ export const ORIGINAL_LINKS_ACTIONS = {
     UPDATE_FOLDER_NAME: 'update-folder-name',
     UPDATE_LINK: 'update-link',
     UPDATE_LINK_IN_FOLDER: 'update-link-in-folder',
+    UPDATE_LINKS_POSITIONS: 'update-links-positions',
 }
 
 export function origLinksReducer(originalArray, action) {
@@ -306,6 +330,28 @@ export function origLinksReducer(originalArray, action) {
                     return {
                         ...item,
                         links: newItemsLinks
+                    }
+                }
+
+                return item;
+            })
+
+        case ORIGINAL_LINKS_ACTIONS.UPDATE_LINKS_POSITIONS:
+
+            return action.payload.links.map((item) => {
+                if (item.id === action.payload.folderID) {
+                    //const itemLinks = item.links.concat(newLinkObject)
+                    const newOrder = item.links.map((link, index) => {
+                        return {
+                            ...link,
+                            position: index
+                        }
+                    })
+
+                    return {
+                        ...item,
+                        active_status: action.payload.folderActive === false ? action.payload.folderActive : item.active_status,
+                        links: newOrder
                     }
                 }
 

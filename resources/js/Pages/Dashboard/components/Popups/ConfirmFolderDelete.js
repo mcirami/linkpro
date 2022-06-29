@@ -3,6 +3,11 @@ import {MdCheckCircle} from 'react-icons/md';
 import {deleteFolder} from '../../../../Services/FolderRequests';
 import {updateContentHeight} from '../../../../Services/LinksRequest';
 import {UserLinksContext, OriginalArrayContext} from '../../App';
+import {
+    LINKS_ACTIONS,
+    ORIGINAL_LINKS_ACTIONS,
+} from '../../../../Services/Reducer';
+
 
 export const ConfirmFolderDelete = ({
                                         showConfirmFolderDelete,
@@ -11,8 +16,9 @@ export const ConfirmFolderDelete = ({
                                         setEditFolderID
                              }) => {
 
-    const { userLinks, setUserLinks } = useContext(UserLinksContext);
-    const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
+    const { userLinks, dispatch  } = useContext(UserLinksContext);
+    const { dispatchOrig } = useContext(OriginalArrayContext);
+    //const { originalArray, setOriginalArray } = useContext(OriginalArrayContext);
 
     const deleteItem = (e) => {
         e.preventDefault();
@@ -37,9 +43,10 @@ export const ConfirmFolderDelete = ({
 
             if(data.success) {
 
-                setOriginalArray(data.links)
-
-                setUserLinks(data.links)
+                dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS, payload: {links: data.links} })
+                //setOriginalArray(data.links)
+                dispatch({ type: LINKS_ACTIONS.SET_LINKS, payload: {links: data.links} })
+                //setUserLinks(data.links)
 
                 setEditFolderID(null);
                 updateContentHeight();
