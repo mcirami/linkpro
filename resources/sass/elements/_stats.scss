@@ -1,5 +1,15 @@
 .my_row.form_page.stats .card {
-    max-width: 850px
+    max-width: 850px;
+
+    button {
+        width: auto;
+        display: flex;
+        padding: 20px 10px;
+    }
+}
+
+.react-datepicker__navigation-icon::before {
+    border-color: $blue !important;
 }
 
 #stats_page {

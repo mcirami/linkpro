@@ -81,7 +81,7 @@ trait TrackingTrait {
         $folders = Folder::where('user_id', '=', Auth::id())->get();
 
         foreach ($folders as $folder) {
-            $folderClickCount = count(FolderClick::whereBetween('created_at', [ $startDate, $endDate ])->where('folder_id', $folder->id)->get());
+            $folderClickCount = count(FolderClick::whereBetween('created_at', [ $startDate, $endDate ])->where('folder_uuid', $folder->uuid)->get());
 
             $folderLinkIDs = json_decode($folder->link_ids);
 
@@ -107,7 +107,7 @@ trait TrackingTrait {
             }
 
             $object     = [
-                "id" => $folder->id,
+                "id" => $folder->uuid,
                 "name" => $folder->folder_name ? : "N/A",
                 "clickCount"   => $folderClickCount,
                 "links"     => $linksArray

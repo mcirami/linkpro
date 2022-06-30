@@ -15620,6 +15620,15 @@ form .bottom_row a {
 .my_row.form_page.stats .card {
   max-width: 850px;
 }
+.my_row.form_page.stats .card button {
+  width: auto;
+  display: flex;
+  padding: 20px 10px;
+}
+
+.react-datepicker__navigation-icon::before {
+  border-color: #424fcf !important;
+}
 
 #stats_page #stats {
   display: flex;
