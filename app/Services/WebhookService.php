@@ -16,64 +16,6 @@ class WebhookService {
      *
      * @return void
      */
-    public function expired($notification) {
-
-        Log::channel( 'cloudwatch' )->info( $notification->timestamp->format('D M j G:i:s T Y') .
-                                            " --- Before If notification->kind--- "
-        );
-
-        if ( $notification->kind == 'subscription_expired' ) {
-            $subscription = Subscription::where('braintree_id', $notification->subscription->id )->first();
-            $user         = User::findOrFail( $subscription->user_id );
-            $userPages    = $user->pages()->get();
-
-            if ( !empty( $userPages ) ) {
-
-                foreach ( $userPages as $userPage ) {
-                    if ( $userPage->is_protected ) {
-                        $userPage->is_protected = 0;
-                        $userPage->password     = null;
-                    }
-                    if ( !$userPage->default ) {
-                        $userPage->disabled = true;
-                    }
-
-                    $userPage->save();
-
-                    if ( $userPage->default ) {
-                        $folders = Folder::where( 'page_id', $userPage->id )->get();
-                        if ( !empty( $folders ) ) {
-                            foreach ( $folders as $folder ) {
-                                if ( $folder->active_status ) {
-                                    $folder->active_status = 0;
-                                    $folder->save();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            $subscription->update( [ 'name' => 'free' ] );
-
-            //Log::channel('webhooks')->info($notification->timestamp->format('D M j G:i:s T Y') . $notification->kind . " --- " . $notification->subscription->id);
-
-            Log::channel( 'cloudwatch' )->info( $notification->timestamp->format('D M j G:i:s T Y') .
-                                                "-- kind --"
-                                                . $notification->kind .
-                                                "-- Sub ID -- " .
-                                                $notification->subscription->id
-            );
-
-            header( "HTTP/1.1 200 OK" );
-        }
-    }
-
-    /**
-     * @param $notification
-     *
-     * @return void
-     */
     public function charged($notification) {
 
         if ( $notification->kind == 'subscription_charged_successfully' ) {
@@ -82,34 +24,37 @@ class WebhookService {
             $planId = $notification->subscription->planId;
 
             $subscription = Subscription::where('braintree_id', $subId )->first();
-            $referral = Referral::where('referral_id', $subscription->user_id)->orderBy('updated_at', 'DESC')->first();
+            if ($subscription != null) {
+                $referral = Referral::where( 'referral_id', $subscription->user_id )->orderBy( 'updated_at',
+                    'DESC' )->first();
 
-            if ($referral != null) {
+                if ( $referral != null ) {
 
-                if ($referral->plan_id == null) {
+                    if ( $referral->plan_id == null ) {
 
-                    $referral->update([
-                        'subscription_id' => $subscription->id,
-                        'plan_id' => $planId
-                    ]);
-
-                } else {
-
-                    if ($referral->plan_id == $planId) {
-
-                        Referral::create([
-                            'referral_id' => $referral->referral_id,
-                            'user_id' => $referral->user_id,
+                        $referral->update( [
                             'subscription_id' => $subscription->id,
-                            'plan_id' => $planId
-                        ]);
+                            'plan_id'         => $planId
+                        ] );
 
                     } else {
 
-                        $referral->update([
-                            'plan_id' => $planId
-                        ]);
+                        if ( $referral->plan_id == $planId ) {
 
+                            Referral::create( [
+                                'referral_id'     => $referral->referral_id,
+                                'user_id'         => $referral->user_id,
+                                'subscription_id' => $subscription->id,
+                                'plan_id'         => $planId
+                            ] );
+
+                        } else {
+
+                            $referral->update( [
+                                'plan_id' => $planId
+                            ] );
+
+                        }
                     }
                 }
             }

@@ -20,7 +20,8 @@ class Subscription extends Model
         'braintree_id',
         'braintree_status',
         'trial_ends_at',
-        'ends_at'
+        'ends_at',
+        'downgraded',
     ];
 
     public function user() {

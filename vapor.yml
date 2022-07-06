@@ -26,7 +26,6 @@ environments:
         cli-memory: 512
         runtime: docker
         database: staging-database
-        scheduler: false
         build:
             - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install'
             - 'php artisan event:cache'

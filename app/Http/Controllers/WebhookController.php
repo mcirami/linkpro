@@ -11,29 +11,6 @@ class WebhookController extends Controller
 
     use SubscriptionTrait;
 
-    public function subscriptionExpired(WebhookService $webhookService) {
-
-        $gateway = $this->createGateway();
-
-        /**for testing **/
-        //$webhookService->webhookTest($gateway, 'SUBSCRIPTION_EXPIRED');
-
-        Log::channel( 'cloudwatch' )->info( " --- WebHook Fired --- " );
-
-        if (
-            isset($_POST["bt_signature"]) &&
-            isset($_POST["bt_payload"])
-        ) {
-            $notification = $gateway->webhookNotification()->parse(
-                $_POST["bt_signature"],
-                $_POST["bt_payload"]
-            );
-
-            $webhookService->expired($notification);
-
-        }
-    }
-
     public function chargedSuccessfully(WebhookService $webhookService) {
 
         $gateway = $this->createGateway();
