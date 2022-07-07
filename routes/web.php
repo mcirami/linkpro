@@ -102,6 +102,7 @@ Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated']], function() {
 Route::group(['middleware' => 'web'], function() {
 
     Route::post('/braintree/webhooks/charged-successfully', [WebhookController::class, 'chargedSuccessfully']);
+    Route::post('/braintree/webhooks/sub-went-active', [WebhookController::class, 'subWentActive']);
 
     Route::get('/get-icons', [IconController::class, 'getIcons']);
 

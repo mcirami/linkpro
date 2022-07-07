@@ -81,6 +81,29 @@ class WebhookService {
         }
     }
 
+    public function wentActive($notification) {
+
+        if ( $notification->kind == 'subscription_went_active' ) {
+
+            $subId = $notification->subscription->id;
+            $subscription = Subscription::where('braintree_id', $subId )->first();
+            if ($subscription != null) {
+                $subscription->update([
+                    'braintree_status' => 'active'
+                ]);
+
+                Log::channel( 'cloudwatch' )->info( $notification->timestamp->format('D M j G:i:s T Y') .
+                                                    " --- kind --- " .
+                                                    $notification->kind .
+                                                    " --- sub id --- " .
+                                                    $subId
+                );
+            }
+
+            header( "HTTP/1.1 200 OK" );
+        }
+    }
+
     /**
      * @param $gateway
      *
@@ -98,6 +121,11 @@ class WebhookService {
                 WebhookNotification::SUBSCRIPTION_EXPIRED,
                 'kgztvm'
             );
+        } else if ($type = 'SUBSCRIPTION_WENT_ACTIVE') {
+            $sampleNotification = $gateway->webhookTesting()->sampleNotification(
+                WebhookNotification::SUBSCRIPTION_WENT_ACTIVE,
+                '7m249m'
+            );
         }
 
 
@@ -112,7 +140,9 @@ class WebhookService {
         );*/
         Log::channel( 'cloudwatch' )->info( $notification->timestamp->format('D M j G:i:s T Y') .
                                           " --- kind --- " .
-                                          $notification->kind
+                                          $notification->kind .
+                                            " -- sub id --" .
+                                            $notification->subscription->id
         );
 
     }
