@@ -42,9 +42,9 @@ class WebhookController extends Controller
         $gateway = $this->createGateway();
 
         /**for testing **/
-        $webhookService->webhookTest($gateway, 'SUBSCRIPTION_WENT_ACTIVE');
+        //$webhookService->webhookTest($gateway, 'SUBSCRIPTION_WENT_ACTIVE');
 
-       /* if (
+        if (
             isset($_POST["bt_signature"]) &&
             isset($_POST["bt_payload"])
         ) {
@@ -54,6 +54,6 @@ class WebhookController extends Controller
             );
 
             $webhookService->wentActive($notification);
-        }*/
+        }
     }
 }

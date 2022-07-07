@@ -7,7 +7,6 @@ use App\Http\Requests\PageNameRequest;
 use App\Http\Requests\PagePassword;
 use App\Http\Requests\PageTitleRequest;
 use App\Models\Page;
-use App\Models\Subscription;
 use App\Models\User;
 use App\Services\PageService;
 use Illuminate\Http\Request;
