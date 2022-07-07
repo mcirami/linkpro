@@ -30,6 +30,8 @@ import {
     origFolderLinksReducer,
     origLinksReducer,
     reducer,
+    LINKS_ACTIONS,
+    ORIGINAL_LINKS_ACTIONS,
 } from '../../Services/Reducer';
 
 const page = user.page;
@@ -75,7 +77,7 @@ function App() {
     const [completedProfileCrop, setCompletedProfileCrop] = useState(null);
     const [profileFileName, setProfileFileName] = useState(null);
 
-    const [subStatus, setSubStatus] = useState(checkSubStatus());
+    const [subStatus] = useState(checkSubStatus());
 
     const [showLoader, setShowLoader] = useState(false);
 
@@ -110,8 +112,8 @@ function App() {
                 getAllLinks(pageSettings["id"])
                 .then((data) => {
                     if (data["success"]) {
-                        setUserLinks(data["userLinks"]);
-                        setOriginalArray(data["userLinks"]);
+                        dispatch({ type: LINKS_ACTIONS.SET_LINKS, payload: { links: data["userLinks"]} })
+                        dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS, payload: {links: data["userLinks"]} })
                     }
                 })
             });
