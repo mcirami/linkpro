@@ -13,7 +13,7 @@
                             <img src={{ asset( 'images/default-img.png' ) }} alt="" />
                         @endif
                     </div>
-                    <div class="profile_content">
+                    <div id="{{ $page->profile_layout }}" class="profile_content">
                         <div class="profile_img_column @if (!$page->profile_img) default @endif">
                             <div class="profile_image">
                                 <div class="image_wrap">

@@ -122,110 +122,6 @@
             float: left;
             position: relative;
 
-            .lock_icon {
-                color: $green;
-                position: absolute;
-                left: 18%;
-                top: 54px;
-                width: 25px;
-                height: 35px;
-
-                @media all and (max-width: 992px) {
-                    width: 20px;
-                    height: 30px;
-                    left: 20%;
-                    top: 58px;
-                }
-
-                @media all and (max-width: 550px) {
-                    top: 31px;
-                }
-
-                svg {
-                    width: 100%;
-                    height: 100%;
-                }
-
-                .tooltip_icon {
-                    @include osbold;
-                    position: absolute;
-                    top: 10px;
-                    right: 22px;
-                    color: $blue;
-                    width: 28px;
-                    height: 28px;
-                    text-align: center;
-                    display: -webkit-box;
-                    display: -ms-flexbox;
-                    display: flex;
-                    justify-content: center;
-                    -webkit-justify-content: center;
-                    align-items: center;
-                    -webkit-align-items: center;
-                    padding-right: 1px;
-
-                    @media all and (max-width: 992px) {
-                        padding-right: 0;
-                        font-size: 12px;
-                        right: 20px;
-                    }
-
-                    .tooltip {
-                        @include boxShadow;
-                        @include osregular;
-                        transition: 1ms opacity linear;
-                        -webkit-transition: 1ms opacity linear;
-                        -moz-transition: 1ms opacity linear;
-                        -o-transition: 1ms opacity linear;
-                        border-radius: 4px;
-                        -webkit-border-radius: 4px;
-                        -moz-border-radius: 4px;
-                        background: $lightGrayAlt;
-                        font-size: .6rem;
-                        min-width: 130px;
-                        padding: 5px;
-                        top: 34px;
-                        left: 0;
-                        color: $black;
-                        display: none;
-
-                        @media all and (max-width: 550px) {
-                            font-size: 8px;
-                            min-width: 110px;
-                        }
-
-                        &:before {
-                            content: '';
-                            position: absolute;
-                            width: 0;
-                            height: 0;
-                            border-left: 8px solid transparent;
-                            border-right: 8px solid transparent;
-                            border-bottom: 10px solid;
-                            border-bottom-color: $lightGrayAlt;
-                            top: -10px;
-                            left: 10px;
-                        }
-
-                        &.open {
-                            display: block;
-                            opacity: 1;
-                        }
-                    }
-
-                    &:hover {
-                        cursor: help;
-
-                        .tooltip {
-                            @media all and (min-width: 769px) {
-                                display: block;
-                                opacity: 1;
-                            }
-                        }
-                    }
-                }
-            }
-
             .profile_img_column {
                 width: 33%;
                 border-radius: 100%;
@@ -233,7 +129,6 @@
                 -moz-border-radius: 100%;
                 padding: 2.5%;
                 float: left;
-                margin-top: -80px;
                 background: #424ece;
                 background: -moz-linear-gradient(left, #424ece 0%, #92cde9 100%);
                 background: -webkit-linear-gradient(left, #424ece 0%, #92cde9 100%);
@@ -333,6 +228,59 @@
                     margin: 0;
                 }
             }
+
+            &#layout_one {
+
+                .profile_img_column {
+                    margin-top: -50px;
+
+                    @media screen and (max-width: 550px) {
+                        margin-top: -20%;
+                    }
+                }
+            }
+
+            &#layout_two {
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-orient: horizontal;
+                -webkit-box-direction: normal;
+                -ms-flex-direction: row;
+                flex-direction: row;
+                -ms-flex-wrap: nowrap;
+                flex-wrap: nowrap;
+                align-items: center;
+                -webkit-align-items: center;
+
+                .profile_img_column {
+                    margin-top: 0;
+                }
+                /*
+                .profile_text {
+                    width: 66%;
+                }*/
+
+            }
+
+            &#layout_three {
+                text-align: center;
+
+                .profile_img_column {
+                    float: none;
+                    margin: -63px auto 10px;
+
+                    @media screen and (max-width: 550px) {
+                        margin: -50px auto 10px;
+                    }
+                }
+
+                .profile_text {
+                    text-align: center;
+                    width: 100%;
+
+                }
+            }
         }
 
         .icons_wrap {
@@ -405,6 +353,7 @@
                 }
 
                 .inner_content_wrap {
+                    position: relative;
                     background: $white;
                     height: 100%;
                     /*margin-right: -5px;
@@ -437,26 +386,127 @@
                         -webkit-border-radius: 24px;
                         -moz-border-radius: 24px;
                     }
+
+                    .lock_icon {
+                        color: $green;
+                        position: absolute;
+                        right: 0;
+                        top: 35px;
+                        width: 50px;
+                        height: 40px;
+                        background-color: $white;
+                        display: -webkit-box;
+                        display: -ms-flexbox;
+                        display: flex;
+                        -webkit-box-orient: horizontal;
+                        -webkit-box-direction: normal;
+                        -ms-flex-direction: row;
+                        flex-direction: row;
+                        -ms-flex-wrap: nowrap;
+                        flex-wrap: nowrap;
+                        justify-content: flex-start;
+                        -webkit-justify-content: flex-start;
+                        align-content: center;
+                        -webkit-align-content: center;
+                        border-top-left-radius: 6px;
+                        -webkit-border-top-left-radius: 6px;
+                        border-bottom-left-radius: 6px;
+                        -webkit-border-bottom-left-radius: 6px;
+                        padding-left: 4px;
+
+
+                        @media all and (max-width: 992px) {
+                            width: 40px;
+                            height: 35px;
+                        }
+
+                        svg {
+                            width: 100%;
+                            height: 100%;
+                        }
+
+                        .tooltip_icon {
+                            @include osbold;
+                            color: $blue;
+                            width: 26px;
+                            height: 26px;
+                            padding-left: 0;
+                            margin-top: 0;
+
+                            .tooltip {
+                                @include boxShadow;
+                                @include osregular;
+                                transition: 1ms opacity linear;
+                                -webkit-transition: 1ms opacity linear;
+                                -moz-transition: 1ms opacity linear;
+                                -o-transition: 1ms opacity linear;
+                                border-radius: 4px;
+                                -webkit-border-radius: 4px;
+                                -moz-border-radius: 4px;
+                                background: $lightGrayAlt;
+                                font-size: .7rem;
+                                min-width: 150px;
+                                padding: 5px;
+                                top: 32px;
+                                right: 20px;
+                                color: $black;
+                                display: none;
+
+                                @media screen and (max-width: 992px) {
+                                    right: 10px;
+                                }
+
+                                @media all and (max-width: 550px) {
+                                    font-size: 8px;
+                                    min-width: 110px;
+                                }
+
+                                &:before {
+                                    content: '';
+                                    position: absolute;
+                                    width: 0;
+                                    height: 0;
+                                    border-left: 8px solid transparent;
+                                    border-right: 8px solid transparent;
+                                    border-bottom: 10px solid;
+                                    border-bottom-color: $lightGrayAlt;
+                                    top: -10px;
+                                    right: 10px;
+                                }
+
+                                &.open {
+                                    display: block;
+                                    opacity: 1;
+                                }
+                            }
+
+                            &:hover {
+                                cursor: help;
+
+                                .tooltip {
+                                    @media all and (min-width: 769px) {
+                                        display: block;
+                                        opacity: 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
 
                 .profile_content {
                     background: $white;
-                    padding: 10px 15px 30px;
+                    padding: 10px 15px 20px;
 
                     @media all and (max-width: 550px) {
-                        padding: 10px 20px 10px;
+                        padding: 10px;
                     }
 
                     .profile_img_column {
                         width: 38%;
-                        margin-top: -62px;
 
                         @media all and (max-width: 992px) {
                             width: 40%;
-                        }
-
-                        @media all and (max-width: 550px) {
-                            margin-top: -52px;
                         }
                     }
 

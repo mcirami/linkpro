@@ -47,6 +47,27 @@
                             padding: 2.5%;
                         }
                     }
+
+                    &#layout_one {
+
+                        .profile_img_column {
+                            margin-top: -65px;
+
+                            @media screen and (max-width: 550px) {
+                                margin-top: -16%;
+                            }
+                        }
+                    }
+
+                    &#layout_three {
+                        .profile_img_column {
+                            margin: -82px auto 10px;
+
+                            @media screen and (max-width: 550px) {
+                                margin-top: -22%;
+                            }
+                        }
+                    }
                 }
 
                 .page_header {
