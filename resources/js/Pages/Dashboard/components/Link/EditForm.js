@@ -292,16 +292,16 @@ const EditForm = ({
 
                     if (folderID) {
 
-                        dispatchFolderLinks({ type: FOLDER_LINKS_ACTIONS.UPDATE_FOLDER_LINKS, payload: {editID: editID, currentLink: currentLink, url: URL} })
-                        dispatchOrigFolderLinks({ type: ORIG_FOLDER_LINKS_ACTIONS.UPDATE_FOLDER_LINKS, payload: {editID: editID, currentLink: currentLink, url: URL} })
+                        dispatchFolderLinks({ type: FOLDER_LINKS_ACTIONS.UPDATE_FOLDER_LINKS, payload: {editID: editID, currentLink: currentLink, url: URL, iconPath: data.iconPath} })
+                        dispatchOrigFolderLinks({ type: ORIG_FOLDER_LINKS_ACTIONS.UPDATE_FOLDER_LINKS, payload: {editID: editID, currentLink: currentLink, url: URL, iconPath: data.iconPath} })
 
-                        dispatch({ type: LINKS_ACTIONS.UPDATE_LINK_IN_FOLDER, payload: {folderID: folderID, editID: editID, currentLink: currentLink, url: URL} })
-                        dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK_IN_FOLDER, payload: {folderID: folderID, editID: editID, currentLink: currentLink, url: URL} })
+                        dispatch({ type: LINKS_ACTIONS.UPDATE_LINK_IN_FOLDER, payload: {folderID: folderID, editID: editID, currentLink: currentLink, url: URL, iconPath: data.iconPath} })
+                        dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK_IN_FOLDER, payload: {folderID: folderID, editID: editID, currentLink: currentLink, url: URL, iconPath: data.iconPath} })
 
                     } else {
 
-                        dispatch({ type: LINKS_ACTIONS.UPDATE_LINK, payload: {editID: editID, currentLink: currentLink, url: URL} })
-                        dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK, payload: {editID: editID, currentLink: currentLink, url: URL} })
+                        dispatch({ type: LINKS_ACTIONS.UPDATE_LINK, payload: {editID: editID, currentLink: currentLink, url: URL, iconPath: data.iconPath} })
+                        dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK, payload: {editID: editID, currentLink: currentLink, url: URL, iconPath: data.iconPath} })
 
                     }
 
