@@ -46,29 +46,32 @@ class EmailSocialShare extends Command
 
         $users = User::whereBetween('created_at', [$startDate, $endDate])->get();
 
-        foreach ($users as $user) {
+        if ($users->isNotEmpty()) {
 
-            $created = Carbon::parse($user->created_at);
-            $diff = $created->diffInDays($now);
+            foreach ( $users as $user ) {
 
-            if ($diff == 5) {
-                $page = $user->pages()->where('default', true)->get();
+                $created = Carbon::parse( $user->created_at );
+                $diff    = $created->diffInDays( $now );
 
-                if ($user->email_subscription) {
-                    $userData = ( [
-                        'username' => $user->username,
-                        'link'     => $page[0]->name,
-                        'userID'  => $user->id,
-                    ] );
+                if ( $diff == 5 ) {
+                    $page = $user->pages()->where( 'default', true )->get();
 
-                    $details = ( [
-                        "data" => $userData,
-                        "userEmail" => $user->email
-                    ]);
+                    if ( $user->email_subscription ) {
+                        $userData = ( [
+                            'username' => $user->username,
+                            'link'     => $page[0]->name,
+                            'userID'   => $user->id,
+                        ] );
 
-                    retry(20, function() use ($details) {
-                        JobEmailSocialShare::dispatch($details);
-                    }, 200);
+                        $details = ( [
+                            "data"      => $userData,
+                            "userEmail" => $user->email
+                        ] );
+
+                        retry( 20, function () use ( $details ) {
+                            JobEmailSocialShare::dispatch( $details );
+                        }, 200 );
+                    }
                 }
             }
         }

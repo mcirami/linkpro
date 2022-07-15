@@ -45,7 +45,8 @@ class EmailFreeTrialCode extends Command
         $now = Carbon::now()->endOfDay();
         $users = User::whereBetween('created_at', [$startDate, $endDate])->get();
 
-        if (!empty($users) ) {
+        if ($users->isNotEmpty()) {
+
             foreach ( $users as $user ) {
 
                 $created = Carbon::parse( $user->created_at )->startOfDay();
