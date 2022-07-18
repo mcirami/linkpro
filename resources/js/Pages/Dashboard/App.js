@@ -1,4 +1,11 @@
-import React, {useState, useReducer, createContext, createRef, useEffect} from 'react';
+import React, {
+    useState,
+    useReducer,
+    createContext,
+    createRef,
+    useEffect,
+    useRef,
+} from 'react';
 import Preview from './components/Preview/Preview';
 import Links from './components/Link/Links';
 import myLinksArray from './components/Link/LinkItems';
@@ -33,6 +40,7 @@ import {
     LINKS_ACTIONS,
     ORIGINAL_LINKS_ACTIONS,
 } from '../../Services/Reducer';
+import PageHeaderLayout from './components/Page/PageHeaderLayout';
 
 const page = user.page;
 const userPages = user.user_pages;
@@ -73,9 +81,11 @@ function App() {
     const [completedCrop, setCompletedCrop] = useState(null);
     const [fileName, setFileName] = useState(null);
 
-    const profileRef = createRef(null)
+    const profileRef = useRef(null)
     const [completedProfileCrop, setCompletedProfileCrop] = useState(null);
     const [profileFileName, setProfileFileName] = useState(null);
+
+    const pageHeaderRef = createRef(null);
 
     const [subStatus] = useState(checkSubStatus());
 
@@ -229,6 +239,12 @@ function App() {
                                                 setInfoIndex={setInfoIndex}
                                             />
 
+                                            <PageHeaderLayout
+                                                pageHeaderRef={pageHeaderRef}
+                                                infoIndex={infoIndex}
+                                                setInfoIndex={setInfoIndex}
+                                            />
+
                                             <ShowPreviewButton />
 
                                             <DowngradeAlert
@@ -340,6 +356,9 @@ function App() {
                                         value={value}
                                         setValue={setValue}
                                         subStatus={subStatus}
+                                        pageHeaderRef={pageHeaderRef}
+                                        infoIndex={infoIndex}
+                                        setInfoIndex={setInfoIndex}
                                     />
                                 </div>
                             </PageContext.Provider>

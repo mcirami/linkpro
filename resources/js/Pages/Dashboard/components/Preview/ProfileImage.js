@@ -1,5 +1,3 @@
-import {BiHelpCircle} from 'react-icons/bi';
-import {IoIosLock} from 'react-icons/io';
 import React, {useContext} from 'react';
 import {PageContext} from '../../App';
 
@@ -14,20 +12,6 @@ const ProfileImage = ({
     return (
 
         <>
-            {pageSettings["is_protected"] ?
-                    <span className="lock_icon">
-                                        <span className="tooltip_icon">
-                                            <BiHelpCircle />
-                                            <p className="tooltip">
-                                                Link is password protected
-                                            </p>
-                                        </span>
-                                        <IoIosLock/>
-
-                                    </span>
-                    :
-                    ""
-            }
             <div className={pageSettings["profile_img"] &&
             !profileFileName || profileFileName ?
                 "profile_img_column" :

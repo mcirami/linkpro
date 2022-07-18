@@ -169,6 +169,18 @@ class PageController extends Controller
         return response()->json(['message' => 'Link Password Updated']);
     }
 
+
+    public function updateProfileLayout(Request $request, Page $page, PageService $pageService) {
+
+        if ($page->user_id != Auth::id()) {
+            return abort(404);
+        }
+
+        $pageService->updateLayout($request, $page);
+
+        return response()->json(['message' => 'Layout Updated']);
+    }
+
     public function pageAuth(Request $request, Page $page, PageService $pageService) {
 
         $pageService->authorizePage($request, $page);

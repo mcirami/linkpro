@@ -58,6 +58,128 @@
 
         .top_section {
             padding: 0 5%;
+
+            form.layouts {
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-orient: horizontal;
+                -webkit-box-direction: normal;
+                -ms-flex-direction: row;
+                flex-direction: row;
+                -ms-flex-wrap: nowrap;
+                flex-wrap: nowrap;
+                justify-content: space-around;
+                -webkit-justify-content: space-around;
+                align-items: center;
+                -webkit-align-items: center;
+                padding: 20px 0;
+                border: 1px solid $borderGray;
+                border-top-right-radius: 8px;
+                -webkit-border-top-right-radius: 8px;
+                -moz-border-radius-topright: 8px;
+                border-top-left-radius: 8px;
+                -webkit-border-top-left-radius: 8px;
+                -moz-border-radius-topleft: 8px;
+
+                @media screen and (max-width: 550px) {
+                    -ms-flex-wrap: wrap;
+                    flex-wrap: wrap;
+                    padding: 0 40px;
+                }
+
+                .radio_wrap {
+                    display: -webkit-box;
+                    display: -ms-flexbox;
+                    display: flex;
+                    -webkit-box-orient: vertical;
+                    -webkit-box-direction: normal;
+                    -ms-flex-direction: column;
+                    flex-direction: column;
+                    -ms-flex-wrap: nowrap;
+                    flex-wrap: nowrap;
+                    border-right: 1px solid $borderGray;
+                    width: 33%;
+                    justify-content: center;
+                    -webkit-justify-content: center;
+                    align-items: center;
+                    -webkit-align-items: center;
+
+                    @media screen and (max-width: 550px) {
+                        border-right: none;
+                        border-bottom: 1px solid $borderGray;
+                        width: 100%;
+                        padding: 20px 0;
+                        -webkit-box-orient: horizontal;
+                        -webkit-box-direction: normal;
+                        -ms-flex-direction: row;
+                        flex-direction: row;
+                        justify-content: flex-start;
+                        -webkit-justify-content: flex-start;
+                    }
+
+                    &:last-child {
+                        border-right: none;
+
+                        @media screen and (max-width: 550px) {
+                            border-bottom: none;
+                        }
+                    }
+
+                    img {
+                        max-width: 100px;
+                        margin-top: 10px;
+                        padding: 0 5%;
+
+                        @media screen and (max-width: 550px) {
+                            margin-top: auto;
+                        }
+                    }
+
+                    label {
+                        width: 100%;
+                        display: -webkit-box;
+                        display: -ms-flexbox;
+                        display: flex;
+                        -webkit-box-orient: horizontal;
+                        -webkit-box-direction: normal;
+                        -ms-flex-direction: row;
+                        flex-direction: row;
+                        -ms-flex-wrap: nowrap;
+                        flex-wrap: nowrap;
+                        align-items: center;
+                        -webkit-align-items: center;
+                        justify-content: center;
+                        -webkit-justify-content: center;
+                        column-gap: 5px;
+                        -webkit-column-gap: 5px;
+                        -moz-column-gap: 5px;
+                        font-size: 1em;
+
+                        @media screen and (max-width: 1199px) {
+                            font-size: .9em;
+                        }
+
+                        @media screen and (max-width: 550px) {
+                            width: 50%;
+                            justify-content: flex-start;
+                            -webkit-justify-content: flex-start;
+                            margin-top: auto;
+                            margin-bottom: auto;
+                        }
+
+                        input {
+                            width: 18px;
+                            height: 18px;
+
+                            @media screen and (max-width: 1199px) {
+                                width: 16px;
+                                height: 16px;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

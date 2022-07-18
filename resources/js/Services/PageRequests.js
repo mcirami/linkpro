@@ -234,6 +234,31 @@ export const pageBio = (packets, pageID) => {
     });
 }
 
+export const updateProfileLayout = (packets, pageID) => {
+
+    return axios.post('/dashboard/page/update-profile-layout/' + pageID,
+        packets).then(
+        (response) => {
+            //console.log(JSON.stringify(response.data))
+            const returnMessage = JSON.stringify(response.data.message);
+
+            return {
+                message: returnMessage
+            }
+        }
+    ).catch(error => {
+        //console.error("ERROR:: ", error.response.data.errors.bio[0]);
+
+        if (error.response) {
+            EventBus.dispatch("error", {message: "Something went wrong"});
+            console.error(error.response);
+        } else {
+            console.error("ERROR:: ", error);
+        }
+    });
+
+}
+
 export const toolTipPosition = () => {
 
     const hoverText = document.querySelectorAll('.hover_text.help');
@@ -247,10 +272,12 @@ export const toolTipPosition = () => {
     }
 }
 
-export const toolTipClick = (index, infoIndex, setInfoIndex, infoDiv) => {
+export const toolTipClick = (index, infoIndex, setInfoIndex, infoDiv = null) => {
 
     if (index === infoIndex) {
         setInfoIndex(null);
+    } else if (index === 6) {
+        setInfoIndex(index);
     } else {
         setInfoIndex(index);
         if (!isInViewport(infoDiv.current)) {

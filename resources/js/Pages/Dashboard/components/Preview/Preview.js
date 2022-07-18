@@ -4,7 +4,7 @@ import React, {
     useEffect,
     useLayoutEffect,
 } from 'react';
-import {UserLinksContext} from '../../App';
+import {PageContext, UserLinksContext} from '../../App';
 import {IoIosCloseCircleOutline} from 'react-icons/io';
 import AccordionLinks from './AccordionLinks';
 import {checkIcon} from '../../../../Services/UserService';
@@ -12,6 +12,7 @@ import Header from './Header';
 import ProfileImage from './ProfileImage';
 import ProfileText from './ProfileText';
 import Folder from './Folder';
+import LockIcon from './LockIcon';
 
 const Preview = ({
                      setRef,
@@ -24,11 +25,15 @@ const Preview = ({
                      setRow,
                      value,
                      setValue,
-                     subStatus
+                     subStatus,
+                     pageHeaderRef,
+                     infoIndex,
+                     setInfoIndex
 }) => {
 
     const { userLinks } = useContext(UserLinksContext);
     const [iconCount, setIconCount] = useState(null);
+    const {pageSettings} = useContext(PageContext);
 
     const ClosePreview = () => {
         document.querySelector('.links_col.preview').classList.remove('show');
@@ -120,13 +125,18 @@ const Preview = ({
             <div className="links_wrap preview">
                 <div className="inner_content" id="preview_wrap">
                     <div className="inner_content_wrap">
+                        {pageSettings["is_protected"] ?
+                                <LockIcon infoIndex={infoIndex} setInfoIndex={setInfoIndex}/>
+                            :
+                            ""
+                        }
                         <Header
                             setRef={setRef}
                             completedCrop={completedCrop}
                             fileName={fileName}
                         />
 
-                        <div className="profile_content">
+                        <div id={pageSettings['profile_layout']} className="profile_content" ref={pageHeaderRef}>
                             <ProfileImage
                                 profileFileName={profileFileName}
                                 completedProfileCrop={completedProfileCrop}

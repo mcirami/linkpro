@@ -25,6 +25,7 @@ class Page extends Model
         'password',
         'default',
         'disabled',
+        'profile_layout',
     ];
 
     public function user() {
