@@ -23,6 +23,19 @@
                 &:nth-child(4n) {
                     margin-right: 1.3%;
                 }
+
+                .hover_text {
+                    text-align: center;
+
+                    p {
+                        display: inline-block;
+                    }
+                }
+
+                a.link_tracker:hover .hover_text {
+                    display: inline-block;
+                    opacity: 1;
+                }
             }
         }
 

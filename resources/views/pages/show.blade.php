@@ -89,6 +89,9 @@
                                                             @endif
                                                             <div class="icon_col">
                                                                 <a class="link_tracker" href="{{$source}}" target="_blank" data-id="{{$folderLink["id"]}}">
+                                                                    <div class="hover_text">
+                                                                        <p>{{$folderLink["name"]}}</p>
+                                                                    </div>
                                                                     @if ( str_contains($folderLink["icon"], "custom") )
                                                                         @if ( $subscribed )
                                                                             @php $icon =  $folderLink["icon"] @endphp
@@ -116,7 +119,6 @@
                                     @else
                                         <div class="icon_col">
                                             @if($link->active_status)
-
                                                 @if ($link->email)
                                                     @php $source = "mailto:" . $link->email @endphp
                                                 @elseif ($link->phone)
@@ -132,6 +134,9 @@
                                                    target="_blank"
                                                    rel="nofollow"
                                                 >
+                                                    <div class="hover_text">
+                                                        <p>{{$link->name}}</p>
+                                                    </div>
                                                     @if ( str_contains($link->icon, "custom") )
                                                         @if ( $subscribed )
                                                             @php $icon =  $link->icon @endphp
