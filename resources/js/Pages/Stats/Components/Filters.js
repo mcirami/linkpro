@@ -1,8 +1,18 @@
 import React, {useState} from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import RefreshButton from './RefreshButton';
 
-export const Filters = ({handleDateChange, startDate, endDate, handleDropdownChange, dropdownValue}) => {
+export const Filters = ({
+                            handleDateChange,
+                            startDate,
+                            endDate,
+                            handleDropdownChange,
+                            dropdownValue,
+                            tab,
+                            setStatsFunc,
+                            setDeletedFunc = null,
+}) => {
 
     return (
         <>
@@ -39,6 +49,16 @@ export const Filters = ({handleDateChange, startDate, endDate, handleDropdownCha
                     minDate={startDate}
                     maxDate={new Date()}
                     placeholderText='End Date'
+                />
+            </div>
+            <div className="column">
+                <RefreshButton
+                    startDate={startDate}
+                    endDate={endDate}
+                    dropdownValue={dropdownValue}
+                    tab={tab}
+                    setStatsFunc={setStatsFunc}
+                    setDeletedFunc={setDeletedFunc}
                 />
             </div>
         </>

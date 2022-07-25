@@ -16,7 +16,8 @@ const LinkStats = ({
                        linkStartDate,
                        setLinkStartDate,
                        linkDropdownValue,
-                       setLinkDropdownValue
+                       setLinkDropdownValue,
+                       tab
 }) => {
 
     let animatedElements;
@@ -116,7 +117,11 @@ const LinkStats = ({
                          startDate={linkStartDate}
                          endDate={linkEndDate}
                          handleDropdownChange={handleDropdownChange}
-                         dropdownValue={linkDropdownValue}/>
+                         dropdownValue={linkDropdownValue}
+                         tab={tab}
+                         setStatsFunc={setLinkStats}
+                         setDeletedFunc={setDeletedStats}
+                />
             </div>
             {linkStats && linkStats.length > 0 ?
             <div className="table_wrap my_row table-responsive">

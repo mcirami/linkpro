@@ -4,7 +4,6 @@ import PageStats from './Components/PageStats';
 import LinkStats from './Components/LinkStats';
 import FolderStats from './Components/FolderStats';
 
-//const url = '/stats/get';
 function App() {
 
     const [pageStats, setPageStats] = useState([])
@@ -38,21 +37,6 @@ function App() {
         setLinkStats(responses[1]['value']['linkStats']);
         setDeletedStats(responses[2]['value']['deletedStats']);
         setFolderStats(responses[3]['value']['folderStats'])
-       /* try {
-            const response = await fetch(url);
-            const newStats = await response.json();
-            setPageStats(newStats["pageStats"]);
-            setLinkStats(newStats["linkStats"]);
-            setDeletedStats(newStats["deletedStats"]);
-            setFolderStats(newStats["folderStats"]);
-
-            if (!response.ok) {
-                throw Error(response.statusText);
-            }
-
-        } catch (error) {
-            console.error(error);
-        }*/
     }
 
     useEffect(() => {
@@ -66,27 +50,20 @@ function App() {
 
     const handleClick = e => {
         e.preventDefault();
-        if (!e.target.classList.contains('active')) {
-            document.querySelectorAll('.tab_link').forEach((link) => {
-                link.classList.remove("active")
-            })
-
-            e.target.classList.add("active");
-            setTab(e.target.dataset.tab);
-        }
+        setTab(e.target.dataset.tab);
     }
 
     return (
 
         <div className="tabs_wrap">
             <div className="my_row tab_nav">
-                <a href="#" className="tab_link active" data-tab="link" onClick={(e) => { handleClick(e) } }>
+                <a href="#" className={`tab_link ${tab === "link" ? "active" : "" }` } data-tab="link" onClick={(e) => { handleClick(e) } }>
                     Page Stats
                 </a>
-                <a href="#" className="tab_link" data-tab="icon" onClick={(e) => {handleClick(e) } }>
+                <a href="#" className={`tab_link ${tab === "icon" ? "active" : "" }` } data-tab="icon" onClick={(e) => { handleClick(e) } }>
                     Icon Stats
                 </a>
-                <a href="#" className="tab_link" data-tab="folder" onClick={(e) => {handleClick(e) } }>
+                <a href="#" className={`tab_link ${tab === "folder" ? "active" : "" }` } data-tab="folder" onClick={(e) => { handleClick(e) } }>
                     Folder Stats
                 </a>
             </div>
@@ -100,6 +77,7 @@ function App() {
                            setPageEndDate={setPageEndDate}
                            pageDropdownValue={pageDropdownValue}
                            setPageDropdownValue={setPageDropdownValue}
+                           tab={tab}
                 />
             }
             {tab ==="icon" &&
@@ -113,6 +91,7 @@ function App() {
                            setLinkEndDate={setLinkEndDate}
                            linkDropdownValue={linkDropdownValue}
                            setLinkDropdownValue={setLinkDropdownValue}
+                           tab={tab}
                 />
             }
 
@@ -126,6 +105,7 @@ function App() {
                     setFolderEndDate={setFolderEndDate}
                     folderDropdownValue={folderDropdownValue}
                     setFolderDropdownValue={setFolderDropdownValue}
+                    tab={tab}
                 />
             }
 

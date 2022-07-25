@@ -14,9 +14,10 @@ const FolderStats = ({
                          folderEndDate,
                          setFolderEndDate,
                          folderDropdownValue,
-                         setFolderDropdownValue
+                         setFolderDropdownValue,
+                         tab
 
-                   }) => {
+                     }) => {
 
     let animatedElements;
 
@@ -118,7 +119,10 @@ const FolderStats = ({
                              startDate={folderStartDate}
                              endDate={folderEndDate}
                              handleDropdownChange={handleDropdownChange}
-                             dropdownValue={folderDropdownValue}/>
+                             dropdownValue={folderDropdownValue}
+                             tab={tab}
+                             setStatsFunc={setFolderStats}
+                    />
                 </div>
 
                 {folderStats.map((item) => {

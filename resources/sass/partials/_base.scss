@@ -200,6 +200,7 @@ button {
     -moz-border-radius: 6px;
     border: none;
     text-transform: uppercase;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, .70);
 
     @media all and (max-width: 768px) {
         width: 138px;
@@ -213,6 +214,7 @@ button {
         background: $red;
 
         &:hover {
+            color: $white;
             background: $hoverRed;
             text-decoration: none;
         }
@@ -229,7 +231,7 @@ button {
     }
 
     &.transparent {
-        border: 1px solid $blue;
+        box-shadow: 0 0 5px 0 rgba(0, 0, 0, 30%);
         color: $blue;
 
         &:hover {
@@ -237,7 +239,6 @@ button {
         }
 
         &.gray {
-            border: 1px solid $darkGray;
             color: $darkGray;
 
             &:hover {
@@ -268,6 +269,7 @@ button {
     }
 
     &.green {
+        box-shadow: 0 0 2px 0 rgba(0, 0, 0, 30%);
         background: $limeGreen;
 
         &:hover {

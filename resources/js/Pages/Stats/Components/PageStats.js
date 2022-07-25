@@ -10,7 +10,8 @@ const PageStats = ({
                        pageEndDate,
                        setPageEndDate,
                        pageDropdownValue,
-                       setPageDropdownValue
+                       setPageDropdownValue,
+                       tab
 }) => {
 
     let animatedElements;
@@ -73,6 +74,8 @@ const PageStats = ({
         setPageEndDate(null);
         setPageDropdownValue(e.target.value);
 
+        console.log(animatedElements);
+
         animatedElements.forEach((element) => {
             element.classList.add('hide');
         })
@@ -107,7 +110,10 @@ const PageStats = ({
                          startDate={pageStartDate}
                          endDate={pageEndDate}
                          handleDropdownChange={handleDropdownChange}
-                         dropdownValue={pageDropdownValue}/>
+                         dropdownValue={pageDropdownValue}
+                         tab={tab}
+                         setStatsFunc={setPageStats}
+                />
             </div>
 
             {pageStats && pageStats.length > 0 ?

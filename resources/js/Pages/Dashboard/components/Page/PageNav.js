@@ -167,7 +167,7 @@ const PageNav = ({ allUserPages, setAllUserPages, userSub, subStatus, setShowUpg
                                 <button className="button green" type="submit">
                                     Save
                                 </button>
-                                <a href="#" className="button red" onClick={(e) => {e.preventDefault(); setIsEditing(false); }}>
+                                <a href="#" className="button transparent gray" onClick={(e) => {e.preventDefault(); setIsEditing(false); }}>
                                     Cancel
                                 </a>
                             </div>
