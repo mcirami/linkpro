@@ -7,12 +7,14 @@
                 <h2>Unite Your Audience!</h2>
                 <h3>Infinite Possibilities.</h3>
                 <p>Connect your followers across all platforms and turn your following into revenue!</p>
-                <div class="bottom_row">
+                <div id="mobile_video" class="col mobile">
+                </div>
+                <div class="bottom_row my_row">
                     <a class="button blue" href="{{ route('register') }}">Sign up free</a>
                     <p><em><strong>Already on LinkPro?</strong></em> <a href="{{ route('login') }}">Log In</a></p>
                 </div>
             </div>
-            <div class="col">
+            <div id="desktop_video" class="col desktop">
                 <div class="video_wrap">
                     <video autoplay loop muted playsinline>
                         <source src="{{ asset('/videos/home-image-loop-top-2.mp4/') }}" type="video/mp4">

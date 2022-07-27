@@ -13174,10 +13174,10 @@ header.guest_header .col.right {
   content: "";
   position: absolute;
   z-index: -2;
-  left: -50%;
-  top: -50%;
-  width: 200%;
-  height: 200%;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
   background: #424ece;
   background: linear-gradient(to right, #424ece 0%, #92cde9 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#424ece", endColorstr="#92cde9", GradientType=1 );
@@ -13185,8 +13185,8 @@ header.guest_header .col.right {
   border-radius: 100%;
   -webkit-border-radius: 100%;
   -moz-border-radius: 100%;
-  -webkit-animation: rotate 2s linear infinite;
-          animation: rotate 2s linear infinite;
+  -webkit-animation: rotate 4s linear infinite;
+          animation: rotate 4s linear infinite;
 }
 #links_page .links_col .links_wrap .profile_content .profile_img_column .profile_image {
   border-radius: 100%;
