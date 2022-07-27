@@ -13143,22 +13143,50 @@ header.guest_header .col.right {
   float: left;
   position: relative;
 }
+@-webkit-keyframes rotate {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+@keyframes rotate {
+  100% {
+    transform: rotate(1turn);
+  }
+}
 #links_page .links_col .links_wrap .profile_content .profile_img_column {
   width: 33%;
   border-radius: 100%;
   -webkit-border-radius: 100%;
   -moz-border-radius: 100%;
-  padding: 2.5%;
   float: left;
-  background: #424ece;
-  background: linear-gradient(to right, #424ece 0%, #92cde9 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#424ece", endColorstr="#92cde9", GradientType=1 );
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  padding: 0.5rem;
 }
 @media screen and (max-width: 550px) {
   #links_page .links_col .links_wrap .profile_content .profile_img_column {
     width: 38%;
     margin-top: -24%;
   }
+}
+#links_page .links_col .links_wrap .profile_content .profile_img_column:before {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  left: -50%;
+  top: -50%;
+  width: 200%;
+  height: 200%;
+  background: #424ece;
+  background: linear-gradient(to right, #424ece 0%, #92cde9 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#424ece", endColorstr="#92cde9", GradientType=1 );
+  padding: 2.5%;
+  border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  -webkit-animation: rotate 2s linear infinite;
+          animation: rotate 2s linear infinite;
 }
 #links_page .links_col .links_wrap .profile_content .profile_img_column .profile_image {
   border-radius: 100%;

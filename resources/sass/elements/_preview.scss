@@ -122,22 +122,46 @@
             float: left;
             position: relative;
 
+            @keyframes rotate {
+                100% {
+                    transform: rotate(1turn);
+                }
+            }
+
             .profile_img_column {
                 width: 33%;
                 border-radius: 100%;
                 -webkit-border-radius: 100%;
                 -moz-border-radius: 100%;
-                padding: 2.5%;
                 float: left;
-                background: #424ece;
-                background: -moz-linear-gradient(left, #424ece 0%, #92cde9 100%);
-                background: -webkit-linear-gradient(left, #424ece 0%, #92cde9 100%);
-                background: linear-gradient(to right, #424ece 0%, #92cde9 100%);
-                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#424ece', endColorstr='#92cde9', GradientType=1 );
+                position: relative;
+                z-index: 0;
+                overflow: hidden;
+                padding: 0.5rem;
 
                 @media screen and (max-width: 550px) {
                     width: 38%;
                     margin-top: -24%;
+                }
+
+                &:before {
+                    content: '';
+                    position: absolute;
+                    z-index: -2;
+                    left: -50%;
+                    top: -50%;
+                    width: 200%;
+                    height: 200%;
+                    background: #424ece;
+                    background: -moz-linear-gradient(left, #424ece 0%, #92cde9 100%);
+                    background: -webkit-linear-gradient(left, #424ece 0%, #92cde9 100%);
+                    background: linear-gradient(to right, #424ece 0%, #92cde9 100%);
+                    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#424ece', endColorstr='#92cde9', GradientType=1 );
+                    padding: 2.5%;
+                    border-radius: 100%;
+                    -webkit-border-radius: 100%;
+                    -moz-border-radius: 100%;
+                    animation: rotate 2s linear infinite;
                 }
 
                 .profile_image {
