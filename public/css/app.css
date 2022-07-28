@@ -12629,9 +12629,6 @@ header.guest_header .col.right {
 #links_page .icons_wrap .icon_col .my_row p {
   margin: 0;
 }
-#links_page .icons_wrap .icon_col .my_row:last-child {
-  margin-top: 5px;
-}
 #links_page .icons_wrap .icon_col.folder:after {
   content: "";
   width: 15px;
