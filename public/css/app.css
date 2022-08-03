@@ -16056,18 +16056,15 @@ form .bottom_row a {
 .my_row.folder {
   opacity: 0;
   max-height: 0;
-  transition: max-height 50ms ease-in-out;
+  transition: max-height 50ms linear;
   background: #ffffff;
   z-index: -999;
 }
 .my_row.folder.open {
   max-height: 1000px;
   z-index: unset;
-  -webkit-animation: opacity 500ms forwards;
-          animation: opacity 500ms forwards;
-}
-.my_row.folder.open.adjust {
-  opacity: 1;
+  -webkit-animation: opacity 50ms forwards;
+          animation: opacity 50ms forwards;
 }
 @-webkit-keyframes opacity {
   0% {

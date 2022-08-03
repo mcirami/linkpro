@@ -43,21 +43,17 @@
 .my_row.folder {
     opacity: 0;
     max-height: 0;
-    -webkit-transition: max-height 50ms ease-in-out;
-    -moz-transition: max-height  50ms ease-in-out;
-    -o-transition: max-height  50ms ease-in-out;
-    transition: max-height 50ms ease-in-out;
+    -webkit-transition: max-height 50ms linear;
+    -moz-transition: max-height  50ms linear;
+    -o-transition: max-height  50ms linear;
+    transition: max-height 50ms linear;
     background: $white;
     z-index: -999;
 
     &.open {
         max-height: 1000px;
         z-index: unset;
-        animation: opacity 500ms forwards;
-
-        &.adjust {
-            opacity: 1;
-        }
+        animation: opacity 50ms forwards;
     }
 
     @keyframes opacity {

@@ -248,16 +248,12 @@ jQuery(document).ready(function($) {
         if (row && currentRow === row) {
             content.classList.add('open');
             element.classList.add('open');
-            content.classList.add('adjust');
         } else {
             setTimeout(() => {
                 content.classList.add('open');
                 element.classList.add('open');
             }, 100)
 
-            setTimeout(() => {
-                content.classList.add('adjust');
-            }, 200)
         }
 
         row = currentRow;
@@ -284,11 +280,7 @@ jQuery(document).ready(function($) {
 
                         setTimeout(() => {
                             content.classList.remove('open');
-                        }, 100)
-
-                        setTimeout(() => {
-                            element.classList.remove('adjust');
-                        }, 200)
+                        }, 50)
 
                         setTimeout(() => {
                             element.lastElementChild.after(content);
