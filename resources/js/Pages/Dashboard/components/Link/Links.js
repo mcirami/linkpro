@@ -182,12 +182,12 @@ const Links = ({
                 );
                 setState((state) => ({ ...state, mouseXY }));
                 dispatch ({ type: LINKS_ACTIONS.SET_LINKS, payload: {links: newOrder}})
+
+                console.log(dx, dy);
             }
         },
         [state]
     );
-
-
 
     const handleTouchMove = useCallback((e) => {
             e.preventDefault();

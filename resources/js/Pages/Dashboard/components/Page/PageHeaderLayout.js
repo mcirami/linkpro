@@ -28,8 +28,6 @@ function PageHeaderLayout({pageHeaderRef, infoIndex, setInfoIndex}) {
         pageHeaderRef.current.id = value;
     }
 
-    console.log(layout);
-
     return (
         <div className="edit_form">
             <form className="layouts">

@@ -239,6 +239,13 @@ export const updateContentHeight = (folder = null) => {
             iconsWrap.style.minHeight = "200px";
         }
 
+        let positionArray = [];
+
+        Array.from(icons).map((icon) => {
+            positionArray.push(icon.getBoundingClientRect());
+        })
+
+        console.log(positionArray);
 }
 
 const checkForHttp = (url) => {
