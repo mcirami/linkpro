@@ -1,4 +1,4 @@
-import myLinksArray from '../Pages/Dashboard/components/Link/LinkItems';
+import myLinksArray from '../Pages/Dashboard/Components/Link/LinkItems';
 
 export const LINKS_ACTIONS = {
     SET_LINKS: 'set-links',

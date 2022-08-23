@@ -6,32 +6,32 @@ import React, {
     useEffect,
     useRef,
 } from 'react';
-import Preview from './components/Preview/Preview';
-import Links from './components/Link/Links';
-import myLinksArray from './components/Link/LinkItems';
-import PageHeader from './components/Page/PageHeader';
-import PageProfile from './components/Page/PageProfile';
-import PageName from './components/Page/PageName';
-import PageNav from './components/Page/PageNav';
-import PageTitle from './components/Page/PageTitle';
-import PageBio from './components/Page/PageBio';
-import AddLink from './components/Link/AddLink';
-import PasswordProtect from './components/Page/PasswordProtect';
-import ShowPreviewButton from './components/Preview/ShowPreviewButton';
+import Preview from './Components/Preview/Preview';
+import Links from './Components/Link/Links';
+import myLinksArray from './Components/Link/LinkItems';
+import PageHeader from './Components/Page/PageHeader';
+import PageProfile from './Components/Page/PageProfile';
+import PageName from './Components/Page/PageName';
+import PageNav from './Components/Page/PageNav';
+import PageTitle from './Components/Page/PageTitle';
+import PageBio from './Components/Page/PageBio';
+import AddLink from './Components/Link/AddLink';
+import PasswordProtect from './Components/Page/PasswordProtect';
+import ShowPreviewButton from './Components/Preview/ShowPreviewButton';
 import { Flash } from '../Flash';
-import EditForm from './components/Link/EditForm';
-import { UpgradePopup } from './components/Popups/UpgradePopup';
-import { ConfirmPopup } from './components/Popups/ConfirmPopup';
+import EditForm from './Components/Link/EditForm';
+import { UpgradePopup } from './Components/Popups/UpgradePopup';
+import { ConfirmPopup } from './Components/Popups/ConfirmPopup';
 import { Loader } from './Loader';
-import NewForm from './components/Link/NewForm';
-import AddFolder from './components/Folder/AddFolder';
-import FolderLinks from './components/Folder/FolderLinks';
-import { ConfirmFolderDelete } from './components/Popups/ConfirmFolderDelete';
+import NewForm from './Components/Link/NewForm';
+import AddFolder from './Components/Folder/AddFolder';
+import FolderLinks from './Components/Folder/FolderLinks';
+import { ConfirmFolderDelete } from './Components/Popups/ConfirmFolderDelete';
 import {ErrorBoundary} from 'react-error-boundary';
 import {updateLinksPositions, getAllLinks} from '../../Services/LinksRequest';
 import {toolTipPosition, toolTipClick} from '../../Services/PageRequests';
 import {checkSubStatus} from '../../Services/UserService';
-import DowngradeAlert from './components/Popups/DowngradeAlert';
+import DowngradeAlert from './Components/Popups/DowngradeAlert';
 import {
     folderLinksReducer,
     origFolderLinksReducer,
@@ -40,7 +40,7 @@ import {
     LINKS_ACTIONS,
     ORIGINAL_LINKS_ACTIONS,
 } from '../../Services/Reducer';
-import PageHeaderLayout from './components/Page/PageHeaderLayout';
+import PageHeaderLayout from './Components/Page/PageHeaderLayout';
 
 const page = user.page;
 const userPages = user.user_pages;
