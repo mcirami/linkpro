@@ -19,11 +19,11 @@ import AddLink from './Components/Link/AddLink';
 import PasswordProtect from './Components/Page/PasswordProtect';
 import ShowPreviewButton from './Components/Preview/ShowPreviewButton';
 import { Flash } from '../Flash';
-import EditForm from './Components/Link/EditForm';
+import EditForm from './Components/Link/Forms/EditForm';
 import { UpgradePopup } from './Components/Popups/UpgradePopup';
 import { ConfirmPopup } from './Components/Popups/ConfirmPopup';
 import { Loader } from './Loader';
-import NewForm from './Components/Link/NewForm';
+import NewForm from './Components/Link/Forms/NewForm';
 import AddFolder from './Components/Folder/AddFolder';
 import FolderLinks from './Components/Folder/FolderLinks';
 import { ConfirmFolderDelete } from './Components/Popups/ConfirmFolderDelete';
@@ -41,6 +41,8 @@ import {
     ORIGINAL_LINKS_ACTIONS,
 } from '../../Services/Reducer';
 import PageHeaderLayout from './Components/Page/PageHeaderLayout';
+import LivePageButton from './Components/LivePageButton';
+
 
 const page = user.page;
 const userPages = user.user_pages;
@@ -140,8 +142,6 @@ function App() {
             </div>
         )
     }
-
-    const host = window.location.origin;
 
     return (
         <div className="my_row page_wrap">
@@ -254,9 +254,7 @@ function App() {
                                         </div>
 
                                         <div className="my_row view_live_link link_row">
-                                            <a className="button green w-100" target="_blank" href={host +
-                                            '/' +
-                                            pageSettings['name']}>Open Live Page</a>
+                                            <LivePageButton pageName={pageSettings['name']}/>
                                         </div>
 
                                         {editID ?
