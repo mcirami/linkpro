@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 
-export const Loader = ({showLoader}) => {
+export const Loader = () => {
 
     return (
-        showLoader &&
         <div className="loader_popup">
             <div className="loader_wrap">
                 <span className="loader"> </span>

@@ -1,55 +1,26 @@
-import React, {useState, useEffect} from 'react';
-import EventBus from '../Utils/Bus';
+import React, {useEffect, useContext} from 'react';
 import {MdCheckCircle, MdCancel} from 'react-icons/md';
+import {UserLinksContext} from './Dashboard/App';
 
-export const Flash = () => {
+export const Flash = ({msg, type, removeFlash, pageSettings}) => {
 
-    const [message, setMessage] = useState('');
-    const [visibility, setVisibility] = useState(false);
-    const [messageType, setMessageType] = useState('');
-
-    useEffect(() => {
-        EventBus.on('success', (data) => {
-           setVisibility(true);
-           setMessageType('success');
-           setMessage(data.message.replace(/"/g, ""));
-
-           setTimeout(() => {
-               setVisibility(false);
-               setMessage('');
-           }, 4000);
-
-        });
-    }, []);
+    const { userLinks } = useContext(UserLinksContext);
 
     useEffect(() => {
-        EventBus.on('error', (data) => {
-            setVisibility(true);
-            setMessageType('error');
-            setMessage(data.message.replace(/"/g, ""));
 
-            setTimeout(() => {
-                setVisibility(false);
-                setMessage('');
-            }, 4000);
+        const timeout = setTimeout(() => {
+            removeFlash();
+        }, 4000);
 
-        });
-    }, []);
-
-    useEffect(() => {
-        EventBus.remove("success");
-    },[])
-
-    useEffect(() => {
-        EventBus.remove("error");
-    },[])
+        return () => clearTimeout(timeout);
+    }, [userLinks, pageSettings])
 
     return (
-        visibility &&
+
         <div className="message_wrap">
             <div className="display_message alert">
                 <div className="icon_wrap">
-                    {messageType === "success" ?
+                    {type === "success" ?
                         <MdCheckCircle/>
                         :
                         <div className="error">
@@ -57,7 +28,7 @@ export const Flash = () => {
                         </div>
                     }
                 </div>
-                <p>{ message }</p>
+                <p>{ msg }</p>
             </div>
         </div>
 

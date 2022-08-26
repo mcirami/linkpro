@@ -42,7 +42,7 @@ import {
 } from '../../Services/Reducer';
 import PageHeaderLayout from './Components/Page/PageHeaderLayout';
 import LivePageButton from './Components/LivePageButton';
-
+import EventBus from '../../Utils/Bus';
 
 const page = user.page;
 const userPages = user.user_pages;
@@ -55,7 +55,6 @@ export const FolderLinksContext = createContext();
 export const OriginalFolderLinksContext = createContext()
 export const PageContext = createContext();
 
-
 function App() {
 
     /* Separating user links array into 2, in order for drag and drop to work properly.
@@ -65,7 +64,6 @@ function App() {
     const [originalArray, dispatchOrig] = useReducer(origLinksReducer, myLinksArray);
     const [folderLinks, dispatchFolderLinks] = useReducer(folderLinksReducer, []);
     const [originalFolderLinks, dispatchOrigFolderLinks] = useReducer(origFolderLinksReducer, [])
-
 
     const [pageSettings, setPageSettings] = useState(page);
 
@@ -92,6 +90,11 @@ function App() {
     const [subStatus] = useState(checkSubStatus());
 
     const [showLoader, setShowLoader] = useState(false);
+    const [flash, setFlash] = useState({
+        show: false,
+        type: '',
+        msg: ''
+    });
 
     const [row, setRow] = useState(null);
     const [value, setValue] = useState(null);
@@ -100,9 +103,7 @@ function App() {
 
     useEffect(() => {
         toolTipPosition();
-
     }, [])
-
 
     useEffect(() => {
         window.addEventListener('resize', toolTipPosition);
@@ -110,6 +111,24 @@ function App() {
         return () => {
             window.removeEventListener('resize', toolTipPosition);
         }
+    }, []);
+
+    useEffect(() => {
+        EventBus.on('success', (data) => {
+            showFlash(true, 'success', data.message.replace(/"/g, ""))
+
+            return () => EventBus.remove("success");
+        });
+
+    }, []);
+
+    useEffect(() => {
+        EventBus.on('error', (data) => {
+            showFlash(true, 'error', data.message.replace(/"/g, ""))
+
+            return () => EventBus.remove("error");
+        });
+
     }, []);
 
     const myErrorHandler = (Error, {componentStack: string}) => {
@@ -130,7 +149,10 @@ function App() {
                 })
             });
         }
+    }
 
+    const showFlash = (show = false, type='', msg='') => {
+        setFlash({show, type, msg})
     }
 
     function ErrorFallback({error, resetErrorBoundary}) {
@@ -148,8 +170,19 @@ function App() {
 
             <UserLinksContext.Provider value={{userLinks, dispatch }} >
                 <OriginalArrayContext.Provider value={{ originalArray, dispatchOrig}} >
-                    <Loader showLoader={showLoader} />
-                    <Flash />
+
+                    {showLoader &&
+                        <Loader />
+                    }
+
+                    {flash.show &&
+                        <Flash
+                            {...flash}
+                            setFlash={setFlash}
+                            removeFlash={showFlash}
+                            pageSettings={pageSettings}
+                        />
+                    }
 
                     {showUpgradePopup &&
                         <UpgradePopup
@@ -246,11 +279,9 @@ function App() {
                                             />
 
                                             <ShowPreviewButton />
-
-                                            <DowngradeAlert
-                                                userSub={userSub}
-                                                subStatus={subStatus}
-                                            />
+                                            { (userSub && !subStatus) &&
+                                                <DowngradeAlert/>
+                                            }
                                         </div>
 
                                         <div className="my_row view_live_link link_row">
