@@ -4,8 +4,8 @@ import {MdDeleteForever} from 'react-icons/md';
 
 const FormBreadcrumbs = ({
                              folderID,
-                             setEditID,
-                             setEditFolderID,
+                             setEditID = false,
+                             setEditFolderID = false,
                              iconSelected,
                              setShowConfirmPopup = false,
                              setShowNewForm = false,
@@ -19,9 +19,9 @@ const FormBreadcrumbs = ({
 
     return (
         <div className="breadcrumb_links">
-            {folderID ?
+            {folderID  ?
                 <>
-                    <a className="back" href="resources/js/Pages/Dashboard/Components/Link/Forms/FormBreadcrumbs#"
+                    <a className="back" href="#"
                        onClick={(e) => {
                            e.preventDefault();
                            setShowNewForm ? setShowNewForm(false) : setEditID(null);
@@ -30,7 +30,7 @@ const FormBreadcrumbs = ({
                         <BiChevronLeft />
                         Folder
                     </a>
-                    <a className="back" href="resources/js/Pages/Dashboard/Components/Link/Forms/FormBreadcrumbs#"
+                    <a className="back" href="#"
                        onClick={(e) => {
                            e.preventDefault();
                            setEditFolderID(false);
@@ -42,10 +42,12 @@ const FormBreadcrumbs = ({
                     </a>
                 </>
                 :
-                <a className="back" href="resources/js/Pages/Dashboard/Components/Link/Forms/FormBreadcrumbs#"
+                <a className="back" href="#"
                    onClick={(e) => {
                        e.preventDefault();
-                       setShowNewForm ? setShowNewForm(false) : setEditID(null);
+                       setShowNewForm ? setShowNewForm(false) : "";
+                       setEditID ? setEditID(null) : "";
+                       setEditFolderID ? setEditFolderID(false) : "";
                    }}
                 >
                     <BiChevronLeft />

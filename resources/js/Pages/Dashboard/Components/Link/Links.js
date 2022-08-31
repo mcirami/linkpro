@@ -54,9 +54,8 @@ const Links = ({
                    setValue,
                    setShowUpgradePopup,
                    setOptionText,
-                   subStatus
-
-
+                   subStatus,
+                   iconsWrapRef
                }) => {
 
     const { userLinks, dispatch } = useContext(UserLinksContext);
@@ -65,7 +64,7 @@ const Links = ({
     const { dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);
 
     const initialRender = useRef(true);
-    const targetRef = useRef();
+    const targetRef = useRef(null);
 
     const [size, setSize] = useState({
         height: 0,
@@ -93,7 +92,7 @@ const Links = ({
 
     useEffect(() => {
 
-        updateContentHeight();
+        updateContentHeight(iconsWrapRef);
 
     }, []);
 
@@ -101,7 +100,7 @@ const Links = ({
 
         function handleResize() {
 
-            updateContentHeight()
+            updateContentHeight(iconsWrapRef)
         }
 
         window.addEventListener('resize', handleResize);

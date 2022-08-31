@@ -22,7 +22,6 @@ import {
     getColWidth,
     updateContentHeight,
 } from '../../../../Services/LinksRequest';
-import {updateFolderName} from '../../../../Services/FolderRequests';
 import AddLink from '../Link/AddLink';
 import {checkIcon} from '../../../../Services/UserService';
 import folder from '../Preview/Folder';
@@ -32,6 +31,8 @@ import {
     FOLDER_LINKS_ACTIONS,
     ORIG_FOLDER_LINKS_ACTIONS
 } from '../../../../Services/Reducer';
+import FormBreadcrumbs from '../Link/Forms/FormBreadcrumbs';
+import FolderNameInput from './FolderNameInput';
 
 const springSetting1 = { stiffness: 180, damping: 10 };
 const springSetting2 = { stiffness: 120, damping: 17 };
@@ -50,39 +51,19 @@ function clamp(n, min, max) {
 
 const FolderLinks = ({
                          folderID,
-                         subStatus,
-                         setShowUpgradePopup,
-                         setOptionText,
-                         setEditFolderID,
                          setEditID,
-                         setShowNewForm,
-                         setShowConfirmFolderDelete
+                         iconsWrapRef
 
                }) => {
 
-    const { userLinks, dispatch  } = useContext(UserLinksContext);
+    const { dispatch  } = useContext(UserLinksContext);
     const { dispatchOrig } = useContext(OriginalArrayContext);
 
     const { folderLinks, dispatchFolderLinks } = useContext(FolderLinksContext);
     const { originalFolderLinks, dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);
 
-    const [ currentFolder, setCurrentFolder ] = useState(
-        userLinks.find(function(e) {
-            return e.id === folderID && e.type === "folder"
-        }) || null );
-
-    const [charactersLeft, setCharactersLeft] = useState();
-
-    useEffect(() => {
-        if(currentFolder.name) {
-            setCharactersLeft(11 - currentFolder.name.length);
-        } else {
-            setCharactersLeft(11);
-        }
-    },[charactersLeft])
-
     const initialRender = useRef(true);
-    const targetRef = useRef();
+    const targetRef = useRef(null);
 
     const [size, setSize] = useState({
         height: 0,
@@ -111,19 +92,13 @@ const FolderLinks = ({
     }));
 
     useEffect(() => {
-
-        const folder = true;
-        updateContentHeight(folder);
-
+        updateContentHeight(iconsWrapRef, true);
     }, []);
 
     useEffect(() => {
 
         function handleResize() {
-
-            const folder = true;
-            updateContentHeight(folder);
-
+            updateContentHeight(iconsWrapRef, true);
         }
 
         window.addEventListener('resize', handleResize);
@@ -289,186 +264,94 @@ const FolderLinks = ({
 
     }
 
-    const handleSubmit = () => {
-
-        const packets = {
-            folderName: currentFolder.name
-        }
-
-        updateFolderName(folderID, packets)
-        .then((data) => {
-
-            if(data.success) {
-
-                dispatch({ type: LINKS_ACTIONS.UPDATE_FOLDER_NAME, payload: {folderID: folderID, name: currentFolder.name} })
-                dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.UPDATE_FOLDER_NAME, payload: {folderID: folderID, name: currentFolder.name} })
-            }
-        })
-    }
-
-    const handleFolderName = (e) => {
-        let value = e.target.value;
-
-        setCharactersLeft(11 - value.length);
-
-        setCurrentFolder({
-            ...currentFolder,
-            name: value
-        })
-    }
-
-    const handleDeleteFolder = e => {
-
-        e.preventDefault();
-        setShowConfirmFolderDelete(true);
-    }
-
     const { lastPress, isPressed, mouseXY } = state;
 
     return (
 
         <>
-            <div className="my_row icon_breadcrumb" id="scrollTo">
-                <p>Editing Folder</p>
-                <div className="breadcrumb_links">
-                    <a className="back" href="#"
-                       onClick={(e) => { e.preventDefault(); setEditFolderID(null); }}
-                    >
-                        <MdChevronLeft />
-                        Back To Icons
-                    </a>
-                    <div className="delete_icon">
-                        <a className="delete" href="#" onClick={handleDeleteFolder}><MdDeleteForever /></a>
-                        <div className="hover_text delete_folder"><p>Delete Folder</p></div>
-                    </div>
-                </div>
-            </div>
-            <div className="folder_name my_row">
-                <div className="input_wrap">
-                    <input
-                        /*maxLength="13"*/
-                        name="name"
-                        type="text"
-                        value={currentFolder.name || ""}
-                        placeholder="Folder Name"
-                        onChange={(e) => handleFolderName(e)}
-                        onKeyPress={ event => {
-                            if(event.key === 'Enter') {
-                                handleSubmit(event);
-                            }
-                        }
-                        }
-                        onBlur={(e) => handleSubmit(e)}
-                    />
-                </div>
-                <div className="my_row info_text">
-                    <p className="char_max">Max 11 Characters Shown</p>
-                    <p className="char_count">
-                        {charactersLeft < 0 ?
-                            <span className="over">Only 11 Characters Will Be Shown</span>
-                            :
-                            "Characters Left: " + charactersLeft
-                        }
-                    </p>
-                </div>
-            </div>
-            <div className="my_row link_row folders">
+            {folderLinks.length > 0 && folderLinks.map((link, key) => {
+                let style;
+                let x;
+                let y;
 
-                <div className="add_more_icons">
-                    <AddLink
-                        subStatus={subStatus}
-                        setShowNewForm={setShowNewForm}
-                        setShowUpgradePopup={setShowUpgradePopup}
-                        setOptionText={setOptionText}
-                    />
-                </div>
-            </div>
+                const visualPosition = folderLinks.findIndex((link) => link.position === key);
+                if (key === lastPress && isPressed) {
+                    [x, y] = mouseXY;
+                    style = {
+                        translateX: x,
+                        translateY: y,
+                        scale: spring(1.2, springSetting1),
+                        //boxShadow: spring((x - (3 * width - 50) / 2) / 15, springSetting1)
+                    };
+                } else {
+                    [x, y] = layout[visualPosition];
+                    style = {
+                        translateX: spring(x, springSetting2),
+                        translateY: spring(y, springSetting2),
+                        scale: spring(.85, springSetting1),
+                        //boxShadow: spring((x - (3 * width - 50) / 2) / 15, springSetting1)
+                    };
+                }
 
-            <div className="icons_wrap add_icons icons folder">
-
-                {folderLinks.length > 0 && folderLinks.map((link, key) => {
-                    let style;
-                    let x;
-                    let y;
-
-                    const visualPosition = folderLinks.findIndex((link) => link.position === key);
-                    if (key === lastPress && isPressed) {
-                        [x, y] = mouseXY;
-                        style = {
-                            translateX: x,
-                            translateY: y,
-                            scale: spring(1.2, springSetting1),
-                            //boxShadow: spring((x - (3 * width - 50) / 2) / 15, springSetting1)
-                        };
-                    } else {
-                        [x, y] = layout[visualPosition];
-                        style = {
-                            translateX: spring(x, springSetting2),
-                            translateY: spring(y, springSetting2),
-                            scale: spring(.85, springSetting1),
-                            //boxShadow: spring((x - (3 * width - 50) / 2) / 15, springSetting1)
-                        };
-                    }
-
-                    const linkID = originalFolderLinks[key].id;
-                    let displayIcon;
-                    displayIcon = checkIcon(originalFolderLinks[key].icon);
+                const linkID = originalFolderLinks[key].id;
+                let displayIcon;
+                displayIcon = checkIcon(originalFolderLinks[key].icon);
 
 
-                    return (
-                        <Motion key={key} style={style}>
-                            {({ translateX, translateY, scale }) => (
-                                <div
-                                    ref={targetRef}
-                                    className="icon_col"
-                                    style={{
-                                        transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale})`,
-                                        zIndex: key === lastPress ? 2 : 1,
-                                        //boxShadow: `${boxShadow}px 5px 5px rgba(0,0,0,0.5)`,
-                                        userSelect: "none",
-                                        touchAction: "none",
-                                    }}
+                return (
+                    <Motion key={key} style={style}>
+                        {({ translateX, translateY, scale }) => (
+                            <div
+                                ref={targetRef}
+                                className="icon_col"
+                                style={{
+                                    transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale})`,
+                                    zIndex: key === lastPress ? 2 : 1,
+                                    //boxShadow: `${boxShadow}px 5px 5px rgba(0,0,0,0.5)`,
+                                    userSelect: "none",
+                                    touchAction: "none",
+                                }}
+                            >
+                                <span className="drag_handle"
+                                      onMouseDown={handleMouseDown.bind(null,
+                                          key, [x, y])}
+                                      onTouchStart={handleTouchStart.bind(
+                                          null, key, [x, y])}
                                 >
-                                    <span className="drag_handle"
-                                          onMouseDown={handleMouseDown.bind(null,
-                                              key, [x, y])}
-                                          onTouchStart={handleTouchStart.bind(
-                                              null, key, [x, y])}
-                                    >
-                                        <MdDragHandle/>
-                                        <div className="hover_text"><p>Move Icon</p></div>
-                                    </span>
+                                    <MdDragHandle/>
+                                    <div className="hover_text"><p>Move Icon</p></div>
+                                </span>
 
-                                    <div className="column_content">
+                                <div className="column_content">
 
-                                        <div className="icon_wrap" onClick={(e) => {
-                                            handleOnClick(linkID)
-                                        }}>
-                                            <div className="image_wrap">
-                                                <img src={displayIcon} alt=""/>
-                                            </div>
+                                    <div className="icon_wrap" onClick={(e) => {
+                                        handleOnClick(linkID)
+                                    }}>
+                                        <div className="image_wrap">
+                                            <img src={displayIcon} alt=""/>
                                         </div>
+                                    </div>
 
-                                        <div className="my_row">
-                                            <div className="switch_wrap">
-                                                <Switch
-                                                    onChange={(e) => handleChange(originalFolderLinks[key])}
-                                                    height={20}
-                                                    checked={Boolean(originalFolderLinks[key].active_status)}
-                                                    onColor="#424fcf"
-                                                    uncheckedIcon={false}
-                                                    checkedIcon={false}
-                                                />
-                                                <div className="hover_text switch"><p>{Boolean(originalFolderLinks[key].active_status) ? "Deactivate" : "Active"} Icon</p></div>
-                                            </div>
+                                    <div className="my_row">
+                                        <div className="switch_wrap">
+                                            <Switch
+                                                onChange={(e) => handleChange(originalFolderLinks[key])}
+                                                height={20}
+                                                checked={Boolean(originalFolderLinks[key].active_status)}
+                                                onColor="#424fcf"
+                                                uncheckedIcon={false}
+                                                checkedIcon={false}
+                                            />
+                                            <div className="hover_text switch"><p>{Boolean(originalFolderLinks[key].active_status) ? "Deactivate" : "Active"} Icon</p></div>
                                         </div>
                                     </div>
                                 </div>
-                            )}
-                        </Motion>
-                    )
-                })}
-            </div>
+                            </div>
+                        )}
+                    </Motion>
+                )
+            })}
+
         </>
     );
 };

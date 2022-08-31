@@ -220,25 +220,22 @@ export const checkURL = (url, name, custom, subStatus) => {
     }
 }
 
-export const updateContentHeight = (folder = null) => {
+export const updateContentHeight = (iconsWrapRef, folder = null) => {
 
     const icons = document.querySelectorAll('.add_icons .icon_col');
-    const iconsWrap = document.querySelector('.icons_wrap');
+    //const iconsWrap = document.querySelector('.icons_wrap');
 
         if (icons.length > 0) {
             setTimeout(() => {
-
                 const columns = folder ? 3 : 4;
-
                 const colHeight = icons[0].clientHeight;
                 const rowCount = Math.ceil(icons.length / columns);
                 const divHeight = rowCount * colHeight - 40;
-                iconsWrap.style.minHeight = divHeight + "px";
+                iconsWrapRef.current.style.minHeight = divHeight + "px";
             }, 600);
         } else {
-            iconsWrap.style.minHeight = "200px";
+            iconsWrapRef.current.style.minHeight = "200px";
         }
-
 }
 
 const checkForHttp = (url) => {
@@ -246,13 +243,9 @@ const checkForHttp = (url) => {
     let returnURL = null;
 
     if (url.includes('http')) {
-
         returnURL = url;
-
     } else {
-
         returnURL = 'https://' + url;
-
     }
 
     return returnURL;

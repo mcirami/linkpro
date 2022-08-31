@@ -43,6 +43,7 @@ import {
 import PageHeaderLayout from './Components/Page/PageHeaderLayout';
 import LivePageButton from './Components/LivePageButton';
 import EventBus from '../../Utils/Bus';
+import FolderHeading from './Components/Folder/FolderHeading';
 
 const page = user.page;
 const userPages = user.user_pages;
@@ -77,7 +78,7 @@ function App() {
     const [optionText, setOptionText] = useState("");
     const [customIconArray, setCustomIconArray] = useState(customIcons);
 
-    const ref = createRef(null);
+    const headerRef = createRef(null);
     const [completedCrop, setCompletedCrop] = useState(null);
     const [fileName, setFileName] = useState(null);
 
@@ -86,6 +87,7 @@ function App() {
     const [profileFileName, setProfileFileName] = useState(null);
 
     const pageHeaderRef = createRef(null);
+    const iconsWrapRef = useRef(null);
 
     const [subStatus] = useState(checkSubStatus());
 
@@ -242,7 +244,7 @@ function App() {
                                             />
 
                                             <PageHeader
-                                                setRef={ref}
+                                                setRef={headerRef}
                                                 completedCrop={completedCrop}
                                                 setCompletedCrop={setCompletedCrop}
                                                 fileName={fileName}
@@ -288,22 +290,37 @@ function App() {
                                             <LivePageButton pageName={pageSettings['name']}/>
                                         </div>
 
-                                        {editID ?
-                                            <EditForm
-                                                folderID={editFolderID}
-                                                setEditFolderID={setEditFolderID}
-                                                editID={editID}
-                                                setEditID={setEditID}
-                                                setShowUpgradePopup={setShowUpgradePopup}
-                                                setShowConfirmPopup={setShowConfirmPopup}
-                                                setOptionText={setOptionText}
-                                                customIconArray={customIconArray}
-                                                setCustomIconArray={setCustomIconArray}
-                                                setShowLoader={setShowLoader}
-                                                subStatus={subStatus}
-                                            />
+                                        {editFolderID ?
+                                            <>
+                                                <FolderHeading
+                                                    subStatus={subStatus}
+                                                    setShowUpgradePopup={setShowUpgradePopup}
+                                                    setOptionText={setOptionText}
+                                                    setEditFolderID={setEditFolderID}
+                                                    setShowNewForm={setShowNewForm}
+                                                    setShowConfirmFolderDelete={setShowConfirmFolderDelete}
+                                                    editFolderID={editFolderID}
+                                                />
+                                            </>
                                             :
-                                            showNewForm ?
+
+                                            editID ?
+                                                <EditForm
+                                                    folderID={editFolderID}
+                                                    setEditFolderID={setEditFolderID}
+                                                    editID={editID}
+                                                    setEditID={setEditID}
+                                                    setShowUpgradePopup={setShowUpgradePopup}
+                                                    setShowConfirmPopup={setShowConfirmPopup}
+                                                    setOptionText={setOptionText}
+                                                    customIconArray={customIconArray}
+                                                    setCustomIconArray={setCustomIconArray}
+                                                    setShowLoader={setShowLoader}
+                                                    subStatus={subStatus}
+                                                />
+
+                                                :
+                                                showNewForm &&
                                                 <NewForm
                                                     setShowNewForm={setShowNewForm}
                                                     setShowUpgradePopup={setShowUpgradePopup}
@@ -315,8 +332,36 @@ function App() {
                                                     setEditFolderID={setEditFolderID}
                                                     subStatus={subStatus}
                                                 />
-                                                :
-                                                editFolderID ?
+                                        }
+
+                                         { (!editID && !showNewForm && !editFolderID) &&
+                                            <>
+                                                <div className="my_row link_row">
+                                                    <div className="add_more_icons">
+                                                        <AddLink
+                                                            setShowNewForm={setShowNewForm}
+                                                            subStatus={subStatus}
+                                                            setShowUpgradePopup={setShowUpgradePopup}
+                                                            setOptionText={setOptionText}
+                                                        />
+                                                    </div>
+
+                                                    {!editFolderID &&
+                                                        <div className="add_more_icons">
+                                                            <AddFolder
+                                                                subStatus={subStatus}
+                                                                setShowUpgradePopup={setShowUpgradePopup}
+                                                                setOptionText={setOptionText}
+                                                                setEditFolderID={setEditFolderID}
+                                                            />
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </>
+                                        }
+
+                                        <div ref={iconsWrapRef} className={`${editFolderID ? 'icons_wrap add_icons icons folder' : 'icons_wrap add_icons icons'}`}>
+                                            { editFolderID ?
                                                     <ErrorBoundary FallbackComponent={ErrorFallback} onError={myErrorHandler}>
                                                         <FolderLinks
                                                             folderID={editFolderID}
@@ -327,54 +372,34 @@ function App() {
                                                             setEditID={setEditID}
                                                             setShowNewForm={setShowNewForm}
                                                             setShowConfirmFolderDelete={setShowConfirmFolderDelete}
+                                                            iconsWrapRef={iconsWrapRef}
                                                         />
                                                     </ErrorBoundary>
 
-                                                    :
-                                                <>
-                                                    <div className="my_row link_row">
-                                                        <div className="add_more_icons">
-                                                            <AddLink
-                                                                setShowNewForm={setShowNewForm}
-                                                                subStatus={subStatus}
-                                                                setShowUpgradePopup={setShowUpgradePopup}
-                                                                setOptionText={setOptionText}
-                                                            />
-                                                        </div>
-                                                        <div className="add_more_icons">
-                                                            <AddFolder
-                                                                subStatus={subStatus}
-                                                                setShowUpgradePopup={setShowUpgradePopup}
-                                                                setOptionText={setOptionText}
-                                                                setEditFolderID={setEditFolderID}
-                                                            />
-                                                        </div>
-                                                    </div>
+                                                :
 
-                                                    <div className="icons_wrap add_icons icons">
-                                                        <ErrorBoundary FallbackComponent={ErrorFallback} onError={myErrorHandler}>
-                                                            <Links
-                                                                setEditID={setEditID}
-                                                                setEditFolderID={setEditFolderID}
-                                                                subStatus={subStatus}
-                                                                setRow={setRow}
-                                                                setValue={setValue}
-                                                                setShowUpgradePopup={setShowUpgradePopup}
-                                                                setOptionText={setOptionText}
-                                                            />
-                                                        </ErrorBoundary>
+                                                (!showNewForm && !editID) &&
 
-                                                    </div>
-                                                </>
-
-                                        }
-
+                                                    <ErrorBoundary FallbackComponent={ErrorFallback} onError={myErrorHandler}>
+                                                        <Links
+                                                            setEditID={setEditID}
+                                                            setEditFolderID={setEditFolderID}
+                                                            subStatus={subStatus}
+                                                            setRow={setRow}
+                                                            setValue={setValue}
+                                                            setShowUpgradePopup={setShowUpgradePopup}
+                                                            setOptionText={setOptionText}
+                                                            iconsWrapRef={iconsWrapRef}
+                                                        />
+                                                    </ErrorBoundary>
+                                            }
+                                        </div>
 
                                     </div>
                                 </div>
                                 <div className="right_column links_col preview">
                                     <Preview
-                                        setRef={ref}
+                                        setRef={headerRef}
                                         profileRef={profileRef}
                                         completedCrop={completedCrop}
                                         completedProfileCrop={completedProfileCrop}
