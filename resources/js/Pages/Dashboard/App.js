@@ -290,21 +290,21 @@ function App() {
                                             <LivePageButton pageName={pageSettings['name']}/>
                                         </div>
 
-                                        {editFolderID ?
-                                            <>
-                                                <FolderHeading
-                                                    subStatus={subStatus}
-                                                    setShowUpgradePopup={setShowUpgradePopup}
-                                                    setOptionText={setOptionText}
-                                                    setEditFolderID={setEditFolderID}
-                                                    setShowNewForm={setShowNewForm}
-                                                    setShowConfirmFolderDelete={setShowConfirmFolderDelete}
-                                                    editFolderID={editFolderID}
-                                                />
-                                            </>
-                                            :
+                                        { (editFolderID && !showNewForm && !editID) &&
 
-                                            editID ?
+                                            <FolderHeading
+                                                subStatus={subStatus}
+                                                setShowUpgradePopup={setShowUpgradePopup}
+                                                setOptionText={setOptionText}
+                                                setEditFolderID={setEditFolderID}
+                                                setShowNewForm={setShowNewForm}
+                                                setShowConfirmFolderDelete={setShowConfirmFolderDelete}
+                                                editFolderID={editFolderID}
+                                            />
+                                        }
+
+
+                                        { editID ?
                                                 <EditForm
                                                     folderID={editFolderID}
                                                     setEditFolderID={setEditFolderID}
@@ -360,40 +360,42 @@ function App() {
                                             </>
                                         }
 
-                                        <div ref={iconsWrapRef} className={`${editFolderID ? 'icons_wrap add_icons icons folder' : 'icons_wrap add_icons icons'}`}>
-                                            { editFolderID ?
-                                                    <ErrorBoundary FallbackComponent={ErrorFallback} onError={myErrorHandler}>
-                                                        <FolderLinks
-                                                            folderID={editFolderID}
-                                                            subStatus={subStatus}
-                                                            setShowUpgradePopup={setShowUpgradePopup}
-                                                            setOptionText={setOptionText}
-                                                            setEditFolderID={setEditFolderID}
-                                                            setEditID={setEditID}
-                                                            setShowNewForm={setShowNewForm}
-                                                            setShowConfirmFolderDelete={setShowConfirmFolderDelete}
-                                                            iconsWrapRef={iconsWrapRef}
-                                                        />
-                                                    </ErrorBoundary>
 
-                                                :
+                                        { (editFolderID && !editID && !showNewForm) ?
+                                            <div ref={iconsWrapRef} className='icons_wrap add_icons icons folder'>
+                                                <ErrorBoundary FallbackComponent={ErrorFallback} onError={myErrorHandler}>
+                                                    <FolderLinks
+                                                        folderID={editFolderID}
+                                                        subStatus={subStatus}
+                                                        setShowUpgradePopup={setShowUpgradePopup}
+                                                        setOptionText={setOptionText}
+                                                        setEditFolderID={setEditFolderID}
+                                                        setEditID={setEditID}
+                                                        setShowNewForm={setShowNewForm}
+                                                        setShowConfirmFolderDelete={setShowConfirmFolderDelete}
+                                                        iconsWrapRef={iconsWrapRef}
+                                                    />
+                                                </ErrorBoundary>
+                                            </div>
 
-                                                (!showNewForm && !editID) &&
+                                            :
 
-                                                    <ErrorBoundary FallbackComponent={ErrorFallback} onError={myErrorHandler}>
-                                                        <Links
-                                                            setEditID={setEditID}
-                                                            setEditFolderID={setEditFolderID}
-                                                            subStatus={subStatus}
-                                                            setRow={setRow}
-                                                            setValue={setValue}
-                                                            setShowUpgradePopup={setShowUpgradePopup}
-                                                            setOptionText={setOptionText}
-                                                            iconsWrapRef={iconsWrapRef}
-                                                        />
-                                                    </ErrorBoundary>
-                                            }
-                                        </div>
+                                            (!showNewForm && !editID && !editFolderID) &&
+                                            <div ref={iconsWrapRef} className='icons_wrap add_icons icons'>
+                                                <ErrorBoundary FallbackComponent={ErrorFallback} onError={myErrorHandler}>
+                                                    <Links
+                                                        setEditID={setEditID}
+                                                        setEditFolderID={setEditFolderID}
+                                                        subStatus={subStatus}
+                                                        setRow={setRow}
+                                                        setValue={setValue}
+                                                        setShowUpgradePopup={setShowUpgradePopup}
+                                                        setOptionText={setOptionText}
+                                                        iconsWrapRef={iconsWrapRef}
+                                                    />
+                                                </ErrorBoundary>
+                                            </div>
+                                        }
 
                                     </div>
                                 </div>

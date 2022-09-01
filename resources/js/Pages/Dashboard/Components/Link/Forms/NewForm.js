@@ -517,35 +517,13 @@ const NewForm = ({
         <>
             <div className="my_row icon_breadcrumb" id="scrollTo">
                 <p>Adding Icon</p>
-                {/*<div className="breadcrumb_links">
-                    {folderID ?
-                        <>
-                            <a className="back" href="resources/js/Pages/Dashboard/Components/Link/Forms/NewForm#"
-                               onClick={(e) => { e.preventDefault(); setShowNewForm(false); }}
-                            >
-                                <BiChevronLeft />
-                                Folder
-                            </a>
-                            <a className="back" href="resources/js/Pages/Dashboard/Components/Link/Forms/NewForm#"
-                               onClick={(e) => { e.preventDefault(); setEditFolderID(false); setShowNewForm(false); }}
-                            >
-                                <BiChevronsLeft />
-                                Icons
-                            </a>
-                        </>
-                        :
-                        <a className="back" href="resources/js/Pages/Dashboard/Components/Link/Forms/NewForm#"
-                           onClick={(e) => { e.preventDefault(); setShowNewForm(false); }}
-                        >
-                            <BiChevronLeft />
-                            Back To Icons
-                        </a>
-                    }
-                </div>*/}
                 <FormBreadcrumbs
                     setEditFolderID={setEditFolderID}
                     setShowNewForm={setShowNewForm}
                     formType={"new"}
+                    folderID={folderID}
+                    iconSelected={iconSelected}
+
                 />
             </div>
             <div className="edit_form link my_row" key={999}>
