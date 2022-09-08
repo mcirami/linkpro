@@ -9,7 +9,7 @@ let pageNames = user.allPageNames;
 const PageName = ({infoIndex, setInfoIndex}) => {
 
     const { pageSettings, setPageSettings } = useContext(PageContext);
-    const [allPageNames, setAllPageNames] = useState(pageNames);
+    const [userPageNames, setUserPageNames] = useState(pageNames);
 
     const [name, setName] = useState(pageSettings['name']);
     //const [isEditing, setIsEditing] = useState(false);
@@ -32,7 +32,7 @@ const PageName = ({infoIndex, setInfoIndex}) => {
             updatePageName(packets, pageSettings["id"] )
             .then((data) => {
                 if (data.success) {
-                    let prevNames = [...allPageNames];
+                    let prevNames = [...userPageNames];
 
                     prevNames = prevNames.map((item, index) => {
                         if (item === pageSettings['name']) {
@@ -41,7 +41,7 @@ const PageName = ({infoIndex, setInfoIndex}) => {
                         return item;
                     })
 
-                    setAllPageNames(prevNames);
+                    setUserPageNames(prevNames);
                     setPageSettings({
                             ...pageSettings,
                             name: name
@@ -60,7 +60,7 @@ const PageName = ({infoIndex, setInfoIndex}) => {
 
     const checkPageName = (e) => {
         let value = e.target.value.toLowerCase();
-        const match = allPageNames.indexOf(value);
+        const match = userPageNames.indexOf(value);
 
         const regex = /^[A-Za-z0-9-_.]+$/;
 

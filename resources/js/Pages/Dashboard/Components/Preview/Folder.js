@@ -23,6 +23,14 @@ const Folder = ({
         } else {
             setRow(clickedDiv.firstChild.dataset.row);
             setValue(index);
+
+            setTimeout(function(){
+                document.querySelector('.icons_wrap.inner .icon_col:first-child').scrollIntoView({
+                    behavior: 'smooth',
+                    block: "nearest",
+                });
+
+            }, 300)
         }
     }
 
@@ -37,7 +45,6 @@ const Folder = ({
                             <FolderLinks key={index} icons={innerLinkIcons} />
                         )
                     })}
-
                 </div>
             </a>
             <p>
@@ -46,7 +53,7 @@ const Folder = ({
                     name.substring(0,
                         11) + "..."
                     :
-                    name || "Link Name"
+                    name || "Folder Name"
                 }
             </p>
         </div>

@@ -22,7 +22,6 @@ import {
     getColWidth,
     updateContentHeight,
 } from '../../../../Services/LinksRequest';
-import AddLink from '../Link/AddLink';
 import {checkIcon} from '../../../../Services/UserService';
 import folder from '../Preview/Folder';
 import {
@@ -31,8 +30,6 @@ import {
     FOLDER_LINKS_ACTIONS,
     ORIG_FOLDER_LINKS_ACTIONS
 } from '../../../../Services/Reducer';
-import FormBreadcrumbs from '../Link/Forms/FormBreadcrumbs';
-import FolderNameInput from './FolderNameInput';
 
 const springSetting1 = { stiffness: 180, damping: 10 };
 const springSetting2 = { stiffness: 120, damping: 17 };
