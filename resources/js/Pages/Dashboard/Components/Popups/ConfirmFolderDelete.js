@@ -1,12 +1,13 @@
 import React, {useContext} from 'react';
 import {MdCheckCircle} from 'react-icons/md';
-import {deleteFolder} from '../../../../Services/FolderRequests';
-import {updateContentHeight} from '../../../../Services/LinksRequest';
-import {UserLinksContext, OriginalArrayContext} from '../../App';
+import {deleteFolder} from '../../../../Services/folderRequests';
+import {updateContentHeight} from '../../../../Services/linksRequest';
+import {OriginalArrayContext, UserLinksContext} from '../../App';
+
 import {
     LINKS_ACTIONS,
     ORIGINAL_LINKS_ACTIONS,
-} from '../../../../Services/Reducer';
+} from '../../../../Services/reducer';
 
 
 export const ConfirmFolderDelete = ({
@@ -16,7 +17,7 @@ export const ConfirmFolderDelete = ({
                                         setEditFolderID
                              }) => {
 
-    const { userLinks, dispatch  } = useContext(UserLinksContext);
+    const {userLinks, dispatch} = useContext(UserLinksContext);
     const { dispatchOrig } = useContext(OriginalArrayContext);
 
     const deleteItem = (e) => {

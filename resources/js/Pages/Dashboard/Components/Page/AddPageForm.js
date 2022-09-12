@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/fi';
-import {addPage} from '../../../../Services/PageRequests';
+import {addPage} from '../../../../Services/pageRequests';
 
 let pageNames = user.allPageNames;
 

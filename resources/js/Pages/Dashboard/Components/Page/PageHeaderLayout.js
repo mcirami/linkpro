@@ -2,7 +2,7 @@ import React, {useContext, useRef, useState} from 'react';
 import {
     toolTipClick,
     updateProfileLayout,
-} from '../../../../Services/PageRequests';
+} from '../../../../Services/pageRequests';
 import {PageContext} from '../../App';
 import {BiHelpCircle} from 'react-icons/bi';
 import {Element} from 'react-scroll';

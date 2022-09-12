@@ -4,14 +4,20 @@ import {
     deleteLink,
     updateContentHeight,
     updateLinkStatus,
-} from '../../../../Services/LinksRequest';
-import {UserLinksContext, OriginalArrayContext, FolderLinksContext, OriginalFolderLinksContext} from '../../App';
+} from '../../../../Services/linksRequest';
+import {
+    OriginalArrayContext,
+    FolderLinksContext,
+    OriginalFolderLinksContext,
+    UserLinksContext,
+} from '../../App';
+
 import {
     LINKS_ACTIONS,
     ORIGINAL_LINKS_ACTIONS,
     FOLDER_LINKS_ACTIONS,
     ORIG_FOLDER_LINKS_ACTIONS
-} from '../../../../Services/Reducer';
+} from '../../../../Services/reducer';
 
 export const ConfirmPopup = ({
                                  editID,
@@ -21,7 +27,7 @@ export const ConfirmPopup = ({
                                  folderID
                              }) => {
 
-    const { userLinks, dispatch  } = useContext(UserLinksContext);
+    const {userLinks, dispatch} = useContext(UserLinksContext);
     const { originalArray, dispatchOrig } = useContext(OriginalArrayContext);
     const { folderLinks, dispatchFolderLinks } = useContext(FolderLinksContext);
     const { dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);

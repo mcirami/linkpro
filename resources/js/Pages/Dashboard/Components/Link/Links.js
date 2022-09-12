@@ -20,8 +20,8 @@ import {
     getColHeight,
     getColWidth,
     updateContentHeight,
-} from '../../../../Services/LinksRequest';
-import {checkIcon} from '../../../../Services/UserService';
+} from '../../../../Services/linksRequest';
+import {checkIcon} from '../../../../Services/userService';
 import EventBus from '../../../../Utils/Bus';
 
 import {
@@ -29,7 +29,7 @@ import {
     ORIGINAL_LINKS_ACTIONS,
     FOLDER_LINKS_ACTIONS,
     ORIG_FOLDER_LINKS_ACTIONS
-} from '../../../../Services/Reducer';
+} from '../../../../Services/reducer';
 
 const springSetting1 = { stiffness: 180, damping: 10 };
 const springSetting2 = { stiffness: 120, damping: 17 };
@@ -58,7 +58,7 @@ const Links = ({
                    iconsWrapRef
                }) => {
 
-    const { userLinks, dispatch } = useContext(UserLinksContext);
+    const {userLinks, dispatch} = useContext(UserLinksContext);
     const { originalArray, dispatchOrig } = useContext(OriginalArrayContext);
     const { dispatchFolderLinks } = useContext(FolderLinksContext);
     const { dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);

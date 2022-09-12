@@ -1,5 +1,5 @@
 import React from 'react';
-import {toolTipClick} from '../../../../Services/PageRequests';
+import {toolTipClick} from '../../../../Services/pageRequests';
 import {BiHelpCircle} from 'react-icons/bi';
 import {IoIosLock} from 'react-icons/io';
 

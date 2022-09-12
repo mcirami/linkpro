@@ -7,7 +7,7 @@ import React, {
 import {PageContext, UserLinksContext} from '../../App';
 import {IoIosCloseCircleOutline} from 'react-icons/io';
 import AccordionLinks from './AccordionLinks';
-import {checkIcon} from '../../../../Services/UserService';
+import {checkIcon} from '../../../../Services/userService';
 import Header from './Header';
 import ProfileImage from './ProfileImage';
 import ProfileText from './ProfileText';
@@ -31,7 +31,7 @@ const Preview = ({
                      setInfoIndex
 }) => {
 
-    const { userLinks } = useContext(UserLinksContext);
+    const {userLinks} = useContext(UserLinksContext);
     const [iconCount, setIconCount] = useState(null);
     const {pageSettings} = useContext(PageContext);
 

@@ -8,11 +8,11 @@ import React, {
 } from 'react';
 import IconList from "../IconList";
 import {
-    UserLinksContext,
     OriginalArrayContext,
     PageContext,
     FolderLinksContext,
     OriginalFolderLinksContext,
+    UserLinksContext,
 } from '../../../App';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
@@ -22,16 +22,16 @@ import {
     addLink,
     checkURL,
     updateLinkStatus,
-} from '../../../../../Services/LinksRequest';
-import {completedImageCrop, getIconPaths} from '../../../../../Services/ImageService';
+} from '../../../../../Services/linksRequest';
+import {completedImageCrop, getIconPaths} from '../../../../../Services/imageService';
 import EventBus from '../../../../../Utils/Bus';
-import { BiChevronLeft, BiChevronsLeft,  } from "react-icons/bi";
+
 import {
     LINKS_ACTIONS,
     ORIGINAL_LINKS_ACTIONS,
     FOLDER_LINKS_ACTIONS,
     ORIG_FOLDER_LINKS_ACTIONS
-} from '../../../../../Services/Reducer';
+} from '../../../../../Services/reducer';
 import FormBreadcrumbs from './FormBreadcrumbs';
 
 const NewForm = ({
@@ -46,7 +46,7 @@ const NewForm = ({
                      subStatus
                   }) => {
 
-    const { userLinks, dispatch } = useContext(UserLinksContext);
+    const {userLinks, dispatch} = useContext(UserLinksContext);
     const { originalArray, dispatchOrig } = useContext(OriginalArrayContext);
     const { folderLinks, dispatchFolderLinks } = useContext(FolderLinksContext);
     const { originalFolderLinks, dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);

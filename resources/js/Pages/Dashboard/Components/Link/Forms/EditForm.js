@@ -6,13 +6,20 @@ import React, {
     useState,
 } from 'react';
 import IconList from "../IconList";
-import { UserLinksContext, OriginalArrayContext, PageContext, FolderLinksContext, OriginalFolderLinksContext } from '../../../App';
+import {
+    OriginalArrayContext,
+    PageContext,
+    FolderLinksContext,
+    OriginalFolderLinksContext,
+    UserLinksContext,
+} from '../../../App';
+
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
 import InputComponent from './InputComponent';
 const iconPaths = user.icons;
-import {updateLink, checkURL} from '../../../../../Services/LinksRequest';
-import {completedImageCrop, getIconPaths} from '../../../../../Services/ImageService';
+import {updateLink, checkURL} from '../../../../../Services/linksRequest';
+import {completedImageCrop, getIconPaths} from '../../../../../Services/imageService';
 import FormBreadcrumbs from './FormBreadcrumbs';
 
 import {
@@ -20,7 +27,7 @@ import {
     ORIGINAL_LINKS_ACTIONS,
     FOLDER_LINKS_ACTIONS,
     ORIG_FOLDER_LINKS_ACTIONS
-} from '../../../../../Services/Reducer';
+} from '../../../../../Services/reducer';
 
 const EditForm = ({
                       editID,
@@ -36,7 +43,7 @@ const EditForm = ({
                       subStatus
 }) => {
 
-    const { userLinks, dispatch  } = useContext(UserLinksContext);
+    const {userLinks, dispatch} = useContext(UserLinksContext);
     const { dispatchOrig } = useContext(OriginalArrayContext);
     const { folderLinks, dispatchFolderLinks } = useContext(FolderLinksContext);
     const { dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);

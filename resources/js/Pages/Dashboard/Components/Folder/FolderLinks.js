@@ -6,14 +6,15 @@ import React, {
     useState,
     useContext,
 } from 'react';
-import {MdDeleteForever, MdDragHandle, MdChevronLeft} from 'react-icons/md';
+import {MdDragHandle} from 'react-icons/md';
 import Switch from "react-switch";
 import {
-    UserLinksContext,
     OriginalArrayContext,
     FolderLinksContext,
     OriginalFolderLinksContext,
+    UserLinksContext,
 } from '../../App';
+
 import {Motion, spring} from 'react-motion';
 import {
     updateLinksPositions,
@@ -21,15 +22,15 @@ import {
     getColHeight,
     getColWidth,
     updateContentHeight,
-} from '../../../../Services/LinksRequest';
-import {checkIcon} from '../../../../Services/UserService';
+} from '../../../../Services/linksRequest';
+import {checkIcon} from '../../../../Services/userService';
 import folder from '../Preview/Folder';
 import {
     LINKS_ACTIONS,
     ORIGINAL_LINKS_ACTIONS,
     FOLDER_LINKS_ACTIONS,
     ORIG_FOLDER_LINKS_ACTIONS
-} from '../../../../Services/Reducer';
+} from '../../../../Services/reducer';
 
 const springSetting1 = { stiffness: 180, damping: 10 };
 const springSetting2 = { stiffness: 120, damping: 17 };
@@ -53,7 +54,7 @@ const FolderLinks = ({
 
                }) => {
 
-    const { dispatch  } = useContext(UserLinksContext);
+    const {dispatch} = useContext(UserLinksContext);
     const { dispatchOrig } = useContext(OriginalArrayContext);
 
     const { folderLinks, dispatchFolderLinks } = useContext(FolderLinksContext);

@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import { BiRefresh } from "react-icons/bi";
-import {getPageStats, getLinkStats, getFolderStats} from '../../../Services/StatsRequests';
+import {getPageStats, getLinkStats, getFolderStats} from '../../../Services/statsRequests';
 
 
 const RefreshButton = ({

@@ -1,15 +1,15 @@
 import React, {useEffect, useState, useContext} from 'react';
-import {updateFolderName} from '../../../../Services/FolderRequests';
+import {updateFolderName} from '../../../../Services/folderRequests';
 import {
     LINKS_ACTIONS,
     ORIGINAL_LINKS_ACTIONS,
-} from '../../../../Services/Reducer';
+} from '../../../../Services/reducer';
 import {OriginalArrayContext, UserLinksContext} from '../../App';
 
 const FolderNameInput = ({folderID}) => {
 
     const [charactersLeft, setCharactersLeft] = useState();
-    const { userLinks, dispatch } = useContext(UserLinksContext);
+    const {userLinks, dispatch} = useContext(UserLinksContext);
     const { dispatchOrig } = useContext(OriginalArrayContext);
 
     const [ currentFolder, setCurrentFolder ] = useState(

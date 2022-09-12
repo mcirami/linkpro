@@ -4,7 +4,7 @@ import React, {
     createContext,
     createRef,
     useEffect,
-    useRef,
+    useRef, useContext,
 } from 'react';
 import Preview from './Components/Preview/Preview';
 import Links from './Components/Link/Links';
@@ -28,22 +28,22 @@ import AddFolder from './Components/Folder/AddFolder';
 import FolderLinks from './Components/Folder/FolderLinks';
 import { ConfirmFolderDelete } from './Components/Popups/ConfirmFolderDelete';
 import {ErrorBoundary} from 'react-error-boundary';
-import {updateLinksPositions, getAllLinks} from '../../Services/LinksRequest';
-import {toolTipPosition, toolTipClick} from '../../Services/PageRequests';
-import {checkSubStatus} from '../../Services/UserService';
+import {toolTipPosition} from '../../Services/pageRequests';
+import {checkSubStatus} from '../../Services/userService';
 import DowngradeAlert from './Components/Popups/DowngradeAlert';
+//import myErrorHandler from '../../Services/errorHandler';
+
 import {
+    reducer,
     folderLinksReducer,
     origFolderLinksReducer,
-    origLinksReducer,
-    reducer,
-    LINKS_ACTIONS,
-    ORIGINAL_LINKS_ACTIONS,
-} from '../../Services/Reducer';
+    origLinksReducer, LINKS_ACTIONS, ORIGINAL_LINKS_ACTIONS,
+} from '../../Services/reducer';
 import PageHeaderLayout from './Components/Page/PageHeaderLayout';
 import LivePageButton from './Components/LivePageButton';
 import EventBus from '../../Utils/Bus';
 import FolderHeading from './Components/Folder/FolderHeading';
+import {getAllLinks, updateLinksPositions} from '../../Services/linksRequest';
 
 const page = user.page;
 const userPages = user.user_pages;
@@ -133,7 +133,14 @@ function App() {
 
     }, []);
 
+    const showFlash = (show = false, type='', msg='') => {
+        setFlash({show, type, msg})
+    }
+
     const myErrorHandler = (Error, {componentStack: string}) => {
+
+        const {userLinks, dispatch} = useContext(UserLinksContext);
+        const { dispatchOrig } = useContext(OriginalArrayContext);
 
         if (String(Error).includes("Invalid attempt to destructure non-iterable instance")) {
             const packets = {
@@ -153,10 +160,6 @@ function App() {
         }
     }
 
-    const showFlash = (show = false, type='', msg='') => {
-        setFlash({show, type, msg})
-    }
-
     function ErrorFallback({error, resetErrorBoundary}) {
         return (
             <div role="alert" className="my_row text-center">
@@ -170,7 +173,7 @@ function App() {
     return (
         <div className="my_row page_wrap">
 
-            <UserLinksContext.Provider value={{userLinks, dispatch }} >
+            <UserLinksContext.Provider value={{userLinks, dispatch}} >
                 <OriginalArrayContext.Provider value={{ originalArray, dispatchOrig}} >
 
                     {showLoader &&

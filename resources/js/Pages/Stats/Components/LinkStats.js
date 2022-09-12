@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {
     getLinkStats,
-} from '../../../Services/StatsRequests';
+} from '../../../Services/statsRequests';
 
 import "react-datepicker/dist/react-datepicker.css";
 import Filters from './Filters';

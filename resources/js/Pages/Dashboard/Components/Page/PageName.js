@@ -1,7 +1,7 @@
 import React, {useContext, useRef, useState} from 'react';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import {PageContext} from '../../App';
-import {updatePageName, toolTipClick} from '../../../../Services/PageRequests';
+import {updatePageName, toolTipClick} from '../../../../Services/pageRequests';
 import {BiHelpCircle} from 'react-icons/bi';
 import { Element } from  'react-scroll';
 let pageNames = user.allPageNames;

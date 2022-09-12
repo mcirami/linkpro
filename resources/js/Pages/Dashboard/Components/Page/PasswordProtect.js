@@ -9,7 +9,7 @@ import {
     passwordProtect,
     passwordStatus,
     toolTipClick,
-} from '../../../../Services/PageRequests';
+} from '../../../../Services/pageRequests';
 import { Element } from  'react-scroll';
 
 const PasswordProtect = ({

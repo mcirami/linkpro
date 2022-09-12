@@ -9,8 +9,8 @@ import {MdEdit} from 'react-icons/md';
 import {PageContext} from '../../App';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
-import {profileImage, toolTipClick} from '../../../../Services/PageRequests';
-import {completedImageCrop} from '../../../../Services/ImageService';
+import {profileImage, toolTipClick} from '../../../../Services/pageRequests';
+import {completedImageCrop} from '../../../../Services/imageService';
 import {BiHelpCircle} from 'react-icons/bi';
 import { Element } from  'react-scroll';
 

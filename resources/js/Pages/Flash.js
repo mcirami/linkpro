@@ -4,7 +4,7 @@ import {UserLinksContext} from './Dashboard/App';
 
 export const Flash = ({msg, type, removeFlash, pageSettings}) => {
 
-    const { userLinks } = useContext(UserLinksContext);
+    const {userLinks} = useContext(UserLinksContext);
 
     useEffect(() => {
 

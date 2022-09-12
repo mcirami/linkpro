@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {getPageStats} from '../../../Services/StatsRequests';
+import {getPageStats} from '../../../Services/statsRequests';
 import Filters from './Filters';
 
 const PageStats = ({

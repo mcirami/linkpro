@@ -1,13 +1,13 @@
 import { ImPlus } from "react-icons/im";
-import addFolder from '../../../../Services/FolderRequests';
+import addFolder from '../../../../Services/folderRequests';
 import React, {useContext} from 'react';
 
 import {
     PageContext,
-    UserLinksContext,
     OriginalArrayContext,
     FolderLinksContext,
-    OriginalFolderLinksContext
+    OriginalFolderLinksContext,
+    UserLinksContext,
 } from '../../App';
 
 import {
@@ -15,7 +15,7 @@ import {
     ORIGINAL_LINKS_ACTIONS,
     FOLDER_LINKS_ACTIONS,
     ORIG_FOLDER_LINKS_ACTIONS
-} from '../../../../Services/Reducer';
+} from '../../../../Services/reducer';
 
 const AddFolder = ({
                        setShowUpgradePopup,
@@ -23,9 +23,8 @@ const AddFolder = ({
                        setEditFolderID,
                        subStatus
 }) => {
-
+    const {userLinks, dispatch} = useContext(UserLinksContext)
     const  { pageSettings } = useContext(PageContext);
-    const { userLinks, dispatch } = useContext(UserLinksContext);
     const { originalArray, dispatchOrig } = useContext(OriginalArrayContext);
     const { dispatchFolderLinks } = useContext(FolderLinksContext);
     const { dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);

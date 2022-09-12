@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState, useRef} from 'react';
 import {PageContext} from '../../App';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
-import {pageTitle, toolTipClick} from '../../../../Services/PageRequests';
+import {pageTitle, toolTipClick} from '../../../../Services/pageRequests';
 import {BiHelpCircle} from 'react-icons/bi';
 import { Element } from  'react-scroll';
 

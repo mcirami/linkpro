@@ -1,5 +1,5 @@
 import React from 'react';
-import {checkIcon} from '../../../../Services/UserService';
+import {checkIcon} from '../../../../Services/userService';
 
 const FolderLinks = ({icons}) => {
 

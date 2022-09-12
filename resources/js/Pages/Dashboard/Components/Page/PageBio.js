@@ -3,7 +3,7 @@ import axios from "axios";
 import {PageContext} from '../../App';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import {BiHelpCircle} from 'react-icons/bi';
-import {pageBio, toolTipClick} from '../../../../Services/PageRequests';
+import {pageBio, toolTipClick} from '../../../../Services/pageRequests';
 import { Element } from  'react-scroll';
 
 const PageBio = ({ infoIndex, setInfoIndex }) => {
