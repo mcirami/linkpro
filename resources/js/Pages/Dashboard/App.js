@@ -18,11 +18,11 @@ import PageBio from './Components/Page/PageBio';
 import AddLink from './Components/Link/AddLink';
 import PasswordProtect from './Components/Page/PasswordProtect';
 import PreviewButton from './Components/Preview/PreviewButton';
-import { Flash } from '../Flash';
+import { Flash } from '../../Utils/Flash';
 import EditForm from './Components/Link/Forms/EditForm';
 import { UpgradePopup } from './Components/Popups/UpgradePopup';
 import { ConfirmPopup } from './Components/Popups/ConfirmPopup';
-import { Loader } from './Loader';
+import { Loader } from '../../Utils/Loader';
 import NewForm from './Components/Link/Forms/NewForm';
 import AddFolder from './Components/Folder/AddFolder';
 import FolderLinks from './Components/Folder/FolderLinks';
@@ -229,6 +229,7 @@ function App() {
                                     showConfirmPopup={showConfirmPopup}
                                     setShowConfirmPopup={setShowConfirmPopup}
                                     folderID={editFolderID}
+                                    iconsWrapRef={iconsWrapRef}
                                 />
                             }
 
