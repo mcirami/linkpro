@@ -18,7 +18,9 @@ export const ConfirmPopup = ({
                                  setEditID,
                                  showConfirmPopup,
                                  setShowConfirmPopup,
-                                 folderID
+                                 folderID,
+                                 iconsWrapRef
+
                              }) => {
 
     const { userLinks, dispatch  } = useContext(UserLinksContext);
@@ -47,7 +49,7 @@ export const ConfirmPopup = ({
                 }
                 return item;
             });
-            newOriginalArray = originalArray.map((item) => {
+            /*newOriginalArray = originalArray.map((item) => {
                 if (item.id === folderID && item.type === "folder") {
                     const itemLinks = item.links.filter(element => element.id !== editID)
 
@@ -57,7 +59,7 @@ export const ConfirmPopup = ({
                     }
                 }
                 return item;
-            });
+            });*/
         } else {
             newArray = userLinks.filter(element => element.id !== editID);
         }
@@ -100,7 +102,7 @@ export const ConfirmPopup = ({
                 }
 
                 setEditID(null)
-                updateContentHeight();
+                updateContentHeight(iconsWrapRef, folderID && true);
                 setShowConfirmPopup(false)
             }
         })

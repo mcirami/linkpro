@@ -1,6 +1,6 @@
 import React, {useEffect, useContext} from 'react';
 import {MdCheckCircle, MdCancel} from 'react-icons/md';
-import {UserLinksContext} from './Dashboard/App';
+import {UserLinksContext} from '../Pages/Dashboard/App';
 
 export const Flash = ({msg, type, removeFlash, pageSettings}) => {
 

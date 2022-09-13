@@ -1,6 +1,6 @@
 import CreatePageForm from './CreatePageForm';
 import React from 'react';
-import {Flash} from '../Flash';
+import {Flash} from '../../Utils/Flash';
 
 function App() {
 
