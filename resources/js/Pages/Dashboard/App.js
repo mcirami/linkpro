@@ -17,7 +17,7 @@ import PageTitle from './Components/Page/PageTitle';
 import PageBio from './Components/Page/PageBio';
 import AddLink from './Components/Link/AddLink';
 import PasswordProtect from './Components/Page/PasswordProtect';
-import ShowPreviewButton from './Components/Preview/ShowPreviewButton';
+import PreviewButton from './Components/Preview/PreviewButton';
 import { Flash } from '../Flash';
 import EditForm from './Components/Link/Forms/EditForm';
 import { UpgradePopup } from './Components/Popups/UpgradePopup';
@@ -29,7 +29,11 @@ import FolderLinks from './Components/Folder/FolderLinks';
 import { ConfirmFolderDelete } from './Components/Popups/ConfirmFolderDelete';
 import {ErrorBoundary} from 'react-error-boundary';
 import {updateLinksPositions, getAllLinks} from '../../Services/LinksRequest';
-import {toolTipPosition, toolTipClick} from '../../Services/PageRequests';
+import {
+    toolTipPosition,
+    toolTipClick,
+    previewButtonRequest,
+} from '../../Services/PageRequests';
 import {checkSubStatus} from '../../Services/UserService';
 import DowngradeAlert from './Components/Popups/DowngradeAlert';
 import {
@@ -103,6 +107,9 @@ function App() {
 
     const [infoIndex, setInfoIndex] = useState(null);
 
+    const [showPreviewButton, setShowPreviewButton] = useState(false);
+    const [showPreview, setShowPreview] = useState(false);
+
     useEffect(() => {
         toolTipPosition();
     }, [])
@@ -133,6 +140,24 @@ function App() {
 
     }, []);
 
+    function setPreviewButton() {
+        previewButtonRequest(setShowPreviewButton);
+    }
+
+    useEffect(() => {
+        setPreviewButton();
+    }, [])
+
+    useEffect(() => {
+
+        window.addEventListener('resize', setPreviewButton);
+
+        return () => {
+            window.removeEventListener('resize', setPreviewButton);
+        }
+
+    }, [])
+
     const myErrorHandler = (Error, {componentStack: string}) => {
 
         if (String(Error).includes("Invalid attempt to destructure non-iterable instance")) {
@@ -153,11 +178,7 @@ function App() {
         }
     }
 
-    const showFlash = (show = false, type='', msg='') => {
-        setFlash({show, type, msg})
-    }
-
-    function ErrorFallback({error, resetErrorBoundary}) {
+    function errorFallback ({error, resetErrorBoundary}) {
         return (
             <div role="alert" className="my_row text-center">
                 <p>Something went wrong:</p>
@@ -165,6 +186,10 @@ function App() {
                 <button className="button red" onClick={(e) => {window.location.reload()}}>Refresh Page</button>
             </div>
         )
+    }
+
+    const showFlash = (show = false, type='', msg='') => {
+        setFlash({show, type, msg})
     }
 
     return (
@@ -280,7 +305,10 @@ function App() {
                                                 setInfoIndex={setInfoIndex}
                                             />
 
-                                            <ShowPreviewButton />
+                                            {showPreviewButton &&
+                                                <PreviewButton setShowPreview={setShowPreview}/>
+                                            }
+
                                             { (userSub && !subStatus) &&
                                                 <DowngradeAlert/>
                                             }
@@ -363,7 +391,7 @@ function App() {
 
                                         { (editFolderID && !editID && !showNewForm) ?
                                             <div ref={iconsWrapRef} className='icons_wrap add_icons icons folder'>
-                                                <ErrorBoundary FallbackComponent={ErrorFallback} onError={myErrorHandler}>
+                                                <ErrorBoundary FallbackComponent={errorFallback} onError={myErrorHandler}>
                                                     <FolderLinks
                                                         folderID={editFolderID}
                                                         subStatus={subStatus}
@@ -382,7 +410,7 @@ function App() {
 
                                             (!showNewForm && !editID && !editFolderID) &&
                                             <div ref={iconsWrapRef} className='icons_wrap add_icons icons'>
-                                                <ErrorBoundary FallbackComponent={ErrorFallback} onError={myErrorHandler}>
+                                                <ErrorBoundary FallbackComponent={errorFallback} onError={myErrorHandler}>
                                                     <Links
                                                         setEditID={setEditID}
                                                         setEditFolderID={setEditFolderID}
@@ -399,7 +427,7 @@ function App() {
 
                                     </div>
                                 </div>
-                                <div className="right_column links_col preview">
+                                <div className={`right_column links_col preview ${showPreview && "show"}`}>
                                     <Preview
                                         setRef={headerRef}
                                         profileRef={profileRef}
@@ -415,6 +443,7 @@ function App() {
                                         pageHeaderRef={pageHeaderRef}
                                         infoIndex={infoIndex}
                                         setInfoIndex={setInfoIndex}
+                                        setShowPreview={setShowPreview}
                                     />
                                 </div>
                             </PageContext.Provider>

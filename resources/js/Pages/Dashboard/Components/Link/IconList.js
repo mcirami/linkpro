@@ -70,8 +70,7 @@ const IconList = ({currentLink, setCurrentLink, iconArray, radioValue, setCharac
                 :
 
                     iconArray.map((icon, index) => {
-                        /*let end = iconPath.search("/images");
-                        let newPath = iconPath.slice(end);*/
+
                         return (
                             <div key={index} className="icon_col">
                                 <img

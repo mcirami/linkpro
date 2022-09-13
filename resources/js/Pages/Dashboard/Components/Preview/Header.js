@@ -7,7 +7,7 @@ const Header = ({
                     fileName,
                 }) => {
 
-    const {pageSettings, setPageSettings} = useContext(PageContext);
+    const {pageSettings} = useContext(PageContext);
     const myStyle = {
         background: "url(" + pageSettings["header_img"] + ") no-repeat",
         backgroundSize: "cover",

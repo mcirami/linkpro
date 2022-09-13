@@ -25,12 +25,6 @@ const FolderHeading = ({
             <div className="my_row icon_breadcrumb" id="scrollTo">
                 <p>Editing Folder</p>
                 <div className="breadcrumb_links">
-                    {/*<a className="back" href="#"
-                       onClick={(e) => { e.preventDefault(); setEditFolderID(null); }}
-                    >
-                        <MdChevronLeft />
-                        Back To Icons
-                    </a>*/}
                     <FormBreadcrumbs
                         setEditFolderID={setEditFolderID}
                         formType={"none"}

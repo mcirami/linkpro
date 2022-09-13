@@ -297,4 +297,13 @@ const isInViewport = (infoDiv) => {
 
 }
 
+export const previewButtonRequest = (setShowPreviewButton) => {
+
+    if (window.innerWidth < 993) {
+        setShowPreviewButton(true)
+    } else {
+        setShowPreviewButton(false)
+    }
+}
+
 export default addPage;

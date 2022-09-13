@@ -28,7 +28,8 @@ const Preview = ({
                      subStatus,
                      pageHeaderRef,
                      infoIndex,
-                     setInfoIndex
+                     setInfoIndex,
+                     setShowPreview
 }) => {
 
     const { userLinks } = useContext(UserLinksContext);
@@ -36,7 +37,7 @@ const Preview = ({
     const {pageSettings} = useContext(PageContext);
 
     const ClosePreview = () => {
-        document.querySelector('.links_col.preview').classList.remove('show');
+        setShowPreview(false);
         document.querySelector('body').classList.remove('fixed');
     }
 
@@ -56,9 +57,7 @@ const Preview = ({
             const windowWidth = window.outerWidth;
 
             if (windowWidth > 992) {
-                document.querySelector('.links_col.preview').
-                    classList.
-                    remove('show');
+                document.querySelector('.links_col.preview').classList.remove('show');
                 document.querySelector('body').classList.remove('fixed');
             }
         }

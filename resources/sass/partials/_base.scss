@@ -99,13 +99,8 @@ button {
 }
 
 .preview_button_wrap {
-    display: none;
     text-align: center;
     margin: 20px 0;
-
-    @media all and (max-width: 992px) {
-        display: block;
-    }
 
     .button {
         display: block;

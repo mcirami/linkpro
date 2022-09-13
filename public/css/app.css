@@ -11354,14 +11354,8 @@ button {
 }
 
 .preview_button_wrap {
-  display: none;
   text-align: center;
   margin: 20px 0;
-}
-@media all and (max-width: 992px) {
-  .preview_button_wrap {
-    display: block;
-  }
 }
 .preview_button_wrap .button {
   display: block;
