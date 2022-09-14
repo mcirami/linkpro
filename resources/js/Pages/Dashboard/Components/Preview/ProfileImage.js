@@ -12,10 +12,12 @@ const ProfileImage = ({
     return (
 
         <>
-            <div className={`profile_img_column ${pageSettings["profile_img"]} &&
-            !${profileFileName} || ${profileFileName} ?
-                 :
-                "default" `}>
+            <div className={`
+            ${(pageSettings["profile_img"] && !profileFileName) || profileFileName
+                ? "profile_img_column"
+                :
+                "profile_img_column default"} `}
+            >
                 {!profileFileName ?
                     <div className="profile_image">
                         <div className="image_wrap">
