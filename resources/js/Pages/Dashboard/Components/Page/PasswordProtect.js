@@ -9,8 +9,8 @@ import {
     passwordProtect,
     passwordStatus,
     toolTipClick,
+    displayInfoBox
 } from '../../../../Services/PageRequests';
-import { Element } from  'react-scroll';
 
 const PasswordProtect = ({
                              userSub,
@@ -21,7 +21,7 @@ const PasswordProtect = ({
                              setInfoIndex
 }) => {
 
-    const { pageSettings, setPageSettings } = useContext(PageContext);
+    const { pageSettings, setPageSettings, setInfoText, setInfoTextOpen, setInfoLocation } = useContext(PageContext);
 
     const [isEditing, setIsEditing] = useState(false);
     const [checked, setChecked] = useState(pageSettings['is_protected']);
@@ -202,18 +202,13 @@ const PasswordProtect = ({
                         </a>
                     </div>
                 }
-                <div className="tooltip_icon">
-                    <div onClick={() => toolTipClick(1, infoIndex, setInfoIndex, infoDiv)} >
+                <div ref={infoDiv} className="tooltip_icon" onMouseLeave={() => setInfoTextOpen(false)}>
+                    <div className="icon_wrap"
+                         onClick={() => toolTipClick(1, infoIndex, setInfoIndex, infoDiv)}
+                         onMouseEnter={(e) => displayInfoBox(e, setInfoText, setInfoTextOpen, setInfoLocation)} data-section="password">
                         <BiHelpCircle />
                     </div>
 
-                    <Element name="infoText1" className={`hover_text help password ${infoIndex === 1 ? " open" : "" }` } >
-                        <div ref={infoDiv}>
-                            <p>This option allows PRO and PREMIER users to restrict access to their Page/s for those with the access code. Selecting this option means that only people with an access code can view your LinkPro Page. The access code is required to have a minimum of 4 alpha-numeric characters/symbols.</p>
-                            <h5>Pro Tip!</h5>
-                            <p>Password protecting a page is useful for promotional offers, exclusive content, and companies with internal information accessible to employees and not the general public.</p>
-                        </div>
-                    </Element>
                 </div>
 
         </div>

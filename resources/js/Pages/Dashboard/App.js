@@ -30,7 +30,6 @@ import { ConfirmFolderDelete } from './Components/Popups/ConfirmFolderDelete';
 import {ErrorBoundary} from 'react-error-boundary';
 import {updateLinksPositions, getAllLinks} from '../../Services/LinksRequest';
 import {
-    toolTipPosition,
     toolTipClick,
     previewButtonRequest,
 } from '../../Services/PageRequests';
@@ -48,6 +47,7 @@ import PageHeaderLayout from './Components/Page/PageHeaderLayout';
 import LivePageButton from './Components/LivePageButton';
 import EventBus from '../../Utils/Bus';
 import FolderHeading from './Components/Folder/FolderHeading';
+import InfoText from './Components/Page/InfoText';
 
 const page = user.page;
 const userPages = user.user_pages;
@@ -71,6 +71,9 @@ function App() {
     const [originalFolderLinks, dispatchOrigFolderLinks] = useReducer(origFolderLinksReducer, [])
 
     const [pageSettings, setPageSettings] = useState(page);
+    const [infoText, setInfoText] = useState({section:'', text:[]});
+    const [infoTextOpen, setInfoTextOpen] = useState(false)
+    const [infoLocation, setInfoLocation] = useState({})
 
     const [allUserPages, setAllUserPages] = useState(userPages);
     const [editID, setEditID] = useState(null);
@@ -92,6 +95,7 @@ function App() {
 
     const pageHeaderRef = createRef(null);
     const iconsWrapRef = useRef(null);
+    const leftColWrap = useRef(null);
 
     const [subStatus] = useState(checkSubStatus());
 
@@ -109,18 +113,6 @@ function App() {
 
     const [showPreviewButton, setShowPreviewButton] = useState(false);
     const [showPreview, setShowPreview] = useState(false);
-
-    useEffect(() => {
-        toolTipPosition();
-    }, [])
-
-    useEffect(() => {
-        window.addEventListener('resize', toolTipPosition);
-
-        return () => {
-            window.removeEventListener('resize', toolTipPosition);
-        }
-    }, []);
 
     useEffect(() => {
         EventBus.on('success', (data) => {
@@ -242,7 +234,7 @@ function App() {
                                 />
                             }
 
-                            <PageContext.Provider value={{ pageSettings, setPageSettings }}>
+                            <PageContext.Provider value={{ pageSettings, setPageSettings, setInfoText, setInfoTextOpen, setInfoLocation }}>
                                 <div className="left_column">
                                     <PageNav
                                         allUserPages={allUserPages}
@@ -253,7 +245,7 @@ function App() {
                                         setOptionText={setOptionText}
                                     />
 
-                                    <div className="content_wrap my_row" id="left_col_wrap">
+                                    <div ref={leftColWrap} className="content_wrap my_row" id="left_col_wrap">
                                         <div className="top_section">
                                             <PageName
                                                 infoIndex={infoIndex}
@@ -304,6 +296,13 @@ function App() {
                                                 pageHeaderRef={pageHeaderRef}
                                                 infoIndex={infoIndex}
                                                 setInfoIndex={setInfoIndex}
+                                            />
+
+                                            <InfoText
+                                                infoText={infoText}
+                                                infoTextOpen={infoTextOpen}
+                                                infoLocation={infoLocation}
+                                                leftColWrap={leftColWrap}
                                             />
 
                                             {showPreviewButton &&

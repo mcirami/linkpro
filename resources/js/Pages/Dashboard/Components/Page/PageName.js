@@ -1,18 +1,20 @@
 import React, {useContext, useRef, useState} from 'react';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import {PageContext} from '../../App';
-import {updatePageName, toolTipClick} from '../../../../Services/PageRequests';
+import {
+    updatePageName,
+    toolTipClick,
+    displayInfoBox,
+} from '../../../../Services/PageRequests';
 import {BiHelpCircle} from 'react-icons/bi';
-import { Element } from  'react-scroll';
 let pageNames = user.allPageNames;
 
 const PageName = ({infoIndex, setInfoIndex}) => {
 
-    const { pageSettings, setPageSettings } = useContext(PageContext);
+    const { pageSettings, setPageSettings, setInfoText, setInfoTextOpen, setInfoLocation } = useContext(PageContext);
     const [userPageNames, setUserPageNames] = useState(pageNames);
 
     const [name, setName] = useState(pageSettings['name']);
-    //const [isEditing, setIsEditing] = useState(false);
 
     const [available, setAvailability] = useState(true);
     const [currentMatch, setCurrentMatch] = useState(true);
@@ -124,18 +126,13 @@ const PageName = ({infoIndex, setInfoIndex}) => {
                }
 
            </form>
-            <div className="tooltip_icon">
-                <div onClick={(e) => toolTipClick(0, infoIndex, setInfoIndex, infoDiv)}>
+            <div ref={infoDiv} className="tooltip_icon" onMouseLeave={() => setInfoTextOpen(false)}>
+                <div className="icon_wrap"
+                     onClick={(e) => toolTipClick(0, infoIndex, setInfoIndex, infoDiv)}
+                     onMouseEnter={(e) => displayInfoBox(e, setInfoText, setInfoTextOpen, setInfoLocation)} data-section="name"
+                >
                     <BiHelpCircle />
                 </div>
-
-                <Element name="infoText0" className={ `hover_text help ${infoIndex === 0 ? "open" : ""}` } >
-                    <div ref={infoDiv}>
-                        <p>The text in this field is the name of your page and is appended to “link.pro/” to create the URL for a user’s Page (e.g. link.pro/SETUP). You are free to change this at any time if the name is not already taken by another user.</p>
-                        <h5>Pro Tip!</h5>
-                        <p>Choosing a simple Page Name that reflects your content makes your LinkPro URL more informative for your audience.</p>
-                    </div>
-                </Element>
             </div>
 
         </div>

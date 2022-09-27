@@ -1,6 +1,7 @@
 import axios from 'axios';
 import EventBus from '../Utils/Bus';
 import { Link, scroller } from  'react-scroll';
+import data from '../Pages/Dashboard/data';
 
 export const addPage = (packets) => {
 
@@ -259,17 +260,17 @@ export const updateProfileLayout = (packets, pageID) => {
 
 }
 
-export const toolTipPosition = () => {
+export const displayInfoBox = (e, setInfoText, setInfoTextOpen, setInfoLocation) => {
 
-    const hoverText = document.querySelectorAll('.hover_text.help');
+    const name = e.target.dataset.section;
+    const dataText = data.find((text) => text.section === name);
+    setInfoText(dataText);
+    setInfoTextOpen(true);
 
-    if (hoverText.length > 0) {
-        hoverText.forEach((element) => {
-            //const parentDiv = element.parentNode;
-            const height = element.clientHeight + 25;
-            element.style.top = "-" + height + "px";
-        })
-    }
+    const rect = e.target.getBoundingClientRect();
+    const center = (rect.left + rect.right) / 2;
+    const top = rect.top - 2;
+    setInfoLocation({center, top});
 }
 
 export const toolTipClick = (index, infoIndex, setInfoIndex, infoDiv = null) => {

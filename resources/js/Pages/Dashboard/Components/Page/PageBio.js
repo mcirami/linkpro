@@ -3,13 +3,16 @@ import axios from "axios";
 import {PageContext} from '../../App';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import {BiHelpCircle} from 'react-icons/bi';
-import {pageBio, toolTipClick} from '../../../../Services/PageRequests';
-import { Element } from  'react-scroll';
+import {
+    displayInfoBox,
+    pageBio,
+    toolTipClick,
+} from '../../../../Services/PageRequests';
 
 const PageBio = ({ infoIndex, setInfoIndex }) => {
 
 
-    const { pageSettings, setPageSettings } = useContext(PageContext);
+    const { pageSettings, setPageSettings, setInfoText, setInfoTextOpen, setInfoLocation } = useContext(PageContext);
     const [charactersLeft, setCharactersLeft] = useState();
 
     const infoDiv = useRef();
@@ -85,18 +88,13 @@ const PageBio = ({ infoIndex, setInfoIndex }) => {
                     </p>
                 </div>
             </form>
-            <div className="tooltip_icon">
-                <div onClick={() => toolTipClick(5, infoIndex, setInfoIndex, infoDiv)} >
+            <div className="tooltip_icon" onMouseLeave={() => setInfoTextOpen(false)}>
+                <div className="icon_wrap"
+                    onClick={() => toolTipClick(5, infoIndex, setInfoIndex, infoDiv)}
+                    onMouseEnter={(e) => displayInfoBox(e, setInfoText, setInfoTextOpen, setInfoLocation)} data-section="bio"
+                >
                     <BiHelpCircle />
                 </div>
-
-                <Element name="infoText5" className={`hover_text help bio ${infoIndex === 5 ? " open" : "" }` } >
-                    <div ref={infoDiv}>
-                        <p>Description text displayed directly below the Page Title to provide your followers a brief bio or slogan for your Page. (60 character max).</p>
-                        <h5>Pro Tip!</h5>
-                        <p>A shorter Page-Bio allows viewers to see more icons quicker!</p>
-                    </div>
-                </Element>
             </div>
         </div>
 

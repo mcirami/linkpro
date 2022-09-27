@@ -14456,16 +14456,45 @@ form .bottom_row a {
     z-index: 999 !important;
   }
 }
-.tooltip_icon .hover_text.help {
+.tooltip_icon .icon_wrap {
+  display: block;
+  position: relative;
+}
+.tooltip_icon .icon_wrap:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.tooltip_icon svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+  color: #424fcf;
+}
+@media screen and (max-width: 768px) {
+  .tooltip_icon svg {
+    height: 24px;
+    width: 24px;
+  }
+}
+
+.hover_text.help {
   padding: 5px;
   right: -3px;
   align-items: flex-start;
   -webkit-align-items: flex-start;
   z-index: -999;
   background: #eaeaea;
-  width: 101%;
+  position: fixed;
+  max-width: 600px;
 }
-.tooltip_icon .hover_text.help:after {
+@media screen and (max-width: 768px) {
+  .hover_text.help {
+    max-width: 80%;
+  }
+}
+.hover_text.help:after {
   content: "";
   position: absolute;
   display: inline-block;
@@ -14477,35 +14506,24 @@ form .bottom_row a {
   border-width: 10px 8px 0 8px;
   border-color: #eaeaea transparent transparent transparent;
 }
-.tooltip_icon .hover_text.help.open {
+.hover_text.help.open {
   opacity: 1;
   z-index: 999 !important;
 }
-.tooltip_icon .hover_text.help p {
+.hover_text.help p {
   font-size: 14px;
 }
 @media screen and (max-width: 768px) {
-  .tooltip_icon .hover_text.help p {
+  .hover_text.help p {
     font-size: 12px;
   }
 }
-.tooltip_icon .hover_text.help h5, .tooltip_icon .hover_text.help .h5 {
+.hover_text.help h5, .hover_text.help .h5 {
   margin: 5px 5px 0;
 }
 @media all and (max-width: 768px) {
-  .tooltip_icon .hover_text.help h5, .tooltip_icon .hover_text.help .h5 {
+  .hover_text.help h5, .hover_text.help .h5 {
     font-size: 14px;
-  }
-}
-.tooltip_icon svg {
-  width: 18px;
-  height: 18px;
-  color: #424fcf;
-}
-@media screen and (max-width: 768px) {
-  .tooltip_icon svg {
-    height: 24px;
-    width: 24px;
   }
 }
 

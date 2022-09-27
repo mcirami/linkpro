@@ -9,10 +9,13 @@ import {MdEdit} from 'react-icons/md';
 import {PageContext} from '../../App';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
-import {profileImage, toolTipClick} from '../../../../Services/PageRequests';
+import {
+    displayInfoBox,
+    profileImage,
+    toolTipClick,
+} from '../../../../Services/PageRequests';
 import {completedImageCrop} from '../../../../Services/ImageService';
 import {BiHelpCircle} from 'react-icons/bi';
-import { Element } from  'react-scroll';
 
 const PageProfile = ({
                          profileRef,
@@ -25,7 +28,7 @@ const PageProfile = ({
                          setInfoIndex
 }) => {
 
-    const { pageSettings, setPageSettings } = useContext(PageContext);
+    const { pageSettings, setPageSettings, setInfoText, setInfoTextOpen, setInfoLocation } = useContext(PageContext);
     const [previousImage, setPreviousImage] = useState(pageSettings['profile_img']);
 
     const [upImg, setUpImg] = useState();
@@ -217,17 +220,13 @@ const PageProfile = ({
                     </form>
                 </div>
             {!profileFileName &&
-                <div className="tooltip_icon">
-                    <div onClick={() => toolTipClick(3, infoIndex, setInfoIndex, infoDiv)} >
+                <div className="tooltip_icon" onMouseLeave={() => setInfoTextOpen(false)}>
+                    <div className="icon_wrap"
+                        onClick={() => toolTipClick(3, infoIndex, setInfoIndex, infoDiv)}
+                        onMouseEnter={(e) => displayInfoBox(e, setInfoText, setInfoTextOpen, setInfoLocation)} data-section="profile"
+                    >
                         <BiHelpCircle />
                     </div>
-                    <Element name="infoText3" className={`hover_text help profile ${infoIndex === 3 ? " open" : "" }` }>
-                        <div ref={infoDiv}>
-                            <p>Here you can upload a profile image to your Page. After selecting a file (.jpg, .jpeg, .png, .gif) to upload, you can resize the image to perfection using the built-in cropping functionality.</p>
-                            <h5>Pro Tip!</h5>
-                            <p>A square profile image will be cropped to a circular shape on your page. Choose an image that will appropriately fit a circular shape!</p>
-                        </div>
-                    </Element>
                 </div>
             }
         </div>

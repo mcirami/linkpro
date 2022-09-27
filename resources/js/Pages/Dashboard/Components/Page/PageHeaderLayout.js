@@ -1,15 +1,15 @@
 import React, {useContext, useRef, useState} from 'react';
 import {
+    displayInfoBox,
     toolTipClick,
     updateProfileLayout,
 } from '../../../../Services/PageRequests';
 import {PageContext} from '../../App';
 import {BiHelpCircle} from 'react-icons/bi';
-import {Element} from 'react-scroll';
 
 function PageHeaderLayout({pageHeaderRef, infoIndex, setInfoIndex}) {
 
-    const {pageSettings} = useContext(PageContext);
+    const {pageSettings, setInfoText, setInfoTextOpen, setInfoLocation} = useContext(PageContext);
     const [layout, setLayout] = useState(pageSettings['profile_layout']);
     const infoDiv = useRef();
 
@@ -62,18 +62,13 @@ function PageHeaderLayout({pageHeaderRef, infoIndex, setInfoIndex}) {
                     <img src={ Vapor.asset('images/layout-3.png') } alt=""/>
                 </div>
             </form>
-            <div className="tooltip_icon">
-                <div onClick={() => toolTipClick(6, infoIndex, setInfoIndex, infoDiv)} >
+            <div className="tooltip_icon" onMouseLeave={() => setInfoTextOpen(false)}>
+                <div className="icon_wrap"
+                    onClick={() => toolTipClick(6, infoIndex, setInfoIndex, infoDiv)}
+                    onMouseEnter={(e) => displayInfoBox(e, setInfoText, setInfoTextOpen, setInfoLocation)} data-section="layout"
+                >
                     <BiHelpCircle />
                 </div>
-
-                <Element name="infoText5" className={`hover_text help bio ${infoIndex === 6 ? " open" : "" }` } >
-                    <div ref={infoDiv}>
-                        <p>Choose between 3 different layouts to display your profile content that includes your profile image, title and bio.</p>
-                        <h5>Pro Tip!</h5>
-                        <p>A longer title and/or bio may look best on Layout 3.</p>
-                    </div>
-                </Element>
             </div>
         </div>
     );

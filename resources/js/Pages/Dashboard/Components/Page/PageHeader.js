@@ -10,10 +10,13 @@ import {MdEdit} from 'react-icons/md';
 import { PageContext } from '../../App';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
-import {headerImage, toolTipClick} from '../../../../Services/PageRequests';
+import {
+    displayInfoBox,
+    headerImage,
+    toolTipClick,
+} from '../../../../Services/PageRequests';
 import {completedImageCrop} from '../../../../Services/ImageService';
 import {BiHelpCircle} from 'react-icons/bi';
-import { Element } from  'react-scroll';
 
 export const RefContext = createContext();
 export const cropStatus = createContext();
@@ -28,7 +31,7 @@ const PageHeader = ({
     infoIndex,
     setInfoIndex,
 }) => {
-    const { pageSettings, setPageSettings } = useContext(PageContext);
+    const { pageSettings, setPageSettings, setInfoText, setInfoTextOpen, setInfoLocation } = useContext(PageContext);
     const [previousImage, setPreviousImage] = useState(
         pageSettings["header_img"]
     );
@@ -248,30 +251,15 @@ const PageHeader = ({
                 </form>
             </div>
             {!fileName && (
-                <div className="tooltip_icon">
-                    <div
+                <div className="tooltip_icon" onMouseLeave={() => setInfoTextOpen(false)}>
+                    <div className="icon_wrap"
                         onClick={() =>
                             toolTipClick(2, infoIndex, setInfoIndex, infoDiv)
                         }
+                         onMouseEnter={(e) => displayInfoBox(e, setInfoText, setInfoTextOpen, setInfoLocation)} data-section="header"
                     >
                         <BiHelpCircle />
                     </div>
-                    <Element
-                        name="infoText2"
-                        className={`hover_text help header ${
-                            infoIndex === 2 ? " open" : ""
-                        }`}
-                    >
-                        <div ref={infoDiv}>
-                            <p>
-                                Here you can upload a background header image to
-                                your Page. After selecting a file (.jpg, .jpeg,
-                                .png, .gif) to upload, you can resize the image
-                                to perfection using the built-in cropping
-                                functionality.
-                            </p>
-                        </div>
-                    </Element>
                 </div>
             )}
         </div>
