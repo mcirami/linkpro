@@ -1,17 +1,14 @@
-import React, {useContext, useRef, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import {PageContext} from '../../App';
-import {
-    updatePageName,
-    toolTipClick,
-    displayInfoBox,
-} from '../../../../Services/PageRequests';
-import {BiHelpCircle} from 'react-icons/bi';
+import {updatePageName} from '../../../../Services/PageRequests';
+import ToolTipIcon from './ToolTipIcon';
 let pageNames = user.allPageNames;
 
-const PageName = ({infoIndex, setInfoIndex}) => {
+const PageName = () => {
 
-    const { pageSettings, setPageSettings, setInfoText, setInfoTextOpen, setInfoLocation } = useContext(PageContext);
+    const { pageSettings, setPageSettings } = useContext(PageContext);
+
     const [userPageNames, setUserPageNames] = useState(pageNames);
 
     const [name, setName] = useState(pageSettings['name']);
@@ -19,8 +16,6 @@ const PageName = ({infoIndex, setInfoIndex}) => {
     const [available, setAvailability] = useState(true);
     const [currentMatch, setCurrentMatch] = useState(true);
     const [regexMatch, setRegexMatch] = useState(true);
-
-    const infoDiv = useRef();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -126,14 +121,8 @@ const PageName = ({infoIndex, setInfoIndex}) => {
                }
 
            </form>
-            <div ref={infoDiv} className="tooltip_icon" onMouseLeave={() => setInfoTextOpen(false)}>
-                <div className="icon_wrap"
-                     onClick={(e) => toolTipClick(0, infoIndex, setInfoIndex, infoDiv)}
-                     onMouseEnter={(e) => displayInfoBox(e, setInfoText, setInfoTextOpen, setInfoLocation)} data-section="name"
-                >
-                    <BiHelpCircle />
-                </div>
-            </div>
+
+            <ToolTipIcon section="name" />
 
         </div>
 

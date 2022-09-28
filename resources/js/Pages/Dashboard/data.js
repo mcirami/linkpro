@@ -68,6 +68,14 @@ const hoverText = [
             }
         ]
     },
+    {
+        section: 'lock',
+        text: [
+            {
+                description: 'Link is password protected.',
+            }
+        ]
+    },
 ]
 
 export default hoverText;

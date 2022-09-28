@@ -1,17 +1,12 @@
 import React, {useContext, useRef, useState} from 'react';
-import {
-    displayInfoBox,
-    toolTipClick,
-    updateProfileLayout,
-} from '../../../../Services/PageRequests';
+import {updateProfileLayout} from '../../../../Services/PageRequests';
 import {PageContext} from '../../App';
-import {BiHelpCircle} from 'react-icons/bi';
+import ToolTipIcon from './ToolTipIcon';
 
-function PageHeaderLayout({pageHeaderRef, infoIndex, setInfoIndex}) {
+function PageHeaderLayout({pageHeaderRef}) {
 
-    const {pageSettings, setInfoText, setInfoTextOpen, setInfoLocation} = useContext(PageContext);
+    const {pageSettings} = useContext(PageContext);
     const [layout, setLayout] = useState(pageSettings['profile_layout']);
-    const infoDiv = useRef();
 
     const setRadioValue = (value) => {
 
@@ -62,14 +57,9 @@ function PageHeaderLayout({pageHeaderRef, infoIndex, setInfoIndex}) {
                     <img src={ Vapor.asset('images/layout-3.png') } alt=""/>
                 </div>
             </form>
-            <div className="tooltip_icon" onMouseLeave={() => setInfoTextOpen(false)}>
-                <div className="icon_wrap"
-                    onClick={() => toolTipClick(6, infoIndex, setInfoIndex, infoDiv)}
-                    onMouseEnter={(e) => displayInfoBox(e, setInfoText, setInfoTextOpen, setInfoLocation)} data-section="layout"
-                >
-                    <BiHelpCircle />
-                </div>
-            </div>
+
+            <ToolTipIcon section="layout" />
+
         </div>
     );
 }

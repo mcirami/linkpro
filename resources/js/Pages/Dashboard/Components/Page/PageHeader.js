@@ -10,13 +10,9 @@ import {MdEdit} from 'react-icons/md';
 import { PageContext } from '../../App';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
-import {
-    displayInfoBox,
-    headerImage,
-    toolTipClick,
-} from '../../../../Services/PageRequests';
+import {headerImage} from '../../../../Services/PageRequests';
 import {completedImageCrop} from '../../../../Services/ImageService';
-import {BiHelpCircle} from 'react-icons/bi';
+import ToolTipIcon from './ToolTipIcon';
 
 export const RefContext = createContext();
 export const cropStatus = createContext();
@@ -28,10 +24,9 @@ const PageHeader = ({
     fileName,
     setFileName,
     setShowLoader,
-    infoIndex,
-    setInfoIndex,
 }) => {
-    const { pageSettings, setPageSettings, setInfoText, setInfoTextOpen, setInfoLocation } = useContext(PageContext);
+    const {pageSettings, setPageSettings} = useContext(PageContext);
+
     const [previousImage, setPreviousImage] = useState(
         pageSettings["header_img"]
     );
@@ -251,16 +246,7 @@ const PageHeader = ({
                 </form>
             </div>
             {!fileName && (
-                <div className="tooltip_icon" onMouseLeave={() => setInfoTextOpen(false)}>
-                    <div className="icon_wrap"
-                        onClick={() =>
-                            toolTipClick(2, infoIndex, setInfoIndex, infoDiv)
-                        }
-                         onMouseEnter={(e) => displayInfoBox(e, setInfoText, setInfoTextOpen, setInfoLocation)} data-section="header"
-                    >
-                        <BiHelpCircle />
-                    </div>
-                </div>
+                <ToolTipIcon section="header" />
             )}
         </div>
     );

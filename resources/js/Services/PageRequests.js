@@ -2,6 +2,7 @@ import axios from 'axios';
 import EventBus from '../Utils/Bus';
 import { Link, scroller } from  'react-scroll';
 import data from '../Pages/Dashboard/data';
+import {useEffect} from 'react';
 
 export const addPage = (packets) => {
 
@@ -260,7 +261,16 @@ export const updateProfileLayout = (packets, pageID) => {
 
 }
 
-export const displayInfoBox = (e, setInfoText, setInfoTextOpen, setInfoLocation) => {
+export const displayInfoBox = (e, setInfoText, setInfoTextOpen, setInfoLocation, setInfoClicked, infoClicked = null) => {
+
+    if (infoClicked === false) {
+        setInfoClicked(true);
+    } else if (infoClicked === true) {
+        setInfoClicked(false)
+        setInfoTextOpen(false);
+
+        return;
+    }
 
     const name = e.target.dataset.section;
     const dataText = data.find((text) => text.section === name);
@@ -273,6 +283,16 @@ export const displayInfoBox = (e, setInfoText, setInfoTextOpen, setInfoLocation)
     setInfoLocation({center, top});
 }
 
+export const closeInfoBox = (setInfoTextOpen, clicked, setInfoClicked = null) => {
+    if(!clicked) {
+        setInfoTextOpen(false)
+
+        if(setInfoClicked) {
+            setInfoClicked(false);
+        }
+    }
+}
+
 export const toolTipClick = (index, infoIndex, setInfoIndex, infoDiv = null) => {
 
     if (index === infoIndex) {
@@ -281,7 +301,7 @@ export const toolTipClick = (index, infoIndex, setInfoIndex, infoDiv = null) => 
         setInfoIndex(index);
     } else {
         setInfoIndex(index);
-        if (!isInViewport(infoDiv.current)) {
+        if (!isInViewport(infoDiv?.current)) {
             scroller.scrollTo('infoText' + index, {
                 duration: 1000,
                 smooth: true,

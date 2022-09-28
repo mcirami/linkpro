@@ -5,30 +5,22 @@ import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import {BiHelpCircle} from 'react-icons/bi';
 import Switch from "react-switch";
 import EventBus from '../../../../Utils/Bus';
-import {
-    passwordProtect,
-    passwordStatus,
-    toolTipClick,
-    displayInfoBox
-} from '../../../../Services/PageRequests';
+import {passwordProtect, passwordStatus} from '../../../../Services/PageRequests';
+import ToolTipIcon from './ToolTipIcon';
 
 const PasswordProtect = ({
                              userSub,
                              subStatus,
                              setShowUpgradePopup,
                              setOptionText,
-                             infoIndex,
-                             setInfoIndex
 }) => {
 
-    const { pageSettings, setPageSettings, setInfoText, setInfoTextOpen, setInfoLocation } = useContext(PageContext);
+    const { pageSettings, setPageSettings } = useContext(PageContext);
 
     const [isEditing, setIsEditing] = useState(false);
     const [checked, setChecked] = useState(pageSettings['is_protected']);
     const [password, setPassword] = useState(pageSettings['password']);
     const [enableSubmit, setEnableSubmit] = useState();
-
-    const infoDiv = useRef();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -202,14 +194,7 @@ const PasswordProtect = ({
                         </a>
                     </div>
                 }
-                <div ref={infoDiv} className="tooltip_icon" onMouseLeave={() => setInfoTextOpen(false)}>
-                    <div className="icon_wrap"
-                         onClick={() => toolTipClick(1, infoIndex, setInfoIndex, infoDiv)}
-                         onMouseEnter={(e) => displayInfoBox(e, setInfoText, setInfoTextOpen, setInfoLocation)} data-section="password">
-                        <BiHelpCircle />
-                    </div>
-
-                </div>
+                <ToolTipIcon section="password" />
 
         </div>
     )

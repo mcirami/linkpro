@@ -3,19 +3,13 @@ import axios from "axios";
 import {PageContext} from '../../App';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import {BiHelpCircle} from 'react-icons/bi';
-import {
-    displayInfoBox,
-    pageBio,
-    toolTipClick,
-} from '../../../../Services/PageRequests';
+import {pageBio} from '../../../../Services/PageRequests';
+import ToolTipIcon from './ToolTipIcon';
 
-const PageBio = ({ infoIndex, setInfoIndex }) => {
+const PageBio = () => {
 
-
-    const { pageSettings, setPageSettings, setInfoText, setInfoTextOpen, setInfoLocation } = useContext(PageContext);
+    const {pageSettings, setPageSettings} = useContext(PageContext);
     const [charactersLeft, setCharactersLeft] = useState();
-
-    const infoDiv = useRef();
 
     useEffect(() => {
         if(pageSettings["bio"]) {
@@ -88,14 +82,9 @@ const PageBio = ({ infoIndex, setInfoIndex }) => {
                     </p>
                 </div>
             </form>
-            <div className="tooltip_icon" onMouseLeave={() => setInfoTextOpen(false)}>
-                <div className="icon_wrap"
-                    onClick={() => toolTipClick(5, infoIndex, setInfoIndex, infoDiv)}
-                    onMouseEnter={(e) => displayInfoBox(e, setInfoText, setInfoTextOpen, setInfoLocation)} data-section="bio"
-                >
-                    <BiHelpCircle />
-                </div>
-            </div>
+
+            <ToolTipIcon section="bio" />
+
         </div>
 
     );

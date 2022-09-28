@@ -74,6 +74,7 @@ function App() {
     const [infoText, setInfoText] = useState({section:'', text:[]});
     const [infoTextOpen, setInfoTextOpen] = useState(false)
     const [infoLocation, setInfoLocation] = useState({})
+    const [infoClicked, setInfoClicked] = useState(false);
 
     const [allUserPages, setAllUserPages] = useState(userPages);
     const [editID, setEditID] = useState(null);
@@ -234,7 +235,15 @@ function App() {
                                 />
                             }
 
-                            <PageContext.Provider value={{ pageSettings, setPageSettings, setInfoText, setInfoTextOpen, setInfoLocation }}>
+                            <PageContext.Provider value={{
+                                pageSettings,
+                                setPageSettings,
+                                setInfoText,
+                                setInfoTextOpen,
+                                setInfoLocation,
+                                infoClicked,
+                                setInfoClicked
+                            }}>
                                 <div className="left_column">
                                     <PageNav
                                         allUserPages={allUserPages}
@@ -247,18 +256,13 @@ function App() {
 
                                     <div ref={leftColWrap} className="content_wrap my_row" id="left_col_wrap">
                                         <div className="top_section">
-                                            <PageName
-                                                infoIndex={infoIndex}
-                                                setInfoIndex={setInfoIndex}
-                                            />
+                                            <PageName />
 
                                             <PasswordProtect
                                                 userSub={userSub}
                                                 subStatus={subStatus}
                                                 setShowUpgradePopup={setShowUpgradePopup}
                                                 setOptionText={setOptionText}
-                                                infoIndex={infoIndex}
-                                                setInfoIndex={setInfoIndex}
                                             />
 
                                             <PageHeader
@@ -268,8 +272,6 @@ function App() {
                                                 fileName={fileName}
                                                 setFileName={setFileName}
                                                 setShowLoader={setShowLoader}
-                                                infoIndex={infoIndex}
-                                                setInfoIndex={setInfoIndex}
                                             />
 
                                             <PageProfile
@@ -279,24 +281,13 @@ function App() {
                                                 profileFileName={profileFileName}
                                                 setProfileFileName={setProfileFileName}
                                                 setShowLoader={setShowLoader}
-                                                infoIndex={infoIndex}
-                                                setInfoIndex={setInfoIndex}
                                             />
 
-                                            <PageTitle
-                                                infoIndex={infoIndex}
-                                                setInfoIndex={setInfoIndex}
-                                            />
-                                            <PageBio
-                                                infoIndex={infoIndex}
-                                                setInfoIndex={setInfoIndex}
-                                            />
+                                            <PageTitle />
+                                            <PageBio />
 
                                             <PageHeaderLayout
-                                                pageHeaderRef={pageHeaderRef}
-                                                infoIndex={infoIndex}
-                                                setInfoIndex={setInfoIndex}
-                                            />
+                                                pageHeaderRef={pageHeaderRef} />
 
                                             <InfoText
                                                 infoText={infoText}

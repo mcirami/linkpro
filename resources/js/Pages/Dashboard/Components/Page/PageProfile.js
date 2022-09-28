@@ -9,13 +9,9 @@ import {MdEdit} from 'react-icons/md';
 import {PageContext} from '../../App';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
-import {
-    displayInfoBox,
-    profileImage,
-    toolTipClick,
-} from '../../../../Services/PageRequests';
+import {profileImage} from '../../../../Services/PageRequests';
 import {completedImageCrop} from '../../../../Services/ImageService';
-import {BiHelpCircle} from 'react-icons/bi';
+import ToolTipIcon from './ToolTipIcon';
 
 const PageProfile = ({
                          profileRef,
@@ -24,11 +20,9 @@ const PageProfile = ({
                          profileFileName,
                          setProfileFileName,
                          setShowLoader,
-                         infoIndex,
-                         setInfoIndex
 }) => {
 
-    const { pageSettings, setPageSettings, setInfoText, setInfoTextOpen, setInfoLocation } = useContext(PageContext);
+    const { pageSettings, setPageSettings } = useContext(PageContext);
     const [previousImage, setPreviousImage] = useState(pageSettings['profile_img']);
 
     const [upImg, setUpImg] = useState();
@@ -220,14 +214,7 @@ const PageProfile = ({
                     </form>
                 </div>
             {!profileFileName &&
-                <div className="tooltip_icon" onMouseLeave={() => setInfoTextOpen(false)}>
-                    <div className="icon_wrap"
-                        onClick={() => toolTipClick(3, infoIndex, setInfoIndex, infoDiv)}
-                        onMouseEnter={(e) => displayInfoBox(e, setInfoText, setInfoTextOpen, setInfoLocation)} data-section="profile"
-                    >
-                        <BiHelpCircle />
-                    </div>
-                </div>
+                <ToolTipIcon section="profile" />
             }
         </div>
 

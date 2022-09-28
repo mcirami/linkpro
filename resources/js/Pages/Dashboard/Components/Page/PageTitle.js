@@ -1,19 +1,13 @@
 import React, {useContext, useEffect, useState, useRef} from 'react';
 import {PageContext} from '../../App';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
-import {
-    displayInfoBox,
-    pageTitle,
-    toolTipClick,
-} from '../../../../Services/PageRequests';
-import {BiHelpCircle} from 'react-icons/bi';
+import {pageTitle} from '../../../../Services/PageRequests';
+import ToolTipIcon from './ToolTipIcon';
 
-const PageTitle = ({ infoIndex, setInfoIndex }) => {
+const PageTitle = () => {
 
-    const { pageSettings, setPageSettings, setInfoText, setInfoTextOpen, setInfoLocation } = useContext(PageContext);
+    const { pageSettings, setPageSettings } = useContext(PageContext);
     const [charactersLeft, setCharactersLeft] = useState();
-
-    const infoDiv = useRef();
 
     useEffect(() => {
         if(pageSettings["title"]) {
@@ -88,14 +82,7 @@ const PageTitle = ({ infoIndex, setInfoIndex }) => {
                     </p>
                 </div>
             </form>
-            <div className="tooltip_icon" onMouseLeave={() => setInfoTextOpen(false)}>
-                <div className="icon_wrap"
-                    onClick={() => toolTipClick(4, infoIndex, setInfoIndex, infoDiv)}
-                    onMouseEnter={(e) => displayInfoBox(e, setInfoText, setInfoTextOpen, setInfoLocation)} data-section="title"
-                >
-                    <BiHelpCircle />
-                </div>
-            </div>
+            <ToolTipIcon section="title" />
         </div>
 
     );
