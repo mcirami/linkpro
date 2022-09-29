@@ -85,7 +85,7 @@
                 @media screen and (max-width: 550px) {
                     -ms-flex-wrap: wrap;
                     flex-wrap: wrap;
-                    padding: 0 40px;
+                    padding: 0 20px;
                 }
 
                 .radio_wrap {
@@ -114,8 +114,8 @@
                         -webkit-box-direction: normal;
                         -ms-flex-direction: row;
                         flex-direction: row;
-                        justify-content: flex-start;
-                        -webkit-justify-content: flex-start;
+                        justify-content: center;
+                        -webkit-justify-content: center;
                     }
 
                     &:last-child {
@@ -161,7 +161,7 @@
                         }
 
                         @media screen and (max-width: 550px) {
-                            width: 50%;
+                            width: 40%;
                             justify-content: flex-start;
                             -webkit-justify-content: flex-start;
                             margin-top: auto;

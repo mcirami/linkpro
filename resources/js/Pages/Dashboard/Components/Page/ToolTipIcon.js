@@ -37,7 +37,6 @@ const ToolTipIcon = ({section}) => {
             <div className="icon_wrap"
                  onClick={(e) => displayInfoBox(e, setInfoText, setInfoTextOpen, setInfoLocation, setInfoClicked, infoClicked)}
                  onMouseOver={(e) => {
-                     setInfoClicked(false);
                      displayInfoBox(e, setInfoText, setInfoTextOpen, setInfoLocation, setInfoClicked)
                  }}
                  data-section={section}
