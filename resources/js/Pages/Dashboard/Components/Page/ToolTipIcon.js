@@ -1,5 +1,9 @@
-import React, {useContext, useEffect, useRef} from 'react';
-import {closeInfoBox, displayInfoBox} from '../../../../Services/PageRequests';
+import React, {useContext, useEffect, useRef, useState} from 'react';
+import {
+    closeInfoBox,
+    displayInfoBox,
+    infoScrollPosition,
+} from '../../../../Services/PageRequests';
 import {BiHelpCircle} from 'react-icons/bi';
 import {PageContext} from '../../App';
 
@@ -13,12 +17,10 @@ const ToolTipIcon = ({section}) => {
         setInfoClicked
     } = useContext(PageContext);
 
-    const infoDiv = useRef();
-
     useEffect(() => {
 
         function handleScroll() {
-            closeInfoBox(setInfoTextOpen, false, setInfoClicked);
+            infoScrollPosition(setInfoLocation, infoClicked);
         }
 
         window.addEventListener('scroll', handleScroll);
@@ -30,7 +32,6 @@ const ToolTipIcon = ({section}) => {
 
     return (
         <div
-            ref={infoDiv}
             className="tooltip_icon"
             onMouseLeave={() => closeInfoBox(setInfoTextOpen, infoClicked)}
         >

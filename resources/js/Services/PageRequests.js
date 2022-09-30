@@ -261,12 +261,19 @@ export const updateProfileLayout = (packets, pageID) => {
 
 }
 
-export const displayInfoBox = (e, setInfoText, setInfoTextOpen, setInfoLocation, setInfoClicked, infoClicked = null) => {
+export const displayInfoBox = (
+    e,
+    setInfoText,
+    setInfoTextOpen,
+    setInfoLocation,
+    setInfoClicked,
+    infoClicked = false
+) => {
 
-    if (infoClicked === false) {
-        setInfoClicked(true);
-    } else if (infoClicked === true) {
-        setInfoClicked(false)
+    if (infoClicked === null) {
+        setInfoClicked(e.target);
+    } else if (infoClicked) {
+        setInfoClicked(null)
         setInfoTextOpen(false);
 
         return;
@@ -281,6 +288,10 @@ export const displayInfoBox = (e, setInfoText, setInfoTextOpen, setInfoLocation,
     const center = (rect.left + rect.right) / 2;
     const top = rect.top - 2;
     setInfoLocation({center, top});
+
+    if (infoClicked === false) {
+        setInfoClicked(null)
+    }
 }
 
 export const closeInfoBox = (setInfoTextOpen, clicked, setInfoClicked = null) => {
@@ -288,9 +299,16 @@ export const closeInfoBox = (setInfoTextOpen, clicked, setInfoClicked = null) =>
         setInfoTextOpen(false)
 
         if(setInfoClicked) {
-            setInfoClicked(false);
+            setInfoClicked(null);
         }
     }
+}
+
+export const infoScrollPosition = (setInfoLocation, clicked) => {
+    const rect = clicked?.getBoundingClientRect();
+    const center = (rect?.left + rect?.right) / 2;
+    const top = rect?.top - 2;
+    setInfoLocation({center, top});
 }
 
 export const toolTipClick = (index, infoIndex, setInfoIndex, infoDiv = null) => {

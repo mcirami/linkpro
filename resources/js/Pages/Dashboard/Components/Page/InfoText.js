@@ -1,9 +1,17 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useContext, useEffect, useRef} from 'react';
 import { Element } from  'react-scroll';
+import {infoScrollPosition} from '../../../../Services/PageRequests';
+import {PageContext} from '../../App';
 
-const InfoText = ({infoText, infoTextOpen, infoLocation, leftColWrap}) => {
+const InfoText = ({leftColWrap}) => {
 
     const infoDiv = useRef();
+
+    const {
+        infoText,
+        infoLocation,
+        infoTextOpen,
+    } = useContext(PageContext);
 
     useEffect(() => {
         const infoBox = infoDiv.current;

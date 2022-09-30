@@ -74,7 +74,7 @@ function App() {
     const [infoText, setInfoText] = useState({section:'', text:[]});
     const [infoTextOpen, setInfoTextOpen] = useState(false)
     const [infoLocation, setInfoLocation] = useState({})
-    const [infoClicked, setInfoClicked] = useState(false);
+    const [infoClicked, setInfoClicked] = useState(null);
 
     const [allUserPages, setAllUserPages] = useState(userPages);
     const [editID, setEditID] = useState(null);
@@ -238,8 +238,11 @@ function App() {
                             <PageContext.Provider value={{
                                 pageSettings,
                                 setPageSettings,
+                                infoText,
                                 setInfoText,
+                                infoTextOpen,
                                 setInfoTextOpen,
+                                infoLocation,
                                 setInfoLocation,
                                 infoClicked,
                                 setInfoClicked
@@ -290,9 +293,6 @@ function App() {
                                                 pageHeaderRef={pageHeaderRef} />
 
                                             <InfoText
-                                                infoText={infoText}
-                                                infoTextOpen={infoTextOpen}
-                                                infoLocation={infoLocation}
                                                 leftColWrap={leftColWrap}
                                             />
 
