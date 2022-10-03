@@ -30,7 +30,6 @@ import { ConfirmFolderDelete } from './Components/Popups/ConfirmFolderDelete';
 import {ErrorBoundary} from 'react-error-boundary';
 import {updateLinksPositions, getAllLinks} from '../../Services/LinksRequest';
 import {
-    toolTipClick,
     previewButtonRequest,
 } from '../../Services/PageRequests';
 import {checkSubStatus} from '../../Services/UserService';
