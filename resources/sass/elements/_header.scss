@@ -485,6 +485,10 @@ header.guest_header {
             background: $blue;
             color: $white;
         }
+
+        &:first-child {
+            margin-right: 20px;
+        }
     }
 
     .col {

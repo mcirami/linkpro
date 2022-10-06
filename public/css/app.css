@@ -12003,6 +12003,9 @@ header.guest_header a.button:hover {
   background: #424fcf;
   color: #ffffff;
 }
+header.guest_header a:first-child {
+  margin-right: 20px;
+}
 header.guest_header .col {
   width: 30%;
   float: left;
@@ -14569,10 +14572,17 @@ form .bottom_row a {
   min-height: 200px;
 }
 #contact_form .success_message h3, #contact_form .success_message .h3 {
-  margin-bottom: 30px;
+  margin: 10px 0 15px;
 }
 #contact_form .success_message p {
+  color: #424fcf;
   font-size: 18px;
+}
+#contact_form svg {
+  width: 5em;
+  height: 5em;
+  margin: 0 auto;
+  color: #424fcf;
 }
 
 .form_page .pricing {

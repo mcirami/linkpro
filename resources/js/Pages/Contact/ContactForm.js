@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {SubmitContactForm} from '../../Services/ContactRequests';
+import {BiMailSend} from 'react-icons/bi';
 
 const ContactForm = () => {
 
@@ -127,6 +128,7 @@ const ContactForm = () => {
             :
 
             <div className="success_message">
+                <BiMailSend />
                 <h3>Your Inquiry Has Been Sent.</h3>
                 <p>We will get back to you soon!</p>
             </div>

@@ -950,11 +950,19 @@ form .bottom_row a {
         min-height: 200px;
 
         h3 {
-            margin-bottom: 30px;
+            margin: 10px 0 15px;
         }
 
         p {
+            color: $blue;
             font-size: 18px;
         }
+    }
+
+    svg {
+        width: 5em;
+        height: 5em;
+        margin: 0 auto;
+        color: $blue;
     }
 }
