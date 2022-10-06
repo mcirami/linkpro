@@ -30,5 +30,10 @@ if (document.getElementById('setup')) {
     require('./Pages/Setup/Index');
 }
 
+if (document.getElementById('contact_form')) {
+    require('./Pages/Contact/Index');
+}
+
+
 
 

@@ -1,6 +1,5 @@
 import CreatePageForm from './CreatePageForm';
 import React from 'react';
-import {Flash} from '../../Utils/Flash';
 
 function App() {
 
@@ -18,7 +17,7 @@ function App() {
 
                 </div>
             </div>
-            <Flash />
+
         </div>
 
     )

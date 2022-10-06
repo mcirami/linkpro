@@ -12,7 +12,9 @@ use App\Http\Controllers\FolderController;
 use App\Http\Controllers\IconController;
 use App\Http\Controllers\UtilityController;
 use App\Http\Controllers\WebhookController;
-use App\Http\Controllers\CustomCommandsConrtroller;
+use App\Http\Controllers\ContactMailController;
+use App\Http\Controllers\HomeController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -101,26 +103,29 @@ Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated']], function() {
     Route::get('/subscribe', [SubscriptionController::class, 'purchase'])->name('subscribe.get');
 });
 
-Route::group(['middleware' => 'web'], function() {
+Route::get('/contact', [ContactMailController::class, 'index'])->name('contact');
+Route::post('/contact/send', [ContactMailController::class, 'contactSendMail'])->name('contact.send');
 
-    Route::post('/braintree/webhooks/charged-successfully', [WebhookController::class, 'chargedSuccessfully']);
-    Route::post('/braintree/webhooks/sub-went-active', [WebhookController::class, 'subWentActive']);
+Route::post('/braintree/webhooks/charged-successfully', [WebhookController::class, 'chargedSuccessfully']);
+Route::post('/braintree/webhooks/sub-went-active', [WebhookController::class, 'subWentActive']);
 
-    Route::get('/get-icons', [IconController::class, 'getIcons']);
+Route::get('/get-icons', [IconController::class, 'getIcons']);
 
-    Route::view('/','home')->name('guest-home');
-    Route::view('/terms-and-conditions', 'utility.terms')->name('terms');
-    Route::view('/privacy-policy', 'utility.privacy')->name('privacy');
-    Route::view('/how-it-works', 'utility.how-it-works')->name('how-it-works');
-    Route::view('/plan-options', 'subscription.public-plans')->name('public.plans');
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::view('/','home')->name('guest-home');
+Route::view('/terms-and-conditions', 'utility.terms')->name('terms');
+Route::view('/privacy-policy', 'utility.privacy')->name('privacy');
+Route::view('/how-it-works', 'utility.how-it-works')->name('how-it-works');
+Route::view('/plan-options', 'subscription.public-plans')->name('public.plans');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-    Route::post('/check-page-auth/{page}', [PageController::class, 'pageAuth'])->name('check.page.auth');
-    Route::get('/email-subscription/{user}', [UserController::class, 'emailSubscription'])->name('email.subscription');
-    Route::post('/link-click/{link}', [TrackingController::class, 'storeLinkVisit']);
-    Route::post('/folder-click/{folder}', [TrackingController::class, 'storeFolderClick']);
-    Route::get('/setup', [UtilityController::class, 'showSetupPage'])->name('setup.page');
-    Route::get('/{page}', [PageController::class, 'show']);
-});
+Route::post('/check-page-auth/{page}', [PageController::class, 'pageAuth'])->name('check.page.auth');
+Route::get('/email-subscription/{user}', [UserController::class, 'emailSubscription'])->name('email.subscription');
+Route::post('/link-click/{link}', [TrackingController::class, 'storeLinkVisit']);
+Route::post('/folder-click/{folder}', [TrackingController::class, 'storeFolderClick']);
+Route::get('/setup', [UtilityController::class, 'showSetupPage'])->name('setup.page');
+Route::get('/{page}', [PageController::class, 'show']);
+
+
+
 
 

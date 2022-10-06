@@ -1,5 +1,3 @@
-import React, {useEffect, useState} from 'react';
-
 import Accordion from './Components/Accordion';
 
 function App() {

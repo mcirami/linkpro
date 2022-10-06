@@ -12,7 +12,7 @@
 @else
     <footer>
         <ul>
-            <li><a href="mailto:support@link.pro">Contact</a></li>
+            <li><a href="{{ route('contact') }}">Contact Us</a></li>
             <li><a href="{{ route('user.edit') }}">Settings</a></li>
             @php $userSub = Auth::user()->subscriptions()->first(); @endphp
             <li><a href="{{ route('how-it-works') }}">How It Works</a></li>

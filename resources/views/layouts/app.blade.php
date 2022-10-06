@@ -88,6 +88,9 @@
                                                 <a href="{{ route('user.edit') }}" class="dropdown-item @php if(Route::is('user.edit')) { echo "current"; } @endphp">
                                                     Settings
                                                 </a>
+                                                <a href="{{ route('contact') }}" class="dropdown-item @php if(Route::is('contact')) { echo "current"; } @endphp">
+                                                    Contact Us
+                                                </a>
                                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                                    onclick="event.preventDefault();
                                                                  document.getElementById('logout-form').submit();">
@@ -117,6 +120,11 @@
                                         <li class="mobile">
                                             <a href="{{ route('user.edit') }}" class="nav-link @php if(Route::is('user.edit')) { echo "current"; } @endphp">
                                                 Settings
+                                            </a>
+                                        </li>
+                                        <li class="mobile">
+                                            <a href="{{ route('contact') }}" class="nav-link @php if(Route::is('contact')) { echo "current"; } @endphp">
+                                                Contact Us
                                             </a>
                                         </li>
                                         <li class="mobile">

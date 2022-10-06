@@ -50,6 +50,11 @@ input[type="text"].disabled {
     background: $lightGray;
 }
 
+select {
+    width: 100%;
+    color: rgba(33,37,41, .7);
+}
+
 textarea {
     height: 100px;
     width: 100%;
@@ -921,5 +926,35 @@ form .bottom_row a {
     img {
         max-width: 200px;
         z-index: 999;
+    }
+}
+
+#contact_form {
+
+    p.form_text {
+        font-size: 18px;
+    }
+
+    .success_message {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+        justify-content: center;
+        -webkit-justify-content: center;
+        min-height: 200px;
+
+        h3 {
+            margin-bottom: 30px;
+        }
+
+        p {
+            font-size: 18px;
+        }
     }
 }

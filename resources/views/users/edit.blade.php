@@ -208,7 +208,7 @@
         </div>
     @endif
 
-    @if($subscription)
+    @if($subscription && $subscription->braintree_id !== 'bypass')
 
         @include('layouts.popupPaymentMethod')
 

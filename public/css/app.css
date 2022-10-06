@@ -13799,6 +13799,11 @@ input[type=text].disabled {
   background: #f4f4f4;
 }
 
+select {
+  width: 100%;
+  color: rgba(33, 37, 41, 0.7);
+}
+
 textarea {
   height: 100px;
   width: 100%;
@@ -14550,6 +14555,24 @@ form .bottom_row a {
 #loading_spinner img {
   max-width: 200px;
   z-index: 999;
+}
+
+#contact_form p.form_text {
+  font-size: 18px;
+}
+#contact_form .success_message {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  -webkit-justify-content: center;
+  min-height: 200px;
+}
+#contact_form .success_message h3, #contact_form .success_message .h3 {
+  margin-bottom: 30px;
+}
+#contact_form .success_message p {
+  font-size: 18px;
 }
 
 .form_page .pricing {

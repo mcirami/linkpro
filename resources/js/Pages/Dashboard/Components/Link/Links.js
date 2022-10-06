@@ -322,7 +322,7 @@ const Links = ({
 
     return (
         <>
-            {userLinks && userLinks.map((link, key) => {
+            {userLinks?.map((link, key) => {
                 let style;
                 let x;
                 let y;
