@@ -6,7 +6,7 @@
 Name: {{$name}}
 <br>
 Email: {{$email}}
-    <br>
+<br>
 Reason: {{$reason}}
 <br>
 Meassage: {{$message}}
