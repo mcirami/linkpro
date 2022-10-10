@@ -33,6 +33,7 @@ import {
     ORIG_FOLDER_LINKS_ACTIONS
 } from '../../../../../Services/Reducer';
 import FormBreadcrumbs from './FormBreadcrumbs';
+import InputTypeRadio from './InputTypeRadio';
 
 const NewForm = ({
                      setShowNewForm,
@@ -65,7 +66,7 @@ const NewForm = ({
 
     const [radioValue, setRadioValue] = useState("standard");
 
-    const [inputType, setInputType] = useState("url");
+    const [inputType, setInputType] = useState(null);
 
     let iconArray = getIconPaths(iconPaths);
 
@@ -487,11 +488,15 @@ const NewForm = ({
     }
 
     const handleOnClick = e => {
+        const type = e.target.dataset.type;
+
         if (!subStatus) {
 
             let text;
-            if (e.target.dataset.type === "custom" ) {
+            if (type === "custom" ) {
                 text = "add custom icons"
+            } else if (type === "integration") {
+                text = "add an integration"
             } else {
                 text = "change link name"
             }
@@ -513,6 +518,21 @@ const NewForm = ({
         }
     )
 
+    const handleOnChange = (e) => {
+        const value = e.target.value;
+        setRadioValue(value);
+
+        if (value === "integration") {
+            setInputType('textarea')
+        } else {
+            if(inputType !== "textarea") {
+                setInputType(inputType)
+            } else {
+                setInputType("url")
+            }
+        }
+    }
+
     return (
         <>
             <div className="my_row icon_breadcrumb" id="scrollTo">
@@ -526,7 +546,7 @@ const NewForm = ({
 
                 />
             </div>
-            <div className="edit_form link my_row" key={999}>
+            <div className="edit_form link my_row">
                 <form onSubmit={handleSubmit} className="link_form">
                     <div className="row">
                         <div className="col-12">
@@ -567,19 +587,19 @@ const NewForm = ({
                             }
                             <div className="icon_row">
                                 <div className="icon_box">
-                                    <div className="my_row top">
+                                    <div className="my_row radios_wrap">
                                         <div className={radioValue === "standard" ? "radio_wrap active" : "radio_wrap" }>
                                             <label htmlFor="standard_radio">
                                                 <input id="standard_radio" type="radio" value="standard" name="icon_type"
                                                        checked={radioValue === "standard"}
-                                                       onChange={(e) => {setRadioValue(e.target.value) }}/>
+                                                       onChange={(e) => {handleOnChange(e) }}/>
                                                 Standard Icons
                                             </label>
                                         </div>
                                         <div className={radioValue === "custom" ? "radio_wrap active" : "radio_wrap" }>
                                             <label htmlFor="custom_radio">
                                                 <input id="custom_radio" type="radio" value="custom" name="icon_type"
-                                                       onChange={(e) => { setRadioValue(e.target.value) }}
+                                                       onChange={(e) => { handleOnChange(e) }}
                                                        disabled={!subStatus}
                                                        checked={radioValue === "custom"}
                                                 />
@@ -587,26 +607,40 @@ const NewForm = ({
                                             </label>
                                             {!subStatus && <span className="disabled_wrap" data-type="custom" onClick={(e) => handleOnClick(e)} />}
                                         </div>
+                                        <div className={radioValue === "integration" ? "radio_wrap active" : "radio_wrap" }>
+                                            <label htmlFor="integration">
+                                                <input id="integration" type="radio" value="integration" name="icon_type"
+                                                       onChange={(e) => { handleOnChange(e) }}
+                                                       disabled={!subStatus}
+                                                       checked={radioValue === "integration"}
+                                                />
+                                                Integrations
+                                            </label>
+                                            {!subStatus && <span className="disabled_wrap" data-type="integration" onClick={(e) => handleOnClick(e)} />}
+                                        </div>
                                     </div>
 
-                                    {radioValue === "custom" ?
-                                        <div className="uploader">
-                                            <label htmlFor="custom_icon_upload" className="custom text-uppercase button blue">
-                                                Upload Image
-                                            </label>
-                                            <input id="custom_icon_upload" type="file" className="custom" onChange={selectCustomIcon} accept="image/png, image/jpeg, image/jpg, image/gif"/>
-                                            <div className="my_row info_text file_types text-center mb-2">
-                                                <p className="m-0 char_count w-100 ">Allowed File Types: <span>png, jpg, jpeg, gif</span></p>
-                                            </div>
-                                        </div>
-                                        :
-                                        <div className="uploader">
-                                            <input name="search" type="text" placeholder="Search Icons" onChange={handleChange} defaultValue={input}/>
-                                            <div className="my_row info_text file_types text-center mb-2 text-center">
-                                                <a href="mailto:help@link.pro" className="mx-auto m-0 char_count">Don't See Your Icon? Contact Us!</a>
-                                            </div>
-                                        </div>
-                                    }
+                                    <div className="uploader">
+                                        {radioValue === "custom" || radioValue === "integration" ?
+
+                                            <>
+                                                <label htmlFor="custom_icon_upload" className="custom text-uppercase button blue">
+                                                    Upload Image
+                                                </label>
+                                                <input id="custom_icon_upload" type="file" className="custom" onChange={selectCustomIcon} accept="image/png, image/jpeg, image/jpg, image/gif"/>
+                                                <div className="my_row info_text file_types text-center mb-2">
+                                                    <p className="m-0 char_count w-100 ">Allowed File Types: <span>png, jpg, jpeg, gif</span></p>
+                                                </div>
+                                            </>
+                                            :
+                                            <>
+                                                <input name="search" type="text" placeholder="Search Icons" onChange={handleChange} defaultValue={input}/>
+                                                <div className="my_row info_text file_types text-center mb-2 text-center">
+                                                    <a href="mailto:help@link.pro" className="mx-auto m-0 char_count">Don't See Your Icon? Contact Us!</a>
+                                                </div>
+                                            </>
+                                        }
+                                    </div>
 
                                     <IconList
                                         currentLink={currentLink}
@@ -616,6 +650,7 @@ const NewForm = ({
                                         setCharactersLeft={setCharactersLeft}
                                         customIconArray={customIconArray}
                                         setInputType={setInputType}
+                                        formType="new"
                                     />
 
                                 </div>
@@ -649,6 +684,16 @@ const NewForm = ({
                             </div>
                         </div>
                     </div>
+                    {radioValue !== "integration" &&
+                        <div className="row">
+                            <div className="col-12">
+                                <InputTypeRadio
+                                    inputType={inputType}
+                                    setInputType={setInputType}
+                                />
+                            </div>
+                        </div>
+                    }
                     <div className="row">
                         <div className="col-12">
                             <InputComponent
@@ -663,7 +708,7 @@ const NewForm = ({
                             <button className="button green" type="submit">
                                 Save
                             </button>
-                            <a href="resources/js/Pages/Dashboard/Components/Link/Forms/NewForm#" className="button transparent gray" onClick={(e) => {
+                            <a href="#" className="button transparent gray" onClick={(e) => {
                                 e.preventDefault();
                                 setShowNewForm(false);
                                 document.getElementById('left_col_wrap').style.minHeight = "unset";

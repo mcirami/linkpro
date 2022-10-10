@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 
 const InputComponent = ({ currentLink, setCurrentLink, inputType }) => {
 
-    const {url, email, phone} = currentLink;
+    const {url, email, phone, embedCode} = currentLink;
 
     const [inputValues, setInputValues] = useState({
         name: null,
@@ -43,6 +43,14 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType }) => {
                     key: "phone"
                 })
                 break;
+            case 'textarea':
+                setInputValues({
+                    name: "embed_code",
+                    value: embedCode || "",
+                    placeholder: "Paste in your Mailchimp Embedded Form Code",
+                    key: "embed_code"
+                })
+                break;
             default:
                 setInputValues({
                     name: "url",
@@ -55,22 +63,30 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType }) => {
         }
 
 
-    }, [currentLink])
+    }, [inputType])
 
     const handleChange = (e, key) => {
 
         let key2;
         let key3;
+        let key4;
 
         if (key === "phone") {
             key2 = "email"
             key3 = "url"
+            key4 = "embed_code"
         } else if (key.includes("email")) {
             key2 = "phone"
             key3 = "url"
+            key4 = "embed_code"
+        } else if (key === "embed_code") {
+            key2 = "email"
+            key3 = "url"
+            key4 = "phone"
         } else {
             key2 = "phone"
             key3 = "email"
+            key4 = "embed_code"
         }
 
         setCurrentLink({
@@ -78,6 +94,7 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType }) => {
             [`${key}`] : e.target.value,
             [`${key2}`] : null,
             [`${key3}`] : null,
+            [`${key4}`] : null,
         })
     }
 
@@ -86,14 +103,28 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType }) => {
     return (
 
         <>
-            <input
-                name={name}
-                type={type}
-                defaultValue={ value || ""}
-                placeholder={placeholder}
-                onChange={(e) => handleChange(e, key) }
-            />
+            {inputType === "textarea" ?
+
+                <textarea
+                    name={name}
+                    id={name}
+                    rows="20"
+                    placeholder={placeholder}
+                    onChange={(e) => handleChange(e, key) }
+                ></textarea>
+                :
+                <>
+                    <input
+                        name={name}
+                        type={type}
+                        defaultValue={ value || ""}
+                        placeholder={placeholder}
+                        onChange={(e) => handleChange(e, key) }
+                    />
+                </>
+            }
         </>
+
     )
 }
 

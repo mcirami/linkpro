@@ -495,7 +495,7 @@ const EditForm = ({
                             }
                             <div className="icon_row">
                                 <div className="icon_box">
-                                    <div className="my_row top">
+                                    <div className="my_row radios_wrap">
                                         <div className={radioValue === "standard" ? "radio_wrap active" : "radio_wrap" }>
                                             <label htmlFor="standard_radio">
                                                 <input id="standard_radio" type="radio" value="standard" name="icon_type" defaultChecked
