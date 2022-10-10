@@ -36,5 +36,8 @@ return [
         'publicKey' => env('BRAINTREE_PUBLIC_KEY'),
         'privateKey' => env('BRAINTREE_PRIVATE_KEY')
     ],
+    'mailchimp' => [
+        'key' => env('MAILCHIMP_KEY')
+    ]
 
 ];

@@ -103,6 +103,24 @@ Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated']], function() {
     Route::get('/subscribe', [SubscriptionController::class, 'purchase'])->name('subscribe.get');
 });
 
+Route::post('newsletter/add-member', function() {
+
+    request()->validate(['email' => 'required|email']);
+
+    $mailchimp = new \MailchimpMarketing\ApiClient();
+
+    $mailchimp->setConfig([
+        'apiKey' => config('services.mailchimp.key'),
+        'server' => 'us13'
+    ]);
+
+    $response = $mailchimp->lists->addListMember('8d6a550a39', [
+        'email_address' => 'mcirami@gmail.com',
+        'status' => 'subscribed'
+    ]);
+    ddd($response);
+});
+
 Route::get('/contact', [ContactMailController::class, 'index'])->name('contact');
 Route::post('/contact/send', [ContactMailController::class, 'contactSendMail'])->name('contact.send');
 
