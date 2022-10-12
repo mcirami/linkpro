@@ -25,7 +25,6 @@ import {
 } from '../../../../../Services/LinksRequest';
 import {completedImageCrop, getIconPaths} from '../../../../../Services/ImageService';
 import EventBus from '../../../../../Utils/Bus';
-import { BiChevronLeft, BiChevronsLeft,  } from "react-icons/bi";
 import {
     LINKS_ACTIONS,
     ORIGINAL_LINKS_ACTIONS,
@@ -55,6 +54,7 @@ const NewForm = ({
     const  { pageSettings, setPageSettings } = useContext(PageContext);
     const iconRef = createRef(null)
     const [completedIconCrop, setCompletedIconCrop] = useState(null);
+    // if a custom icon is selected
     const [iconSelected, setIconSelected] = useState(false);
 
     //image cropping
@@ -75,7 +75,8 @@ const NewForm = ({
         name: null,
         url: null,
         email: null,
-        phone: null
+        phone: null,
+        embed_code: null
     }))
 
     const [charactersLeft, setCharactersLeft] = useState();
@@ -206,6 +207,15 @@ const NewForm = ({
                             folder_id: folderID
                         };
                         break;
+                    case "textarea":
+                        packets = {
+                            name: currentLink.name,
+                            embed_code: currentLink.embed_code,
+                            icon: currentLink.icon,
+                            page_id: pageSettings["id"],
+                            folder_id: folderID
+                        };
+                        break;
                 }
 
                 addLink(packets)
@@ -225,6 +235,7 @@ const NewForm = ({
                                 url: URL,
                                 email: currentLink.email,
                                 phone: currentLink.phone,
+                                embed_code: currentLink.embed_code,
                                 icon: currentLink.icon,
                                 position: data.position,
                                 active_status: true
@@ -282,6 +293,7 @@ const NewForm = ({
                                 url: URL,
                                 email: currentLink.email,
                                 phone: currentLink.phone,
+                                embed_code: currentLink.embed_code,
                                 icon: currentLink.icon,
                                 position: data.position,
                                 active_status: true
@@ -326,7 +338,7 @@ const NewForm = ({
 
     const submitWithCustomIcon = (image) => {
 
-        if(currentLink.url && currentLink.name) {
+        if(currentLink.name && (currentLink.url || currentLink.email || currentLink.phone || currentLink.embed_code)) {
 
             setShowLoader(true)
             window.Vapor.store(
@@ -342,7 +354,7 @@ const NewForm = ({
             ).then(response => {
 
                 let URL = currentLink.url;
-                if (URL && currentLink.name) {
+                if (URL) {
                     URL = checkURL(currentLink.url, null, true);
                 }
 
@@ -379,6 +391,16 @@ const NewForm = ({
                             folder_id: folderID,
                         };
                         break;
+                    case "textarea":
+                        packets = {
+                            name: currentLink.name,
+                            embed_code: currentLink.embed_code,
+                            icon: response.key,
+                            page_id: pageSettings["id"],
+                            ext: response.extension,
+                            folder_id: folderID,
+                        };
+                        break;
                 }
 
                 addLink(packets).then((data) => {
@@ -397,6 +419,7 @@ const NewForm = ({
                                 url: URL,
                                 email: currentLink.email,
                                 phone: currentLink.phone,
+                                embed_code: currentLink.embed_code,
                                 icon: data.icon_path,
                                 position: data.position,
                                 active_status: true
@@ -452,6 +475,7 @@ const NewForm = ({
                                 url: URL,
                                 email: currentLink.email,
                                 phone: currentLink.phone,
+                                embed_code: currentLink.embed_code,
                                 icon: data.icon_path,
                                 position: data.position,
                                 active_status: true
@@ -483,7 +507,7 @@ const NewForm = ({
                 console.error(error);
             });
         } else {
-            EventBus.dispatch("error", { message: "Icon URL and Name is Required" });
+            EventBus.dispatch("error", { message: "Icon Destination and Name is Required" });
         }
     }
 
@@ -524,6 +548,10 @@ const NewForm = ({
 
         if (value === "integration") {
             setInputType('textarea')
+            setCurrentLink(prevState => ({
+                ...prevState,
+                icon: 'https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png',
+            }))
         } else {
             if(inputType !== "textarea") {
                 setInputType(inputType)
@@ -531,6 +559,8 @@ const NewForm = ({
                 setInputType("url")
             }
         }
+
+
     }
 
     return (

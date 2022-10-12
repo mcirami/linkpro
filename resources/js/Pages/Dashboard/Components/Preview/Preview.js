@@ -4,6 +4,7 @@ import React, {
     useEffect,
     useLayoutEffect,
 } from 'react';
+import parse from 'html-react-parser';
 import {PageContext, UserLinksContext} from '../../App';
 import {IoIosCloseCircleOutline} from 'react-icons/io';
 import AccordionLinks from './AccordionLinks';
@@ -13,6 +14,8 @@ import ProfileImage from './ProfileImage';
 import ProfileText from './ProfileText';
 import Folder from './Folder';
 import LockIcon from './LockIcon';
+import SubForm from './SubForm';
+import EmbedCode from './EmbedCode';
 
 const Preview = ({
                      setRef,
@@ -111,8 +114,8 @@ const Preview = ({
     }, []);
 
     let folderCount = 0;
-
     const accordionLinks = value !== null ? userLinks[value].links : null;
+    const embedCode = value !== null ? userLinks[value].embed_code : null;
 
     return (
 
@@ -145,7 +148,7 @@ const Preview = ({
                         </div>
                         <div className="icons_wrap main">
 
-                            {userLinks.slice(0, iconCount).map(( linkItem, index ) => {
+                            {userLinks?.slice(0, iconCount).map(( linkItem, index ) => {
 
                                 let {
                                     id,
@@ -171,7 +174,7 @@ const Preview = ({
                                 const dataRow = Math.ceil((index + 1) / 4);
 
                                 let displayIcon = null;
-                                if(!type) {
+                                if(type === "standard" || type === "form") {
                                     displayIcon = checkIcon(icon, "preview");
                                 }
 
@@ -186,71 +189,96 @@ const Preview = ({
                                 return (
                                     <React.Fragment key={index}>
 
-                                        {type === "folder" ?
-                                            active_status && subStatus ?
-                                                <Folder
+                                        {{
+                                            "folder":
+                                                active_status && subStatus ?
+                                                    <Folder
+                                                        colClasses={colClasses}
+                                                        mainIndex={index}
+                                                        links={links}
+                                                        setRow={setRow}
+                                                        value={value}
+                                                        setValue={setValue}
+                                                        dataRow={dataRow}
+                                                        name={name}
+                                                    />
+                                                    :
+                                                    subStatus && <div className={ ` ${colClasses} `}>
+                                                    </div>,
+
+                                            "standard":
+
+                                                <div className={ ` ${colClasses} `}>
+                                                    {active_status ?
+                                                        <>
+                                                            <a className={!url ||
+                                                            !displayIcon ?
+                                                                "default" :
+                                                                ""} target="_blank" href={url ||
+                                                            "#"}>
+                                                                <img src={displayIcon} alt=""/>
+                                                            </a>
+                                                            <p>
+                                                                {name?.length >
+                                                                11 ?
+                                                                    name.substring(0,
+                                                                        11) + "..."
+                                                                    :
+                                                                    name || "Link Name"
+                                                                }
+                                                            </p>
+                                                        </>
+                                                        :
+                                                        ""
+                                                    }
+                                                </div>,
+
+                                            "form":
+
+                                                <SubForm
                                                     colClasses={colClasses}
+                                                    displayIcon={displayIcon}
+                                                    name={name}
+                                                    active_status={active_status}
+                                                    dataRow={dataRow}
                                                     mainIndex={index}
-                                                    links={links}
                                                     setRow={setRow}
                                                     value={value}
                                                     setValue={setValue}
-                                                    dataRow={dataRow}
-                                                    name={name}
+                                                    index={index}
                                                 />
-                                                :
-                                                subStatus && <div className={ ` ${colClasses} `}>
-                                                </div>
+
+                                        }[type]}
+
+                                        {subStatus && ( (index + 1) % 4 === 0 || index + 1 === iconCount) ?
+
+                                                <EmbedCode
+                                                    dataRow={dataRow}
+                                                    row={row}
+                                                    embedCode={embedCode}
+                                                />
                                             :
-                                            <div className={ ` ${colClasses} `}>
-                                                {active_status ?
-                                                    <>
-                                                        <a className={!url ||
-                                                        !displayIcon ?
-                                                            "default" :
-                                                            ""} target="_blank" href={url ||
-                                                        "#"}>
-                                                            <img src={displayIcon} alt=""/>
-                                                        </a>
-                                                        <p>
-                                                            {name && name.length >
-                                                            11 ?
-                                                                name.substring(0,
-                                                                    11) + "..."
-                                                                :
-                                                                name || "Link Name"
-                                                            }
-                                                        </p>
-                                                    </>
-                                                    :
-                                                    ""
-                                                }
-                                            </div>
+                                            ""
                                         }
 
-                                        {subStatus &&
-                                            <>
-                                                {(index + 1) % 4 === 0 || index + 1 ===
-                                                iconCount ?
-                                                    <div className={`my_row folder ${dataRow == row ? "open" : ""}`}>
-                                                        <div className="icons_wrap inner">
-                                                            {accordionLinks && dataRow == row ?
-                                                                accordionLinks.map((
-                                                                    innerLinkFull,
-                                                                    index) => {
-                                                                    return (
-                                                                        <AccordionLinks key={index} icons={innerLinkFull}/>
-                                                                    )
-                                                                })
-                                                                :
-                                                                ""
-                                                            }
-                                                        </div>
+                                        {subStatus && ((index + 1) % 4 === 0 || index + 1 === iconCount) ?
+                                                <div className={`my_row folder ${dataRow == row ? "open" : ""}`}>
+                                                    <div className="icons_wrap inner">
+                                                        {dataRow == row ?
+                                                            accordionLinks?.map((
+                                                                innerLinkFull,
+                                                                index) => {
+                                                                return (
+                                                                    <AccordionLinks key={index} icons={innerLinkFull}/>
+                                                                )
+                                                            })
+                                                            :
+                                                            ""
+                                                        }
                                                     </div>
-                                                    :
-                                                    ""
-                                                }
-                                            </>
+                                                </div>
+                                            :
+                                            ""
                                         }
                                     </React.Fragment>
                                 )

@@ -24,7 +24,9 @@ class Link extends Model
         'phone',
         'icon',
         'position',
-        'active_status'
+        'active_status',
+        'embed_code',
+        'type'
     ];
 
     public function user() {

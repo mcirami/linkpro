@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 
 const InputComponent = ({ currentLink, setCurrentLink, inputType }) => {
 
-    const {url, email, phone, embedCode} = currentLink;
+    const {url, email, phone, embed_code} = currentLink;
 
     const [inputValues, setInputValues] = useState({
         name: null,
@@ -46,7 +46,7 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType }) => {
             case 'textarea':
                 setInputValues({
                     name: "embed_code",
-                    value: embedCode || "",
+                    value: embed_code || "",
                     placeholder: "Paste in your Mailchimp Embedded Form Code",
                     key: "embed_code"
                 })
@@ -108,6 +108,7 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType }) => {
                 <textarea
                     name={name}
                     id={name}
+                    defaultValue={embed_code}
                     rows="20"
                     placeholder={placeholder}
                     onChange={(e) => handleChange(e, key) }

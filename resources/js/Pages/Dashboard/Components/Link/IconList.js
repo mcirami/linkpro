@@ -17,6 +17,7 @@ const IconList = ({
 
     const selectIcon = (e, source) => {
         const el = e.target;
+        console.log(source);
 
         if(!el.classList.contains('active')) {
             $('.icon_image').removeClass('active');
@@ -27,7 +28,7 @@ const IconList = ({
                 name = el.dataset.name;
                 setCharactersLeft(11 - name.length);
 
-                if(name.toLowerCase().includes("mail") || name.toLowerCase().includes("yahoo") || name.toLowerCase().includes("outlook") ) {
+                if((name.toLowerCase().includes("mail") && !name.toLowerCase().includes("mailchimp") )|| name.toLowerCase().includes("yahoo") || name.toLowerCase().includes("outlook") ) {
                     setInputType("email");
                 } else if (name.toLowerCase() === "phone" || name.toLowerCase() === "facetime") {
                     setInputType("phone");
@@ -65,8 +66,6 @@ const IconList = ({
 
     },[radioValue])
 
-    console.log(isDefaultIcon);
-
     return (
 
         <>
@@ -97,7 +96,7 @@ const IconList = ({
                     <div className="icon_col default_icon">
                         <img alt="" className={`${isDefaultIcon ? "active img-fluid icon_image" : "img-fluid icon_image"}`} src="https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png" onClick={(e) => {
                             e.preventDefault();
-                            selectIcon(e, "https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png")
+                            selectIcon(e, e.target.src)
                         }}/>
                     </div>
                     <div className="icons_wrap inner">
