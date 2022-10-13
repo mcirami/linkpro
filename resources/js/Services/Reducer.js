@@ -116,6 +116,7 @@ export function reducer(userLinks, action) {
                         url: action.payload.url,
                         email: action.payload.currentLink.email,
                         phone: action.payload.currentLink.phone,
+                        embed_code: action.payload.currentLink.embed_code,
                         icon: action.payload.iconPath
                     }
                 }
@@ -138,6 +139,7 @@ export function reducer(userLinks, action) {
                                 url: action.payload.url,
                                 email: action.payload.currentLink.email,
                                 phone: action.payload.currentLink.phone,
+                                embed_code: action.payload.currentLink.embed_code,
                                 icon: action.payload.iconPath
                             }
                         }
@@ -298,6 +300,7 @@ export function origLinksReducer(originalArray, action) {
                         url: action.payload.url,
                         email: action.payload.currentLink.email,
                         phone: action.payload.currentLink.phone,
+                        embed_code: action.payload.currentLink.embed_code,
                         icon: action.payload.iconPath
                     }
                 }
@@ -320,6 +323,7 @@ export function origLinksReducer(originalArray, action) {
                                 url: action.payload.url,
                                 email: action.payload.currentLink.email,
                                 phone: action.payload.currentLink.phone,
+                                embed_code: action.payload.currentLink.embed_code,
                                 icon: action.payload.iconPath
                             }
                         }
@@ -403,6 +407,7 @@ export function folderLinksReducer(folderLinks, action) {
                         url: action.payload.url,
                         email: action.payload.currentLink.email,
                         phone: action.payload.currentLink.phone,
+                        embed_code: action.payload.currentLink.embed_code,
                         icon: action.payload.iconPath
                     }
                 }
@@ -455,6 +460,7 @@ export function origFolderLinksReducer(origFolderLinks, action) {
                         url: action.payload.url,
                         email: action.payload.currentLink.email,
                         phone: action.payload.currentLink.phone,
+                        embed_code: action.payload.currentLink.embed_code,
                         icon: action.payload.iconPath
                     }
                 }

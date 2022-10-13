@@ -24,7 +24,7 @@ const AccordionLinks = ({icons}) => {
                         <img src={checkIcon(icon, "preview")} alt={name} title={name}/>
                     </a>
                     <p>
-                        {name && name.length >
+                        {name?.length >
                         11 ?
                             name.substring(0,
                                 11) + "..."

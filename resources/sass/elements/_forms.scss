@@ -275,6 +275,29 @@ form .bottom_row a {
                         width: 22.9%;
                     }
                 }
+
+                &.outer {
+                    overflow-y: hidden;
+                    height: 215px;
+
+                    .default_icon.icon_col {
+                        width: 15%;
+                        padding-right: 10px;
+                        padding-top: 10px;
+                    }
+                }
+
+                &.inner {
+                    width: 83%;
+                    overflow-y: auto;
+                    border-radius: 0;
+                    -webkit-border-radius: 0;
+                    -moz-border-radius: 0;
+                    border-right: none;
+                    border-top: none;
+                    border-bottom: none;
+                    height: 195px;
+                }
             }
 
             .my_row.top {

@@ -47,6 +47,7 @@ trait IconTrait {
             "Instagram",
             "Life360",
             "LinkedIn",
+            "Mailchimp",
             "Marketplace",
             "Medium",
             "Messenger",
