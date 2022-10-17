@@ -53,6 +53,7 @@ input[type="text"].disabled {
 select {
     width: 100%;
     color: rgba(33,37,41, .7);
+    padding: 5px 10px;
 }
 
 textarea {
@@ -325,10 +326,13 @@ form .bottom_row a {
                 margin-bottom: 20px;
             }
 
+            .tab_content_wrap {
+                padding: 20px 40px 0;
+            }
+
             .link_form {
                 width: 100%;
                 background: $white;
-                padding: 40px;
                 border-radius: 12px;
                 -webkit-border-radius: 12px;
                 -moz-border-radius: 12px;

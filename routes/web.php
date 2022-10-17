@@ -14,6 +14,7 @@ use App\Http\Controllers\UtilityController;
 use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\ContactMailController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MailchimpController;
 
 /*
 |--------------------------------------------------------------------------
@@ -120,6 +121,10 @@ Route::post('newsletter/add-member', function() {
     ]);
     ddd($response);
 });
+
+Route::get('/auth/mailchimp', [MailchimpController::class, 'auth'])->name('mailchimp.auth');
+Route::get('/auth/mailchimp/callback', [MailchimpController::class, 'callback']);
+Route::get('/mailchimp/list', [MailchimpController::class, 'getLists'])->name('mailchimp.get.lists');
 
 Route::get('/contact', [ContactMailController::class, 'index'])->name('contact');
 Route::post('/contact/send', [ContactMailController::class, 'contactSendMail'])->name('contact.send');

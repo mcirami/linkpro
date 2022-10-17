@@ -26,7 +26,8 @@ class Link extends Model
         'position',
         'active_status',
         'embed_code',
-        'type'
+        'type',
+        'mailchimp_list_id'
     ];
 
     public function user() {

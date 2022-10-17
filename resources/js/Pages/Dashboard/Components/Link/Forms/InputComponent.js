@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 
-const InputComponent = ({ currentLink, setCurrentLink, inputType }) => {
+const InputComponent = ({ currentLink, setCurrentLink, inputType, lists }) => {
 
-    const {url, email, phone, embed_code} = currentLink;
+    const {url, email, phone} = currentLink;
 
     const [inputValues, setInputValues] = useState({
         name: null,
@@ -43,12 +43,12 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType }) => {
                     key: "phone"
                 })
                 break;
-            case 'textarea':
+            case 'mailchimp_list':
                 setInputValues({
-                    name: "embed_code",
-                    value: embed_code || "",
-                    placeholder: "Paste in your Mailchimp Embedded Form Code",
-                    key: "embed_code"
+                    name: "mailchimp_list_id",
+                    placeholder: "Select Your Mailchimp List",
+                    value: "",
+                    key: "mailchimp_list_id"
                 })
                 break;
             default:
@@ -63,7 +63,7 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType }) => {
         }
 
 
-    }, [inputType])
+    }, [inputType]);
 
     const handleChange = (e, key) => {
 
@@ -74,27 +74,27 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType }) => {
         if (key === "phone") {
             key2 = "email"
             key3 = "url"
-            key4 = "embed_code"
+            key4 = "mailchimp_list_id"
         } else if (key.includes("email")) {
             key2 = "phone"
             key3 = "url"
-            key4 = "embed_code"
-        } else if (key === "embed_code") {
+            key4 = "mailchimp_list_id"
+        } else if (key === "mailchimp_list_id") {
             key2 = "email"
             key3 = "url"
             key4 = "phone"
         } else {
             key2 = "phone"
             key3 = "email"
-            key4 = "embed_code"
+            key4 = "mailchimp_list_id"
         }
 
         setCurrentLink({
             ...currentLink,
-            [`${key}`] : e.target.value,
-            [`${key2}`] : null,
-            [`${key3}`] : null,
-            [`${key4}`] : null,
+            [`${key}`]: e.target.value,
+            [`${key2}`]: null,
+            [`${key3}`]: null,
+            [`${key4}`]: null,
         })
     }
 
@@ -103,26 +103,33 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType }) => {
     return (
 
         <>
-            {inputType === "textarea" ?
+            {
+                inputType === "mailchimp_list" ?
 
-                <textarea
+                    <div className="my_row">
+                        <label htmlFor="mailchimp_list_id">Mailchimp List</label>
+                        <select
+                            name="mailchimp_list_id"
+                            onChange={(e) => handleChange(e, key)}
+                        >
+                            <option>Select Your List</option>
+                            {lists?.map((list) => {
+                                return (
+                                    <option key={list.list_id} value={list.list_id}>{list.list_name}</option>
+                                )
+                            })}
+                        </select>
+                    </div>
+                :
+
+                <input
                     name={name}
-                    id={name}
-                    defaultValue={embed_code}
-                    rows="20"
+                    type={type}
+                    defaultValue={ value || ""}
                     placeholder={placeholder}
                     onChange={(e) => handleChange(e, key) }
-                ></textarea>
-                :
-                <>
-                    <input
-                        name={name}
-                        type={type}
-                        defaultValue={ value || ""}
-                        placeholder={placeholder}
-                        onChange={(e) => handleChange(e, key) }
-                    />
-                </>
+                />
+
             }
         </>
 

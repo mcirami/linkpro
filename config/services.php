@@ -37,7 +37,9 @@ return [
         'privateKey' => env('BRAINTREE_PRIVATE_KEY')
     ],
     'mailchimp' => [
-        'key' => env('MAILCHIMP_KEY')
+        'client_id' => env('MAILCHIMP_CLIENT_ID'),
+        'client_secret' => env('MAILCHIMP_CLIENT_SECRET'),
+        'redirect' => env('MAILCHIMP_REDIRECT_URI')
     ]
 
 ];

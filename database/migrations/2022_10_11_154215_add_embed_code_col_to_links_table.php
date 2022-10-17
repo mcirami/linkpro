@@ -26,7 +26,7 @@ class AddEmbedCodeColToLinksTable extends Migration
     public function down()
     {
         Schema::table('links', function (Blueprint $table) {
-            $table->removeColumn('embed_code');
+            $table->dropColumn('embed_code');
         });
     }
 }

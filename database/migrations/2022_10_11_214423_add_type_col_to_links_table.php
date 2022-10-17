@@ -26,7 +26,7 @@ class AddTypeColToLinksTable extends Migration
     public function down()
     {
         Schema::table('links', function (Blueprint $table) {
-            $table->removeColumn('type');
+            $table->dropColumn('type');
         });
     }
 }

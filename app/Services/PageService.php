@@ -160,7 +160,7 @@ class PageService {
             'user_pages' => $userPages,
             'userIcons' => $userIcons,
             'allPageNames' => $pageNames,
-            'userSub'   => $userSubscription
+            'userSub'   => $userSubscription,
         ]);
     }
 

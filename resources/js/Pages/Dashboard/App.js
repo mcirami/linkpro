@@ -114,6 +114,9 @@ function App() {
     const [showPreviewButton, setShowPreviewButton] = useState(false);
     const [showPreview, setShowPreview] = useState(false);
 
+    const [radioValue, setRadioValue] = useState("standard");
+    const [inputType, setInputType] = useState(null);
+
     useEffect(() => {
         EventBus.on('success', (data) => {
             showFlash(true, 'success', data.message.replace(/"/g, ""))
@@ -146,6 +149,22 @@ function App() {
 
         return () => {
             window.removeEventListener('resize', setPreviewButton);
+        }
+
+    }, [])
+
+    useEffect(() => {
+        const href = window.location.href.split('?')[0]
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const redirected = urlParams?.get('redirected');
+
+        if (redirected === "mailchimp") {
+            setShowNewForm(true);
+            setRadioValue("integration")
+            setInputType("mailchimp_list")
+            urlParams.delete('redirected')
+            window.history.pushState({}, document.title, href);
         }
 
     }, [])
@@ -349,6 +368,10 @@ function App() {
                                                     folderID={editFolderID}
                                                     setEditFolderID={setEditFolderID}
                                                     subStatus={subStatus}
+                                                    radioValue={radioValue}
+                                                    setRadioValue={setRadioValue}
+                                                    inputType={inputType}
+                                                    setInputType={setInputType}
                                                 />
                                         }
 

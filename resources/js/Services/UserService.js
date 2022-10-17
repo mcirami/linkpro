@@ -1,3 +1,6 @@
+import axios from 'axios';
+import EventBus from '../Utils/Bus';
+
 const userSub = user.userSub;
 
 export const checkSubStatus = () => {
@@ -44,4 +47,35 @@ export const checkIcon = (icon, type) => {
     } else {
         return icon;
     }
+}
+
+export const getMailchimpLists = () => {
+
+    return axios.get('/mailchimp/list').then(
+        (response) => {
+            //console.log(JSON.stringify(response.data));
+            const lists = response.data.lists;
+
+            return {
+                success : true,
+                lists : lists,
+            }
+        },
+
+    ).catch(error => {
+        if (error.response) {
+            if(error.response.data.errors) {
+                EventBus.dispatch("error", { message: error.response.data.errors });
+            } else {
+                console.error(error.response);
+            }
+
+        } else {
+            console.error("ERROR:: ", error);
+        }
+
+        return {
+            success : false
+        }
+    });
 }

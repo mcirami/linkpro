@@ -188,10 +188,11 @@ class PageController extends Controller
         return redirect()->back()->withErrors(['unauthorized' => 'Incorrect Pin']);
     }
 
-    public function redirect() {
+    public function redirect(Request $request) {
+        $param = $request->redirected;
         $user = Auth::user();
         $page = $user->pages()->where('user_id', $user["id"])->where('default', true)->get();
 
-        return redirect('/dashboard/pages/' . $page[0]->id);
+        return redirect('/dashboard/pages/' . $page[0]->id . "?redirected=" . $param);
     }
 }

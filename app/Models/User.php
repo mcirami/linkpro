@@ -31,6 +31,9 @@ class User extends VoyagerUser
         'pm_type',
         'braintree_id',
         'email_subscription',
+        'mailchimp_server',
+        'mailchimp_token',
+        'mailchimp_lists'
     ];
 
     /**
