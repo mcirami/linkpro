@@ -42,7 +42,7 @@ class addLinkType extends Command
         $links = Link::get();
 
         foreach ($links as $link) {
-            if ($link->embed_code != null) {
+            if ($link->mailchimp_list_id != null) {
                 $link->update(["type" => "form"]);
             } else {
                 $link->update(["type" => "standard"]);

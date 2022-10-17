@@ -90,6 +90,10 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::post('/folder/new', [FolderController::class, 'store'])->name('add.folder');
 
+    Route::get('/auth/mailchimp', [MailchimpController::class, 'auth'])->name('mailchimp.auth');
+    Route::get('/auth/mailchimp/callback', [MailchimpController::class, 'callback']);
+    Route::get('/mailchimp/list', [MailchimpController::class, 'getLists'])->name('mailchimp.get.lists');
+
 });
 
 Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated'], 'prefix' => 'dashboard'], function() {
@@ -122,9 +126,7 @@ Route::post('newsletter/add-member', function() {
     ddd($response);
 });
 
-Route::get('/auth/mailchimp', [MailchimpController::class, 'auth'])->name('mailchimp.auth');
-Route::get('/auth/mailchimp/callback', [MailchimpController::class, 'callback']);
-Route::get('/mailchimp/list', [MailchimpController::class, 'getLists'])->name('mailchimp.get.lists');
+Route::post('/mailchimp/subscribe', [MailchimpController::class, 'subscribeToList'])->name('mailchimp.subscribe');
 
 Route::get('/contact', [ContactMailController::class, 'index'])->name('contact');
 Route::post('/contact/send', [ContactMailController::class, 'contactSendMail'])->name('contact.send');

@@ -327,8 +327,11 @@ jQuery(document).ready(function($) {
                         });
                     });
 
-                    const folderID = element.dataset.id
-                    trackFolderClick(folderID);
+                    const folderID = element.dataset.id;
+                    const folderType = element.dataset.type;
+                    if (folderType === "folder") {
+                        trackFolderClick(folderID);
+                    }
                 }
             })
         });
@@ -372,6 +375,48 @@ jQuery(document).ready(function($) {
         });
     }
 
+    const mcSubscribeForm = document.querySelector('#mc_subscribe_form');
+    if (mcSubscribeForm) {
+        mcSubscribeForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const email = document.querySelector('#email').value;
+            const listId = document.querySelector('#list_id').value;
+            const user = document.querySelector('#user_id').value;
 
+            const packets = {
+                email: email,
+                listId: listId,
+                user: user
+            }
+
+            axios.post("/mailchimp/subscribe", packets)
+            .then(
+                (response) => {
+                    //console.log(JSON.stringify(response.data))
+                    const mcResponse = response.data.mcResponse;
+
+                    document.querySelector('.my_row.folder .form_content').innerHTML =
+                        "<h3>Success!</h3>" +
+                        "<p>Check your email to confirm and/or a welcome message.</p>";
+                }
+            )
+            .catch((error) => {
+                const errorDiv = document.querySelector('#mc_subscribe_form .error');
+
+                if (error.response !== undefined) {
+                    errorDiv.innerHTML = "<p>" + error.response.data.message + "</p>";
+                    console.error("ERROR:: ", error.response.data.message);
+                } else {
+                    console.error("ERROR:: ", error);
+                }
+
+                return {
+                    success : false,
+                }
+
+            });
+
+        })
+    }
 
 });

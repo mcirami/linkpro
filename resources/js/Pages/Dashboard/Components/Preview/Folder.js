@@ -9,7 +9,9 @@ const Folder = ({
                     value,
                     setValue,
                     dataRow,
-                    name
+                    name,
+                    clickType,
+                    setClickType
                 }) => {
 
     const folderClick = (e, index) => {
@@ -23,6 +25,7 @@ const Folder = ({
         } else {
             setRow(clickedDiv.firstChild.dataset.row);
             setValue(index);
+            setClickType("folder");
 
             setTimeout(function(){
                 document.querySelector('.icons_wrap.inner .icon_col:first-child').scrollIntoView({
@@ -36,7 +39,7 @@ const Folder = ({
 
     return (
 
-        <div className={ ` ${colClasses} ${mainIndex == value ? " open" : "" } `}>
+        <div className={ ` ${colClasses} ${mainIndex == value && clickType === "folder" ? " open" : "" } `}>
             <a className="inner_icon_wrap" href="#" data-row={ dataRow } onClick={(e) => {folderClick(e, mainIndex)} }>
                 <img className="bg_image" src={ Vapor.asset('images/blank-folder-square.jpg') } alt=""/>
                 <div className="folder_icons preview">

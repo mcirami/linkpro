@@ -13640,6 +13640,20 @@ header.guest_header .col.right {
     font-size: 3.5vw;
   }
 }
+#links_page .links_col .links_wrap .inner_content.live_page .form_content form {
+  padding: 0;
+}
+#links_page .links_col .links_wrap .inner_content.live_page .form_content h3, #links_page .links_col .links_wrap .inner_content.live_page .form_content .h3 {
+  font-size: 1.5em;
+}
+@media screen and (max-width: 550px) {
+  #links_page .links_col .links_wrap .inner_content.live_page .form_content h3, #links_page .links_col .links_wrap .inner_content.live_page .form_content .h3 {
+    font-size: 1em;
+  }
+}
+#links_page .links_col .links_wrap .inner_content.live_page .form_content p {
+  font-size: 1em;
+}
 
 .form_page .card.guest {
   max-width: 800px;
@@ -16081,14 +16095,14 @@ form .bottom_row a {
   width: 100%;
 }
 
-.my_row.folder {
+.my_row.folder, .my_row.form {
   opacity: 0;
   max-height: 0;
   transition: max-height 50ms linear;
   background: #ffffff;
   z-index: -999;
 }
-.my_row.folder.open {
+.my_row.folder.open, .my_row.form.open {
   max-height: 1000px;
   z-index: unset;
   -webkit-animation: opacity 50ms forwards;
@@ -16134,10 +16148,10 @@ form .bottom_row a {
     opacity: 1;
   }
 }
-.my_row.folder p {
+.my_row.folder p, .my_row.form p {
   margin-bottom: 0;
 }
-.my_row.folder .icons_wrap {
+.my_row.folder .icons_wrap, .my_row.folder .form_wrap, .my_row.form .icons_wrap, .my_row.form .form_wrap {
   padding: 20px !important;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 20px;
@@ -16146,16 +16160,41 @@ form .bottom_row a {
   text-align: center;
   margin-bottom: 20px;
 }
-.my_row.folder .icons_wrap .icon_col {
+@media screen and (max-width: 550px) {
+  .my_row.folder .icons_wrap, .my_row.folder .form_wrap, .my_row.form .icons_wrap, .my_row.form .form_wrap {
+    padding: 10px !important;
+  }
+}
+.my_row.folder .icons_wrap .icon_col, .my_row.folder .form_wrap .icon_col, .my_row.form .icons_wrap .icon_col, .my_row.form .form_wrap .icon_col {
   width: 26.3% !important;
   margin-bottom: 5px !important;
   margin-right: 10.5% !important;
 }
-.my_row.folder .icons_wrap .icon_col:nth-child(3n) {
+.my_row.folder .icons_wrap .icon_col:nth-child(3n), .my_row.folder .form_wrap .icon_col:nth-child(3n), .my_row.form .icons_wrap .icon_col:nth-child(3n), .my_row.form .form_wrap .icon_col:nth-child(3n) {
   margin-right: 0 !important;
 }
-.my_row.folder .icons_wrap .icon_col:nth-child(4n) {
+.my_row.folder .icons_wrap .icon_col:nth-child(4n), .my_row.folder .form_wrap .icon_col:nth-child(4n), .my_row.form .icons_wrap .icon_col:nth-child(4n), .my_row.form .form_wrap .icon_col:nth-child(4n) {
   margin-right: 10.5% !important;
+}
+.my_row.folder form, .my_row.form form {
+  margin-bottom: 0;
+}
+.my_row.folder form h3, .my_row.folder form .h3, .my_row.form form h3, .my_row.form form .h3 {
+  font-size: 1em;
+}
+@media screen and (max-width: 550px) {
+  .my_row.folder form h3, .my_row.folder form .h3, .my_row.form form h3, .my_row.form form .h3 {
+    font-size: 0.8em;
+  }
+}
+.my_row.folder form input, .my_row.form form input {
+  width: 100%;
+  margin-bottom: 0;
+}
+.my_row.folder form .button, .my_row.form form .button {
+  -webkit-appearance: none;
+  width: 100%;
+  margin-top: 10px;
 }
 
 .icon_breadcrumb {

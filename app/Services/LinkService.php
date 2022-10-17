@@ -87,7 +87,8 @@ class LinkService {
                 'icon' => $iconPath,
                 'page_id' => $request->page_id,
                 'position' => $position,
-                'folder_id' => $request->folder_id
+                'folder_id' => $request->folder_id,
+                'type' => $request->mailchimp_list_id ? "form" : "standard"
             ]);
 
             array_push($linkIDs, $link->id);
@@ -114,6 +115,7 @@ class LinkService {
                 'icon' => $iconPath,
                 'page_id' => $request->page_id,
                 'position' => $position,
+                'type' => $request->mailchimp_list_id ? "form" : "standard"
             ]);
         }
 

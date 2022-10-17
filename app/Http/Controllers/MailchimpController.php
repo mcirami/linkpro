@@ -68,4 +68,28 @@ class MailchimpController extends Controller
 
         return response()->json( ['lists' => json_decode($user->mailchimp_lists)]);
     }
+
+    public function subscribeToList(Request $request) {
+
+        request()->validate(['email' => 'required|email']);
+
+        $email = $request->email;
+        $listId = $request->listId;
+        $user = User::findOrFail($request->user);
+
+        $mailchimp = new ApiClient();
+
+        $mailchimp->setConfig([
+            'accessToken' => $user->mailchimp_token,
+            'server' => $user->mailchimp_server
+        ]);
+
+        $response = $mailchimp->lists->addListMember($listId, [
+            'email_address' => $email,
+            'status' => 'subscribed'
+        ]);
+
+
+        return response()->json(['success' => true, 'mcResponse' => $response]);
+    }
 }

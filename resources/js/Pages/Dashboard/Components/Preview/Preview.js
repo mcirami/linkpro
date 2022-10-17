@@ -14,8 +14,8 @@ import ProfileImage from './ProfileImage';
 import ProfileText from './ProfileText';
 import Folder from './Folder';
 import LockIcon from './LockIcon';
-import SubForm from './SubForm';
-import EmbedCode from './EmbedCode';
+import FormIcon from './FormIcon';
+import SubscribeForm from './SubscribeForm';
 
 const Preview = ({
                      setRef,
@@ -38,6 +38,7 @@ const Preview = ({
     const { userLinks } = useContext(UserLinksContext);
     const [iconCount, setIconCount] = useState(null);
     const {pageSettings} = useContext(PageContext);
+    const [clickType, setClickType] = useState(null);
 
     const ClosePreview = () => {
         setShowPreview(false);
@@ -113,9 +114,8 @@ const Preview = ({
         box.style.maxHeight = innerContent.offsetHeight - pixelsToMinus + "px";
     }, []);
 
-    let folderCount = 0;
     const accordionLinks = value !== null ? userLinks[value].links : null;
-    const embedCode = value !== null ? userLinks[value].embed_code : null;
+    const mailchimpListId = value !== null ? userLinks[value].mailchimp_list_id : null;
 
     return (
 
@@ -179,9 +179,8 @@ const Preview = ({
                                 }
 
                                 let colClasses = "";
-                                if (type === "folder") {
+                                if (type === "folder" || type === "form") {
                                     colClasses = "icon_col folder";
-                                    ++folderCount;
                                 } else {
                                     colClasses = "icon_col";
                                 }
@@ -201,6 +200,8 @@ const Preview = ({
                                                         setValue={setValue}
                                                         dataRow={dataRow}
                                                         name={name}
+                                                        clickType={clickType}
+                                                        setClickType={setClickType}
                                                     />
                                                     :
                                                     subStatus && <div className={ ` ${colClasses} `}>
@@ -235,7 +236,7 @@ const Preview = ({
 
                                             "form":
 
-                                                <SubForm
+                                                <FormIcon
                                                     colClasses={colClasses}
                                                     displayIcon={displayIcon}
                                                     name={name}
@@ -246,23 +247,26 @@ const Preview = ({
                                                     value={value}
                                                     setValue={setValue}
                                                     index={index}
+                                                    setClickType={setClickType}
+                                                    clickType={clickType}
                                                 />
 
                                         }[type]}
 
                                         {subStatus && ( (index + 1) % 4 === 0 || index + 1 === iconCount) ?
 
-                                                <EmbedCode
+                                                <SubscribeForm
                                                     dataRow={dataRow}
                                                     row={row}
-                                                    embedCode={embedCode}
+                                                    mailchimpListId={mailchimpListId}
+                                                    clickType={clickType}
                                                 />
                                             :
                                             ""
                                         }
 
                                         {subStatus && ((index + 1) % 4 === 0 || index + 1 === iconCount) ?
-                                                <div className={`my_row folder ${dataRow == row ? "open" : ""}`}>
+                                                <div className={`my_row folder ${dataRow == row && clickType === "folder" ? "open" : ""}`}>
                                                     <div className="icons_wrap inner">
                                                         {dataRow == row ?
                                                             accordionLinks?.map((
