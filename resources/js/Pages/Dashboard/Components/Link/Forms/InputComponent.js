@@ -1,5 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import {getMailchimpLists} from '../../../../../Services/UserService';
+import {
+    getMailchimpLists,
+    removeMailchimpConnection,
+} from '../../../../../Services/UserService';
 
 const InputComponent = ({ currentLink, setCurrentLink, inputType, lists, setLists }) => {
 
@@ -116,6 +119,18 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType, lists, setList
         )
     }
 
+    const handleClick = (e) => {
+        e.preventDefault();
+
+        removeMailchimpConnection().then(
+            (data) => {
+                if (data.success) {
+                    setLists({});
+                }
+            }
+        )
+    }
+
     const {name, type, value, placeholder, key } = inputValues;
 
     return (
@@ -129,7 +144,7 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType, lists, setList
                         <select
                             name="mailchimp_list_id"
                             onChange={(e) => handleChange(e, key)}
-                            value={currentLink.mailchimp_list_id}
+                            value={currentLink.mailchimp_list_id || undefined}
                         >
                             <option>Select Your List</option>
                             {lists?.map((list) => {
@@ -141,6 +156,13 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType, lists, setList
                                 )
                             })}
                         </select>
+                        {lists &&
+                            <div className="my_row remove_link">
+                                <a href="#" onClick={(e) => handleClick(e)}>
+                                    Remove Connection
+                                </a>
+                            </div>
+                        }
                     </div>
                 :
 

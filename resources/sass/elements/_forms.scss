@@ -249,6 +249,18 @@ form .bottom_row a {
                 right: 0;
             }
 
+            .tabs {
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-orient: horizontal;
+                -webkit-box-direction: normal;
+                -ms-flex-direction: row;
+                flex-direction: row;
+                -ms-flex-wrap: nowrap;
+                flex-wrap: nowrap;
+            }
+
             .uploader {
                 margin-bottom: 20px;
             }
@@ -991,5 +1003,24 @@ form .bottom_row a {
         height: 5em;
         margin: 0 auto;
         color: $blue;
+    }
+}
+
+.integration_wrap {
+
+    min-height: 400px;
+
+    p {
+        margin-bottom: 0;
+    }
+
+    small {
+        @include ossemibold;
+    }
+
+    .button_wrap {
+        width: 100%;
+        float: left;
+        margin-top: 20px;
     }
 }

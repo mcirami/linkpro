@@ -14007,6 +14007,11 @@ form .bottom_row a {
   left: 0;
   right: 0;
 }
+#links_page .edit_form.popup .tabs, #links_page .edit_form.link .tabs {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
 #links_page .edit_form.popup .uploader, #links_page .edit_form.link .uploader {
   margin-bottom: 20px;
 }
@@ -14646,6 +14651,21 @@ form .bottom_row a {
   height: 5em;
   margin: 0 auto;
   color: #424fcf;
+}
+
+.integration_wrap {
+  min-height: 400px;
+}
+.integration_wrap p {
+  margin-bottom: 0;
+}
+.integration_wrap small, .integration_wrap .small {
+  font-family: "opensanssemibold", sans-serif;
+}
+.integration_wrap .button_wrap {
+  width: 100%;
+  float: left;
+  margin-top: 20px;
 }
 
 .form_page .pricing {

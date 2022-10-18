@@ -79,3 +79,32 @@ export const getMailchimpLists = () => {
         }
     });
 }
+
+export const removeMailchimpConnection = () => {
+
+    return axios.post('/mailchimp/remove-connection').then(
+        (response) => {
+            //console.log(JSON.stringify(response.data));
+
+            return {
+                success : true,
+            }
+        },
+
+    ).catch(error => {
+        if (error.response) {
+            if(error.response.data.errors) {
+                EventBus.dispatch("error", { message: error.response.data.errors });
+            } else {
+                console.error(error.response);
+            }
+
+        } else {
+            console.error("ERROR:: ", error);
+        }
+
+        return {
+            success : false
+        }
+    });
+}

@@ -89,7 +89,24 @@ class MailchimpController extends Controller
             'status' => 'pending'
         ]);
 
-
         return response()->json(['success' => true, 'mcResponse' => $response]);
+    }
+
+    public function removeConnection() {
+        $user = Auth::user();
+
+        $user->update([
+            'mailchimp_server'  => null,
+            'mailchimp_token'   => null,
+            'mailchimp_lists'   => null
+        ]);
+
+        $links = $user->links()->where('mailchimp_list_id', '!=', null)->get();
+        foreach ($links as $link) {
+            $link->update([
+                'mailchimp_list_id' => null,
+                'active_status' => 0
+            ]);
+        }
     }
 }
