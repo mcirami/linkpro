@@ -33,7 +33,7 @@ import {
 } from '../../../../../Services/Reducer';
 import FormBreadcrumbs from './FormBreadcrumbs';
 import InputTypeRadio from './InputTypeRadio';
-import {getMailchimpLists} from '../../../../../Services/UserService';
+import FormTabs from './FormTabs';
 
 const NewForm = ({
                      setShowNewForm,
@@ -92,7 +92,45 @@ const NewForm = ({
 
     },[charactersLeft])
 
+    useEffect(() => {
+        if (!customIcon) {
+            return
+        }
+        const objectUrl = URL.createObjectURL(customIcon)
+        // free memory when ever this component is unmounted
+        return () => URL.revokeObjectURL(objectUrl)
+    }, [customIcon]);
+
+    useEffect(() => {
+        if (!completedIconCrop || !previewCanvasRef.current || !imgRef.current) {
+            return;
+        }
+
+        completedImageCrop(completedIconCrop, imgRef, previewCanvasRef);
+
+    }, [completedIconCrop]);
+
+    const handleOnClick = e => {
+        const type = e.target.dataset.type;
+
+        if (!subStatus) {
+
+            let text;
+            if (type === "custom" ) {
+                text = "add custom icons"
+            } else if (type === "integration") {
+                text = "add an integration"
+            } else {
+                text = "change link name"
+            }
+
+            setShowUpgradePopup(true);
+            setOptionText(text);
+        }
+    }
+
     const [input, setInput] = useState("");
+
     const handleChange = (e) => {
         e.preventDefault();
         setInput(e.target.value);
@@ -127,24 +165,6 @@ const NewForm = ({
         imgRef.current = img;
     }, []);
 
-
-    useEffect(() => {
-        if (!customIcon) {
-            return
-        }
-        const objectUrl = URL.createObjectURL(customIcon)
-        // free memory when ever this component is unmounted
-        return () => URL.revokeObjectURL(objectUrl)
-    }, [customIcon]);
-
-    useEffect(() => {
-        if (!completedIconCrop || !previewCanvasRef.current || !imgRef.current) {
-            return;
-        }
-
-        completedImageCrop(completedIconCrop, imgRef, previewCanvasRef);
-
-    }, [completedIconCrop]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -513,25 +533,6 @@ const NewForm = ({
         }
     }
 
-    const handleOnClick = e => {
-        const type = e.target.dataset.type;
-
-        if (!subStatus) {
-
-            let text;
-            if (type === "custom" ) {
-                text = "add custom icons"
-            } else if (type === "integration") {
-                text = "add an integration"
-            } else {
-                text = "change link name"
-            }
-
-            setShowUpgradePopup(true);
-            setOptionText(text);
-        }
-    }
-
     const handleLinkName = useCallback ( (e) => {
             let value = e.target.value;
 
@@ -543,44 +544,6 @@ const NewForm = ({
             }))
         }
     )
-
-    const handleOnChange = (e) => {
-        const value = e.target.value;
-        setRadioValue(value);
-
-        if (value === "integration") {
-
-            setInputType('mailchimp_list')
-
-            setCurrentLink(prevState => ({
-                ...prevState,
-                icon: 'https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png',
-            }))
-        } else {
-            if(inputType !== "mailchimp_list") {
-                setInputType(inputType)
-            } else {
-                setInputType("url")
-            }
-        }
-    }
-
-    const fetchLists = () => {
-
-        getMailchimpLists().then(
-            (data) => {
-                if (data.success) {
-                    setLists(data.lists)
-                }
-            }
-        )
-    }
-
-    useEffect(() => {
-        if (inputType === "mailchimp_list") {
-            fetchLists()
-        }
-    }, [inputType]);
 
     return (
         <>
@@ -637,38 +600,16 @@ const NewForm = ({
                                 }
                                 <div className="icon_row">
                                     <div className="icon_box">
-                                        <div className="my_row radios_wrap">
-                                            <div className={radioValue === "standard" ? "radio_wrap active" : "radio_wrap" }>
-                                                <label htmlFor="standard_radio">
-                                                    <input id="standard_radio" type="radio" value="standard" name="icon_type"
-                                                           checked={radioValue === "standard"}
-                                                           onChange={(e) => {handleOnChange(e) }}/>
-                                                    Standard Icons
-                                                </label>
-                                            </div>
-                                            <div className={radioValue === "custom" ? "radio_wrap active" : "radio_wrap" }>
-                                                <label htmlFor="custom_radio">
-                                                    <input id="custom_radio" type="radio" value="custom" name="icon_type"
-                                                           onChange={(e) => { handleOnChange(e) }}
-                                                           disabled={!subStatus}
-                                                           checked={radioValue === "custom"}
-                                                    />
-                                                    Custom Icons
-                                                </label>
-                                                {!subStatus && <span className="disabled_wrap" data-type="custom" onClick={(e) => handleOnClick(e)} />}
-                                            </div>
-                                            <div className={radioValue === "integration" ? "radio_wrap active" : "radio_wrap" }>
-                                                <label htmlFor="integration">
-                                                    <input id="integration" type="radio" value="integration" name="icon_type"
-                                                           onChange={(e) => { handleOnChange(e) }}
-                                                           disabled={!subStatus}
-                                                           checked={radioValue === "integration"}
-                                                    />
-                                                    Integrations
-                                                </label>
-                                                {!subStatus && <span className="disabled_wrap" data-type="integration" onClick={(e) => handleOnClick(e)} />}
-                                            </div>
-                                        </div>
+
+                                         <FormTabs
+                                             radioValue={radioValue}
+                                             setRadioValue={setRadioValue}
+                                             subStatus={subStatus}
+                                             inputType={inputType}
+                                             setInputType={setInputType}
+                                             setCurrentLink={setCurrentLink}
+                                             handleOnClick={handleOnClick}
+                                         />
 
                                         <div className="uploader">
                                             {radioValue === "custom" || radioValue === "integration" ?
@@ -751,6 +692,7 @@ const NewForm = ({
                                     currentLink={currentLink}
                                     setCurrentLink={setCurrentLink}
                                     lists={lists}
+                                    setLists={setLists}
                                 />
                             </div>
                         </div>

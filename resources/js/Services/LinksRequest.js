@@ -86,6 +86,8 @@ export const updateLink = (packets, editID) => {
                 EventBus.dispatch("error", { message: error.response.data.errors.email[0] });
             } else if (error.response.data.errors.phone !== undefined) {
                 EventBus.dispatch("error", { message: error.response.data.errors.phone[0] });
+            } else if (error.response.data.errors.mailchimp_list_id !== undefined) {
+                EventBus.dispatch("error", { message: "Mailchimp List Is Required" });
             } else {
                 console.error(error.response);
             }

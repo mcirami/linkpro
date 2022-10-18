@@ -21,6 +21,8 @@ import {
     FOLDER_LINKS_ACTIONS,
     ORIG_FOLDER_LINKS_ACTIONS
 } from '../../../../../Services/Reducer';
+import FormTabs from './FormTabs';
+import InputTypeRadio from './InputTypeRadio';
 
 const EditForm = ({
                       editID,
@@ -54,12 +56,13 @@ const EditForm = ({
     const [customIcon] = useState(null);
 
     const [radioValue, setRadioValue] = useState("standard");
+    const [lists, setLists] = useState(null);
 
     let iconArray = getIconPaths(iconPaths);
 
     const [ currentLink, setCurrentLink ] = useState(
         userLinks.find(function(e) {
-            return e.id === editID && !e.type
+            return e.id === editID
         }) || folderLinks.find(function(e) {
             return e.id === editID
         }) );
@@ -69,6 +72,7 @@ const EditForm = ({
     );
 
     const [charactersLeft, setCharactersLeft] = useState();
+    const [input, setInput] = useState("");
 
     useEffect(() => {
         if(currentLink.name) {
@@ -78,7 +82,33 @@ const EditForm = ({
         }
     },[charactersLeft])
 
-    const [input, setInput] = useState("");
+    useEffect(() => {
+        if (!customIcon) {
+            return
+        }
+        const objectUrl = URL.createObjectURL(customIcon)
+        // free memory when ever this component is unmounted
+        return () => URL.revokeObjectURL(objectUrl)
+    }, [customIcon]);
+
+    useEffect(() => {
+        if (!completedIconCrop || !previewCanvasRef.current || !imgRef.current) {
+            return;
+        }
+
+        completedImageCrop(completedIconCrop, imgRef, previewCanvasRef);
+
+    }, [completedIconCrop]);
+
+    useEffect(() => {
+        if(currentLink.icon.includes("custom-icon") && !currentLink.mailchimp_list_id) {
+            setRadioValue("custom");
+        } else if (currentLink.mailchimp_list_id) {
+            setRadioValue("integration")
+            setInputType("mailchimp_list")
+        }
+    },[])
+
     const handleChange = (e) => {
         e.preventDefault();
         setInput(e.target.value);
@@ -113,24 +143,6 @@ const EditForm = ({
         imgRef.current = img;
     }, []);
 
-
-    useEffect(() => {
-        if (!customIcon) {
-            return
-        }
-        const objectUrl = URL.createObjectURL(customIcon)
-        // free memory when ever this component is unmounted
-        return () => URL.revokeObjectURL(objectUrl)
-    }, [customIcon]);
-
-    useEffect(() => {
-        if (!completedIconCrop || !previewCanvasRef.current || !imgRef.current) {
-            return;
-        }
-
-        completedImageCrop(completedIconCrop, imgRef, previewCanvasRef);
-
-    }, [completedIconCrop]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -189,6 +201,15 @@ const EditForm = ({
                             phone: currentLink.phone,
                             icon: currentLink.icon,
                             page_id: pageSettings["id"],
+                        };
+                        break;
+                    case "mailchimp_list":
+                        packets = {
+                            name: currentLink.name,
+                            mailchimp_list_id: currentLink.mailchimp_list_id,
+                            icon: currentLink.icon,
+                            page_id: pageSettings["id"],
+                            folder_id: folderID
                         };
                         break;
                 }
@@ -455,152 +476,165 @@ const EditForm = ({
                 />
             </div>
             <div className="my_row edit_form link">
-                <form onSubmit={handleSubmit} className="link_form">
-                    <div className="row">
-                        <div className="col-12">
-                            {radioValue === "custom" ?
-                                <div className={!iconSelected ?
-                                    "crop_section hidden" :
-                                    "crop_section"}>
-                                    {iconSelected ? <p>Crop Icon</p> : ""}
-                                    <ReactCrop
-                                        src={upImg}
-                                        onImageLoaded={onLoad}
-                                        crop={crop}
-                                        onChange={(c) => setCrop(c)}
-                                        onComplete={(c) => setCompletedIconCrop(c)}
-                                    />
-                                    <div className="icon_col">
-                                        {iconSelected ? <p>Icon Preview</p> : ""}
-                                        <canvas
-                                            ref={iconRef}
-                                            // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
-                                            style={{
-                                                backgroundImage: iconRef,
-                                                backgroundSize: `cover`,
-                                                backgroundRepeat: `no-repeat`,
-                                                width: completedIconCrop ?
-                                                    `100%` :
-                                                    0,
-                                                height: completedIconCrop ?
-                                                    `100%` :
-                                                    0,
-                                                borderRadius: `20px`,
-                                            }}
+                <div className="tab_content_wrap">
+                    <form onSubmit={handleSubmit} className="link_form">
+                        <div className="row">
+                            <div className="col-12">
+                                {radioValue === "custom" ?
+                                    <div className={!iconSelected ?
+                                        "crop_section hidden" :
+                                        "crop_section"}>
+                                        {iconSelected ? <p>Crop Icon</p> : ""}
+                                        <ReactCrop
+                                            src={upImg}
+                                            onImageLoaded={onLoad}
+                                            crop={crop}
+                                            onChange={(c) => setCrop(c)}
+                                            onComplete={(c) => setCompletedIconCrop(c)}
                                         />
+                                        <div className="icon_col">
+                                            {iconSelected ? <p>Icon Preview</p> : ""}
+                                            <canvas
+                                                ref={iconRef}
+                                                // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
+                                                style={{
+                                                    backgroundImage: iconRef,
+                                                    backgroundSize: `cover`,
+                                                    backgroundRepeat: `no-repeat`,
+                                                    width: completedIconCrop ?
+                                                        `100%` :
+                                                        0,
+                                                    height: completedIconCrop ?
+                                                        `100%` :
+                                                        0,
+                                                    borderRadius: `20px`,
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+                                    :
+                                    ""
+                                }
+                                <div className="icon_row">
+                                    <div className="icon_box">
+
+                                        <FormTabs
+                                            radioValue={radioValue}
+                                            setRadioValue={setRadioValue}
+                                            subStatus={subStatus}
+                                            inputType={inputType}
+                                            setInputType={setInputType}
+                                            setCurrentLink={setCurrentLink}
+                                            handleOnClick={handleOnClick}
+                                        />
+
+                                        {radioValue === "custom" ?
+                                            <div className="uploader">
+                                                <label htmlFor="custom_icon_upload" className="custom text-uppercase button blue">
+                                                    Upload Image
+                                                </label>
+                                                <input id="custom_icon_upload" type="file" className="custom" onChange={selectCustomIcon} accept="image/png, image/jpeg, image/jpg, image/gif"/>
+                                                <div className="my_row info_text file_types text-center mb-2">
+                                                    <p className="m-0 char_count w-100 ">Allowed File Types: <span>png, jpg, jpeg, gif</span></p>
+                                                </div>
+                                            </div>
+                                            :
+                                            <div className="uploader">
+                                                <input name="search" type="text" placeholder="Search Icons" onChange={handleChange} defaultValue={input} />
+                                                <div className="my_row info_text file_types text-center mb-2 text-center">
+                                                    <a href="mailto:help@link.pro" className="mx-auto m-0 char_count">Don't See Your Icon? Contact Us!</a>
+                                                </div>
+                                            </div>
+                                        }
+
+                                        <IconList
+                                            currentLink={currentLink}
+                                            setCurrentLink={setCurrentLink}
+                                            iconArray={iconArray}
+                                            radioValue={radioValue}
+                                            setCharactersLeft={setCharactersLeft}
+                                            customIconArray={customIconArray}
+                                            setInputType={setInputType}
+                                        />
+
                                     </div>
                                 </div>
-                                :
-                                ""
-                            }
-                            <div className="icon_row">
-                                <div className="icon_box">
-                                    <div className="my_row radios_wrap">
-                                        <div className={radioValue === "standard" ? "radio_wrap active" : "radio_wrap" }>
-                                            <label htmlFor="standard_radio">
-                                                <input id="standard_radio" type="radio" value="standard" name="icon_type" defaultChecked
-                                                       onChange={(e) => {setRadioValue(e.target.value) }}
-                                                />
-                                                Standard Icons
-                                            </label>
-                                        </div>
-                                        <div className={radioValue === "custom" ? "radio_wrap active" : "radio_wrap" }>
-                                            <label htmlFor="custom_radio">
-                                                <input id="custom_radio" type="radio" value="custom" name="icon_type"
-                                                       onChange={(e) => {setRadioValue(e.target.value); }}
-                                                       disabled={!subStatus}
-                                                />
-                                                Custom Icons
-                                            </label>
-                                            {!subStatus && <span className="disabled_wrap" data-type="custom" onClick={(e) => handleOnClick(e)} />}
-                                        </div>
-                                    </div>
-
-                                    {radioValue === "custom" ?
-                                        <div className="uploader">
-                                            <label htmlFor="custom_icon_upload" className="custom text-uppercase button blue">
-                                                Upload Image
-                                            </label>
-                                            <input id="custom_icon_upload" type="file" className="custom" onChange={selectCustomIcon} accept="image/png, image/jpeg, image/jpg, image/gif"/>
-                                            <div className="my_row info_text file_types text-center mb-2">
-                                                <p className="m-0 char_count w-100 ">Allowed File Types: <span>png, jpg, jpeg, gif</span></p>
-                                            </div>
-                                        </div>
-                                        :
-                                        <div className="uploader">
-                                            <input name="search" type="text" placeholder="Search Icons" onChange={handleChange} defaultValue={input} />
-                                            <div className="my_row info_text file_types text-center mb-2 text-center">
-                                                <a href="mailto:help@link.pro" className="mx-auto m-0 char_count">Don't See Your Icon? Contact Us!</a>
-                                            </div>
-                                        </div>
-                                    }
-
-                                    <IconList
-                                        currentLink={currentLink}
-                                        setCurrentLink={setCurrentLink}
-                                        iconArray={iconArray}
-                                        radioValue={radioValue}
-                                        setCharactersLeft={setCharactersLeft}
-                                        customIconArray={customIconArray}
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-12">
+                                <div className="input_wrap">
+                                    <input
+                                        /*maxLength="13"*/
+                                        name="name"
+                                        type="text"
+                                        value={currentLink.name || ""}
+                                        placeholder="Link Name"
+                                        onChange={(e) => handleLinkName(e)}
+                                        disabled={!subStatus}
+                                        className={!subStatus ? "disabled" : ""}
+                                    />
+                                    {!subStatus && <span className="disabled_wrap" data-type="name" onClick={(e) => handleOnClick(e)}> </span>}
+                                </div>
+                                <div className="my_row info_text title">
+                                    <p className="char_max">Max 11 Characters Shown</p>
+                                    <p className="char_count">
+                                        {charactersLeft < 0 ?
+                                            <span className="over">Only 11 Characters Will Be Shown</span>
+                                            :
+                                            "Characters Left: " + charactersLeft
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        {radioValue !== "integration" &&
+                            <div className="row">
+                                <div className="col-12">
+                                    <InputTypeRadio
+                                        inputType={inputType}
                                         setInputType={setInputType}
                                     />
-
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="input_wrap">
-                                <input
-                                    /*maxLength="13"*/
-                                    name="name"
-                                    type="text"
-                                    value={currentLink.name || ""}
-                                    placeholder="Link Name"
-                                    onChange={(e) => handleLinkName(e)}
-                                    disabled={!subStatus}
-                                    className={!subStatus ? "disabled" : ""}
+                        }
+                        <div className="row">
+                            <div className="col-12">
+                                <InputComponent
+                                    inputType={inputType}
+                                    currentLink={currentLink}
+                                    setCurrentLink={setCurrentLink}
+                                    lists={lists}
+                                    setLists={setLists}
                                 />
-                                {!subStatus && <span className="disabled_wrap" data-type="name" onClick={(e) => handleOnClick(e)}> </span>}
-                            </div>
-                            <div className="my_row info_text title">
-                                <p className="char_max">Max 11 Characters Shown</p>
-                                <p className="char_count">
-                                    {charactersLeft < 0 ?
-                                        <span className="over">Only 11 Characters Will Be Shown</span>
-                                        :
-                                        "Characters Left: " + charactersLeft
-                                    }
-                                </p>
                             </div>
                         </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-12">
-                            <InputComponent
-                                inputType={inputType}
-                                currentLink={currentLink}
-                                setCurrentLink={setCurrentLink}
-                            />
+                        <div className="row">
+                            <div className="col-12 button_row">
+                                <button className="button green" type="submit">
+                                    Save
+                                </button>
+                                <a href="resources/js/Pages/Dashboard/Components/Link/Forms/EditForm#" className="button transparent gray" onClick={(e) => {
+                                    e.preventDefault();
+                                    setEditID(null);
+                                    document.getElementById('left_col_wrap').style.minHeight = "unset";
+                                }}>
+                                    Cancel
+                                </a>
+                                <a className="help_link" href="mailto:help@link.pro">Need Help?</a>
+                            </div>
                         </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-12 button_row">
-                            <button className="button green" type="submit">
-                                Save
-                            </button>
-                            <a href="resources/js/Pages/Dashboard/Components/Link/Forms/EditForm#" className="button transparent gray" onClick={(e) => {
-                                e.preventDefault();
-                                setEditID(null);
-                                document.getElementById('left_col_wrap').style.minHeight = "unset";
-                            }}>
-                                Cancel
+                    </form>
+                    {(radioValue === "integration" && !lists) &&
+                        <div className="integration_wrap">
+                            <h3>Mailchimp Integration</h3>
+                            <p>Connect your mailchimp account by clicking the button to login</p>
+                            <a  className="button blue" href="/auth/mailchimp">
+                                Login To Mailchimp
                             </a>
-                            <a className="help_link" href="mailto:help@link.pro">Need Help?</a>
                         </div>
-                    </div>
-                </form>
+                    }
+                </div>
             </div>
         </>
     );

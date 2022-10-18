@@ -143,6 +143,7 @@ class LinkService {
                 'url' => $request->url ? : null,
                 'email' => $request->email ? : null,
                 'phone' => $request->phone ? : null,
+                'mailchimp_list_id' => $request->mailchimp_list_id ? : null,
                 'icon' => $iconPath,
             ]);
 
@@ -155,6 +156,7 @@ class LinkService {
                 'url' => $request->url ? : null,
                 'email' => $request->email ? : null,
                 'phone' => $request->phone ? : null,
+                'mailchimp_list_id' => $request->mailchimp_list_id ? : null,
                 'icon' => $request->icon ? : null,
             ]);
             /*$link->update($request->only(['name', 'url', 'email', 'phone', 'icon']));*/

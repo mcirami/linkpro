@@ -86,7 +86,7 @@ class MailchimpController extends Controller
 
         $response = $mailchimp->lists->addListMember($listId, [
             'email_address' => $email,
-            'status' => 'subscribed'
+            'status' => 'pending'
         ]);
 
 

@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
+import {getMailchimpLists} from '../../../../../Services/UserService';
 
-const InputComponent = ({ currentLink, setCurrentLink, inputType, lists }) => {
+const InputComponent = ({ currentLink, setCurrentLink, inputType, lists, setLists }) => {
 
     const {url, email, phone} = currentLink;
 
@@ -11,6 +12,12 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType, lists }) => {
         placeholder: null,
         key: null
     })
+
+    useEffect(() => {
+        if (inputType === "mailchimp_list") {
+            fetchLists()
+        }
+    }, [inputType]);
 
     useEffect(() => {
 
@@ -63,7 +70,7 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType, lists }) => {
         }
 
 
-    }, [inputType]);
+    }, [inputType, currentLink]);
 
     const handleChange = (e, key) => {
 
@@ -98,6 +105,17 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType, lists }) => {
         })
     }
 
+    const fetchLists = () => {
+
+        getMailchimpLists().then(
+            (data) => {
+                if (data.success) {
+                    setLists(data.lists)
+                }
+            }
+        )
+    }
+
     const {name, type, value, placeholder, key } = inputValues;
 
     return (
@@ -111,11 +129,15 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType, lists }) => {
                         <select
                             name="mailchimp_list_id"
                             onChange={(e) => handleChange(e, key)}
+                            value={currentLink.mailchimp_list_id}
                         >
                             <option>Select Your List</option>
                             {lists?.map((list) => {
                                 return (
-                                    <option key={list.list_id} value={list.list_id}>{list.list_name}</option>
+                                    <option
+                                        key={list.list_id}
+                                        value={list.list_id}>{list.list_name}
+                                    </option>
                                 )
                             })}
                         </select>
