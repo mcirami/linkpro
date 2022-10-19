@@ -135,7 +135,8 @@
                                                     <div id="folder{{$folderCount}}" class="my_row folder" data-parent="#folder{{$folderCount}}Parent">
                                                         <div class="form_wrap">
                                                             <div class="form_content">
-                                                                <form id="mc_subscribe_form" method="post" action="#">
+                                                                <form id="mc_subscribe_form" method="post" action="/">
+                                                                    @csrf
                                                                     <h3>Enter Your Email To Subscribe.</h3>
                                                                     <input id="email" type="email" name="email" placeholder="Email Address" required>
                                                                     <input id="list_id" type="hidden" value={{$link->mailchimp_list_id}}>
@@ -145,9 +146,8 @@
                                                                     </button>
                                                                 </form>
                                                             </div>
-                                                            <div class="error text-red-800"></div>
+                                                            <div id="subscribe_error" class="error text-red-800"></div>
                                                         </div>
-
                                                     </div>
                                                 @endif
                                             @endif

@@ -46,12 +46,9 @@ class LinkService {
 
         $page = Page::findOrFail($request->page_id);
 
-        if (str_contains($request->icon, 'tmp/') ) {
-
-            $iconPath = $this->saveCustomIcon($request);
-
-        } else {
-            $iconPath = $request->icon;
+        $iconPath = $request->icon;
+        if (str_contains($iconPath, 'tmp/') ) {
+            $iconPath = $this->saveCustomIcon( $request );
         }
 
         if ($request->folder_id) {
@@ -88,13 +85,12 @@ class LinkService {
                 'page_id' => $request->page_id,
                 'position' => $position,
                 'folder_id' => $request->folder_id,
-                'type' => $request->mailchimp_list_id ? "form" : "standard"
+                'type' => $request->type
             ]);
 
             array_push($linkIDs, $link->id);
 
             $folder->update(['link_ids' => json_encode($linkIDs)]);
-
 
         } else {
             $highestPagePos = $page->links()->where('folder_id', null)->max('position');
@@ -115,7 +111,7 @@ class LinkService {
                 'icon' => $iconPath,
                 'page_id' => $request->page_id,
                 'position' => $position,
-                'type' => $request->mailchimp_list_id ? "form" : "standard"
+                'type' =>  $request->type
             ]);
         }
 

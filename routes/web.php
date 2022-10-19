@@ -93,7 +93,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/auth/mailchimp', [MailchimpController::class, 'auth'])->name('mailchimp.auth');
     Route::get('/auth/mailchimp/callback', [MailchimpController::class, 'callback']);
     Route::get('/mailchimp/list', [MailchimpController::class, 'getLists'])->name('mailchimp.get.lists');
-    Route::get('/mailchimp/remove-connection', [MailchimpController::class, 'removeConnection'])->name('mailchimp.remove.connection');
+    Route::post('/mailchimp/remove-connection', [MailchimpController::class, 'removeConnection'])->name('mailchimp.remove.connection');
 
 });
 

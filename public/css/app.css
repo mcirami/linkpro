@@ -14045,7 +14045,21 @@ form .bottom_row a {
 #links_page .edit_form.popup .icons_wrap.outer .default_icon.icon_col, #links_page .edit_form.link .icons_wrap.outer .default_icon.icon_col {
   width: 15%;
   padding-right: 10px;
-  padding-top: 10px;
+  padding-top: 5px;
+}
+#links_page .edit_form.popup .icons_wrap.outer .default_icon.icon_col img, #links_page .edit_form.link .icons_wrap.outer .default_icon.icon_col img {
+  margin-top: 4px;
+}
+#links_page .edit_form.popup .icons_wrap.outer.integration_icons, #links_page .edit_form.link .icons_wrap.outer.integration_icons {
+  padding: 5px 10px 10px;
+}
+#links_page .edit_form.popup .icons_wrap.outer.integration_icons p, #links_page .edit_form.link .icons_wrap.outer.integration_icons p {
+  width: 100%;
+  font-size: 12px;
+  padding-bottom: 5px;
+  text-align: center;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #d2d2d2;
 }
 #links_page .edit_form.popup .icons_wrap.inner, #links_page .edit_form.link .icons_wrap.inner {
   width: 83%;
@@ -14092,6 +14106,19 @@ form .bottom_row a {
   #links_page .edit_form.popup .link_form, #links_page .edit_form.link .link_form {
     padding: 40px 20px 10px;
   }
+}
+#links_page .edit_form.popup .link_form label[for=mailchimp_list_id], #links_page .edit_form.link .link_form label[for=mailchimp_list_id] {
+  margin-bottom: 5px;
+}
+#links_page .edit_form.popup .link_form .remove_link, #links_page .edit_form.link .link_form .remove_link {
+  text-align: right;
+}
+#links_page .edit_form.popup .link_form .remove_link a, #links_page .edit_form.link .link_form .remove_link a {
+  color: #f24d1d;
+  font-size: 14px;
+}
+#links_page .edit_form.popup .link_form #subscribe_error p, #links_page .edit_form.link .link_form #subscribe_error p {
+  color: #f24d1d;
 }
 #links_page .edit_form.popup.new_page_form, #links_page .edit_form.link.new_page_form {
   align-items: flex-start;

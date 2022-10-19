@@ -34,6 +34,7 @@ import {
 import FormBreadcrumbs from './FormBreadcrumbs';
 import InputTypeRadio from './InputTypeRadio';
 import FormTabs from './FormTabs';
+import {getMailchimpLists} from '../../../../../Services/UserService';
 
 const NewForm = ({
                      setShowNewForm,
@@ -77,11 +78,18 @@ const NewForm = ({
         url: null,
         email: null,
         phone: null,
-        mailchimp_list_id: null
+        mailchimp_list_id: null,
+        type: null
     }))
 
     const [charactersLeft, setCharactersLeft] = useState();
     const [lists, setLists] = useState(null);
+
+    useEffect(() => {
+        if (inputType === "mailchimp_list") {
+            fetchLists()
+        }
+    }, [inputType]);
 
     useEffect(() => {
         if(currentLink.name) {
@@ -109,6 +117,17 @@ const NewForm = ({
         completedImageCrop(completedIconCrop, imgRef, previewCanvasRef);
 
     }, [completedIconCrop]);
+
+    const fetchLists = () => {
+
+        getMailchimpLists().then(
+            (data) => {
+                if (data.success) {
+                    setLists(data.lists)
+                }
+            }
+        )
+    }
 
     const handleOnClick = e => {
         const type = e.target.dataset.type;
@@ -208,7 +227,8 @@ const NewForm = ({
                             url: URL,
                             icon: currentLink.icon,
                             page_id: pageSettings["id"],
-                            folder_id: folderID
+                            folder_id: folderID,
+                            type: currentLink.type,
                         };
                         break;
                     case "email":
@@ -217,7 +237,8 @@ const NewForm = ({
                             email: currentLink.email,
                             icon: currentLink.icon,
                             page_id: pageSettings["id"],
-                            folder_id: folderID
+                            folder_id: folderID,
+                            type: currentLink.type,
                         };
                         break;
                     case "phone":
@@ -226,7 +247,8 @@ const NewForm = ({
                             phone: currentLink.phone,
                             icon: currentLink.icon,
                             page_id: pageSettings["id"],
-                            folder_id: folderID
+                            folder_id: folderID,
+                            type: currentLink.type,
                         };
                         break;
                     case "mailchimp_list":
@@ -235,7 +257,8 @@ const NewForm = ({
                             mailchimp_list_id: currentLink.mailchimp_list_id,
                             icon: currentLink.icon,
                             page_id: pageSettings["id"],
-                            folder_id: folderID
+                            folder_id: folderID,
+                            type: currentLink.type,
                         };
                         break;
                 }
@@ -257,6 +280,7 @@ const NewForm = ({
                                 url: URL,
                                 email: currentLink.email,
                                 phone: currentLink.phone,
+                                type: currentLink.type,
                                 mailchimp_list_id: currentLink.mailchimp_list_id,
                                 icon: currentLink.icon,
                                 position: data.position,
@@ -315,6 +339,7 @@ const NewForm = ({
                                 url: URL,
                                 email: currentLink.email,
                                 phone: currentLink.phone,
+                                type: currentLink.type,
                                 mailchimp_list_id: currentLink.mailchimp_list_id,
                                 icon: currentLink.icon,
                                 position: data.position,
@@ -335,13 +360,10 @@ const NewForm = ({
                             setShowNewForm(false);
                         }
 
-
                     }
                 })
-
             }
         }
-
     };
 
     const dataURLtoFile = (dataurl, filename) => {
@@ -391,6 +413,7 @@ const NewForm = ({
                             page_id: pageSettings["id"],
                             ext: response.extension,
                             folder_id: folderID,
+                            type: currentLink.type,
                         };
                         break;
                     case "email":
@@ -401,6 +424,7 @@ const NewForm = ({
                             page_id: pageSettings["id"],
                             ext: response.extension,
                             folder_id: folderID,
+                            type: currentLink.type,
                         };
                         break;
                     case "phone":
@@ -411,16 +435,18 @@ const NewForm = ({
                             page_id: pageSettings["id"],
                             ext: response.extension,
                             folder_id: folderID,
+                            type: currentLink.type,
                         };
                         break;
                     case "mailchimp_list":
                         packets = {
                             name: currentLink.name,
-                            embed_code: currentLink.mailchimp_list_id,
+                            mailchimp_list_id: currentLink.mailchimp_list_id,
                             icon: response.key,
                             page_id: pageSettings["id"],
                             ext: response.extension,
                             folder_id: folderID,
+                            type: currentLink.type,
                         };
                         break;
                 }
@@ -442,6 +468,7 @@ const NewForm = ({
                                 email: currentLink.email,
                                 phone: currentLink.phone,
                                 mailchimp_list_id: currentLink.mailchimp_list_id,
+                                type: currentLink.type,
                                 icon: data.icon_path,
                                 position: data.position,
                                 active_status: true
@@ -497,6 +524,7 @@ const NewForm = ({
                                 url: URL,
                                 email: currentLink.email,
                                 phone: currentLink.phone,
+                                type: currentLink.type,
                                 mailchimp_list_id: currentLink.mailchimp_list_id,
                                 icon: data.icon_path,
                                 position: data.position,
@@ -545,6 +573,16 @@ const NewForm = ({
         }
     )
 
+    const handleMailchimpClick = (e) => {
+        e.preventDefault();
+        const url = "/auth/mailchimp";
+
+        localStorage.setItem('showNewForm', true);
+        localStorage.setItem('inputType', inputType);
+
+        window.location.href = url;
+    }
+
     return (
         <>
             <div className="my_row icon_breadcrumb" id="scrollTo">
@@ -575,10 +613,16 @@ const NewForm = ({
                     {(radioValue === "integration" && !lists) ?
                         <div className="integration_wrap">
                             <h3>Mailchimp Integration</h3>
-                            <p>Connect your mailchimp account by clicking the button to login</p>
-                            <a className="button blue" href="/auth/mailchimp">
-                                Login To Mailchimp
-                            </a>
+                            <p>Connect your Mailchimp account by clicking the button below.</p>
+                            <small>Note: You will be redirected away from Link Pro to log into Mailchimp.</small>
+                            <div className="button_wrap">
+                                <a className="button blue"
+                                   href="#"
+                                   onClick={(e) => handleMailchimpClick(e)}
+                                >
+                                    Login To Mailchimp
+                                </a>
+                            </div>
                         </div>
 
                         :
@@ -586,7 +630,8 @@ const NewForm = ({
                         <form onSubmit={handleSubmit} className="link_form">
                             <div className="row">
                                 <div className="col-12">
-                                    {radioValue === "custom" ?
+                                    { (radioValue === "custom" ||
+                                    radioValue === "integration") ?
                                         <div className={!iconSelected ?
                                             "crop_section hidden" :
                                             "crop_section"}>
@@ -630,8 +675,8 @@ const NewForm = ({
                                         <div className="icon_box">
 
                                             <div className="uploader">
-                                                {radioValue === "custom" ||
-                                                radioValue === "integration" ?
+                                                { (radioValue === "custom" ||
+                                                radioValue === "integration") ?
 
                                                     <>
                                                         <label htmlFor="custom_icon_upload" className="custom text-uppercase button blue">
@@ -706,6 +751,7 @@ const NewForm = ({
                                         <InputTypeRadio
                                             inputType={inputType}
                                             setInputType={setInputType}
+                                            setCurrentLink={setCurrentLink}
                                         />
                                     </div>
                                 </div>

@@ -12,6 +12,7 @@ const FormTabs = ({
 
     const handleOnChange = (e) => {
         const value = e.target.value;
+
         setRadioValue(value);
 
         if (value === "integration") {
@@ -21,12 +22,21 @@ const FormTabs = ({
             setCurrentLink(prevState => ({
                 ...prevState,
                 icon: 'https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png',
+                type: "form"
             }))
         } else {
             if(inputType !== "mailchimp_list") {
                 setInputType(inputType)
+                setCurrentLink(prevState => ({
+                    ...prevState,
+                    type: "standard"
+                }))
             } else {
                 setInputType("url")
+                setCurrentLink(prevState => ({
+                    ...prevState,
+                    type: "standard"
+                }))
             }
         }
     }

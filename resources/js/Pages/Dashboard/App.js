@@ -76,9 +76,13 @@ function App() {
     const [infoClicked, setInfoClicked] = useState(null);
 
     const [allUserPages, setAllUserPages] = useState(userPages);
-    const [editID, setEditID] = useState(null);
     const [editFolderID, setEditFolderID] = useState(null);
-    const [showNewForm, setShowNewForm] = useState(false);
+
+    const [showNewForm, setShowNewForm] = useState(false)
+    const [editID, setEditID] = useState(null);
+    const [radioValue, setRadioValue] = useState("standard");
+    const [inputType, setInputType] = useState(null);
+
     const [showUpgradePopup, setShowUpgradePopup] = useState(false);
     const [showConfirmPopup, setShowConfirmPopup] = useState(false);
     const [showConfirmFolderDelete, setShowConfirmFolderDelete] = useState(false);
@@ -113,9 +117,6 @@ function App() {
 
     const [showPreviewButton, setShowPreviewButton] = useState(false);
     const [showPreview, setShowPreview] = useState(false);
-
-    const [radioValue, setRadioValue] = useState("standard");
-    const [inputType, setInputType] = useState(null);
 
     useEffect(() => {
         EventBus.on('success', (data) => {
@@ -153,6 +154,8 @@ function App() {
 
     }, [])
 
+    const [redirected, setRedirected] = useState(false);
+
     useEffect(() => {
         const href = window.location.href.split('?')[0]
         const queryString = window.location.search;
@@ -160,11 +163,14 @@ function App() {
         const redirected = urlParams?.get('redirected');
 
         if (redirected === "mailchimp") {
-            setShowNewForm(true);
-            setRadioValue("integration")
-            setInputType("mailchimp_list")
+            setShowNewForm(JSON.parse(localStorage.getItem('showNewForm')) || false)
+            setEditID(JSON.parse(localStorage.getItem('editID')) || null)
+            setInputType(localStorage.getItem('inputType') || null)
+            setRadioValue("integration");
+            setRedirected(true);
             urlParams.delete('redirected')
             window.history.pushState({}, document.title, href);
+            localStorage.clear();
         }
 
     }, [])
@@ -337,6 +343,7 @@ function App() {
                                                 setShowNewForm={setShowNewForm}
                                                 setShowConfirmFolderDelete={setShowConfirmFolderDelete}
                                                 editFolderID={editFolderID}
+                                                setRadioValue={setRadioValue}
                                             />
                                         }
 
@@ -354,6 +361,10 @@ function App() {
                                                     setCustomIconArray={setCustomIconArray}
                                                     setShowLoader={setShowLoader}
                                                     subStatus={subStatus}
+                                                    radioValue={radioValue}
+                                                    setRadioValue={setRadioValue}
+                                                    redirected={redirected}
+                                                    setRedirected={setRedirected}
                                                 />
 
                                                 :
@@ -384,6 +395,7 @@ function App() {
                                                             subStatus={subStatus}
                                                             setShowUpgradePopup={setShowUpgradePopup}
                                                             setOptionText={setOptionText}
+                                                            setRadioValue={setRadioValue}
                                                         />
                                                     </div>
 

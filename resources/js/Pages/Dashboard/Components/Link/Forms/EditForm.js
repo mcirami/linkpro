@@ -23,6 +23,7 @@ import {
 } from '../../../../../Services/Reducer';
 import FormTabs from './FormTabs';
 import InputTypeRadio from './InputTypeRadio';
+import {getMailchimpLists} from '../../../../../Services/UserService';
 
 const EditForm = ({
                       editID,
@@ -35,7 +36,11 @@ const EditForm = ({
                       setShowLoader,
                       folderID,
                       setEditFolderID,
-                      subStatus
+                      subStatus,
+                      radioValue,
+                      setRadioValue,
+                      redirected,
+                      setRedirected
 }) => {
 
     const { userLinks, dispatch  } = useContext(UserLinksContext);
@@ -55,7 +60,6 @@ const EditForm = ({
     const [crop, setCrop] = useState({ unit: '%', width: 30, aspect: 1 });
     const [customIcon] = useState(null);
 
-    const [radioValue, setRadioValue] = useState("standard");
     const [lists, setLists] = useState(null);
 
     let iconArray = getIconPaths(iconPaths);
@@ -73,6 +77,13 @@ const EditForm = ({
 
     const [charactersLeft, setCharactersLeft] = useState();
     const [input, setInput] = useState("");
+
+    useEffect(() => {
+        if (inputType === "mailchimp_list") {
+            fetchLists()
+        }
+    }, [inputType]);
+
 
     useEffect(() => {
         if(currentLink.name) {
@@ -103,11 +114,25 @@ const EditForm = ({
     useEffect(() => {
         if(currentLink.icon.includes("custom-icon") && !currentLink.mailchimp_list_id) {
             setRadioValue("custom");
-        } else if (currentLink.mailchimp_list_id) {
+        } else if (currentLink.mailchimp_list_id || redirected === true) {
             setRadioValue("integration")
             setInputType("mailchimp_list")
+            setRedirected(false);
+        } else {
+            setRadioValue("standard")
         }
     },[])
+
+    const fetchLists = () => {
+
+        getMailchimpLists().then(
+            (data) => {
+                if (data.success) {
+                    setLists(data.lists)
+                }
+            }
+        )
+    }
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -185,6 +210,7 @@ const EditForm = ({
                             url: URL,
                             icon: currentLink.icon,
                             page_id: pageSettings["id"],
+                            type: currentLink.type
                         };
                         break;
                     case "email":
@@ -193,6 +219,7 @@ const EditForm = ({
                             email: currentLink.email,
                             icon: currentLink.icon,
                             page_id: pageSettings["id"],
+                            type: currentLink.type
                         };
                         break;
                     case "phone":
@@ -201,6 +228,7 @@ const EditForm = ({
                             phone: currentLink.phone,
                             icon: currentLink.icon,
                             page_id: pageSettings["id"],
+                            type: currentLink.type
                         };
                         break;
                     case "mailchimp_list":
@@ -209,7 +237,8 @@ const EditForm = ({
                             mailchimp_list_id: currentLink.mailchimp_list_id,
                             icon: currentLink.icon,
                             page_id: pageSettings["id"],
-                            folder_id: folderID
+                            folder_id: folderID,
+                            type: currentLink.type
                         };
                         break;
                 }
@@ -318,7 +347,10 @@ const EditForm = ({
             }
         ).then(response => {
 
-            const URL = checkURL(currentLink.url, null, true);
+            let URL = currentLink.url;
+            if (currentLink.url) {
+                URL = checkURL(currentLink.url, null, true);
+            }
             let packets;
 
             switch (inputType) {
@@ -329,6 +361,7 @@ const EditForm = ({
                         icon: response.key,
                         page_id: pageSettings["id"],
                         ext: response.extension,
+                        type: currentLink.type
                     };
                     break;
                 case "email":
@@ -338,6 +371,7 @@ const EditForm = ({
                         icon: response.key,
                         page_id: pageSettings["id"],
                         ext: response.extension,
+                        type: currentLink.type
                     };
                     break;
                 case "phone":
@@ -347,6 +381,17 @@ const EditForm = ({
                         icon: response.key,
                         page_id: pageSettings["id"],
                         ext: response.extension,
+                        type: currentLink.type
+                    };
+                    break;
+                case "mailchimp_list":
+                    packets = {
+                        name: currentLink.name,
+                        mailchimp_list_id: currentLink.mailchimp_list_id,
+                        icon: response.key,
+                        page_id: pageSettings["id"],
+                        folder_id: folderID,
+                        type: currentLink.type
                     };
                     break;
             }
@@ -373,8 +418,8 @@ const EditForm = ({
                             payload: {
                                 editID: editID,
                                 currentLink: currentLink,
-                                url: URL, iconPath:
-                                data.iconPath
+                                url: URL,
+                                iconPath: data.iconPath
                             }})
 
                         dispatch({
@@ -462,6 +507,17 @@ const EditForm = ({
         })
     }
 
+    const handleMailchimpClick = (e) => {
+        e.preventDefault();
+        const url = "/auth/mailchimp";
+
+        localStorage.setItem('editID', editID);
+        localStorage.setItem('inputType', inputType);
+
+        window.location.href = url;
+
+    }
+
     return (
         <>
             <div className="my_row icon_breadcrumb" id="scrollTo">
@@ -496,7 +552,7 @@ const EditForm = ({
                             <p>Connect your Mailchimp account by clicking the button below.</p>
                             <small>Note: You will be redirected away from Link Pro to log into Mailchimp.</small>
                             <div className="button_wrap">
-                                <a className="button blue" href="/auth/mailchimp">
+                                <a className="button blue" href="#" onClick={(e) => handleMailchimpClick(e)}>
                                     Login To Mailchimp
                                 </a>
                             </div>
@@ -507,7 +563,7 @@ const EditForm = ({
                         <form onSubmit={handleSubmit} className="link_form">
                             <div className="row">
                                 <div className="col-12">
-                                    {radioValue === "custom" ?
+                                    { (radioValue === "custom" || radioValue === "integration") ?
                                         <div className={!iconSelected ?
                                             "crop_section hidden" :
                                             "crop_section"}>
@@ -545,7 +601,7 @@ const EditForm = ({
                                     <div className="icon_row">
                                         <div className="icon_box">
 
-                                            {radioValue === "custom" ?
+                                            { (radioValue === "custom" || radioValue === "integration") ?
                                                 <div className="uploader">
                                                     <label htmlFor="custom_icon_upload" className="custom text-uppercase button blue">
                                                         Upload Image
@@ -611,6 +667,7 @@ const EditForm = ({
                                         <InputTypeRadio
                                             inputType={inputType}
                                             setInputType={setInputType}
+                                            setCurrentLink={setCurrentLink}
                                         />
                                     </div>
                                 </div>

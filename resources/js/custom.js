@@ -401,10 +401,11 @@ jQuery(document).ready(function($) {
                 }
             )
             .catch((error) => {
-                const errorDiv = document.querySelector('#mc_subscribe_form .error');
+                const errorDiv = document.querySelector('#subscribe_error');
 
                 if (error.response !== undefined) {
-                    errorDiv.innerHTML = "<p>" + error.response.data.message + "</p>";
+                    const mcResponse = error.response.data.message.split("response:");
+                    errorDiv.innerHTML = "<p>" + mcResponse[1] + "</p>";
                     console.error("ERROR:: ", error.response.data.message);
                 } else {
                     console.error("ERROR:: ", error);

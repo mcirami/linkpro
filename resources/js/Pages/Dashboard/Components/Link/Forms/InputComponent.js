@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {
-    getMailchimpLists,
     removeMailchimpConnection,
 } from '../../../../../Services/UserService';
 
@@ -15,12 +14,6 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType, lists, setList
         placeholder: null,
         key: null
     })
-
-    useEffect(() => {
-        if (inputType === "mailchimp_list") {
-            fetchLists()
-        }
-    }, [inputType]);
 
     useEffect(() => {
 
@@ -80,23 +73,28 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType, lists, setList
         let key2;
         let key3;
         let key4;
+        let iconType;
 
         if (key === "phone") {
             key2 = "email"
             key3 = "url"
             key4 = "mailchimp_list_id"
+            iconType = "standard"
         } else if (key.includes("email")) {
             key2 = "phone"
             key3 = "url"
             key4 = "mailchimp_list_id"
+            iconType = "standard"
         } else if (key === "mailchimp_list_id") {
             key2 = "email"
             key3 = "url"
             key4 = "phone"
+            iconType = "form"
         } else {
             key2 = "phone"
             key3 = "email"
             key4 = "mailchimp_list_id"
+            iconType = "standard"
         }
 
         setCurrentLink({
@@ -105,18 +103,8 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType, lists, setList
             [`${key2}`]: null,
             [`${key3}`]: null,
             [`${key4}`]: null,
+            type: iconType
         })
-    }
-
-    const fetchLists = () => {
-
-        getMailchimpLists().then(
-            (data) => {
-                if (data.success) {
-                    setLists(data.lists)
-                }
-            }
-        )
     }
 
     const handleClick = (e) => {
@@ -125,7 +113,7 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType, lists, setList
         removeMailchimpConnection().then(
             (data) => {
                 if (data.success) {
-                    setLists({});
+                    setLists(null);
                 }
             }
         )

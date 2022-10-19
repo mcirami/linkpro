@@ -1,9 +1,13 @@
 import React from 'react';
 
-const InputTypeRadio = ({inputType, setInputType}) => {
+const InputTypeRadio = ({inputType, setInputType, setCurrentLink}) => {
 
      const handleOnChange = (e) => {
          setInputType(e.target.value)
+         setCurrentLink(prevState => ({
+             ...prevState,
+             type: "standard"
+         }))
      }
 
     return (

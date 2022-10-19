@@ -11,7 +11,8 @@ const FolderHeading = ({
                            setEditFolderID,
                            setShowNewForm,
                            setShowConfirmFolderDelete,
-                           editFolderID
+                           editFolderID,
+                           setRadioValue
                        }) => {
 
     const handleDeleteFolder = e => {
@@ -50,6 +51,7 @@ const FolderHeading = ({
                         setShowNewForm={setShowNewForm}
                         setShowUpgradePopup={setShowUpgradePopup}
                         setOptionText={setOptionText}
+                        setRadioValue={setRadioValue}
                     />
                 </div>
             </div>

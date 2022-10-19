@@ -296,7 +296,24 @@ form .bottom_row a {
                     .default_icon.icon_col {
                         width: 15%;
                         padding-right: 10px;
-                        padding-top: 10px;
+                        padding-top: 5px;
+
+                        img {
+                            margin-top: 4px;
+                        }
+                    }
+
+                    &.integration_icons {
+                        padding: 5px 10px 10px;
+
+                        p {
+                            width: 100%;
+                            font-size: 12px;
+                            padding-bottom: 5px;
+                            text-align: center;
+                            margin-bottom: 5px;
+                            border-bottom: 1px solid $borderGray;
+                        }
                     }
                 }
 
@@ -351,6 +368,23 @@ form .bottom_row a {
 
                 @media all and (max-width: 768px) {
                     padding: 40px 20px 10px;
+                }
+
+                label[for="mailchimp_list_id"] {
+                    margin-bottom: 5px;
+                }
+
+                .remove_link {
+                    text-align: right;
+
+                    a {
+                        color: $red;
+                        font-size: 14px;
+                    }
+                }
+
+                #subscribe_error p {
+                    color: $red;
                 }
             }
 

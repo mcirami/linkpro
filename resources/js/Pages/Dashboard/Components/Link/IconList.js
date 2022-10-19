@@ -49,7 +49,8 @@ const IconList = ({
                 ...prevState,
                 name: name,
                 icon: source,
-                url: urlPrefix
+                url: urlPrefix,
+                type: "standard"
             }))
 
         } else {
@@ -59,8 +60,13 @@ const IconList = ({
 
     useEffect(() => {
 
-        if (radioValue === "integration") {
+        if (radioValue === "integration" && formType === "new") {
             setIsDefaultIcon(true)
+            setCurrentLink(prevState => ({
+                ...prevState,
+                icon: "https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png",
+                type: "form"
+            }))
         }
 
     },[radioValue])
@@ -90,9 +96,10 @@ const IconList = ({
 
                 "integration" :
 
-                <div className="my_row icons_wrap outer">
+                <div className="my_row icons_wrap outer integration_icons">
 
                     <div className="icon_col default_icon">
+                        <p>Default Icon</p>
                         <img alt=""
                              className={`
                              ${isDefaultIcon ? "active img-fluid icon_image" : "img-fluid icon_image"}`}
@@ -102,6 +109,7 @@ const IconList = ({
                             }}/>
                     </div>
                     <div className="icons_wrap inner">
+                        <p>Custom Icons</p>
                         {customIconArray?.map((iconPath, index) => {
                             const newPath = iconPath.replace("public",
                                 "/storage");
