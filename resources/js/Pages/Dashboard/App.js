@@ -120,6 +120,8 @@ function App() {
     const [showPreviewButton, setShowPreviewButton] = useState(false);
     const [showPreview, setShowPreview] = useState(false);
 
+    const [connectionError, setConnectionError] = useState(false);
+
     useEffect(() => {
         EventBus.on('success', (data) => {
             showFlash(true, 'success', data.message.replace(/"/g, ""))
@@ -163,6 +165,7 @@ function App() {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const redirected = urlParams?.get('redirected');
+        const error = urlParams?.get('connection_error');
 
         if (redirected === "mailchimp") {
             setShowNewForm(JSON.parse(localStorage.getItem('showNewForm')) || false)
@@ -173,6 +176,19 @@ function App() {
             urlParams.delete('redirected')
             window.history.pushState({}, document.title, href);
             localStorage.clear();
+
+            setTimeout(function(){
+                document.querySelector('#scrollTo').scrollIntoView({
+                    behavior: 'smooth',
+                    block: "start",
+                    inline: "nearest"
+                });
+
+            }, 800)
+
+            if (error) {
+                setConnectionError(error)
+            }
         }
 
     }, [])
@@ -376,6 +392,7 @@ function App() {
                                                     redirected={redirected}
                                                     setRedirected={setRedirected}
                                                     setShowMessageAlertPopup={setShowMessageAlertPopup}
+                                                    connectionError={connectionError}
                                                 />
 
                                                 :
@@ -395,6 +412,7 @@ function App() {
                                                     inputType={inputType}
                                                     setInputType={setInputType}
                                                     setShowMessageAlertPopup={setShowMessageAlertPopup}
+                                                    connectionError={connectionError}
                                                 />
                                         }
 

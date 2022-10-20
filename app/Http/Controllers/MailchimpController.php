@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
 use MailchimpMarketing\ApiClient;
 
@@ -55,7 +57,16 @@ class MailchimpController extends Controller
             return redirect()->route('dashboard', ['redirected' => "mailchimp"]);
 
         } catch (\Throwable $th) {
-            dd('Something went wrong! '. $th->getMessage());
+
+            Log::channel( 'cloudwatch' )->info( "--timestamp--" .
+                                                Carbon::now() .
+                                                "-- kind --"
+                                                . "MailChimp Connection" .
+                                                "-- Error Message -- " .
+                                                $th->getMessage()
+            );
+
+            return redirect()->route('dashboard', ['redirected' => "mailchimp", "connection_error" => 'Something went wrong connecting to Mailchimp! Please try again.']);
         }
     }
 

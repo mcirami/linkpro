@@ -24,6 +24,7 @@ import {
 import FormTabs from './FormTabs';
 import InputTypeRadio from './InputTypeRadio';
 import {getMailchimpLists} from '../../../../../Services/UserService';
+import MailchimpIntegration from './MailchimpIntegration';
 
 const EditForm = ({
                       editID,
@@ -42,6 +43,7 @@ const EditForm = ({
                       redirected,
                       setRedirected,
                       setShowMessageAlertPopup,
+                      connectionError
 }) => {
 
     const { userLinks, dispatch  } = useContext(UserLinksContext);
@@ -523,16 +525,6 @@ const EditForm = ({
         })
     }
 
-    const handleMailchimpClick = (e) => {
-        e.preventDefault();
-        const url = "/auth/mailchimp";
-
-        localStorage.setItem('editID', editID);
-        localStorage.setItem('inputType', inputType);
-
-        window.location.href = url;
-    }
-
     const checkForMailchimpForm = () => {
         return userLinks.find(function(e) {
             return e.mailchimp_list_id  != null
@@ -569,16 +561,11 @@ const EditForm = ({
                     </div>
 
                     {(radioValue === "integration" && !lists) ?
-                        <div className="integration_wrap">
-                            <h3>Mailchimp Integration</h3>
-                            <p>Connect your Mailchimp account by clicking the button below.</p>
-                            <small>Note: You will be redirected away from Link Pro to log into Mailchimp.</small>
-                            <div className="button_wrap">
-                                <a className="button blue" href="#" onClick={(e) => handleMailchimpClick(e)}>
-                                    Login To Mailchimp
-                                </a>
-                            </div>
-                        </div>
+
+                        <MailchimpIntegration
+                            connectionError={connectionError}
+                            inputType={inputType}
+                        />
 
                         :
 

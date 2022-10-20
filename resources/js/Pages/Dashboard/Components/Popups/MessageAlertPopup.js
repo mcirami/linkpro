@@ -1,4 +1,5 @@
 import React from 'react';
+import {IoMdAlert} from 'react-icons/io';
 export const MessageAlertPopup = ({optionText, showMessageAlertPopup, setShowMessageAlertPopup}) => {
 
     const handleClose = e => {
@@ -16,8 +17,8 @@ export const MessageAlertPopup = ({optionText, showMessageAlertPopup, setShowMes
                 </svg>
             </a>
             <div className="box">
-                <div className="icon_wrap">
-                    <img src={Vapor.asset('images/icon_uparrow.png')} alt=""/>
+                <div className="icon_wrap blue_icon">
+                    <IoMdAlert />
                 </div>
                 <h3><span className="option_text">{ optionText }</span></h3>
             </div>

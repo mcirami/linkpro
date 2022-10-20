@@ -1041,7 +1041,6 @@ form .bottom_row a {
 }
 
 .integration_wrap {
-
     min-height: 400px;
 
     p {
@@ -1056,5 +1055,9 @@ form .bottom_row a {
         width: 100%;
         float: left;
         margin-top: 20px;
+    }
+
+    .connection_error p {
+        color: $red;
     }
 }
