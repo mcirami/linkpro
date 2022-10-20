@@ -11,7 +11,7 @@ const MailchimpIntegration = ({connectionError, inputType, editID = false}) => {
         } else {
             localStorage.setItem('showNewForm', true);
         }
-        
+
         localStorage.setItem('inputType', inputType);
 
         window.location.href = url;
@@ -20,8 +20,9 @@ const MailchimpIntegration = ({connectionError, inputType, editID = false}) => {
     return (
         <div className="integration_wrap">
             <h3>Mailchimp Integration</h3>
-            <p>Connect your Mailchimp account by clicking the button below.</p>
-            <small>Note: You will be redirected away from Link Pro to log into Mailchimp.</small>
+            <h4>Add your Mailchimp account as a LinkPro button!</h4>
+            {/*<p>Connect your Mailchimp account by clicking the button below.</p>*/}
+            <small>Note: You will be redirected away from Link Pro to log into Mailchimp. You will need to either already have or create a new MailChimp account of your own to use this integration.</small>
             <div className="button_wrap">
                 <a className="button blue"
                    href="#"

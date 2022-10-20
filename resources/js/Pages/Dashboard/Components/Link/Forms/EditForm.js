@@ -709,6 +709,7 @@ const EditForm = ({
                                     <a href="resources/js/Pages/Dashboard/Components/Link/Forms/EditForm#" className="button transparent gray" onClick={(e) => {
                                         e.preventDefault();
                                         setEditID(null);
+                                        setInputType(null);
                                         document.getElementById('left_col_wrap').style.minHeight = "unset";
                                     }}>
                                         Cancel

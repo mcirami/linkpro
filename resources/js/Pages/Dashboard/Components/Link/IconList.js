@@ -108,23 +108,25 @@ const IconList = ({
                                 selectIcon(e, e.target.src)
                             }}/>
                     </div>
-                    <div className="icons_wrap inner">
+                    <div className="custom_icons">
                         <p>Custom Icons</p>
-                        {customIconArray?.map((iconPath, index) => {
-                            const newPath = iconPath.replace("public",
-                                "/storage");
+                        <div className="icons_wrap inner">
+                            {customIconArray?.map((iconPath, index) => {
+                                const newPath = iconPath.replace("public",
+                                    "/storage");
 
-                            return (
-                                <div key={index} className="icon_col">
-                                    <img alt=""
-                                         className="img-fluid icon_image"
-                                         src={newPath}
-                                         onClick={(e) => {
-                                             selectIcon(e, newPath)
-                                        }}/>
-                                </div>
-                            )
-                        })}
+                                return (
+                                    <div key={index} className="icon_col">
+                                        <img alt=""
+                                             className="img-fluid icon_image"
+                                             src={newPath}
+                                             onClick={(e) => {
+                                                 selectIcon(e, newPath)
+                                            }}/>
+                                    </div>
+                                )
+                            })}
+                        </div>
                     </div>
                 </div>,
 

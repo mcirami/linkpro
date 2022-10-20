@@ -790,6 +790,7 @@ const NewForm = ({
                                     <a href="#" className="button transparent gray" onClick={(e) => {
                                         e.preventDefault();
                                         setShowNewForm(false);
+                                        setInputType(null);
                                         document.getElementById(
                                             'left_col_wrap').style.minHeight = "unset";
                                     }}>
