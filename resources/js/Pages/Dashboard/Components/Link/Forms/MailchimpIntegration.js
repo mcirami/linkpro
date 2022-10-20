@@ -1,12 +1,17 @@
 import React from 'react';
 
-const MailchimpIntegration = ({connectionError, inputType}) => {
+const MailchimpIntegration = ({connectionError, inputType, editID = false}) => {
 
     const handleMailchimpClick = (e) => {
         e.preventDefault();
         const url = "/auth/mailchimp";
 
-        localStorage.setItem('showNewForm', true);
+        if (editID) {
+            localStorage.setItem('editID', editID);
+        } else {
+            localStorage.setItem('showNewForm', true);
+        }
+        
         localStorage.setItem('inputType', inputType);
 
         window.location.href = url;
