@@ -175,7 +175,9 @@ const EditForm = ({
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (checkForMailchimpForm() || inputType !== "mailchimp_list") {
+        console.log(checkForMailchimpForm());
+
+        if ( checkForMailchimpForm() === undefined || !checkForMailchimpForm() || inputType !== "mailchimp_list") {
 
             if (iconSelected) {
 
@@ -526,13 +528,15 @@ const EditForm = ({
     }
 
     const checkForMailchimpForm = () => {
-        return userLinks.find(function(e) {
-             if(e.mailchimp_list_id  != null && e.id === editID) {
-                 return true
-             } else if (e.mailchimp_list_id  != null)  {
-                 return false
-             }
+        const link = userLinks.find(function(e) {
+             return e.mailchimp_list_id
         })
+
+        if(link?.id === editID) {
+            return false
+        }
+
+        return link;
     }
 
     return (

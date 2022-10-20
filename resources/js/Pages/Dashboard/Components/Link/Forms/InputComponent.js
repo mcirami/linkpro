@@ -125,8 +125,6 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType, lists, setList
 
     const {name, type, value, placeholder, key } = inputValues;
 
-    console.log(inputType);
-
     return (
 
         <>

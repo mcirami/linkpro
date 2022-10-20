@@ -173,9 +173,6 @@ function App() {
             setInputType(localStorage.getItem('inputType') || null)
             setRadioValue("integration");
             setRedirected(true);
-            urlParams.delete('redirected')
-            window.history.pushState({}, document.title, href);
-            localStorage.clear();
 
             setTimeout(function(){
                 document.querySelector('#scrollTo').scrollIntoView({
@@ -183,6 +180,10 @@ function App() {
                     block: "start",
                     inline: "nearest"
                 });
+
+                urlParams.delete('redirected')
+                window.history.pushState({}, document.title, href);
+                localStorage.clear();
 
             }, 800)
 
