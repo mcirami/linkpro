@@ -8,6 +8,7 @@ const FormTabs = ({
                       setInputType,
                       setCurrentLink,
                       handleOnClick,
+                      folderID
 }) => {
 
     const handleOnChange = (e) => {
@@ -66,12 +67,12 @@ const FormTabs = ({
                 <label htmlFor="integration">
                     <input id="integration" type="radio" value="integration" name="icon_type"
                            onChange={(e) => { handleOnChange(e) }}
-                           disabled={!subStatus}
+                           disabled={!subStatus || folderID}
                            checked={radioValue === "integration"}
                     />
                     Integrations
                 </label>
-                {!subStatus && <span className="disabled_wrap" data-type="integration" onClick={(e) => handleOnClick(e)} />}
+                { !subStatus || folderID ? <span className="disabled_wrap" data-type="integration" onClick={(e) => handleOnClick(e)} /> : ""}
             </div>
         </div>
     );

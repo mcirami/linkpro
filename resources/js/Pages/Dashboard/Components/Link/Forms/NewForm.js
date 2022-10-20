@@ -49,7 +49,8 @@ const NewForm = ({
                      radioValue,
                      setRadioValue,
                      inputType,
-                     setInputType
+                     setInputType,
+                     setShowMessageAlertPopup
 }) => {
 
     const { userLinks, dispatch } = useContext(UserLinksContext);
@@ -146,6 +147,11 @@ const NewForm = ({
             setShowUpgradePopup(true);
             setOptionText(text);
         }
+
+        if(folderID) {
+            setShowMessageAlertPopup(true);
+            setOptionText("Integrations are currently not allowed in a folder.");
+        }
     }
 
     const [input, setInput] = useState("");
@@ -188,181 +194,199 @@ const NewForm = ({
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (iconSelected) {
-
-            previewCanvasRef.current.toBlob(
-                (blob) => {
-                    const reader = new FileReader();
-                    reader.readAsDataURL(blob)
-                    reader.onloadend = () => {
-                        dataURLtoFile(reader.result, 'cropped.jpg');
-                    }
-                },
-                'image/png',
-                1
-            );
-
-        } else {
-            let URL = currentLink.url;
-            let data;
-
-            if (URL && currentLink.name) {
-                data = checkURL(URL, currentLink.name, null, !subStatus);
-            } else {
-                data = {
-                    success: true,
-                    url: URL
-                }
-            }
-
-            if (data["success"]) {
-
-                URL = data["url"];
-                let packets;
-
-                switch (inputType) {
-                    case "url":
-                        packets = {
-                            name: currentLink.name,
-                            url: URL,
-                            icon: currentLink.icon,
-                            page_id: pageSettings["id"],
-                            folder_id: folderID,
-                            type: currentLink.type,
-                        };
-                        break;
-                    case "email":
-                        packets = {
-                            name: currentLink.name,
-                            email: currentLink.email,
-                            icon: currentLink.icon,
-                            page_id: pageSettings["id"],
-                            folder_id: folderID,
-                            type: currentLink.type,
-                        };
-                        break;
-                    case "phone":
-                        packets = {
-                            name: currentLink.name,
-                            phone: currentLink.phone,
-                            icon: currentLink.icon,
-                            page_id: pageSettings["id"],
-                            folder_id: folderID,
-                            type: currentLink.type,
-                        };
-                        break;
-                    case "mailchimp_list":
-                        packets = {
-                            name: currentLink.name,
-                            mailchimp_list_id: currentLink.mailchimp_list_id,
-                            icon: currentLink.icon,
-                            page_id: pageSettings["id"],
-                            folder_id: folderID,
-                            type: currentLink.type,
-                        };
-                        break;
-                }
-
-                addLink(packets)
-                .then((data) => {
 
 
-                    if (data.success) {
+        if (checkForMailchimpForm() === undefined || inputType !== "mailchimp_list") {
 
-                        if(folderID) {
-                            let newFolderLinks = [...folderLinks];
-                            let newOriginalFolderLinks = [...originalFolderLinks];
+            if (iconSelected) {
 
-                            const newLinkObject = {
-                                id: data.link_id,
-                                folder_id: folderID,
-                                name: currentLink.name,
-                                url: URL,
-                                email: currentLink.email,
-                                phone: currentLink.phone,
-                                type: currentLink.type,
-                                mailchimp_list_id: currentLink.mailchimp_list_id,
-                                icon: currentLink.icon,
-                                position: data.position,
-                                active_status: true
-                            }
-
-                            newFolderLinks = newFolderLinks.concat(newLinkObject);
-
-                            dispatchOrigFolderLinks({
-                                type: ORIG_FOLDER_LINKS_ACTIONS.SET_ORIG_FOLDER_LINKS,
-                                payload: {
-                                    links: newOriginalFolderLinks.concat(newLinkObject)
-                                }})
-                            dispatchFolderLinks({
-                                type: FOLDER_LINKS_ACTIONS.SET_FOLDER_LINKS,
-                                payload: {
-                                    links: newFolderLinks
-                                }});
-
-                            let folderActive = null;
-                            if (newFolderLinks.length === 1) {
-                                folderActive = true;
-                                const url = "/dashboard/folder/status/";
-                                const packets = {
-                                    active_status: folderActive,
-                                };
-
-                                updateLinkStatus(packets, folderID, url);
-                            }
-
-                            dispatch({
-                                type: LINKS_ACTIONS.ADD_NEW_IN_FOLDER,
-                                payload: {
-                                    newLinkObject: newLinkObject,
-                                    folderActive: folderActive,
-                                    folderID: folderID
-                                }})
-
-                            dispatchOrig({
-                                type: ORIGINAL_LINKS_ACTIONS.ADD_NEW_IN_FOLDER,
-                                payload: {
-                                    newLinkObject: newLinkObject,
-                                    folderActive: folderActive,
-                                    folderID: folderID
-                                }})
-
-                            setShowNewForm(false);
-
-                        } else {
-                            let newLinks = [...userLinks];
-                            let originalLinks = [...originalArray];
-
-                            const newLinkObject = {
-                                id: data.link_id,
-                                name: currentLink.name,
-                                url: URL,
-                                email: currentLink.email,
-                                phone: currentLink.phone,
-                                type: currentLink.type,
-                                mailchimp_list_id: currentLink.mailchimp_list_id,
-                                icon: currentLink.icon,
-                                position: data.position,
-                                active_status: true
-                            }
-
-                            dispatchOrig({
-                                type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS,
-                                payload: {
-                                    links: originalLinks.concat(newLinkObject)
-                                }})
-                            dispatch({
-                                type: LINKS_ACTIONS.SET_LINKS,
-                                payload: {
-                                    links: newLinks.concat(newLinkObject)
-                                }})
-
-                            setShowNewForm(false);
+                previewCanvasRef.current.toBlob(
+                    (blob) => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(blob)
+                        reader.onloadend = () => {
+                            dataURLtoFile(reader.result, 'cropped.jpg');
                         }
+                    },
+                    'image/png',
+                    1
+                );
 
+            } else {
+                let URL = currentLink.url;
+                let data;
+
+                if (URL && currentLink.name) {
+                    data = checkURL(URL, currentLink.name, null,
+                        !subStatus);
+                } else {
+                    data = {
+                        success: true,
+                        url: URL
                     }
-                })
+                }
+
+                if (data["success"]) {
+
+                    URL = data["url"];
+                    let packets;
+
+                    switch (inputType) {
+                        case "url":
+                            packets = {
+                                name: currentLink.name,
+                                url: URL,
+                                icon: currentLink.icon,
+                                page_id: pageSettings["id"],
+                                folder_id: folderID,
+                                type: currentLink.type,
+                            };
+                            break;
+                        case "email":
+                            packets = {
+                                name: currentLink.name,
+                                email: currentLink.email,
+                                icon: currentLink.icon,
+                                page_id: pageSettings["id"],
+                                folder_id: folderID,
+                                type: currentLink.type,
+                            };
+                            break;
+                        case "phone":
+                            packets = {
+                                name: currentLink.name,
+                                phone: currentLink.phone,
+                                icon: currentLink.icon,
+                                page_id: pageSettings["id"],
+                                folder_id: folderID,
+                                type: currentLink.type,
+                            };
+                            break;
+                        case "mailchimp_list":
+                            packets = {
+                                name: currentLink.name,
+                                mailchimp_list_id: currentLink.mailchimp_list_id,
+                                icon: currentLink.icon,
+                                page_id: pageSettings["id"],
+                                folder_id: folderID,
+                                type: currentLink.type,
+                            };
+                            break;
+                    }
+
+                    addLink(packets).then((data) => {
+
+                        if (data.success) {
+
+                            if (folderID) {
+                                let newFolderLinks = [...folderLinks];
+                                let newOriginalFolderLinks = [...originalFolderLinks];
+
+                                const newLinkObject = {
+                                    id: data.link_id,
+                                    folder_id: folderID,
+                                    name: currentLink.name,
+                                    url: URL,
+                                    email: currentLink.email,
+                                    phone: currentLink.phone,
+                                    type: currentLink.type,
+                                    mailchimp_list_id: currentLink.mailchimp_list_id,
+                                    icon: currentLink.icon,
+                                    position: data.position,
+                                    active_status: true
+                                }
+
+                                newFolderLinks = newFolderLinks.concat(
+                                    newLinkObject);
+
+                                dispatchOrigFolderLinks({
+                                    type: ORIG_FOLDER_LINKS_ACTIONS.SET_ORIG_FOLDER_LINKS,
+                                    payload: {
+                                        links: newOriginalFolderLinks.concat(
+                                            newLinkObject)
+                                    }
+                                })
+                                dispatchFolderLinks({
+                                    type: FOLDER_LINKS_ACTIONS.SET_FOLDER_LINKS,
+                                    payload: {
+                                        links: newFolderLinks
+                                    }
+                                });
+
+                                let folderActive = null;
+                                if (newFolderLinks.length === 1) {
+                                    folderActive = true;
+                                    const url = "/dashboard/folder/status/";
+                                    const packets = {
+                                        active_status: folderActive,
+                                    };
+
+                                    updateLinkStatus(packets, folderID,
+                                        url);
+                                }
+
+                                dispatch({
+                                    type: LINKS_ACTIONS.ADD_NEW_IN_FOLDER,
+                                    payload: {
+                                        newLinkObject: newLinkObject,
+                                        folderActive: folderActive,
+                                        folderID: folderID
+                                    }
+                                })
+
+                                dispatchOrig({
+                                    type: ORIGINAL_LINKS_ACTIONS.ADD_NEW_IN_FOLDER,
+                                    payload: {
+                                        newLinkObject: newLinkObject,
+                                        folderActive: folderActive,
+                                        folderID: folderID
+                                    }
+                                })
+
+                                setShowNewForm(false);
+
+                            } else {
+                                let newLinks = [...userLinks];
+                                let originalLinks = [...originalArray];
+
+                                const newLinkObject = {
+                                    id: data.link_id,
+                                    name: currentLink.name,
+                                    url: URL,
+                                    email: currentLink.email,
+                                    phone: currentLink.phone,
+                                    type: currentLink.type,
+                                    mailchimp_list_id: currentLink.mailchimp_list_id,
+                                    icon: currentLink.icon,
+                                    position: data.position,
+                                    active_status: true
+                                }
+
+                                dispatchOrig({
+                                    type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS,
+                                    payload: {
+                                        links: originalLinks.concat(
+                                            newLinkObject)
+                                    }
+                                })
+                                dispatch({
+                                    type: LINKS_ACTIONS.SET_LINKS,
+                                    payload: {
+                                        links: newLinks.concat(
+                                            newLinkObject)
+                                    }
+                                })
+
+                                setShowNewForm(false);
+                            }
+
+                        }
+                    })
+                }
             }
+        } else {
+            setShowMessageAlertPopup(true);
+            setOptionText("Only 1 Mailchimp subscribe form is allowed per page.")
         }
     };
 
@@ -583,6 +607,12 @@ const NewForm = ({
         window.location.href = url;
     }
 
+    const checkForMailchimpForm = () => {
+        return userLinks.find(function(e) {
+              return e.mailchimp_list_id  != null
+        })
+    }
+
     return (
         <>
             <div className="my_row icon_breadcrumb" id="scrollTo">
@@ -607,6 +637,7 @@ const NewForm = ({
                             setInputType={setInputType}
                             setCurrentLink={setCurrentLink}
                             handleOnClick={handleOnClick}
+                            folderID={folderID}
                         />
                     </div>
 

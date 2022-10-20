@@ -40,7 +40,8 @@ const EditForm = ({
                       radioValue,
                       setRadioValue,
                       redirected,
-                      setRedirected
+                      setRedirected,
+                      setShowMessageAlertPopup,
 }) => {
 
     const { userLinks, dispatch  } = useContext(UserLinksContext);
@@ -172,148 +173,158 @@ const EditForm = ({
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (iconSelected) {
+        if (checkForMailchimpForm() === undefined || inputType !== "mailchimp_list") {
 
-            previewCanvasRef.current.toBlob(
-                (blob) => {
-                    const reader = new FileReader();
-                    reader.readAsDataURL(blob)
-                    reader.onloadend = () => {
-                        dataURLtoFile(reader.result, 'cropped.jpg');
-                    }
-                },
-                'image/png',
-                1
-            );
+            if (iconSelected) {
 
-        } else {
-            let URL = currentLink.url;
-            let data;
-
-            if (URL && currentLink.name) {
-                 data = checkURL(URL, currentLink.name, null, subStatus);
-            } else {
-                data = {
-                    success: true,
-                    url: URL
-                }
-            }
-
-            if (data["success"]) {
-
-                URL = data["url"];
-                let packets;
-                switch (inputType) {
-                    case "url":
-                        packets = {
-                            name: currentLink.name,
-                            url: URL,
-                            icon: currentLink.icon,
-                            page_id: pageSettings["id"],
-                            type: currentLink.type
-                        };
-                        break;
-                    case "email":
-                        packets = {
-                            name: currentLink.name,
-                            email: currentLink.email,
-                            icon: currentLink.icon,
-                            page_id: pageSettings["id"],
-                            type: currentLink.type
-                        };
-                        break;
-                    case "phone":
-                        packets = {
-                            name: currentLink.name,
-                            phone: currentLink.phone,
-                            icon: currentLink.icon,
-                            page_id: pageSettings["id"],
-                            type: currentLink.type
-                        };
-                        break;
-                    case "mailchimp_list":
-                        packets = {
-                            name: currentLink.name,
-                            mailchimp_list_id: currentLink.mailchimp_list_id,
-                            icon: currentLink.icon,
-                            page_id: pageSettings["id"],
-                            folder_id: folderID,
-                            type: currentLink.type
-                        };
-                        break;
-                }
-
-                updateLink(packets, editID)
-                .then((data) => {
-
-                    if (data.success) {
-                        if(folderID) {
-
-                            dispatchFolderLinks({
-                                type: FOLDER_LINKS_ACTIONS.UPDATE_FOLDER_LINKS,
-                                payload: {
-                                    editID: editID,
-                                    currentLink: currentLink,
-                                    url: URL,
-                                    iconPath: currentLink.icon
-                            }})
-
-                            dispatchOrigFolderLinks({
-                                type: ORIG_FOLDER_LINKS_ACTIONS.UPDATE_FOLDER_LINKS,
-                                payload: {
-                                    editID: editID,
-                                    currentLink: currentLink,
-                                    url: URL,
-                                    iconPath: currentLink.icon
-                                } })
-
-                            dispatch({
-                                type: LINKS_ACTIONS.UPDATE_LINK_IN_FOLDER,
-                                payload: {
-                                    folderID: folderID,
-                                    editID: editID,
-                                    currentLink: currentLink,
-                                    url: URL,
-                                    iconPath: currentLink.icon
-                            }})
-
-                            dispatchOrig({
-                                type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK_IN_FOLDER,
-                                payload: {
-                                    folderID: folderID,
-                                    editID: editID,
-                                    currentLink: currentLink,
-                                    url: URL,
-                                    iconPath: currentLink.icon
-                                }})
-
-
-                        } else {
-
-                            dispatch({
-                                type: LINKS_ACTIONS.UPDATE_LINK,
-                                payload: {
-                                    editID: editID,
-                                    currentLink: currentLink,
-                                    url: URL,
-                                    iconPath: currentLink.icon
-                                }})
-
-                            dispatchOrig({
-                                type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK,
-                                payload: {
-                                    editID: editID,
-                                    currentLink: currentLink,
-                                    url: URL,
-                                    iconPath: currentLink.icon
-                                }})
+                previewCanvasRef.current.toBlob(
+                    (blob) => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(blob)
+                        reader.onloadend = () => {
+                            dataURLtoFile(reader.result, 'cropped.jpg');
                         }
+                    },
+                    'image/png',
+                    1
+                );
 
-                        setEditID(null)
+            } else {
+                let URL = currentLink.url;
+                let data;
+
+                if (URL && currentLink.name) {
+                    data = checkURL(URL, currentLink.name, null, subStatus);
+                } else {
+                    data = {
+                        success: true,
+                        url: URL
                     }
-                })
+                }
 
+                if (data["success"]) {
+
+                    URL = data["url"];
+                    let packets;
+                    switch (inputType) {
+                        case "url":
+                            packets = {
+                                name: currentLink.name,
+                                url: URL,
+                                icon: currentLink.icon,
+                                page_id: pageSettings["id"],
+                                type: currentLink.type
+                            };
+                            break;
+                        case "email":
+                            packets = {
+                                name: currentLink.name,
+                                email: currentLink.email,
+                                icon: currentLink.icon,
+                                page_id: pageSettings["id"],
+                                type: currentLink.type
+                            };
+                            break;
+                        case "phone":
+                            packets = {
+                                name: currentLink.name,
+                                phone: currentLink.phone,
+                                icon: currentLink.icon,
+                                page_id: pageSettings["id"],
+                                type: currentLink.type
+                            };
+                            break;
+                        case "mailchimp_list":
+                            packets = {
+                                name: currentLink.name,
+                                mailchimp_list_id: currentLink.mailchimp_list_id,
+                                icon: currentLink.icon,
+                                page_id: pageSettings["id"],
+                                folder_id: folderID,
+                                type: currentLink.type
+                            };
+                            break;
+                    }
+
+                    updateLink(packets, editID).then((data) => {
+
+                        if (data.success) {
+                            if (folderID) {
+
+                                dispatchFolderLinks({
+                                    type: FOLDER_LINKS_ACTIONS.UPDATE_FOLDER_LINKS,
+                                    payload: {
+                                        editID: editID,
+                                        currentLink: currentLink,
+                                        url: URL,
+                                        iconPath: currentLink.icon
+                                    }
+                                })
+
+                                dispatchOrigFolderLinks({
+                                    type: ORIG_FOLDER_LINKS_ACTIONS.UPDATE_FOLDER_LINKS,
+                                    payload: {
+                                        editID: editID,
+                                        currentLink: currentLink,
+                                        url: URL,
+                                        iconPath: currentLink.icon
+                                    }
+                                })
+
+                                dispatch({
+                                    type: LINKS_ACTIONS.UPDATE_LINK_IN_FOLDER,
+                                    payload: {
+                                        folderID: folderID,
+                                        editID: editID,
+                                        currentLink: currentLink,
+                                        url: URL,
+                                        iconPath: currentLink.icon
+                                    }
+                                })
+
+                                dispatchOrig({
+                                    type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK_IN_FOLDER,
+                                    payload: {
+                                        folderID: folderID,
+                                        editID: editID,
+                                        currentLink: currentLink,
+                                        url: URL,
+                                        iconPath: currentLink.icon
+                                    }
+                                })
+
+                            } else {
+
+                                dispatch({
+                                    type: LINKS_ACTIONS.UPDATE_LINK,
+                                    payload: {
+                                        editID: editID,
+                                        currentLink: currentLink,
+                                        url: URL,
+                                        iconPath: currentLink.icon
+                                    }
+                                })
+
+                                dispatchOrig({
+                                    type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK,
+                                    payload: {
+                                        editID: editID,
+                                        currentLink: currentLink,
+                                        url: URL,
+                                        iconPath: currentLink.icon
+                                    }
+                                })
+                            }
+
+                            setEditID(null)
+                        }
+                    })
+
+                }
             }
+        } else {
+            setShowMessageAlertPopup(true);
+            setOptionText("Only 1 Mailchimp subscribe form is allowed per page.")
         }
 
     };
@@ -494,6 +505,11 @@ const EditForm = ({
             setShowUpgradePopup(true);
             setOptionText(text);
         }
+
+        if (folderID) {
+            setShowMessageAlertPopup(true);
+            setOptionText("Integrations are currently not allowed in a folder.");
+        }
     }
 
     const handleLinkName = (e) => {
@@ -515,7 +531,12 @@ const EditForm = ({
         localStorage.setItem('inputType', inputType);
 
         window.location.href = url;
+    }
 
+    const checkForMailchimpForm = () => {
+        return userLinks.find(function(e) {
+            return e.mailchimp_list_id  != null
+        })
     }
 
     return (
@@ -543,6 +564,7 @@ const EditForm = ({
                             setInputType={setInputType}
                             setCurrentLink={setCurrentLink}
                             handleOnClick={handleOnClick}
+                            folderID={folderID}
                         />
                     </div>
 

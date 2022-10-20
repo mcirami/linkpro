@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
 use Laravel\Socialite\Facades\Socialite;
 use MailchimpMarketing\ApiClient;
 
@@ -17,8 +16,6 @@ class MailchimpController extends Controller
     }
 
     public function callback() {
-
-        //$user = Socialite::driver('mailchimp')->userFromToken('6356eddb53ba852ecf305acd6d77e1b1');
 
         try {
 

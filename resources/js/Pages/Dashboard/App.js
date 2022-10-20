@@ -47,6 +47,7 @@ import LivePageButton from './Components/LivePageButton';
 import EventBus from '../../Utils/Bus';
 import FolderHeading from './Components/Folder/FolderHeading';
 import InfoText from './Components/Page/InfoText';
+import {MessageAlertPopup} from './Components/Popups/MessageAlertPopup';
 
 const page = user.page;
 const userPages = user.user_pages;
@@ -85,6 +86,7 @@ function App() {
 
     const [showUpgradePopup, setShowUpgradePopup] = useState(false);
     const [showConfirmPopup, setShowConfirmPopup] = useState(false);
+    const [showMessageAlertPopup, setShowMessageAlertPopup] = useState(false);
     const [showConfirmFolderDelete, setShowConfirmFolderDelete] = useState(false);
     const [optionText, setOptionText] = useState("");
     const [customIconArray, setCustomIconArray] = useState(customIcons);
@@ -236,6 +238,14 @@ function App() {
                         />
                     }
 
+                    {showMessageAlertPopup &&
+                        <MessageAlertPopup
+                            optionText={optionText}
+                            showMessageAlertPopup={showMessageAlertPopup}
+                            setShowMessageAlertPopup={setShowMessageAlertPopup}
+                        />
+                    }
+
                     <FolderLinksContext.Provider value={{ folderLinks, dispatchFolderLinks}} >
                         <OriginalFolderLinksContext.Provider value={{ originalFolderLinks, dispatchOrigFolderLinks}} >
 
@@ -365,6 +375,7 @@ function App() {
                                                     setRadioValue={setRadioValue}
                                                     redirected={redirected}
                                                     setRedirected={setRedirected}
+                                                    setShowMessageAlertPopup={setShowMessageAlertPopup}
                                                 />
 
                                                 :
@@ -383,6 +394,7 @@ function App() {
                                                     setRadioValue={setRadioValue}
                                                     inputType={inputType}
                                                     setInputType={setInputType}
+                                                    setShowMessageAlertPopup={setShowMessageAlertPopup}
                                                 />
                                         }
 

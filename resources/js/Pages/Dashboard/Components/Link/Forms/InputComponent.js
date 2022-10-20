@@ -114,6 +114,10 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType, lists, setList
             (data) => {
                 if (data.success) {
                     setLists(null);
+                    setCurrentLink({
+                        ...currentLink,
+                        active_status: 0,
+                    })
                 }
             }
         )
