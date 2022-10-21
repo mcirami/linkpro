@@ -12640,11 +12640,6 @@ header.guest_header .col.right {
   background: none;
   width: auto;
 }
-#links_page .icon_row .icons_wrap .icon_col img {
-  border-radius: 25%;
-  -webkit-border-radius: 25%;
-  -moz-border-radius: 25%;
-}
 @media all and (min-width: 769px) {
   #links_page .icon_row .icons_wrap .icon_col:hover .hover_text {
     opacity: 1;
@@ -12658,9 +12653,6 @@ header.guest_header .col.right {
 }
 #links_page .icon_row .icon_image.active {
   border: 2px solid #424fcf;
-  border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
 }
 
 .my_row.radios_wrap {
@@ -12688,14 +12680,33 @@ header.guest_header .col.right {
   -moz-border-radius-topleft: 10px;
   border-bottom: none;
 }
-.my_row.radios_wrap .radio_wrap input {
+.my_row.radios_wrap .radio_wrap .radio_input_wrap {
+  width: auto;
+  display: flex;
+}
+@media all and (max-width: 550px) {
+  .my_row.radios_wrap .radio_wrap .radio_input_wrap {
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+  }
+}
+.my_row.radios_wrap .radio_wrap .radio_input_wrap input {
   width: 20px;
   height: 20px;
   margin-right: 10px;
 }
-@media screen and (max-width: 768px) {
-  .my_row.radios_wrap .radio_wrap input {
+@media all and (max-width: 1199px) {
+  .my_row.radios_wrap .radio_wrap .radio_input_wrap input {
     width: 15px;
+    height: 15px;
+    margin-right: 5px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .my_row.radios_wrap .radio_wrap .radio_input_wrap input {
+    width: 15px;
+    margin-right: 5px;
   }
 }
 .my_row.radios_wrap .radio_wrap label {
@@ -12709,16 +12720,30 @@ header.guest_header .col.right {
   -webkit-justify-content: center;
   padding: 20px 10px;
   line-height: 1.2;
+  font-size: 16px;
 }
 @media all and (max-width: 1199px) {
+  .my_row.radios_wrap .radio_wrap label {
+    font-size: 1.3vw;
+  }
+}
+@media all and (max-width: 992px) {
   .my_row.radios_wrap .radio_wrap label {
     font-size: 16px;
   }
 }
-@media all and (max-width: 550px) {
+@media screen and (max-width: 768px) {
   .my_row.radios_wrap .radio_wrap label {
     font-size: 14px;
-    padding: 15px 5px;
+    padding: 10px 5px;
+  }
+}
+@media all and (max-width: 550px) {
+  .my_row.radios_wrap .radio_wrap label {
+    font-size: 12px;
+    padding: 5px 5px 10px;
+    flex-wrap: wrap;
+    text-align: center;
   }
 }
 .my_row.radios_wrap.input_types {
@@ -14019,14 +14044,6 @@ form .bottom_row a {
   justify-content: center;
   -webkit-justify-content: center;
 }
-#links_page .edit_form.popup .custom_icons, #links_page .edit_form.link .custom_icons {
-  width: 83%;
-  padding: 0 10px;
-  border-left: 1px solid #d2d2d2;
-  height: 185px;
-  overflow-y: scroll;
-  margin: 10px 0;
-}
 #links_page .edit_form.popup .icons_wrap, #links_page .edit_form.link .icons_wrap {
   border: 1px solid #d2d2d2;
   border-radius: 10px;
@@ -14048,18 +14065,94 @@ form .bottom_row a {
 }
 #links_page .edit_form.popup .icons_wrap.outer, #links_page .edit_form.link .icons_wrap.outer {
   overflow-y: hidden;
-  height: 215px;
 }
 #links_page .edit_form.popup .icons_wrap.outer .default_icon.icon_col, #links_page .edit_form.link .icons_wrap.outer .default_icon.icon_col {
-  width: 15%;
+  width: 16%;
   padding-right: 10px;
   padding-top: 5px;
 }
+@media all and (max-width: 1300px) and (min-width: 993px) {
+  #links_page .edit_form.popup .icons_wrap.outer .default_icon.icon_col, #links_page .edit_form.link .icons_wrap.outer .default_icon.icon_col {
+    width: 25%;
+  }
+}
+@media screen and (max-width: 768px) {
+  #links_page .edit_form.popup .icons_wrap.outer .default_icon.icon_col, #links_page .edit_form.link .icons_wrap.outer .default_icon.icon_col {
+    /*width: 100%;
+    padding-right: 0;*/
+    width: 25%;
+  }
+}
+@media all and (max-width: 550px) {
+  #links_page .edit_form.popup .icons_wrap.outer .default_icon.icon_col, #links_page .edit_form.link .icons_wrap.outer .default_icon.icon_col {
+    width: 30%;
+  }
+}
 #links_page .edit_form.popup .icons_wrap.outer .default_icon.icon_col img, #links_page .edit_form.link .icons_wrap.outer .default_icon.icon_col img {
-  margin-top: 4px;
+  max-width: 94%;
+  margin: 4px auto 0;
+}
+@media all and (max-width: 1300px) and (min-width: 993px) {
+  #links_page .edit_form.popup .icons_wrap.outer .default_icon.icon_col img, #links_page .edit_form.link .icons_wrap.outer .default_icon.icon_col img {
+    max-width: 60%;
+  }
+}
+@media all and (max-width: 768px) {
+  #links_page .edit_form.popup .icons_wrap.outer .default_icon.icon_col img, #links_page .edit_form.link .icons_wrap.outer .default_icon.icon_col img {
+    max-width: 68%;
+    margin: 0 auto;
+  }
 }
 #links_page .edit_form.popup .icons_wrap.outer.integration_icons, #links_page .edit_form.link .icons_wrap.outer.integration_icons {
   padding: 5px 10px 10px;
+  /* @media all and (max-width: 768px) {
+       overflow-y:  scroll;
+   }*/
+}
+#links_page .edit_form.popup .icons_wrap.outer.integration_icons .custom_icons, #links_page .edit_form.link .icons_wrap.outer.integration_icons .custom_icons {
+  width: 82%;
+  padding: 0 10px;
+  border-left: 1px solid #d2d2d2;
+  overflow-y: auto;
+  margin: 10px 0 0;
+  height: 220px;
+}
+@media all and (max-width: 1300px) and (min-width: 993px) {
+  #links_page .edit_form.popup .icons_wrap.outer.integration_icons .custom_icons, #links_page .edit_form.link .icons_wrap.outer.integration_icons .custom_icons {
+    width: 73%;
+  }
+}
+@media all and (max-width: 768px) {
+  #links_page .edit_form.popup .icons_wrap.outer.integration_icons .custom_icons, #links_page .edit_form.link .icons_wrap.outer.integration_icons .custom_icons {
+    /*width: 100%;
+    height: auto;
+    border-left: none;*/
+    width: 73%;
+  }
+}
+@media screen and (max-width: 550px) {
+  #links_page .edit_form.popup .icons_wrap.outer.integration_icons .custom_icons, #links_page .edit_form.link .icons_wrap.outer.integration_icons .custom_icons {
+    width: 68%;
+  }
+}
+#links_page .edit_form.popup .icons_wrap.outer.integration_icons .custom_icons .icons_wrap.inner, #links_page .edit_form.link .icons_wrap.outer.integration_icons .custom_icons .icons_wrap.inner {
+  overflow: hidden;
+  height: auto;
+}
+@media all and (max-width: 1300px) and (min-width: 993px) {
+  #links_page .edit_form.popup .icons_wrap.outer.integration_icons .custom_icons .icons_wrap.inner .icon_col, #links_page .edit_form.link .icons_wrap.outer.integration_icons .custom_icons .icons_wrap.inner .icon_col {
+    width: 23%;
+  }
+}
+@media all and (max-width: 768px) {
+  #links_page .edit_form.popup .icons_wrap.outer.integration_icons .custom_icons .icons_wrap.inner .icon_col, #links_page .edit_form.link .icons_wrap.outer.integration_icons .custom_icons .icons_wrap.inner .icon_col {
+    width: 23%;
+  }
+}
+@media screen and (max-width: 550px) {
+  #links_page .edit_form.popup .icons_wrap.outer.integration_icons .custom_icons .icons_wrap.inner .icon_col, #links_page .edit_form.link .icons_wrap.outer.integration_icons .custom_icons .icons_wrap.inner .icon_col {
+    width: 31.3%;
+  }
 }
 #links_page .edit_form.popup .icons_wrap.outer.integration_icons p, #links_page .edit_form.link .icons_wrap.outer.integration_icons p {
   width: 100%;
@@ -14100,17 +14193,25 @@ form .bottom_row a {
 #links_page .edit_form.popup .tab_content_wrap, #links_page .edit_form.link .tab_content_wrap {
   padding: 20px 40px 0;
 }
+@media all and (max-width: 1199px) {
+  #links_page .edit_form.popup .tab_content_wrap, #links_page .edit_form.link .tab_content_wrap {
+    padding: 20px 20px 0;
+  }
+}
+@media screen and (max-width: 768px) {
+  #links_page .edit_form.popup .tab_content_wrap, #links_page .edit_form.link .tab_content_wrap {
+    padding: 20px 20px 0;
+  }
+}
+#links_page .edit_form.popup .tab_content_wrap .inner_wrap, #links_page .edit_form.link .tab_content_wrap .inner_wrap {
+  position: relative;
+}
 #links_page .edit_form.popup .link_form, #links_page .edit_form.link .link_form {
   width: 100%;
   background: #ffffff;
   border-radius: 12px;
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
-}
-@media all and (max-width: 768px) {
-  #links_page .edit_form.popup .link_form, #links_page .edit_form.link .link_form {
-    padding: 40px 20px 10px;
-  }
 }
 #links_page .edit_form.popup .link_form label[for=mailchimp_list_id], #links_page .edit_form.link .link_form label[for=mailchimp_list_id] {
   margin-bottom: 5px;

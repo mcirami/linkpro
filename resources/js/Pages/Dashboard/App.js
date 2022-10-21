@@ -105,7 +105,11 @@ function App() {
 
     const [subStatus] = useState(checkSubStatus());
 
-    const [showLoader, setShowLoader] = useState(false);
+    const [showLoader, setShowLoader] = useState({
+        show: false,
+        icon: "",
+        position: ""
+    });
     const [flash, setFlash] = useState({
         show: false,
         type: '',
@@ -234,8 +238,10 @@ function App() {
             <UserLinksContext.Provider value={{userLinks, dispatch }} >
                 <OriginalArrayContext.Provider value={{ originalArray, dispatchOrig}} >
 
-                    {showLoader &&
-                        <Loader />
+                    { (showLoader.show && showLoader.position === "fixed") &&
+                        <Loader
+                            showLoader={showLoader}
+                        />
                     }
 
                     {flash.show &&
@@ -404,6 +410,7 @@ function App() {
                                                     setOptionText={setOptionText}
                                                     customIconArray={customIconArray}
                                                     setCustomIconArray={setCustomIconArray}
+                                                    showLoader={showLoader}
                                                     setShowLoader={setShowLoader}
                                                     folderID={editFolderID}
                                                     setEditFolderID={setEditFolderID}

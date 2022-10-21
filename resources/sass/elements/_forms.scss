@@ -270,14 +270,6 @@ form .bottom_row a {
                 -webkit-justify-content: center;
             }
 
-            .custom_icons {
-                width: 83%;
-                padding: 0 10px;
-                border-left: 1px solid $borderGray;
-                height: 185px;
-                overflow-y: scroll;
-                margin: 10px 0;
-            }
 
             .icons_wrap {
                 border: 1px solid $borderGray;
@@ -300,20 +292,90 @@ form .bottom_row a {
 
                 &.outer {
                     overflow-y: hidden;
-                    height: 215px;
 
                     .default_icon.icon_col {
-                        width: 15%;
+                        width: 16%;
                         padding-right: 10px;
                         padding-top: 5px;
 
+                        @media all and (max-width: 1300px) and (min-width: 993px) {
+                            width: 25%;
+                        }
+
+                        @media screen and (max-width: 768px) {
+                            /*width: 100%;
+                            padding-right: 0;*/
+                            width: 25%;
+                        }
+
+                        @media all and (max-width: 550px) {
+                            width: 30%;
+                        }
+
                         img {
-                            margin-top: 4px;
+                            max-width: 94%;
+                            margin: 4px auto 0;
+
+                            @media all and (max-width: 1300px) and (min-width: 993px) {
+                                max-width: 60%;
+                            }
+
+                            @media all and (max-width: 768px) {
+                                max-width: 68%;
+                                margin: 0 auto;
+                            }
                         }
                     }
 
                     &.integration_icons {
                         padding: 5px 10px 10px;
+
+                       /* @media all and (max-width: 768px) {
+                            overflow-y:  scroll;
+                        }*/
+
+                        .custom_icons {
+                            width: 82%;
+                            padding: 0 10px;
+                            border-left: 1px solid $borderGray;
+                            overflow-y: auto;
+                            margin: 10px 0 0;
+                            height: 220px;
+
+                            @media all and (max-width: 1300px) and (min-width: 993px) {
+                                width: 73%;
+                            }
+
+                            @media all and (max-width: 768px) {
+                                /*width: 100%;
+                                height: auto;
+                                border-left: none;*/
+                                width: 73%;
+                            }
+
+                            @media screen and (max-width: 550px) {
+                                width: 68%;
+                            }
+
+                            .icons_wrap.inner {
+                                overflow: hidden;
+                                height: auto;
+
+                                .icon_col {
+                                    @media all and (max-width: 1300px) and (min-width: 993px) {
+                                        width: 23%;
+                                    }
+
+                                    @media all and (max-width: 768px) {
+                                        width: 23%;
+                                    }
+
+                                    @media screen and (max-width: 550px) {
+                                        width: 31.3%;
+                                    }
+                                }
+                            }
+                        }
 
                         p {
                             width: 100%;
@@ -363,6 +425,18 @@ form .bottom_row a {
 
             .tab_content_wrap {
                 padding: 20px 40px 0;
+
+                @media all and (max-width: 1199px) {
+                    padding: 20px 20px 0;
+                }
+
+                @media screen and (max-width: 768px) {
+                    padding: 20px 20px 0;
+                }
+
+                .inner_wrap {
+                    position: relative;
+                }
             }
 
             .link_form {
@@ -371,10 +445,6 @@ form .bottom_row a {
                 border-radius: 12px;
                 -webkit-border-radius: 12px;
                 -moz-border-radius: 12px;
-
-                @media all and (max-width: 768px) {
-                    padding: 40px 20px 10px;
-                }
 
                 label[for="mailchimp_list_id"] {
                     margin-bottom: 5px;
