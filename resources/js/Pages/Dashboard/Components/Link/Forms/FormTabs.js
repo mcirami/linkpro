@@ -23,7 +23,7 @@ const FormTabs = ({
             setCurrentLink(prevState => ({
                 ...prevState,
                 icon: 'https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png',
-                type: "form"
+                type: "mailchimp"
             }))
         } else {
             if(inputType !== "mailchimp_list") {

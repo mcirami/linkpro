@@ -14213,7 +14213,7 @@ form .bottom_row a {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
 }
-#links_page .edit_form.popup .link_form label[for=mailchimp_list_id], #links_page .edit_form.link .link_form label[for=mailchimp_list_id] {
+#links_page .edit_form.popup .link_form label[for=mailchimp_list_id], #links_page .edit_form.popup .link_form label[for=domain], #links_page .edit_form.link .link_form label[for=mailchimp_list_id], #links_page .edit_form.link .link_form label[for=domain] {
   margin-bottom: 5px;
 }
 #links_page .edit_form.popup .link_form .remove_link, #links_page .edit_form.link .link_form .remove_link {
@@ -14225,6 +14225,32 @@ form .bottom_row a {
 }
 #links_page .edit_form.popup .link_form #subscribe_error p, #links_page .edit_form.link .link_form #subscribe_error p {
   color: #f24d1d;
+}
+#links_page .edit_form.popup .link_form.shopify_domain .input_wrap, #links_page .edit_form.link .link_form.shopify_domain .input_wrap {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  -webkit-justify-content: center;
+  align-items: center;
+  -webkit-align-items: center;
+  border: 1px solid #d2d2d2;
+  border-top-right-radius: 8px;
+  -webkit-border-top-right-radius: 8px;
+  -moz-border-radius-topright: 8px;
+  border-top-left-radius: 8px;
+  -webkit-border-top-left-radius: 8px;
+  -moz-border-radius-topleft: 8px;
+}
+#links_page .edit_form.popup .link_form.shopify_domain .input_wrap p, #links_page .edit_form.link .link_form.shopify_domain .input_wrap p {
+  color: #76797b;
+  padding-right: 10px;
+}
+#links_page .edit_form.popup .link_form.shopify_domain input, #links_page .edit_form.link .link_form.shopify_domain input {
+  border: none;
+  border-radius: 0;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
 }
 #links_page .edit_form.popup.new_page_form, #links_page .edit_form.link.new_page_form {
   align-items: flex-start;
@@ -14791,21 +14817,25 @@ form .bottom_row a {
 }
 .integration_wrap h3, .integration_wrap .h3 {
   text-align: center;
-  margin-bottom: 20px;
+  margin: 20px 0;
   border-bottom: 1px solid #d2d2d2;
   padding-bottom: 10px;
+  font-size: 20px;
 }
-.integration_wrap p {
-  margin-bottom: 0;
-}
-.integration_wrap small, .integration_wrap .small {
+.integration_wrap p.small {
   font-family: "opensanssemibold", sans-serif;
   font-size: 14px;
+  line-height: 1.4;
+}
+.integration_wrap .input_wrap {
+  margin-bottom: 10px;
+}
+.integration_wrap .input_wrap p {
+  margin-bottom: 0;
 }
 .integration_wrap .button_wrap {
   width: 100%;
   float: left;
-  margin-top: 20px;
 }
 .integration_wrap .button_wrap .button {
   width: 100%;

@@ -108,3 +108,34 @@ export const removeMailchimpConnection = () => {
         }
     });
 }
+
+export const getShopifyStore = () => {
+
+    return axios.get('/shopify/get-store').then(
+        (response) => {
+            //console.log(JSON.stringify(response.data));
+            const products = response.data.products;
+
+            return {
+                success : true,
+                products : products,
+            }
+        },
+
+    ).catch(error => {
+        if (error.response) {
+            if(error.response.data.errors) {
+                EventBus.dispatch("error", { message: error.response.data.errors });
+            } else {
+                console.error(error.response);
+            }
+
+        } else {
+            console.error("ERROR:: ", error);
+        }
+
+        return {
+            success : false
+        }
+    });
+}

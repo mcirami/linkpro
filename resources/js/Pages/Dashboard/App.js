@@ -171,7 +171,7 @@ function App() {
         const redirected = urlParams?.get('redirected');
         const error = urlParams?.get('connection_error');
 
-        if (redirected === "mailchimp") {
+        if (redirected === "mailchimp" || redirected === "shopify") {
             setShowNewForm(JSON.parse(localStorage.getItem('showNewForm')) || false)
             setEditID(JSON.parse(localStorage.getItem('editID')) || null)
             setInputType(localStorage.getItem('inputType') || null)

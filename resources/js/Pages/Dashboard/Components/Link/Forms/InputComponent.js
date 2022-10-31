@@ -3,7 +3,7 @@ import {
     removeMailchimpConnection,
 } from '../../../../../Services/UserService';
 
-const InputComponent = ({ currentLink, setCurrentLink, inputType, lists, setLists }) => {
+const InputComponent = ({ currentLink, setCurrentLink, inputType, lists, setLists, products }) => {
 
     const {url, email, phone} = currentLink;
 
@@ -89,7 +89,7 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType, lists, setList
             key2 = "email"
             key3 = "url"
             key4 = "phone"
-            iconType = "form"
+            iconType = "mailchimp"
         } else {
             key2 = "phone"
             key3 = "email"
@@ -128,45 +128,63 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType, lists, setList
     return (
 
         <>
-            {
-                inputType === "mailchimp_list" ?
+            {(() => {
 
-                    <div className="my_row">
-                        <label htmlFor="mailchimp_list_id">Mailchimp List</label>
-                        <select
-                            name="mailchimp_list_id"
-                            onChange={(e) => handleChange(e, key)}
-                            value={currentLink.mailchimp_list_id || undefined}
-                        >
-                            <option>Select Your List</option>
-                            {lists?.map((list) => {
-                                return (
-                                    <option
-                                        key={list.list_id}
-                                        value={list.list_id}>{list.list_name}
-                                    </option>
-                                )
-                            })}
-                        </select>
-                        {lists &&
-                            <div className="my_row remove_link">
-                                <a href="#" onClick={(e) => handleClick(e)}>
-                                    Remove Connection
-                                </a>
+                switch (inputType) {
+
+                    case "mailchimp_list":
+
+                        return (
+                            <div className="my_row">
+                                <label htmlFor="mailchimp_list_id">Mailchimp List</label>
+                                <select
+                                    name="mailchimp_list_id"
+                                    onChange={(e) => handleChange(e, key)}
+                                    value={currentLink.mailchimp_list_id ||
+                                        undefined}
+                                >
+                                    <option>Select Your List</option>
+                                    {lists?.map((list) => {
+                                        return (
+                                            <option
+                                                key={list.list_id}
+                                                value={list.list_id}>{list.list_name}
+                                            </option>
+                                        )
+                                    })}
+                                </select>
+                                {lists &&
+                                    <div className="my_row remove_link">
+                                        <a href="#" onClick={(e) => handleClick(
+                                            e)}>
+                                            Remove Connection
+                                        </a>
+                                    </div>
+                                }
                             </div>
-                        }
-                    </div>
-                :
+                        )
+                    case "shopify":
 
-                <input
-                    name={name}
-                    type={type}
-                    defaultValue={ value || ""}
-                    placeholder={placeholder}
-                    onChange={(e) => handleChange(e, key) }
-                />
+                        return (
+                            <div className="my_row">
+                                <h2>Shopify</h2>
+                            </div>
+                        )
+                    default:
 
-            }
+                        return (
+
+                            <input
+                                name={name}
+                                type={type}
+                                defaultValue={value || ""}
+                                placeholder={placeholder}
+                                onChange={(e) => handleChange(e, key)}
+                            />
+                        )
+                }
+
+            })()}
         </>
 
     )

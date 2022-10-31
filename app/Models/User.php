@@ -82,4 +82,8 @@ class User extends VoyagerUser
     public function referrals(){
         return $this->hasMany(Referral::class);
     }
+
+    public function shopifyUsers() {
+        return $this->hasMany(ShopifyUser::class);
+    }
 }

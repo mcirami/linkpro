@@ -65,7 +65,7 @@ const IconList = ({
             setCurrentLink(prevState => ({
                 ...prevState,
                 icon: "https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png",
-                type: "form"
+                type: "mailchimp"
             }))
         }
 

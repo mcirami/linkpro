@@ -34,9 +34,11 @@ import {
 import FormBreadcrumbs from './FormBreadcrumbs';
 import InputTypeRadio from './InputTypeRadio';
 import FormTabs from './FormTabs';
-import {getMailchimpLists} from '../../../../../Services/UserService';
+import {getMailchimpLists, getShopifyStore} from '../../../../../Services/UserService';
 import MailchimpIntegration from './MailchimpIntegration';
+import ShopifyIntegration from './ShopifyIntegration';
 import {Loader} from '../../../../../Utils/Loader';
+import IntegrationType from './IntegrationType';
 
 const NewForm = ({
                      setShowNewForm,
@@ -89,10 +91,15 @@ const NewForm = ({
 
     const [charactersLeft, setCharactersLeft] = useState();
     const [lists, setLists] = useState(null);
+    const [integrationType, setIntegrationType] = useState(null);
+    const [products, setProducts] = useState(null);
 
     useEffect(() => {
         if (inputType === "mailchimp_list") {
             fetchLists()
+        }
+        if (inputType === "shopify") {
+            fetchStore()
         }
     }, [inputType]);
 
@@ -131,6 +138,20 @@ const NewForm = ({
             (data) => {
                 if (data.success) {
                     setLists(data.lists)
+                    setShowLoader({show: false, icon: "", position: ""});
+                }
+            }
+        )
+    }
+
+    const fetchStore = () => {
+
+        setShowLoader({show: true, icon: "loading", position: "absolute"});
+
+        getShopifyStore().then(
+            (data) => {
+                if (data.success) {
+                    setProducts(data.products)
                     setShowLoader({show: false, icon: "", position: ""});
                 }
             }
@@ -200,8 +221,6 @@ const NewForm = ({
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-
 
         if (checkForMailchimpForm() === undefined || inputType !== "mailchimp_list") {
 
@@ -646,12 +665,30 @@ const NewForm = ({
                             />
                         }
 
-                        {(radioValue === "integration" && !lists) ?
 
-                            <MailchimpIntegration
-                                connectionError={connectionError}
-                                inputType={inputType}
-                            />
+                        {radioValue === "integration" ?
+
+                            <>
+                                <IntegrationType
+                                    integrationType={integrationType}
+                                    setIntegrationType={setIntegrationType}
+                                    setInputType={setInputType}
+                                />
+
+                                {(integrationType === "mailchimp" && !lists) &&
+                                    <MailchimpIntegration
+                                        connectionError={connectionError}
+                                        inputType={inputType}
+                                    />
+                                }
+
+                                { (integrationType === "shopify" && !products) &&
+                                    <ShopifyIntegration
+                                        connectionError={connectionError}
+                                        inputType={inputType}
+                                    />
+                                }
+                            </>
 
                             :
 
@@ -659,13 +696,13 @@ const NewForm = ({
                                 <div className="row">
                                     <div className="col-12">
                                         { (radioValue === "custom" ||
-                                        radioValue === "integration") ?
+                                        radioValue === "integration") &&
                                             <div className={!iconSelected ?
                                                 "crop_section hidden" :
                                                 "crop_section"}>
-                                                {iconSelected ?
-                                                    <p>Crop Icon</p> :
-                                                    ""}
+                                                {iconSelected &&
+                                                    <p>Crop Icon</p>
+                                                }
                                                 <ReactCrop
                                                     src={upImg}
                                                     onImageLoaded={onLoad}
@@ -675,9 +712,9 @@ const NewForm = ({
                                                         c)}
                                                 />
                                                 <div className="icon_col">
-                                                    {iconSelected ?
-                                                        <p>Icon Preview</p> :
-                                                        ""}
+                                                    {iconSelected &&
+                                                        <p>Icon Preview</p>
+                                                    }
                                                     <canvas
                                                         ref={iconRef}
                                                         // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
@@ -696,8 +733,6 @@ const NewForm = ({
                                                     />
                                                 </div>
                                             </div>
-                                            :
-                                            ""
                                         }
                                         <div className="icon_row">
                                             <div className="icon_box">
@@ -752,13 +787,14 @@ const NewForm = ({
                                                 placeholder="Link Name"
                                                 onChange={(e) => handleLinkName(e)}
                                                 disabled={!subStatus}
-                                                className={!subStatus ?
-                                                    "disabled" :
-                                                    ""}
+                                                className={!subStatus && "disabled"}
                                             />
                                             {!subStatus &&
-                                                <span className="disabled_wrap" data-type="name" onClick={(e) => handleOnClick(
-                                                    e)}> </span>}
+                                                <span className="disabled_wrap"
+                                                      data-type="name"
+                                                      onClick={(e) => handleOnClick(e)}>
+                                                </span>
+                                            }
                                         </div>
                                         <div className="my_row info_text title">
                                             <p className="char_max">Max 11 Characters Shown</p>
@@ -792,6 +828,7 @@ const NewForm = ({
                                             setCurrentLink={setCurrentLink}
                                             lists={lists}
                                             setLists={setLists}
+                                            products={products}
                                         />
                                     </div>
                                 </div>

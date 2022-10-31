@@ -15,6 +15,7 @@ use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\ContactMailController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MailchimpController;
+use App\Http\Controllers\ShopifyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,6 +91,10 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::post('/folder/new', [FolderController::class, 'store'])->name('add.folder');
 
+    Route::get('/auth/shopify/{domain}', [ShopifyController::class, 'auth'])->name('shopify.auth');
+    Route::get('/auth/shopify/callback', [ShopifyController::class, 'callback']);
+    Route::get('/shopify/get-store', [ShopifyController::class, 'getStore'])->name('shopify.get.store');
+
     Route::get('/auth/mailchimp', [MailchimpController::class, 'auth'])->name('mailchimp.auth');
     Route::get('/auth/mailchimp/callback', [MailchimpController::class, 'callback']);
     Route::get('/mailchimp/list', [MailchimpController::class, 'getLists'])->name('mailchimp.get.lists');
@@ -107,24 +112,6 @@ Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated']], function() {
     Route::get('/edit-account', [UserController::class, 'edit'])->name('user.edit');
     Route::get('/plans', [SubscriptionController::class, 'plans'])->name('plans.get');
     Route::get('/subscribe', [SubscriptionController::class, 'purchase'])->name('subscribe.get');
-});
-
-Route::post('newsletter/add-member', function() {
-
-    request()->validate(['email' => 'required|email']);
-
-    $mailchimp = new \MailchimpMarketing\ApiClient();
-
-    $mailchimp->setConfig([
-        'apiKey' => config('services.mailchimp.key'),
-        'server' => 'us13'
-    ]);
-
-    $response = $mailchimp->lists->addListMember('8d6a550a39', [
-        'email_address' => 'mcirami@gmail.com',
-        'status' => 'subscribed'
-    ]);
-    ddd($response);
 });
 
 Route::post('/mailchimp/subscribe', [MailchimpController::class, 'subscribeToList'])->name('mailchimp.subscribe');

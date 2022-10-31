@@ -7,6 +7,7 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use SocialiteProviders\Manager\SocialiteWasCalled;
 use SocialiteProviders\MailChimp\MailChimpExtendSocialite;
+use SocialiteProviders\Shopify\ShopifyExtendSocialite;
 use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
@@ -21,6 +22,7 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         SocialiteWasCalled::class => [
+            ShopifyExtendSocialite::class.'@handle',
             MailChimpExtendSocialite::class.'@handle',
         ],
     ];
