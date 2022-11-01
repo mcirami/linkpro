@@ -28,6 +28,7 @@ class ShopifyController extends Controller
 
         try {
             $shopifyUser = Socialite::driver('shopify')->user();
+
             $accessToken = $shopifyUser->accessTokenResponseBody["access_token"];
             $domain = $shopifyUser->getNickname();
 
@@ -40,7 +41,6 @@ class ShopifyController extends Controller
 
             $products = $shopify->getProducts()->toArray();
 
-            //$products[6]["variants"][0]["price"];
             $productsArray = [];
             foreach($products as $product) {
                 $linkObject = [

@@ -83,6 +83,7 @@ function App() {
     const [editID, setEditID] = useState(null);
     const [radioValue, setRadioValue] = useState("standard");
     const [inputType, setInputType] = useState(null);
+    const [integrationType, setIntegrationType] = useState(null);
 
     const [showUpgradePopup, setShowUpgradePopup] = useState(false);
     const [showConfirmPopup, setShowConfirmPopup] = useState(false);
@@ -177,6 +178,7 @@ function App() {
             setInputType(localStorage.getItem('inputType') || null)
             setRadioValue("integration");
             setRedirected(true);
+            setIntegrationType(redirected);
 
             setTimeout(function(){
                 document.querySelector('#scrollTo').scrollIntoView({
@@ -421,6 +423,8 @@ function App() {
                                                     setInputType={setInputType}
                                                     setShowMessageAlertPopup={setShowMessageAlertPopup}
                                                     connectionError={connectionError}
+                                                    integrationType={integrationType}
+                                                    setIntegrationType={setIntegrationType}
                                                 />
                                         }
 

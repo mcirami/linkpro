@@ -174,12 +174,12 @@ const Preview = ({
                                 const dataRow = Math.ceil((index + 1) / 4);
 
                                 let displayIcon = null;
-                                if(type === "standard" || type === "form") {
+                                if(type === "standard" || type === "mailchimp") {
                                     displayIcon = checkIcon(icon, "preview");
                                 }
 
                                 let colClasses = "";
-                                if (type === "folder" || type === "form") {
+                                if (type === "folder" || type === "mailchimp") {
                                     colClasses = "icon_col folder";
                                 } else {
                                     colClasses = "icon_col";
@@ -234,7 +234,7 @@ const Preview = ({
                                                     }
                                                 </div>,
 
-                                            "form":
+                                            "mailchimp":
 
                                                 <FormIcon
                                                     colClasses={colClasses}

@@ -56,7 +56,9 @@ const NewForm = ({
                      setInputType,
                      setShowMessageAlertPopup,
                      connectionError,
-                     showLoader
+                     showLoader,
+                     integrationType,
+                     setIntegrationType
 }) => {
 
     const { userLinks, dispatch } = useContext(UserLinksContext);
@@ -91,7 +93,6 @@ const NewForm = ({
 
     const [charactersLeft, setCharactersLeft] = useState();
     const [lists, setLists] = useState(null);
-    const [integrationType, setIntegrationType] = useState(null);
     const [products, setProducts] = useState(null);
 
     useEffect(() => {
