@@ -3,17 +3,17 @@ import React from 'react';
 const IntegrationType = ({integrationType, setIntegrationType, setInputType}) => {
 
     const handleChange = (e) => {
-        const integration = e.target.value;
+        const value = e.target.value;
 
-        if (integration === "mailchimp") {
+        if (value === "mailchimp") {
             setInputType("mailchimp_list")
         }
 
-        if (integration === "shopify") {
+        if (value === "shopify") {
             setInputType("shopify")
         }
 
-        setIntegrationType(e.target.value);
+        setIntegrationType(value);
     }
 
     return (

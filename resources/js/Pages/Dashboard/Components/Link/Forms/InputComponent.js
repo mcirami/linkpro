@@ -2,8 +2,18 @@ import React, {useState, useEffect} from 'react';
 import {
     removeMailchimpConnection,
 } from '../../../../../Services/UserService';
+import ShopifyIntegration from './ShopifyIntegration';
+import ShopifyProducts from './ShopifyProducts';
 
-const InputComponent = ({ currentLink, setCurrentLink, inputType, lists, setLists, products }) => {
+const InputComponent = ({
+                            currentLink,
+                            setCurrentLink,
+                            inputType, lists,
+                            setLists,
+                            allProducts,
+                            selectedProducts,
+                            setSelectedProducts
+}) => {
 
     const {url, email, phone} = currentLink;
 
@@ -166,9 +176,10 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType, lists, setList
                     case "shopify":
 
                         return (
-                            <div className="my_row">
-                                <h2>Shopify</h2>
-                            </div>
+                            <ShopifyProducts
+                                selectedProducts={selectedProducts}
+                                allProducts={allProducts}
+                            />
                         )
                     default:
 

@@ -436,6 +436,10 @@ form .bottom_row a {
 
                 .inner_wrap {
                     position: relative;
+
+                    .integration_dropdown_wrap {
+                        margin-bottom: 10px;
+                    }
                 }
             }
 
@@ -1159,7 +1163,7 @@ form .bottom_row a {
 
     h3 {
         text-align: center;
-        margin: 20px 0;
+        margin-bottom: 20px;
         border-bottom: 1px solid $borderGray;
         padding-bottom: 10px;
         font-size: 20px;

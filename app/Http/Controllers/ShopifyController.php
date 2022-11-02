@@ -17,7 +17,7 @@ class ShopifyController extends Controller
         $clientSecret = config('services.shopify.client_secret');
         $redirectUrl = config('services.shopify.redirect');
         $scopes = config('services.shopify.scopes');
-        $additionalProviderConfig = ['subdomain' => $domain];
+        $additionalProviderConfig = ['subdomain' => "matteos-example"];
         $config = new Config($clientId, $clientSecret, $redirectUrl, $additionalProviderConfig);
 
         return Socialite::driver('shopify')->setConfig($config)->setScopes([$scopes])->redirect();
@@ -43,7 +43,7 @@ class ShopifyController extends Controller
 
             $productsArray = [];
             foreach($products as $product) {
-                $linkObject = [
+                $productObject = [
                     "id"            => $product["id"],
                     "product_url"   => 'https://' . $domain . '/product/' . $product["handle"],
                     "title"         => $product["title"],
@@ -51,7 +51,7 @@ class ShopifyController extends Controller
                     "image_url"     => $product["image"] ? $product["image"]["src"] : null
                 ];
 
-                array_push($productsArray, $linkObject);
+                array_push($productsArray, $productObject);
             }
 
             Auth::user()->shopifyUsers()->create([

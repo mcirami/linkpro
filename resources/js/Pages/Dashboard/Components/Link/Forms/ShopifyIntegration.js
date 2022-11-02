@@ -26,7 +26,7 @@ const ShopifyIntegration = ({connectionError, inputType, editID = false}) => {
         <div className="integration_wrap">
             <h3>Add your Shopify store as a LinkPro button!</h3>
             <p>In connecting Shopify, you are sharing your Shopify store name and Product details with LinkPro.</p>
-            <p className="small">Note: You will be redirected away from Link Pro to log into Shopify. You will need to either already have or create a a Shopify store of your own to use this integration.</p>
+            <p className="small">Note: You will be redirected away from LinkPro to log into Shopify. You will need to either already have or create a a Shopify store of your own to use this integration.</p>
 
             <form onSubmit={handleSubmit} className="link_form shopify_domain">
                 <label htmlFor="domain">Enter your .myshopify.com URL to log into your store.</label>

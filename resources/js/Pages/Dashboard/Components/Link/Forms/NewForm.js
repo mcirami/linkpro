@@ -93,7 +93,8 @@ const NewForm = ({
 
     const [charactersLeft, setCharactersLeft] = useState();
     const [lists, setLists] = useState(null);
-    const [products, setProducts] = useState(null);
+    const [allProducts, setAllProducts] = useState(null);
+    const [selectedProducts, setSelectedProducts] = useState(null);
 
     useEffect(() => {
         if (inputType === "mailchimp_list") {
@@ -152,7 +153,7 @@ const NewForm = ({
         getShopifyStore().then(
             (data) => {
                 if (data.success) {
-                    setProducts(data.products)
+                    setAllProducts(data.products)
                     setShowLoader({show: false, icon: "", position: ""});
                 }
             }
@@ -667,7 +668,7 @@ const NewForm = ({
                         }
 
 
-                        {radioValue === "integration" ?
+                        {radioValue === "integration" &&
 
                             <>
                                 <IntegrationType
@@ -683,7 +684,8 @@ const NewForm = ({
                                     />
                                 }
 
-                                { (integrationType === "shopify" && !products) &&
+                                {(integrationType === "shopify" &&
+                                        !allProducts) &&
                                     <ShopifyIntegration
                                         connectionError={connectionError}
                                         inputType={inputType}
@@ -691,13 +693,14 @@ const NewForm = ({
                                 }
                             </>
 
-                            :
+                        }
 
+                        { ( (integrationType === "mailchimp" && lists) || (integrationType === "shopify" && allProducts ) || radioValue !== "integration") &&
                             <form onSubmit={handleSubmit} className="link_form">
                                 <div className="row">
                                     <div className="col-12">
-                                        { (radioValue === "custom" ||
-                                        radioValue === "integration") &&
+                                        {(radioValue === "custom" ||
+                                                radioValue === "integration") &&
                                             <div className={!iconSelected ?
                                                 "crop_section hidden" :
                                                 "crop_section"}>
@@ -739,8 +742,9 @@ const NewForm = ({
                                             <div className="icon_box">
 
                                                 <div className="uploader">
-                                                    { (radioValue === "custom" ||
-                                                    radioValue === "integration") ?
+                                                    {(radioValue === "custom" ||
+                                                        radioValue ===
+                                                        "integration") ?
 
                                                         <>
                                                             <label htmlFor="custom_icon_upload" className="custom text-uppercase button blue">
@@ -786,14 +790,17 @@ const NewForm = ({
                                                 type="text"
                                                 value={currentLink.name || ""}
                                                 placeholder="Link Name"
-                                                onChange={(e) => handleLinkName(e)}
+                                                onChange={(e) => handleLinkName(
+                                                    e)}
                                                 disabled={!subStatus}
-                                                className={!subStatus && "disabled"}
+                                                className={!subStatus &&
+                                                    "disabled"}
                                             />
                                             {!subStatus &&
                                                 <span className="disabled_wrap"
                                                       data-type="name"
-                                                      onClick={(e) => handleOnClick(e)}>
+                                                      onClick={(e) => handleOnClick(
+                                                          e)}>
                                                 </span>
                                             }
                                         </div>
@@ -829,7 +836,9 @@ const NewForm = ({
                                             setCurrentLink={setCurrentLink}
                                             lists={lists}
                                             setLists={setLists}
-                                            products={products}
+                                            allProducts={allProducts}
+                                            selectedProducts={selectedProducts}
+                                            setSelectedProducts={setSelectedProducts}
                                         />
                                     </div>
                                 </div>
@@ -852,6 +861,7 @@ const NewForm = ({
                                 </div>
                             </form>
                         }
+
                     </div>
                 </div>
             </div>

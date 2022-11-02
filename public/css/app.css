@@ -14206,6 +14206,9 @@ form .bottom_row a {
 #links_page .edit_form.popup .tab_content_wrap .inner_wrap, #links_page .edit_form.link .tab_content_wrap .inner_wrap {
   position: relative;
 }
+#links_page .edit_form.popup .tab_content_wrap .inner_wrap .integration_dropdown_wrap, #links_page .edit_form.link .tab_content_wrap .inner_wrap .integration_dropdown_wrap {
+  margin-bottom: 10px;
+}
 #links_page .edit_form.popup .link_form, #links_page .edit_form.link .link_form {
   width: 100%;
   background: #ffffff;
@@ -14817,7 +14820,7 @@ form .bottom_row a {
 }
 .integration_wrap h3, .integration_wrap .h3 {
   text-align: center;
-  margin: 20px 0;
+  margin-bottom: 20px;
   border-bottom: 1px solid #d2d2d2;
   padding-bottom: 10px;
   font-size: 20px;
