@@ -55,7 +55,7 @@ const InputComponent = ({
                     key: "phone"
                 })
                 break;
-            case 'mailchimp_list':
+            case 'mailchimp':
                 setInputValues({
                     name: "mailchimp_list_id",
                     placeholder: "Select Your Mailchimp List",
@@ -148,7 +148,7 @@ const InputComponent = ({
 
                 switch (inputType) {
 
-                    case "mailchimp_list":
+                    case "mailchimp":
 
                         return (
                             <MailchimpLists

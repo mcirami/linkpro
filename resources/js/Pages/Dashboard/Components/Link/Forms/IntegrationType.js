@@ -5,14 +5,7 @@ const IntegrationType = ({integrationType, setIntegrationType, setInputType}) =>
     const handleChange = (e) => {
         const value = e.target.value;
 
-        if (value === "mailchimp") {
-            setInputType("mailchimp_list")
-        }
-
-        if (value === "shopify") {
-            setInputType("shopify")
-        }
-
+        setInputType(value)
         setIntegrationType(value);
     }
 

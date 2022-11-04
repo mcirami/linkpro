@@ -18,7 +18,7 @@ const FormTabs = ({
 
         if (value === "integration") {
 
-            setInputType('mailchimp_list')
+            setInputType('mailchimp')
 
             setCurrentLink(prevState => ({
                 ...prevState,
@@ -26,7 +26,7 @@ const FormTabs = ({
                 type: "mailchimp"
             }))
         } else {
-            if(inputType !== "mailchimp_list") {
+            if(inputType !== "mailchimp") {
                 setInputType(inputType)
                 setCurrentLink(prevState => ({
                     ...prevState,

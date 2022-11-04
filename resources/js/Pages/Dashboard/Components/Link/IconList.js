@@ -64,7 +64,7 @@ const IconList = ({
         if (radioValue === "integration" && formType === "new") {
             setIsDefaultIcon(true)
 
-            if (inputType === "mailchimp_list") {
+            if (inputType === "mailchimp") {
                 setCurrentLink(prevState => ({
                     ...prevState,
                     icon: "https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png",
@@ -115,7 +115,7 @@ const IconList = ({
                         <img alt=""
                              className={`
                              ${isDefaultIcon ? "active img-fluid icon_image" : "img-fluid icon_image"}`}
-                             src={inputType === "mailchimp_list" ? "https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png" : "https://lp-production-images.s3.us-east-2.amazonaws.com/icons/Shopify.png"}
+                             src={inputType === "mailchimp" ? "https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png" : "https://lp-production-images.s3.us-east-2.amazonaws.com/icons/Shopify.png"}
                              onClick={(e) => {
                                 selectIcon(e, e.target.src)
                             }}/>

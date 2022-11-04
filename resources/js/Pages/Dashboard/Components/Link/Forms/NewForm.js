@@ -95,11 +95,11 @@ const NewForm = ({
     const [charactersLeft, setCharactersLeft] = useState();
     const [lists, setLists] = useState(null);
     const [allProducts, setAllProducts] = useState(null);
-    const [selectedProducts, setSelectedProducts] = useState([]);
+    const [selectedProducts, setSelectedProducts] = useState(null);
     const [displayAllProducts, setDisplayAllProducts] = useState(false);
 
     useEffect(() => {
-        if (inputType === "mailchimp_list") {
+        if (inputType === "mailchimp") {
             fetchLists()
         }
         if (inputType === "shopify") {
@@ -226,7 +226,7 @@ const NewForm = ({
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (checkForMailchimpForm() === undefined || inputType !== "mailchimp_list") {
+        if (checkForMailchimpForm() === undefined || inputType !== "mailchimp") {
 
             if (iconSelected) {
 
@@ -292,7 +292,7 @@ const NewForm = ({
                                 type: currentLink.type,
                             };
                             break;
-                        case "mailchimp_list":
+                        case "mailchimp":
                             packets = {
                                 name: currentLink.name,
                                 mailchimp_list_id: currentLink.mailchimp_list_id,
@@ -504,7 +504,7 @@ const NewForm = ({
                             type: currentLink.type,
                         };
                         break;
-                    case "mailchimp_list":
+                    case "mailchimp":
                         packets = {
                             name: currentLink.name,
                             mailchimp_list_id: currentLink.mailchimp_list_id,

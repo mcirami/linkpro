@@ -82,7 +82,7 @@ const EditForm = ({
     const [input, setInput] = useState("");
 
     useEffect(() => {
-        if (inputType === "mailchimp_list") {
+        if (inputType === "mailchimp") {
             fetchLists()
         }
     }, [inputType]);
@@ -119,7 +119,7 @@ const EditForm = ({
             setRadioValue("custom");
         } else if (currentLink.mailchimp_list_id || redirected === true) {
             setRadioValue("integration")
-            setInputType("mailchimp_list")
+            setInputType("mailchimp")
             setRedirected(false);
         } else {
             setRadioValue("standard")
@@ -177,7 +177,7 @@ const EditForm = ({
 
         console.log(checkForMailchimpForm());
 
-        if ( checkForMailchimpForm() === undefined || !checkForMailchimpForm() || inputType !== "mailchimp_list") {
+        if ( checkForMailchimpForm() === undefined || !checkForMailchimpForm() || inputType !== "mailchimp") {
 
             if (iconSelected) {
 
@@ -238,7 +238,7 @@ const EditForm = ({
                                 type: currentLink.type
                             };
                             break;
-                        case "mailchimp_list":
+                        case "mailchimp":
                             packets = {
                                 name: currentLink.name,
                                 mailchimp_list_id: currentLink.mailchimp_list_id,
@@ -399,7 +399,7 @@ const EditForm = ({
                         type: currentLink.type
                     };
                     break;
-                case "mailchimp_list":
+                case "mailchimp":
                     packets = {
                         name: currentLink.name,
                         mailchimp_list_id: currentLink.mailchimp_list_id,

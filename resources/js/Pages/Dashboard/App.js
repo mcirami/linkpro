@@ -48,6 +48,7 @@ import EventBus from '../../Utils/Bus';
 import FolderHeading from './Components/Folder/FolderHeading';
 import InfoText from './Components/Page/InfoText';
 import {MessageAlertPopup} from './Components/Popups/MessageAlertPopup';
+import IconForm from './Components/Link/Forms/IconForm';
 
 const page = user.page;
 const userPages = user.user_pages;
@@ -81,6 +82,9 @@ function App() {
 
     const [showNewForm, setShowNewForm] = useState(false)
     const [editID, setEditID] = useState(null);
+
+    const [showLinkForm, setShowLinkForm] = useState(false);
+
     const [radioValue, setRadioValue] = useState("standard");
     const [inputType, setInputType] = useState(null);
     const [integrationType, setIntegrationType] = useState(null);
@@ -163,7 +167,7 @@ function App() {
 
     }, [])
 
-    const [redirected, setRedirected] = useState(false);
+    const [redirectedType, setRedirectedType] = useState(null);
 
     useEffect(() => {
         const href = window.location.href.split('?')[0]
@@ -177,7 +181,7 @@ function App() {
             setEditID(JSON.parse(localStorage.getItem('editID')) || null)
             setInputType(localStorage.getItem('inputType') || null)
             setRadioValue("integration");
-            setRedirected(true);
+            setRedirectedType(redirected);
             setIntegrationType(redirected);
 
             setTimeout(function(){
@@ -382,6 +386,33 @@ function App() {
                                             />
                                         }
 
+                                        {showLinkForm &&
+                                            <IconForm
+                                                setShowLinkForm={setShowLinkForm}
+                                                folderID={editFolderID}
+                                                setEditFolderID={setEditFolderID}
+                                                editID={editID}
+                                                setEditID={setEditID}
+                                                setShowUpgradePopup={setShowUpgradePopup}
+                                                setShowConfirmPopup={setShowConfirmPopup}
+                                                setShowMessageAlertPopup={setShowMessageAlertPopup}
+                                                setOptionText={setOptionText}
+                                                customIconArray={customIconArray}
+                                                setCustomIconArray={setCustomIconArray}
+                                                subStatus={subStatus}
+                                                radioValue={radioValue}
+                                                setRadioValue={setRadioValue}
+                                                redirected={redirected}
+                                                setRedirected={setRedirected}
+                                                connectionError={connectionError}
+                                                showLoader={showLoader}
+                                                setShowLoader={setShowLoader}
+                                                inputType={inputType}
+                                                setInputType={setInputType}
+                                                integrationType={integrationType}
+                                                setIntegrationType={setIntegrationType}
+                                            />
+                                        }
 
                                         { editID ?
                                                 <EditForm
