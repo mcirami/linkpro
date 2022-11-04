@@ -331,6 +331,7 @@ const NewForm = ({
                                     phone: currentLink.phone,
                                     type: currentLink.type,
                                     mailchimp_list_id: currentLink.mailchimp_list_id,
+                                    shopify_products: currentLink.shopify_products,
                                     icon: currentLink.icon,
                                     position: data.position,
                                     active_status: true
@@ -397,6 +398,7 @@ const NewForm = ({
                                     phone: currentLink.phone,
                                     type: currentLink.type,
                                     mailchimp_list_id: currentLink.mailchimp_list_id,
+                                    shopify_products: currentLink.shopify_products,
                                     icon: currentLink.icon,
                                     position: data.position,
                                     active_status: true
@@ -532,6 +534,7 @@ const NewForm = ({
                                 email: currentLink.email,
                                 phone: currentLink.phone,
                                 mailchimp_list_id: currentLink.mailchimp_list_id,
+                                shopify_products: currentLink.shopify_products,
                                 type: currentLink.type,
                                 icon: data.icon_path,
                                 position: data.position,
@@ -590,6 +593,7 @@ const NewForm = ({
                                 phone: currentLink.phone,
                                 type: currentLink.type,
                                 mailchimp_list_id: currentLink.mailchimp_list_id,
+                                shopify_products: currentLink.shopify_products,
                                 icon: data.icon_path,
                                 position: data.position,
                                 active_status: true
@@ -696,7 +700,7 @@ const NewForm = ({
                                     />
                                 }
 
-                                {(integrationType === "shopify") &&
+                                {(integrationType === "shopify" && !allProducts) &&
                                     <ShopifyIntegration
                                         connectionError={connectionError}
                                         inputType={inputType}
