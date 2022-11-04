@@ -24,7 +24,7 @@ import {
 import FormTabs from './FormTabs';
 import InputTypeRadio from './InputTypeRadio';
 import {getMailchimpLists} from '../../../../../Services/UserService';
-import MailchimpIntegration from './MailchimpIntegration';
+import MailchimpIntegration from './Mailchimp/MailchimpIntegration';
 
 const EditForm = ({
                       editID,

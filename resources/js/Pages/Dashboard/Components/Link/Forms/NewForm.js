@@ -35,8 +35,8 @@ import FormBreadcrumbs from './FormBreadcrumbs';
 import InputTypeRadio from './InputTypeRadio';
 import FormTabs from './FormTabs';
 import {getMailchimpLists, getAllProducts} from '../../../../../Services/UserService';
-import MailchimpIntegration from './MailchimpIntegration';
-import ShopifyIntegration from './ShopifyIntegration';
+import MailchimpIntegration from './Mailchimp/MailchimpIntegration';
+import ShopifyIntegration from './Shopify/ShopifyIntegration';
 import {Loader} from '../../../../../Utils/Loader';
 import IntegrationType from './IntegrationType';
 import {isEmpty} from 'lodash';
@@ -302,6 +302,16 @@ const NewForm = ({
                                 type: currentLink.type,
                             };
                             break;
+                        case "shopify":
+                            packets = {
+                                name: currentLink.name,
+                                shopify_products: currentLink.shopify_products,
+                                icon: currentLink.icon,
+                                page_id: pageSettings["id"],
+                                folder_id: folderID,
+                                type: currentLink.type,
+                            };
+                            break;
                     }
 
                     addLink(packets).then((data) => {
@@ -436,7 +446,7 @@ const NewForm = ({
 
     const submitWithCustomIcon = (image) => {
 
-        if(currentLink.name && (currentLink.url || currentLink.email || currentLink.phone || currentLink.mailchimp_list_id)) {
+        if(currentLink.name && (currentLink.url || currentLink.email || currentLink.phone || currentLink.mailchimp_list_id || !isEmpty(currentLink.shopify_products)) ) {
 
             setShowLoader({show: true, icon: "upload", position: "fixed"})
             window.Vapor.store(
@@ -686,8 +696,7 @@ const NewForm = ({
                                     />
                                 }
 
-                                {(integrationType === "shopify" &&
-                                        !allProducts) &&
+                                {(integrationType === "shopify") &&
                                     <ShopifyIntegration
                                         connectionError={connectionError}
                                         inputType={inputType}
@@ -775,6 +784,7 @@ const NewForm = ({
                                                         radioValue={radioValue}
                                                         setCharactersLeft={setCharactersLeft}
                                                         customIconArray={customIconArray}
+                                                        inputType={inputType}
                                                         setInputType={setInputType}
                                                         formType="new"
                                                     />

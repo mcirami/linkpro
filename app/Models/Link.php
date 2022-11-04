@@ -27,7 +27,8 @@ class Link extends Model
         'active_status',
         'embed_code',
         'type',
-        'mailchimp_list_id'
+        'mailchimp_list_id',
+        'shopify_products'
     ];
 
     public function user() {

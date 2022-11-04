@@ -29,6 +29,7 @@ class AddLinkRequest extends FormRequest
             'email' => 'sometimes|required|email',
             'phone' => 'sometimes|required',
             'mailchimp_list_id' => 'sometimes|required',
+            'shopify_products' => 'sometimes|required',
             'icon' => 'required',
         ];
     }
