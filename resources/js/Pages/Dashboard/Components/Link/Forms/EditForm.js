@@ -1,17 +1,27 @@
 import React, {
     createRef,
     useCallback,
-    useContext, useEffect,
+    useContext,
+    useEffect,
     useRef,
     useState,
 } from 'react';
 import IconList from "../IconList";
-import { UserLinksContext, OriginalArrayContext, PageContext, FolderLinksContext, OriginalFolderLinksContext } from '../../../App';
+import {
+    UserLinksContext,
+    OriginalArrayContext,
+    PageContext,
+    FolderLinksContext,
+    OriginalFolderLinksContext
+} from '../../../App';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
 import InputComponent from './InputComponent';
 const iconPaths = user.icons;
-import {updateLink, checkURL} from '../../../../../Services/LinksRequest';
+import {
+    updateLink,
+    checkURL
+} from '../../../../../Services/LinksRequest';
 import {completedImageCrop, getIconPaths} from '../../../../../Services/ImageService';
 import FormBreadcrumbs from './FormBreadcrumbs';
 

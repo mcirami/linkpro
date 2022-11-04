@@ -55,7 +55,8 @@ const Links = ({
                    setShowUpgradePopup,
                    setOptionText,
                    subStatus,
-                   iconsWrapRef
+                   iconsWrapRef,
+                   setShowForm
                }) => {
 
     const { userLinks, dispatch } = useContext(UserLinksContext);
@@ -276,6 +277,7 @@ const Links = ({
 
     const handleOnClick = (linkID) => {
         setEditID(linkID);
+        setShowForm({show: true, type: "edit"})
 
         setTimeout(function(){
             document.querySelector('#scrollTo').scrollIntoView({

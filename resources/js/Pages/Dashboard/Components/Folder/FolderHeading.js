@@ -9,7 +9,7 @@ const FolderHeading = ({
                            setShowUpgradePopup,
                            setOptionText,
                            setEditFolderID,
-                           setShowNewForm,
+                           setShowForm,
                            setShowConfirmFolderDelete,
                            editFolderID,
                            setRadioValue
@@ -48,7 +48,7 @@ const FolderHeading = ({
                 <div className="add_more_icons">
                     <AddLink
                         subStatus={subStatus}
-                        setShowNewForm={setShowNewForm}
+                        setShowForm={setShowForm}
                         setShowUpgradePopup={setShowUpgradePopup}
                         setOptionText={setOptionText}
                         setRadioValue={setRadioValue}

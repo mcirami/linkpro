@@ -14,7 +14,7 @@ const AddLink = ({subStatus, setShowUpgradePopup, setOptionText, setShowNewForm,
 
         if (count < 8 || subStatus ) {
 
-            setShowNewForm(true);
+            setShowForm({show: true, type: "new"});
 
             setTimeout(function(){
                 document.querySelector('#scrollTo').scrollIntoView({

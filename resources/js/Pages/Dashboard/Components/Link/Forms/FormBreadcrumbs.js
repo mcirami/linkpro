@@ -4,13 +4,20 @@ import {MdDeleteForever} from 'react-icons/md';
 
 const FormBreadcrumbs = ({
                              folderID,
-                             setEditID = false,
+                             setEditID,
                              setEditFolderID = false,
                              iconSelected,
                              setShowConfirmPopup = false,
-                             setShowNewForm = false,
+                             setShowForm,
                              formType
 }) => {
+
+    const handleClick = (e) => {
+        e.preventDefault();
+        setShowForm({show: false, type: ""});
+        setEditID(null);
+        setEditFolderID ? setEditFolderID(false) : "";
+    }
 
     const handleDeleteClick = e => {
         e.preventDefault();
@@ -24,7 +31,7 @@ const FormBreadcrumbs = ({
                     <a className="back" href="#"
                        onClick={(e) => {
                            e.preventDefault();
-                           setShowNewForm ? setShowNewForm(false) : setEditID(null);
+                           setShowForm ? setShowForm({show: false, type: ""}) : setEditID(null);
                        }}
                     >
                         <BiChevronLeft />
@@ -34,7 +41,7 @@ const FormBreadcrumbs = ({
                        onClick={(e) => {
                            e.preventDefault();
                            setEditFolderID(false);
-                           setShowNewForm ? setShowNewForm(false) : setEditID(null);
+                           setShowForm ? setShowForm({show: false, type: ""}) : setEditID(null);
                        }}
                     >
                         <BiChevronsLeft />
@@ -43,12 +50,7 @@ const FormBreadcrumbs = ({
                 </>
                 :
                 <a className="back" href="#"
-                   onClick={(e) => {
-                       e.preventDefault();
-                       setShowNewForm ? setShowNewForm(false) : "";
-                       setEditID ? setEditID(null) : "";
-                       setEditFolderID ? setEditFolderID(false) : "";
-                   }}
+                   onClick={(e) => handleClick(e)}
                 >
                     <BiChevronLeft />
                     Back To Icons
