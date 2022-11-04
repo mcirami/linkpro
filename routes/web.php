@@ -93,7 +93,7 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/auth/shopify/{domain}', [ShopifyController::class, 'auth'])->name('shopify.auth');
     Route::get('/auth/shopify/callback', [ShopifyController::class, 'callback']);
-    Route::get('/shopify/get-store', [ShopifyController::class, 'getStore'])->name('shopify.get.store');
+    Route::get('/shopify/get-products', [ShopifyController::class, 'getAllProducts'])->name('shopify.get.store');
 
     Route::get('/auth/mailchimp', [MailchimpController::class, 'auth'])->name('mailchimp.auth');
     Route::get('/auth/mailchimp/callback', [MailchimpController::class, 'callback']);

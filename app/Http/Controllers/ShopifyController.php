@@ -17,8 +17,8 @@ class ShopifyController extends Controller
         $clientSecret = config('services.shopify.client_secret');
         $redirectUrl = config('services.shopify.redirect');
         $scopes = config('services.shopify.scopes');
-        $additionalProviderConfig = ['subdomain' => "matteos-example"];
-        $config = new Config($clientId, $clientSecret, $redirectUrl, $additionalProviderConfig);
+        $additionalProviderConfig = ['subdomain' => "matteos-new-store"];
+        $config = new Config($clientId, $clientSecret, "/auth/shopify/callback", $additionalProviderConfig);
 
         return Socialite::driver('shopify')->setConfig($config)->setScopes([$scopes])->redirect();
 
@@ -26,9 +26,9 @@ class ShopifyController extends Controller
 
     public function callback() {
 
+
         try {
             $shopifyUser = Socialite::driver('shopify')->user();
-
             $accessToken = $shopifyUser->accessTokenResponseBody["access_token"];
             $domain = $shopifyUser->getNickname();
 
@@ -76,13 +76,15 @@ class ShopifyController extends Controller
         }
     }
 
-    public function getStore() {
+    public function getAllProducts() {
 
         $user = Auth::user();
 
-        $products = $user->shopifyUsers()->pluck('products');
+        $products = $user->shopifyUsers()->get('products');
 
-        return json_decode($products);
+        return response()->json([
+            'products' => json_decode($products)
+        ]);
 
     }
 }

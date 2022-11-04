@@ -1,5 +1,6 @@
 import axios from 'axios';
 import EventBus from '../Utils/Bus';
+import {isEmpty} from 'lodash';
 
 const userSub = user.userSub;
 
@@ -55,7 +56,6 @@ export const getMailchimpLists = () => {
         (response) => {
             //console.log(JSON.stringify(response.data));
             const lists = response.data.lists;
-
             return {
                 success : true,
                 lists : lists,
@@ -109,16 +109,16 @@ export const removeMailchimpConnection = () => {
     });
 }
 
-export const getShopifyStore = () => {
+export const getAllProducts = () => {
 
-    return axios.get('/shopify/get-store').then(
+    return axios.get('/shopify/get-products').then(
         (response) => {
             //console.log(JSON.stringify(response.data));
             const products = response.data.products;
 
             return {
                 success : true,
-                products : products,
+                products : !isEmpty(products) ? JSON.parse(products[0]["products"]) : products,
             }
         },
 

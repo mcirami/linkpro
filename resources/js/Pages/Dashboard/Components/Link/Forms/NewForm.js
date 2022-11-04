@@ -34,11 +34,12 @@ import {
 import FormBreadcrumbs from './FormBreadcrumbs';
 import InputTypeRadio from './InputTypeRadio';
 import FormTabs from './FormTabs';
-import {getMailchimpLists, getShopifyStore} from '../../../../../Services/UserService';
+import {getMailchimpLists, getAllProducts} from '../../../../../Services/UserService';
 import MailchimpIntegration from './MailchimpIntegration';
 import ShopifyIntegration from './ShopifyIntegration';
 import {Loader} from '../../../../../Utils/Loader';
 import IntegrationType from './IntegrationType';
+import {isEmpty} from 'lodash';
 
 const NewForm = ({
                      setShowNewForm,
@@ -94,7 +95,8 @@ const NewForm = ({
     const [charactersLeft, setCharactersLeft] = useState();
     const [lists, setLists] = useState(null);
     const [allProducts, setAllProducts] = useState(null);
-    const [selectedProducts, setSelectedProducts] = useState(null);
+    const [selectedProducts, setSelectedProducts] = useState([]);
+    const [displayAllProducts, setDisplayAllProducts] = useState(false);
 
     useEffect(() => {
         if (inputType === "mailchimp_list") {
@@ -139,7 +141,7 @@ const NewForm = ({
         getMailchimpLists().then(
             (data) => {
                 if (data.success) {
-                    setLists(data.lists)
+                    !isEmpty(data.lists) && setLists(data.lists);
                     setShowLoader({show: false, icon: "", position: ""});
                 }
             }
@@ -150,10 +152,10 @@ const NewForm = ({
 
         setShowLoader({show: true, icon: "loading", position: "absolute"});
 
-        getShopifyStore().then(
+        getAllProducts().then(
             (data) => {
                 if (data.success) {
-                    setAllProducts(data.products)
+                    !isEmpty(data.products) && setAllProducts(data.products)
                     setShowLoader({show: false, icon: "", position: ""});
                 }
             }
@@ -699,8 +701,7 @@ const NewForm = ({
                             <form onSubmit={handleSubmit} className="link_form">
                                 <div className="row">
                                     <div className="col-12">
-                                        {(radioValue === "custom" ||
-                                                radioValue === "integration") &&
+                                        {(radioValue === "custom" || radioValue === "integration") &&
                                             <div className={!iconSelected ?
                                                 "crop_section hidden" :
                                                 "crop_section"}>
@@ -738,85 +739,89 @@ const NewForm = ({
                                                 </div>
                                             </div>
                                         }
-                                        <div className="icon_row">
-                                            <div className="icon_box">
+                                        {!displayAllProducts &&
+                                            <div className="icon_row">
+                                                <div className="icon_box">
 
-                                                <div className="uploader">
-                                                    {(radioValue === "custom" ||
-                                                        radioValue ===
-                                                        "integration") ?
+                                                    <div className="uploader">
+                                                        {(radioValue === "custom" ||
+                                                            radioValue ===
+                                                            "integration") ?
 
-                                                        <>
-                                                            <label htmlFor="custom_icon_upload" className="custom text-uppercase button blue">
-                                                                Upload Image
-                                                            </label>
-                                                            <input id="custom_icon_upload" type="file" className="custom" onChange={selectCustomIcon} accept="image/png, image/jpeg, image/jpg, image/gif"/>
-                                                            <div className="my_row info_text file_types text-center mb-2">
-                                                                <p className="m-0 char_count w-100 ">Allowed File Types: <span>png, jpg, jpeg, gif</span>
-                                                                </p>
-                                                            </div>
-                                                        </>
-                                                        :
-                                                        <>
-                                                            <input name="search" type="text" placeholder="Search Icons" onChange={handleChange} defaultValue={input}/>
-                                                            <div className="my_row info_text file_types text-center mb-2 text-center">
-                                                                <a href="mailto:help@link.pro" className="mx-auto m-0 char_count">Don't See Your Icon? Contact Us!</a>
-                                                            </div>
-                                                        </>
-                                                    }
+                                                            <>
+                                                                <label htmlFor="custom_icon_upload" className="custom text-uppercase button blue">
+                                                                    Upload Image
+                                                                </label>
+                                                                <input id="custom_icon_upload" type="file" className="custom" onChange={selectCustomIcon} accept="image/png, image/jpeg, image/jpg, image/gif"/>
+                                                                <div className="my_row info_text file_types text-center mb-2">
+                                                                    <p className="m-0 char_count w-100 ">Allowed File Types: <span>png, jpg, jpeg, gif</span>
+                                                                    </p>
+                                                                </div>
+                                                            </>
+                                                            :
+                                                            <>
+                                                                <input name="search" type="text" placeholder="Search Icons" onChange={handleChange} defaultValue={input}/>
+                                                                <div className="my_row info_text file_types text-center mb-2 text-center">
+                                                                    <a href="mailto:help@link.pro" className="mx-auto m-0 char_count">Don't See Your Icon? Contact Us!</a>
+                                                                </div>
+                                                            </>
+                                                        }
+                                                    </div>
+
+                                                    <IconList
+                                                        currentLink={currentLink}
+                                                        setCurrentLink={setCurrentLink}
+                                                        iconArray={iconArray}
+                                                        radioValue={radioValue}
+                                                        setCharactersLeft={setCharactersLeft}
+                                                        customIconArray={customIconArray}
+                                                        setInputType={setInputType}
+                                                        formType="new"
+                                                    />
+
                                                 </div>
-
-                                                <IconList
-                                                    currentLink={currentLink}
-                                                    setCurrentLink={setCurrentLink}
-                                                    iconArray={iconArray}
-                                                    radioValue={radioValue}
-                                                    setCharactersLeft={setCharactersLeft}
-                                                    customIconArray={customIconArray}
-                                                    setInputType={setInputType}
-                                                    formType="new"
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                                {!displayAllProducts &&
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <div className="input_wrap">
+                                                <input
+                                                    /*maxLength="13"*/
+                                                    name="name"
+                                                    type="text"
+                                                    value={currentLink.name ||
+                                                        ""}
+                                                    placeholder="Link Name"
+                                                    onChange={(e) => handleLinkName(
+                                                        e)}
+                                                    disabled={!subStatus}
+                                                    className={!subStatus &&
+                                                        "disabled"}
                                                 />
-
+                                                {!subStatus &&
+                                                    <span className="disabled_wrap"
+                                                          data-type="name"
+                                                          onClick={(e) => handleOnClick(e)}>
+                                                    </span>
+                                                }
+                                            </div>
+                                            <div className="my_row info_text title">
+                                                <p className="char_max">Max 11 Characters Shown</p>
+                                                <p className="char_count">
+                                                    {charactersLeft < 0 ?
+                                                        <span className="over">Only 11 Characters Will Be Shown</span>
+                                                        :
+                                                        "Characters Left: " +
+                                                        charactersLeft
+                                                    }
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-12">
-                                        <div className="input_wrap">
-                                            <input
-                                                /*maxLength="13"*/
-                                                name="name"
-                                                type="text"
-                                                value={currentLink.name || ""}
-                                                placeholder="Link Name"
-                                                onChange={(e) => handleLinkName(
-                                                    e)}
-                                                disabled={!subStatus}
-                                                className={!subStatus &&
-                                                    "disabled"}
-                                            />
-                                            {!subStatus &&
-                                                <span className="disabled_wrap"
-                                                      data-type="name"
-                                                      onClick={(e) => handleOnClick(
-                                                          e)}>
-                                                </span>
-                                            }
-                                        </div>
-                                        <div className="my_row info_text title">
-                                            <p className="char_max">Max 11 Characters Shown</p>
-                                            <p className="char_count">
-                                                {charactersLeft < 0 ?
-                                                    <span className="over">Only 11 Characters Will Be Shown</span>
-                                                    :
-                                                    "Characters Left: " +
-                                                    charactersLeft
-                                                }
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
+                                }
                                 {radioValue !== "integration" &&
                                     <div className="row">
                                         <div className="col-12">
@@ -839,26 +844,30 @@ const NewForm = ({
                                             allProducts={allProducts}
                                             selectedProducts={selectedProducts}
                                             setSelectedProducts={setSelectedProducts}
+                                            displayAllProducts={displayAllProducts}
+                                            setDisplayAllProducts={setDisplayAllProducts}
                                         />
                                     </div>
                                 </div>
-                                <div className="row">
-                                    <div className="col-12 button_row">
-                                        <button className="button green" type="submit">
-                                            Save
-                                        </button>
-                                        <a href="#" className="button transparent gray" onClick={(e) => {
-                                            e.preventDefault();
-                                            setShowNewForm(false);
-                                            setInputType(null);
-                                            document.getElementById(
-                                                'left_col_wrap').style.minHeight = "unset";
-                                        }}>
-                                            Cancel
-                                        </a>
-                                        <a className="help_link" href="mailto:help@link.pro">Need Help?</a>
+                                {!displayAllProducts &&
+                                    <div className="row">
+                                        <div className="col-12 button_row">
+                                            <button className="button green" type="submit">
+                                                Save
+                                            </button>
+                                            <a href="#" className="button transparent gray" onClick={(e) => {
+                                                e.preventDefault();
+                                                setShowNewForm(false);
+                                                setInputType(null);
+                                                document.getElementById(
+                                                    'left_col_wrap').style.minHeight = "unset";
+                                            }}>
+                                                Cancel
+                                            </a>
+                                            <a className="help_link" href="mailto:help@link.pro">Need Help?</a>
+                                        </div>
                                     </div>
-                                </div>
+                                }
                             </form>
                         }
 

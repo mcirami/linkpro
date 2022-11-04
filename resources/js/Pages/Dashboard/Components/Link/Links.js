@@ -196,7 +196,6 @@ const Links = ({
     );
 
     const handleMouseUp = useCallback(() => {
-
         setState((state) => ({
             ...state,
             isPressed: false,
@@ -226,9 +225,7 @@ const Links = ({
             const packets = {
                 userLinks: userLinks,
             }
-
             updateLinksPositions(packets);
-
         }
 
         if (state.isPressed) {

@@ -431,7 +431,7 @@ function App() {
                                          { (!editID && !showNewForm && !editFolderID) &&
                                             <>
                                                 <div className="my_row link_row">
-                                                    <div className="add_more_icons">
+                                                    <div className="add_more_link">
                                                         <AddLink
                                                             setShowNewForm={setShowNewForm}
                                                             subStatus={subStatus}
@@ -442,7 +442,7 @@ function App() {
                                                     </div>
 
                                                     {!editFolderID &&
-                                                        <div className="add_more_icons">
+                                                        <div className="add_more_link">
                                                             <AddFolder
                                                                 subStatus={subStatus}
                                                                 setShowUpgradePopup={setShowUpgradePopup}

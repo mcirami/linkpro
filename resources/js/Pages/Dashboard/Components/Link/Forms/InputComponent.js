@@ -12,7 +12,9 @@ const InputComponent = ({
                             setLists,
                             allProducts,
                             selectedProducts,
-                            setSelectedProducts
+                            setSelectedProducts,
+                            displayAllProducts,
+                            setDisplayAllProducts
 }) => {
 
     const {url, email, phone} = currentLink;
@@ -178,7 +180,10 @@ const InputComponent = ({
                         return (
                             <ShopifyProducts
                                 selectedProducts={selectedProducts}
+                                setSelectedProducts={setSelectedProducts}
                                 allProducts={allProducts}
+                                displayAllProducts={displayAllProducts}
+                                setDisplayAllProducts={setDisplayAllProducts}
                             />
                         )
                     default:

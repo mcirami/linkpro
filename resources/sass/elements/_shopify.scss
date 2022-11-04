@@ -1,0 +1,84 @@
+.products_wrap {
+
+    .button_wrap {
+        margin-top: 20px;
+
+        .button {
+            display: block;
+            width: 100%;
+        }
+    }
+}
+
+.all_products {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+
+    .single_product {
+        position: relative;
+
+        a {
+            @include boxShadow;
+            display: block;
+            position: relative;
+            border-radius: 8px;
+            -webkit-border-radius: 8px;
+            -moz-border-radius: 8px;
+            border: 2px solid transparent;
+
+            &:before {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top:0;
+                left: 0;
+            }
+
+            &.selected {
+                border: 2px solid $blue;
+            }
+        }
+
+        img {
+            object-fit: cover;
+            height: 150px;
+            border-top-left-radius: 8px;
+            -webkit-border-top-left-radius: 8px;
+            -moz-border-radius-topleft: 8px;
+            -webkit-border-top-right-radius: 8px;
+            -moz-border-radius-topright: 8px;
+            border-top-right-radius: 8px;
+        }
+
+        h3 {
+            font-size: 18px;
+            text-align: center;
+            color: $black;
+            margin: 5px 0 0;
+        }
+
+        p {
+            text-align: center;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .position {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 5px 10px;
+            border-top-left-radius: 8px;
+            -webkit-border-top-left-radius: 8px;
+            -moz-border-radius-topleft: 8px;
+            -webkit-border-bottom-right-radius: 8px;
+            -moz-border-radius-bottomright: 8px;
+            border-bottom-right-radius: 8px;
+            background: $blue;
+            color: $white;
+            font-size: 12px;
+        }
+    }
+}
