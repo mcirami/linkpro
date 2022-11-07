@@ -12,7 +12,6 @@ import Header from './Header';
 import ProfileImage from './ProfileImage';
 import ProfileText from './ProfileText';
 import Folder from './Folder';
-import LockIcon from './LockIcon';
 
 const Preview = ({
                      setRef,
@@ -124,11 +123,6 @@ const Preview = ({
             <div className="links_wrap preview">
                 <div className="inner_content" id="preview_wrap">
                     <div className="inner_content_wrap">
-                        {pageSettings["is_protected"] ?
-                                <LockIcon infoIndex={infoIndex} setInfoIndex={setInfoIndex}/>
-                            :
-                            ""
-                        }
                         <Header
                             setRef={setRef}
                             completedCrop={completedCrop}
@@ -171,7 +165,7 @@ const Preview = ({
                                 const dataRow = Math.ceil((index + 1) / 4);
 
                                 let displayIcon = null;
-                                if(!type) {
+                                if(!type || type === "standard") {
                                     displayIcon = checkIcon(icon, "preview");
                                 }
 
@@ -203,7 +197,7 @@ const Preview = ({
                                                 </div>
                                             :
                                             <div className={ ` ${colClasses} `}>
-                                                {active_status ?
+                                                {active_status &&
                                                     <>
                                                         <a className={!url ||
                                                         !displayIcon ?
@@ -222,8 +216,6 @@ const Preview = ({
                                                             }
                                                         </p>
                                                     </>
-                                                    :
-                                                    ""
                                                 }
                                             </div>
                                         }

@@ -247,17 +247,6 @@ class PageService {
 
     }
 
-    /**
-     * Update Page Password
-     *
-     * @return void
-     */
-    public function updatePagePassword($request, $page) {
-
-        $page->update([ 'is_protected' => $request['is_protected'], 'password' => $request['password'] ]);
-
-    }
-
     public function updateLayout($request, $page) {
 
         $page->update(['profile_layout' => $request['profileLayout']]);

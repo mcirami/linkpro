@@ -16,7 +16,6 @@ import PageNav from './Components/Page/PageNav';
 import PageTitle from './Components/Page/PageTitle';
 import PageBio from './Components/Page/PageBio';
 import AddLink from './Components/Link/AddLink';
-import PasswordProtect from './Components/Page/PasswordProtect';
 import PreviewButton from './Components/Preview/PreviewButton';
 import { Flash } from '../../Utils/Flash';
 import EditForm from './Components/Link/Forms/EditForm';
@@ -259,13 +258,6 @@ function App() {
                                     <div ref={leftColWrap} className="content_wrap my_row" id="left_col_wrap">
                                         <div className="top_section">
                                             <PageName />
-
-                                            <PasswordProtect
-                                                userSub={userSub}
-                                                subStatus={subStatus}
-                                                setShowUpgradePopup={setShowUpgradePopup}
-                                                setOptionText={setOptionText}
-                                            />
 
                                             <PageHeader
                                                 setRef={headerRef}

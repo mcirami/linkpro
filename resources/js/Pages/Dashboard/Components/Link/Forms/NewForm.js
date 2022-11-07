@@ -74,7 +74,8 @@ const NewForm = ({
         name: null,
         url: null,
         email: null,
-        phone: null
+        phone: null,
+        type: null
     }))
 
     const [charactersLeft, setCharactersLeft] = useState();
@@ -184,7 +185,8 @@ const NewForm = ({
                             url: URL,
                             icon: currentLink.icon,
                             page_id: pageSettings["id"],
-                            folder_id: folderID
+                            folder_id: folderID,
+                            type: currentLink.type,
                         };
                         break;
                     case "email":
@@ -193,7 +195,8 @@ const NewForm = ({
                             email: currentLink.email,
                             icon: currentLink.icon,
                             page_id: pageSettings["id"],
-                            folder_id: folderID
+                            folder_id: folderID,
+                            type: currentLink.type,
                         };
                         break;
                     case "phone":
@@ -202,7 +205,8 @@ const NewForm = ({
                             phone: currentLink.phone,
                             icon: currentLink.icon,
                             page_id: pageSettings["id"],
-                            folder_id: folderID
+                            folder_id: folderID,
+                            type: currentLink.type,
                         };
                         break;
                 }
@@ -226,7 +230,8 @@ const NewForm = ({
                                 phone: currentLink.phone,
                                 icon: currentLink.icon,
                                 position: data.position,
-                                active_status: true
+                                active_status: true,
+                                type: currentLink.type,
                             }
 
                             newFolderLinks = newFolderLinks.concat(newLinkObject);
@@ -283,7 +288,8 @@ const NewForm = ({
                                 phone: currentLink.phone,
                                 icon: currentLink.icon,
                                 position: data.position,
-                                active_status: true
+                                active_status: true,
+                                type: currentLink.type
                             }
 
                             dispatchOrig({
@@ -356,6 +362,7 @@ const NewForm = ({
                             page_id: pageSettings["id"],
                             ext: response.extension,
                             folder_id: folderID,
+                            type: currentLink.type,
                         };
                         break;
                     case "email":
@@ -366,6 +373,7 @@ const NewForm = ({
                             page_id: pageSettings["id"],
                             ext: response.extension,
                             folder_id: folderID,
+                            type: currentLink.type,
                         };
                         break;
                     case "phone":
@@ -376,6 +384,7 @@ const NewForm = ({
                             page_id: pageSettings["id"],
                             ext: response.extension,
                             folder_id: folderID,
+                            type: currentLink.type,
                         };
                         break;
                 }
@@ -398,7 +407,8 @@ const NewForm = ({
                                 phone: currentLink.phone,
                                 icon: data.icon_path,
                                 position: data.position,
-                                active_status: true
+                                active_status: true,
+                                type: currentLink.type,
                             }
 
                             let folderActive = null;
@@ -453,7 +463,8 @@ const NewForm = ({
                                 phone: currentLink.phone,
                                 icon: data.icon_path,
                                 position: data.position,
-                                active_status: true
+                                active_status: true,
+                                type: currentLink.type,
                             }
 
                             dispatchOrig({

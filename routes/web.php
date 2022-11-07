@@ -51,7 +51,6 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
     Route::post('/page/update-profile-image/{page}', [PageController::class, 'updateProfileImage'])->name('page.profile.update');
     Route::post('/page/update-name/{page}', [PageController::class, 'updateName'])->name('page.name.update');
     Route::post('/page/update-title/{page}', [PageController::class, 'updateTitle'])->name('page.title.update');
-    Route::post('/page/update-password/{page}', [PageController::class, 'updatePassword'])->name('page.password.update');
     Route::post('/page/update-bio/{page}', [PageController::class, 'updateBio'])->name('page.bio.update');
     Route::post('/page/update-profile-layout/{page}', [PageController::class, 'updateProfileLayout'])->name('profile.layout.update');
 

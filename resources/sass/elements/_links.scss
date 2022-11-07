@@ -642,29 +642,6 @@
                     font-size: 12px;
                 }
             }
-
-            .lock_icon {
-                color: $green;
-                position: relative;
-
-                svg {
-                    width: 30px;
-                    height: 30px;
-                }
-
-                &.disabled  {
-                    color: $gray;
-                }
-
-
-                &:hover {
-                    .hover_text {
-                        @media all and (min-width: 769px) {
-                            opacity: 1;
-                        }
-                    }
-                }
-            }
         }
     }
 }

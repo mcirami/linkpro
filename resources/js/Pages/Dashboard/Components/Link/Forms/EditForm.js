@@ -6,7 +6,13 @@ import React, {
     useState,
 } from 'react';
 import IconList from "../IconList";
-import { UserLinksContext, OriginalArrayContext, PageContext, FolderLinksContext, OriginalFolderLinksContext } from '../../../App';
+import {
+    UserLinksContext,
+    OriginalArrayContext,
+    PageContext,
+    FolderLinksContext,
+    OriginalFolderLinksContext
+} from '../../../App';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
 import InputComponent from './InputComponent';
@@ -59,7 +65,7 @@ const EditForm = ({
 
     const [ currentLink, setCurrentLink ] = useState(
         userLinks.find(function(e) {
-            return e.id === editID && !e.type
+            return e.id === editID
         }) || folderLinks.find(function(e) {
             return e.id === editID
         }) );
@@ -173,6 +179,7 @@ const EditForm = ({
                             url: URL,
                             icon: currentLink.icon,
                             page_id: pageSettings["id"],
+                            type: currentLink.type,
                         };
                         break;
                     case "email":
@@ -181,6 +188,7 @@ const EditForm = ({
                             email: currentLink.email,
                             icon: currentLink.icon,
                             page_id: pageSettings["id"],
+                            type: currentLink.type,
                         };
                         break;
                     case "phone":
@@ -189,6 +197,7 @@ const EditForm = ({
                             phone: currentLink.phone,
                             icon: currentLink.icon,
                             page_id: pageSettings["id"],
+                            type: currentLink.type,
                         };
                         break;
                 }
@@ -308,6 +317,7 @@ const EditForm = ({
                         icon: response.key,
                         page_id: pageSettings["id"],
                         ext: response.extension,
+                        type: currentLink.type,
                     };
                     break;
                 case "email":
@@ -317,6 +327,7 @@ const EditForm = ({
                         icon: response.key,
                         page_id: pageSettings["id"],
                         ext: response.extension,
+                        type: currentLink.type,
                     };
                     break;
                 case "phone":
@@ -326,6 +337,7 @@ const EditForm = ({
                         icon: response.key,
                         page_id: pageSettings["id"],
                         ext: response.extension,
+                        type: currentLink.type,
                     };
                     break;
             }

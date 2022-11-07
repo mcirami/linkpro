@@ -67,15 +67,7 @@ const hoverText = [
                 tip: 'A longer title and/or bio may look best on Layout 3.'
             }
         ]
-    },
-    {
-        section: 'lock',
-        text: [
-            {
-                description: 'Link is password protected.',
-            }
-        ]
-    },
+    }
 ]
 
 export default hoverText;

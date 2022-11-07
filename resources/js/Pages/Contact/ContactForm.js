@@ -59,7 +59,7 @@ const ContactForm = () => {
             <>
                 <div className="row">
                     <div className="col-sm-10 mx-auto">
-                        <p className="form_text">Got questions? Need Support? Want to inquire about business opportunities? Send us a message and we'll responsd as soon as possible</p>
+                        <p className="form_text">Got questions? Need Support? Want to inquire about business opportunities? Send us a message and we'll respond as soon as possible</p>
                     </div>
                 </div>
                 <form id="contact_form" onSubmit={handleSubmit}>
