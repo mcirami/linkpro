@@ -186,7 +186,6 @@ const NewForm = ({
                             icon: currentLink.icon,
                             page_id: pageSettings["id"],
                             folder_id: folderID,
-                            type: currentLink.type,
                         };
                         break;
                     case "email":
@@ -196,7 +195,6 @@ const NewForm = ({
                             icon: currentLink.icon,
                             page_id: pageSettings["id"],
                             folder_id: folderID,
-                            type: currentLink.type,
                         };
                         break;
                     case "phone":
@@ -206,7 +204,6 @@ const NewForm = ({
                             icon: currentLink.icon,
                             page_id: pageSettings["id"],
                             folder_id: folderID,
-                            type: currentLink.type,
                         };
                         break;
                 }
@@ -231,7 +228,6 @@ const NewForm = ({
                                 icon: currentLink.icon,
                                 position: data.position,
                                 active_status: true,
-                                type: currentLink.type,
                             }
 
                             newFolderLinks = newFolderLinks.concat(newLinkObject);
@@ -289,7 +285,6 @@ const NewForm = ({
                                 icon: currentLink.icon,
                                 position: data.position,
                                 active_status: true,
-                                type: currentLink.type
                             }
 
                             dispatchOrig({
@@ -362,7 +357,6 @@ const NewForm = ({
                             page_id: pageSettings["id"],
                             ext: response.extension,
                             folder_id: folderID,
-                            type: currentLink.type,
                         };
                         break;
                     case "email":
@@ -373,7 +367,6 @@ const NewForm = ({
                             page_id: pageSettings["id"],
                             ext: response.extension,
                             folder_id: folderID,
-                            type: currentLink.type,
                         };
                         break;
                     case "phone":
@@ -384,7 +377,6 @@ const NewForm = ({
                             page_id: pageSettings["id"],
                             ext: response.extension,
                             folder_id: folderID,
-                            type: currentLink.type,
                         };
                         break;
                 }
@@ -408,7 +400,6 @@ const NewForm = ({
                                 icon: data.icon_path,
                                 position: data.position,
                                 active_status: true,
-                                type: currentLink.type,
                             }
 
                             let folderActive = null;
@@ -464,7 +455,6 @@ const NewForm = ({
                                 icon: data.icon_path,
                                 position: data.position,
                                 active_status: true,
-                                type: currentLink.type,
                             }
 
                             dispatchOrig({

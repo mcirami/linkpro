@@ -117,7 +117,6 @@ export function reducer(userLinks, action) {
                         email: action.payload.currentLink.email,
                         phone: action.payload.currentLink.phone,
                         icon: action.payload.iconPath,
-                        type: action.payload.type
                     }
                 }
 
@@ -140,7 +139,6 @@ export function reducer(userLinks, action) {
                                 email: action.payload.currentLink.email,
                                 phone: action.payload.currentLink.phone,
                                 icon: action.payload.iconPath,
-                                type: action.payload.type
                             }
                         }
 
@@ -301,7 +299,6 @@ export function origLinksReducer(originalArray, action) {
                         email: action.payload.currentLink.email,
                         phone: action.payload.currentLink.phone,
                         icon: action.payload.iconPath,
-                        type: action.payload.type
                     }
                 }
 
@@ -324,7 +321,6 @@ export function origLinksReducer(originalArray, action) {
                                 email: action.payload.currentLink.email,
                                 phone: action.payload.currentLink.phone,
                                 icon: action.payload.iconPath,
-                                type: action.payload.type
                             }
                         }
 
@@ -408,7 +404,6 @@ export function folderLinksReducer(folderLinks, action) {
                         email: action.payload.currentLink.email,
                         phone: action.payload.currentLink.phone,
                         icon: action.payload.iconPath,
-                        type: action.payload.type
                     }
                 }
 
@@ -461,7 +456,6 @@ export function origFolderLinksReducer(origFolderLinks, action) {
                         email: action.payload.currentLink.email,
                         phone: action.payload.currentLink.phone,
                         icon: action.payload.iconPath,
-                        type: action.payload.type
                     }
                 }
 

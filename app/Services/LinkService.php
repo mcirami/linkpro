@@ -87,7 +87,6 @@ class LinkService {
                 'page_id' => $request->page_id,
                 'position' => $position,
                 'folder_id' => $request->folder_id,
-                'type' => $request->type
             ]);
 
             array_push($linkIDs, $link->id);
@@ -113,7 +112,6 @@ class LinkService {
                 'icon' => $iconPath,
                 'page_id' => $request->page_id,
                 'position' => $position,
-                'type' => $request->type
             ]);
         }
 
@@ -142,7 +140,6 @@ class LinkService {
                 'email' => $request->email ? : null,
                 'phone' => $request->phone ? : null,
                 'icon' => $iconPath,
-                'type' => $request->type
             ]);
 
             /*$link->update(['name' => $request->name, 'url' => $request->url, 'email' => $request->email, 'phone' => $request->phone, 'icon' => $iconPath]);*/
@@ -155,7 +152,6 @@ class LinkService {
                 'email' => $request->email ? : null,
                 'phone' => $request->phone ? : null,
                 'icon' => $request->icon ? : null,
-                'type' => $request->type
             ]);
             /*$link->update($request->only(['name', 'url', 'email', 'phone', 'icon']));*/
         }
