@@ -158,18 +158,6 @@ class PageController extends Controller
 
     }
 
-    public function updatePassword(PagePassword $request, Page $page, PageService $pageService) {
-
-        if ($page->user_id != Auth::id()) {
-            return abort(404);
-        }
-
-        $pageService->updatePagePassword($request, $page);
-
-        return response()->json(['message' => 'Link Password Updated']);
-    }
-
-
     public function updateProfileLayout(Request $request, Page $page, PageService $pageService) {
 
         if ($page->user_id != Auth::id()) {
