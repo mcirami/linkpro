@@ -197,7 +197,7 @@ const Preview = ({
                                                 </div>
                                             :
                                             <div className={ ` ${colClasses} `}>
-                                                {active_status &&
+                                                {active_status ?
                                                     <>
                                                         <a className={!url ||
                                                         !displayIcon ?
@@ -216,6 +216,8 @@ const Preview = ({
                                                             }
                                                         </p>
                                                     </>
+                                                    :
+                                                    ""
                                                 }
                                             </div>
                                         }
