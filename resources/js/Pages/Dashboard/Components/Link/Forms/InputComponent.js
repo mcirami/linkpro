@@ -5,7 +5,8 @@ import MailchimpLists from './Mailchimp/MailchimpLists';
 const InputComponent = ({
                             currentLink,
                             setCurrentLink,
-                            inputType, lists,
+                            inputType,
+                            lists,
                             setLists,
                             allProducts,
                             selectedProducts,

@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 
-const ShopifyProduct = ({product, setSelectedProducts, selectedProducts}) => {
+const SingleProduct = ({product, setSelectedProducts, selectedProducts}) => {
 
     const {id, title, product_url, image_url, price} = product;
     const [selectedId, setSelectedId] = useState(null);
 
     useEffect(() => {
 
-        selectedProducts?.find(function (e) {
+        selectedProducts.length > 0 && selectedProducts.find(function (e) {
             if (e.id === id) {
                 setSelectedId(e.id)
             }
@@ -51,7 +51,7 @@ const ShopifyProduct = ({product, setSelectedProducts, selectedProducts}) => {
     }
 
     const getPosition = (id) => {
-        const product = selectedProducts.find(function (e) {
+        const product = selectedProducts.length > 0 && selectedProducts?.find(function (e) {
             return e.id === id
         })
         return product.position;
@@ -81,4 +81,4 @@ const ShopifyProduct = ({product, setSelectedProducts, selectedProducts}) => {
     );
 };
 
-export default ShopifyProduct;
+export default SingleProduct;

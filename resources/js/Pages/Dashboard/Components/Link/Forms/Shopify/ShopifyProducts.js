@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
-import ShopifyProduct from './ShopifyProduct';
+import SingleProduct from './SingleProduct';
 import {ImPlus} from 'react-icons/im';
 import ShopifyAddProducts from './ShopifyAddProducts';
+import {isEmpty} from 'lodash';
 
 const ShopifyProducts = ({
                              selectedProducts,
@@ -27,9 +28,9 @@ const ShopifyProducts = ({
                     <h3>Select Products to Add to Icon</h3>
                     <small>(max 6 products per icon)</small>
                     <div className="products_grid">
-                        {allProducts?.map((product) => {
+                        {!isEmpty(allProducts) && allProducts?.map((product) => {
                             return (
-                                <ShopifyProduct
+                                <SingleProduct
                                     key={product.id}
                                     product={product}
                                     setSelectedProducts={setSelectedProducts}
@@ -60,10 +61,10 @@ const ShopifyProducts = ({
                 <div className="selected_products">
                     <h3>Selected Products</h3>
                     <div className="products_grid">
-                        {selectedProducts.length > 0  && selectedProducts?.map((product) => {
+                        {selectedProducts?.map((product) => {
 
                             return (
-                                <ShopifyProduct
+                                <SingleProduct
                                     key={product.id}
                                     product={product}
                                 />

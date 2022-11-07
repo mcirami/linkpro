@@ -2,6 +2,7 @@ import React from 'react';
 import {
     removeMailchimpConnection
 } from '../../../../../../Services/UserService';
+import {isEmpty} from 'lodash';
 
 const MailchimpLists = ({handleChange, currentLink, setCurrentLink, lists, setLists, inputKey, name}) => {
 
@@ -11,7 +12,7 @@ const MailchimpLists = ({handleChange, currentLink, setCurrentLink, lists, setLi
         removeMailchimpConnection().then(
             (data) => {
                 if (data.success) {
-                    setLists(null);
+                    setLists([]);
                     setCurrentLink({
                         ...currentLink,
                         active_status: 0,
@@ -31,7 +32,7 @@ const MailchimpLists = ({handleChange, currentLink, setCurrentLink, lists, setLi
                     undefined}
             >
                 <option>Select Your List</option>
-                {lists?.map((list) => {
+                {!isEmpty(lists) && lists?.map((list) => {
                     return (
                         <option
                             key={list.list_id}
@@ -40,7 +41,7 @@ const MailchimpLists = ({handleChange, currentLink, setCurrentLink, lists, setLi
                     )
                 })}
             </select>
-            {lists &&
+            {!isEmpty(lists) &&
                 <div className="my_row remove_link">
                     <a href="#" onClick={(e) => handleClick(
                         e)}>

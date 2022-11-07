@@ -93,9 +93,9 @@ const NewForm = ({
     }))
 
     const [charactersLeft, setCharactersLeft] = useState();
-    const [lists, setLists] = useState(null);
-    const [allProducts, setAllProducts] = useState(null);
-    const [selectedProducts, setSelectedProducts] = useState(null);
+    const [lists, setLists] = useState([]);
+    const [allProducts, setAllProducts] = useState([]);
+    const [selectedProducts, setSelectedProducts] = useState([]);
     const [displayAllProducts, setDisplayAllProducts] = useState(false);
 
     useEffect(() => {
@@ -693,14 +693,14 @@ const NewForm = ({
                                     setInputType={setInputType}
                                 />
 
-                                {(integrationType === "mailchimp" && !lists) &&
+                                {(integrationType === "mailchimp" && isEmpty(lists)) &&
                                     <MailchimpIntegration
                                         connectionError={connectionError}
                                         inputType={inputType}
                                     />
                                 }
 
-                                {(integrationType === "shopify" && !allProducts) &&
+                                {(integrationType === "shopify" && isEmpty(allProducts)) &&
                                     <ShopifyIntegration
                                         connectionError={connectionError}
                                         inputType={inputType}
@@ -710,7 +710,7 @@ const NewForm = ({
 
                         }
 
-                        { ( (integrationType === "mailchimp" && lists) || (integrationType === "shopify" && allProducts ) || radioValue !== "integration") &&
+                        { ( (integrationType === "mailchimp" && !isEmpty(lists)) || (integrationType === "shopify" && !isEmpty(allProducts) ) || radioValue !== "integration") &&
                             <form onSubmit={handleSubmit} className="link_form">
                                 <div className="row">
                                     <div className="col-12">
