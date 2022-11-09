@@ -78,7 +78,7 @@ class PageService {
             'default' => $default,
         ]);
 
-        if(str_contains($path["url"], 'step-two')) {
+        if(str_contains($path["url"], 'create-page')) {
             $userData = ([
                 'username' => $name,
                 'link' => $name,

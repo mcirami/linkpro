@@ -966,3 +966,25 @@ form .bottom_row a {
         color: $blue;
     }
 }
+
+.edit_form.register {
+    label {
+        margin-top: 0;
+    }
+
+    .button_row {
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+        gap: 10px;
+        column-gap: 10px;
+        -webkit-column-gap: 10px;
+        -moz-column-gap: 10px;
+        margin-top: 10px;
+
+        .button {
+            width: 50%;
+        }
+
+    }
+}
+

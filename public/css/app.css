@@ -14475,6 +14475,21 @@ form .bottom_row a {
   color: #424fcf;
 }
 
+.edit_form.register label {
+  margin-top: 0;
+}
+.edit_form.register .button_row {
+  flex-wrap: nowrap;
+  gap: 10px;
+  column-gap: 10px;
+  -webkit-column-gap: 10px;
+  -moz-column-gap: 10px;
+  margin-top: 10px;
+}
+.edit_form.register .button_row .button {
+  width: 50%;
+}
+
 .form_page .pricing {
   margin: 30px 0;
   width: 100%;
