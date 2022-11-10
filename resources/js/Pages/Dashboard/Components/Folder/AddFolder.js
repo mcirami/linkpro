@@ -21,7 +21,7 @@ const AddFolder = ({
                        setShowUpgradePopup,
                        setOptionText,
                        setEditFolderID,
-                       subStatus
+                       subStatus,
 }) => {
 
     const  { pageSettings } = useContext(PageContext);

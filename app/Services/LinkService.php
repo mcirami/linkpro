@@ -142,6 +142,7 @@ class LinkService {
                 'email' => $request->email ? : null,
                 'phone' => $request->phone ? : null,
                 'mailchimp_list_id' => $request->mailchimp_list_id ? : null,
+                'shopify_products' => $request->shopify_prodcuts ? : null,
                 'icon' => $iconPath,
                 'type' => $request->type,
             ]);
@@ -156,6 +157,7 @@ class LinkService {
                 'email' => $request->email ? : null,
                 'phone' => $request->phone ? : null,
                 'mailchimp_list_id' => $request->mailchimp_list_id ? : null,
+                'shopify_products' => $request->shopify_prodcuts ? : null,
                 'icon' => $request->icon ? : null,
                 'type' => $request->type,
             ]);
@@ -224,7 +226,11 @@ class LinkService {
     public function deleteLink($link) {
 
         if ($link->icon && $link->url) {
-            $newLink = $link->replicate();
+            $newLink = $link->replicate([
+                'mailchimp_list_id',
+                'shopify_products',
+                'type',
+            ]);
             $newLink->setTable( 'deleted_links' );
             $newLink->link_id = $link->id;
             $newLink->save();

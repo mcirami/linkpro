@@ -8,7 +8,9 @@ const FormTabs = ({
                       setInputType,
                       setCurrentLink,
                       handleOnClick,
-                      folderID
+                      folderID,
+                      integrationType,
+                      editID
 }) => {
 
     const handleOnChange = (e) => {
@@ -18,15 +20,25 @@ const FormTabs = ({
 
         if (value === "integration") {
 
-            setInputType('mailchimp')
+            if (integrationType === "mailchimp") {
+                setInputType('mailchimp')
+            }
 
-            setCurrentLink(prevState => ({
-                ...prevState,
-                icon: 'https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png',
-                type: "mailchimp"
-            }))
+            if (integrationType === "shopify") {
+                setInputType('shopify')
+            }
+
+            if (!editID) {
+                setCurrentLink(prevState => ({
+                    ...prevState,
+                    icon: integrationType === "mailchimp" ? 'https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png' : 'https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Shopify.png',
+                    type: integrationType === "mailchimp" ? "mailchimp" : "shopify"
+                }))
+            }
+
         } else {
-            if(inputType !== "mailchimp") {
+
+            if(inputType !== "mailchimp" && inputType !== "shopify") {
                 setInputType(inputType)
                 setCurrentLink(prevState => ({
                     ...prevState,

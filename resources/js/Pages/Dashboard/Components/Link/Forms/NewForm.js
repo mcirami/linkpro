@@ -804,6 +804,7 @@ const NewForm = ({
                                             <div className="input_wrap">
                                                 <input
                                                     /*maxLength="13"*/
+                                                    className={!subStatus ? "disabled" : ""}
                                                     name="name"
                                                     type="text"
                                                     value={currentLink.name ||
@@ -812,8 +813,6 @@ const NewForm = ({
                                                     onChange={(e) => handleLinkName(
                                                         e)}
                                                     disabled={!subStatus}
-                                                    className={!subStatus &&
-                                                        "disabled"}
                                                 />
                                                 {!subStatus &&
                                                     <span className="disabled_wrap"

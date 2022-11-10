@@ -81,7 +81,11 @@ class FolderService {
             $linksArray = Link::whereIn('id', $linkIDs)->get();
 
             foreach ($linksArray as $link) {
-                $newLink = $link->replicate();
+                $newLink = $link->replicate([
+                    'mailchimp_list_id',
+                    'shopify_products',
+                    'type',
+                ]);
                 $newLink->setTable( 'deleted_links' );
                 $newLink->link_id = $link->id;
                 $newLink->save();

@@ -13,7 +13,7 @@ const ShopifyIntegration = ({connectionError, inputType, editID = false}) => {
             if (editID) {
                 localStorage.setItem('editID', editID);
             } else {
-                localStorage.setItem('showNewForm', true);
+                localStorage.setItem('showLinkForm', true);
             }
 
             localStorage.setItem('inputType', inputType);

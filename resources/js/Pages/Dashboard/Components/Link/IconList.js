@@ -10,7 +10,7 @@ const IconList = ({
                       customIconArray,
                       inputType,
                       setInputType,
-                      formType
+                      editID
 }) => {
 
     const [isDefaultIcon, setIsDefaultIcon] = useState(false);
@@ -61,7 +61,7 @@ const IconList = ({
 
     useEffect(() => {
 
-        if (radioValue === "integration" && formType === "new") {
+        if (radioValue === "integration" && !editID) {
             setIsDefaultIcon(true)
 
             if (inputType === "mailchimp") {
@@ -79,6 +79,10 @@ const IconList = ({
                     type: "shopify"
                 }))
             }
+        }
+
+        if (editID) {
+
         }
 
     },[radioValue])

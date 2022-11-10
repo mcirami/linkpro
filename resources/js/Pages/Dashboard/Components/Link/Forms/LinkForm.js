@@ -20,6 +20,7 @@ import InputComponent from './InputComponent';
 const iconPaths = user.icons;
 import {
     addLink,
+    updateLink,
     checkURL,
     updateLinkStatus,
 } from '../../../../../Services/LinksRequest';
@@ -41,7 +42,7 @@ import {Loader} from '../../../../../Utils/Loader';
 import IntegrationType from './IntegrationType';
 import {isEmpty} from 'lodash';
 
-const IconForm = ({
+const LinkForm = ({
                       setShowLinkForm,
                       folderID,
                       setEditFolderID,
@@ -122,6 +123,7 @@ const IconForm = ({
     );*/
 
     useEffect(() => {
+
         setInputType(
             currentLink.email && "email" ||
             currentLink.url && "url" ||
@@ -130,14 +132,16 @@ const IconForm = ({
             currentLink.shopify_products && "shopify" ||
             "url"
         )
+
     },[])
 
     useEffect(() => {
-        if (inputType === "mailchimp") {
-            fetchLists()
+
+        if (inputType === "mailchimp" || currentLink.mailchimp_list_id) {
+            fetchLists();
         }
-        if (inputType === "shopify") {
-            fetchStore()
+        if (inputType === "shopify"  || currentLink.shopify_products) {
+            fetchProducts()
         }
     }, [inputType]);
 
@@ -169,12 +173,12 @@ const IconForm = ({
     }, [completedIconCrop]);
 
     useEffect(() => {
-        if(currentLink.icon?.includes("custom-icon") && !currentLink.mailchimp_list_id) {
+        if(currentLink.icon?.includes("custom-icon") && !currentLink.mailchimp_list_id && !currentLink.shopify_products) {
             setRadioValue("custom");
-        } else if (currentLink.mailchimp_list_id || redirected) {
+        } else if (currentLink.mailchimp_list_id || currentLink.shopify_products || redirected) {
             setRadioValue("integration")
             setInputType(redirected)
-            setRedirected(false);
+            setRedirected(null);
         } else {
             setRadioValue("standard")
         }
@@ -188,20 +192,22 @@ const IconForm = ({
             (data) => {
                 if (data.success) {
                     !isEmpty(data.lists) && setLists(data.lists);
+                    setIntegrationType("mailchimp");
                     setShowLoader({show: false, icon: "", position: ""});
                 }
             }
         )
     }
 
-    const fetchStore = () => {
+    const fetchProducts = () => {
 
         setShowLoader({show: true, icon: "loading", position: "absolute"});
 
         getAllProducts().then(
             (data) => {
                 if (data.success) {
-                    !isEmpty(data.products) && setAllProducts(data.products)
+                    !isEmpty(data.products) && setAllProducts(data.products);
+                    setIntegrationType("shopify");
                     setShowLoader({show: false, icon: "", position: ""});
                 }
             }
@@ -226,7 +232,7 @@ const IconForm = ({
             setOptionText(text);
         }
 
-        if(folderID) {
+        if(folderID && type === "integration") {
             setShowMessageAlertPopup(true);
             setOptionText("Integrations are currently not allowed in a folder.");
         }
@@ -235,13 +241,14 @@ const IconForm = ({
     const handleChange = (e) => {
         e.preventDefault();
         setInput(e.target.value);
-    }
-    if (input.length > 0 ) {
-        iconArray = iconArray.filter((i) => {
-            const iconName = i.name.toLowerCase().replace(" ", "");
-            const userInput = input.toLowerCase().replace(" ", "");
-            return iconName.match(userInput);
-        });
+
+        if (e.target.value.length > 0 ) {
+            iconArray = iconArray.filter((i) => {
+                const iconName = i.name.toLowerCase().replace(" ", "");
+                const userInput = input.toLowerCase().replace(" ", "");
+                return iconName.match(userInput);
+            });
+        }
     }
 
     const selectCustomIcon = e => {
@@ -270,6 +277,7 @@ const IconForm = ({
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        // check if more another mailchimp form already exists.
         if (checkForMailchimpForm() === undefined || inputType !== "mailchimp") {
 
             if (iconSelected) {
@@ -358,113 +366,194 @@ const IconForm = ({
                             break;
                     }
 
-                    addLink(packets).then((data) => {
+                    const func = editID ? updateLink(packets, editID) : addLink(packets);
+
+                    func.then((data) => {
 
                         if (data.success) {
 
                             if (folderID) {
-                                let newFolderLinks = [...folderLinks];
-                                let newOriginalFolderLinks = [...originalFolderLinks];
 
-                                const newLinkObject = {
-                                    id: data.link_id,
-                                    folder_id: folderID,
-                                    name: currentLink.name,
-                                    url: URL,
-                                    email: currentLink.email,
-                                    phone: currentLink.phone,
-                                    type: currentLink.type,
-                                    mailchimp_list_id: currentLink.mailchimp_list_id,
-                                    shopify_products: currentLink.shopify_products,
-                                    icon: currentLink.icon,
-                                    position: data.position,
-                                    active_status: true
+                                if (editID) {
+                                    dispatchFolderLinks({
+                                        type: FOLDER_LINKS_ACTIONS.UPDATE_FOLDER_LINKS,
+                                        payload: {
+                                            editID: editID,
+                                            currentLink: currentLink,
+                                            url: URL,
+                                            iconPath: currentLink.icon
+                                        }
+                                    })
+
+                                    dispatchOrigFolderLinks({
+                                        type: ORIG_FOLDER_LINKS_ACTIONS.UPDATE_FOLDER_LINKS,
+                                        payload: {
+                                            editID: editID,
+                                            currentLink: currentLink,
+                                            url: URL,
+                                            iconPath: currentLink.icon
+                                        }
+                                    })
+
+                                    dispatch({
+                                        type: LINKS_ACTIONS.UPDATE_LINK_IN_FOLDER,
+                                        payload: {
+                                            folderID: folderID,
+                                            editID: editID,
+                                            currentLink: currentLink,
+                                            url: URL,
+                                            iconPath: currentLink.icon
+                                        }
+                                    })
+
+                                    dispatchOrig({
+                                        type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK_IN_FOLDER,
+                                        payload: {
+                                            folderID: folderID,
+                                            editID: editID,
+                                            currentLink: currentLink,
+                                            url: URL,
+                                            iconPath: currentLink.icon
+                                        }
+                                    })
+
+                                } else {
+                                    let newFolderLinks = [...folderLinks];
+                                    let newOriginalFolderLinks = [...originalFolderLinks];
+
+                                    const newLinkObject = {
+                                        id: data.link_id,
+                                        folder_id: folderID,
+                                        name: currentLink.name,
+                                        url: URL,
+                                        email: currentLink.email,
+                                        phone: currentLink.phone,
+                                        type: currentLink.type,
+                                        mailchimp_list_id: currentLink.mailchimp_list_id,
+                                        shopify_products: currentLink.shopify_products,
+                                        icon: currentLink.icon,
+                                        position: data.position,
+                                        active_status: true
+                                    }
+
+                                    newFolderLinks = newFolderLinks.concat(
+                                        newLinkObject);
+
+                                    dispatchOrigFolderLinks({
+                                        type: ORIG_FOLDER_LINKS_ACTIONS.SET_ORIG_FOLDER_LINKS,
+                                        payload: {
+                                            links: newOriginalFolderLinks.concat(
+                                                newLinkObject)
+                                        }
+                                    })
+                                    dispatchFolderLinks({
+                                        type: FOLDER_LINKS_ACTIONS.SET_FOLDER_LINKS,
+                                        payload: {
+                                            links: newFolderLinks
+                                        }
+                                    });
+
+                                    let folderActive = null;
+                                    if (newFolderLinks.length === 1) {
+                                        folderActive = true;
+                                        const url = "/dashboard/folder/status/";
+                                        const packets = {
+                                            active_status: folderActive,
+                                        };
+
+                                        updateLinkStatus(packets, folderID,
+                                            url);
+                                    }
+
+                                    dispatch({
+                                        type: LINKS_ACTIONS.ADD_NEW_IN_FOLDER,
+                                        payload: {
+                                            newLinkObject: newLinkObject,
+                                            folderActive: folderActive,
+                                            folderID: folderID
+                                        }
+                                    })
+
+                                    dispatchOrig({
+                                        type: ORIGINAL_LINKS_ACTIONS.ADD_NEW_IN_FOLDER,
+                                        payload: {
+                                            newLinkObject: newLinkObject,
+                                            folderActive: folderActive,
+                                            folderID: folderID
+                                        }
+                                    })
                                 }
-
-                                newFolderLinks = newFolderLinks.concat(
-                                    newLinkObject);
-
-                                dispatchOrigFolderLinks({
-                                    type: ORIG_FOLDER_LINKS_ACTIONS.SET_ORIG_FOLDER_LINKS,
-                                    payload: {
-                                        links: newOriginalFolderLinks.concat(
-                                            newLinkObject)
-                                    }
-                                })
-                                dispatchFolderLinks({
-                                    type: FOLDER_LINKS_ACTIONS.SET_FOLDER_LINKS,
-                                    payload: {
-                                        links: newFolderLinks
-                                    }
-                                });
-
-                                let folderActive = null;
-                                if (newFolderLinks.length === 1) {
-                                    folderActive = true;
-                                    const url = "/dashboard/folder/status/";
-                                    const packets = {
-                                        active_status: folderActive,
-                                    };
-
-                                    updateLinkStatus(packets, folderID,
-                                        url);
-                                }
-
-                                dispatch({
-                                    type: LINKS_ACTIONS.ADD_NEW_IN_FOLDER,
-                                    payload: {
-                                        newLinkObject: newLinkObject,
-                                        folderActive: folderActive,
-                                        folderID: folderID
-                                    }
-                                })
-
-                                dispatchOrig({
-                                    type: ORIGINAL_LINKS_ACTIONS.ADD_NEW_IN_FOLDER,
-                                    payload: {
-                                        newLinkObject: newLinkObject,
-                                        folderActive: folderActive,
-                                        folderID: folderID
-                                    }
-                                })
-
-                                setShowNewForm(false);
 
                             } else {
-                                let newLinks = [...userLinks];
-                                let originalLinks = [...originalArray];
 
-                                const newLinkObject = {
-                                    id: data.link_id,
-                                    name: currentLink.name,
-                                    url: URL,
-                                    email: currentLink.email,
-                                    phone: currentLink.phone,
-                                    type: currentLink.type,
-                                    mailchimp_list_id: currentLink.mailchimp_list_id,
-                                    shopify_products: currentLink.shopify_products,
-                                    icon: currentLink.icon,
-                                    position: data.position,
-                                    active_status: true
+                                if (editID) {
+                                    dispatch({
+                                        type: LINKS_ACTIONS.UPDATE_LINK,
+                                        payload: {
+                                            editID: editID,
+                                            currentLink: currentLink,
+                                            url: URL,
+                                            iconPath: currentLink.icon
+                                        }
+                                    })
+
+                                    dispatchOrig({
+                                        type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK,
+                                        payload: {
+                                            editID: editID,
+                                            currentLink: currentLink,
+                                            url: URL,
+                                            iconPath: currentLink.icon
+                                        }
+                                    })
+
+                                } else {
+                                    let newLinks = [...userLinks];
+                                    let originalLinks = [...originalArray];
+
+                                    const newLinkObject = {
+                                        id: data.link_id,
+                                        name: currentLink.name,
+                                        url: URL,
+                                        email: currentLink.email,
+                                        phone: currentLink.phone,
+                                        type: currentLink.type,
+                                        mailchimp_list_id: currentLink.mailchimp_list_id,
+                                        shopify_products: currentLink.shopify_products,
+                                        icon: currentLink.icon,
+                                        position: data.position,
+                                        active_status: true
+                                    }
+
+                                    dispatchOrig({
+                                        type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS,
+                                        payload: {
+                                            links: originalLinks.concat(
+                                                newLinkObject)
+                                        }
+                                    })
+                                    dispatch({
+                                        type: LINKS_ACTIONS.SET_LINKS,
+                                        payload: {
+                                            links: newLinks.concat(
+                                                newLinkObject)
+                                        }
+                                    })
                                 }
 
-                                dispatchOrig({
-                                    type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS,
-                                    payload: {
-                                        links: originalLinks.concat(
-                                            newLinkObject)
-                                    }
-                                })
-                                dispatch({
-                                    type: LINKS_ACTIONS.SET_LINKS,
-                                    payload: {
-                                        links: newLinks.concat(
-                                            newLinkObject)
-                                    }
-                                })
-
-                                setShowNewForm(false);
                             }
+
+                            setShowLinkForm(false);
+                            setEditID(null);
+                            setCurrentLink({
+                                icon: null,
+                                name: null,
+                                url: null,
+                                email: null,
+                                phone: null,
+                                mailchimp_list_id: null,
+                                shopify_products: null
+                            })
 
                         }
                     })
@@ -559,103 +648,187 @@ const IconForm = ({
                             type: currentLink.type,
                         };
                         break;
+                    case "shopify":
+                        packets = {
+                            name: currentLink.name,
+                            shopify_products: currentLink.shopify_products,
+                            icon: response.key,
+                            page_id: pageSettings["id"],
+                            ext: response.extension,
+                            folder_id: folderID,
+                            type: currentLink.type,
+                        };
+                        break;
                 }
 
-                addLink(packets).then((data) => {
+                const func = editID ? updateLink(packets, editID) : addLink(packets);
+
+                func.then((data) => {
                     setShowLoader({show: false, icon: null});
 
                     if (data.success) {
 
                         if (folderID) {
-                            let newFolderLinks = [...folderLinks];
-                            let newOriginalFolderLinks = [...originalFolderLinks];
 
-                            const newLinkObject = {
-                                id: data.link_id,
-                                folder_id: folderID,
-                                name: currentLink.name,
-                                url: URL,
-                                email: currentLink.email,
-                                phone: currentLink.phone,
-                                mailchimp_list_id: currentLink.mailchimp_list_id,
-                                shopify_products: currentLink.shopify_products,
-                                type: currentLink.type,
-                                icon: data.icon_path,
-                                position: data.position,
-                                active_status: true
+                            if (editID) {
+                                dispatchFolderLinks({
+                                    type: FOLDER_LINKS_ACTIONS.UPDATE_FOLDER_LINKS,
+                                    payload: {
+                                        editID: editID,
+                                        currentLink: currentLink,
+                                        url: URL,
+                                        iconPath: data.iconPath
+                                    }})
+
+                                dispatchOrigFolderLinks({
+                                    type: ORIG_FOLDER_LINKS_ACTIONS.UPDATE_FOLDER_LINKS,
+                                    payload: {
+                                        editID: editID,
+                                        currentLink: currentLink,
+                                        url: URL,
+                                        iconPath: data.iconPath
+                                    }})
+
+                                dispatch({
+                                    type: LINKS_ACTIONS.UPDATE_LINK_IN_FOLDER,
+                                    payload: {
+                                        folderID: folderID,
+                                        editID: editID,
+                                        currentLink: currentLink,
+                                        url: URL,
+                                        iconPath: data.iconPath
+                                    }})
+
+                                dispatchOrig({
+                                    type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK_IN_FOLDER,
+                                    payload: {
+                                        folderID: folderID,
+                                        editID: editID,
+                                        currentLink: currentLink,
+                                        url: URL,
+                                        iconPath: data.iconPath
+                                    }})
+                            } else {
+                                let newFolderLinks = [...folderLinks];
+                                let newOriginalFolderLinks = [...originalFolderLinks];
+
+                                const newLinkObject = {
+                                    id: data.link_id,
+                                    folder_id: folderID,
+                                    name: currentLink.name,
+                                    url: URL,
+                                    email: currentLink.email,
+                                    phone: currentLink.phone,
+                                    mailchimp_list_id: currentLink.mailchimp_list_id,
+                                    shopify_products: currentLink.shopify_products,
+                                    type: currentLink.type,
+                                    icon: data.icon_path,
+                                    position: data.position,
+                                    active_status: true
+                                }
+
+                                let folderActive = null;
+                                if (newFolderLinks.length === 1) {
+                                    folderActive = true;
+                                    const url = "/dashboard/folder/status/";
+                                    const packets = {
+                                        active_status: folderActive,
+                                    };
+
+                                    updateLinkStatus(packets, folderID, url);
+                                }
+
+                                dispatch({
+                                    type: LINKS_ACTIONS.ADD_NEW_IN_FOLDER,
+                                    payload: {
+                                        newLinkObject: newLinkObject,
+                                        folderActive: folderActive,
+                                        folderID: folderID
+                                    }})
+
+                                dispatchOrig({
+                                    type: ORIGINAL_LINKS_ACTIONS.ADD_NEW_IN_FOLDER,
+                                    payload: {
+                                        newLinkObject: newLinkObject,
+                                        folderActive: folderActive,
+                                        folderID: folderID
+                                    }})
+
+                                dispatchOrigFolderLinks({
+                                    type: ORIG_FOLDER_LINKS_ACTIONS.SET_ORIG_FOLDER_LINKS,
+                                    payload: {
+                                        links: newOriginalFolderLinks.concat(newLinkObject)
+                                    }})
+                                dispatchFolderLinks({
+                                    type: FOLDER_LINKS_ACTIONS.SET_FOLDER_LINKS,
+                                    payload: {
+                                        links: newFolderLinks.concat(newLinkObject)
+                                    }});
                             }
-
-                            let folderActive = null;
-                            if (newFolderLinks.length === 1) {
-                                folderActive = true;
-                                const url = "/dashboard/folder/status/";
-                                const packets = {
-                                    active_status: folderActive,
-                                };
-
-                                updateLinkStatus(packets, folderID, url);
-                            }
-
-                            dispatch({
-                                type: LINKS_ACTIONS.ADD_NEW_IN_FOLDER,
-                                payload: {
-                                    newLinkObject: newLinkObject,
-                                    folderActive: folderActive,
-                                    folderID: folderID
-                                }})
-
-                            dispatchOrig({
-                                type: ORIGINAL_LINKS_ACTIONS.ADD_NEW_IN_FOLDER,
-                                payload: {
-                                    newLinkObject: newLinkObject,
-                                    folderActive: folderActive,
-                                    folderID: folderID
-                                }})
-
-                            dispatchOrigFolderLinks({
-                                type: ORIG_FOLDER_LINKS_ACTIONS.SET_ORIG_FOLDER_LINKS,
-                                payload: {
-                                    links: newOriginalFolderLinks.concat(newLinkObject)
-                                }})
-                            dispatchFolderLinks({
-                                type: FOLDER_LINKS_ACTIONS.SET_FOLDER_LINKS,
-                                payload: {
-                                    links: newFolderLinks.concat(newLinkObject)
-                                }});
-
-                            setShowNewForm(false);
 
                         } else {
-                            let newLinks = [...userLinks];
-                            let originalLinks = [...originalArray];
 
-                            const newLinkObject = {
-                                id: data.link_id,
-                                name: currentLink.name,
-                                url: URL,
-                                email: currentLink.email,
-                                phone: currentLink.phone,
-                                type: currentLink.type,
-                                mailchimp_list_id: currentLink.mailchimp_list_id,
-                                shopify_products: currentLink.shopify_products,
-                                icon: data.icon_path,
-                                position: data.position,
-                                active_status: true
+                            if (editID) {
+                                dispatch({
+                                    type: LINKS_ACTIONS.UPDATE_LINK,
+                                    payload: {
+                                        editID: editID,
+                                        currentLink: currentLink,
+                                        url: URL, iconPath:
+                                        data.iconPath
+                                    }})
+
+                                dispatchOrig({
+                                    type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK,
+                                    payload: {
+                                        editID: editID,
+                                        currentLink: currentLink,
+                                        url: URL,
+                                        iconPath: data.iconPath
+                                    }})
+                            } else {
+                                let newLinks = [...userLinks];
+                                let originalLinks = [...originalArray];
+
+                                const newLinkObject = {
+                                    id: data.link_id,
+                                    name: currentLink.name,
+                                    url: URL,
+                                    email: currentLink.email,
+                                    phone: currentLink.phone,
+                                    type: currentLink.type,
+                                    mailchimp_list_id: currentLink.mailchimp_list_id,
+                                    shopify_products: currentLink.shopify_products,
+                                    icon: data.icon_path,
+                                    position: data.position,
+                                    active_status: true
+                                }
+
+                                dispatchOrig({
+                                    type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS,
+                                    payload: {
+                                        links: originalLinks.concat(newLinkObject)
+                                    }})
+                                dispatch({
+                                    type: LINKS_ACTIONS.SET_LINKS,
+                                    payload: {
+                                        links: newLinks.concat(newLinkObject)
+                                    }})
                             }
 
-                            dispatchOrig({
-                                type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS,
-                                payload: {
-                                    links: originalLinks.concat(newLinkObject)
-                                }})
-                            dispatch({
-                                type: LINKS_ACTIONS.SET_LINKS,
-                                payload: {
-                                    links: newLinks.concat(newLinkObject)
-                                }})
-
-                            setShowNewForm(false);
                         }
+
+                        setShowLinkForm(false);
+                        setEditID(null)
+                        setCurrentLink({
+                            icon: null,
+                            name: null,
+                            url: null,
+                            email: null,
+                            phone: null,
+                            mailchimp_list_id: null,
+                            shopify_products: null
+                        })
 
                         setCustomIconArray(customIconArray => [
                             ...customIconArray,
@@ -686,22 +859,41 @@ const IconForm = ({
     )
 
     const checkForMailchimpForm = () => {
-        return userLinks.find(function(e) {
-            return e.mailchimp_list_id  != null
+        const link = userLinks.find(function(e) {
+            return e.mailchimp_list_id
         })
+
+        if(link?.id === editID) {
+            return false
+        }
+
+        return link;
+    }
+
+    const handleCancel = (e) => {
+        e.preventDefault();
+        setEditID(null);
+        setShowLinkForm(false);
+        setInputType(null);
+        setIntegrationType(null);
+        document.getElementById(
+            'left_col_wrap').style.minHeight = "unset";
     }
 
     return (
         <>
             <div className="my_row icon_breadcrumb" id="scrollTo">
-                <p>Adding Icon</p>
+                <p>{editID ? "Editing" : "Adding" } Icon</p>
                 <FormBreadcrumbs
                     setEditFolderID={setEditFolderID}
-                    setShowNewForm={setShowNewForm}
-                    formType={"new"}
+                    setShowLinkForm={setShowLinkForm}
                     folderID={folderID}
                     iconSelected={iconSelected}
-
+                    setEditID={setEditID}
+                    setShowConfirmPopup={setShowConfirmPopup}
+                    editID={editID}
+                    setIntegrationType={setIntegrationType}
+                    setInputType={setInputType}
                 />
             </div>
             <div className="edit_form link my_row">
@@ -716,6 +908,8 @@ const IconForm = ({
                             setCurrentLink={setCurrentLink}
                             handleOnClick={handleOnClick}
                             folderID={folderID}
+                            integrationType={integrationType}
+                            editID={editID}
                         />
                     </div>
 
@@ -834,7 +1028,7 @@ const IconForm = ({
                                                         customIconArray={customIconArray}
                                                         inputType={inputType}
                                                         setInputType={setInputType}
-                                                        formType="new"
+                                                        editID={editID}
                                                     />
 
                                                 </div>
@@ -856,8 +1050,7 @@ const IconForm = ({
                                                     onChange={(e) => handleLinkName(
                                                         e)}
                                                     disabled={!subStatus}
-                                                    className={!subStatus &&
-                                                        "disabled"}
+                                                    className={!subStatus ? "disabled" : ""}
                                                 />
                                                 {!subStatus &&
                                                     <span className="disabled_wrap"
@@ -895,7 +1088,9 @@ const IconForm = ({
                                     <div className="col-12">
                                         <InputComponent
                                             inputType={inputType}
+                                            setInputType={setInputType}
                                             currentLink={currentLink}
+                                            editID={editID}
                                             setCurrentLink={setCurrentLink}
                                             lists={lists}
                                             setLists={setLists}
@@ -913,13 +1108,7 @@ const IconForm = ({
                                             <button className="button green" type="submit">
                                                 Save
                                             </button>
-                                            <a href="#" className="button transparent gray" onClick={(e) => {
-                                                e.preventDefault();
-                                                setShowNewForm(false);
-                                                setInputType(null);
-                                                document.getElementById(
-                                                    'left_col_wrap').style.minHeight = "unset";
-                                            }}>
+                                            <a href="#" className="button transparent gray" onClick={(e) => handleCancel(e)}>
                                                 Cancel
                                             </a>
                                             <a className="help_link" href="mailto:help@link.pro">Need Help?</a>
@@ -936,4 +1125,4 @@ const IconForm = ({
     );
 };
 
-export default IconForm;
+export default LinkForm;

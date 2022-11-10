@@ -171,7 +171,6 @@ const EditForm = ({
         imgRef.current = img;
     }, []);
 
-
     const handleSubmit = (e) => {
         e.preventDefault();
 
