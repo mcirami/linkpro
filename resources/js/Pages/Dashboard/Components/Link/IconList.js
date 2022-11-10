@@ -1,8 +1,15 @@
 import React from 'react';
 import {icons} from '../../../../Services/IconObjects';
 
-const IconList = ({currentLink, setCurrentLink, iconArray, radioValue, setCharactersLeft, customIconArray, setInputType}) => {
-
+const IconList = ({
+                      currentLink,
+                      setCurrentLink,
+                      iconArray,
+                      radioValue,
+                      setCharactersLeft,
+                      customIconArray,
+                      setInputType
+}) => {
 
     const selectIcon = (e, source) => {
         const el = e.target;
