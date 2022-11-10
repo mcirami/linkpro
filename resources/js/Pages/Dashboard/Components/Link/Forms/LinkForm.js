@@ -241,14 +241,14 @@ const LinkForm = ({
     const handleChange = (e) => {
         e.preventDefault();
         setInput(e.target.value);
+    }
 
-        if (e.target.value.length > 0 ) {
-            iconArray = iconArray.filter((i) => {
-                const iconName = i.name.toLowerCase().replace(" ", "");
-                const userInput = input.toLowerCase().replace(" ", "");
-                return iconName.match(userInput);
-            });
-        }
+    if (input.length > 0) {
+        iconArray = iconArray.filter((i) => {
+            const iconName = i.name.toLowerCase().replace(" ", "");
+            const userInput = input.toLowerCase().replace(" ", "");
+            return iconName.match(userInput);
+        });
     }
 
     const selectCustomIcon = e => {
