@@ -7,7 +7,7 @@ const SingleProduct = ({product, setSelectedProducts, selectedProducts}) => {
 
     useEffect(() => {
 
-        selectedProducts.length > 0 && selectedProducts.find(function (e) {
+        selectedProducts?.length > 0 && selectedProducts.find(function (e) {
             if (e.id === id) {
                 setSelectedId(e.id)
             }
@@ -60,7 +60,7 @@ const SingleProduct = ({product, setSelectedProducts, selectedProducts}) => {
     return (
         <div className="single_product">
             <a href="resources/js/Pages/Dashboard/Components/Link/Forms/Shopify/ShopifyProduct#"
-               className={selectedId === id && "selected"}
+               className={selectedId === id ? "selected" : ""}
                data-id={id}
                data-image={image_url}
                data-title={title}

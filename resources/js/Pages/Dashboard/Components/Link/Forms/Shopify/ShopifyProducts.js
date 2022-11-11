@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import SingleProduct from './SingleProduct';
-import {ImPlus} from 'react-icons/im';
 import ShopifyAddProducts from './ShopifyAddProducts';
 import {isEmpty} from 'lodash';
 
@@ -11,12 +10,19 @@ const ShopifyProducts = ({
                              displayAllProducts,
                              setDisplayAllProducts,
                              handleChange,
-                             inputKey
+                             inputKey,
+                             currentLink,
+                             setCurrentLink
 }) => {
 
     const handleClick = (e) => {
         e.preventDefault();
         handleChange(selectedProducts, inputKey)
+        setCurrentLink((prev) => ({
+            ...prev,
+            shopify_products: selectedProducts
+
+        }))
         setDisplayAllProducts(false);
     }
 
@@ -41,14 +47,14 @@ const ShopifyProducts = ({
                         })}
                     </div>
                     <div className="button_wrap">
-                        <a className="button blue" href="resources/js/Pages/Dashboard/Components/Link/Forms/Shopify/ShopifyProducts#"
+                        <a className="button blue" href="#"
                            onClick={(e) => handleClick(e)}
                         >
                             Add Selected Products
                         </a>
                     </div>
                     <div className="button_wrap">
-                        <a className="button transparent gray" href="resources/js/Pages/Dashboard/Components/Link/Forms/Shopify/ShopifyProducts#"
+                        <a className="button transparent gray" href="#"
                            onClick={(e) => { e.preventDefault(); setDisplayAllProducts(false);}}
                         >
                             Cancel
@@ -61,7 +67,7 @@ const ShopifyProducts = ({
                 <div className="selected_products">
                     <h3>Selected Products</h3>
                     <div className="products_grid">
-                        {selectedProducts?.map((product) => {
+                        {currentLink.shopify_products?.map((product) => {
 
                             return (
                                 <SingleProduct

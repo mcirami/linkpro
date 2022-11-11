@@ -174,12 +174,12 @@ const Preview = ({
                                 const dataRow = Math.ceil((index + 1) / 4);
 
                                 let displayIcon = null;
-                                if(type === "standard" || type === "mailchimp") {
+                                if(type === "standard" || type === "mailchimp" || type === "shopify") {
                                     displayIcon = checkIcon(icon, "preview");
                                 }
 
                                 let colClasses = "";
-                                if (type === "folder" || type === "mailchimp") {
+                                if (type === "folder" || type === "mailchimp" || type === "shopify") {
                                     colClasses = "icon_col folder";
                                 } else {
                                     colClasses = "icon_col";
@@ -232,26 +232,26 @@ const Preview = ({
                                                         :
                                                         ""
                                                     }
-                                                </div>,
-
-                                            "mailchimp":
-
-                                                <FormIcon
-                                                    colClasses={colClasses}
-                                                    displayIcon={displayIcon}
-                                                    name={name}
-                                                    active_status={active_status}
-                                                    dataRow={dataRow}
-                                                    mainIndex={index}
-                                                    setRow={setRow}
-                                                    value={value}
-                                                    setValue={setValue}
-                                                    index={index}
-                                                    setClickType={setClickType}
-                                                    clickType={clickType}
-                                                />
-
+                                                </div>
                                         }[type]}
+
+                                        { (type === "mailchimp" || type === "shopify") &&
+
+                                            <FormIcon
+                                                colClasses={colClasses}
+                                                displayIcon={displayIcon}
+                                                name={name}
+                                                active_status={active_status}
+                                                dataRow={dataRow}
+                                                mainIndex={index}
+                                                setRow={setRow}
+                                                value={value}
+                                                setValue={setValue}
+                                                index={index}
+                                                setClickType={setClickType}
+                                                clickType={clickType}
+                                            />
+                                        }
 
                                         {subStatus && ( (index + 1) % 4 === 0 || index + 1 === iconCount) ?
 

@@ -197,6 +197,8 @@ const InputComponent = ({
                                 displayAllProducts={displayAllProducts}
                                 setDisplayAllProducts={setDisplayAllProducts}
                                 handleChange={handleChange}
+                                currentLink={currentLink}
+                                setCurrentLink={setCurrentLink}
                                 inputKey={key}
                                 name={name}
                             />

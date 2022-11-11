@@ -819,6 +819,8 @@ const LinkForm = ({
             'left_col_wrap').style.minHeight = "unset";
     }
 
+    console.log(currentLink);
+
     return (
         <>
             <div className="my_row icon_breadcrumb" id="scrollTo">

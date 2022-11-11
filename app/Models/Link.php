@@ -31,6 +31,15 @@ class Link extends Model
         'shopify_products'
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'shopify_products' => 'array'
+    ];
+
     public function user() {
         return $this->belongsTo(User::class);
     }
