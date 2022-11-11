@@ -4,7 +4,17 @@ import {
 } from '../../../../../../Services/UserService';
 import {isEmpty} from 'lodash';
 
-const MailchimpLists = ({handleChange, currentLink, setCurrentLink, lists, setLists, inputKey, name}) => {
+const MailchimpLists = ({
+                            handleChange,
+                            currentLink,
+                            setCurrentLink,
+                            lists,
+                            setLists,
+                            inputKey,
+                            name,
+                            setInputType,
+                            setIntegrationType
+}) => {
 
     const handleClick = (e) => {
         e.preventDefault();
@@ -17,6 +27,8 @@ const MailchimpLists = ({handleChange, currentLink, setCurrentLink, lists, setLi
                         ...currentLink,
                         active_status: 0,
                     })
+                    setInputType(null)
+                    setIntegrationType(null)
                 }
             }
         )
@@ -28,6 +40,7 @@ const MailchimpLists = ({handleChange, currentLink, setCurrentLink, lists, setLi
             <select
                 name={name}
                 onChange={(e) => handleChange(e, inputKey)}
+                required
                 value={currentLink.mailchimp_list_id ||
                     undefined}
             >

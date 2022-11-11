@@ -80,9 +80,7 @@ function App() {
     const [allUserPages, setAllUserPages] = useState(userPages);
     const [editFolderID, setEditFolderID] = useState(null);
 
-    const [showNewForm, setShowNewForm] = useState(false)
     const [editID, setEditID] = useState(null);
-
     const [showLinkForm, setShowLinkForm] = useState(false);
 
     const [radioValue, setRadioValue] = useState("standard");
@@ -177,14 +175,14 @@ function App() {
         const error = urlParams?.get('connection_error');
 
         if (redirected && redirected!== "") {
-            setShowLinkForm(JSON.parse(localStorage.getItem('showLinkForm')) || false)
-            setEditID(JSON.parse(localStorage.getItem('editID')) || null)
             setInputType(localStorage.getItem('inputType') || null)
             setRadioValue("integration");
             setRedirectedType(redirected);
             setIntegrationType(redirected);
+            setEditID(JSON.parse(localStorage.getItem('editID')) || null)
+            setShowLinkForm(JSON.parse(localStorage.getItem('showLinkForm')) || false)
 
-            setTimeout(function(){
+            const scrollTimeout = setTimeout(function(){
                 document.querySelector('#scrollTo').scrollIntoView({
                     behavior: 'smooth',
                     block: "start",
@@ -200,6 +198,8 @@ function App() {
             if (error) {
                 setConnectionError(error)
             }
+
+            return () => window.clearTimeout(scrollTimeout);
         }
 
     }, [])
@@ -402,8 +402,8 @@ function App() {
                                                 subStatus={subStatus}
                                                 radioValue={radioValue}
                                                 setRadioValue={setRadioValue}
-                                                redirected={redirectedType}
-                                                setRedirected={setRedirectedType}
+                                                redirectedType={redirectedType}
+                                                setRedirectedType={setRedirectedType}
                                                 connectionError={connectionError}
                                                 showLoader={showLoader}
                                                 setShowLoader={setShowLoader}
@@ -413,51 +413,6 @@ function App() {
                                                 setIntegrationType={setIntegrationType}
                                             />
                                         }
-
-                                        {/*{ editID ?
-                                                <EditForm
-                                                    folderID={editFolderID}
-                                                    setEditFolderID={setEditFolderID}
-                                                    editID={editID}
-                                                    setEditID={setEditID}
-                                                    setShowUpgradePopup={setShowUpgradePopup}
-                                                    setShowConfirmPopup={setShowConfirmPopup}
-                                                    setOptionText={setOptionText}
-                                                    customIconArray={customIconArray}
-                                                    setCustomIconArray={setCustomIconArray}
-                                                    setShowLoader={setShowLoader}
-                                                    subStatus={subStatus}
-                                                    radioValue={radioValue}
-                                                    setRadioValue={setRadioValue}
-                                                    redirected={redirectedType}
-                                                    setRedirected={setRedirectedType}
-                                                    setShowMessageAlertPopup={setShowMessageAlertPopup}
-                                                    connectionError={connectionError}
-                                                />
-
-                                                :
-                                                showNewForm &&
-                                                <NewForm
-                                                    setShowNewForm={setShowNewForm}
-                                                    setShowUpgradePopup={setShowUpgradePopup}
-                                                    setOptionText={setOptionText}
-                                                    customIconArray={customIconArray}
-                                                    setCustomIconArray={setCustomIconArray}
-                                                    showLoader={showLoader}
-                                                    setShowLoader={setShowLoader}
-                                                    folderID={editFolderID}
-                                                    setEditFolderID={setEditFolderID}
-                                                    subStatus={subStatus}
-                                                    radioValue={radioValue}
-                                                    setRadioValue={setRadioValue}
-                                                    inputType={inputType}
-                                                    setInputType={setInputType}
-                                                    setShowMessageAlertPopup={setShowMessageAlertPopup}
-                                                    connectionError={connectionError}
-                                                    integrationType={integrationType}
-                                                    setIntegrationType={setIntegrationType}
-                                                />
-                                        }*/}
 
                                          { (!editID && !showLinkForm && !editFolderID) &&
                                             <>
@@ -497,7 +452,6 @@ function App() {
                                                         setOptionText={setOptionText}
                                                         setEditFolderID={setEditFolderID}
                                                         setEditID={setEditID}
-                                                        setShowNewForm={setShowNewForm}
                                                         setShowConfirmFolderDelete={setShowConfirmFolderDelete}
                                                         iconsWrapRef={iconsWrapRef}
                                                     />

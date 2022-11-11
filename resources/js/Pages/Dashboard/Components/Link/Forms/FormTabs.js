@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 const FormTabs = ({
                       radioValue,
@@ -6,12 +6,25 @@ const FormTabs = ({
                       subStatus,
                       inputType,
                       setInputType,
+                      currentLink,
                       setCurrentLink,
                       handleOnClick,
                       folderID,
                       integrationType,
                       editID
 }) => {
+
+    useEffect(() => {
+
+        if(currentLink.mailchimp_list_id || currentLink.shopify_products) {
+            setRadioValue("integration")
+        } else if ( (currentLink.email || currentLink.url || currentLink.phone) && currentLink.icon?.includes("custom-icon")) {
+            setRadioValue("custom")
+        } else {
+            setRadioValue("standard")
+        }
+
+    },[])
 
     const handleOnChange = (e) => {
         const value = e.target.value;
@@ -28,13 +41,22 @@ const FormTabs = ({
                 setInputType('shopify')
             }
 
-            if (!editID) {
-                setCurrentLink(prevState => ({
-                    ...prevState,
-                    icon: integrationType === "mailchimp" ? 'https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png' : 'https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Shopify.png',
-                    type: integrationType === "mailchimp" ? "mailchimp" : "shopify"
-                }))
-            }
+            const values = editID ?
+                {type: integrationType === "mailchimp" ? "mailchimp" : "shopify"}
+            :
+                {
+                    icon: integrationType === "mailchimp" ?
+                        'https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png' :
+                        'https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Shopify.png',
+                    type: integrationType === "mailchimp" ?
+                        "mailchimp" :
+                        "shopify"
+                }
+
+            setCurrentLink(prevState => ({
+                ...prevState,
+                values
+            }))
 
         } else {
 

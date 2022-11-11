@@ -55,7 +55,8 @@ const Links = ({
                    setShowUpgradePopup,
                    setOptionText,
                    subStatus,
-                   iconsWrapRef
+                   iconsWrapRef,
+                   setInputType
                }) => {
 
     const { userLinks, dispatch } = useContext(UserLinksContext);
@@ -275,6 +276,7 @@ const Links = ({
     };
 
     const handleOnClick = (linkID) => {
+
         setEditID(linkID);
 
         setTimeout(function(){

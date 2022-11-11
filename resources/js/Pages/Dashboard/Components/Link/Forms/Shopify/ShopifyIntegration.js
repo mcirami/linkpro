@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-const ShopifyIntegration = ({connectionError, inputType, editID = false}) => {
+const ShopifyIntegration = ({connectionError, inputType, editID}) => {
 
     const [domain, setDomain] = useState(null);
 

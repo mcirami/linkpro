@@ -35,7 +35,6 @@ import {
 import FormBreadcrumbs from './FormBreadcrumbs';
 import InputTypeRadio from './InputTypeRadio';
 import FormTabs from './FormTabs';
-import {getMailchimpLists, getAllProducts} from '../../../../../Services/UserService';
 import MailchimpIntegration from './Mailchimp/MailchimpIntegration';
 import ShopifyIntegration from './Shopify/ShopifyIntegration';
 import {Loader} from '../../../../../Utils/Loader';
@@ -57,8 +56,8 @@ const LinkForm = ({
                       subStatus,
                       radioValue,
                       setRadioValue,
-                      redirected,
-                      setRedirected,
+                      redirectedType,
+                      setRedirectedType,
                       connectionError,
                       showLoader,
                       setShowLoader,
@@ -87,15 +86,14 @@ const LinkForm = ({
     const [customIcon, setCustomIcon] = useState(null);
     let iconArray = getIconPaths(iconPaths);
 
-    const [lists, setLists] = useState(null);
+    const [lists, setLists] = useState([]);
     const [charactersLeft, setCharactersLeft] = useState();
 
-    const [allProducts, setAllProducts] = useState(null);
-    const [selectedProducts, setSelectedProducts] = useState(null);
+    const [allProducts, setAllProducts] = useState([]);
+    const [selectedProducts, setSelectedProducts] = useState([]);
     const [displayAllProducts, setDisplayAllProducts] = useState(false);
 
-    const [currentLink, setCurrentLink] = useState (() => (
-
+    const [currentLink, setCurrentLink] = useState (
         userLinks.find(function(e) {
             return e.id === editID
         }) || folderLinks.find(function(e) {
@@ -108,42 +106,12 @@ const LinkForm = ({
             email: null,
             phone: null,
             mailchimp_list_id: null,
-            shopify_products: null
+            shopify_products: null,
+            type: null,
         }
-    ))
+    );
 
-    const [input, setInput] = useState("");
-   /* const [inputType, setInputType] = useState(
-        currentLink.email && "email" ||
-        currentLink.url && "url" ||
-        currentLink.phone && "phone" ||
-        currentLink.mailchimp_list_id && "mailchimp_list" ||
-        currentLink.shopify_products && "shopify" ||
-        null
-    );*/
-
-    useEffect(() => {
-
-        setInputType(
-            currentLink.email && "email" ||
-            currentLink.url && "url" ||
-            currentLink.phone && "phone" ||
-            currentLink.mailchimp_list_id && "mailchimp" ||
-            currentLink.shopify_products && "shopify" ||
-            "url"
-        )
-
-    },[])
-
-    useEffect(() => {
-
-        if (inputType === "mailchimp" || currentLink.mailchimp_list_id) {
-            fetchLists();
-        }
-        if (inputType === "shopify"  || currentLink.shopify_products) {
-            fetchProducts()
-        }
-    }, [inputType]);
+    const [searchInput, setSearchInput] = useState("");
 
     useEffect(() => {
         if(currentLink.name) {
@@ -172,48 +140,6 @@ const LinkForm = ({
 
     }, [completedIconCrop]);
 
-    useEffect(() => {
-        if(currentLink.icon?.includes("custom-icon") && !currentLink.mailchimp_list_id && !currentLink.shopify_products) {
-            setRadioValue("custom");
-        } else if (currentLink.mailchimp_list_id || currentLink.shopify_products || redirected) {
-            setRadioValue("integration")
-            setInputType(redirected)
-            setRedirected(null);
-        } else {
-            setRadioValue("standard")
-        }
-    },[])
-
-    const fetchLists = () => {
-
-        setShowLoader({show: true, icon: "loading", position: "absolute"});
-
-        getMailchimpLists().then(
-            (data) => {
-                if (data.success) {
-                    !isEmpty(data.lists) && setLists(data.lists);
-                    setIntegrationType("mailchimp");
-                    setShowLoader({show: false, icon: "", position: ""});
-                }
-            }
-        )
-    }
-
-    const fetchProducts = () => {
-
-        setShowLoader({show: true, icon: "loading", position: "absolute"});
-
-        getAllProducts().then(
-            (data) => {
-                if (data.success) {
-                    !isEmpty(data.products) && setAllProducts(data.products);
-                    setIntegrationType("shopify");
-                    setShowLoader({show: false, icon: "", position: ""});
-                }
-            }
-        )
-    }
-
     const handleOnClick = e => {
         const type = e.target.dataset.type;
 
@@ -240,13 +166,13 @@ const LinkForm = ({
 
     const handleChange = (e) => {
         e.preventDefault();
-        setInput(e.target.value);
+        setSearchInput(e.target.value);
     }
 
-    if (input.length > 0) {
+    if (searchInput.length > 0) {
         iconArray = iconArray.filter((i) => {
             const iconName = i.name.toLowerCase().replace(" ", "");
-            const userInput = input.toLowerCase().replace(" ", "");
+            const userInput = searchInput.toLowerCase().replace(" ", "");
             return iconName.match(userInput);
         });
     }
@@ -278,7 +204,7 @@ const LinkForm = ({
         e.preventDefault();
 
         // check if more another mailchimp form already exists.
-        if (checkForMailchimpForm() === undefined || inputType !== "mailchimp") {
+        if (checkForMailchimpForm() === undefined || !checkForMailchimpForm() || inputType !== "mailchimp") {
 
             if (iconSelected) {
 
@@ -295,6 +221,7 @@ const LinkForm = ({
                 );
 
             } else {
+                console.log(currentLink);
                 let URL = currentLink.url;
                 let data;
 
@@ -321,7 +248,7 @@ const LinkForm = ({
                                 icon: currentLink.icon,
                                 page_id: pageSettings["id"],
                                 folder_id: folderID,
-                                type: currentLink.type,
+                                type: "standard",
                             };
                             break;
                         case "email":
@@ -331,7 +258,7 @@ const LinkForm = ({
                                 icon: currentLink.icon,
                                 page_id: pageSettings["id"],
                                 folder_id: folderID,
-                                type: currentLink.type,
+                                type: "standard",
                             };
                             break;
                         case "phone":
@@ -341,7 +268,7 @@ const LinkForm = ({
                                 icon: currentLink.icon,
                                 page_id: pageSettings["id"],
                                 folder_id: folderID,
-                                type: currentLink.type,
+                                type: "standard",
                             };
                             break;
                         case "mailchimp":
@@ -351,7 +278,7 @@ const LinkForm = ({
                                 icon: currentLink.icon,
                                 page_id: pageSettings["id"],
                                 folder_id: folderID,
-                                type: currentLink.type,
+                                type: "mailchimp",
                             };
                             break;
                         case "shopify":
@@ -361,7 +288,7 @@ const LinkForm = ({
                                 icon: currentLink.icon,
                                 page_id: pageSettings["id"],
                                 folder_id: folderID,
-                                type: currentLink.type,
+                                type: "shopify",
                             };
                             break;
                     }
@@ -544,6 +471,8 @@ const LinkForm = ({
                             }
 
                             setShowLinkForm(false);
+                            setIntegrationType(null);
+                            setInputType(null);
                             setEditID(null);
                             setCurrentLink({
                                 icon: null,
@@ -552,9 +481,9 @@ const LinkForm = ({
                                 email: null,
                                 phone: null,
                                 mailchimp_list_id: null,
-                                shopify_products: null
+                                shopify_products: null,
+                                type: null
                             })
-
                         }
                     })
                 }
@@ -581,7 +510,15 @@ const LinkForm = ({
 
     const submitWithCustomIcon = (image) => {
 
-        if(currentLink.name && (currentLink.url || currentLink.email || currentLink.phone || currentLink.mailchimp_list_id || !isEmpty(currentLink.shopify_products)) ) {
+        if(currentLink.name &&
+            (
+                currentLink.url ||
+                currentLink.email ||
+                currentLink.phone ||
+                currentLink.mailchimp_list_id ||
+                !isEmpty(currentLink.shopify_products)
+            )
+        ) {
 
             setShowLoader({show: true, icon: "upload", position: "fixed"})
             window.Vapor.store(
@@ -612,7 +549,7 @@ const LinkForm = ({
                             page_id: pageSettings["id"],
                             ext: response.extension,
                             folder_id: folderID,
-                            type: currentLink.type,
+                            type: "standard",
                         };
                         break;
                     case "email":
@@ -623,7 +560,7 @@ const LinkForm = ({
                             page_id: pageSettings["id"],
                             ext: response.extension,
                             folder_id: folderID,
-                            type: currentLink.type,
+                            type: "standard",
                         };
                         break;
                     case "phone":
@@ -634,7 +571,7 @@ const LinkForm = ({
                             page_id: pageSettings["id"],
                             ext: response.extension,
                             folder_id: folderID,
-                            type: currentLink.type,
+                            type: "standard",
                         };
                         break;
                     case "mailchimp":
@@ -645,7 +582,7 @@ const LinkForm = ({
                             page_id: pageSettings["id"],
                             ext: response.extension,
                             folder_id: folderID,
-                            type: currentLink.type,
+                            type: "mailchimp",
                         };
                         break;
                     case "shopify":
@@ -656,7 +593,7 @@ const LinkForm = ({
                             page_id: pageSettings["id"],
                             ext: response.extension,
                             folder_id: folderID,
-                            type: currentLink.type,
+                            type: "shopify",
                         };
                         break;
                 }
@@ -774,8 +711,8 @@ const LinkForm = ({
                                     payload: {
                                         editID: editID,
                                         currentLink: currentLink,
-                                        url: URL, iconPath:
-                                        data.iconPath
+                                        url: URL,
+                                        iconPath: data.iconPath
                                     }})
 
                                 dispatchOrig({
@@ -820,6 +757,8 @@ const LinkForm = ({
 
                         setShowLinkForm(false);
                         setEditID(null)
+                        setIntegrationType(null);
+                        setInputType(null);
                         setCurrentLink({
                             icon: null,
                             name: null,
@@ -827,14 +766,14 @@ const LinkForm = ({
                             email: null,
                             phone: null,
                             mailchimp_list_id: null,
-                            shopify_products: null
+                            shopify_products: null,
+                            type: null
                         })
 
                         setCustomIconArray(customIconArray => [
                             ...customIconArray,
                             data.icon_path
                         ]);
-
                     }
                 })
 
@@ -889,9 +828,9 @@ const LinkForm = ({
                     setShowLinkForm={setShowLinkForm}
                     folderID={folderID}
                     iconSelected={iconSelected}
+                    editID={editID}
                     setEditID={setEditID}
                     setShowConfirmPopup={setShowConfirmPopup}
-                    editID={editID}
                     setIntegrationType={setIntegrationType}
                     setInputType={setInputType}
                 />
@@ -905,6 +844,7 @@ const LinkForm = ({
                             subStatus={subStatus}
                             inputType={inputType}
                             setInputType={setInputType}
+                            currentLink={currentLink}
                             setCurrentLink={setCurrentLink}
                             handleOnClick={handleOnClick}
                             folderID={folderID}
@@ -929,26 +869,32 @@ const LinkForm = ({
                                     integrationType={integrationType}
                                     setIntegrationType={setIntegrationType}
                                     setInputType={setInputType}
+                                    setShowLoader={setShowLoader}
+                                    setLists={setLists}
+                                    setAllProducts={setAllProducts}
+                                    currentLink={currentLink}
                                 />
 
-                                {(integrationType === "mailchimp" && !lists) &&
+                                {(integrationType === "mailchimp" && isEmpty(lists)) &&
                                     <MailchimpIntegration
                                         connectionError={connectionError}
                                         inputType={inputType}
+                                        editID={editID}
                                     />
                                 }
 
-                                {(integrationType === "shopify" && !allProducts) &&
+                                {(integrationType === "shopify" && isEmpty(allProducts)) &&
                                     <ShopifyIntegration
                                         connectionError={connectionError}
                                         inputType={inputType}
+                                        editID={editID}
                                     />
                                 }
                             </>
 
                         }
 
-                        { ( (integrationType === "mailchimp" && lists) || (integrationType === "shopify" && allProducts ) || radioValue !== "integration") &&
+                        { ( (integrationType === "mailchimp" && !isEmpty(lists)) || (integrationType === "shopify" && !isEmpty(allProducts) ) || radioValue !== "integration") &&
                             <form onSubmit={handleSubmit} className="link_form">
                                 <div className="row">
                                     <div className="col-12">
@@ -1011,7 +957,7 @@ const LinkForm = ({
                                                             </>
                                                             :
                                                             <>
-                                                                <input name="search" type="text" placeholder="Search Icons" onChange={handleChange} defaultValue={input}/>
+                                                                <input name="search" type="text" placeholder="Search Icons" onChange={handleChange} defaultValue={searchInput}/>
                                                                 <div className="my_row info_text file_types text-center mb-2 text-center">
                                                                     <a href="mailto:help@link.pro" className="mx-auto m-0 char_count">Don't See Your Icon? Contact Us!</a>
                                                                 </div>
@@ -1090,7 +1036,6 @@ const LinkForm = ({
                                             inputType={inputType}
                                             setInputType={setInputType}
                                             currentLink={currentLink}
-                                            editID={editID}
                                             setCurrentLink={setCurrentLink}
                                             lists={lists}
                                             setLists={setLists}
@@ -1099,6 +1044,8 @@ const LinkForm = ({
                                             setSelectedProducts={setSelectedProducts}
                                             displayAllProducts={displayAllProducts}
                                             setDisplayAllProducts={setDisplayAllProducts}
+                                            integrationType={integrationType}
+                                            setIntegrationType={setIntegrationType}
                                         />
                                     </div>
                                 </div>

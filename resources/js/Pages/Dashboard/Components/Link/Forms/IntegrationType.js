@@ -1,12 +1,77 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import {
+    getAllProducts,
+    getMailchimpLists,
+} from '../../../../../Services/UserService';
+import {isEmpty} from 'lodash';
 
-const IntegrationType = ({integrationType, setIntegrationType, setInputType}) => {
+const IntegrationType = ({
+                             integrationType,
+                             setIntegrationType,
+                             setInputType,
+                             setShowLoader,
+                             setLists,
+                             setAllProducts,
+                             currentLink
+}) => {
+
+    useEffect(() => {
+
+        if (currentLink.mailchimp_list_id) {
+            setIntegrationType("mailchimp");
+            setInputType("mailchimp")
+            fetchLists()
+        }
+
+        if (currentLink.shopify_products){
+            setIntegrationType("shopify")
+            setInputType("shopify")
+            fetchProducts()
+        }
+
+    },[])
 
     const handleChange = (e) => {
         const value = e.target.value;
 
         setInputType(value)
         setIntegrationType(value);
+
+        if(value === "mailchimp") {
+            fetchLists()
+        }
+
+        if (value === "shopify") {
+            fetchProducts()
+        }
+    }
+
+    const fetchLists = () => {
+
+        setShowLoader({show: true, icon: "loading", position: "absolute"});
+
+        getMailchimpLists().then(
+            (data) => {
+                if (data.success) {
+                    !isEmpty(data.lists) && setLists(data.lists);
+                    setShowLoader({show: false, icon: "", position: ""});
+                }
+            }
+        )
+    }
+
+    const fetchProducts = () => {
+
+        setShowLoader({show: true, icon: "loading", position: "absolute"});
+
+        getAllProducts().then(
+            (data) => {
+                if (data.success) {
+                    !isEmpty(data.products) && setAllProducts(data.products);
+                    setShowLoader({show: false, icon: "", position: ""});
+                }
+            }
+        )
     }
 
     return (

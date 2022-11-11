@@ -5,7 +5,6 @@ import MailchimpLists from './Mailchimp/MailchimpLists';
 const InputComponent = ({
                             currentLink,
                             setCurrentLink,
-                            editID,
                             inputType,
                             setInputType,
                             lists,
@@ -14,10 +13,12 @@ const InputComponent = ({
                             selectedProducts,
                             setSelectedProducts,
                             displayAllProducts,
-                            setDisplayAllProducts
+                            setDisplayAllProducts,
+                            integrationType,
+                            setIntegrationType
 }) => {
 
-    const {url, email, phone} = currentLink;
+    const {url, email, phone, mailchimp_list_id, shopify_products} = currentLink;
 
     const [inputValues, setInputValues] = useState({
         name: null,
@@ -26,6 +27,26 @@ const InputComponent = ({
         placeholder: null,
         key: null
     })
+
+    useEffect(() => {
+
+        if(url) {
+            setInputType("url")
+        }
+        if(email) {
+            setInputType("email")
+        }
+        if(phone) {
+            setInputType("phone")
+        }
+        if(mailchimp_list_id || integrationType === "mailchimp") {
+            setInputType("mailchimp")
+        }
+        if(shopify_products || integrationType === "shopify") {
+            setInputType("shopify")
+        }
+
+    },[])
 
     useEffect(() => {
 
@@ -161,6 +182,8 @@ const InputComponent = ({
                                 currentLink={currentLink}
                                 setCurrentLink={setCurrentLink}
                                 inputKey={key}
+                                setInputType={setInputType}
+                                setIntegrationType={setIntegrationType}
                             />
                         )
 

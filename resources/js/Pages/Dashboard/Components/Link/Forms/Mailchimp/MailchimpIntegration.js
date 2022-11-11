@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MailchimpIntegration = ({connectionError, inputType, editID = false}) => {
+const MailchimpIntegration = ({connectionError, inputType, editID}) => {
 
     const handleMailchimpClick = (e) => {
         e.preventDefault();
@@ -24,7 +24,7 @@ const MailchimpIntegration = ({connectionError, inputType, editID = false}) => {
             <p className="small">Note: You will be redirected away from Link Pro to log into Mailchimp. You will need to either already have or create a new MailChimp account of your own to use this integration.</p>
             <div className="button_wrap">
                 <a className="button blue"
-                   href="resources/js/Pages/Dashboard/Components/Link/Forms/Mailchimp/MailchimpIntegration#"
+                   href="#"
                    onClick={(e) => handleMailchimpClick(e)}
                 >
                     Login To Mailchimp
