@@ -9,7 +9,6 @@ use App\Models\Page;
 use App\Http\Traits\LinkTrait;
 use App\Http\Traits\IconTrait;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class LinkService {
 
@@ -81,7 +80,7 @@ class LinkService {
                 'email' => $request->email ? : null,
                 'phone' => $request->phone ? : null,
                 'mailchimp_list_id' => $request->mailchimp_list_id ? : null,
-                'shopify_products' => $request->shopify_products ? json_encode($request->shopify_products) : null,
+                'shopify_products' => $request->shopify_products ? : null,
                 'icon' => $iconPath,
                 'page_id' => $request->page_id,
                 'position' => $position,
@@ -109,7 +108,7 @@ class LinkService {
                 'email' => $request->email ? : null,
                 'phone' => $request->phone ? : null,
                 'mailchimp_list_id' => $request->mailchimp_list_id ? : null,
-                'shopify_products' => $request->shopify_products ? json_encode($request->shopify_products) : null,
+                'shopify_products' => $request->shopify_products ? : null,
                 'icon' => $iconPath,
                 'page_id' => $request->page_id,
                 'position' => $position,
@@ -142,7 +141,7 @@ class LinkService {
                 'email' => $request->email ? : null,
                 'phone' => $request->phone ? : null,
                 'mailchimp_list_id' => $request->mailchimp_list_id ? : null,
-                'shopify_products' => $request->shopify_prodcuts ? : null,
+                'shopify_products' => $request->shopify_products ? : null,
                 'icon' => $iconPath,
                 'type' => $request->type,
             ]);
@@ -157,7 +156,7 @@ class LinkService {
                 'email' => $request->email ? : null,
                 'phone' => $request->phone ? : null,
                 'mailchimp_list_id' => $request->mailchimp_list_id ? : null,
-                'shopify_products' => $request->shopify_prodcuts ? : null,
+                'shopify_products' => $request->shopify_products ? : null,
                 'icon' => $request->icon ? : null,
                 'type' => $request->type,
             ]);

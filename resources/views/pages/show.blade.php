@@ -37,16 +37,12 @@
                                 @php ++$count @endphp
                                 @if ( $count < 9 || ($count > 8 && $subscribed ) )
 
-                                    @if($link->type == "folder" || $link->type === "form")
+                                    @if($link->type == "folder" || $link->type === "mailchimp" || $link->type === "shopify")
                                         @php ++$folderCount;
                                             $dataRow = ceil(($index + 1) / 4);
                                         @endphp
                                         <div id="folder{{$folderCount}}Parent"
-                                             class="icon_col
-                                                @if($link->active_status)
-                                                    folder
-                                                    folder_tracker
-                                                @endif"
+                                             class="icon_col @if($link->active_status)folder folder_tracker @endif"
                                              data-id="{{$link->id}}"
                                              data-row="{{ $dataRow }}"
                                              data-type="{{ $link->type }}"
@@ -131,7 +127,9 @@
                                                             @endforeach
                                                         </div>
                                                     </div>
-                                                @else
+                                                @endif
+
+                                                @if($link->type === "mailchimp")
                                                     <div id="folder{{$folderCount}}" class="my_row folder" data-parent="#folder{{$folderCount}}Parent">
                                                         <div class="form_wrap">
                                                             <div class="form_content">
@@ -150,6 +148,29 @@
                                                         </div>
                                                     </div>
                                                 @endif
+
+                                                @if($link->type === "shopify")
+                                                    <div  id="folder{{$folderCount}}" class="my_row folder" data-parent="#folder{{$folderCount}}Parent">
+                                                        <div class="form_wrap">
+                                                            <div class="products_grid folder">
+                                                                @if ($link->shopify_products !== null)
+                                                                    @foreach($link->shopify_products as $product)
+                                                                        <div class="single_product">
+                                                                            <a href="{{ $product["product_url"] }}" target="_blank">
+                                                                                <div class="image_wrap">
+                                                                                    <img src="{{ $product["image_url"]}}" alt="{{ $product["title"] }}"/>
+                                                                                </div>
+                                                                                <h3>{{ $product["title"] }}</h3>
+                                                                                <p><sup>$</sup>{{ $product["price"] }}</p>
+                                                                            </a>
+                                                                        </div>
+                                                                    @endforeach
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+
                                             @endif
                                         </div>
                                     @else {{--reguler icon--}}

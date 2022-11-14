@@ -3,6 +3,7 @@ import React, {
     useCallback,
     useContext,
     useEffect,
+    useMemo,
     useRef,
     useState,
 } from 'react';
@@ -110,6 +111,12 @@ const LinkForm = ({
             type: null,
         }
     );
+
+    useEffect(() => {
+        if(currentLink.shopify_products) {
+            setSelectedProducts(currentLink.shopify_products)
+        }
+    },[])
 
     const [searchInput, setSearchInput] = useState("");
 
@@ -221,7 +228,7 @@ const LinkForm = ({
                 );
 
             } else {
-                console.log(currentLink);
+
                 let URL = currentLink.url;
                 let data;
 
@@ -819,8 +826,6 @@ const LinkForm = ({
             'left_col_wrap').style.minHeight = "unset";
     }
 
-    console.log(currentLink);
-
     return (
         <>
             <div className="my_row icon_breadcrumb" id="scrollTo">
@@ -1066,7 +1071,6 @@ const LinkForm = ({
                                 }
                             </form>
                         }
-
                     </div>
                 </div>
             </div>

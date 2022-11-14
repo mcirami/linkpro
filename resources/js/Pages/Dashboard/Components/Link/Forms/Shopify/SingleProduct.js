@@ -59,7 +59,7 @@ const SingleProduct = ({product, setSelectedProducts, selectedProducts}) => {
 
     return (
         <div className="single_product">
-            <a href="resources/js/Pages/Dashboard/Components/Link/Forms/Shopify/ShopifyProduct#"
+            <a href="#"
                className={selectedId === id ? "selected" : ""}
                data-id={id}
                data-image={image_url}

@@ -4,7 +4,6 @@ import React, {
     useEffect,
     useLayoutEffect,
 } from 'react';
-import parse from 'html-react-parser';
 import {PageContext, UserLinksContext} from '../../App';
 import {IoIosCloseCircleOutline} from 'react-icons/io';
 import AccordionLinks from './AccordionLinks';
@@ -16,6 +15,7 @@ import Folder from './Folder';
 import LockIcon from './LockIcon';
 import FormIcon from './FormIcon';
 import SubscribeForm from './SubscribeForm';
+import StoreProducts from './StoreProducts';
 
 const Preview = ({
                      setRef,
@@ -116,6 +116,7 @@ const Preview = ({
 
     const accordionLinks = value !== null ? userLinks[value].links : null;
     const mailchimpListId = value !== null ? userLinks[value].mailchimp_list_id : null;
+    const storeProducts = value !== null ? userLinks[value].shopify_products : null;
 
     return (
 
@@ -250,6 +251,7 @@ const Preview = ({
                                                 index={index}
                                                 setClickType={setClickType}
                                                 clickType={clickType}
+                                                type={type}
                                             />
                                         }
 
@@ -261,6 +263,18 @@ const Preview = ({
                                                     mailchimpListId={mailchimpListId}
                                                     clickType={clickType}
                                                 />
+                                            :
+                                            ""
+                                        }
+
+                                        {subStatus && ( (index + 1) % 4 === 0 || index + 1 === iconCount) ?
+
+                                            <StoreProducts
+                                                dataRow={dataRow}
+                                                row={row}
+                                                clickType={clickType}
+                                                storeProducts={storeProducts}
+                                            />
                                             :
                                             ""
                                         }
