@@ -15,7 +15,8 @@ const InputComponent = ({
                             displayAllProducts,
                             setDisplayAllProducts,
                             integrationType,
-                            setIntegrationType
+                            setIntegrationType,
+                            radioValue
 }) => {
 
     const {url, email, phone, mailchimp_list_id, shopify_products} = currentLink;
@@ -30,20 +31,22 @@ const InputComponent = ({
 
     useEffect(() => {
 
-        if(url) {
-            setInputType("url")
-        }
-        if(email) {
-            setInputType("email")
-        }
-        if(phone) {
-            setInputType("phone")
-        }
-        if(mailchimp_list_id || integrationType === "mailchimp") {
+        if (integrationType === "mailchimp") {
             setInputType("mailchimp")
-        }
-        if(shopify_products || integrationType === "shopify") {
+        } else if (integrationType === "shopify") {
             setInputType("shopify")
+        } else if(url) {
+            setInputType("url")
+        } else if(email) {
+            setInputType("email")
+        } else if(phone) {
+            setInputType("phone")
+        } else if(mailchimp_list_id) {
+            setInputType("mailchimp")
+        } else if(shopify_products) {
+            setInputType("shopify")
+        } else {
+            setInputType("url")
         }
 
     },[])

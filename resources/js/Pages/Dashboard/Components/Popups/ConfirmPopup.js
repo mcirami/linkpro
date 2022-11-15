@@ -19,7 +19,9 @@ export const ConfirmPopup = ({
                                  showConfirmPopup,
                                  setShowConfirmPopup,
                                  folderID,
-                                 iconsWrapRef
+                                 iconsWrapRef,
+                                 setInputType,
+                                 setIntegrationType
 
                              }) => {
 
@@ -104,6 +106,8 @@ export const ConfirmPopup = ({
                 setEditID(null)
                 updateContentHeight(iconsWrapRef, folderID && true);
                 setShowConfirmPopup(false)
+                setIntegrationType(null);
+                setInputType(null)
             }
         })
     }

@@ -1,6 +1,16 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
-const InputTypeRadio = ({inputType, setInputType, setCurrentLink}) => {
+const InputTypeRadio = ({inputType, setInputType, currentLink, setCurrentLink}) => {
+
+    useEffect(() => {
+        if (currentLink.url) {
+            setInputType("url")
+        } else if (currentLink.email) {
+            setInputType("email")
+        } else if (currentLink.phone) {
+            setInputType("phone")
+        }
+    }, [currentLink])
 
      const handleOnChange = (e) => {
          setInputType(e.target.value)

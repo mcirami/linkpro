@@ -58,7 +58,6 @@ const LinkForm = ({
                       radioValue,
                       setRadioValue,
                       redirectedType,
-                      setRedirectedType,
                       connectionError,
                       showLoader,
                       setShowLoader,
@@ -206,7 +205,6 @@ const LinkForm = ({
         imgRef.current = img;
     }, []);
 
-
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -246,6 +244,8 @@ const LinkForm = ({
 
                     URL = data["url"];
                     let packets;
+
+                    console.log(inputType);
 
                     switch (inputType) {
                         case "url":
@@ -523,7 +523,7 @@ const LinkForm = ({
                 currentLink.email ||
                 currentLink.phone ||
                 currentLink.mailchimp_list_id ||
-                !isEmpty(currentLink.shopify_products)
+                currentLink.shopify_products
             )
         ) {
 
@@ -762,6 +762,11 @@ const LinkForm = ({
 
                         }
 
+                        setCustomIconArray(customIconArray => [
+                            ...customIconArray,
+                            data.icon_path
+                        ]);
+
                         setShowLinkForm(false);
                         setEditID(null)
                         setIntegrationType(null);
@@ -776,11 +781,6 @@ const LinkForm = ({
                             shopify_products: null,
                             type: null
                         })
-
-                        setCustomIconArray(customIconArray => [
-                            ...customIconArray,
-                            data.icon_path
-                        ]);
                     }
                 })
 
@@ -857,6 +857,7 @@ const LinkForm = ({
                             folderID={folderID}
                             integrationType={integrationType}
                             editID={editID}
+                            redirectedType={redirectedType}
                         />
                     </div>
 
@@ -876,10 +877,12 @@ const LinkForm = ({
                                     integrationType={integrationType}
                                     setIntegrationType={setIntegrationType}
                                     setInputType={setInputType}
+                                    inputType={inputType}
                                     setShowLoader={setShowLoader}
                                     setLists={setLists}
                                     setAllProducts={setAllProducts}
                                     currentLink={currentLink}
+                                    redirectedType={redirectedType}
                                 />
 
                                 {(integrationType === "mailchimp" && isEmpty(lists)) &&
@@ -1032,6 +1035,7 @@ const LinkForm = ({
                                             <InputTypeRadio
                                                 inputType={inputType}
                                                 setInputType={setInputType}
+                                                currentLink={currentLink}
                                                 setCurrentLink={setCurrentLink}
                                             />
                                         </div>
@@ -1053,6 +1057,7 @@ const LinkForm = ({
                                             setDisplayAllProducts={setDisplayAllProducts}
                                             integrationType={integrationType}
                                             setIntegrationType={setIntegrationType}
+                                            radioValue={radioValue}
                                         />
                                     </div>
                                 </div>

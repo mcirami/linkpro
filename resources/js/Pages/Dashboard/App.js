@@ -286,6 +286,8 @@ function App() {
                                     setShowConfirmPopup={setShowConfirmPopup}
                                     folderID={editFolderID}
                                     iconsWrapRef={iconsWrapRef}
+                                    setInputType={setInputType}
+                                    setIntegrationType={setIntegrationType}
                                 />
                             }
 

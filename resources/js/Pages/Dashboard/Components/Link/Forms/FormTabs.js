@@ -11,17 +11,22 @@ const FormTabs = ({
                       handleOnClick,
                       folderID,
                       integrationType,
-                      editID
+                      editID,
+                      redirectedType
 }) => {
 
     useEffect(() => {
 
-        if(currentLink.mailchimp_list_id || currentLink.shopify_products) {
-            setRadioValue("integration")
-        } else if ( (currentLink.email || currentLink.url || currentLink.phone) && currentLink.icon?.includes("custom-icon")) {
-            setRadioValue("custom")
-        } else {
-            setRadioValue("standard")
+        if(!redirectedType) {
+            if (currentLink.mailchimp_list_id || currentLink.shopify_products) {
+                setRadioValue("integration")
+            } else if ((currentLink.email || currentLink.url ||
+                    currentLink.phone) &&
+                currentLink.icon?.includes("custom-icon")) {
+                setRadioValue("custom")
+            } else {
+                setRadioValue("standard")
+            }
         }
 
     },[])

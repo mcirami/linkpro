@@ -28,7 +28,6 @@ const MailchimpLists = ({
                         active_status: 0,
                     })
                     setInputType(null)
-                    setIntegrationType(null)
                 }
             }
         )

@@ -95,7 +95,7 @@ const IconList = ({
 
                     <div className="icons_wrap my_row">
                         {customIconArray?.map((iconPath, index) => {
-                            const newPath = iconPath.replace("public",
+                            const newPath = iconPath?.replace("public",
                                 "/storage");
 
                             return (

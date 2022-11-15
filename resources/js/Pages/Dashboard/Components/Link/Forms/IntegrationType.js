@@ -12,7 +12,9 @@ const IntegrationType = ({
                              setShowLoader,
                              setLists,
                              setAllProducts,
-                             currentLink
+                             currentLink,
+                             redirectedType,
+                             inputType
 }) => {
 
     useEffect(() => {
@@ -21,12 +23,16 @@ const IntegrationType = ({
             setIntegrationType("mailchimp");
             setInputType("mailchimp")
             fetchLists()
-        }
-
-        if (currentLink.shopify_products){
+        } else if (currentLink.shopify_products){
             setIntegrationType("shopify")
             setInputType("shopify")
             fetchProducts()
+        }
+
+        if (redirectedType) {
+            redirectedType === "mailchimp" ?
+                fetchLists() :
+                fetchProducts()
         }
 
     },[])
@@ -39,9 +45,7 @@ const IntegrationType = ({
 
         if(value === "mailchimp") {
             fetchLists()
-        }
-
-        if (value === "shopify") {
+        } else if (value === "shopify") {
             fetchProducts()
         }
     }
