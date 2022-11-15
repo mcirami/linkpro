@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import {addPage} from '../../../Services/PageRequests';
-import SocialMediaForms from './SocialMediaForms';
+//import SocialMediaForms from './SocialMediaForms';
 
 let pageNames = user.pageNames;
 
-const CreatePageForm = ({setNewPageId, setStep}) => {
+const CreatePageForm = () => {
 
     const [newPageName, setNewPageName] = useState(null);
     const [available, setAvailability] = useState(false);
@@ -22,8 +22,9 @@ const CreatePageForm = ({setNewPageId, setStep}) => {
             addPage(packets).then((data) => {
 
                 if (data.success) {
-                    setNewPageId(data.page_id);
-                    setStep("facebook");
+                    //setNewPageId(data.page_id);
+                    //setStep("facebook");
+                    window.location.href = '/plans'
                 }
             })
         }
