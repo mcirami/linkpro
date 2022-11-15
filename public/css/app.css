@@ -12313,6 +12313,9 @@ header.guest_header .col.right {
     text-align: center;
   }
 }
+.my_row.radios_wrap.two_col .radio_wrap {
+  width: 50%;
+}
 .my_row.radios_wrap.input_types {
   margin-bottom: 0;
   justify-content: flex-start;

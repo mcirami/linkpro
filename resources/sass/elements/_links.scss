@@ -568,6 +568,12 @@
         }
     }
 
+    &.two_col {
+        .radio_wrap {
+            width: 50%;
+        }
+    }
+
     &.input_types {
         margin-bottom: 0;
         justify-content: flex-start;
