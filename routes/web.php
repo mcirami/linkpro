@@ -91,7 +91,7 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::post('/folder/new', [FolderController::class, 'store'])->name('add.folder');
 
-    Route::get('/auth/shopify/{domain}', [ShopifyController::class, 'auth'])->name('shopify.auth');
+    Route::get('/auth/shopify', [ShopifyController::class, 'auth'])->name('shopify.auth');
     Route::get('/auth/shopify/callback', [ShopifyController::class, 'callback']);
     Route::get('/shopify/get-products', [ShopifyController::class, 'getAllProducts'])->name('shopify.get.store');
 

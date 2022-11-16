@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 
 const SingleProduct = ({product, setSelectedProducts, selectedProducts}) => {
 
-    const {id, title, product_url, image_url, price} = product;
     const [selectedId, setSelectedId] = useState(null);
+    const {id, title, product_url, image_url, price} = product;
 
     useEffect(() => {
 
@@ -18,17 +18,17 @@ const SingleProduct = ({product, setSelectedProducts, selectedProducts}) => {
     const handleOnClick = (e) => {
         e.preventDefault();
 
-        const id = e.target.dataset.id;
+        const productID = parseInt(e.target.dataset.id);
         let newProducts = [...selectedProducts];
 
         const foundProduct = newProducts.find(function(e) {
-            return e.id === id
+            return e.id === productID
         })
 
         if (foundProduct) {
             setSelectedId(null);
-            newProducts = newProducts.filter(element => element.id !== id);
-            newProducts = newProducts.map((el, index) => {
+            const filteredProducts = newProducts.filter(element => element.id !== productID);
+            newProducts = filteredProducts.map((el, index) => {
                 return ({
                     ...el,
                     position: index + 1
@@ -36,9 +36,9 @@ const SingleProduct = ({product, setSelectedProducts, selectedProducts}) => {
             })
 
         } else {
-            setSelectedId(id);
+            setSelectedId(productID);
             const newObject = {
-                id: id,
+                id: productID,
                 title: e.target.dataset.title,
                 image_url: e.target.dataset.image,
                 product_url: e.target.dataset.url,
@@ -47,13 +47,17 @@ const SingleProduct = ({product, setSelectedProducts, selectedProducts}) => {
             }
             newProducts = newProducts.concat(newObject)
         }
+
         setSelectedProducts(newProducts);
+
     }
 
-    const getPosition = (id) => {
+    const getPosition = (productID) => {
+
         const product = selectedProducts.length > 0 && selectedProducts?.find(function (e) {
-            return e.id === id
+            return e.id === productID
         })
+
         return product.position;
     }
 

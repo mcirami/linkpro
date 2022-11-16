@@ -6,7 +6,7 @@ const ShopifyIntegration = ({connectionError, inputType, editID}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const url = "/auth/shopify/" + domain;
+        const url = "/auth/shopify?domain=" + domain;
 
         if (domain) {
 

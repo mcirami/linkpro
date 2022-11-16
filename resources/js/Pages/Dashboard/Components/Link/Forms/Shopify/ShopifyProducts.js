@@ -41,7 +41,6 @@ const ShopifyProducts = ({
                                     product={product}
                                     setSelectedProducts={setSelectedProducts}
                                     selectedProducts={selectedProducts}
-
                                 />
                             )
                         })}
