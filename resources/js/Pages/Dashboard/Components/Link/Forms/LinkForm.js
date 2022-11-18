@@ -245,8 +245,6 @@ const LinkForm = ({
                     URL = data["url"];
                     let packets;
 
-                    console.log(inputType);
-
                     switch (inputType) {
                         case "url":
                             packets = {

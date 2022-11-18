@@ -31,23 +31,31 @@ const InputComponent = ({
 
     useEffect(() => {
 
+        let currentInputType;
+
         if (integrationType === "mailchimp") {
-            setInputType("mailchimp")
+            currentInputType ="mailchimp";
         } else if (integrationType === "shopify") {
-            setInputType("shopify")
+            currentInputType = "shopify";
         } else if(url) {
-            setInputType("url")
+            currentInputType = "url";
         } else if(email) {
-            setInputType("email")
+            currentInputType = "email";
         } else if(phone) {
-            setInputType("phone")
+            currentInputType = "phone";
         } else if(mailchimp_list_id) {
-            setInputType("mailchimp")
+            currentInputType = "mailchimp";
         } else if(shopify_products) {
-            setInputType("shopify")
+            inputType = "shopify";
         } else {
-            setInputType("url")
+            currentInputType = "url";
         }
+
+        setInputType(currentInputType)
+        setCurrentLink((link) => ({
+            ...link,
+            type:currentInputType
+        }));
 
     },[])
 

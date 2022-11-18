@@ -10,7 +10,7 @@ const InputTypeRadio = ({inputType, setInputType, currentLink, setCurrentLink}) 
         } else if (currentLink.phone) {
             setInputType("phone")
         }
-    }, [currentLink])
+    }, [])
 
      const handleOnChange = (e) => {
          setInputType(e.target.value)
