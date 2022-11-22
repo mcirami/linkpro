@@ -50,7 +50,7 @@ class ShopifyController extends Controller
             foreach($products as $product) {
                 $productObject = [
                     "id"            => $product["id"],
-                    "product_url"   => 'https://' . $domain . '/product/' . $product["handle"],
+                    "product_url"   => 'https://' . $domain . '/products/' . $product["handle"],
                     "title"         => $product["title"],
                     "price"         => $product["variants"][0]["price"],
                     "image_url"     => $product["image"] ? $product["image"]["src"] : null

@@ -33,9 +33,7 @@ class PageService {
 
     public function getUserLinks($page, $subscribed) {
 
-        $allLinks = $page->links()->where('page_id', $page["id"])->where('folder_id', null)
-                     ->orderBy('position', 'asc')
-                     ->get()->toArray();
+        $allLinks = $this->getAllLinks($page);
 
         if($subscribed) {
 
@@ -115,7 +113,7 @@ class PageService {
     /**
      * Show Edit Page
      *
-     * @return $link
+     * @return void
      */
 
     public function editPage($user, $page) {
@@ -140,39 +138,12 @@ class PageService {
             array_push($standardIcons, $path);
         }
 
-        $allLinks = $this->user->links()->where('page_id', $page["id"])->where('folder_id', null)
-                     ->orderBy('position', 'asc')
-                     ->get()->toArray();
-
-
-        $newLinksArray = [];
-        foreach($allLinks as $link) {
-            if($link["shopify_products"]) {
-                $productArray = [];
-                $store_id = $link["shopify_products"][0]["store_id"];
-                $allProducts = ShopifyStore::where('id', $store_id)->pluck("products");
-
-                foreach($link["shopify_products"] as $product) {
-
-                    foreach($allProducts[0] as $storeProduct) {
-
-                        if($storeProduct["id"] == $product["id"]) {
-                            $newArray = array_merge($storeProduct, array('position' => $product["position"]) );
-                            array_push($productArray, $newArray);
-                        }
-                    }
-                }
-
-                $link["shopify_products"] = $productArray;
-            }
-
-            array_push($newLinksArray, $link);
-        }
+        $linksArray = $this->getAllLinks($page);
 
         $folderLinks = $this->getFolderLinks($page);
         if (!empty($folderLinks)) {
-            $newLinksArray = array_merge($newLinksArray, $folderLinks);
-            usort($newLinksArray, array($this, "sortArray" ));
+            $linksArray = array_merge($linksArray, $folderLinks);
+            usort($linksArray, array($this, "sortArray" ));
         }
 
         $pageNames = Page::all()->pluck('name')->toArray();
@@ -180,7 +151,7 @@ class PageService {
         $userSubscription = $user->subscriptions()->first();
 
         Javascript::put([
-            'links' => $newLinksArray,
+            'links' => $linksArray,
             'icons' => $standardIcons,
             'page' => $page,
             'user_pages' => $userPages,
