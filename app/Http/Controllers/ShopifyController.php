@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ShopifyStore;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
+use Shopify\Rest\Admin2022_01\Shop;
 use Signifly\Shopify\Shopify;
 use SocialiteProviders\Manager\Config;
 
@@ -57,13 +59,13 @@ class ShopifyController extends Controller
                 array_push($productsArray, $productObject);
             }
 
-            Auth::user()->shopifyUsers()->create([
+            $shopifyStore = Auth::user()->shopifyStores()->create([
                 'access_token' => $accessToken,
                 'domain' => $domain,
                 'products' => json_encode($productsArray)
             ]);
 
-            return redirect()->route('dashboard', ['redirected' => "shopify"]);
+            return redirect()->route('dashboard', ['redirected' => "shopify", 'store' => $shopifyStore->id]);
 
         } catch (\Throwable $th) {
 
@@ -79,15 +81,19 @@ class ShopifyController extends Controller
         }
     }
 
-    public function getAllProducts() {
+    public function getAllProducts($id) {
 
-        $user = Auth::user();
-
-        $products = $user->shopifyUsers()->get('products');
-
+        $store = ShopifyStore::findOrFail($id);
         return response()->json([
-            'products' => json_decode($products)
+            'products' => $store->products
         ]);
+    }
 
+    public function getStores() {
+        $user = Auth::user();
+        $stores = $user->shopifyStores()->get();
+        return response()->json([
+            'stores' => $stores
+        ]);
     }
 }

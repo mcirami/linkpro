@@ -41,9 +41,9 @@ class LinkController extends Controller
 
         $path = $linkService->updateLink($request, $link);
 
-        if (!$path) {
+        /*if (!$path) {
             $path = null;
-        }
+        }*/
 
         return response()->json(['message' => 'Icon Updated', 'path' => $path]);
 

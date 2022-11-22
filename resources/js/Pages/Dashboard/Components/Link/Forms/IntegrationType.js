@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {
     getAllProducts,
-    getMailchimpLists,
+    getMailchimpLists, getStores,
 } from '../../../../../Services/UserService';
 import {isEmpty} from 'lodash';
 
@@ -11,10 +11,9 @@ const IntegrationType = ({
                              setInputType,
                              setShowLoader,
                              setLists,
-                             setAllProducts,
                              currentLink,
                              redirectedType,
-                             inputType
+                             setShopifyStores
 }) => {
 
     useEffect(() => {
@@ -26,14 +25,15 @@ const IntegrationType = ({
         } else if (currentLink.shopify_products){
             setIntegrationType("shopify")
             setInputType("shopify")
-            fetchProducts()
+            fetchStores()
         }
 
-        if (redirectedType) {
+        if(redirectedType) {
             redirectedType === "mailchimp" ?
                 fetchLists() :
-                fetchProducts()
+                fetchStores()
         }
+
 
     },[])
 
@@ -45,8 +45,10 @@ const IntegrationType = ({
 
         if(value === "mailchimp") {
             fetchLists()
-        } else if (value === "shopify") {
-            fetchProducts()
+        }
+
+        if(value === "shopify") {
+            fetchLists()
         }
     }
 
@@ -64,14 +66,14 @@ const IntegrationType = ({
         )
     }
 
-    const fetchProducts = () => {
+    const fetchStores = () => {
 
         setShowLoader({show: true, icon: "loading", position: "absolute"});
 
-        getAllProducts().then(
+        getStores().then(
             (data) => {
                 if (data.success) {
-                    !isEmpty(data.products) && setAllProducts(data.products);
+                    !isEmpty(data.stores) && setShopifyStores(data.stores)
                     setShowLoader({show: false, icon: "", position: ""});
                 }
             }

@@ -65,7 +65,8 @@ const LinkForm = ({
                       setInputType,
                       integrationType,
                       setIntegrationType,
-
+                      shopifyStores,
+                      setShopifyStores
 }) => {
 
     const { userLinks, dispatch } = useContext(UserLinksContext);
@@ -107,13 +108,15 @@ const LinkForm = ({
             phone: null,
             mailchimp_list_id: null,
             shopify_products: null,
+            shopify_id: null,
             type: null,
         }
     );
 
     useEffect(() => {
-        if(currentLink.shopify_products) {
+        if(currentLink.shopify_products && currentLink.shopify_id) {
             setSelectedProducts(currentLink.shopify_products)
+            //setStoreID(currentLink.shopify_id)
         }
     },[])
 
@@ -290,6 +293,7 @@ const LinkForm = ({
                             packets = {
                                 name: currentLink.name,
                                 shopify_products: currentLink.shopify_products,
+                                shopify_id: currentLink.shopify_id,
                                 icon: currentLink.icon,
                                 page_id: pageSettings["id"],
                                 folder_id: folderID,
@@ -363,6 +367,7 @@ const LinkForm = ({
                                         type: currentLink.type,
                                         mailchimp_list_id: currentLink.mailchimp_list_id,
                                         shopify_products: currentLink.shopify_products,
+                                        shopify_id: currentLink.shopify_id,
                                         icon: currentLink.icon,
                                         position: data.position,
                                         active_status: true
@@ -452,6 +457,7 @@ const LinkForm = ({
                                         type: currentLink.type,
                                         mailchimp_list_id: currentLink.mailchimp_list_id,
                                         shopify_products: currentLink.shopify_products,
+                                        shopify_id: currentLink.shopify_id,
                                         icon: currentLink.icon,
                                         position: data.position,
                                         active_status: true
@@ -487,6 +493,7 @@ const LinkForm = ({
                                 phone: null,
                                 mailchimp_list_id: null,
                                 shopify_products: null,
+                                shopify_id: null,
                                 type: null
                             })
                         }
@@ -594,6 +601,7 @@ const LinkForm = ({
                         packets = {
                             name: currentLink.name,
                             shopify_products: currentLink.shopify_products,
+                            shopify_id: currentLink.shopify_id,
                             icon: response.key,
                             page_id: pageSettings["id"],
                             ext: response.extension,
@@ -663,6 +671,7 @@ const LinkForm = ({
                                     phone: currentLink.phone,
                                     mailchimp_list_id: currentLink.mailchimp_list_id,
                                     shopify_products: currentLink.shopify_products,
+                                    shopify_id: currentLink.shopify_id,
                                     type: currentLink.type,
                                     icon: data.icon_path,
                                     position: data.position,
@@ -741,6 +750,7 @@ const LinkForm = ({
                                     type: currentLink.type,
                                     mailchimp_list_id: currentLink.mailchimp_list_id,
                                     shopify_products: currentLink.shopify_products,
+                                    shopify_id: currentLink.shopify_id,
                                     icon: data.icon_path,
                                     position: data.position,
                                     active_status: true
@@ -875,10 +885,9 @@ const LinkForm = ({
                                     integrationType={integrationType}
                                     setIntegrationType={setIntegrationType}
                                     setInputType={setInputType}
-                                    inputType={inputType}
                                     setShowLoader={setShowLoader}
                                     setLists={setLists}
-                                    setAllProducts={setAllProducts}
+                                    setShopifyStores={setShopifyStores}
                                     currentLink={currentLink}
                                     redirectedType={redirectedType}
                                 />
@@ -891,7 +900,7 @@ const LinkForm = ({
                                     />
                                 }
 
-                                {(integrationType === "shopify" && isEmpty(allProducts)) &&
+                                {(integrationType === "shopify" && isEmpty(shopifyStores)) &&
                                     <ShopifyIntegration
                                         connectionError={connectionError}
                                         inputType={inputType}
@@ -902,7 +911,7 @@ const LinkForm = ({
 
                         }
 
-                        { ( (integrationType === "mailchimp" && !isEmpty(lists)) || (integrationType === "shopify" && !isEmpty(allProducts) ) || radioValue !== "integration") &&
+                        { ( (integrationType === "mailchimp" && !isEmpty(lists)) || (integrationType === "shopify" && !isEmpty(shopifyStores) ) || radioValue !== "integration") &&
                             <form onSubmit={handleSubmit} className="link_form">
                                 <div className="row">
                                     <div className="col-12">
@@ -1048,14 +1057,17 @@ const LinkForm = ({
                                             setCurrentLink={setCurrentLink}
                                             lists={lists}
                                             setLists={setLists}
+                                            shopifyStores={shopifyStores}
+                                            setShopifyStores={setShopifyStores}
                                             allProducts={allProducts}
+                                            setAllProducts={setAllProducts}
                                             selectedProducts={selectedProducts}
                                             setSelectedProducts={setSelectedProducts}
                                             displayAllProducts={displayAllProducts}
                                             setDisplayAllProducts={setDisplayAllProducts}
                                             integrationType={integrationType}
                                             setIntegrationType={setIntegrationType}
-                                            radioValue={radioValue}
+                                            setShowLoader={setShowLoader}
                                         />
                                     </div>
                                 </div>

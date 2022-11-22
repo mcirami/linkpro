@@ -28,7 +28,8 @@ class Link extends Model
         'embed_code',
         'type',
         'mailchimp_list_id',
-        'shopify_products'
+        'shopify_products',
+        'shopify_id'
     ];
 
     /**

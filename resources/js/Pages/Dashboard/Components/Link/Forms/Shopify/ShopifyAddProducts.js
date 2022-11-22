@@ -1,11 +1,28 @@
 import React from 'react';
 import {ImPlus} from 'react-icons/im';
+import {getAllProducts} from '../../../../../../Services/UserService';
+import {isEmpty} from 'lodash';
 
-const ShopifyAddProducts = ({setDisplayAllProducts}) => {
+const ShopifyAddProducts = ({
+                                setDisplayAllProducts,
+                                setAllProducts,
+                                setShowLoader,
+                                currentLink
+}) => {
 
     const handleClick = (e) => {
         e.preventDefault();
-        setDisplayAllProducts(true)
+        setShowLoader({show: true, icon: "loading", position: "absolute"});
+
+        getAllProducts(currentLink.shopify_id).then(
+            (data) => {
+                if (data.success) {
+                    !isEmpty(data.products) && setAllProducts(data.products);
+                    setDisplayAllProducts(true)
+                    setShowLoader({show: false, icon: "", position: ""});
+                }
+            }
+        )
     }
 
     return (

@@ -10,6 +10,15 @@
     }
 }
 
+.selected_products {
+    padding: 20px;
+    border: 1px solid $borderGray;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    margin-bottom: 10px;
+}
+
 .products_grid {
     display: -webkit-flex;
     display: -ms-flexbox;

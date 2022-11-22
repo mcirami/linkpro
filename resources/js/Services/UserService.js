@@ -109,16 +109,47 @@ export const removeMailchimpConnection = () => {
     });
 }
 
-export const getAllProducts = () => {
+export const getAllProducts = (storeId) => {
 
-    return axios.get('/shopify/get-products').then(
+    return axios.get('/shopify/get-products/' + storeId).then(
         (response) => {
             //console.log(JSON.stringify(response.data));
-            const products = response.data.products;
+            const products = response.data.products
 
             return {
                 success : true,
-                products : !isEmpty(products) ? JSON.parse(products[0]["products"]) : products,
+                products : !isEmpty(products) ? products : null,
+            }
+        },
+
+    ).catch(error => {
+        if (error.response) {
+            if(error.response.data.errors) {
+                EventBus.dispatch("error", { message: error.response.data.errors });
+            } else {
+                console.error(error.response);
+            }
+
+        } else {
+            console.error("ERROR:: ", error);
+        }
+
+        return {
+            success : false
+        }
+    });
+}
+
+export const getStores = () => {
+
+    return axios.get('/shopify/get-stores').then(
+        (response) => {
+            //console.log(JSON.stringify(response.data));
+            const stores = response.data.stores
+
+            return {
+                success : true,
+                stores : !isEmpty(stores) ? stores : null,
             }
         },
 

@@ -9,6 +9,7 @@ const myLinksArray = userLinks?.map(({
                                      phone,
                                      mailchimp_list_id,
                                      shopify_products,
+                                     shopify_id,
                                      active_status,
                                      position,
                                      links
@@ -21,6 +22,7 @@ const myLinksArray = userLinks?.map(({
     phone,
     mailchimp_list_id,
     shopify_products,
+    shopify_id,
     active_status,
     position,
     type,

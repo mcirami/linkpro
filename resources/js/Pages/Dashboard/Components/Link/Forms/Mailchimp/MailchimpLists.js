@@ -13,7 +13,6 @@ const MailchimpLists = ({
                             inputKey,
                             name,
                             setInputType,
-                            setIntegrationType
 }) => {
 
     const handleClick = (e) => {

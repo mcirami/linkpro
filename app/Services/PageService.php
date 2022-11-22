@@ -3,6 +3,7 @@
 
 namespace App\Services;
 use App\Models\Page;
+use App\Models\ShopifyStore;
 use App\Notifications\WelcomeNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -143,10 +144,35 @@ class PageService {
                      ->orderBy('position', 'asc')
                      ->get()->toArray();
 
+
+        $newLinksArray = [];
+        foreach($allLinks as $link) {
+            if($link["shopify_products"]) {
+                $productArray = [];
+                $store_id = $link["shopify_products"][0]["store_id"];
+                $allProducts = ShopifyStore::where('id', $store_id)->pluck("products");
+
+                foreach($link["shopify_products"] as $product) {
+
+                    foreach($allProducts[0] as $storeProduct) {
+
+                        if($storeProduct["id"] == $product["id"]) {
+                            $newArray = array_merge($storeProduct, array('position' => $product["position"]) );
+                            array_push($productArray, $newArray);
+                        }
+                    }
+                }
+
+                $link["shopify_products"] = $productArray;
+            }
+
+            array_push($newLinksArray, $link);
+        }
+
         $folderLinks = $this->getFolderLinks($page);
         if (!empty($folderLinks)) {
-            $allLinks = array_merge($allLinks, $folderLinks);
-            usort($allLinks, array($this, "sortArray" ));
+            $newLinksArray = array_merge($newLinksArray, $folderLinks);
+            usort($newLinksArray, array($this, "sortArray" ));
         }
 
         $pageNames = Page::all()->pluck('name')->toArray();
@@ -154,7 +180,7 @@ class PageService {
         $userSubscription = $user->subscriptions()->first();
 
         Javascript::put([
-            'links' => $allLinks,
+            'links' => $newLinksArray,
             'icons' => $standardIcons,
             'page' => $page,
             'user_pages' => $userPages,

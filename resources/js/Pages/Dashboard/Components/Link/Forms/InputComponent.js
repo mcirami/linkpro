@@ -9,14 +9,17 @@ const InputComponent = ({
                             setInputType,
                             lists,
                             setLists,
+                            shopifyStores,
+                            setShopifyStores,
                             allProducts,
+                            setAllProducts,
                             selectedProducts,
                             setSelectedProducts,
                             displayAllProducts,
                             setDisplayAllProducts,
                             integrationType,
                             setIntegrationType,
-                            radioValue
+                            setShowLoader
 }) => {
 
     const {url, email, phone, mailchimp_list_id, shopify_products} = currentLink;
@@ -205,6 +208,7 @@ const InputComponent = ({
                                 selectedProducts={selectedProducts}
                                 setSelectedProducts={setSelectedProducts}
                                 allProducts={allProducts}
+                                setAllProducts={setAllProducts}
                                 displayAllProducts={displayAllProducts}
                                 setDisplayAllProducts={setDisplayAllProducts}
                                 handleChange={handleChange}
@@ -212,6 +216,9 @@ const InputComponent = ({
                                 setCurrentLink={setCurrentLink}
                                 inputKey={key}
                                 name={name}
+                                setShowLoader={setShowLoader}
+                                shopifyStores={shopifyStores}
+                                setShopifyStores={setShopifyStores}
                             />
                         )
                     default:

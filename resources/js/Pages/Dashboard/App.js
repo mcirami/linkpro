@@ -86,6 +86,8 @@ function App() {
     const [radioValue, setRadioValue] = useState("standard");
     const [inputType, setInputType] = useState(null);
     const [integrationType, setIntegrationType] = useState(null);
+    //const [storeID, setStoreID] = useState(null);
+    const [shopifyStores, setShopifyStores] = useState([]);
 
     const [showUpgradePopup, setShowUpgradePopup] = useState(false);
     const [showConfirmPopup, setShowConfirmPopup] = useState(false);
@@ -172,16 +174,17 @@ function App() {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const redirected = urlParams?.get('redirected');
+        const storeID = urlParams?.get('store');
         const error = urlParams?.get('connection_error');
 
-        if (redirected && redirected!== "") {
+        if (redirected && redirected !== "") {
             setInputType(localStorage.getItem('inputType') || null)
             setRadioValue("integration");
             setRedirectedType(redirected);
             setIntegrationType(redirected);
             setEditID(JSON.parse(localStorage.getItem('editID')) || null)
             setShowLinkForm(JSON.parse(localStorage.getItem('showLinkForm')) || false)
-
+            //setStoreID(storeID);
             const scrollTimeout = setTimeout(function(){
                 document.querySelector('#scrollTo').scrollIntoView({
                     behavior: 'smooth',
@@ -405,7 +408,6 @@ function App() {
                                                 radioValue={radioValue}
                                                 setRadioValue={setRadioValue}
                                                 redirectedType={redirectedType}
-                                                setRedirectedType={setRedirectedType}
                                                 connectionError={connectionError}
                                                 showLoader={showLoader}
                                                 setShowLoader={setShowLoader}
@@ -413,6 +415,8 @@ function App() {
                                                 setInputType={setInputType}
                                                 integrationType={integrationType}
                                                 setIntegrationType={setIntegrationType}
+                                                shopifyStores={shopifyStores}
+                                                setShopifyStores={setShopifyStores}
                                             />
                                         }
 
