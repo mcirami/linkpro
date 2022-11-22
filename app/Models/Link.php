@@ -27,7 +27,18 @@ class Link extends Model
         'active_status',
         'embed_code',
         'type',
-        'mailchimp_list_id'
+        'mailchimp_list_id',
+        'shopify_products',
+        'shopify_id'
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'shopify_products' => 'array'
     ];
 
     public function user() {

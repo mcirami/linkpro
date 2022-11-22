@@ -55,7 +55,8 @@ const Links = ({
                    setShowUpgradePopup,
                    setOptionText,
                    subStatus,
-                   iconsWrapRef
+                   iconsWrapRef,
+                   setInputType
                }) => {
 
     const { userLinks, dispatch } = useContext(UserLinksContext);
@@ -196,7 +197,6 @@ const Links = ({
     );
 
     const handleMouseUp = useCallback(() => {
-
         setState((state) => ({
             ...state,
             isPressed: false,
@@ -226,9 +226,7 @@ const Links = ({
             const packets = {
                 userLinks: userLinks,
             }
-
             updateLinksPositions(packets);
-
         }
 
         if (state.isPressed) {
@@ -278,6 +276,7 @@ const Links = ({
     };
 
     const handleOnClick = (linkID) => {
+
         setEditID(linkID);
 
         setTimeout(function(){

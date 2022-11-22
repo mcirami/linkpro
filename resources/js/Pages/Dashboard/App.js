@@ -47,6 +47,7 @@ import EventBus from '../../Utils/Bus';
 import FolderHeading from './Components/Folder/FolderHeading';
 import InfoText from './Components/Page/InfoText';
 import {MessageAlertPopup} from './Components/Popups/MessageAlertPopup';
+import LinkForm from './Components/Link/Forms/LinkForm';
 
 const page = user.page;
 const userPages = user.user_pages;
@@ -78,10 +79,14 @@ function App() {
     const [allUserPages, setAllUserPages] = useState(userPages);
     const [editFolderID, setEditFolderID] = useState(null);
 
-    const [showNewForm, setShowNewForm] = useState(false)
     const [editID, setEditID] = useState(null);
+    const [showLinkForm, setShowLinkForm] = useState(false);
+
     const [radioValue, setRadioValue] = useState("standard");
     const [inputType, setInputType] = useState(null);
+    const [integrationType, setIntegrationType] = useState(null);
+    //const [storeID, setStoreID] = useState(null);
+    const [shopifyStores, setShopifyStores] = useState([]);
 
     const [showUpgradePopup, setShowUpgradePopup] = useState(false);
     const [showConfirmPopup, setShowConfirmPopup] = useState(false);
@@ -161,23 +166,25 @@ function App() {
 
     }, [])
 
-    const [redirected, setRedirected] = useState(false);
+    const [redirectedType, setRedirectedType] = useState(null);
 
     useEffect(() => {
         const href = window.location.href.split('?')[0]
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const redirected = urlParams?.get('redirected');
+        const storeID = urlParams?.get('store');
         const error = urlParams?.get('connection_error');
 
-        if (redirected === "mailchimp") {
-            setShowNewForm(JSON.parse(localStorage.getItem('showNewForm')) || false)
-            setEditID(JSON.parse(localStorage.getItem('editID')) || null)
+        if (redirected && redirected !== "") {
             setInputType(localStorage.getItem('inputType') || null)
             setRadioValue("integration");
-            setRedirected(true);
-
-            setTimeout(function(){
+            setRedirectedType(redirected);
+            setIntegrationType(redirected);
+            setEditID(JSON.parse(localStorage.getItem('editID')) || null)
+            setShowLinkForm(JSON.parse(localStorage.getItem('showLinkForm')) || false)
+            //setStoreID(storeID);
+            const scrollTimeout = setTimeout(function(){
                 document.querySelector('#scrollTo').scrollIntoView({
                     behavior: 'smooth',
                     block: "start",
@@ -193,6 +200,8 @@ function App() {
             if (error) {
                 setConnectionError(error)
             }
+
+            return () => window.clearTimeout(scrollTimeout);
         }
 
     }, [])
@@ -279,6 +288,8 @@ function App() {
                                     setShowConfirmPopup={setShowConfirmPopup}
                                     folderID={editFolderID}
                                     iconsWrapRef={iconsWrapRef}
+                                    setInputType={setInputType}
+                                    setIntegrationType={setIntegrationType}
                                 />
                             }
 
@@ -358,70 +369,55 @@ function App() {
                                             <LivePageButton pageName={pageSettings['name']}/>
                                         </div>
 
-                                        { (editFolderID && !showNewForm && !editID) &&
+                                        { (editFolderID && !showLinkForm && !editID) &&
 
                                             <FolderHeading
                                                 subStatus={subStatus}
                                                 setShowUpgradePopup={setShowUpgradePopup}
                                                 setOptionText={setOptionText}
                                                 setEditFolderID={setEditFolderID}
-                                                setShowNewForm={setShowNewForm}
+                                                setShowLinkForm={setShowLinkForm}
                                                 setShowConfirmFolderDelete={setShowConfirmFolderDelete}
                                                 editFolderID={editFolderID}
                                                 setRadioValue={setRadioValue}
                                             />
                                         }
 
-
-                                        { editID ?
-                                                <EditForm
-                                                    folderID={editFolderID}
-                                                    setEditFolderID={setEditFolderID}
-                                                    editID={editID}
-                                                    setEditID={setEditID}
-                                                    setShowUpgradePopup={setShowUpgradePopup}
-                                                    setShowConfirmPopup={setShowConfirmPopup}
-                                                    setOptionText={setOptionText}
-                                                    customIconArray={customIconArray}
-                                                    setCustomIconArray={setCustomIconArray}
-                                                    setShowLoader={setShowLoader}
-                                                    subStatus={subStatus}
-                                                    radioValue={radioValue}
-                                                    setRadioValue={setRadioValue}
-                                                    redirected={redirected}
-                                                    setRedirected={setRedirected}
-                                                    setShowMessageAlertPopup={setShowMessageAlertPopup}
-                                                    connectionError={connectionError}
-                                                />
-
-                                                :
-                                                showNewForm &&
-                                                <NewForm
-                                                    setShowNewForm={setShowNewForm}
-                                                    setShowUpgradePopup={setShowUpgradePopup}
-                                                    setOptionText={setOptionText}
-                                                    customIconArray={customIconArray}
-                                                    setCustomIconArray={setCustomIconArray}
-                                                    showLoader={showLoader}
-                                                    setShowLoader={setShowLoader}
-                                                    folderID={editFolderID}
-                                                    setEditFolderID={setEditFolderID}
-                                                    subStatus={subStatus}
-                                                    radioValue={radioValue}
-                                                    setRadioValue={setRadioValue}
-                                                    inputType={inputType}
-                                                    setInputType={setInputType}
-                                                    setShowMessageAlertPopup={setShowMessageAlertPopup}
-                                                    connectionError={connectionError}
-                                                />
+                                        {(showLinkForm || editID) &&
+                                            <LinkForm
+                                                setShowLinkForm={setShowLinkForm}
+                                                folderID={editFolderID}
+                                                setEditFolderID={setEditFolderID}
+                                                editID={editID}
+                                                setEditID={setEditID}
+                                                setShowUpgradePopup={setShowUpgradePopup}
+                                                setShowConfirmPopup={setShowConfirmPopup}
+                                                setShowMessageAlertPopup={setShowMessageAlertPopup}
+                                                setOptionText={setOptionText}
+                                                customIconArray={customIconArray}
+                                                setCustomIconArray={setCustomIconArray}
+                                                subStatus={subStatus}
+                                                radioValue={radioValue}
+                                                setRadioValue={setRadioValue}
+                                                redirectedType={redirectedType}
+                                                connectionError={connectionError}
+                                                showLoader={showLoader}
+                                                setShowLoader={setShowLoader}
+                                                inputType={inputType}
+                                                setInputType={setInputType}
+                                                integrationType={integrationType}
+                                                setIntegrationType={setIntegrationType}
+                                                shopifyStores={shopifyStores}
+                                                setShopifyStores={setShopifyStores}
+                                            />
                                         }
 
-                                         { (!editID && !showNewForm && !editFolderID) &&
+                                         { (!editID && !showLinkForm && !editFolderID) &&
                                             <>
                                                 <div className="my_row link_row">
-                                                    <div className="add_more_icons">
+                                                    <div className="add_more_link">
                                                         <AddLink
-                                                            setShowNewForm={setShowNewForm}
+                                                            setShowLinkForm={setShowLinkForm}
                                                             subStatus={subStatus}
                                                             setShowUpgradePopup={setShowUpgradePopup}
                                                             setOptionText={setOptionText}
@@ -430,7 +426,7 @@ function App() {
                                                     </div>
 
                                                     {!editFolderID &&
-                                                        <div className="add_more_icons">
+                                                        <div className="add_more_link">
                                                             <AddFolder
                                                                 subStatus={subStatus}
                                                                 setShowUpgradePopup={setShowUpgradePopup}
@@ -444,7 +440,7 @@ function App() {
                                         }
 
 
-                                        { (editFolderID && !editID && !showNewForm) ?
+                                        { (editFolderID && !editID && !showLinkForm) ?
                                             <div ref={iconsWrapRef} className='icons_wrap add_icons icons folder'>
                                                 <ErrorBoundary FallbackComponent={errorFallback} onError={myErrorHandler}>
                                                     <FolderLinks
@@ -454,7 +450,6 @@ function App() {
                                                         setOptionText={setOptionText}
                                                         setEditFolderID={setEditFolderID}
                                                         setEditID={setEditID}
-                                                        setShowNewForm={setShowNewForm}
                                                         setShowConfirmFolderDelete={setShowConfirmFolderDelete}
                                                         iconsWrapRef={iconsWrapRef}
                                                     />
@@ -463,7 +458,7 @@ function App() {
 
                                             :
 
-                                            (!showNewForm && !editID && !editFolderID) &&
+                                            (!showLinkForm && !editID && !editFolderID) &&
                                             <div ref={iconsWrapRef} className='icons_wrap add_icons icons'>
                                                 <ErrorBoundary FallbackComponent={errorFallback} onError={myErrorHandler}>
                                                     <Links
@@ -482,7 +477,7 @@ function App() {
 
                                     </div>
                                 </div>
-                                <div className={`right_column links_col preview ${showPreview && "show"}`}>
+                                <div className={`right_column links_col preview ${showPreview ? "show" : ""}`}>
                                     <Preview
                                         setRef={headerRef}
                                         profileRef={profileRef}

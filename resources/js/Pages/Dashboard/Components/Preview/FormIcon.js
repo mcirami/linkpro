@@ -1,18 +1,19 @@
 import React from 'react';
 
 const FormIcon = ({
-                     colClasses,
-                     displayIcon,
-                     name,
-                     active_status,
-                     dataRow,
-                     setRow,
-                     value,
-                     setValue,
-                     mainIndex,
-                     index,
-                     clickType,
-                     setClickType
+                      colClasses,
+                      displayIcon,
+                      name,
+                      active_status,
+                      dataRow,
+                      setRow,
+                      value,
+                      setValue,
+                      mainIndex,
+                      index,
+                      clickType,
+                      setClickType,
+                      type
 }) => {
 
     const handleClick = (e) => {
@@ -27,7 +28,7 @@ const FormIcon = ({
         } else {
             setRow(clickedDiv.dataset.row);
             setValue(index);
-            setClickType("form");
+            setClickType(type);
             setTimeout(function(){
                 document.querySelector('.form.open .form_wrap').scrollIntoView({
                     behavior: 'smooth',
@@ -39,7 +40,7 @@ const FormIcon = ({
     }
 
     return (
-        <div className={ ` ${colClasses} ${mainIndex == value && clickType === "form" ? " open" : "" }`}
+        <div className={ ` ${colClasses} ${mainIndex == value && clickType === type ? " open" : "" }`}
              data-row={ dataRow }
              onClick={(e) => {handleClick(e)} }
         >

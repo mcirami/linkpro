@@ -8,8 +8,9 @@ const IconList = ({
                       radioValue,
                       setCharactersLeft,
                       customIconArray,
+                      inputType,
                       setInputType,
-                      formType
+                      editID
 }) => {
 
     const [isDefaultIcon, setIsDefaultIcon] = useState(false);
@@ -60,13 +61,28 @@ const IconList = ({
 
     useEffect(() => {
 
-        if (radioValue === "integration" && formType === "new") {
+        if (radioValue === "integration" && !editID) {
             setIsDefaultIcon(true)
-            setCurrentLink(prevState => ({
-                ...prevState,
-                icon: "https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png",
-                type: "form"
-            }))
+
+            if (inputType === "mailchimp") {
+                setCurrentLink(prevState => ({
+                    ...prevState,
+                    icon: "https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png",
+                    type: "mailchimp"
+                }))
+            }
+
+            if (inputType === "shopify") {
+                setCurrentLink(prevState => ({
+                    ...prevState,
+                    icon: "https://lp-production-images.s3.us-east-2.amazonaws.com/icons/Shopify.png",
+                    type: "shopify"
+                }))
+            }
+        }
+
+        if (editID) {
+
         }
 
     },[radioValue])
@@ -79,7 +95,7 @@ const IconList = ({
 
                     <div className="icons_wrap my_row">
                         {customIconArray?.map((iconPath, index) => {
-                            const newPath = iconPath.replace("public",
+                            const newPath = iconPath?.replace("public",
                                 "/storage");
 
                             return (
@@ -103,7 +119,7 @@ const IconList = ({
                         <img alt=""
                              className={`
                              ${isDefaultIcon ? "active img-fluid icon_image" : "img-fluid icon_image"}`}
-                             src="https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png"
+                             src={inputType === "mailchimp" ? "https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png" : "https://lp-production-images.s3.us-east-2.amazonaws.com/icons/Shopify.png"}
                              onClick={(e) => {
                                 selectIcon(e, e.target.src)
                             }}/>

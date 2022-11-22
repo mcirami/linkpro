@@ -2,7 +2,6 @@ import axios from 'axios';
 import EventBus from '../Utils/Bus';
 import { Link, scroller } from  'react-scroll';
 import data from '../Pages/Dashboard/data';
-import {useEffect} from 'react';
 
 export const addPage = (packets) => {
 

@@ -4,19 +4,15 @@ const SubscribeForm = ({dataRow, row, mailchimpListId, clickType}) => {
 
     const [formValue, setFormValue] = useState("");
 
-    const handleSubmit = () => {
-
-    }
-
     return (
         <>
             {mailchimpListId !== undefined &&
-                <div className={`my_row form ${dataRow == row && clickType === "form" ?
+                <div className={`my_row form ${dataRow == row && clickType === "mailchimp" ?
                     "open" :
                     ""}`}>
                     {dataRow == row &&
                         <div className="form_wrap">
-                            <form onSubmit={handleSubmit}>
+                            <form onSubmit={(e) => e.preventDefault()}>
                                 <h3>Enter Your Email To Subscribe.</h3>
                                 <input
                                     type="email"

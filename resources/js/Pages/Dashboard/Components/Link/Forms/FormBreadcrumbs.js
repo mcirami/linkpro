@@ -4,12 +4,14 @@ import {MdDeleteForever} from 'react-icons/md';
 
 const FormBreadcrumbs = ({
                              folderID,
+                             editID,
                              setEditID = false,
                              setEditFolderID = false,
                              iconSelected,
-                             setShowConfirmPopup = false,
-                             setShowNewForm = false,
-                             formType
+                             setShowConfirmPopup,
+                             setShowLinkForm = false,
+                             setIntegrationType = false,
+                             setInputType = false,
 }) => {
 
     const handleDeleteClick = e => {
@@ -24,7 +26,8 @@ const FormBreadcrumbs = ({
                     <a className="back" href="#"
                        onClick={(e) => {
                            e.preventDefault();
-                           setShowNewForm ? setShowNewForm(false) : setEditID(null);
+                           {setShowLinkForm && setShowLinkForm(false)}
+                           {setEditID && setEditID(null)}
                        }}
                     >
                         <BiChevronLeft />
@@ -34,7 +37,8 @@ const FormBreadcrumbs = ({
                        onClick={(e) => {
                            e.preventDefault();
                            setEditFolderID(false);
-                           setShowNewForm ? setShowNewForm(false) : setEditID(null);
+                           {setShowLinkForm && setShowLinkForm(false)}
+                           {setEditID && setEditID(null)}
                        }}
                     >
                         <BiChevronsLeft />
@@ -45,18 +49,23 @@ const FormBreadcrumbs = ({
                 <a className="back" href="#"
                    onClick={(e) => {
                        e.preventDefault();
-                       setShowNewForm ? setShowNewForm(false) : "";
-                       setEditID ? setEditID(null) : "";
-                       setEditFolderID ? setEditFolderID(false) : "";
+                       {setShowLinkForm && setShowLinkForm(false)}
+                       {setEditID && setEditID(null)}
+                       {setEditFolderID && setEditFolderID(false)}
+                       {setIntegrationType && setIntegrationType(null)}
+                       {setInputType && setInputType(null)}
                    }}
                 >
                     <BiChevronLeft />
                     Back To Icons
                 </a>
             }
-            { (!iconSelected && formType === "edit") &&
+            { (!iconSelected && editID) &&
                 <div className="delete_icon">
-                    <a className="delete" href="resources/js/Pages/Dashboard/Components/Link/Forms/FormBreadcrumbs#" onClick={handleDeleteClick}><MdDeleteForever /></a>
+                    <a className="delete" href="resources/js/Pages/Dashboard/Components/Link/Forms/FormBreadcrumbs#"
+                       onClick={handleDeleteClick}>
+                        <MdDeleteForever />
+                    </a>
                     <div className="hover_text delete_folder"><p>Delete Icon</p></div>
                 </div>
             }

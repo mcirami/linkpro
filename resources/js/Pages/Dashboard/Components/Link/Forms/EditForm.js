@@ -24,7 +24,7 @@ import {
 import FormTabs from './FormTabs';
 import InputTypeRadio from './InputTypeRadio';
 import {getMailchimpLists} from '../../../../../Services/UserService';
-import MailchimpIntegration from './MailchimpIntegration';
+import MailchimpIntegration from './Mailchimp/MailchimpIntegration';
 
 const EditForm = ({
                       editID,
@@ -82,7 +82,7 @@ const EditForm = ({
     const [input, setInput] = useState("");
 
     useEffect(() => {
-        if (inputType === "mailchimp_list") {
+        if (inputType === "mailchimp") {
             fetchLists()
         }
     }, [inputType]);
@@ -119,7 +119,7 @@ const EditForm = ({
             setRadioValue("custom");
         } else if (currentLink.mailchimp_list_id || redirected === true) {
             setRadioValue("integration")
-            setInputType("mailchimp_list")
+            setInputType("mailchimp")
             setRedirected(false);
         } else {
             setRadioValue("standard")
@@ -171,13 +171,12 @@ const EditForm = ({
         imgRef.current = img;
     }, []);
 
-
     const handleSubmit = (e) => {
         e.preventDefault();
 
         console.log(checkForMailchimpForm());
 
-        if ( checkForMailchimpForm() === undefined || !checkForMailchimpForm() || inputType !== "mailchimp_list") {
+        if ( checkForMailchimpForm() === undefined || !checkForMailchimpForm() || inputType !== "mailchimp") {
 
             if (iconSelected) {
 
@@ -238,7 +237,7 @@ const EditForm = ({
                                 type: currentLink.type
                             };
                             break;
-                        case "mailchimp_list":
+                        case "mailchimp":
                             packets = {
                                 name: currentLink.name,
                                 mailchimp_list_id: currentLink.mailchimp_list_id,
@@ -399,7 +398,7 @@ const EditForm = ({
                         type: currentLink.type
                     };
                     break;
-                case "mailchimp_list":
+                case "mailchimp":
                     packets = {
                         name: currentLink.name,
                         mailchimp_list_id: currentLink.mailchimp_list_id,

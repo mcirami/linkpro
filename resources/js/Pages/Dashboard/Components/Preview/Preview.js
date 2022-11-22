@@ -14,6 +14,7 @@ import ProfileText from './ProfileText';
 import Folder from './Folder';
 import FormIcon from './FormIcon';
 import SubscribeForm from './SubscribeForm';
+import StoreProducts from './StoreProducts';
 
 const Preview = ({
                      setRef,
@@ -114,6 +115,7 @@ const Preview = ({
 
     const accordionLinks = value !== null ? userLinks[value].links : null;
     const mailchimpListId = value !== null ? userLinks[value].mailchimp_list_id : null;
+    const storeProducts = value !== null ? userLinks[value].shopify_products : null;
 
     return (
 
@@ -167,12 +169,12 @@ const Preview = ({
                                 const dataRow = Math.ceil((index + 1) / 4);
 
                                 let displayIcon = null;
-                                if(type === "standard" || type === "form") {
+                                if(type === "standard" || type === "mailchimp" || type === "shopify") {
                                     displayIcon = checkIcon(icon, "preview");
                                 }
 
                                 let colClasses = "";
-                                if (type === "folder" || type === "form") {
+                                if (type === "folder" || type === "mailchimp" || type === "shopify") {
                                     colClasses = "icon_col folder";
                                 } else {
                                     colClasses = "icon_col";
@@ -225,26 +227,27 @@ const Preview = ({
                                                         :
                                                         ""
                                                     }
-                                                </div>,
-
-                                            "form":
-
-                                                <FormIcon
-                                                    colClasses={colClasses}
-                                                    displayIcon={displayIcon}
-                                                    name={name}
-                                                    active_status={active_status}
-                                                    dataRow={dataRow}
-                                                    mainIndex={index}
-                                                    setRow={setRow}
-                                                    value={value}
-                                                    setValue={setValue}
-                                                    index={index}
-                                                    setClickType={setClickType}
-                                                    clickType={clickType}
-                                                />
-
+                                                </div>
                                         }[type]}
+
+                                        { (type === "mailchimp" || type === "shopify") &&
+
+                                            <FormIcon
+                                                colClasses={colClasses}
+                                                displayIcon={displayIcon}
+                                                name={name}
+                                                active_status={active_status}
+                                                dataRow={dataRow}
+                                                mainIndex={index}
+                                                setRow={setRow}
+                                                value={value}
+                                                setValue={setValue}
+                                                index={index}
+                                                setClickType={setClickType}
+                                                clickType={clickType}
+                                                type={type}
+                                            />
+                                        }
 
                                         {subStatus && ( (index + 1) % 4 === 0 || index + 1 === iconCount) ?
 
@@ -254,6 +257,18 @@ const Preview = ({
                                                     mailchimpListId={mailchimpListId}
                                                     clickType={clickType}
                                                 />
+                                            :
+                                            ""
+                                        }
+
+                                        {subStatus && ( (index + 1) % 4 === 0 || index + 1 === iconCount) ?
+
+                                            <StoreProducts
+                                                dataRow={dataRow}
+                                                row={row}
+                                                clickType={clickType}
+                                                storeProducts={storeProducts}
+                                            />
                                             :
                                             ""
                                         }

@@ -1,11 +1,28 @@
 import React, {useState, useEffect} from 'react';
-import {
-    removeMailchimpConnection,
-} from '../../../../../Services/UserService';
+import ShopifyProducts from './Shopify/ShopifyProducts';
+import MailchimpLists from './Mailchimp/MailchimpLists';
 
-const InputComponent = ({ currentLink, setCurrentLink, inputType, lists, setLists }) => {
+const InputComponent = ({
+                            currentLink,
+                            setCurrentLink,
+                            inputType,
+                            setInputType,
+                            lists,
+                            setLists,
+                            shopifyStores,
+                            setShopifyStores,
+                            allProducts,
+                            setAllProducts,
+                            selectedProducts,
+                            setSelectedProducts,
+                            displayAllProducts,
+                            setDisplayAllProducts,
+                            integrationType,
+                            setIntegrationType,
+                            setShowLoader
+}) => {
 
-    const {url, email, phone} = currentLink;
+    const {url, email, phone, mailchimp_list_id, shopify_products} = currentLink;
 
     const [inputValues, setInputValues] = useState({
         name: null,
@@ -14,6 +31,36 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType, lists, setList
         placeholder: null,
         key: null
     })
+
+    useEffect(() => {
+
+        let currentInputType;
+
+        if (integrationType === "mailchimp") {
+            currentInputType ="mailchimp";
+        } else if (integrationType === "shopify") {
+            currentInputType = "shopify";
+        } else if(url) {
+            currentInputType = "url";
+        } else if(email) {
+            currentInputType = "email";
+        } else if(phone) {
+            currentInputType = "phone";
+        } else if(mailchimp_list_id) {
+            currentInputType = "mailchimp";
+        } else if(shopify_products) {
+            inputType = "shopify";
+        } else {
+            currentInputType = "url";
+        }
+
+        setInputType(currentInputType)
+        setCurrentLink((link) => ({
+            ...link,
+            type:currentInputType
+        }));
+
+    },[])
 
     useEffect(() => {
 
@@ -46,12 +93,20 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType, lists, setList
                     key: "phone"
                 })
                 break;
-            case 'mailchimp_list':
+            case 'mailchimp':
                 setInputValues({
                     name: "mailchimp_list_id",
                     placeholder: "Select Your Mailchimp List",
                     value: "",
                     key: "mailchimp_list_id"
+                })
+                break;
+            case 'shopify':
+                setInputValues({
+                    name: "shopify_products",
+                    placeholder: "Select Your Products",
+                    value: "",
+                    key: "shopify_products"
                 })
                 break;
             default:
@@ -73,101 +128,115 @@ const InputComponent = ({ currentLink, setCurrentLink, inputType, lists, setList
         let key2;
         let key3;
         let key4;
+        let key5;
         let iconType;
+
+        //based on what is being submitted, set the key for current link, all other keys need to be null.
+        // ***Key must match Database Column name***
 
         if (key === "phone") {
             key2 = "email"
             key3 = "url"
             key4 = "mailchimp_list_id"
+            key5 = "shopify_products"
             iconType = "standard"
         } else if (key.includes("email")) {
             key2 = "phone"
             key3 = "url"
             key4 = "mailchimp_list_id"
+            key5 = "shopify_products"
             iconType = "standard"
         } else if (key === "mailchimp_list_id") {
             key2 = "email"
             key3 = "url"
             key4 = "phone"
-            iconType = "form"
+            key5 = "shopify_products"
+            iconType = "mailchimp"
+        } else if (key === "shopify_products") {
+            key2 = "email"
+            key3 = "url"
+            key4 = "phone"
+            key5 = "mailchimp_list_id"
+            iconType = "shopify"
         } else {
             key2 = "phone"
             key3 = "email"
             key4 = "mailchimp_list_id"
+            key5 = "shopify_products"
             iconType = "standard"
         }
 
         setCurrentLink({
             ...currentLink,
-            [`${key}`]: e.target.value,
+            [`${key}`]: e.target?.value || e,
             [`${key2}`]: null,
             [`${key3}`]: null,
             [`${key4}`]: null,
+            [`${key5}`]: null,
             type: iconType
         })
-    }
-
-    const handleClick = (e) => {
-        e.preventDefault();
-
-        removeMailchimpConnection().then(
-            (data) => {
-                if (data.success) {
-                    setLists(null);
-                    setCurrentLink({
-                        ...currentLink,
-                        active_status: 0,
-                    })
-                }
-            }
-        )
     }
 
     const {name, type, value, placeholder, key } = inputValues;
 
     return (
 
-        <>
-            {
-                inputType === "mailchimp_list" ?
+        <div className="my_row">
+            {(() => {
 
-                    <div className="my_row">
-                        <label htmlFor="mailchimp_list_id">Mailchimp List</label>
-                        <select
-                            name="mailchimp_list_id"
-                            onChange={(e) => handleChange(e, key)}
-                            value={currentLink.mailchimp_list_id || undefined}
-                        >
-                            <option>Select Your List</option>
-                            {lists?.map((list) => {
-                                return (
-                                    <option
-                                        key={list.list_id}
-                                        value={list.list_id}>{list.list_name}
-                                    </option>
-                                )
-                            })}
-                        </select>
-                        {lists &&
-                            <div className="my_row remove_link">
-                                <a href="#" onClick={(e) => handleClick(e)}>
-                                    Remove Connection
-                                </a>
-                            </div>
-                        }
-                    </div>
-                :
+                switch (inputType) {
 
-                <input
-                    name={name}
-                    type={type}
-                    defaultValue={ value || ""}
-                    placeholder={placeholder}
-                    onChange={(e) => handleChange(e, key) }
-                />
+                    case "mailchimp":
 
-            }
-        </>
+                        return (
+                            <MailchimpLists
+                                handleChange={handleChange}
+                                lists={lists}
+                                setLists={setLists}
+                                currentLink={currentLink}
+                                setCurrentLink={setCurrentLink}
+                                inputKey={key}
+                                setInputType={setInputType}
+                                setIntegrationType={setIntegrationType}
+                            />
+                        )
+
+                    case "shopify":
+
+                        return (
+                            <ShopifyProducts
+                                selectedProducts={selectedProducts}
+                                setSelectedProducts={setSelectedProducts}
+                                allProducts={allProducts}
+                                setAllProducts={setAllProducts}
+                                displayAllProducts={displayAllProducts}
+                                setDisplayAllProducts={setDisplayAllProducts}
+                                handleChange={handleChange}
+                                currentLink={currentLink}
+                                setCurrentLink={setCurrentLink}
+                                inputKey={key}
+                                name={name}
+                                setShowLoader={setShowLoader}
+                                shopifyStores={shopifyStores}
+                                setShopifyStores={setShopifyStores}
+                            />
+                        )
+                    default:
+
+                        return (
+
+                            <input
+                                name={name}
+                                type={type}
+                                defaultValue={value || ""}
+                                placeholder={placeholder}
+                                onChange={(e) => handleChange(e, key)}
+                            />
+                        )
+                }
+
+            })()}
+        </div>
 
     )
 }

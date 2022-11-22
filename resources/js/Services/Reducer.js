@@ -118,6 +118,8 @@ export function reducer(userLinks, action) {
                         phone: action.payload.currentLink.phone,
                         type: action.payload.currentLink.type,
                         mailchimp_list_id: action.payload.currentLink.mailchimp_list_id,
+                        shopify_products: action.payload.currentLink.shopify_products,
+                        shopify_id: action.payload.currentLink.shopify_id,
                         icon: action.payload.iconPath
                     }
                 }
@@ -142,6 +144,8 @@ export function reducer(userLinks, action) {
                                 phone: action.payload.currentLink.phone,
                                 type: action.payload.currentLink.type,
                                 mailchimp_list_id: action.payload.currentLink.mailchimp_list_id,
+                                shopify_products: action.payload.currentLink.shopify_products,
+                                shopify_id: action.payload.currentLink.shopify_id,
                                 icon: action.payload.iconPath
                             }
                         }
@@ -304,6 +308,8 @@ export function origLinksReducer(originalArray, action) {
                         phone: action.payload.currentLink.phone,
                         type: action.payload.currentLink.type,
                         mailchimp_list_id: action.payload.currentLink.mailchimp_list_id,
+                        shopify_products: action.payload.currentLink.shopify_products,
+                        shopify_id: action.payload.currentLink.shopify_id,
                         icon: action.payload.iconPath
                     }
                 }
@@ -328,6 +334,8 @@ export function origLinksReducer(originalArray, action) {
                                 phone: action.payload.currentLink.phone,
                                 type: action.payload.currentLink.type,
                                 mailchimp_list_id: action.payload.currentLink.mailchimp_list_id,
+                                shopify_products: action.payload.currentLink.shopify_products,
+                                shopify_id: action.payload.currentLink.shopify_id,
                                 icon: action.payload.iconPath
                             }
                         }
@@ -412,6 +420,8 @@ export function folderLinksReducer(folderLinks, action) {
                         email: action.payload.currentLink.email,
                         phone: action.payload.currentLink.phone,
                         mailchimp_list_id: action.payload.currentLink.mailchimp_list_id,
+                        shopify_products: action.payload.currentLink.shopify_products,
+                        shopify_id: action.payload.currentLink.shopify_id,
                         type: action.payload.currentLink.type,
                         icon: action.payload.iconPath
                     }
@@ -466,6 +476,8 @@ export function origFolderLinksReducer(origFolderLinks, action) {
                         email: action.payload.currentLink.email,
                         phone: action.payload.currentLink.phone,
                         mailchimp_list_id: action.payload.currentLink.mailchimp_list_id,
+                        shopify_products: action.payload.currentLink.shopify_products,
+                        shopify_id: action.payload.currentLink.shopify_id,
                         type: action.payload.currentLink.type,
                         icon: action.payload.iconPath
                     }

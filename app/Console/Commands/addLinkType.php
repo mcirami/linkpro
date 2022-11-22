@@ -43,7 +43,7 @@ class addLinkType extends Command
 
         foreach ($links as $link) {
             if ($link->mailchimp_list_id != null) {
-                $link->update(["type" => "form"]);
+                $link->update(["type" => "mailchimp"]);
             } else {
                 $link->update(["type" => "standard"]);
             }

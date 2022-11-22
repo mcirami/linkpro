@@ -9,7 +9,7 @@ const FolderHeading = ({
                            setShowUpgradePopup,
                            setOptionText,
                            setEditFolderID,
-                           setShowNewForm,
+                           setShowLinkForm,
                            setShowConfirmFolderDelete,
                            editFolderID,
                            setRadioValue
@@ -28,7 +28,6 @@ const FolderHeading = ({
                 <div className="breadcrumb_links">
                     <FormBreadcrumbs
                         setEditFolderID={setEditFolderID}
-                        formType={"none"}
                     />
                     <div className="delete_icon">
                         <a className="delete" href="#" onClick={handleDeleteFolder}><MdDeleteForever/></a>
@@ -45,10 +44,10 @@ const FolderHeading = ({
             </div>
             <div className="my_row link_row folders">
 
-                <div className="add_more_icons">
+                <div className="add_more_link">
                     <AddLink
                         subStatus={subStatus}
-                        setShowNewForm={setShowNewForm}
+                        setShowLinkForm={setShowLinkForm}
                         setShowUpgradePopup={setShowUpgradePopup}
                         setOptionText={setOptionText}
                         setRadioValue={setRadioValue}

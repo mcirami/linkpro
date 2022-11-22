@@ -142,8 +142,7 @@ form .bottom_row a {
     position: relative;
 
     label {
-        margin-bottom: 0;
-        margin-top: 5px;
+        margin: 5px 0 5px 5px;
         align-self: flex-start;
         -webkit-align-self: flex-start;
     }
@@ -436,6 +435,10 @@ form .bottom_row a {
 
                 .inner_wrap {
                     position: relative;
+
+                    .integration_dropdown_wrap {
+                        margin-bottom: 10px;
+                    }
                 }
             }
 
@@ -446,7 +449,7 @@ form .bottom_row a {
                 -webkit-border-radius: 12px;
                 -moz-border-radius: 12px;
 
-                label[for="mailchimp_list_id"] {
+                label[for="mailchimp_list_id"], label[for="domain"] {
                     margin-bottom: 5px;
                 }
 
@@ -461,6 +464,44 @@ form .bottom_row a {
 
                 #subscribe_error p {
                     color: $red;
+                }
+
+                &.shopify_domain {
+
+                    .input_wrap {
+                        display: -webkit-box;
+                        display: -ms-flexbox;
+                        display: flex;
+                        -webkit-box-orient: horizontal;
+                        -webkit-box-direction: normal;
+                        -ms-flex-direction: row;
+                        flex-direction: row;
+                        -ms-flex-wrap: nowrap;
+                        flex-wrap: nowrap;
+                        justify-content: center;
+                        -webkit-justify-content: center;
+                        align-items: center;
+                        -webkit-align-items: center;
+                        border: 1px solid $borderGray;
+                        border-top-right-radius: 8px;
+                        -webkit-border-top-right-radius: 8px;
+                        -moz-border-radius-topright: 8px;
+                        border-top-left-radius: 8px;
+                        -webkit-border-top-left-radius: 8px;
+                        -moz-border-radius-topleft: 8px;
+
+                        p {
+                            color: $grayBlue;
+                            padding-right: 10px;
+                        }
+                    }
+
+                    input {
+                        border: none;
+                        border-radius: 0;
+                        -webkit-border-radius: 0px;
+                        -moz-border-radius: 0px;
+                    }
                 }
             }
 
@@ -1124,21 +1165,29 @@ form .bottom_row a {
         margin-bottom: 20px;
         border-bottom: 1px solid $borderGray;
         padding-bottom: 10px;
+        font-size: 20px;
     }
 
     p {
-        margin-bottom: 0;
+
+        &.small {
+            @include ossemibold;
+            font-size: 14px;
+            line-height: 1.4;
+        }
     }
 
-    small {
-        @include ossemibold;
-        font-size: 14px;
+    .input_wrap {
+        margin-bottom: 10px;
+
+        p {
+            margin-bottom: 0;
+        }
     }
 
     .button_wrap {
         width: 100%;
         float: left;
-        margin-top: 20px;
 
         .button {
             width: 100%;

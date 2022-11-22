@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 const FormTabs = ({
                       radioValue,
@@ -6,10 +6,30 @@ const FormTabs = ({
                       subStatus,
                       inputType,
                       setInputType,
+                      currentLink,
                       setCurrentLink,
                       handleOnClick,
-                      folderID
+                      folderID,
+                      integrationType,
+                      editID,
+                      redirectedType
 }) => {
+
+    useEffect(() => {
+
+        if(!redirectedType) {
+            if (currentLink.mailchimp_list_id || currentLink.shopify_products) {
+                setRadioValue("integration")
+            } else if ((currentLink.email || currentLink.url ||
+                    currentLink.phone) &&
+                currentLink.icon?.includes("custom-icon")) {
+                setRadioValue("custom")
+            } else {
+                setRadioValue("standard")
+            }
+        }
+
+    },[])
 
     const handleOnChange = (e) => {
         const value = e.target.value;
@@ -18,15 +38,34 @@ const FormTabs = ({
 
         if (value === "integration") {
 
-            setInputType('mailchimp_list')
+            if (integrationType === "mailchimp") {
+                setInputType('mailchimp')
+            }
+
+            if (integrationType === "shopify") {
+                setInputType('shopify')
+            }
+
+            const values = editID ?
+                {type: integrationType === "mailchimp" ? "mailchimp" : "shopify"}
+            :
+                {
+                    icon: integrationType === "mailchimp" ?
+                        'https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png' :
+                        'https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Shopify.png',
+                    type: integrationType === "mailchimp" ?
+                        "mailchimp" :
+                        "shopify"
+                }
 
             setCurrentLink(prevState => ({
                 ...prevState,
-                icon: 'https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png',
-                type: "form"
+                values
             }))
+
         } else {
-            if(inputType !== "mailchimp_list") {
+
+            if(inputType !== "mailchimp" && inputType !== "shopify") {
                 setInputType(inputType)
                 setCurrentLink(prevState => ({
                     ...prevState,
@@ -43,7 +82,7 @@ const FormTabs = ({
     }
 
     return (
-        <div className="my_row radios_wrap">
+        <div className={ !folderID ? "my_row radios_wrap" : "my_row radios_wrap two_col" }>
             <div className={radioValue === "standard" ? "radio_wrap active" : "radio_wrap" }>
                 <label htmlFor="standard_radio">
                     <div className="radio_input_wrap">
@@ -67,19 +106,28 @@ const FormTabs = ({
                 </label>
                 {!subStatus && <span className="disabled_wrap" data-type="custom" onClick={(e) => handleOnClick(e)} />}
             </div>
-            <div className={radioValue === "integration" ? "radio_wrap active" : "radio_wrap" }>
-                <label htmlFor="integration">
-                    <div className="radio_input_wrap">
-                        <input id="integration" type="radio" value="integration" name="icon_type"
-                               onChange={(e) => { handleOnChange(e) }}
-                               disabled={!subStatus || folderID}
-                               checked={radioValue === "integration"}
-                        />
-                    </div>
-                    Integrations
-                </label>
-                { !subStatus || folderID ? <span className="disabled_wrap" data-type="integration" onClick={(e) => handleOnClick(e)} /> : ""}
-            </div>
+            {!folderID &&
+                <div className={radioValue === "integration" ?
+                    "radio_wrap active" :
+                    "radio_wrap"}>
+                    <label htmlFor="integration">
+                        <div className="radio_input_wrap">
+                            <input id="integration" type="radio" value="integration" name="icon_type"
+                                   onChange={(e) => {
+                                       handleOnChange(e)
+                                   }}
+                                   disabled={!subStatus}
+                                   checked={radioValue === "integration"}
+                            />
+                        </div>
+                        Integrations
+                    </label>
+                    {!subStatus &&
+                        <span className="disabled_wrap" data-type="integration" onClick={(e) => handleOnClick(
+                            e)}/>
+                    }
+                </div>
+            }
         </div>
     );
 };

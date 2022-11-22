@@ -568,6 +568,12 @@
         }
     }
 
+    &.two_col {
+        .radio_wrap {
+            width: 50%;
+        }
+    }
+
     &.input_types {
         margin-bottom: 0;
         justify-content: flex-start;
@@ -722,7 +728,7 @@
     }
 }
 
-.add_more_icons {
+.add_more_link {
 
     h3 {
         color: $blue;
@@ -740,9 +746,9 @@
     }
 
     .icon_wrap {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
+        display: -webkit-inline-flex;
+        display: -ms-inline-flexbox;
+        display: inline-flex;
         -webkit-box-orient: horizontal;
         -webkit-box-direction: normal;
         -ms-flex-direction: row;
@@ -811,6 +817,12 @@
             margin-top: 10px;
         }
     }
+}
+
+.selected_products .info_message {
+    font-size: 14px;
+    padding: 40px 0;
+    text-align: center;
 }
 
 .crop_section {
