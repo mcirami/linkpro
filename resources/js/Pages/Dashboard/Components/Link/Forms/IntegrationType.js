@@ -48,7 +48,7 @@ const IntegrationType = ({
         }
 
         if(value === "shopify") {
-            fetchLists()
+            fetchStores()
         }
     }
 
@@ -73,6 +73,7 @@ const IntegrationType = ({
         getStores().then(
             (data) => {
                 if (data.success) {
+                    console.log(data.stores);
                     !isEmpty(data.stores) && setShopifyStores(data.stores)
                     setShowLoader({show: false, icon: "", position: ""});
                 }
