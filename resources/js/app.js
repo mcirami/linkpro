@@ -34,5 +34,6 @@ if (document.getElementById('contact_form')) {
     require('./Pages/Contact/Index');
 }
 
-
-
+if (document.getElementById('creator')) {
+    require('./Pages/LPCreator/Index');
+}

@@ -46,6 +46,20 @@ export const completedImageCrop = (completedCrop, imgRef, previewCanvasRef) => {
     );
 }
 
+export const createImage = (file, setUpImg, setPageSettings = null, pageSettings = null) => {
+    let reader = new FileReader();
+    reader.onload = (e) => {
+        if (setPageSettings && pageSettings) {
+            setPageSettings({
+                ...pageSettings,
+                header_img: e.target.result,
+            });
+        }
+        setUpImg(e.target.result);
+    };
+    reader.readAsDataURL(file);
+};
+
 export const getIconPaths = (iconPaths) => {
 
     let iconArray = [];

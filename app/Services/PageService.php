@@ -114,7 +114,7 @@ class PageService {
     /**
      * Show Edit Page
      *
-     * @return $link
+     * @return void
      */
 
     public function editPage($user, $page) {

@@ -14,6 +14,7 @@ use App\Http\Controllers\UtilityController;
 use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\ContactMailController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LandingPageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,6 +88,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/stats', [TrackingController::class, 'show'])->name('stats');
 
     Route::post('/folder/new', [FolderController::class, 'store'])->name('add.folder');
+
+    Route::get('/course-manager/landing-page', [LandingPageController::class, 'edit'])->name('edit.landing.page');
 
 });
 

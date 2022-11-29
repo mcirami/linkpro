@@ -1,0 +1,111 @@
+#links_page {
+
+    #creator {
+
+        .content_wrap {
+            border-radius: 20px;
+            -webkit-border-radius: 20px;
+            -moz-border-radius: 20px;
+            padding-left: 5%;
+            padding-right: 5%;
+
+            section {
+                position: relative;
+                border: 1px solid $borderGray;
+                padding: 35px;
+                border-radius: 20px;
+                -webkit-border-radius: 20px;
+                -moz-border-radius: 20px;
+                margin-bottom: 20px;
+
+                .section_title {
+                    position: absolute;
+                    top: -12px;
+                    left: 10%;
+                    background: $white;
+                }
+
+                h4 {
+                    @include osbold;
+                    font-size: 1.2em;
+                    margin: 0;
+                }
+
+                .icon_wrap {
+                    position: relative;
+
+                    svg {
+                        width: 20px;
+                        height: 20px;
+                        color: $blue;
+                        margin-left: 5px;
+                    }
+
+                    > a {
+                        text-decoration: underline;
+                        display: -webkit-box;
+                        display: -ms-flexbox;
+                        display: flex;
+                        -webkit-box-orient: horizontal;
+                        -webkit-box-direction: normal;
+                        -ms-flex-direction: row;
+                        flex-direction: row;
+                        -ms-flex-wrap: nowrap;
+                        flex-wrap: nowrap;
+                        justify-content: center;
+                        -webkit-justify-content: center;
+                        align-items: center;
+                        -webkit-align-items: center;
+                    }
+                }
+
+                .color_wrap {
+                    display:block;
+                    border: 1px solid $black;
+                    padding: 3px;
+                    margin: 0 5px;
+                    border-radius: 4px;
+                    -webkit-border-radius: 4px;
+                    -moz-border-radius: 4px;
+                }
+
+                .color_box {
+                    display:block;
+                    width: 20px;
+                    height: 20px;
+                }
+
+                .picker_wrapper {
+                    position: absolute;
+                    bottom: 0;
+                    left: 100%;
+
+                    .close_icon.icon_wrap {
+                        position: absolute;
+                        top: -15px;
+                        right: -15px;
+
+                        svg {
+                            width: 26px;
+                            height: 26px;
+                            color: $black;
+                        }
+                    }
+
+                   /* .flexbox-fix > div:has(#rc-editable-input-2) {
+                        flex: 10 0 100%;
+                    }
+
+                    .flexbox-fix > div:has(#rc-editable-input-4, #rc-editable-input-6, #rc-editable-input-8, #rc-editable-input-10) {
+                        width: 100%;
+                        text-align: center;
+                    }*/
+                }
+            }
+        }
+    }
+}
+
+
+
+
