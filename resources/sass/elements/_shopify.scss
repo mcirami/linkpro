@@ -168,5 +168,36 @@
     }
 }
 
+.inline_error_message {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    align-items: center;
+    -webkit-align-items: center;
+    background: rgba(255,0,0,.2);
+    padding: 10px;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
 
+    svg {
+        margin-right: 5px;
+        color: $red;
+        width: 15px;
+        height: 15px;
+    }
+
+    p {
+        @include ossemibold;
+        color: $red;
+        font-size: .8em;
+        margin: 0;
+    }
+}
 

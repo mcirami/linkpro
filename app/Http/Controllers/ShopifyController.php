@@ -62,7 +62,7 @@ class ShopifyController extends Controller
             $shopifyStore = Auth::user()->shopifyStores()->create([
                 'access_token' => $accessToken,
                 'domain' => $domain,
-                'products' => json_encode($productsArray)
+                'products' => $productsArray
             ]);
 
             return redirect()->route('dashboard', ['redirected' => "shopify", 'store' => $shopifyStore->id]);

@@ -16295,6 +16295,31 @@ form .bottom_row a {
   height: 60px;
 }
 
+.inline_error_message {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  -webkit-align-items: center;
+  background: rgba(255, 0, 0, 0.2);
+  padding: 10px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+}
+.inline_error_message svg {
+  margin-right: 5px;
+  color: #f24d1d;
+  width: 15px;
+  height: 15px;
+}
+.inline_error_message p {
+  font-family: "opensanssemibold", sans-serif;
+  color: #f24d1d;
+  font-size: 0.8em;
+  margin: 0;
+}
+
 footer {
   box-shadow: 0px 0px 35px 5px rgba(170, 170, 170, 0.18);
   width: 100%;

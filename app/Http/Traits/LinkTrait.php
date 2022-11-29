@@ -50,7 +50,7 @@ trait LinkTrait {
         foreach($allLinks as $link) {
             if($link["shopify_products"]) {
                 $productArray = [];
-                $store_id = $link["shopify_products"][0]["store_id"];
+                $store_id = $link["shopify_products"][0]["shopify_id"];
                 $allProducts = ShopifyStore::where('id', $store_id)->pluck("products");
 
                 foreach($link["shopify_products"] as $product) {

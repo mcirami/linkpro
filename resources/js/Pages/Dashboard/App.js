@@ -183,6 +183,9 @@ function App() {
             setIntegrationType(redirected);
             setEditID(JSON.parse(localStorage.getItem('editID')) || null)
             setShowLinkForm(JSON.parse(localStorage.getItem('showLinkForm')) || false)
+            if(storeID) {
+
+            }
             //setStoreID(storeID);
             const scrollTimeout = setTimeout(function(){
                 document.querySelector('#scrollTo').scrollIntoView({

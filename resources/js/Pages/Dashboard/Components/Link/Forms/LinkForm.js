@@ -93,6 +93,7 @@ const LinkForm = ({
     const [allProducts, setAllProducts] = useState([]);
     const [selectedProducts, setSelectedProducts] = useState([]);
     const [displayAllProducts, setDisplayAllProducts] = useState(false);
+    const [showAddStore, setShowAddStore] = useState(false);
 
     const [currentLink, setCurrentLink] = useState (
         userLinks.find(function(e) {
@@ -890,6 +891,7 @@ const LinkForm = ({
                                     setShopifyStores={setShopifyStores}
                                     currentLink={currentLink}
                                     redirectedType={redirectedType}
+                                    setShowAddStore={setShowAddStore}
                                 />
 
                                 {(integrationType === "mailchimp" && isEmpty(lists)) &&
@@ -900,18 +902,22 @@ const LinkForm = ({
                                     />
                                 }
 
-                                {(integrationType === "shopify" && isEmpty(shopifyStores)) &&
+                                {( (integrationType === "shopify" && isEmpty(shopifyStores)) || showAddStore ) &&
                                     <ShopifyIntegration
                                         connectionError={connectionError}
                                         inputType={inputType}
                                         editID={editID}
+                                        showAddStore={showAddStore}
+                                        setShowAddStore={setShowAddStore}
                                     />
                                 }
                             </>
 
                         }
 
-                        { ( (integrationType === "mailchimp" && !isEmpty(lists)) || (integrationType === "shopify" && !isEmpty(shopifyStores) ) || radioValue !== "integration") &&
+                        {( (integrationType === "mailchimp" && !isEmpty(lists)) ||
+                                (integrationType === "shopify" && !isEmpty(shopifyStores) && !showAddStore ) ||
+                                radioValue !== "integration") &&
                             <form onSubmit={handleSubmit} className="link_form">
                                 <div className="row">
                                     <div className="col-12">
@@ -1058,7 +1064,7 @@ const LinkForm = ({
                                             lists={lists}
                                             setLists={setLists}
                                             shopifyStores={shopifyStores}
-                                            setShopifyStores={setShopifyStores}
+                                            setShowAddStore={setShowAddStore}
                                             allProducts={allProducts}
                                             setAllProducts={setAllProducts}
                                             selectedProducts={selectedProducts}

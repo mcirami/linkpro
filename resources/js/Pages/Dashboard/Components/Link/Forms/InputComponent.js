@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import ShopifyProducts from './Shopify/ShopifyProducts';
+import AllProducts from './Shopify/AllProducts';
 import MailchimpLists from './Mailchimp/MailchimpLists';
+import StoreDropdown from './Shopify/StoreDropdown';
+import SelectedProducts from './Shopify/SelectedProducts';
 
 const InputComponent = ({
                             currentLink,
@@ -10,7 +12,7 @@ const InputComponent = ({
                             lists,
                             setLists,
                             shopifyStores,
-                            setShopifyStores,
+                            setShowAddStore,
                             allProducts,
                             setAllProducts,
                             selectedProducts,
@@ -204,22 +206,38 @@ const InputComponent = ({
                     case "shopify":
 
                         return (
-                            <ShopifyProducts
-                                selectedProducts={selectedProducts}
-                                setSelectedProducts={setSelectedProducts}
-                                allProducts={allProducts}
-                                setAllProducts={setAllProducts}
-                                displayAllProducts={displayAllProducts}
-                                setDisplayAllProducts={setDisplayAllProducts}
-                                handleChange={handleChange}
-                                currentLink={currentLink}
-                                setCurrentLink={setCurrentLink}
-                                inputKey={key}
-                                name={name}
-                                setShowLoader={setShowLoader}
-                                shopifyStores={shopifyStores}
-                                setShopifyStores={setShopifyStores}
-                            />
+                            <div className="my_row products_wrap">
+                                {displayAllProducts ?
+                                        <AllProducts
+                                            selectedProducts={selectedProducts}
+                                            setSelectedProducts={setSelectedProducts}
+                                            allProducts={allProducts}
+                                            setDisplayAllProducts={setDisplayAllProducts}
+                                            handleChange={handleChange}
+                                            setCurrentLink={setCurrentLink}
+                                            inputKey={key}
+                                            name={name}
+                                        />
+
+                                        :
+                                    <>
+                                        <StoreDropdown
+                                            currentLink={currentLink}
+                                            setCurrentLink={setCurrentLink}
+                                            setSelectedProducts={setSelectedProducts}
+                                            setShowAddStore={setShowAddStore}
+                                            shopifyStores={shopifyStores}
+
+                                        />
+                                        <SelectedProducts
+                                            currentLink={currentLink}
+                                            setDisplayAllProducts={setDisplayAllProducts}
+                                            setAllProducts={setAllProducts}
+                                            setShowLoader={setShowLoader}
+                                        />
+                                    </>
+                                }
+                            </div>
                         )
                     default:
 

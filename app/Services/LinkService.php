@@ -115,7 +115,7 @@ class LinkService {
                     $productObject = [
                         'id' => $product["id"],
                         'position' => $product["position"],
-                        'shopify_id' => $product["shopify_id"]
+                        'shopify_id' => $request->shopify_id
                     ];
                     array_push($productIDs, $productObject);
                 }
@@ -163,7 +163,7 @@ class LinkService {
                 $productObject = [
                     'id' => $product["id"],
                     'position' => $product["position"],
-                    'shopify_id' => $product["shopify_id"]
+                    'shopify_id' =>  $request->shopify_id
                 ];
                 array_push($productIDs, $productObject);
             }
