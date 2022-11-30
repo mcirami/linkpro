@@ -1,9 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import SingleProduct from './SingleProduct';
-import ShopifyAddProducts from './ShopifyAddProducts';
+import React, {useState} from 'react';
+import ReactPaginate from 'react-paginate';
 import {isEmpty} from 'lodash';
-import {getStores} from '../../../../../../Services/UserService';
-import {ImPlus} from 'react-icons/im';
+import SingleProduct from './SingleProduct';
+import {MdKeyboardArrowLeft, MdKeyboardArrowRight} from 'react-icons/md';
 
 const AllProducts = ({
                              selectedProducts,
@@ -26,12 +25,36 @@ const AllProducts = ({
         setDisplayAllProducts(false);
     }
 
+    const itemsPerPage = 9;
+
+    // Here we use item offsets; we could also use page offsets
+    // following the API or data you're working with.
+    const [itemOffset, setItemOffset] = useState(0);
+
+    // Simulate fetching items from another resources.
+    // (This could be items from props; or items loaded in a local state
+    // from an API endpoint with useEffect and useState)
+    const endOffset = itemOffset + itemsPerPage;
+    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+    const currentItems = allProducts.slice(itemOffset, endOffset);
+    const pageCount = Math.ceil(allProducts.length / itemsPerPage);
+
+    // Invoke when user click to request another page.
+    const handlePageClick = (event) => {
+        const newOffset = (event.selected * itemsPerPage) % allProducts.length;
+        console.log(
+            `User requested page number ${event.selected}, which is offset ${newOffset}`
+        );
+        setItemOffset(newOffset);
+    };
+
+
     return (
         <>
             <h3>Select Products to Add to Icon</h3>
             <small>(max 6 products per icon)</small>
             <div className="products_grid">
-                {!isEmpty(allProducts) && allProducts?.map((product, index) => {
+                {!isEmpty(currentItems) && currentItems?.map((product, index) => {
                     return (
                         <SingleProduct
                             key={index}
@@ -42,6 +65,15 @@ const AllProducts = ({
                     )
                 })}
             </div>
+            <ReactPaginate
+                breakLabel="..."
+                nextLabel={<MdKeyboardArrowRight />}
+                onPageChange={handlePageClick}
+                pageRangeDisplayed={5}
+                pageCount={pageCount}
+                previousLabel={<MdKeyboardArrowLeft />}
+                renderOnZeroPageCount={null}
+            />
             <div className="button_wrap">
                 <a className="button blue" href="#"
                    onClick={(e) => handleClick(e)}
