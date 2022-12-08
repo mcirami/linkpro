@@ -5,20 +5,20 @@ import ReactCrop from 'react-image-crop';
 import ToolTipIcon from '../../Dashboard/Components/Page/ToolTipIcon';
 
 const Logo = ({
-                      setRef,
-                      completedCrop,
-                      setCompletedCrop,
-                      fileName,
-                      setFileName,
-                      setShowLoader
+                  nodesRef,
+                  completedCrop,
+                  setCompletedCrop,
+                  fileName,
+                  setFileName,
+                  setShowLoader
 }) => {
 
     //const [previousImage, setPreviousImage] = useState(pageSettings["header_img"]);
 
     const [upImg, setUpImg] = useState();
     const imgRef = useRef();
-    const previewCanvasRef = setRef;
-    const [crop, setCrop] = useState({ unit: "%", width: 30, aspect: 16 / 9 });
+    const previewCanvasRef =  nodesRef;
+    const [crop, setCrop] = useState({ unit: "%", width: 50, height:50, x: 25, y: 25, /* aspect: 16 / 6*/ maxHeight: 65});
 
     const onSelectFile = (e) => {
         let files = e.target.files || e.dataTransfer.files;
@@ -39,33 +39,21 @@ const Logo = ({
         createImage(files[0], setUpImg);
     };
 
-    /*const createImage = (file) => {
-        let reader = new FileReader();
-        reader.onload = (e) => {
-            /!*setPageSettings({
-                ...pageSettings,
-                header_img: e.target.result,
-            });*!/
-            setUpImg(e.target.result);
-        };
-        reader.readAsDataURL(file);
-    };*/
-
     const onLoad = useCallback((img) => {
         imgRef.current = img;
     }, []);
 
     useEffect(() => {
-        if (!completedCrop || !previewCanvasRef.current || !imgRef.current) {
+        if (!completedCrop.logo?.isCompleted || !previewCanvasRef.current["logo"] || !imgRef.current) {
             return;
         }
 
-        completedImageCrop(completedCrop, imgRef, previewCanvasRef);
-    }, [completedCrop]);
+        completedImageCrop(completedCrop.logo.isCompleted, imgRef, previewCanvasRef.current["logo"]);
+    }, [completedCrop.logo]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        previewCanvasRef.current.toBlob(
+        previewCanvasRef.current["logo"].toBlob(
             (blob) => {
                 const reader = new FileReader();
                 reader.readAsDataURL(blob);
@@ -145,7 +133,8 @@ const Logo = ({
         //setIsEditing(false);
         setFileName(null);
         setUpImg(null);
-        setCompletedCrop(false);
+        delete completedCrop.logo;
+        setCompletedCrop(completedCrop);
         document.querySelector("form.logo_form .bottom_section").classList.add("hidden");
         /*setPageSettings({
             ...pageSettings,
@@ -195,7 +184,12 @@ const Logo = ({
                                 onImageLoaded={onLoad}
                                 crop={crop}
                                 onChange={(c) => setCrop(c)}
-                                onComplete={(c) => setCompletedCrop(c)}
+                                onComplete={(c) => setCompletedCrop({
+                                    ...completedCrop,
+                                    logo: {
+                                        isCompleted: c
+                                    }
+                                })}
                             />
                         </div>
                         <div className="bottom_row">

@@ -12730,6 +12730,9 @@ header.guest_header .col.right {
   align-items: center;
   -webkit-align-items: center;
 }
+.page_settings:last-child {
+  margin-bottom: 0;
+}
 .page_settings .column_wrap {
   width: 100%;
 }
@@ -13734,6 +13737,7 @@ input[type=file].custom {
 }
 
 label.custom {
+  font-family: "opensansbold", sans-serif;
   width: 100%;
   margin: 0;
   padding: 7px 10px;
@@ -13790,6 +13794,32 @@ form .bottom_row a {
   position: absolute;
   right: 12px;
   top: 4px;
+}
+.edit_form form ::-moz-placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  font-family: "opensansbold", sans-serif;
+  color: #000;
+  opacity: 1;
+  /* Firefox */
+  font-size: 16px;
+}
+.edit_form form ::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  font-family: "opensansbold", sans-serif;
+  color: #000;
+  opacity: 1;
+  /* Firefox */
+  font-size: 16px;
+}
+.edit_form form :-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  font-family: "opensansbold", sans-serif;
+  color: #000;
+}
+.edit_form form ::-ms-input-placeholder {
+  /* Microsoft Edge */
+  font-family: "opensansbold", sans-serif;
+  color: #000;
 }
 .edit_form form input {
   width: 100%;
@@ -16359,35 +16389,80 @@ form .bottom_row a {
   background: #0ba921;
 }
 
-#links_page #creator .content_wrap {
+#links_page #creator .content_wrap.creator {
+  padding: 20px 40px;
   border-radius: 20px;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
-  padding-left: 5%;
-  padding-right: 5%;
+}
+#links_page #creator .content_wrap.creator .border_wrap {
+  border: 1px solid #d2d2d2;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  padding: 10px;
 }
 #links_page #creator .content_wrap section {
   position: relative;
+  margin-bottom: 20px;
+}
+#links_page #creator .content_wrap section ::-moz-placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  font-family: "opensansbold", sans-serif;
+  color: #000;
+  opacity: 1;
+  /* Firefox */
+  font-size: 16px;
+}
+#links_page #creator .content_wrap section ::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  font-family: "opensansbold", sans-serif;
+  color: #000;
+  opacity: 1;
+  /* Firefox */
+  font-size: 16px;
+}
+#links_page #creator .content_wrap section :-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  font-family: "opensansbold", sans-serif;
+  color: #000;
+}
+#links_page #creator .content_wrap section ::-ms-input-placeholder {
+  /* Microsoft Edge */
+  font-family: "opensansbold", sans-serif;
+  color: #000;
+}
+#links_page #creator .content_wrap section select {
+  font-family: "opensansbold", sans-serif;
+  color: #000;
+  opacity: 1;
+  /* Firefox */
+  font-size: 16px;
+  padding: 5px;
+}
+#links_page #creator .content_wrap section .section_content {
   border: 1px solid #d2d2d2;
   padding: 35px;
   border-radius: 20px;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
-  margin-bottom: 20px;
-}
-#links_page #creator .content_wrap section .section_title {
-  position: absolute;
-  top: -12px;
-  left: 10%;
-  background: #ffffff;
 }
 #links_page #creator .content_wrap section h4, #links_page #creator .content_wrap section .h4 {
   font-family: "opensansbold", sans-serif;
   font-size: 1.2em;
+  color: #000;
   margin: 0;
+}
+#links_page #creator .content_wrap section .section_title {
+  margin-bottom: 20px;
+}
+#links_page #creator .content_wrap section .section_title h4, #links_page #creator .content_wrap section .section_title .h4 {
+  color: #424fcf;
 }
 #links_page #creator .content_wrap section .icon_wrap {
   position: relative;
+  justify-self: flex-end;
+  margin-left: auto;
 }
 #links_page #creator .content_wrap section .icon_wrap svg {
   width: 20px;
@@ -16423,14 +16498,7 @@ form .bottom_row a {
   position: absolute;
   bottom: 0;
   left: 100%;
-  /* .flexbox-fix > div:has(#rc-editable-input-2) {
-       flex: 10 0 100%;
-   }
-
-   .flexbox-fix > div:has(#rc-editable-input-4, #rc-editable-input-6, #rc-editable-input-8, #rc-editable-input-10) {
-       width: 100%;
-       text-align: center;
-   }*/
+  z-index: 999;
 }
 #links_page #creator .content_wrap section .picker_wrapper .close_icon.icon_wrap {
   position: absolute;
@@ -16441,6 +16509,29 @@ form .bottom_row a {
   width: 26px;
   height: 26px;
   color: #000;
+}
+#links_page #creator .preview .inner_content_wrap {
+  border-radius: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+}
+#links_page #creator .preview .header {
+  min-height: 325px;
+}
+#links_page #creator .preview .header .top_section {
+  padding: 35px 0 15px;
+}
+#links_page #creator .preview .header .logo {
+  position: relative;
+  text-align: center;
+  max-width: 175px;
+  margin: 0 auto;
+}
+#links_page #creator .preview .header .button {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 footer {

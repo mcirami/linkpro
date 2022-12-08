@@ -2,7 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {SketchPicker} from 'react-color';
 import {RiCloseCircleFill} from 'react-icons/ri';
 
-const ColorPicker = () => {
+
+const ColorPicker = ({
+                         label,
+                         colors,
+                         setColors,
+                         type
+}) => {
 
     const [sketchPickerColor, setSketchPickerColor] = useState({
         r: "",
@@ -14,12 +20,12 @@ const ColorPicker = () => {
     const { r, g, b, a } = sketchPickerColor;
 
     const [showPicker, setShowPicker] = useState(false);
-    const [bgColor, setBgColor] = useState({
+    const [pickerBg, setPickerBg] = useState({
         background: `url(${Vapor.asset("images/transparent-block.png")})`,
     });
 
     useEffect(() => {
-        setBgColor(
+        setPickerBg(
             a == 0 ?
                 {background: `url(${Vapor.asset("images/transparent-block.png")})`}
                 :
@@ -28,9 +34,17 @@ const ColorPicker = () => {
 
     },[sketchPickerColor])
 
+    const handleOnChange = (color) => {
+        setSketchPickerColor(color);
+        setColors({
+            ...colors,
+            [`${type}`]: `rgba(${color.r} , ${color.g} , ${color.b} , ${color.a})`
+        })
+    }
+
     return (
-        <article className="my_row page_settings mb-0">
-            <h4>Top Header Color</h4>
+        <article className="my_row page_settings border_wrap">
+            <h4>{label}</h4>
             <div className="icon_wrap">
                 <a
                    href="#"
@@ -41,7 +55,7 @@ const ColorPicker = () => {
                 >
                     <span className="color_wrap">
                         <span className="color_box"
-                              style={bgColor}>
+                              style={pickerBg}>
                         </span>
                     </span>
                     Edit
@@ -58,7 +72,7 @@ const ColorPicker = () => {
                         </div>
                         <SketchPicker
                             onChange={(color) => {
-                                setSketchPickerColor(color.rgb);
+                                handleOnChange(color.rgb);
                             }}
                             color={sketchPickerColor}
                             width={300}

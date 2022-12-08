@@ -83,6 +83,7 @@ input[type="file"].custom {
 }
 
 label.custom {
+    @include osbold;
     width: 100%;
     margin: 0;
     padding: 7px 10px;
@@ -154,6 +155,23 @@ form .bottom_row a {
             position: absolute;
             right: 12px;
             top: 4px;
+        }
+
+        ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            @include osbold;
+            color: $black;
+            opacity: 1; /* Firefox */
+            font-size: 16px;
+        }
+
+        :-ms-input-placeholder { /* Internet Explorer 10-11 */
+            @include osbold;
+            color: $black;
+        }
+
+        ::-ms-input-placeholder { /* Microsoft Edge */
+            @include osbold;
+            color: $black;
         }
 
         input {

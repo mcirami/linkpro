@@ -19,7 +19,7 @@ const socialArray = [
 export const completedImageCrop = (completedCrop, imgRef, previewCanvasRef) => {
 
     const image = imgRef.current;
-    const canvas = previewCanvasRef.current;
+    const canvas = previewCanvasRef;
     const crop = completedCrop;
 
     const scaleX = image.naturalWidth / image.width;

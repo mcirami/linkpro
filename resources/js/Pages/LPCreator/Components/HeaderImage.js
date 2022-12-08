@@ -4,7 +4,7 @@ import {MdEdit} from 'react-icons/md';
 import ReactCrop from 'react-image-crop';
 
 const HeaderImage = ({
-                         setRef,
+                         nodesRef,
                          completedCrop,
                          setCompletedCrop,
                          fileName,
@@ -15,8 +15,8 @@ const HeaderImage = ({
 
     const [upImg, setUpImg] = useState();
     const imgRef = useRef();
-    const previewCanvasRef = setRef;
-    const [crop, setCrop] = useState({ unit: "%", width: 30, aspect: 16 / 9 });
+    const previewCanvasRef = nodesRef;
+    const [crop, setCrop] = useState({ unit: "%", width: 30, aspect: 16 / 12 });
 
     const onSelectFile = (e) => {
         let files = e.target.files || e.dataTransfer.files;
@@ -35,33 +35,21 @@ const HeaderImage = ({
         createImage(files[0], setUpImg);
     };
 
-    /*const createImage = (file) => {
-        let reader = new FileReader();
-        reader.onload = (e) => {
-            /!*setPageSettings({
-                ...pageSettings,
-                header_img: e.target.result,
-            });*!/
-            setUpImg(e.target.result);
-        };
-        reader.readAsDataURL(file);
-    };*/
-
     const onLoad = useCallback((img) => {
         imgRef.current = img;
     }, []);
 
     useEffect(() => {
-        if (!completedCrop || !previewCanvasRef.current || !imgRef.current) {
+        if (!completedCrop.header?.isCompleted || !previewCanvasRef.current["header"] || !imgRef.current) {
             return;
         }
 
-        completedImageCrop(completedCrop, imgRef, previewCanvasRef);
-    }, [completedCrop]);
+        completedImageCrop(completedCrop.header.isCompleted, imgRef, previewCanvasRef.current["header"]);
+    }, [completedCrop.header]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        previewCanvasRef.current.toBlob(
+        previewCanvasRef.current["header"].toBlob(
             (blob) => {
                 const reader = new FileReader();
                 reader.readAsDataURL(blob);
@@ -141,7 +129,9 @@ const HeaderImage = ({
         //setIsEditing(false);
         setFileName(null);
         setUpImg(null);
-        setCompletedCrop(false);
+
+        delete completedCrop.header;
+        setCompletedCrop(completedCrop);
         document.querySelector("form.header_img_form .bottom_section").classList.add("hidden");
         /*setPageSettings({
             ...pageSettings,
@@ -191,7 +181,12 @@ const HeaderImage = ({
                                 onImageLoaded={onLoad}
                                 crop={crop}
                                 onChange={(c) => setCrop(c)}
-                                onComplete={(c) => setCompletedCrop(c)}
+                                onComplete={(c) =>  setCompletedCrop({
+                                    ...completedCrop,
+                                    header: {
+                                        isCompleted: c
+                                    }
+                                })}
                             />
                         </div>
                         <div className="bottom_row">

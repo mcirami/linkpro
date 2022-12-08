@@ -3,36 +3,78 @@
     #creator {
 
         .content_wrap {
-            border-radius: 20px;
-            -webkit-border-radius: 20px;
-            -moz-border-radius: 20px;
-            padding-left: 5%;
-            padding-right: 5%;
 
-            section {
-                position: relative;
-                border: 1px solid $borderGray;
-                padding: 35px;
+            &.creator {
+                padding: 20px 40px;
                 border-radius: 20px;
                 -webkit-border-radius: 20px;
                 -moz-border-radius: 20px;
+
+                .border_wrap {
+                    border: 1px solid $borderGray;
+                    border-radius: 8px;
+                    -webkit-border-radius: 8px;
+                    -moz-border-radius: 8px;
+                    padding: 10px;
+                }
+            }
+
+            section {
+                position: relative;
                 margin-bottom: 20px;
 
-                .section_title {
-                    position: absolute;
-                    top: -12px;
-                    left: 10%;
-                    background: $white;
+                ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+                    @include osbold;
+                    color: $black;
+                    opacity: 1; /* Firefox */
+                    font-size: 16px;
+                }
+
+                :-ms-input-placeholder { /* Internet Explorer 10-11 */
+                    @include osbold;
+                    color: $black;
+                }
+
+                ::-ms-input-placeholder { /* Microsoft Edge */
+                    @include osbold;
+                    color: $black;
+                }
+
+                select {
+                    @include osbold;
+                    color: $black;
+                    opacity: 1; /* Firefox */
+                    font-size: 16px;
+                    padding: 5px;
+                }
+
+                .section_content {
+                    border: 1px solid $borderGray;
+                    padding: 35px;
+                    border-radius: 20px;
+                    -webkit-border-radius: 20px;
+                    -moz-border-radius: 20px;
                 }
 
                 h4 {
                     @include osbold;
                     font-size: 1.2em;
+                    color: $black;
                     margin: 0;
+                }
+
+                .section_title {
+                    margin-bottom: 20px;
+
+                    h4 {
+                        color: $blue;
+                    }
                 }
 
                 .icon_wrap {
                     position: relative;
+                    justify-self: flex-end;
+                    margin-left: auto;
 
                     svg {
                         width: 20px;
@@ -79,6 +121,7 @@
                     position: absolute;
                     bottom: 0;
                     left: 100%;
+                    z-index: 999;
 
                     .close_icon.icon_wrap {
                         position: absolute;
@@ -91,15 +134,37 @@
                             color: $black;
                         }
                     }
+                }
+            }
+        }
 
-                   /* .flexbox-fix > div:has(#rc-editable-input-2) {
-                        flex: 10 0 100%;
-                    }
+        .preview {
 
-                    .flexbox-fix > div:has(#rc-editable-input-4, #rc-editable-input-6, #rc-editable-input-8, #rc-editable-input-10) {
-                        width: 100%;
-                        text-align: center;
-                    }*/
+            .inner_content_wrap {
+                border-radius: 0;
+                -webkit-border-radius: 0;
+                -moz-border-radius: 0;
+            }
+
+            .header {
+                min-height: 325px;
+
+                .top_section {
+                    padding: 35px 0 15px;
+                }
+
+                .logo {
+                    position: relative;
+                    text-align: center;
+                    max-width: 175px;
+                    margin: 0 auto;
+                }
+
+                .button {
+                    position: absolute;
+                    bottom: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
                 }
             }
         }

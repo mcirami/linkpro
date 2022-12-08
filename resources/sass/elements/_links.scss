@@ -560,6 +560,10 @@
     align-items: center;
     -webkit-align-items: center;
 
+    &:last-child {
+        margin-bottom: 0;
+    }
+
     .column_wrap {
         width: 100%;
 
