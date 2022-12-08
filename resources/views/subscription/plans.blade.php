@@ -3,8 +3,8 @@
 @section('content')
     <div class="container">
         <div class="my_row form_page plans">
-            @if (str_contains($path, '/step-two'))
-                <h2 class="page_title">Welcome to Link Pro!</h2>
+            @if (str_contains($path, '/create-page'))
+                <h2 class="page_title m-0">Welcome to Link Pro!</h2>
                 <p class="sub_title">Continue free forever or upgrade for advanced features!</p>
             @else
                 <h2 class="page_title">Upgrade Now For Advanced Features!</h2>
@@ -133,7 +133,7 @@
                         </div>
                     </div>
 
-                    @if (str_contains($path, '/step-two'))
+                    @if (str_contains($path, '/create-page'))
                         <div class="my_row">
                             <div class="column free plans_page">
                                 <h2 class="text-uppercase">Free</h2>

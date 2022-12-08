@@ -266,6 +266,13 @@ const FolderLinks = ({
     return (
 
         <>
+            {folderLinks.length === 0 &&
+                <div className="info_message">
+                    <p>You don't have any icons to display in this folder.</p>
+                    <p>Click 'Add Icon' above to start adding links.</p>
+                </div>
+            }
+
             {folderLinks.length > 0 && folderLinks.map((link, key) => {
                 let style;
                 let x;

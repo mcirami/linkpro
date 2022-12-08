@@ -8,12 +8,17 @@ const IconList = ({
                       radioValue,
                       setCharactersLeft,
                       customIconArray,
+<<<<<<< HEAD
                       inputType,
                       setInputType,
                       editID
 }) => {
 
     const [isDefaultIcon, setIsDefaultIcon] = useState(false);
+=======
+                      setInputType
+}) => {
+>>>>>>> master
 
     const selectIcon = useCallback((e, source) => {
         e.preventDefault();
