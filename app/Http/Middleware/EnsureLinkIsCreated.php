@@ -18,10 +18,10 @@ class EnsureLinkIsCreated
     public function handle(Request $request, Closure $next)
     {
         $path = $request->path();
-        if(Auth::user() && !str_contains($path, 'step-two')) {
+        if(Auth::user() && !str_contains($path, 'create-page')) {
             $user = Auth::user();
             if ( $user->pages()->get()->isEmpty() ) {
-                return redirect( '/register/step-two' );
+                return redirect()->route('create.page');
             }
         }
 

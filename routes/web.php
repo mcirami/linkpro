@@ -66,7 +66,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
 
 Route::group(['middleware' => 'auth'], function() {
 
-    Route::get('/register/step-two', [PageController::class, 'showCreatePage'])->name('create.page');
+    Route::get('/register/create-page', [PageController::class, 'showCreatePage'])->name('create.page');
     Route::get('/email-test', [MailController::class, 'sendEmail']);
 
     Route::post('/subscribe/create', [SubscriptionController::class, 'store'])->name('subscribe.post');

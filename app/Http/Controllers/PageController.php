@@ -59,7 +59,7 @@ class PageController extends Controller
         $user = Auth::user();
 
         if( count($this->getUserPages($user)) > 0) {
-            return abort(404);
+            return redirect('/dashboard');
         }
 
         $pageService->showCreatePage();

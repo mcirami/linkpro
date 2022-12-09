@@ -96,9 +96,8 @@ class LoginController extends Controller
         $userPages = $user->pages()->get();
 
         if ( $userPages->isEmpty() ) {
-            return redirect( '/register/step-two' );
+            return redirect()->route('create.page');
         } else {
-
             $previousURL = Session::get('url.intended');
             if ($previousURL) {
                 return Redirect::intended();

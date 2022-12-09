@@ -321,6 +321,13 @@ const Links = ({
 
     return (
         <>
+            {userLinks.length === 0 &&
+                <div className="info_message">
+                    <p>You don't have any icons to display.</p>
+                    <p>Click 'Add Icon' above to start adding links.</p>
+                </div>
+            }
+
             {userLinks?.map((link, key) => {
                 let style;
                 let x;

@@ -819,6 +819,13 @@
     }
 }
 
+.info_message {
+    width: 100%;
+    text-align: center;
+    align-self: center;
+    -webkit-align-self: center;
+}
+
 .selected_products .info_message {
     font-size: 14px;
     padding: 40px 0;

@@ -12508,6 +12508,13 @@ header.guest_header .col.right {
   }
 }
 
+.info_message {
+  width: 100%;
+  text-align: center;
+  align-self: center;
+  -webkit-align-self: center;
+}
+
 .selected_products .info_message {
   font-size: 14px;
   padding: 40px 0;
@@ -14304,6 +14311,21 @@ form .bottom_row a {
 }
 .integration_wrap .connection_error p {
   color: #f24d1d;
+}
+
+.edit_form.register label {
+  margin-top: 0;
+}
+.edit_form.register .button_row {
+  flex-wrap: nowrap;
+  gap: 10px;
+  column-gap: 10px;
+  -webkit-column-gap: 10px;
+  -moz-column-gap: 10px;
+  margin-top: 10px;
+}
+.edit_form.register .button_row .button {
+  width: 50%;
 }
 
 .form_page .pricing {

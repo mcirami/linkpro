@@ -91,6 +91,6 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
-        return redirect('/register/step-two');
+        return redirect()->route('create.page');
     }
 }

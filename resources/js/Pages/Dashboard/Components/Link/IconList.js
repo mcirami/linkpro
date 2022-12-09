@@ -14,7 +14,6 @@ const IconList = ({
 }) => {
 
     const [isDefaultIcon, setIsDefaultIcon] = useState(false);
-
     const selectIcon = useCallback((e, source) => {
         e.preventDefault();
         const el = e.target;
