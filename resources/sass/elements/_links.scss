@@ -819,18 +819,17 @@
     }
 }
 
-<<<<<<< HEAD
-.selected_products .info_message {
-    font-size: 14px;
-    padding: 40px 0;
-    text-align: center;
-=======
 .info_message {
     width: 100%;
     text-align: center;
     align-self: center;
     -webkit-align-self: center;
->>>>>>> master
+}
+
+.selected_products .info_message {
+    font-size: 14px;
+    padding: 40px 0;
+    text-align: center;
 }
 
 .crop_section {
