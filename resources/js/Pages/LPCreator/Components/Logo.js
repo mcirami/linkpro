@@ -8,9 +8,10 @@ const Logo = ({
                   nodesRef,
                   completedCrop,
                   setCompletedCrop,
-                  fileName,
-                  setFileName,
-                  setShowLoader
+                  fileNames,
+                  setFileNames,
+                  setShowLoader,
+                  elementName
 }) => {
 
     //const [previousImage, setPreviousImage] = useState(pageSettings["header_img"]);
@@ -26,7 +27,12 @@ const Logo = ({
             return;
         }
 
-        setFileName(files[0]["name"]);
+        //setFileNames(files[0]["name"]);
+        setFileNames((prev) => ({
+            ...prev,
+            [`${elementName}`]: files[0]["name"]
+        }))
+
         document
         .querySelector("form.logo_form .bottom_section")
         .classList.remove("hidden");
@@ -70,7 +76,7 @@ const Logo = ({
         );
     };
 
-    const dataURLtoFile = (dataurl, filename) => {
+    const dataURLtoFile = (dataurl, fileName) => {
         let arr = dataurl.split(","),
             mime = arr[0].match(/:(.*?);/)[1],
             bstr = atob(arr[1]),
@@ -80,7 +86,7 @@ const Logo = ({
         while (n--) {
             u8arr[n] = bstr.charCodeAt(n);
         }
-        let croppedImage = new File([u8arr], filename, { type: mime });
+        let croppedImage = new File([u8arr], fileName, { type: mime });
         fileUpload(croppedImage);
     };
 
@@ -107,7 +113,7 @@ const Logo = ({
                 setShowLoader(false);
 
                 if (data.success) {
-                    setFileName(null);
+                    setFileNames(null);
                     setUpImg(null);
                     setCompletedCrop(false);
                     document
@@ -131,7 +137,8 @@ const Logo = ({
 
     const handleCancel = () => {
         //setIsEditing(false);
-        setFileName(null);
+        delete fileNames.logo;
+        setFileNames(fileNames);
         setUpImg(null);
         delete completedCrop.logo;
         setCompletedCrop(completedCrop);
@@ -146,7 +153,7 @@ const Logo = ({
         <article className="my_row page_settings">
             <div className="column_wrap">
                 <form onSubmit={handleSubmit} className="logo_form">
-                    {!fileName && (
+                    {!fileNames?.logo  && (
                         <>
                             <div className="top_section">
                                 <label
@@ -196,7 +203,7 @@ const Logo = ({
                             <button
                                 type="submit"
                                 className="button green"
-                                disabled={!fileName && true}
+                                disabled={!fileNames?.logo && true}
                             >
                                 Save
                             </button>
@@ -220,7 +227,7 @@ const Logo = ({
                     </div>
                 </form>
             </div>
-           {/* {!fileName && (
+           {/* {!fileNames && (
                 <ToolTipIcon section="header" />
             )}*/}
         </article>

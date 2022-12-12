@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import Header from './Header';
+import Section from './Section';
 
 const Preview = ({
                      completedCrop,
-                     setCompletedCrop,
                      nodesRef,
                      nodes,
-                     fileNameLogo,
-                     fileNameHeader,
-                     colors
+                     fileNames,
+                     colors,
+                     sectionData,
+                     textArray
 }) => {
 
 
@@ -26,10 +27,20 @@ const Preview = ({
                             nodesRef={nodesRef}
                             nodes={nodes}
                             completedCrop={completedCrop}
-                            fileName={fileNameLogo}
-                            fileNameHeader={fileNameHeader}
+                            fileName={fileNames}
                             colors={colors}
+                            textArray={textArray}
                         />
+                        {sectionData.map((data, index) => {
+                            return (
+                                <Section
+                                    key={index}
+                                    colors={colors}
+                                    data={data}
+                                    textArray={textArray}
+                                />
+                            )
+                        })}
 
                     </div>
                 </div>

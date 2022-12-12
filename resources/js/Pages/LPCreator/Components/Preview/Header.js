@@ -3,9 +3,9 @@ import React, {useEffect, useState} from 'react';
 const Header = ({
                     nodesRef,
                     completedCrop,
-                    fileName,
-                    fileNameHeader,
-                    colors
+                    fileNames,
+                    colors,
+                    textArray
 }) => {
 
     const [headerImageStyle, setHeaderImageStyle] = useState(null);
@@ -13,7 +13,7 @@ const Header = ({
 
     useEffect(() => {
         setHeaderImageStyle (
-            !fileNameHeader ?
+            !fileNames?.header ?
                 {
                     background: "url(" +
                         Vapor.asset("images/top-section-image.jpg") +
@@ -43,8 +43,8 @@ const Header = ({
                 background: colors.headerBg || '#ffffff'
             }}>
                 <div className="container">
-                    <div className="logo">
-                        {!fileName ?
+                    <article className="logo">
+                        {!fileNames?.logo ?
                                 <img src={ Vapor.asset("images/logo.png") } alt=""/>
                             :
                             <canvas
@@ -61,12 +61,15 @@ const Header = ({
                                 }}
                             />
                     }
-                    </div>
+                    </article>
+                    <article className="text_wrap">
+                        <p>{textArray.slogan}</p>
+                    </article>
                 </div>
             </div>
-            <div className="header_image"
+            <article className="header_image my_row"
                 style={headerImageStyle}>
-                {fileNameHeader &&
+                {fileNames?.header &&
                     <canvas
                         className="bg_image"
                         ref={ref => nodesRef.current["header"] = ref}
@@ -83,9 +86,9 @@ const Header = ({
                     />
                 }
                 <a className="button" href="#" style={buttonStyle}>
-                    Get Course
+                    {textArray.buttonText || "Get Course"}
                 </a>
-            </div>
+            </article>
 
         </section>
     );

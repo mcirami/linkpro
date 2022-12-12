@@ -7,7 +7,9 @@ const ColorPicker = ({
                          label,
                          colors,
                          setColors,
-                         type
+                         elementName,
+                         bgColor = null,
+                         textColor = null
 }) => {
 
     const [sketchPickerColor, setSketchPickerColor] = useState({
@@ -25,6 +27,7 @@ const ColorPicker = ({
     });
 
     useEffect(() => {
+
         setPickerBg(
             a == 0 ?
                 {background: `url(${Vapor.asset("images/transparent-block.png")})`}
@@ -34,11 +37,21 @@ const ColorPicker = ({
 
     },[sketchPickerColor])
 
+    useEffect(() => {
+        if(bgColor) {
+            setPickerBg(
+                {background: bgColor}
+            );
+        } else if(textColor) {
+            setPickerBg({background: textColor});
+        }
+    },[])
+
     const handleOnChange = (color) => {
         setSketchPickerColor(color);
         setColors({
             ...colors,
-            [`${type}`]: `rgba(${color.r} , ${color.g} , ${color.b} , ${color.a})`
+            [`${elementName}`]: `rgba(${color.r} , ${color.g} , ${color.b} , ${color.a})`
         })
     }
 

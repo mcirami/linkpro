@@ -8,18 +8,20 @@ import HeaderImage from './Components/HeaderImage';
 import ColorPicker from './Components/ColorPicker';
 import Preview from './Components/Preview/Preview';
 import DropdownComponent from './Components/DropdownComponent';
+import sectionData from './Components/SectionData';
 
 function App() {
 
     //const [completedLogoCrop, setCompletedLogoCrop] = useState(null);
-    const [fileNameLogo, setFileNameLogo] = useState(null);
+    //const [fileNameLogo, setFileNameLogo] = useState(null);
     //const [completedHeaderCrop, setCompletedHeaderCrop] = useState(null);
-    const [fileNameHeader, setFileNameHeader] = useState(null);
+    //const [fileNameHeader, setFileNameHeader] = useState(null);
 
     const [completedCrop, setCompletedCrop] = useState([])
     const nodesRef = useRef([]);
-    const [fileName, setFileName] = useState([]);
+    const [fileNames, setFileNames] = useState([]);
     const [colors, setColors] = useState([]);
+    const [textArray, setTextArray] = useState([]);
 
     const [showLoader, setShowLoader] = useState(false);
     const [flash, setFlash] = useState({
@@ -35,8 +37,10 @@ function App() {
         setFlash({show, type, msg})
     }
 
-    console.log(colors)
-    
+    console.log("colors: ", colors)
+
+    console.log("filenames: " , fileNames)
+
     return (
         <div className="my_row page_wrap">
 
@@ -61,34 +65,39 @@ function App() {
                             <h4>Header</h4>
                         </div>
                         <div className="section_content my_row">
+                            TODO: change to a Dynamic image component
                             <Logo
                                 nodesRef={nodesRef}
                                 completedCrop={completedCrop}
                                 setCompletedCrop={setCompletedCrop}
-                                fileName={fileNameLogo}
-                                setFileName={setFileNameLogo}
+                                fileNames={fileNames}
+                                setFileNames={setFileNames}
                                 setShowLoader={setShowLoader}
-
+                                elementName="logo"
                             />
                             <InputComponent
                                 placeholder="Slogan (optional)"
-                                type="slogan"
+                                type="text"
                                 maxChar={30}
                                 hoverText="Submit Slogan Text"
+                                elementName="slogan"
+                                setTextArray={setTextArray}
                             />
+                            TODO: change to a Dynamic image component
                             <HeaderImage
                                 nodesRef={nodesRef}
                                 completedCrop={completedCrop}
                                 setCompletedCrop={setCompletedCrop}
-                                fileName={fileNameHeader}
-                                setFileName={setFileNameHeader}
+                                fileNames={fileNames}
+                                setFileNames={setFileNames}
                                 setShowLoader={setShowLoader}
+                                elementName="header"
                             />
                             <ColorPicker
                                 label="Top Header Color"
                                 colors={colors}
                                 setColors={setColors}
-                                type={"headerBg"}
+                                elementName="headerBg"
                             />
                         </div>
                     </section>
@@ -102,34 +111,89 @@ function App() {
                                 label="Button Color"
                                 colors={colors}
                                 setColors={setColors}
-                                type={"buttonBg"}
+                                elementName="buttonBg"
                             />
                             <ColorPicker
                                 label="Button Text Color"
                                 colors={colors}
                                 setColors={setColors}
-                                type={"buttonText"}
+                                elementName="buttonText"
                             />
                             <InputComponent
                                 placeholder="Update Button Text (optional)"
-                                type="buttonText"
+                                type="text"
                                 maxChar={10}
                                 hoverText="Submit Button Text"
+                                elementName="buttonText"
+                                setTextArray={setTextArray}
                             />
                             <DropdownComponent />
                         </div>
                     </section>
+
+                    {sectionData?.map((data) => {
+
+                        const {type, bgColor, textColor, position, text} = data;
+
+                        return (
+                            <section className="my_row" key={position}>
+                                <div className="section_title">
+                                    <h4>Section {position}</h4>
+                                </div>
+                                <div className="section_content my_row">
+                                    {type === "text" ?
+                                        <>
+                                            <InputComponent
+                                                placeholder="Add Text"
+                                                type="textarea"
+                                                maxChar={65}
+                                                hoverText={`Add Text to Section ${position}`}
+                                                elementName={`section${position}Text`}
+                                                value={text}
+                                                setTextArray={setTextArray}
+                                            />
+                                            <ColorPicker
+                                                label="Background Color"
+                                                colors={colors}
+                                                setColors={setColors}
+                                                bgColor={bgColor}
+                                                elementName={`section${position}BgColor`}
+                                            />
+                                            <ColorPicker
+                                                label="Text Color"
+                                                colors={colors}
+                                                setColors={setColors}
+                                                textColor={textColor}
+                                                elementName={`section${position}TextColor`}
+                                            />
+                                        </>
+                                        :
+                                        /* TODO: change to a Dynamic image component */
+                                        <Logo
+                                            nodesRef={nodesRef}
+                                            completedCrop={completedCrop}
+                                            setCompletedCrop={setCompletedCrop}
+                                            fileName={fileNameLogo}
+                                            setFileName={setFileNameLogo}
+                                            setShowLoader={setShowLoader}
+                                        />
+                                    }
+                                </div>
+                            </section>
+                        )
+                    })}
+
                 </div>
             </div>
 
             <div className={`right_column links_col preview`}>
                 <Preview
                     completedCrop={completedCrop}
-                    setCompletedCrop={setCompletedCrop}
                     nodesRef={nodesRef}
-                    fileNameLogo={fileNameLogo}
-                    fileNameHeader={fileNameHeader}
+                    fileNames={fileNames}
                     colors={colors}
+                    sectionData={sectionData}
+                    textArray={textArray}
                 />
             </div>
 

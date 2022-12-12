@@ -7,9 +7,10 @@ const HeaderImage = ({
                          nodesRef,
                          completedCrop,
                          setCompletedCrop,
-                         fileName,
-                         setFileName,
-                         setShowLoader
+                         fileNames,
+                         setFileNames,
+                         setShowLoader,
+                         elementName
 }) => {
     //const [previousImage, setPreviousImage] = useState(pageSettings["header_img"]);
 
@@ -24,7 +25,11 @@ const HeaderImage = ({
             return;
         }
 
-        setFileName(files[0]["name"]);
+        //setFileNames(files[0]["name"]);
+        setFileNames((prev) => ({
+            ...prev,
+            [`${elementName}`]: files[0]["name"]
+        }))
         document.querySelector("form.header_img_form .bottom_section").classList.remove("hidden");
         if (window.innerWidth < 993) {
             document.querySelector(".header_img_form").scrollIntoView({
@@ -103,7 +108,7 @@ const HeaderImage = ({
                 setShowLoader(false);
 
                 if (data.success) {
-                    setFileName(null);
+                    setFileNames(null);
                     setUpImg(null);
                     setCompletedCrop(false);
                     document
@@ -127,7 +132,8 @@ const HeaderImage = ({
 
     const handleCancel = () => {
         //setIsEditing(false);
-        setFileName(null);
+        delete fileNames.header;
+        setFileNames(fileNames);
         setUpImg(null);
 
         delete completedCrop.header;
@@ -143,7 +149,7 @@ const HeaderImage = ({
         <article className="my_row page_settings">
             <div className="column_wrap">
                 <form onSubmit={handleSubmit} className="header_img_form">
-                    {!fileName && (
+                    {!fileNames?.header && (
                         <>
                             <div className="top_section">
                                 <label
@@ -193,7 +199,7 @@ const HeaderImage = ({
                             <button
                                 type="submit"
                                 className="button green"
-                                disabled={!fileName && true}
+                                disabled={!fileNames?.header && true}
                             >
                                 Save
                             </button>
@@ -217,7 +223,7 @@ const HeaderImage = ({
                     </div>
                 </form>
             </div>
-            {/* {!fileName && (
+            {/* {!fileNames && (
                 <ToolTipIcon section="header" />
             )}*/}
         </article>

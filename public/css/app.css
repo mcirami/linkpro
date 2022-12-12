@@ -13832,7 +13832,7 @@ form .bottom_row a {
 .edit_form form.link_name .status {
   height: 15px;
 }
-.edit_form form.bio .submit_circle, .edit_form form.bio .cancel_icon {
+.edit_form form .submit_circle.textarea, .edit_form form .cancel_icon.textarea {
   top: auto;
   bottom: 35px;
 }
@@ -16517,6 +16517,7 @@ form .bottom_row a {
 }
 #links_page #creator .preview .header {
   min-height: 325px;
+  position: relative;
 }
 #links_page #creator .preview .header .top_section {
   padding: 35px 0 15px;
@@ -16527,11 +16528,26 @@ form .bottom_row a {
   max-width: 175px;
   margin: 0 auto;
 }
+#links_page #creator .preview .header .text_wrap {
+  text-align: center;
+  margin-top: 5px;
+}
+#links_page #creator .preview .header .text_wrap p {
+  margin: 0;
+}
 #links_page #creator .preview .header .button {
   position: absolute;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
+}
+#links_page #creator .preview section .text {
+  padding: 10px 0;
+}
+#links_page #creator .preview section .text p {
+  margin: 0;
+  text-align: center;
+  font-size: 1.2em;
 }
 
 footer {

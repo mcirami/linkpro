@@ -43,7 +43,7 @@ const PageBio = () => {
     return (
 
         <div className="edit_form">
-            <form onSubmit={handleSubmit} className="bio">
+            <form onSubmit={handleSubmit}>
                 <textarea maxLength="65" name="bio" id="" rows="5"
                           placeholder="Add Bio or Slogan (Optional)"
                           defaultValue={pageSettings["bio"] || ""}
@@ -58,7 +58,7 @@ const PageBio = () => {
                 >
                 </textarea>
                 {charactersLeft < 62  ?
-                    <a className="submit_circle" href="#"
+                    <a className="submit_circle textarea" href="#"
                        onClick={(e) => handleSubmit(e)}
                     >
                         <FiThumbsUp />

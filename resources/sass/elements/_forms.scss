@@ -189,11 +189,9 @@ form .bottom_row a {
             }
         }
 
-        &.bio {
-            .submit_circle, .cancel_icon {
-                top: auto;
-                bottom: 35px;
-            }
+        .submit_circle.textarea, .cancel_icon.textarea {
+            top: auto;
+            bottom: 35px;
         }
     }
 
