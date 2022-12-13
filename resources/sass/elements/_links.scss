@@ -672,7 +672,25 @@
     }
 }
 
-.add_more_icons {
+.icon_wrap {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    align-items: center;
+    -webkit-align-items: center;
+    justify-content: flex-start;
+    -webkit-justify-content: flex-start;
+    color: $blue;
+
+    &:hover {
+        cursor: pointer;
+    }
 
     h3 {
         color: $blue;
@@ -689,34 +707,13 @@
         }
     }
 
-    .icon_wrap {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-orient: horizontal;
-        -webkit-box-direction: normal;
-        -ms-flex-direction: row;
-        flex-direction: row;
-        -ms-flex-wrap: nowrap;
-        flex-wrap: nowrap;
-        align-items: center;
-        -webkit-align-items: center;
-        justify-content: flex-start;
-        -webkit-justify-content: flex-start;
-        color: $blue;
+    svg {
+        width: 15px;
+        height: 15px;
 
-        &:hover {
-            cursor: pointer;
-        }
-
-        svg {
-            width: 15px;
-            height: 15px;
-
-            @media screen and (max-width: 350px) {
-                width: 10px;
-                height: 10px;
-            }
+        @media screen and (max-width: 350px) {
+            width: 10px;
+            height: 10px;
         }
     }
 }

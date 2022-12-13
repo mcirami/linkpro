@@ -43,15 +43,12 @@ const FolderHeading = ({
                 />
             </div>
             <div className="my_row link_row folders">
-
-                <div className="add_more_icons">
-                    <AddLink
-                        subStatus={subStatus}
-                        setShowNewForm={setShowNewForm}
-                        setShowUpgradePopup={setShowUpgradePopup}
-                        setOptionText={setOptionText}
-                    />
-                </div>
+                <AddLink
+                    subStatus={subStatus}
+                    setShowNewForm={setShowNewForm}
+                    setShowUpgradePopup={setShowUpgradePopup}
+                    setOptionText={setOptionText}
+                />
             </div>
         </div>
     );

@@ -9,6 +9,9 @@ import ColorPicker from './Components/ColorPicker';
 import Preview from './Components/Preview/Preview';
 import DropdownComponent from './Components/DropdownComponent';
 import sectionData from './Components/SectionData';
+import AddTextSection from './Components/AddTextSection';
+import AddImageSection from './Components/AddImageSection';
+import ImageComponent from './Components/ImageComponent';
 
 function App() {
 
@@ -17,6 +20,8 @@ function App() {
     //const [completedHeaderCrop, setCompletedHeaderCrop] = useState(null);
     //const [fileNameHeader, setFileNameHeader] = useState(null);
 
+    const [sections, setSections] = useState(sectionData);
+    const [isFound, setIsFound] = useState(false);
     const [completedCrop, setCompletedCrop] = useState([])
     const nodesRef = useRef([]);
     const [fileNames, setFileNames] = useState([]);
@@ -30,15 +35,15 @@ function App() {
         msg: ''
     });
 
-    console.log("completedCrop: ", completedCrop);
-    console.log("nodedRef: ", nodesRef.current["header"]);
+
 
     const showFlash = (show = false, type='', msg='') => {
         setFlash({show, type, msg})
     }
 
-    console.log("colors: ", colors)
-
+    /*console.log("completedCrop: ", completedCrop);
+    console.log("nodedRef: ", nodesRef);
+    console.log("colors: ", colors)*/
     console.log("filenames: " , fileNames)
 
     return (
@@ -73,6 +78,8 @@ function App() {
                                 fileNames={fileNames}
                                 setFileNames={setFileNames}
                                 setShowLoader={setShowLoader}
+                                isFound={isFound}
+                                setIsFound={setIsFound}
                                 elementName="logo"
                             />
                             <InputComponent
@@ -91,7 +98,9 @@ function App() {
                                 fileNames={fileNames}
                                 setFileNames={setFileNames}
                                 setShowLoader={setShowLoader}
-                                elementName="header"
+                                isFound={isFound}
+                                setIsFound={setIsFound}
+                                elementName="hero"
                             />
                             <ColorPicker
                                 label="Top Header Color"
@@ -131,7 +140,7 @@ function App() {
                         </div>
                     </section>
 
-                    {sectionData?.map((data) => {
+                    {sections?.map((data) => {
 
                         const {type, bgColor, textColor, position, text} = data;
 
@@ -169,19 +178,33 @@ function App() {
                                         </>
                                         :
                                         /* TODO: change to a Dynamic image component */
-                                        <Logo
+                                        <ImageComponent
                                             nodesRef={nodesRef}
                                             completedCrop={completedCrop}
                                             setCompletedCrop={setCompletedCrop}
-                                            fileName={fileNameLogo}
-                                            setFileName={setFileNameLogo}
+                                            fileNames={fileNames}
+                                            setFileNames={setFileNames}
                                             setShowLoader={setShowLoader}
+                                            isFound={isFound}
+                                            setIsFound={setIsFound}
+                                            elementName={`section${position}Image`}
                                         />
                                     }
                                 </div>
                             </section>
                         )
                     })}
+
+                    <div className="link_row">
+                        <AddTextSection
+                            sections={sections}
+                            setSections={setSections}
+                        />
+                        <AddImageSection
+                            sections={sections}
+                            setSections={setSections}
+                        />
+                    </div>
 
                 </div>
             </div>
@@ -192,8 +215,10 @@ function App() {
                     nodesRef={nodesRef}
                     fileNames={fileNames}
                     colors={colors}
-                    sectionData={sectionData}
+                    sections={sections}
                     textArray={textArray}
+                    isFound={isFound}
+                    setIsFound={setIsFound}
                 />
             </div>
 

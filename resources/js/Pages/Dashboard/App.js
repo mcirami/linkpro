@@ -347,24 +347,20 @@ function App() {
                                          { (!editID && !showNewForm && !editFolderID) &&
                                             <>
                                                 <div className="my_row link_row">
-                                                    <div className="add_more_icons">
-                                                        <AddLink
-                                                            setShowNewForm={setShowNewForm}
+                                                    <AddLink
+                                                        setShowNewForm={setShowNewForm}
+                                                        subStatus={subStatus}
+                                                        setShowUpgradePopup={setShowUpgradePopup}
+                                                        setOptionText={setOptionText}
+                                                    />
+
+                                                    {!editFolderID &&
+                                                        <AddFolder
                                                             subStatus={subStatus}
                                                             setShowUpgradePopup={setShowUpgradePopup}
                                                             setOptionText={setOptionText}
+                                                            setEditFolderID={setEditFolderID}
                                                         />
-                                                    </div>
-
-                                                    {!editFolderID &&
-                                                        <div className="add_more_icons">
-                                                            <AddFolder
-                                                                subStatus={subStatus}
-                                                                setShowUpgradePopup={setShowUpgradePopup}
-                                                                setOptionText={setOptionText}
-                                                                setEditFolderID={setEditFolderID}
-                                                            />
-                                                        </div>
                                                     }
                                                 </div>
                                             </>

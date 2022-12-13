@@ -11,7 +11,9 @@ const Logo = ({
                   fileNames,
                   setFileNames,
                   setShowLoader,
-                  elementName
+                  elementName,
+                  isFound,
+                  setIsFound
 }) => {
 
     //const [previousImage, setPreviousImage] = useState(pageSettings["header_img"]);
@@ -21,6 +23,17 @@ const Logo = ({
     const previewCanvasRef =  nodesRef;
     const [crop, setCrop] = useState({ unit: "%", width: 50, height:50, x: 25, y: 25, /* aspect: 16 / 6*/ maxHeight: 65});
 
+    useEffect(() => {
+        setIsFound(checkFound())
+    },[fileNames])
+
+    const checkFound = () => {
+        const found = fileNames?.find(el => {
+            return el?.name === elementName;
+        })
+        return found || false;
+    }
+
     const onSelectFile = (e) => {
         let files = e.target.files || e.dataTransfer.files;
         if (!files.length) {
@@ -28,14 +41,16 @@ const Logo = ({
         }
 
         //setFileNames(files[0]["name"]);
-        setFileNames((prev) => ({
+        /*setFileNames((prev) => ({
             ...prev,
             [`${elementName}`]: files[0]["name"]
-        }))
+        }))*/
 
-        document
-        .querySelector("form.logo_form .bottom_section")
-        .classList.remove("hidden");
+        setFileNames((prev) => ([
+            ...prev,
+            {name:elementName}
+        ]))
+        document.querySelector("form.logo_form .bottom_section").classList.remove("hidden");
         if (window.innerWidth < 993) {
             document.querySelector(".logo_form").scrollIntoView({
                 behavior: "smooth",
@@ -105,7 +120,7 @@ const Logo = ({
         )
         .then((response) => {
             const packets = {
-                header_img: response.key,
+                logo: response.key,
                 ext: response.extension,
             };
 
@@ -135,10 +150,12 @@ const Logo = ({
         });
     };
 
-    const handleCancel = () => {
+    const handleCancel = (e) => {
         //setIsEditing(false);
-        delete fileNames.logo;
-        setFileNames(fileNames);
+        e.preventDefault();
+        setFileNames(fileNames.filter(element => {
+            return element.name !== elementName
+        }));
         setUpImg(null);
         delete completedCrop.logo;
         setCompletedCrop(completedCrop);
@@ -153,7 +170,7 @@ const Logo = ({
         <article className="my_row page_settings">
             <div className="column_wrap">
                 <form onSubmit={handleSubmit} className="logo_form">
-                    {!fileNames?.logo  && (
+                    {!checkFound() && (
                         <>
                             <div className="top_section">
                                 <label
@@ -211,8 +228,7 @@ const Logo = ({
                                 className="button transparent gray"
                                 href="#"
                                 onClick={(e) => {
-                                    e.preventDefault();
-                                    handleCancel();
+                                    handleCancel(e);
                                 }}
                             >
                                 Cancel

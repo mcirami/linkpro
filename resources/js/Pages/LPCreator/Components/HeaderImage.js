@@ -10,14 +10,27 @@ const HeaderImage = ({
                          fileNames,
                          setFileNames,
                          setShowLoader,
-                         elementName
+                         elementName,
+                         isFound,
+                         setIsFound
 }) => {
     //const [previousImage, setPreviousImage] = useState(pageSettings["header_img"]);
 
     const [upImg, setUpImg] = useState();
     const imgRef = useRef();
     const previewCanvasRef = nodesRef;
-    const [crop, setCrop] = useState({ unit: "%", width: 30, aspect: 16 / 12 });
+    const [crop, setCrop] = useState({ unit: "%", width: 30, x: 25, y: 25, aspect: 16 / 12 });
+
+    useEffect(() => {
+        setIsFound(checkFound())
+    },[fileNames])
+
+    const checkFound = () => {
+        const found = fileNames?.find(el => {
+            return el?.name === elementName;
+        })
+        return found || false;
+    }
 
     const onSelectFile = (e) => {
         let files = e.target.files || e.dataTransfer.files;
@@ -26,10 +39,20 @@ const HeaderImage = ({
         }
 
         //setFileNames(files[0]["name"]);
-        setFileNames((prev) => ({
+
+        setFileNames((prev) => ([
             ...prev,
-            [`${elementName}`]: files[0]["name"]
-        }))
+            {name: elementName}
+        ]))
+
+        /*const newArray = fileNames;
+        if (newArray.elementName === undefined) {
+            newArray.push({[`${elementName}`]: files[0]["name"]})
+        } else {
+            newArray.elementName = files[0]["name"];
+        }
+        setFileNames(newArray);*/
+
         document.querySelector("form.header_img_form .bottom_section").classList.remove("hidden");
         if (window.innerWidth < 993) {
             document.querySelector(".header_img_form").scrollIntoView({
@@ -130,10 +153,13 @@ const HeaderImage = ({
         });
     };
 
-    const handleCancel = () => {
+    const handleCancel = (e) => {
         //setIsEditing(false);
-        delete fileNames.header;
-        setFileNames(fileNames);
+        e.preventDefault();
+
+        setFileNames(fileNames.filter(element => {
+                return element.name !== elementName
+        }));
         setUpImg(null);
 
         delete completedCrop.header;
@@ -149,7 +175,7 @@ const HeaderImage = ({
         <article className="my_row page_settings">
             <div className="column_wrap">
                 <form onSubmit={handleSubmit} className="header_img_form">
-                    {!fileNames?.header && (
+                    {!checkFound() && (
                         <>
                             <div className="top_section">
                                 <label
@@ -207,8 +233,7 @@ const HeaderImage = ({
                                 className="button transparent gray"
                                 href="#"
                                 onClick={(e) => {
-                                    e.preventDefault();
-                                    handleCancel();
+                                    handleCancel(e);
                                 }}
                             >
                                 Cancel

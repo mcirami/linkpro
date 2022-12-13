@@ -147,11 +147,11 @@
             }
 
             .header {
-                min-height: 325px;
+                min-height: 312px;
                 position: relative;
 
                 .top_section {
-                    padding: 35px 0 15px;
+                    padding-top: 35px;
                 }
 
                 .logo {
@@ -164,6 +164,8 @@
                 .text_wrap {
                     text-align: center;
                     margin-top: 5px;
+                    padding-bottom: 10px;
+                    border-bottom: 1px solid $borderGray;
 
                     p {
                         margin: 0;

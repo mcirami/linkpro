@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import Header from './Header';
-import Section from './Section';
+import TopBar from './TopBar';
+import PreviewSection from './PreviewSection';
+import Hero from './Hero';
 
 const Preview = ({
                      completedCrop,
@@ -8,10 +9,11 @@ const Preview = ({
                      nodes,
                      fileNames,
                      colors,
-                     sectionData,
-                     textArray
+                     sections,
+                     textArray,
+                     isFound,
+                     setIsFound
 }) => {
-
 
     return (
 
@@ -23,21 +25,43 @@ const Preview = ({
             <div className="links_wrap preview">
                 <div className="inner_content" id="preview_wrap">
                     <div className="inner_content_wrap">
-                        <Header
-                            nodesRef={nodesRef}
-                            nodes={nodes}
-                            completedCrop={completedCrop}
-                            fileName={fileNames}
-                            colors={colors}
-                            textArray={textArray}
-                        />
-                        {sectionData.map((data, index) => {
+                        <section className="header">
+                            <TopBar
+                                nodesRef={nodesRef}
+                                nodes={nodes}
+                                completedCrop={completedCrop}
+                                fileNames={fileNames}
+                                colors={colors}
+                                textArray={textArray}
+                                isFound={isFound}
+                                setIsFound={setIsFound}
+                            />
+                            <Hero
+                                nodesRef={nodesRef}
+                                nodes={nodes}
+                                completedCrop={completedCrop}
+                                fileNames={fileNames}
+                                colors={colors}
+                                textArray={textArray}
+                                isFound={isFound}
+                                setIsFound={setIsFound}
+                            />
+
+                        </section>
+                        {sections.map((data, index) => {
                             return (
-                                <Section
+                                <PreviewSection
                                     key={index}
                                     colors={colors}
                                     data={data}
                                     textArray={textArray}
+                                    nodesRef={nodesRef}
+                                    nodes={nodes}
+                                    completedCrop={completedCrop}
+                                    fileNames={fileNames}
+                                    isFound={isFound}
+                                    setIsFound={setIsFound}
+                                    elementName={"section"+data.position+"image"}
                                 />
                             )
                         })}
