@@ -6,8 +6,8 @@ import Hero from './Hero';
 const Preview = ({
                      completedCrop,
                      nodesRef,
-                     nodes,
                      fileNames,
+                     setFileNames,
                      colors,
                      sections,
                      textArray,
@@ -28,7 +28,6 @@ const Preview = ({
                         <section className="header">
                             <TopBar
                                 nodesRef={nodesRef}
-                                nodes={nodes}
                                 completedCrop={completedCrop}
                                 fileNames={fileNames}
                                 colors={colors}
@@ -38,17 +37,18 @@ const Preview = ({
                             />
                             <Hero
                                 nodesRef={nodesRef}
-                                nodes={nodes}
                                 completedCrop={completedCrop}
                                 fileNames={fileNames}
                                 colors={colors}
                                 textArray={textArray}
                                 isFound={isFound}
                                 setIsFound={setIsFound}
+                                elementName="hero"
                             />
 
                         </section>
                         {sections.map((data, index) => {
+
                             return (
                                 <PreviewSection
                                     key={index}
@@ -56,12 +56,11 @@ const Preview = ({
                                     data={data}
                                     textArray={textArray}
                                     nodesRef={nodesRef}
-                                    nodes={nodes}
                                     completedCrop={completedCrop}
                                     fileNames={fileNames}
+                                    setFileNames={setFileNames}
                                     isFound={isFound}
                                     setIsFound={setIsFound}
-                                    elementName={"section"+data.position+"image"}
                                 />
                             )
                         })}

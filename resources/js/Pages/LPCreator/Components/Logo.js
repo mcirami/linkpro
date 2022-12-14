@@ -220,7 +220,7 @@ const Logo = ({
                             <button
                                 type="submit"
                                 className="button green"
-                                disabled={!fileNames?.logo && true}
+                                disabled={!checkFound() && true}
                             >
                                 Save
                             </button>

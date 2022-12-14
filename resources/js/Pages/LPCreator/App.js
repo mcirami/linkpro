@@ -44,7 +44,7 @@ function App() {
     /*console.log("completedCrop: ", completedCrop);
     console.log("nodedRef: ", nodesRef);
     console.log("colors: ", colors)*/
-    console.log("filenames: " , fileNames)
+   /* console.log("filenames: " , fileNames)*/
 
     return (
         <div className="my_row page_wrap">
@@ -177,7 +177,6 @@ function App() {
                                             />
                                         </>
                                         :
-                                        /* TODO: change to a Dynamic image component */
                                         <ImageComponent
                                             nodesRef={nodesRef}
                                             completedCrop={completedCrop}
@@ -187,7 +186,7 @@ function App() {
                                             setShowLoader={setShowLoader}
                                             isFound={isFound}
                                             setIsFound={setIsFound}
-                                            elementName={`section${position}Image`}
+                                            elementName={`section${position}image`}
                                         />
                                     }
                                 </div>
@@ -214,6 +213,7 @@ function App() {
                     completedCrop={completedCrop}
                     nodesRef={nodesRef}
                     fileNames={fileNames}
+                    setFileNames={setFileNames}
                     colors={colors}
                     sections={sections}
                     textArray={textArray}

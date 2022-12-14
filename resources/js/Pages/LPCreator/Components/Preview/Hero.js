@@ -8,8 +8,11 @@ const Hero = ({
                   colors,
                   textArray,
                   isFound,
-                  setIsFound
+                  setIsFound,
+                  elementName
 }) => {
+
+    console.log("header image node ref: ", nodesRef.current[elementName]);
 
     const [headerImageStyle, setHeaderImageStyle] = useState(null);
     const [buttonStyle, setButtonStyle] = useState(null);
@@ -25,14 +28,12 @@ const Hero = ({
         return isFound || false;
     }
 
-    //console.log("hero:", isFound);
-
     useEffect(() => {
         setHeaderImageStyle (
             checkFound() ?
                 {
-                    width: (completedCrop.header?.isCompleted) ? `100%` : 0,
-                    height: (completedCrop.header?.isCompleted) ? `auto` : 0,
+                    width: (completedCrop[elementName]?.isCompleted) ? `100%` : 0,
+                    height: (completedCrop[elementName]?.isCompleted) ? `auto` : 0,
                     maxHeight: '200px',
                     overflow:'hidden'
                 }
@@ -45,7 +46,7 @@ const Hero = ({
                     minHeight: "200px"
                 }
         )
-    },[completedCrop.header, fileNames])
+    },[completedCrop[elementName], fileNames])
 
     useEffect(() => {
         setButtonStyle ({
@@ -60,17 +61,17 @@ const Hero = ({
                  style={headerImageStyle}>
             {checkFound() &&
                 <canvas
-                    className="bg_image"
-                    ref={ref => nodesRef.current["header"] = ref}
+                    className={`${elementName}_bg_image`}
+                    ref={ref => nodesRef.current[elementName] = ref}
                     // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
                     style={{
-                        backgroundImage: nodesRef.current["header"],
+                        backgroundImage: nodesRef.current[elementName],
                         /*width: Math.round(completedCrop?.width ?? 0),
                         height: Math.round(completedCrop?.height ?? 0)*/
                         backgroundSize: `cover`,
                         backgroundRepeat: `no-repeat`,
-                        width: completedCrop.header?.isCompleted ? `100%` : 0,
-                        height: completedCrop.header?.isCompleted ? `auto` : 0,
+                        width: completedCrop[elementName]?.isCompleted ? `100%` : 0,
+                        height: completedCrop[elementName]?.isCompleted ? `auto` : 0,
                     }}
                 />
             }

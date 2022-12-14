@@ -14,8 +14,9 @@ const HeaderImage = ({
                          isFound,
                          setIsFound
 }) => {
-    //const [previousImage, setPreviousImage] = useState(pageSettings["header_img"]);
 
+    /*console.log("nodes ref: ",nodesRef)*/
+    //const [previousImage, setPreviousImage] = useState(pageSettings["header_img"]);
     const [upImg, setUpImg] = useState();
     const imgRef = useRef();
     const previewCanvasRef = nodesRef;
@@ -68,16 +69,16 @@ const HeaderImage = ({
     }, []);
 
     useEffect(() => {
-        if (!completedCrop.header?.isCompleted || !previewCanvasRef.current["header"] || !imgRef.current) {
+        if (!completedCrop[elementName]?.isCompleted || !previewCanvasRef.current[elementName] || !imgRef.current) {
             return;
         }
 
-        completedImageCrop(completedCrop.header.isCompleted, imgRef, previewCanvasRef.current["header"]);
-    }, [completedCrop.header]);
+        completedImageCrop(completedCrop[elementName].isCompleted, imgRef, previewCanvasRef.current[elementName]);
+    }, [completedCrop[elementName]]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        previewCanvasRef.current["header"].toBlob(
+        previewCanvasRef.current[elementName].toBlob(
             (blob) => {
                 const reader = new FileReader();
                 reader.readAsDataURL(blob);
@@ -162,7 +163,7 @@ const HeaderImage = ({
         }));
         setUpImg(null);
 
-        delete completedCrop.header;
+        delete completedCrop[elementName];
         setCompletedCrop(completedCrop);
         document.querySelector("form.header_img_form .bottom_section").classList.add("hidden");
         /*setPageSettings({
@@ -179,7 +180,7 @@ const HeaderImage = ({
                         <>
                             <div className="top_section">
                                 <label
-                                    htmlFor="header_file_upload"
+                                    htmlFor={`${elementName}_file_upload`}
                                     className="custom"
                                 >
                                     Header Image
@@ -192,7 +193,7 @@ const HeaderImage = ({
                                 </label>
                                 <input
                                     className="custom"
-                                    id="header_file_upload"
+                                    id={`${elementName}_file_upload`}
                                     type="file"
                                     accept="image/png, image/jpeg, image/jpg, image/gif"
                                     onChange={onSelectFile}
@@ -215,7 +216,7 @@ const HeaderImage = ({
                                 onChange={(c) => setCrop(c)}
                                 onComplete={(c) =>  setCompletedCrop({
                                     ...completedCrop,
-                                    header: {
+                                    [`${elementName}`]: {
                                         isCompleted: c
                                     }
                                 })}
@@ -225,7 +226,7 @@ const HeaderImage = ({
                             <button
                                 type="submit"
                                 className="button green"
-                                disabled={!fileNames?.header && true}
+                                disabled={!checkFound() && true}
                             >
                                 Save
                             </button>

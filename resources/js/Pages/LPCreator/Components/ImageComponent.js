@@ -52,9 +52,9 @@ const ImageComponent = ({
         }
         setFileNames(newArray);*/
 
-        document.querySelector(`. + ${elementName} .bottom_section`).classList.remove("hidden");
+        document.querySelector("." + CSS.escape(elementName) + "_form .bottom_section").classList.remove("hidden");
         if (window.innerWidth < 993) {
-            document.querySelector(`. + ${elementName}`).scrollIntoView({
+            document.querySelector("." + CSS.escape(elementName) + "_form").scrollIntoView({
                 behavior: "smooth",
             });
         }
@@ -66,13 +66,15 @@ const ImageComponent = ({
         imgRef.current = img;
     }, []);
 
+    console.log("preview canvas: ", previewCanvasRef.current[elementName]);
+
     useEffect(() => {
-        if (!completedCrop.elementName?.isCompleted || !previewCanvasRef.current[elementName] || !imgRef.current) {
+        if (!completedCrop[elementName]?.isCompleted || !previewCanvasRef.current[elementName] || !imgRef.current) {
             return;
         }
 
-        completedImageCrop(completedCrop.elementName.isCompleted, imgRef, previewCanvasRef.current[elementName]);
-    }, [completedCrop.elementName]);
+        completedImageCrop(completedCrop[elementName].isCompleted, imgRef, previewCanvasRef.current[elementName]);
+    }, [completedCrop[elementName]]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -161,9 +163,9 @@ const ImageComponent = ({
         }));
         setUpImg(null);
 
-        delete completedCrop.header;
+        delete completedCrop[elementName];
         setCompletedCrop(completedCrop);
-        document.querySelector("form.header_img_form .bottom_section").classList.add("hidden");
+        document.querySelector("." + CSS.escape(elementName) + "_form .bottom_section").classList.add("hidden");
         /*setPageSettings({
             ...pageSettings,
             header_img: previousImage,
@@ -178,7 +180,7 @@ const ImageComponent = ({
                         <>
                             <div className="top_section">
                                 <label
-                                    htmlFor="header_file_upload"
+                                    htmlFor={`${elementName}_file_upload`}
                                     className="custom"
                                 >
                                     Section Image
@@ -191,7 +193,7 @@ const ImageComponent = ({
                                 </label>
                                 <input
                                     className="custom"
-                                    id="header_file_upload"
+                                    id={`${elementName}_file_upload`}
                                     type="file"
                                     accept="image/png, image/jpeg, image/jpg, image/gif"
                                     onChange={onSelectFile}
@@ -224,7 +226,7 @@ const ImageComponent = ({
                             <button
                                 type="submit"
                                 className="button green"
-                                disabled={!fileNames?.header && true}
+                                disabled={!checkFound() && true}
                             >
                                 Save
                             </button>
