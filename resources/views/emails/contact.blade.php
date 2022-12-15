@@ -9,7 +9,7 @@ Email: {{$email}}
 <br>
 Reason: {{$reason}}
 <br>
-Meassage: {{$message}}
+Message: {{$message}}
 <br>
 <br>
 <p class="signature">The LinkPro Team</p>

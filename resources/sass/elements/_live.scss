@@ -115,6 +115,26 @@
                         }
                     }
                 }
+
+                .form_content {
+
+                    form {
+                        padding: 0;
+                    }
+
+                    h3 {
+                        font-size: 1.5em;
+
+                        @media screen and (max-width: 550px) {
+                            font-size: 1em;
+                        }
+                    }
+
+                    p {
+                        font-size: 1em;
+                    }
+                }
+
             }
         }
     }

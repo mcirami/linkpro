@@ -1,11 +1,17 @@
 import React from 'react';
 
-export const Loader = () => {
+export const Loader = ({showLoader}) => {
 
     return (
-        <div className="loader_popup">
+        <div className="loader_popup" style={{ position:`${showLoader.position}`}}>
             <div className="loader_wrap">
-                <span className="loader"> </span>
+                {showLoader.icon === "upload" ?
+                    <span className="loader"> </span>
+                    :
+                    <div id="loading_spinner" className="active">
+                        <img src={Vapor.asset('images/spinner.svg')} alt="" />
+                    </div>
+                }
             </div>
         </div>
     )

@@ -2,18 +2,24 @@ import { ImPlus } from "react-icons/im";
 import {useContext} from 'react';
 import {UserLinksContext} from '../../App';
 
-const AddLink = ({subStatus, setShowUpgradePopup, setOptionText, setShowNewForm }) => {
+const AddLink = ({
+                     subStatus,
+                     setShowUpgradePopup,
+                     setOptionText,setRadioValue,
+                     setShowLinkForm
+}) => {
 
     const { userLinks } = useContext(UserLinksContext);
     const handleClick = (e) => {
         e.preventDefault();
 
+        setRadioValue("standard");
         const newUserLinks = userLinks.filter(element => !element.type);
         const count = newUserLinks.length;
 
         if (count < 8 || subStatus ) {
 
-            setShowNewForm(true);
+            setShowLinkForm(true);
 
             setTimeout(function(){
                 document.querySelector('#scrollTo').scrollIntoView({

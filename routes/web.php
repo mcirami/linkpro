@@ -105,6 +105,8 @@ Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated']], function() {
     Route::get('/subscribe', [SubscriptionController::class, 'purchase'])->name('subscribe.get');
 });
 
+Route::post('/mailchimp/subscribe', [MailchimpController::class, 'subscribeToList'])->name('mailchimp.subscribe');
+
 Route::get('/contact', [ContactMailController::class, 'index'])->name('contact');
 Route::post('/contact/send', [ContactMailController::class, 'contactSendMail'])->name('contact.send');
 

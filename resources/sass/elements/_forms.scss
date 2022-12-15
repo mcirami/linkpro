@@ -53,6 +53,7 @@ input[type="text"].disabled {
 select {
     width: 100%;
     color: rgba(33,37,41, .7);
+    padding: 5px 10px;
 }
 
 textarea {
@@ -142,8 +143,7 @@ form .bottom_row a {
     position: relative;
 
     label {
-        margin-bottom: 0;
-        margin-top: 5px;
+        margin: 5px 0 5px 5px;
         align-self: flex-start;
         -webkit-align-self: flex-start;
     }
@@ -264,6 +264,18 @@ form .bottom_row a {
                 right: 0;
             }
 
+            .tabs {
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-orient: horizontal;
+                -webkit-box-direction: normal;
+                -ms-flex-direction: row;
+                flex-direction: row;
+                -ms-flex-wrap: nowrap;
+                flex-wrap: nowrap;
+            }
+
             .uploader {
                 margin-bottom: 20px;
             }
@@ -272,6 +284,7 @@ form .bottom_row a {
                 justify-content: center;
                 -webkit-justify-content: center;
             }
+
 
             .icons_wrap {
                 border: 1px solid $borderGray;
@@ -290,6 +303,113 @@ form .bottom_row a {
                     @media all and (max-width: 550px) {
                         width: 22.9%;
                     }
+                }
+
+                &.outer {
+                    overflow-y: hidden;
+
+                    .default_icon.icon_col {
+                        width: 16%;
+                        padding-right: 10px;
+                        padding-top: 5px;
+
+                        @media all and (max-width: 1300px) and (min-width: 993px) {
+                            width: 25%;
+                        }
+
+                        @media screen and (max-width: 768px) {
+                            /*width: 100%;
+                            padding-right: 0;*/
+                            width: 25%;
+                        }
+
+                        @media all and (max-width: 550px) {
+                            width: 30%;
+                        }
+
+                        img {
+                            max-width: 94%;
+                            margin: 4px auto 0;
+
+                            @media all and (max-width: 1300px) and (min-width: 993px) {
+                                max-width: 60%;
+                            }
+
+                            @media all and (max-width: 768px) {
+                                max-width: 68%;
+                                margin: 0 auto;
+                            }
+                        }
+                    }
+
+                    &.integration_icons {
+                        padding: 5px 10px 10px;
+
+                       /* @media all and (max-width: 768px) {
+                            overflow-y:  scroll;
+                        }*/
+
+                        .custom_icons {
+                            width: 82%;
+                            padding: 0 10px;
+                            border-left: 1px solid $borderGray;
+                            overflow-y: auto;
+                            margin: 10px 0 0;
+                            height: 220px;
+
+                            @media all and (max-width: 1300px) and (min-width: 993px) {
+                                width: 73%;
+                            }
+
+                            @media all and (max-width: 768px) {
+                                /*width: 100%;
+                                height: auto;
+                                border-left: none;*/
+                                width: 73%;
+                            }
+
+                            @media screen and (max-width: 550px) {
+                                width: 68%;
+                            }
+
+                            .icons_wrap.inner {
+                                overflow: hidden;
+                                height: auto;
+
+                                .icon_col {
+                                    @media all and (max-width: 1300px) and (min-width: 993px) {
+                                        width: 23%;
+                                    }
+
+                                    @media all and (max-width: 768px) {
+                                        width: 23%;
+                                    }
+
+                                    @media screen and (max-width: 550px) {
+                                        width: 31.3%;
+                                    }
+                                }
+                            }
+                        }
+
+                        p {
+                            width: 100%;
+                            font-size: 12px;
+                            padding-bottom: 5px;
+                            text-align: center;
+                            margin-bottom: 5px;
+                            border-bottom: 1px solid $borderGray;
+                        }
+                    }
+                }
+
+                &.inner {
+                    overflow-y: auto;
+                    border-radius: 0;
+                    -webkit-border-radius: 0;
+                    -moz-border-radius: 0;
+                    border: none;
+                    padding: 0;
                 }
             }
 
@@ -318,16 +438,86 @@ form .bottom_row a {
                 margin-bottom: 20px;
             }
 
+            .tab_content_wrap {
+                padding: 20px 40px 0;
+
+                @media all and (max-width: 1199px) {
+                    padding: 20px 20px 0;
+                }
+
+                @media screen and (max-width: 768px) {
+                    padding: 20px 20px 0;
+                }
+
+                .inner_wrap {
+                    position: relative;
+
+                    .integration_dropdown_wrap {
+                        margin-bottom: 10px;
+                    }
+                }
+            }
+
             .link_form {
                 width: 100%;
                 background: $white;
-                padding: 40px;
                 border-radius: 12px;
                 -webkit-border-radius: 12px;
                 -moz-border-radius: 12px;
 
-                @media all and (max-width: 768px) {
-                    padding: 40px 20px 10px;
+                label[for="mailchimp_list_id"], label[for="domain"] {
+                    margin-bottom: 5px;
+                }
+
+                .remove_link {
+                    text-align: right;
+
+                    a {
+                        color: $red;
+                        font-size: 14px;
+                    }
+                }
+
+                #subscribe_error p {
+                    color: $red;
+                }
+
+                &.shopify_domain {
+
+                    .input_wrap {
+                        display: -webkit-box;
+                        display: -ms-flexbox;
+                        display: flex;
+                        -webkit-box-orient: horizontal;
+                        -webkit-box-direction: normal;
+                        -ms-flex-direction: row;
+                        flex-direction: row;
+                        -ms-flex-wrap: nowrap;
+                        flex-wrap: nowrap;
+                        justify-content: center;
+                        -webkit-justify-content: center;
+                        align-items: center;
+                        -webkit-align-items: center;
+                        border: 1px solid $borderGray;
+                        border-top-right-radius: 8px;
+                        -webkit-border-top-right-radius: 8px;
+                        -moz-border-radius-topright: 8px;
+                        border-top-left-radius: 8px;
+                        -webkit-border-top-left-radius: 8px;
+                        -moz-border-radius-topleft: 8px;
+
+                        p {
+                            color: $grayBlue;
+                            padding-right: 10px;
+                        }
+                    }
+
+                    input {
+                        border: none;
+                        border-radius: 0;
+                        -webkit-border-radius: 0px;
+                        -moz-border-radius: 0px;
+                    }
                 }
             }
 
@@ -983,6 +1173,49 @@ form .bottom_row a {
     }
 }
 
+.integration_wrap {
+    min-height: 200px;
+
+    h3 {
+        text-align: center;
+        margin-bottom: 20px;
+        border-bottom: 1px solid $borderGray;
+        padding-bottom: 10px;
+        font-size: 20px;
+    }
+
+    p {
+
+        &.small {
+            @include ossemibold;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+    }
+
+    .input_wrap {
+        margin-bottom: 10px;
+
+        p {
+            margin-bottom: 0;
+        }
+    }
+
+    .button_wrap {
+        width: 100%;
+        float: left;
+
+        .button {
+            width: 100%;
+            display: block;
+        }
+    }
+
+    .connection_error p {
+        color: $red;
+    }
+}
+
 .edit_form.register {
     label {
         margin-top: 0;
@@ -1003,4 +1236,3 @@ form .bottom_row a {
 
     }
 }
-

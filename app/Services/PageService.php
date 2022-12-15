@@ -3,6 +3,7 @@
 
 namespace App\Services;
 use App\Models\Page;
+use App\Models\ShopifyStore;
 use App\Notifications\WelcomeNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -32,9 +33,7 @@ class PageService {
 
     public function getUserLinks($page, $subscribed) {
 
-        $allLinks = $page->links()->where('page_id', $page["id"])->where('folder_id', null)
-                     ->orderBy('position', 'asc')
-                     ->get()->toArray();
+        $allLinks = $this->getAllLinks($page);
 
         if($subscribed) {
 
@@ -139,14 +138,12 @@ class PageService {
             array_push($standardIcons, $path);
         }
 
-        $allLinks = $this->user->links()->where('page_id', $page["id"])->where('folder_id', null)
-                     ->orderBy('position', 'asc')
-                     ->get()->toArray();
+        $linksArray = $this->getAllLinks($page);
 
         $folderLinks = $this->getFolderLinks($page);
         if (!empty($folderLinks)) {
-            $allLinks = array_merge($allLinks, $folderLinks);
-            usort($allLinks, array($this, "sortArray" ));
+            $linksArray = array_merge($linksArray, $folderLinks);
+            usort($linksArray, array($this, "sortArray" ));
         }
 
         $pageNames = Page::all()->pluck('name')->toArray();
@@ -154,13 +151,13 @@ class PageService {
         $userSubscription = $user->subscriptions()->first();
 
         Javascript::put([
-            'links' => $allLinks,
+            'links' => $linksArray,
             'icons' => $standardIcons,
             'page' => $page,
             'user_pages' => $userPages,
             'userIcons' => $userIcons,
             'allPageNames' => $pageNames,
-            'userSub'   => $userSubscription
+            'userSub'   => $userSubscription,
         ]);
     }
 

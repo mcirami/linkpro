@@ -9,7 +9,6 @@ use App\Models\Page;
 use App\Http\Traits\LinkTrait;
 use App\Http\Traits\IconTrait;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class LinkService {
 
@@ -34,6 +33,12 @@ class LinkService {
             usort($allLinks, array($this, "sortArray" ));
         }
 
+        /*foreach($allLinks as $link) {
+            if($link->shopify_products) {
+
+            }
+        }*/
+
         return $allLinks;
     }
 
@@ -46,12 +51,9 @@ class LinkService {
 
         $page = Page::findOrFail($request->page_id);
 
-        if (str_contains($request->icon, 'tmp/') ) {
-
-            $iconPath = $this->saveCustomIcon($request);
-
-        } else {
-            $iconPath = $request->icon;
+        $iconPath = $request->icon;
+        if (str_contains($iconPath, 'tmp/') ) {
+            $iconPath = $this->saveCustomIcon( $request );
         }
 
         if ($request->folder_id) {
@@ -83,16 +85,19 @@ class LinkService {
                 'url' => $request->url ? : null,
                 'email' => $request->email ? : null,
                 'phone' => $request->phone ? : null,
+                'mailchimp_list_id' => null,
+                'shopify_products' => null,
+                'shopify_id' => null,
                 'icon' => $iconPath,
                 'page_id' => $request->page_id,
                 'position' => $position,
                 'folder_id' => $request->folder_id,
+                'type' => $request->type
             ]);
 
             array_push($linkIDs, $link->id);
 
             $folder->update(['link_ids' => json_encode($linkIDs)]);
-
 
         } else {
             $highestPagePos = $page->links()->where('folder_id', null)->max('position');
@@ -104,14 +109,30 @@ class LinkService {
                 $position = max($highestPagePos, $highestFolderPos) + 1;
             }
 
+            if ($request->shopify_products) {
+                $productIDs = [];
+                foreach($request->shopify_products as $product) {
+                    $productObject = [
+                        'id' => $product["id"],
+                        'position' => $product["position"],
+                        'shopify_id' => $request->shopify_id
+                    ];
+                    array_push($productIDs, $productObject);
+                }
+            }
+
             $link = Auth::user()->links()->create([
                 'name' => $request->name,
                 'url' => $request->url ? : null,
                 'email' => $request->email ? : null,
                 'phone' => $request->phone ? : null,
+                'mailchimp_list_id' => $request->mailchimp_list_id ? : null,
+                'shopify_products' => $request->shopify_products ? $productIDs : null,
+                'shopify_id' => $request->shopify_id ? : null,
                 'icon' => $iconPath,
                 'page_id' => $request->page_id,
                 'position' => $position,
+                'type' =>  $request->type
             ]);
         }
 
@@ -131,32 +152,36 @@ class LinkService {
     public function updateLink($request, $link) {
 
         if (str_contains($request->icon, 'tmp/') ) {
-
             $iconPath = $this->saveCustomIcon($request);
-
-            $link->update([
-                'name' => $request->name,
-                'url' => $request->url ? : null,
-                'email' => $request->email ? : null,
-                'phone' => $request->phone ? : null,
-                'icon' => $iconPath,
-            ]);
-
-            /*$link->update(['name' => $request->name, 'url' => $request->url, 'email' => $request->email, 'phone' => $request->phone, 'icon' => $iconPath]);*/
-            return $iconPath;
-
         } else {
-            $link->update([
-                'name' => $request->name,
-                'url' => $request->url ? : null,
-                'email' => $request->email ? : null,
-                'phone' => $request->phone ? : null,
-                'icon' => $request->icon ? : null,
-            ]);
-            /*$link->update($request->only(['name', 'url', 'email', 'phone', 'icon']));*/
+            $iconPath = $request->icon;
         }
 
-        return null;
+        if ($request->shopify_products) {
+            $productIDs = [];
+            foreach($request->shopify_products as $product) {
+                $productObject = [
+                    'id' => $product["id"],
+                    'position' => $product["position"],
+                    'shopify_id' =>  $request->shopify_id
+                ];
+                array_push($productIDs, $productObject);
+            }
+        }
+
+        $link->update([
+            'name' => $request->name,
+            'url' => $request->url ? : null,
+            'email' => $request->email ? : null,
+            'phone' => $request->phone ? : null,
+            'mailchimp_list_id' => $request->mailchimp_list_id ? : null,
+            'shopify_products' => $request->shopify_products ? $productIDs : null,
+            'shopify_id' => $request->shopify_id ? : null,
+            'icon' => $iconPath,
+            'type' => $request->type,
+        ]);
+
+        return $iconPath;
     }
 
     /**
@@ -218,7 +243,12 @@ class LinkService {
     public function deleteLink($link) {
 
         if ($link->icon && $link->url) {
-            $newLink = $link->replicate();
+            $newLink = $link->replicate([
+                'mailchimp_list_id',
+                'shopify_products',
+                'shopify_id',
+                'type',
+            ]);
             $newLink->setTable( 'deleted_links' );
             $newLink->link_id = $link->id;
             $newLink->save();

@@ -25,7 +25,12 @@ class LinkController extends Controller
 
         $data = $linkService->addLink($request);
 
-        return response()->json(['message'=> 'Icon Added', 'link_id' => $data["link"]->id, 'position' => $data["link"]->position, 'iconPath' => $data["path"]]);
+        return response()->json([
+            'message'=> 'Icon Added',
+            'link_id' => $data["link"]->id,
+            'position' => $data["link"]->position,
+            'iconPath' => $data["path"]
+        ]);
     }
 
     public function update(UpdateLinkRequest $request, Link $link, LinkService $linkService) {
@@ -36,9 +41,9 @@ class LinkController extends Controller
 
         $path = $linkService->updateLink($request, $link);
 
-        if (!$path) {
+        /*if (!$path) {
             $path = null;
-        }
+        }*/
 
         return response()->json(['message' => 'Icon Updated', 'path' => $path]);
 

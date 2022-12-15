@@ -12,6 +12,9 @@ import Header from './Header';
 import ProfileImage from './ProfileImage';
 import ProfileText from './ProfileText';
 import Folder from './Folder';
+import FormIcon from './FormIcon';
+import SubscribeForm from './SubscribeForm';
+import StoreProducts from './StoreProducts';
 
 const Preview = ({
                      setRef,
@@ -34,6 +37,7 @@ const Preview = ({
     const { userLinks } = useContext(UserLinksContext);
     const [iconCount, setIconCount] = useState(null);
     const {pageSettings} = useContext(PageContext);
+    const [clickType, setClickType] = useState(null);
 
     const ClosePreview = () => {
         setShowPreview(false);
@@ -109,9 +113,9 @@ const Preview = ({
         box.style.maxHeight = innerContent.offsetHeight - pixelsToMinus + "px";
     }, []);
 
-    let folderCount = 0;
-
     const accordionLinks = value !== null ? userLinks[value].links : null;
+    const mailchimpListId = value !== null ? userLinks[value].mailchimp_list_id : null;
+    const storeProducts = value !== null ? userLinks[value].shopify_products : null;
 
     return (
 
@@ -139,7 +143,7 @@ const Preview = ({
                         </div>
                         <div className="icons_wrap main">
 
-                            {userLinks.slice(0, iconCount).map(( linkItem, index ) => {
+                            {userLinks?.slice(0, iconCount).map(( linkItem, index ) => {
 
                                 let {
                                     id,
@@ -165,14 +169,13 @@ const Preview = ({
                                 const dataRow = Math.ceil((index + 1) / 4);
 
                                 let displayIcon = null;
-                                if(!type || type === "standard") {
+                                if(type === "standard" || type === "mailchimp" || type === "shopify") {
                                     displayIcon = checkIcon(icon, "preview");
                                 }
 
                                 let colClasses = "";
-                                if (type === "folder") {
+                                if (type === "folder" || type === "mailchimp" || type === "shopify") {
                                     colClasses = "icon_col folder";
-                                    ++folderCount;
                                 } else {
                                     colClasses = "icon_col";
                                 }
@@ -180,71 +183,114 @@ const Preview = ({
                                 return (
                                     <React.Fragment key={index}>
 
-                                        {type === "folder" ?
-                                            active_status && subStatus ?
-                                                <Folder
-                                                    colClasses={colClasses}
-                                                    mainIndex={index}
-                                                    links={links}
-                                                    setRow={setRow}
-                                                    value={value}
-                                                    setValue={setValue}
-                                                    dataRow={dataRow}
-                                                    name={name}
-                                                />
-                                                :
-                                                subStatus && <div className={ ` ${colClasses} `}>
-                                                </div>
-                                            :
-                                            <div className={ ` ${colClasses} `}>
-                                                {active_status ?
-                                                    <>
-                                                        <a className={!url ||
-                                                        !displayIcon ?
-                                                            "default" :
-                                                            ""} target="_blank" href={url ||
-                                                        "#"}>
-                                                            <img src={displayIcon} alt=""/>
-                                                        </a>
-                                                        <p>
-                                                            {name && name.length >
-                                                            11 ?
-                                                                name.substring(0,
-                                                                    11) + "..."
-                                                                :
-                                                                name || "Link Name"
-                                                            }
-                                                        </p>
-                                                    </>
+                                        {{
+                                            "folder":
+                                                active_status && subStatus ?
+                                                    <Folder
+                                                        colClasses={colClasses}
+                                                        mainIndex={index}
+                                                        links={links}
+                                                        setRow={setRow}
+                                                        value={value}
+                                                        setValue={setValue}
+                                                        dataRow={dataRow}
+                                                        name={name}
+                                                        clickType={clickType}
+                                                        setClickType={setClickType}
+                                                    />
                                                     :
-                                                    ""
-                                                }
-                                            </div>
+                                                    subStatus && <div className={ ` ${colClasses} `}>
+                                                    </div>,
+
+                                            "standard":
+
+                                                <div className={ ` ${colClasses} `}>
+                                                    {active_status ?
+                                                        <>
+                                                            <a className={!url ||
+                                                            !displayIcon ?
+                                                                "default" :
+                                                                ""} target="_blank" href={url ||
+                                                            "#"}>
+                                                                <img src={displayIcon} alt=""/>
+                                                            </a>
+                                                            <p>
+                                                                {name?.length >
+                                                                11 ?
+                                                                    name.substring(0,
+                                                                        11) + "..."
+                                                                    :
+                                                                    name || "Link Name"
+                                                                }
+                                                            </p>
+                                                        </>
+                                                        :
+                                                        ""
+                                                    }
+                                                </div>
+                                        }[type]}
+
+                                        { (type === "mailchimp" || type === "shopify") &&
+
+                                            <FormIcon
+                                                colClasses={colClasses}
+                                                displayIcon={displayIcon}
+                                                name={name}
+                                                active_status={active_status}
+                                                dataRow={dataRow}
+                                                mainIndex={index}
+                                                setRow={setRow}
+                                                value={value}
+                                                setValue={setValue}
+                                                index={index}
+                                                setClickType={setClickType}
+                                                clickType={clickType}
+                                                type={type}
+                                            />
                                         }
 
-                                        {subStatus &&
-                                            <>
-                                                {(index + 1) % 4 === 0 || index + 1 ===
-                                                iconCount ?
-                                                    <div className={`my_row folder ${dataRow == row ? "open" : ""}`}>
-                                                        <div className="icons_wrap inner">
-                                                            {accordionLinks && dataRow == row ?
-                                                                accordionLinks.map((
-                                                                    innerLinkFull,
-                                                                    index) => {
-                                                                    return (
-                                                                        <AccordionLinks key={index} icons={innerLinkFull}/>
-                                                                    )
-                                                                })
-                                                                :
-                                                                ""
-                                                            }
-                                                        </div>
+                                        {subStatus && ( (index + 1) % 4 === 0 || index + 1 === iconCount) ?
+
+                                                <SubscribeForm
+                                                    dataRow={dataRow}
+                                                    row={row}
+                                                    mailchimpListId={mailchimpListId}
+                                                    clickType={clickType}
+                                                />
+                                            :
+                                            ""
+                                        }
+
+                                        {subStatus && ( (index + 1) % 4 === 0 || index + 1 === iconCount) ?
+
+                                            <StoreProducts
+                                                dataRow={dataRow}
+                                                row={row}
+                                                clickType={clickType}
+                                                storeProducts={storeProducts}
+                                            />
+                                            :
+                                            ""
+                                        }
+
+                                        {subStatus && ((index + 1) % 4 === 0 || index + 1 === iconCount) ?
+                                                <div className={`my_row folder ${dataRow == row && clickType === "folder" ? "open" : ""}`}>
+                                                    <div className="icons_wrap inner">
+                                                        {dataRow == row ?
+                                                            accordionLinks?.map((
+                                                                innerLinkFull,
+                                                                index) => {
+                                                                return (
+                                                                    <AccordionLinks key={index} icons={innerLinkFull}/>
+                                                                )
+                                                            })
+                                                            :
+                                                            ""
+                                                        }
                                                     </div>
-                                                    :
-                                                    ""
-                                                }
-                                            </>
+                                                </div>
+                                            :
+                                            ""
                                         }
                                     </React.Fragment>
                                 )

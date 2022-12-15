@@ -25,7 +25,6 @@ import {
 } from '../../../../../Services/LinksRequest';
 import {completedImageCrop, getIconPaths} from '../../../../../Services/ImageService';
 import EventBus from '../../../../../Utils/Bus';
-import { BiChevronLeft, BiChevronsLeft,  } from "react-icons/bi";
 import {
     LINKS_ACTIONS,
     ORIGINAL_LINKS_ACTIONS,
@@ -33,6 +32,14 @@ import {
     ORIG_FOLDER_LINKS_ACTIONS
 } from '../../../../../Services/Reducer';
 import FormBreadcrumbs from './FormBreadcrumbs';
+import InputTypeRadio from './InputTypeRadio';
+import FormTabs from './FormTabs';
+import {getMailchimpLists, getAllProducts} from '../../../../../Services/UserService';
+import MailchimpIntegration from './Mailchimp/MailchimpIntegration';
+import ShopifyIntegration from './Shopify/ShopifyIntegration';
+import {Loader} from '../../../../../Utils/Loader';
+import IntegrationType from './IntegrationType';
+import {isEmpty} from 'lodash';
 
 const NewForm = ({
                      setShowNewForm,
@@ -43,8 +50,17 @@ const NewForm = ({
                      setOptionText,
                      folderID,
                      setEditFolderID,
-                     subStatus
-                  }) => {
+                     subStatus,
+                     radioValue,
+                     setRadioValue,
+                     inputType,
+                     setInputType,
+                     setShowMessageAlertPopup,
+                     connectionError,
+                     showLoader,
+                     integrationType,
+                     setIntegrationType
+}) => {
 
     const { userLinks, dispatch } = useContext(UserLinksContext);
     const { originalArray, dispatchOrig } = useContext(OriginalArrayContext);
@@ -54,6 +70,7 @@ const NewForm = ({
     const  { pageSettings, setPageSettings } = useContext(PageContext);
     const iconRef = createRef(null)
     const [completedIconCrop, setCompletedIconCrop] = useState(null);
+    // if a custom icon is selected
     const [iconSelected, setIconSelected] = useState(false);
 
     //image cropping
@@ -63,10 +80,6 @@ const NewForm = ({
     const [crop, setCrop] = useState({ unit: '%', width: 30, aspect: 1 });
     const [customIcon, setCustomIcon] = useState(null);
 
-    const [radioValue, setRadioValue] = useState("standard");
-
-    const [inputType, setInputType] = useState("url");
-
     let iconArray = getIconPaths(iconPaths);
 
     const [currentLink, setCurrentLink] = useState (() => ({
@@ -75,10 +88,24 @@ const NewForm = ({
         url: null,
         email: null,
         phone: null,
+        mailchimp_list_id: null,
         type: null
     }))
 
     const [charactersLeft, setCharactersLeft] = useState();
+    const [lists, setLists] = useState([]);
+    const [allProducts, setAllProducts] = useState([]);
+    const [selectedProducts, setSelectedProducts] = useState([]);
+    const [displayAllProducts, setDisplayAllProducts] = useState(false);
+
+    useEffect(() => {
+        if (inputType === "mailchimp") {
+            fetchLists()
+        }
+        if (inputType === "shopify") {
+            fetchStore()
+        }
+    }, [inputType]);
 
     useEffect(() => {
         if(currentLink.name) {
@@ -89,7 +116,78 @@ const NewForm = ({
 
     },[charactersLeft])
 
+    useEffect(() => {
+        if (!customIcon) {
+            return
+        }
+        const objectUrl = URL.createObjectURL(customIcon)
+        // free memory when ever this component is unmounted
+        return () => URL.revokeObjectURL(objectUrl)
+    }, [customIcon]);
+
+    useEffect(() => {
+        if (!completedIconCrop || !previewCanvasRef.current || !imgRef.current) {
+            return;
+        }
+
+        completedImageCrop(completedIconCrop, imgRef, previewCanvasRef);
+
+    }, [completedIconCrop]);
+
+    const fetchLists = () => {
+
+        setShowLoader({show: true, icon: "loading", position: "absolute"});
+
+        getMailchimpLists().then(
+            (data) => {
+                if (data.success) {
+                    !isEmpty(data.lists) && setLists(data.lists);
+                    setShowLoader({show: false, icon: "", position: ""});
+                }
+            }
+        )
+    }
+
+    const fetchStore = () => {
+
+        setShowLoader({show: true, icon: "loading", position: "absolute"});
+
+        getAllProducts().then(
+            (data) => {
+                if (data.success) {
+                    !isEmpty(data.products) && setAllProducts(data.products)
+                    setShowLoader({show: false, icon: "", position: ""});
+                }
+            }
+        )
+    }
+
+    const handleOnClick = e => {
+        const type = e.target.dataset.type;
+
+        if (!subStatus) {
+
+            let text;
+            if (type === "custom" ) {
+                text = "add custom icons"
+            } else if (type === "integration") {
+                text = "add an integration"
+            } else {
+                text = "change link name"
+            }
+
+            setShowUpgradePopup(true);
+            setOptionText(text);
+        }
+
+        if(folderID) {
+            setShowMessageAlertPopup(true);
+            setOptionText("Integrations are currently not allowed in a folder.");
+        }
+    }
+
     const [input, setInput] = useState("");
+
     const handleChange = (e) => {
         e.preventDefault();
         setInput(e.target.value);
@@ -125,189 +223,213 @@ const NewForm = ({
     }, []);
 
 
-    useEffect(() => {
-        if (!customIcon) {
-            return
-        }
-        const objectUrl = URL.createObjectURL(customIcon)
-        // free memory when ever this component is unmounted
-        return () => URL.revokeObjectURL(objectUrl)
-    }, [customIcon]);
-
-    useEffect(() => {
-        if (!completedIconCrop || !previewCanvasRef.current || !imgRef.current) {
-            return;
-        }
-
-        completedImageCrop(completedIconCrop, imgRef, previewCanvasRef);
-
-    }, [completedIconCrop]);
-
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (iconSelected) {
+        if (checkForMailchimpForm() === undefined || inputType !== "mailchimp") {
 
-            previewCanvasRef.current.toBlob(
-                (blob) => {
-                    const reader = new FileReader();
-                    reader.readAsDataURL(blob)
-                    reader.onloadend = () => {
-                        dataURLtoFile(reader.result, 'cropped.jpg');
-                    }
-                },
-                'image/png',
-                1
-            );
+            if (iconSelected) {
 
-        } else {
-            let URL = currentLink.url;
-            let data;
-
-            if (URL && currentLink.name) {
-                data = checkURL(URL, currentLink.name, null, !subStatus);
-            } else {
-                data = {
-                    success: true,
-                    url: URL
-                }
-            }
-
-            if (data["success"]) {
-
-                URL = data["url"];
-                let packets;
-
-                switch (inputType) {
-                    case "url":
-                        packets = {
-                            name: currentLink.name,
-                            url: URL,
-                            icon: currentLink.icon,
-                            page_id: pageSettings["id"],
-                            folder_id: folderID,
-                        };
-                        break;
-                    case "email":
-                        packets = {
-                            name: currentLink.name,
-                            email: currentLink.email,
-                            icon: currentLink.icon,
-                            page_id: pageSettings["id"],
-                            folder_id: folderID,
-                        };
-                        break;
-                    case "phone":
-                        packets = {
-                            name: currentLink.name,
-                            phone: currentLink.phone,
-                            icon: currentLink.icon,
-                            page_id: pageSettings["id"],
-                            folder_id: folderID,
-                        };
-                        break;
-                }
-
-                addLink(packets)
-                .then((data) => {
-
-
-                    if (data.success) {
-
-                        if(folderID) {
-                            let newFolderLinks = [...folderLinks];
-                            let newOriginalFolderLinks = [...originalFolderLinks];
-
-                            const newLinkObject = {
-                                id: data.link_id,
-                                folder_id: folderID,
-                                name: currentLink.name,
-                                url: URL,
-                                email: currentLink.email,
-                                phone: currentLink.phone,
-                                icon: currentLink.icon,
-                                position: data.position,
-                                active_status: true,
-                            }
-
-                            newFolderLinks = newFolderLinks.concat(newLinkObject);
-
-                            dispatchOrigFolderLinks({
-                                type: ORIG_FOLDER_LINKS_ACTIONS.SET_ORIG_FOLDER_LINKS,
-                                payload: {
-                                    links: newOriginalFolderLinks.concat(newLinkObject)
-                                }})
-                            dispatchFolderLinks({
-                                type: FOLDER_LINKS_ACTIONS.SET_FOLDER_LINKS,
-                                payload: {
-                                    links: newFolderLinks
-                                }});
-
-                            let folderActive = null;
-                            if (newFolderLinks.length === 1) {
-                                folderActive = true;
-                                const url = "/dashboard/folder/status/";
-                                const packets = {
-                                    active_status: folderActive,
-                                };
-
-                                updateLinkStatus(packets, folderID, url);
-                            }
-
-                            dispatch({
-                                type: LINKS_ACTIONS.ADD_NEW_IN_FOLDER,
-                                payload: {
-                                    newLinkObject: newLinkObject,
-                                    folderActive: folderActive,
-                                    folderID: folderID
-                                }})
-
-                            dispatchOrig({
-                                type: ORIGINAL_LINKS_ACTIONS.ADD_NEW_IN_FOLDER,
-                                payload: {
-                                    newLinkObject: newLinkObject,
-                                    folderActive: folderActive,
-                                    folderID: folderID
-                                }})
-
-                            setShowNewForm(false);
-
-                        } else {
-                            let newLinks = [...userLinks];
-                            let originalLinks = [...originalArray];
-
-                            const newLinkObject = {
-                                id: data.link_id,
-                                name: currentLink.name,
-                                url: URL,
-                                email: currentLink.email,
-                                phone: currentLink.phone,
-                                icon: currentLink.icon,
-                                position: data.position,
-                                active_status: true,
-                            }
-
-                            dispatchOrig({
-                                type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS,
-                                payload: {
-                                    links: originalLinks.concat(newLinkObject)
-                                }})
-                            dispatch({
-                                type: LINKS_ACTIONS.SET_LINKS,
-                                payload: {
-                                    links: newLinks.concat(newLinkObject)
-                                }})
-
-                            setShowNewForm(false);
+                previewCanvasRef.current.toBlob(
+                    (blob) => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(blob)
+                        reader.onloadend = () => {
+                            dataURLtoFile(reader.result, 'cropped.jpg');
                         }
+                    },
+                    'image/png',
+                    1
+                );
 
+            } else {
+                let URL = currentLink.url;
+                let data;
 
+                if (URL && currentLink.name) {
+                    data = checkURL(URL, currentLink.name, null,
+                        !subStatus);
+                } else {
+                    data = {
+                        success: true,
+                        url: URL
                     }
-                })
+                }
 
+                if (data["success"]) {
+
+                    URL = data["url"];
+                    let packets;
+
+                    switch (inputType) {
+                        case "url":
+                            packets = {
+                                name: currentLink.name,
+                                url: URL,
+                                icon: currentLink.icon,
+                                page_id: pageSettings["id"],
+                                folder_id: folderID,
+                                type: currentLink.type,
+                            };
+                            break;
+                        case "email":
+                            packets = {
+                                name: currentLink.name,
+                                email: currentLink.email,
+                                icon: currentLink.icon,
+                                page_id: pageSettings["id"],
+                                folder_id: folderID,
+                                type: currentLink.type,
+                            };
+                            break;
+                        case "phone":
+                            packets = {
+                                name: currentLink.name,
+                                phone: currentLink.phone,
+                                icon: currentLink.icon,
+                                page_id: pageSettings["id"],
+                                folder_id: folderID,
+                                type: currentLink.type,
+                            };
+                            break;
+                        case "mailchimp":
+                            packets = {
+                                name: currentLink.name,
+                                mailchimp_list_id: currentLink.mailchimp_list_id,
+                                icon: currentLink.icon,
+                                page_id: pageSettings["id"],
+                                folder_id: folderID,
+                                type: currentLink.type,
+                            };
+                            break;
+                        case "shopify":
+                            packets = {
+                                name: currentLink.name,
+                                shopify_products: currentLink.shopify_products,
+                                icon: currentLink.icon,
+                                page_id: pageSettings["id"],
+                                folder_id: folderID,
+                                type: currentLink.type,
+                            };
+                            break;
+                    }
+
+                    addLink(packets).then((data) => {
+
+                        if (data.success) {
+
+                            if (folderID) {
+                                let newFolderLinks = [...folderLinks];
+                                let newOriginalFolderLinks = [...originalFolderLinks];
+
+                                const newLinkObject = {
+                                    id: data.link_id,
+                                    folder_id: folderID,
+                                    name: currentLink.name,
+                                    url: URL,
+                                    email: currentLink.email,
+                                    phone: currentLink.phone,
+                                    type: currentLink.type,
+                                    mailchimp_list_id: currentLink.mailchimp_list_id,
+                                    shopify_products: currentLink.shopify_products,
+                                    icon: currentLink.icon,
+                                    position: data.position,
+                                    active_status: true
+                                }
+
+                                newFolderLinks = newFolderLinks.concat(
+                                    newLinkObject);
+
+                                dispatchOrigFolderLinks({
+                                    type: ORIG_FOLDER_LINKS_ACTIONS.SET_ORIG_FOLDER_LINKS,
+                                    payload: {
+                                        links: newOriginalFolderLinks.concat(
+                                            newLinkObject)
+                                    }
+                                })
+                                dispatchFolderLinks({
+                                    type: FOLDER_LINKS_ACTIONS.SET_FOLDER_LINKS,
+                                    payload: {
+                                        links: newFolderLinks
+                                    }
+                                });
+
+                                let folderActive = null;
+                                if (newFolderLinks.length === 1) {
+                                    folderActive = true;
+                                    const url = "/dashboard/folder/status/";
+                                    const packets = {
+                                        active_status: folderActive,
+                                    };
+
+                                    updateLinkStatus(packets, folderID,
+                                        url);
+                                }
+
+                                dispatch({
+                                    type: LINKS_ACTIONS.ADD_NEW_IN_FOLDER,
+                                    payload: {
+                                        newLinkObject: newLinkObject,
+                                        folderActive: folderActive,
+                                        folderID: folderID
+                                    }
+                                })
+
+                                dispatchOrig({
+                                    type: ORIGINAL_LINKS_ACTIONS.ADD_NEW_IN_FOLDER,
+                                    payload: {
+                                        newLinkObject: newLinkObject,
+                                        folderActive: folderActive,
+                                        folderID: folderID
+                                    }
+                                })
+
+                                setShowNewForm(false);
+
+                            } else {
+                                let newLinks = [...userLinks];
+                                let originalLinks = [...originalArray];
+
+                                const newLinkObject = {
+                                    id: data.link_id,
+                                    name: currentLink.name,
+                                    url: URL,
+                                    email: currentLink.email,
+                                    phone: currentLink.phone,
+                                    type: currentLink.type,
+                                    mailchimp_list_id: currentLink.mailchimp_list_id,
+                                    shopify_products: currentLink.shopify_products,
+                                    icon: currentLink.icon,
+                                    position: data.position,
+                                    active_status: true
+                                }
+
+                                dispatchOrig({
+                                    type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS,
+                                    payload: {
+                                        links: originalLinks.concat(
+                                            newLinkObject)
+                                    }
+                                })
+                                dispatch({
+                                    type: LINKS_ACTIONS.SET_LINKS,
+                                    payload: {
+                                        links: newLinks.concat(
+                                            newLinkObject)
+                                    }
+                                })
+
+                                setShowNewForm(false);
+                            }
+
+                        }
+                    })
+                }
             }
+        } else {
+            setShowMessageAlertPopup(true);
+            setOptionText("Only 1 Mailchimp subscribe form is allowed per page.")
         }
-
     };
 
     const dataURLtoFile = (dataurl, filename) => {
@@ -326,9 +448,9 @@ const NewForm = ({
 
     const submitWithCustomIcon = (image) => {
 
-        if(currentLink.url && currentLink.name) {
+        if(currentLink.name && (currentLink.url || currentLink.email || currentLink.phone || currentLink.mailchimp_list_id || !isEmpty(currentLink.shopify_products)) ) {
 
-            setShowLoader(true)
+            setShowLoader({show: true, icon: "upload", position: "fixed"})
             window.Vapor.store(
                 image,
                 {
@@ -342,7 +464,7 @@ const NewForm = ({
             ).then(response => {
 
                 let URL = currentLink.url;
-                if (URL && currentLink.name) {
+                if (URL) {
                     URL = checkURL(currentLink.url, null, true);
                 }
 
@@ -357,6 +479,7 @@ const NewForm = ({
                             page_id: pageSettings["id"],
                             ext: response.extension,
                             folder_id: folderID,
+                            type: currentLink.type,
                         };
                         break;
                     case "email":
@@ -367,6 +490,7 @@ const NewForm = ({
                             page_id: pageSettings["id"],
                             ext: response.extension,
                             folder_id: folderID,
+                            type: currentLink.type,
                         };
                         break;
                     case "phone":
@@ -377,12 +501,24 @@ const NewForm = ({
                             page_id: pageSettings["id"],
                             ext: response.extension,
                             folder_id: folderID,
+                            type: currentLink.type,
+                        };
+                        break;
+                    case "mailchimp":
+                        packets = {
+                            name: currentLink.name,
+                            mailchimp_list_id: currentLink.mailchimp_list_id,
+                            icon: response.key,
+                            page_id: pageSettings["id"],
+                            ext: response.extension,
+                            folder_id: folderID,
+                            type: currentLink.type,
                         };
                         break;
                 }
 
                 addLink(packets).then((data) => {
-                    setShowLoader(false);
+                    setShowLoader({show: false, icon: null});
 
                     if (data.success) {
 
@@ -397,9 +533,12 @@ const NewForm = ({
                                 url: URL,
                                 email: currentLink.email,
                                 phone: currentLink.phone,
+                                mailchimp_list_id: currentLink.mailchimp_list_id,
+                                shopify_products: currentLink.shopify_products,
+                                type: currentLink.type,
                                 icon: data.icon_path,
                                 position: data.position,
-                                active_status: true,
+                                active_status: true
                             }
 
                             let folderActive = null;
@@ -452,9 +591,12 @@ const NewForm = ({
                                 url: URL,
                                 email: currentLink.email,
                                 phone: currentLink.phone,
+                                type: currentLink.type,
+                                mailchimp_list_id: currentLink.mailchimp_list_id,
+                                shopify_products: currentLink.shopify_products,
                                 icon: data.icon_path,
                                 position: data.position,
-                                active_status: true,
+                                active_status: true
                             }
 
                             dispatchOrig({
@@ -483,22 +625,7 @@ const NewForm = ({
                 console.error(error);
             });
         } else {
-            EventBus.dispatch("error", { message: "Icon URL and Name is Required" });
-        }
-    }
-
-    const handleOnClick = e => {
-        if (!subStatus) {
-
-            let text;
-            if (e.target.dataset.type === "custom" ) {
-                text = "add custom icons"
-            } else {
-                text = "change link name"
-            }
-
-            setShowUpgradePopup(true);
-            setOptionText(text);
+            EventBus.dispatch("error", { message: "Icon Destination and Name is Required" });
         }
     }
 
@@ -514,6 +641,12 @@ const NewForm = ({
         }
     )
 
+    const checkForMailchimpForm = () => {
+        return userLinks.find(function(e) {
+              return e.mailchimp_list_id  != null
+        })
+    }
+
     return (
         <>
             <div className="my_row icon_breadcrumb" id="scrollTo">
@@ -527,154 +660,232 @@ const NewForm = ({
 
                 />
             </div>
-            <div className="edit_form link my_row" key={999}>
-                <form onSubmit={handleSubmit} className="link_form">
-                    <div className="row">
-                        <div className="col-12">
-                            {radioValue === "custom" ?
-                                <div className={!iconSelected ?
-                                    "crop_section hidden" :
-                                    "crop_section"}>
-                                    {iconSelected ? <p>Crop Icon</p> : ""}
-                                    <ReactCrop
-                                        src={upImg}
-                                        onImageLoaded={onLoad}
-                                        crop={crop}
-                                        onChange={(c) => setCrop(c)}
-                                        onComplete={(c) => setCompletedIconCrop(c)}
+            <div className="edit_form link my_row">
+                <div className="tab_content_wrap my_row">
+                    <div className="tabs">
+                        <FormTabs
+                            radioValue={radioValue}
+                            setRadioValue={setRadioValue}
+                            subStatus={subStatus}
+                            inputType={inputType}
+                            setInputType={setInputType}
+                            setCurrentLink={setCurrentLink}
+                            handleOnClick={handleOnClick}
+                            folderID={folderID}
+                        />
+                    </div>
+
+                    <div className="inner_wrap">
+
+                        { (showLoader.show && showLoader.position === "absolute") &&
+                            <Loader
+                                showLoader={showLoader}
+                            />
+                        }
+
+
+                        {radioValue === "integration" &&
+
+                            <>
+                                <IntegrationType
+                                    integrationType={integrationType}
+                                    setIntegrationType={setIntegrationType}
+                                    setInputType={setInputType}
+                                />
+
+                                {(integrationType === "mailchimp" && isEmpty(lists)) &&
+                                    <MailchimpIntegration
+                                        connectionError={connectionError}
+                                        inputType={inputType}
                                     />
-                                    <div className="icon_col">
-                                        {iconSelected ? <p>Icon Preview</p> : ""}
-                                        <canvas
-                                            ref={iconRef}
-                                            // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
-                                            style={{
-                                                backgroundImage: iconRef,
-                                                backgroundSize: `cover`,
-                                                backgroundRepeat: `no-repeat`,
-                                                width: completedIconCrop ?
-                                                    `100%` :
-                                                    0,
-                                                height: completedIconCrop ?
-                                                    `100%` :
-                                                    0,
-                                                borderRadius: `20px`,
-                                            }}
+                                }
+
+                                {(integrationType === "shopify" && isEmpty(allProducts)) &&
+                                    <ShopifyIntegration
+                                        connectionError={connectionError}
+                                        inputType={inputType}
+                                    />
+                                }
+                            </>
+
+                        }
+
+                        { ( (integrationType === "mailchimp" && !isEmpty(lists)) || (integrationType === "shopify" && !isEmpty(allProducts) ) || radioValue !== "integration") &&
+                            <form onSubmit={handleSubmit} className="link_form">
+                                <div className="row">
+                                    <div className="col-12">
+                                        {(radioValue === "custom" || radioValue === "integration") &&
+                                            <div className={!iconSelected ?
+                                                "crop_section hidden" :
+                                                "crop_section"}>
+                                                {iconSelected &&
+                                                    <p>Crop Icon</p>
+                                                }
+                                                <ReactCrop
+                                                    src={upImg}
+                                                    onImageLoaded={onLoad}
+                                                    crop={crop}
+                                                    onChange={(c) => setCrop(c)}
+                                                    onComplete={(c) => setCompletedIconCrop(
+                                                        c)}
+                                                />
+                                                <div className="icon_col">
+                                                    {iconSelected &&
+                                                        <p>Icon Preview</p>
+                                                    }
+                                                    <canvas
+                                                        ref={iconRef}
+                                                        // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
+                                                        style={{
+                                                            backgroundImage: iconRef,
+                                                            backgroundSize: `cover`,
+                                                            backgroundRepeat: `no-repeat`,
+                                                            width: completedIconCrop ?
+                                                                `100%` :
+                                                                0,
+                                                            height: completedIconCrop ?
+                                                                `100%` :
+                                                                0,
+                                                            borderRadius: `20px`,
+                                                        }}
+                                                    />
+                                                </div>
+                                            </div>
+                                        }
+                                        {!displayAllProducts &&
+                                            <div className="icon_row">
+                                                <div className="icon_box">
+
+                                                    <div className="uploader">
+                                                        {(radioValue === "custom" ||
+                                                            radioValue ===
+                                                            "integration") ?
+
+                                                            <>
+                                                                <label htmlFor="custom_icon_upload" className="custom text-uppercase button blue">
+                                                                    Upload Image
+                                                                </label>
+                                                                <input id="custom_icon_upload" type="file" className="custom" onChange={selectCustomIcon} accept="image/png, image/jpeg, image/jpg, image/gif"/>
+                                                                <div className="my_row info_text file_types text-center mb-2">
+                                                                    <p className="m-0 char_count w-100 ">Allowed File Types: <span>png, jpg, jpeg, gif</span>
+                                                                    </p>
+                                                                </div>
+                                                            </>
+                                                            :
+                                                            <>
+                                                                <input name="search" type="text" placeholder="Search Icons" onChange={handleChange} defaultValue={input}/>
+                                                                <div className="my_row info_text file_types text-center mb-2 text-center">
+                                                                    <a href="mailto:help@link.pro" className="mx-auto m-0 char_count">Don't See Your Icon? Contact Us!</a>
+                                                                </div>
+                                                            </>
+                                                        }
+                                                    </div>
+
+                                                    <IconList
+                                                        currentLink={currentLink}
+                                                        setCurrentLink={setCurrentLink}
+                                                        iconArray={iconArray}
+                                                        radioValue={radioValue}
+                                                        setCharactersLeft={setCharactersLeft}
+                                                        customIconArray={customIconArray}
+                                                        inputType={inputType}
+                                                        setInputType={setInputType}
+                                                        formType="new"
+                                                    />
+
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                                {!displayAllProducts &&
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <div className="input_wrap">
+                                                <input
+                                                    /*maxLength="13"*/
+                                                    className={!subStatus ? "disabled" : ""}
+                                                    name="name"
+                                                    type="text"
+                                                    value={currentLink.name ||
+                                                        ""}
+                                                    placeholder="Link Name"
+                                                    onChange={(e) => handleLinkName(
+                                                        e)}
+                                                    disabled={!subStatus}
+                                                />
+                                                {!subStatus &&
+                                                    <span className="disabled_wrap"
+                                                          data-type="name"
+                                                          onClick={(e) => handleOnClick(e)}>
+                                                    </span>
+                                                }
+                                            </div>
+                                            <div className="my_row info_text title">
+                                                <p className="char_max">Max 11 Characters Shown</p>
+                                                <p className="char_count">
+                                                    {charactersLeft < 0 ?
+                                                        <span className="over">Only 11 Characters Will Be Shown</span>
+                                                        :
+                                                        "Characters Left: " +
+                                                        charactersLeft
+                                                    }
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                {radioValue !== "integration" &&
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <InputTypeRadio
+                                                inputType={inputType}
+                                                setInputType={setInputType}
+                                                setCurrentLink={setCurrentLink}
+                                            />
+                                        </div>
+                                    </div>
+                                }
+                                <div className="row">
+                                    <div className="col-12">
+                                        <InputComponent
+                                            inputType={inputType}
+                                            currentLink={currentLink}
+                                            setCurrentLink={setCurrentLink}
+                                            lists={lists}
+                                            setLists={setLists}
+                                            allProducts={allProducts}
+                                            selectedProducts={selectedProducts}
+                                            setSelectedProducts={setSelectedProducts}
+                                            displayAllProducts={displayAllProducts}
+                                            setDisplayAllProducts={setDisplayAllProducts}
                                         />
                                     </div>
                                 </div>
-                                :
-                                ""
-                            }
-                            <div className="icon_row">
-                                <div className="icon_box">
-                                    <div className="my_row top">
-                                        <div className={radioValue === "standard" ? "radio_wrap active" : "radio_wrap" }>
-                                            <label htmlFor="standard_radio">
-                                                <input id="standard_radio" type="radio" value="standard" name="icon_type"
-                                                       checked={radioValue === "standard"}
-                                                       onChange={(e) => {setRadioValue(e.target.value) }}/>
-                                                Standard Icons
-                                            </label>
-                                        </div>
-                                        <div className={radioValue === "custom" ? "radio_wrap active" : "radio_wrap" }>
-                                            <label htmlFor="custom_radio">
-                                                <input id="custom_radio" type="radio" value="custom" name="icon_type"
-                                                       onChange={(e) => { setRadioValue(e.target.value) }}
-                                                       disabled={!subStatus}
-                                                       checked={radioValue === "custom"}
-                                                />
-                                                Custom Icons
-                                            </label>
-                                            {!subStatus && <span className="disabled_wrap" data-type="custom" onClick={(e) => handleOnClick(e)} />}
+                                {!displayAllProducts &&
+                                    <div className="row">
+                                        <div className="col-12 button_row">
+                                            <button className="button green" type="submit">
+                                                Save
+                                            </button>
+                                            <a href="#" className="button transparent gray" onClick={(e) => {
+                                                e.preventDefault();
+                                                setShowNewForm(false);
+                                                setInputType(null);
+                                                document.getElementById(
+                                                    'left_col_wrap').style.minHeight = "unset";
+                                            }}>
+                                                Cancel
+                                            </a>
+                                            <a className="help_link" href="mailto:help@link.pro">Need Help?</a>
                                         </div>
                                     </div>
+                                }
+                            </form>
+                        }
 
-                                    {radioValue === "custom" ?
-                                        <div className="uploader">
-                                            <label htmlFor="custom_icon_upload" className="custom text-uppercase button blue">
-                                                Upload Image
-                                            </label>
-                                            <input id="custom_icon_upload" type="file" className="custom" onChange={selectCustomIcon} accept="image/png, image/jpeg, image/jpg, image/gif"/>
-                                            <div className="my_row info_text file_types text-center mb-2">
-                                                <p className="m-0 char_count w-100 ">Allowed File Types: <span>png, jpg, jpeg, gif</span></p>
-                                            </div>
-                                        </div>
-                                        :
-                                        <div className="uploader">
-                                            <input name="search" type="text" placeholder="Search Icons" onChange={handleChange} defaultValue={input}/>
-                                            <div className="my_row info_text file_types text-center mb-2 text-center">
-                                                <a href="mailto:help@link.pro" className="mx-auto m-0 char_count">Don't See Your Icon? Contact Us!</a>
-                                            </div>
-                                        </div>
-                                    }
-
-                                    <IconList
-                                        currentLink={currentLink}
-                                        setCurrentLink={setCurrentLink}
-                                        iconArray={iconArray}
-                                        radioValue={radioValue}
-                                        setCharactersLeft={setCharactersLeft}
-                                        customIconArray={customIconArray}
-                                        setInputType={setInputType}
-                                    />
-
-                                </div>
-                            </div>
-                        </div>
                     </div>
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="input_wrap">
-                                <input
-                                    /*maxLength="13"*/
-                                    name="name"
-                                    type="text"
-                                    value={currentLink.name || ""}
-                                    placeholder="Link Name"
-                                    onChange={(e) => handleLinkName(e)}
-                                    disabled={!subStatus}
-                                    className={!subStatus ? "disabled" : ""}
-                                />
-                                {!subStatus && <span className="disabled_wrap" data-type="name" onClick={(e) => handleOnClick(e)}> </span>}
-                            </div>
-                            <div className="my_row info_text title">
-                                <p className="char_max">Max 11 Characters Shown</p>
-                                <p className="char_count">
-                                    {charactersLeft < 0 ?
-                                        <span className="over">Only 11 Characters Will Be Shown</span>
-                                        :
-                                        "Characters Left: " + charactersLeft
-                                    }
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-12">
-                            <InputComponent
-                                inputType={inputType}
-                                currentLink={currentLink}
-                                setCurrentLink={setCurrentLink}
-                            />
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-12 button_row">
-                            <button className="button green" type="submit">
-                                Save
-                            </button>
-                            <a href="resources/js/Pages/Dashboard/Components/Link/Forms/NewForm#" className="button transparent gray" onClick={(e) => {
-                                e.preventDefault();
-                                setShowNewForm(false);
-                                document.getElementById('left_col_wrap').style.minHeight = "unset";
-                            }}>
-                                Cancel
-                            </a>
-                            <a className="help_link" href="mailto:help@link.pro">Need Help?</a>
-                        </div>
-                    </div>
-                </form>
+                </div>
             </div>
         </>
     );

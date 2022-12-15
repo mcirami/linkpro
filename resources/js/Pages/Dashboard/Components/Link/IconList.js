@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {icons} from '../../../../Services/IconObjects';
 
 const IconList = ({
@@ -8,10 +8,14 @@ const IconList = ({
                       radioValue,
                       setCharactersLeft,
                       customIconArray,
-                      setInputType
+                      inputType,
+                      setInputType,
+                      editID
 }) => {
 
-    const selectIcon = (e, source) => {
+    const [isDefaultIcon, setIsDefaultIcon] = useState(false);
+    const selectIcon = useCallback((e, source) => {
+        e.preventDefault();
         const el = e.target;
 
         if(!el.classList.contains('active')) {
@@ -23,7 +27,7 @@ const IconList = ({
                 name = el.dataset.name;
                 setCharactersLeft(11 - name.length);
 
-                if(name.toLowerCase().includes("mail") || name.toLowerCase().includes("yahoo") || name.toLowerCase().includes("outlook") ) {
+                if((name.toLowerCase().includes("mail") && !name.toLowerCase().includes("mailchimp") )|| name.toLowerCase().includes("yahoo") || name.toLowerCase().includes("outlook") ) {
                     setInputType("email");
                 } else if (name.toLowerCase() === "phone" || name.toLowerCase() === "facetime") {
                     setInputType("phone");
@@ -35,57 +39,125 @@ const IconList = ({
                 name = currentLink.name;
             }
 
-            let url = "";
+            let urlPrefix = "";
             let icon = icons.find(icon => icon.name === name);
-            if (icon && icon.prefix) {
-                url = icon.prefix;
+            if (icon?.prefix) {
+                urlPrefix = icon.prefix;
             }
 
             setCurrentLink(prevState => ({
                 ...prevState,
                 name: name,
                 icon: source,
-                url: url
+                url: urlPrefix,
+                type: "standard"
             }))
 
         } else {
             el.classList.remove('active');
         }
-    }
+    });
+
+    useEffect(() => {
+
+        if (radioValue === "integration" && !editID) {
+            setIsDefaultIcon(true)
+
+            if (inputType === "mailchimp") {
+                setCurrentLink(prevState => ({
+                    ...prevState,
+                    icon: "https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png",
+                    type: "mailchimp"
+                }))
+            }
+
+            if (inputType === "shopify") {
+                setCurrentLink(prevState => ({
+                    ...prevState,
+                    icon: "https://lp-production-images.s3.us-east-2.amazonaws.com/icons/Shopify.png",
+                    type: "shopify"
+                }))
+            }
+        }
+
+        if (editID) {
+
+        }
+
+    },[radioValue])
 
     return (
 
-        <div className="icons_wrap my_row">
-            {
-                radioValue === "custom" ?
-                    customIconArray &&
-                    customIconArray.map((iconPath, index) => {
-                        const newPath = iconPath.replace("public",
-                            "/storage");
+        <>
+            {{
+                "custom" :
 
-                        return (
-                            <div key={index} className="icon_col">
-                                <img alt="" className="img-fluid icon_image" src={newPath} onClick={(e) => {
-                                    e.preventDefault();
-                                    selectIcon(e, newPath)
-                                }}/>
-                            </div>
-                        )
+                    <div className="icons_wrap my_row">
+                        {customIconArray?.map((iconPath, index) => {
+                            const newPath = iconPath?.replace("public",
+                                "/storage");
 
-                    })
+                            return (
+                                <div key={index} className="icon_col">
+                                    <img alt="" className="img-fluid icon_image" src={newPath} onClick={(e) => {
+                                        e.preventDefault();
+                                        selectIcon(e, newPath)
+                                    }}/>
+                                </div>
+                            )
 
-                :
+                        })}
+                    </div>,
 
-                    iconArray.map((icon, index) => {
+                "integration" :
+
+                <div className="my_row icons_wrap outer integration_icons">
+
+                    <div className="icon_col default_icon">
+                        <p>Default Icon</p>
+                        <img alt=""
+                             className={`
+                             ${isDefaultIcon ? "active img-fluid icon_image" : "img-fluid icon_image"}`}
+                             src={inputType === "mailchimp" ? "https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png" : "https://lp-production-images.s3.us-east-2.amazonaws.com/icons/Shopify.png"}
+                             onClick={(e) => {
+                                selectIcon(e, e.target.src)
+                            }}/>
+                    </div>
+                    <div className="custom_icons">
+                        <p>Custom Icons</p>
+                        <div className="icons_wrap inner">
+                            {customIconArray?.map((iconPath, index) => {
+                                const newPath = iconPath.replace("public",
+                                    "/storage");
+
+                                return (
+                                    <div key={index} className="icon_col">
+                                        <img alt=""
+                                             className="img-fluid icon_image"
+                                             src={newPath}
+                                             onClick={(e) => {
+                                                 selectIcon(e, newPath)
+                                            }}/>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </div>
+                </div>,
+
+                "standard" :
+
+                <div className="icons_wrap my_row">
+                    {iconArray.map((icon, index) => {
 
                         return (
                             <div key={index} className="icon_col">
                                 <img
                                     className="img-fluid icon_image"
-                                    src={icon.path} onClick={(e) => {
-                                                e.preventDefault();
-                                                selectIcon(e, icon.path)
-                                            }}
+                                    src={icon.path}
+                                    onClick={(e) => {
+                                        selectIcon(e, icon.path)
+                                    }}
                                     data-name={icon.name}
                                     alt=""
                                 />
@@ -96,10 +168,10 @@ const IconList = ({
                                 </div>
                             </div>
                         )
-                    })
-
-            }
-        </div>
+                    })}
+                </div>
+            }[radioValue]}
+        </>
 
 
     );

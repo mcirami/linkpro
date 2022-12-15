@@ -6,7 +6,7 @@ import React, {
     useState,
     useContext,
 } from 'react';
-import {MdDeleteForever, MdDragHandle, MdChevronLeft} from 'react-icons/md';
+import {MdDragHandle} from 'react-icons/md';
 import Switch from "react-switch";
 import {
     UserLinksContext,

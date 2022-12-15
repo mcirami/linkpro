@@ -31,6 +31,9 @@ class User extends VoyagerUser
         'pm_type',
         'braintree_id',
         'email_subscription',
+        'mailchimp_server',
+        'mailchimp_token',
+        'mailchimp_lists'
     ];
 
     /**
@@ -78,5 +81,9 @@ class User extends VoyagerUser
 
     public function referrals(){
         return $this->hasMany(Referral::class);
+    }
+
+    public function ShopifyStores() {
+        return $this->hasMany(ShopifyStore::class);
     }
 }

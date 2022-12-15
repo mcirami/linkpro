@@ -58,9 +58,9 @@ const CreatePageForm = () => {
                     <input name="name"
                            type="text"
                            placeholder="Link Name"
-                           onChange={checkPageName}
-                           onKeyDown={event => {
-                               if (event.key === 'Enter') {
+                           onChange={ checkPageName }
+                           onKeyDown={ event => {
+                               if(event.key === 'Enter') {
                                    handleSubmit(event);
                                }
                            }}
