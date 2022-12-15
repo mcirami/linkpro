@@ -4,21 +4,13 @@ const SectionImage = ({
                           nodesRef,
                           completedCrop,
                           fileNames,
-                          isFound,
-                          setIsFound,
                           elementName,
                           imgUrl,
                           type
 
 }) => {
 
-
-    console.log(nodesRef.current[elementName]);
     const [sectionImageStyle, setSectionImageStyle] = useState(null);
-
-    useEffect(() => {
-        setIsFound(checkFound())
-    },[fileNames])
 
     const checkFound = () => {
         const isFound = fileNames?.find(el => {

@@ -43,9 +43,9 @@
     }
 
     .content_wrap {
+        @include boxShadowRight;
         background: $white;
         padding: 40px 0;
-        border: 1px solid $borderGray;
         border-bottom-right-radius: 20px;
         -webkit-border-bottom-right-radius: 20px;
         -moz-border-radius-bottomright: 20px;

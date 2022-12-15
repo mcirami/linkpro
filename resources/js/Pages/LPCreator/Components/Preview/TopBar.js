@@ -5,14 +5,8 @@ const TopBar = ({
                     completedCrop,
                     fileNames,
                     colors,
-                    textArray,
-                    isFound,
-                    setIsFound
+                    textArray
 }) => {
-
-    useEffect(() => {
-        setIsFound(checkFound())
-    },[fileNames])
 
     const checkFound = () => {
         const isFound = fileNames?.find(el => {

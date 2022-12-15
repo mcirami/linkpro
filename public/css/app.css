@@ -11846,13 +11846,13 @@ button {
   margin-bottom: 0;
 }
 .page_menu_row .current_page {
+  box-shadow: rgba(0, 0, 0, 0.1) 1px -5px 10px -2px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.1) 1px -5px 10px -2px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.1) 1px -5px 10px -2px;
   padding: 10px 40px 15px 20px;
   margin-bottom: -1px;
   color: #424fcf;
   background: #ffffff;
-  border-top: 1px solid #d2d2d2;
-  border-left: 1px solid #d2d2d2;
-  border-right: 1px solid #d2d2d2;
   text-transform: lowercase;
   border-top-right-radius: 15px;
   -webkit-border-top-right-radius: 15px;
@@ -12305,9 +12305,11 @@ header.guest_header .col.right {
   }
 }
 #links_page .content_wrap {
+  box-shadow: rgba(0, 0, 0, 0.1) 2px -1px 10px -1px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.1) 2px -1px 10px -1px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.1) 2px -1px 10px -1px;
   background: #ffffff;
   padding: 40px 0;
-  border: 1px solid #d2d2d2;
   border-bottom-right-radius: 20px;
   -webkit-border-bottom-right-radius: 20px;
   -moz-border-radius-bottomright: 20px;
@@ -16390,10 +16392,14 @@ form .bottom_row a {
 }
 
 #links_page #creator .content_wrap.creator {
+  box-shadow: rgba(0, 0, 0, 0.1) 2px -1px 10px -1px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.1) 2px -1px 10px -1px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.1) 2px -1px 10px -1px;
+  border: none;
   padding: 20px 40px;
-  border-radius: 20px;
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
+  border-top-left-radius: 20px;
+  -webkit-border-top-left-radius: 20px;
+  -moz-border-radius-topleft: 20px;
 }
 #links_page #creator .content_wrap.creator .border_wrap {
   border: 1px solid #d2d2d2;
@@ -16510,10 +16516,35 @@ form .bottom_row a {
   height: 26px;
   color: #000;
 }
-#links_page #creator .preview .inner_content_wrap {
-  border-radius: 0;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
+#links_page #creator .content_wrap section .button_options {
+  padding-top: 20px;
+  border-top: 1px ridge;
+  border-color: rgba(155, 155, 155, 0.2);
+}
+#links_page #creator .content_wrap section .button_options h3, #links_page #creator .content_wrap section .button_options .h3 {
+  font-size: 1.2em;
+  margin: 0;
+}
+#links_page #creator .content_wrap section .button_options .switch_wrap {
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+  margin-bottom: 20px;
+}
+#links_page #creator .content_wrap section .button_options .radios_wrap {
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+}
+#links_page #creator .content_wrap section .button_options .radios_wrap .radios {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 10px;
+  column-gap: 10px;
+  -webkit-column-gap: 10px;
+  -moz-column-gap: 10px;
+}
+#links_page #creator .content_wrap section .button_options .radios_wrap .radios input {
+  margin-right: 3px;
 }
 #links_page #creator .preview .header {
   min-height: 312px;
@@ -16544,12 +16575,24 @@ form .bottom_row a {
   transform: translateX(-50%);
 }
 #links_page #creator .preview section .text {
-  padding: 10px 0;
+  padding: 20px 0;
 }
 #links_page #creator .preview section .text p {
   margin: 0;
   text-align: center;
   font-size: 1.2em;
+}
+#links_page #creator .preview section .text .button_wrap {
+  text-align: center;
+}
+#links_page #creator .preview section .text .button_wrap.above {
+  margin-bottom: 20px;
+}
+#links_page #creator .preview section .text .button_wrap.below {
+  margin-top: 20px;
+}
+#links_page #creator .preview section .text .button_wrap a {
+  display: inline-block;
 }
 
 footer {

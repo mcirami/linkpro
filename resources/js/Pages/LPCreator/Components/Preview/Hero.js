@@ -2,24 +2,15 @@ import React, {useEffect, useState} from 'react';
 
 const Hero = ({
                   nodesRef,
-                  nodes,
                   completedCrop,
                   fileNames,
                   colors,
                   textArray,
-                  isFound,
-                  setIsFound,
                   elementName
 }) => {
 
-    console.log("header image node ref: ", nodesRef.current[elementName]);
-
     const [headerImageStyle, setHeaderImageStyle] = useState(null);
     const [buttonStyle, setButtonStyle] = useState(null);
-
-    useEffect(() => {
-        setIsFound(checkFound())
-    },[fileNames])
 
     const checkFound = () => {
         const isFound = fileNames?.find(el => {

@@ -8,6 +8,8 @@ const sectionData = [
         textColor: 'rgba(255,255,255,1)',
         text: "This is some text for section 1",
         imgUrl: null,
+        includeButton: false,
+        buttonPosition: null
     },
     {
         id: 2,
@@ -17,6 +19,8 @@ const sectionData = [
         textColor: 'rgba(0,0,0,1)',
         text: "This is some text for section 2",
         imgUrl: null,
+        includeButton: true,
+        buttonPosition: "above"
     }
 ]
 

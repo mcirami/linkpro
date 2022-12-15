@@ -8,8 +8,6 @@ const PreviewSection = ({
                             nodesRef,
                             completedCrop,
                             fileNames,
-                            isFound,
-                            setIsFound,
 }) => {
 
    /* console.log("completed crop: ", completedCrop);
@@ -20,17 +18,27 @@ const PreviewSection = ({
     //console.log("nodesRef: ", nodesRef.current[elementName])
 
 
-    const {type, position, bgColor, textColor, text, imgUrl} = data;
+    const {type, position, bgColor, textColor, text, imgUrl, includeButton, buttonPosition} = data;
+    const [buttonStyle, setButtonStyle] = useState(null);
 
-
-
-    /*useEffect(() => {
+    useEffect(() => {
         setButtonStyle ({
             background: colors.buttonBg || '#000000',
             color: colors.buttonText || '#ffffff'
         })
 
-    },[colors.buttonBg, colors.buttonText])*/
+    },[colors.buttonBg, colors.buttonText])
+
+    const Button = ({buttonText}) => {
+        return (
+            <div className={`button_wrap ${buttonPosition ? buttonPosition : "above"}`}>
+                <a href="#"
+                   className="button"
+                   style={buttonStyle}
+                >{buttonText || "Get Course"}</a>
+            </div>
+        )
+    }
 
     return (
         <section className="my_row">
@@ -38,9 +46,19 @@ const PreviewSection = ({
                 "text":
                     <div className={type} style={{ background: colors["section" + position + "BgColor"] || bgColor}}>
                         <div className="container">
+                            {(includeButton && (buttonPosition === "above" || !buttonPosition)) &&
+                               <Button
+                                   buttonText={textArray.buttonText}
+                               />
+                            }
                             <p
                                 style={{ color: colors["section" + position + "TextColor"] || textColor}}
                             >{textArray["section" + position + "Text"] || text}</p>
+                            {(includeButton && buttonPosition === "below") &&
+                                <Button
+                                    buttonText={textArray.buttonText}
+                                />
+                            }
                         </div>
                     </div>,
                 "image":
@@ -48,8 +66,6 @@ const PreviewSection = ({
                         nodesRef={nodesRef}
                         completedCrop={completedCrop}
                         fileNames={fileNames}
-                        isFound={isFound}
-                        setIsFound={setIsFound}
                         elementName={"section"+position+type}
                         imgUrl={imgUrl}
                         type={type}

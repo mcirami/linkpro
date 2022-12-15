@@ -12,7 +12,9 @@ const AddImageSection = ({sections, setSections}) => {
             bgColor: null,
             textColor: null,
             text: null,
-            imgUrl: Vapor.asset("images/top-circle-image.jpg")
+            imgUrl: Vapor.asset("images/top-circle-image.jpg"),
+            includeButton: false,
+            buttonPosition: null
         }
 
         setSections([

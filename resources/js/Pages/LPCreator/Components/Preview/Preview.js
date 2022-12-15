@@ -11,8 +11,6 @@ const Preview = ({
                      colors,
                      sections,
                      textArray,
-                     isFound,
-                     setIsFound
 }) => {
 
     return (
@@ -32,8 +30,6 @@ const Preview = ({
                                 fileNames={fileNames}
                                 colors={colors}
                                 textArray={textArray}
-                                isFound={isFound}
-                                setIsFound={setIsFound}
                             />
                             <Hero
                                 nodesRef={nodesRef}
@@ -41,8 +37,6 @@ const Preview = ({
                                 fileNames={fileNames}
                                 colors={colors}
                                 textArray={textArray}
-                                isFound={isFound}
-                                setIsFound={setIsFound}
                                 elementName="hero"
                             />
 
@@ -59,8 +53,6 @@ const Preview = ({
                                     completedCrop={completedCrop}
                                     fileNames={fileNames}
                                     setFileNames={setFileNames}
-                                    isFound={isFound}
-                                    setIsFound={setIsFound}
                                 />
                             )
                         })}

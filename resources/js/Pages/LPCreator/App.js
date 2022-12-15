@@ -12,6 +12,8 @@ import sectionData from './Components/SectionData';
 import AddTextSection from './Components/AddTextSection';
 import AddImageSection from './Components/AddImageSection';
 import ImageComponent from './Components/ImageComponent';
+import Switch from 'react-switch';
+import SectionButtonOptions from './Components/SectionButtonOptions';
 
 function App() {
 
@@ -21,7 +23,6 @@ function App() {
     //const [fileNameHeader, setFileNameHeader] = useState(null);
 
     const [sections, setSections] = useState(sectionData);
-    const [isFound, setIsFound] = useState(false);
     const [completedCrop, setCompletedCrop] = useState([])
     const nodesRef = useRef([]);
     const [fileNames, setFileNames] = useState([]);
@@ -34,8 +35,6 @@ function App() {
         type: '',
         msg: ''
     });
-
-
 
     const showFlash = (show = false, type='', msg='') => {
         setFlash({show, type, msg})
@@ -63,7 +62,7 @@ function App() {
             }
 
             <div className="left_column">
-                <h3 className="mb-3">Create Your Landing Page</h3>
+                <h3 className="mb-4 card_title">Create Your Landing Page</h3>
                 <div className="content_wrap my_row creator" id="left_col_wrap">
                     <section className="my_row section">
                         <div className="section_title">
@@ -78,8 +77,6 @@ function App() {
                                 fileNames={fileNames}
                                 setFileNames={setFileNames}
                                 setShowLoader={setShowLoader}
-                                isFound={isFound}
-                                setIsFound={setIsFound}
                                 elementName="logo"
                             />
                             <InputComponent
@@ -98,8 +95,6 @@ function App() {
                                 fileNames={fileNames}
                                 setFileNames={setFileNames}
                                 setShowLoader={setShowLoader}
-                                isFound={isFound}
-                                setIsFound={setIsFound}
                                 elementName="hero"
                             />
                             <ColorPicker
@@ -142,10 +137,10 @@ function App() {
 
                     {sections?.map((data) => {
 
-                        const {type, bgColor, textColor, position, text} = data;
+                        const {id, type, bgColor, textColor, position, text, buttonPosition, includeButton} = data;
 
                         return (
-                            <section className="my_row" key={position}>
+                            <section className="my_row" key={id}>
                                 <div className="section_title">
                                     <h4>Section {position}</h4>
                                 </div>
@@ -184,11 +179,19 @@ function App() {
                                             fileNames={fileNames}
                                             setFileNames={setFileNames}
                                             setShowLoader={setShowLoader}
-                                            isFound={isFound}
-                                            setIsFound={setIsFound}
                                             elementName={`section${position}image`}
                                         />
                                     }
+                                    <div className="my_row button_options">
+                                        <SectionButtonOptions
+                                            position={position}
+                                            buttonPosition={buttonPosition}
+                                            includeButton={includeButton}
+                                            sections={sections}
+                                            setSections={setSections}
+                                            id={id}
+                                        />
+                                    </div>
                                 </div>
                             </section>
                         )
@@ -217,8 +220,6 @@ function App() {
                     colors={colors}
                     sections={sections}
                     textArray={textArray}
-                    isFound={isFound}
-                    setIsFound={setIsFound}
                 />
             </div>
 

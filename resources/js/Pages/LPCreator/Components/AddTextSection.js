@@ -13,7 +13,9 @@ const AddTextSection = ({sections, setSections}) => {
             bgColor: 'rgba(255,255,255,1)',
             textColor: 'rgba(0,0,0,1)',
             text: "Sample Text",
-            imgUrl: null
+            imgUrl: null,
+            includeButton: false,
+            buttonPosition: null
         }
 
         setSections([

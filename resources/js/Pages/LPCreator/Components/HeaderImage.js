@@ -11,8 +11,6 @@ const HeaderImage = ({
                          setFileNames,
                          setShowLoader,
                          elementName,
-                         isFound,
-                         setIsFound
 }) => {
 
     /*console.log("nodes ref: ",nodesRef)*/
@@ -21,10 +19,6 @@ const HeaderImage = ({
     const imgRef = useRef();
     const previewCanvasRef = nodesRef;
     const [crop, setCrop] = useState({ unit: "%", width: 30, x: 25, y: 25, aspect: 16 / 12 });
-
-    useEffect(() => {
-        setIsFound(checkFound())
-    },[fileNames])
 
     const checkFound = () => {
         const found = fileNames?.find(el => {
