@@ -1,7 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useLayoutEffect} from 'react';
 import TopBar from './TopBar';
 import PreviewSection from './PreviewSection';
 import Hero from './Hero';
+import {
+    PreviewHeight,
+} from '../../../../Services/PreviewHooks';
 
 const Preview = ({
                      completedCrop,
@@ -12,6 +15,19 @@ const Preview = ({
                      sections,
                      textArray,
 }) => {
+
+    useLayoutEffect(() => {
+
+        window.addEventListener('resize', PreviewHeight);
+        
+        return () => {
+            window.removeEventListener('resize', PreviewHeight);
+        }
+    }, []);
+
+    useLayoutEffect(() => {
+        PreviewHeight();
+    }, []);
 
     return (
 

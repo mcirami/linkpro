@@ -15,6 +15,7 @@ import Folder from './Folder';
 import FormIcon from './FormIcon';
 import SubscribeForm from './SubscribeForm';
 import StoreProducts from './StoreProducts';
+import {PreviewHeight} from '../../../../Services/PreviewHooks';
 
 const Preview = ({
                      setRef,
@@ -75,42 +76,14 @@ const Preview = ({
 
     useLayoutEffect(() => {
 
-        function handleResize() {
-            const windowWidth = window.outerWidth;
-
-            const box = document.querySelector('.inner_content_wrap');
-            const innerContent = document.getElementById('preview_wrap');
-
-            let pixelsToMinus;
-            if (windowWidth > 551) {
-                pixelsToMinus = 35;
-            } else {
-                pixelsToMinus = 25;
-            }
-
-            box.style.maxHeight = innerContent.offsetHeight - pixelsToMinus + "px";
-        }
-
-        window.addEventListener('resize', handleResize);
-
-        handleResize()
+        window.addEventListener('resize', PreviewHeight);
         return () => {
-            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('resize', PreviewHeight);
         }
     }, []);
 
     useLayoutEffect(() => {
-        const box = document.querySelector('.inner_content_wrap');
-        const innerContent = document.getElementById('preview_wrap');
-
-        let pixelsToMinus = 0;
-        if (window.outerWidth > 550) {
-            pixelsToMinus = 35;
-        } else {
-            pixelsToMinus = 25;
-        }
-
-        box.style.maxHeight = innerContent.offsetHeight - pixelsToMinus + "px";
+        PreviewHeight()
     }, []);
 
     const accordionLinks = value !== null ? userLinks[value].links : null;
