@@ -15,6 +15,7 @@ use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\ContactMailController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\CourseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -89,7 +90,13 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::post('/folder/new', [FolderController::class, 'store'])->name('add.folder');
 
-    Route::get('/course-manager/landing-page', [LandingPageController::class, 'edit'])->name('edit.landing.page');
+    Route::group(['prefix' => 'course-manager'], function() {
+        Route::get('/', [CourseController::class, 'showCourseManager'])->name('show.course.manager');
+        Route::get('/add-landing-page', [LandingPageController::class, 'store'])->name('add.landing.page');
+        Route::get('/landing-page/{landing_page}', [LandingPageController::class, 'edit'])->name('edit.landing.page');
+        Route::post('/landing-page/save-logo/{landing_page}', [LandingPageController::class, 'saveLogo'])->name('lp.save.logo');
+        Route::post('/landing-page/save-text/{landing_page}', [LandingPageController::class, 'saveSlogan'])->name('lp.save.text');
+    });
 
 });
 

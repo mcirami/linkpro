@@ -68,7 +68,7 @@ const PageProfile = ({
             return;
         }
 
-        completedImageCrop(completedProfileCrop, imgRef, previewCanvasRef);
+        completedImageCrop(completedProfileCrop, imgRef, previewCanvasRef.current);
 
     }, [completedProfileCrop]);
 

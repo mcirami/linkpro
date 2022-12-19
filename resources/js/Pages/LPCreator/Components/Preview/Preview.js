@@ -14,12 +14,13 @@ const Preview = ({
                      colors,
                      sections,
                      textArray,
+                     pageData,
 }) => {
 
     useLayoutEffect(() => {
 
         window.addEventListener('resize', PreviewHeight);
-        
+
         return () => {
             window.removeEventListener('resize', PreviewHeight);
         }
@@ -46,6 +47,7 @@ const Preview = ({
                                 fileNames={fileNames}
                                 colors={colors}
                                 textArray={textArray}
+                                pageData={pageData}
                             />
                             <Hero
                                 nodesRef={nodesRef}
@@ -69,6 +71,7 @@ const Preview = ({
                                     completedCrop={completedCrop}
                                     fileNames={fileNames}
                                     setFileNames={setFileNames}
+                                    position={index + 1}
                                 />
                             )
                         })}

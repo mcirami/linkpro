@@ -8,6 +8,7 @@ const PreviewSection = ({
                             nodesRef,
                             completedCrop,
                             fileNames,
+                            position
 }) => {
 
    /* console.log("completed crop: ", completedCrop);
@@ -18,7 +19,7 @@ const PreviewSection = ({
     //console.log("nodesRef: ", nodesRef.current[elementName])
 
 
-    const {type, position, bgColor, textColor, text, imgUrl, includeButton, buttonPosition} = data;
+    const {type, bgColor, textColor, text, imgUrl, includeButton, buttonPosition} = data;
     const [buttonStyle, setButtonStyle] = useState(null);
 
     useEffect(() => {

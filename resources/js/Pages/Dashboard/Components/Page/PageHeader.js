@@ -77,7 +77,7 @@ const PageHeader = ({
             return;
         }
 
-        completedImageCrop(completedCrop, imgRef, previewCanvasRef);
+        completedImageCrop(completedCrop, imgRef, previewCanvasRef.current);
     }, [completedCrop]);
 
     const handleSubmit = (e) => {

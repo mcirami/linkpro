@@ -2,7 +2,8 @@ import React, {useState, useCallback, useEffect, useRef} from 'react';
 import {completedImageCrop, createImage} from '../../../Services/ImageService';
 import {MdEdit} from 'react-icons/md';
 import ReactCrop from 'react-image-crop';
-import ToolTipIcon from '../../Dashboard/Components/Page/ToolTipIcon';
+import {updateLogo} from '../../../Services/LandingPageRequests';
+import {LP_ACTIONS} from '../Reducer';
 
 const Logo = ({
                   nodesRef,
@@ -12,6 +13,8 @@ const Logo = ({
                   setFileNames,
                   setShowLoader,
                   elementName,
+                  pageID,
+                  dispatch
 }) => {
 
     //const [previousImage, setPreviousImage] = useState(pageSettings["header_img"]);
@@ -33,12 +36,6 @@ const Logo = ({
         if (!files.length) {
             return;
         }
-
-        //setFileNames(files[0]["name"]);
-        /*setFileNames((prev) => ({
-            ...prev,
-            [`${elementName}`]: files[0]["name"]
-        }))*/
 
         setFileNames((prev) => ([
             ...prev,
@@ -100,7 +97,11 @@ const Logo = ({
     };
 
     const fileUpload = (image) => {
-        setShowLoader(true);
+        setShowLoader({
+            show: true,
+            icon: 'upload',
+            position: 'fixed'
+        });
         window.Vapor.store(
             image,
             {
@@ -117,6 +118,31 @@ const Logo = ({
                 logo: response.key,
                 ext: response.extension,
             };
+
+            updateLogo(packets, pageID)
+            .then((data) => {
+                if(data.success) {
+                    dispatch({
+                        type: LP_ACTIONS.UPDATE_LOGO,
+                        payload: {
+                            imagePath: data.imagePath
+                        }
+                    })
+                    setShowLoader({
+                        show: false,
+                        icon: '',
+                        position: ''
+                    });
+
+                    setFileNames(fileNames.filter(element => {
+                        return element.name !== elementName
+                    }));
+                    setUpImg(null);
+                    delete completedCrop.logo;
+                    setCompletedCrop(completedCrop);
+                    document.querySelector("form.logo_form .bottom_section").classList.add("hidden");
+                }
+            })
 
             /*headerImage(packets, pageSettings["id"]).then((data) => {
                 setShowLoader(false);

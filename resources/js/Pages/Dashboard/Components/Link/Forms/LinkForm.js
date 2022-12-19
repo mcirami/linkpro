@@ -146,7 +146,7 @@ const LinkForm = ({
             return;
         }
 
-        completedImageCrop(completedIconCrop, imgRef, previewCanvasRef);
+        completedImageCrop(completedIconCrop, imgRef, previewCanvasRef.current);
 
     }, [completedIconCrop]);
 

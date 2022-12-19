@@ -15,6 +15,15 @@ class CreateLandingPagesTable extends Migration
     {
         Schema::create('landing_pages', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
+            $table->boolean('published')->default(false);
+            $table->string('logo')->nullable();
+            $table->string('slogan')->nullable();
+            $table->string('hero')->nullable();
+            $table->string('header_color')->default("rgba(255,255,255,1)");
+            $table->string('button_text')->default('Get Course');
+            $table->string('button_text_color')->default("rgba(255,255,255,1)");
+            $table->string('button_color')->default("rgba(0,0,0,1)");
             $table->timestamps();
         });
     }

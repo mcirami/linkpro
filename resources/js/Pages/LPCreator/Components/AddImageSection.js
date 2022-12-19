@@ -7,7 +7,6 @@ const AddImageSection = ({sections, setSections}) => {
         e.preventDefault();
         const object = {
             id: sections.length + 1,
-            position: sections.length + 1,
             type: 'image',
             bgColor: null,
             textColor: null,

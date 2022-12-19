@@ -4,7 +4,7 @@ const DropdownComponent = () => {
 
     return (
         <select name="" id="">
-            <option value="">Get Course (optional)</option>
+            <option value="">Select Course</option>
         </select>
     );
 

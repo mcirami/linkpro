@@ -4,7 +4,7 @@ import {UserLinksContext} from '../Pages/Dashboard/App';
 
 export const Flash = ({msg, type, removeFlash, pageSettings}) => {
 
-    const { userLinks } = useContext(UserLinksContext);
+   //const { userLinks } = useContext(UserLinksContext);
 
     useEffect(() => {
 
@@ -13,7 +13,7 @@ export const Flash = ({msg, type, removeFlash, pageSettings}) => {
         }, 4000);
 
         return () => clearTimeout(timeout);
-    }, [userLinks, pageSettings])
+    }, [])
 
     return (
 

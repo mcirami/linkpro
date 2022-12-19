@@ -8,7 +8,6 @@ const AddTextSection = ({sections, setSections}) => {
 
         const object = {
             id: sections.length + 1,
-            position: sections.length + 1,
             type: 'text',
             bgColor: 'rgba(255,255,255,1)',
             textColor: 'rgba(0,0,0,1)',

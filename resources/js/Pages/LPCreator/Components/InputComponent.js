@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
-import ToolTipIcon from '../../Dashboard/Components/Page/ToolTipIcon';
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from 'draft-js';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import {updateText} from '../../../Services/LandingPageRequests';
+import {LP_ACTIONS} from '../Reducer';
 
 const InputComponent = ({
                             placeholder,
@@ -12,7 +13,10 @@ const InputComponent = ({
                             hoverText,
                             value,
                             elementName,
-                            setTextArray
+                            textArray,
+                            setTextArray,
+                            pageID,
+                            dispatch
 }) => {
 
     const [charactersLeft, setCharactersLeft] = useState(maxChar);
@@ -20,11 +24,6 @@ const InputComponent = ({
     //const [contentState, setContentState] = useState(value)
 
     useEffect(() => {
-        /*if(pageSettings["title"]) {
-            setCharactersLeft(30 - pageSettings["title"].length);
-        } else {
-            setCharactersLeft(30);
-        }*/
         if(value) {
             setCharactersLeft(maxChar - value.length);
         } else {
@@ -44,6 +43,25 @@ const InputComponent = ({
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        const value = textArray[elementName];
+
+        const packets = {
+            [`${elementName}`]: value,
+        };
+
+        updateText(packets, pageID, elementName)
+        .then((response) => {
+            if (response.success) {
+                dispatch({
+                    type: LP_ACTIONS.UPDATE_TEXT,
+                    payload: {
+                        value: value,
+                        name: elementName
+                    }
+                })
+            }
+        })
+
     }
 
     /*const handleEditorChange = (contentState) => {
@@ -56,7 +74,9 @@ const InputComponent = ({
         <div className="edit_form">
             <form onSubmit={handleSubmit}>
                 {{"text" :
-                    <input maxLength={maxChar} name="title" type="text"
+                    <input maxLength={maxChar}
+                           name={elementName}
+                           type="text"
                            placeholder={placeholder}
                            defaultValue={value}
                            onChange={(e) => handleChange(e)}
@@ -69,6 +89,7 @@ const InputComponent = ({
                     />,
                     "textarea" :
                         <textarea
+                            name={elementName}
                             placeholder={placeholder}
                             defaultValue={value}
                             rows={5}

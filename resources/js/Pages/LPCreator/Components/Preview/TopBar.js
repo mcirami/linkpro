@@ -5,7 +5,8 @@ const TopBar = ({
                     completedCrop,
                     fileNames,
                     colors,
-                    textArray
+                    textArray,
+                    pageData
 }) => {
 
     const checkFound = () => {
@@ -36,7 +37,7 @@ const TopBar = ({
                             }}
                         />
                         :
-                        <img src={ Vapor.asset("images/logo.png") } alt=""/>
+                        <img src={pageData["logo"] || Vapor.asset("images/logo.png") } alt=""/>
                     }
                 </article>
                 <article className="text_wrap">
