@@ -1,21 +1,23 @@
 export const LP_ACTIONS = {
-    UPDATE_LOGO: 'update-logo',
+    UPDATE_IMAGE: 'update-logo',
     UPDATE_TEXT: 'update-text',
-    UPDATE_HERO: 'update-hero',
-    UPDATE_HEADER_COLOR: 'update-header-color',
-    UPDATE_BUTTON_COLOR: 'update-button-color',
-    UPDATE_BUTTON_TEXT_COLOR: 'update-button-text-color',
-    UPDATE_BUTTON_TEXT: 'update-button-text',
+    UPDATE_COLOR: 'update-color',
+    UPDATE_PAGE_DATA: 'update-page-data'
 }
 
 export function reducer(pageData, action) {
     switch(action.type) {
-        case LP_ACTIONS.UPDATE_LOGO:
+        case LP_ACTIONS.UPDATE_PAGE_DATA:
             return {
                 ...pageData,
-                logo: action.payload.imagePath
+                [`${action.payload.name}`]: action.payload.value
             };
         case LP_ACTIONS.UPDATE_TEXT:
+            return {
+                ...pageData,
+                [`${action.payload.name}`]: action.payload.value
+            }
+        case LP_ACTIONS.UPDATE_COLOR:
             return {
                 ...pageData,
                 [`${action.payload.name}`]: action.payload.value

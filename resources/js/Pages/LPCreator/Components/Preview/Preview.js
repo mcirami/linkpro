@@ -55,6 +55,7 @@ const Preview = ({
                                 fileNames={fileNames}
                                 colors={colors}
                                 textArray={textArray}
+                                pageData={pageData}
                                 elementName="hero"
                             />
 

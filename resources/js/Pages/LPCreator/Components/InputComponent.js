@@ -11,17 +11,23 @@ const InputComponent = ({
                             type,
                             maxChar,
                             hoverText,
-                            value,
                             elementName,
                             textArray,
                             setTextArray,
-                            pageID,
-                            dispatch
+                            dispatch,
+                            pageData
 }) => {
 
     const [charactersLeft, setCharactersLeft] = useState(maxChar);
     //const [editorState, setEditorState] = useState(value)
     //const [contentState, setContentState] = useState(value)
+    const [value, setValue] = useState("");
+
+    useEffect(() => {
+        if (pageData?.hasOwnProperty(elementName)) {
+            setValue(pageData[elementName])
+        }
+    },[])
 
     useEffect(() => {
         if(value) {
@@ -38,6 +44,13 @@ const InputComponent = ({
             ...prev,
             [`${elementName}`]: value
         }))
+        dispatch({
+            type: LP_ACTIONS.UPDATE_PAGE_DATA,
+            payload: {
+                value: value,
+                name: elementName
+            }
+        })
     }
 
     const handleSubmit = (e) => {
@@ -49,7 +62,7 @@ const InputComponent = ({
             [`${elementName}`]: value,
         };
 
-        updateText(packets, pageID, elementName)
+        updateText(packets, pageData["id"], elementName)
         .then((response) => {
             if (response.success) {
                 dispatch({
@@ -61,7 +74,6 @@ const InputComponent = ({
                 })
             }
         })
-
     }
 
     /*const handleEditorChange = (contentState) => {

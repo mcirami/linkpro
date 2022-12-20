@@ -94,8 +94,9 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('/', [CourseController::class, 'showCourseManager'])->name('show.course.manager');
         Route::get('/add-landing-page', [LandingPageController::class, 'store'])->name('add.landing.page');
         Route::get('/landing-page/{landing_page}', [LandingPageController::class, 'edit'])->name('edit.landing.page');
-        Route::post('/landing-page/save-logo/{landing_page}', [LandingPageController::class, 'saveLogo'])->name('lp.save.logo');
-        Route::post('/landing-page/save-text/{landing_page}', [LandingPageController::class, 'saveSlogan'])->name('lp.save.text');
+        Route::post('/landing-page/save-image/{landing_page}', [LandingPageController::class, 'saveImage'])->name('lp.save.image');
+        Route::post('/landing-page/save-text/{landing_page}', [LandingPageController::class, 'saveText'])->name('lp.save.text');
+        Route::post('/landing-page/save-color/{landing_page}', [LandingPageController::class, 'saveColor'])->name('lp.save.color');
     });
 
 });

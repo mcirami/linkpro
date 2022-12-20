@@ -6,7 +6,8 @@ const Hero = ({
                   fileNames,
                   colors,
                   textArray,
-                  elementName
+                  elementName,
+                  pageData
 }) => {
 
     const [headerImageStyle, setHeaderImageStyle] = useState(null);
@@ -31,9 +32,10 @@ const Hero = ({
                 :
                 {
                     background: "url(" +
-                        Vapor.asset("images/default-img.png") +
+                        pageData["hero"] || Vapor.asset("images/default-img.png") +
                         ") center 25% no-repeat",
-                    backgroundSize: "20%",
+                    backgroundSize: pageData["hero"] ? "cover" : "20%",
+                    backgroundRepeat: "no-repeat",
                     minHeight: "200px"
                 }
         )
@@ -41,11 +43,11 @@ const Hero = ({
 
     useEffect(() => {
         setButtonStyle ({
-            background: colors.buttonBg || '#000000',
-            color: colors.buttonText || '#ffffff'
+            background: colors.button_color || '#000000',
+            color: colors.button_text_color || '#ffffff'
         })
 
-    },[colors.buttonBg, colors.buttonText])
+    },[colors.button_color, colors.button_text_color])
 
     return (
         <article className="header_image my_row"
@@ -67,7 +69,7 @@ const Hero = ({
                 />
             }
             <a className="button" href="#" style={buttonStyle}>
-                {textArray.buttonText || "Get Course"}
+                {textArray.button_text || "Get Course"}
             </a>
         </article>
     );

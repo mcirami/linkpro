@@ -18,7 +18,7 @@ const TopBar = ({
 
     return (
         <div className="top_section" style={{
-            background: colors.headerBg || '#ffffff'
+            background: pageData["header_color"] || '#ffffff'
         }}>
             <div className="container">
                 <article className="logo">
@@ -41,7 +41,7 @@ const TopBar = ({
                     }
                 </article>
                 <article className="text_wrap">
-                    <p>{textArray.slogan}</p>
+                    <p>{pageData["slogan"]}</p>
                 </article>
             </div>
         </div>

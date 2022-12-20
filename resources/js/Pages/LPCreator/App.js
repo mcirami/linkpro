@@ -97,8 +97,7 @@ function App() {
                             <h4>Header</h4>
                         </div>
                         <div className="section_content my_row">
-                            TODO: change to a Dynamic image component
-                            <Logo
+                           {/* <Logo
                                 nodesRef={nodesRef}
                                 completedCrop={completedCrop}
                                 setCompletedCrop={setCompletedCrop}
@@ -108,6 +107,24 @@ function App() {
                                 pageID={pageData["id"]}
                                 dispatch={dispatch}
                                 elementName="logo"
+                            />*/}
+                            <ImageComponent
+                                nodesRef={nodesRef}
+                                completedCrop={completedCrop}
+                                setCompletedCrop={setCompletedCrop}
+                                fileNames={fileNames}
+                                setFileNames={setFileNames}
+                                setShowLoader={setShowLoader}
+                                pageData={pageData}
+                                dispatch={dispatch}
+                                elementName="logo"
+                                cropArray={{
+                                    unit: "%",
+                                    width: 30,
+                                    x: 25,
+                                    y: 25,
+                                    aspect: 16 / 6
+                                }}
                             />
                             <InputComponent
                                 placeholder="Slogan (optional)"
@@ -115,13 +132,12 @@ function App() {
                                 maxChar={30}
                                 hoverText="Submit Slogan Text"
                                 elementName="slogan"
-                                pageID={pageData["id"]}
+                                pageData={pageData}
                                 textArray={textArray}
                                 setTextArray={setTextArray}
                                 dispatch={dispatch}
                             />
-                            TODO: change to a Dynamic image component
-                            <HeaderImage
+                            {/*<HeaderImage
                                 nodesRef={nodesRef}
                                 completedCrop={completedCrop}
                                 setCompletedCrop={setCompletedCrop}
@@ -129,12 +145,32 @@ function App() {
                                 setFileNames={setFileNames}
                                 setShowLoader={setShowLoader}
                                 elementName="hero"
+                            />*/}
+                            <ImageComponent
+                                nodesRef={nodesRef}
+                                completedCrop={completedCrop}
+                                setCompletedCrop={setCompletedCrop}
+                                fileNames={fileNames}
+                                setFileNames={setFileNames}
+                                setShowLoader={setShowLoader}
+                                pageData={pageData}
+                                dispatch={dispatch}
+                                elementName="hero"
+                                cropArray={{
+                                    unit: "%",
+                                    width: 30,
+                                    x: 25,
+                                    y: 25,
+                                    aspect: 16 / 12
+                                }}
                             />
                             <ColorPicker
                                 label="Top Header Color"
                                 colors={colors}
                                 setColors={setColors}
-                                elementName="headerBg"
+                                pageData={pageData}
+                                dispatch={dispatch}
+                                elementName="header_color"
                             />
                         </div>
                     </section>
@@ -148,27 +184,33 @@ function App() {
                                 label="Button Color"
                                 colors={colors}
                                 setColors={setColors}
-                                elementName="buttonBg"
+                                pageData={pageData}
+                                dispatch={dispatch}
+                                elementName="button_color"
                             />
                             <ColorPicker
                                 label="Button Text Color"
                                 colors={colors}
                                 setColors={setColors}
-                                elementName="buttonText"
+                                pageData={pageData}
+                                dispatch={dispatch}
+                                elementName="button_text_color"
                             />
                             <InputComponent
                                 placeholder="Update Button Text (optional)"
                                 type="text"
                                 maxChar={10}
                                 hoverText="Submit Button Text"
-                                elementName="buttonText"
+                                elementName="button_text"
+                                pageData={pageData}
+                                dispatch={dispatch}
                                 setTextArray={setTextArray}
                             />
                             <DropdownComponent />
                         </div>
                     </section>
 
-                    {sections?.map((data, index) => {
+                    {/*{sections?.map((data, index) => {
 
                         const {id, type, bgColor, textColor, text, buttonPosition, includeButton} = data;
 
@@ -228,7 +270,7 @@ function App() {
                                 </div>
                             </section>
                         )
-                    })}
+                    })}*/}
 
                     <div className="link_row">
                         <AddTextSection

@@ -2,6 +2,8 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {MdEdit} from 'react-icons/md';
 import ReactCrop from 'react-image-crop';
 import {completedImageCrop, createImage} from '../../../Services/ImageService';
+import {updateImage} from '../../../Services/LandingPageRequests';
+import {LP_ACTIONS} from '../Reducer';
 
 const ImageComponent = ({
                             nodesRef,
@@ -11,12 +13,22 @@ const ImageComponent = ({
                             setFileNames,
                             setShowLoader,
                             elementName,
+                            pageData,
+                            dispatch,
+                            cropArray
 }) => {
 
     const [upImg, setUpImg] = useState();
     const imgRef = useRef();
     const previewCanvasRef = nodesRef;
-    const [crop, setCrop] = useState({ unit: "%", width: 30, x: 25, y: 25, aspect: 16 / 12 });
+    const [crop, setCrop] = useState(
+        /*unit: "%",
+        width: 30,
+        x: 25,
+        y: 25,
+        aspect: 16 / 12 */
+        cropArray
+    );
 
     const checkFound = () => {
         const found = fileNames?.find(el => {
@@ -31,20 +43,10 @@ const ImageComponent = ({
             return;
         }
 
-        //setFileNames(files[0]["name"]);
-
         setFileNames((prev) => ([
             ...prev,
             {name: elementName}
         ]))
-
-        /*const newArray = fileNames;
-        if (newArray.elementName === undefined) {
-            newArray.push({[`${elementName}`]: files[0]["name"]})
-        } else {
-            newArray.elementName = files[0]["name"];
-        }
-        setFileNames(newArray);*/
 
         document.querySelector("." + CSS.escape(elementName) + "_form .bottom_section").classList.remove("hidden");
         if (window.innerWidth < 993) {
@@ -59,8 +61,6 @@ const ImageComponent = ({
     const onLoad = useCallback((img) => {
         imgRef.current = img;
     }, []);
-
-    console.log("preview canvas: ", previewCanvasRef.current[elementName]);
 
     useEffect(() => {
         if (!completedCrop[elementName]?.isCompleted || !previewCanvasRef.current[elementName] || !imgRef.current) {
@@ -104,7 +104,11 @@ const ImageComponent = ({
     };
 
     const fileUpload = (image) => {
-        setShowLoader(true);
+        setShowLoader({
+            show: true,
+            icon: 'upload',
+            position: 'fixed'
+        });
         window.Vapor.store(
             image,
             {
@@ -118,24 +122,34 @@ const ImageComponent = ({
         )
         .then((response) => {
             const packets = {
-                header_img: response.key,
+                [`${elementName}`]: response.key,
                 ext: response.extension,
             };
+            updateImage(packets, pageData["id"], elementName)
+            .then((data) => {
+                if(data.success) {
+                    dispatch({
+                        type: LP_ACTIONS.UPDATE_PAGE_DATA,
+                        payload: {
+                            value: data.imagePath,
+                            name: elementName
+                        }
+                    })
+                    setShowLoader({
+                        show: false,
+                        icon: '',
+                        position: ''
+                    });
 
-            /*headerImage(packets, pageSettings["id"]).then((data) => {
-                setShowLoader(false);
-
-                if (data.success) {
-                    setFileNames(null);
+                    setFileNames(fileNames.filter(element => {
+                        return element.name !== elementName
+                    }));
                     setUpImg(null);
-                    setCompletedCrop(false);
-                    document
-                    .querySelector(
-                        "form.header_img_form .bottom_section"
-                    )
-                    .classList.add("hidden");
+                    delete completedCrop[elementName];
+                    setCompletedCrop(completedCrop);
+                    document.querySelector("." + CSS.escape(elementName) + "_form .bottom_section").classList.add("hidden");
                 }
-            });*/
+            })
         })
         .catch((error) => {
             console.error(error);
@@ -177,11 +191,11 @@ const ImageComponent = ({
                                     htmlFor={`${elementName}_file_upload`}
                                     className="custom"
                                 >
-                                    Section Image
+                                    {elementName} Image
                                     <span className="edit_icon">
                                         <MdEdit />
                                         <div className="hover_text edit_image">
-                                            <p>Edit Section Image</p>
+                                            <p>Edit {elementName} Image</p>
                                         </div>
                                     </span>
                                 </label>

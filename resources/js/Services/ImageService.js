@@ -18,7 +18,6 @@ const socialArray = [
 
 export const completedImageCrop = (completedCrop, imgRef, previewCanvasRef) => {
 
-    console.log("previe Canvas", previewCanvasRef);
     const image = imgRef.current;
     const canvas = previewCanvasRef;
     const crop = completedCrop;

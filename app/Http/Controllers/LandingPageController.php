@@ -36,22 +36,21 @@ class LandingPageController extends Controller
         return view('landing-page.edit');
     }
 
-    public function saveLogo(Request $request, LandingPage $landingPage, LandingPageService $service) {
+    public function saveImage(Request $request, LandingPage $landingPage, LandingPageService $service) {
 
         $userID = Auth::id();
 
         if ($landingPage->user_id != $userID) {
             return abort(404);
         }
+        $keys = collect($request->all())->keys();
 
-        $imagePath = $service->savePageLogo($userID, $request);
+        $imagePath = $service->savePageImage($userID, $request, $keys[0], $landingPage);
 
-        $landingPage->update(['logo' => $imagePath]);
-
-        return response()->json(['message' => 'Logo Updated', 'imagePath' => $imagePath]);
+        return response()->json(['message' => $keys[0] . ' Updated', 'imagePath' => $imagePath]);
     }
 
-    public function saveSlogan(Request $request, LandingPage $landingPage) {
+    public function saveText(Request $request, LandingPage $landingPage, LandingPageService $service) {
 
         $userID = Auth::id();
 
@@ -59,11 +58,20 @@ class LandingPageController extends Controller
             return abort(404);
         }
 
-        $key = collect($request->all())->keys();
-        $message = ucfirst($key[0]) . " Updated";
+        $key = $service->savePageText($landingPage, $request);
 
-        $landingPage->update([$key[0] => $request[$key[0]] ]);
+        return response()->json(['message' => $key .  " Updated"]);
+    }
 
-        return response()->json(['message' => $message]);
+    public function saveColor(Request $request, LandingPage $landingPage, LandingPageService $service) {
+        $userID = Auth::id();
+
+        if ($landingPage->user_id != $userID) {
+            return abort(404);
+        }
+
+        $key = $service->savePageText($landingPage, $request);
+
+        return response()->json(['message' => $key .  " Updated"]);
     }
 }

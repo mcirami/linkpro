@@ -16579,6 +16579,9 @@ form .bottom_row a {
   min-height: 312px;
   position: relative;
 }
+#links_page #creator .preview .header .header_image {
+  position: relative;
+}
 #links_page #creator .preview .header .top_section {
   padding-top: 35px;
 }

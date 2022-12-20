@@ -2,7 +2,7 @@ import React, {useState, useCallback, useEffect, useRef} from 'react';
 import {completedImageCrop, createImage} from '../../../Services/ImageService';
 import {MdEdit} from 'react-icons/md';
 import ReactCrop from 'react-image-crop';
-import {updateLogo} from '../../../Services/LandingPageRequests';
+import {updateImage} from '../../../Services/LandingPageRequests';
 import {LP_ACTIONS} from '../Reducer';
 
 const Logo = ({
@@ -22,7 +22,15 @@ const Logo = ({
     const [upImg, setUpImg] = useState();
     const imgRef = useRef();
     const previewCanvasRef =  nodesRef;
-    const [crop, setCrop] = useState({ unit: "%", width: 50, height:50, x: 25, y: 25, /* aspect: 16 / 6*/ maxHeight: 65});
+    const [crop, setCrop] = useState({
+        unit: "%",
+        width: 50,
+        height: 50,
+        x: 25,
+        y: 25,
+        /* aspect: 16 / 6*/
+        maxHeight: 65
+    });
 
     const checkFound = () => {
         const found = fileNames?.find(el => {
@@ -119,11 +127,11 @@ const Logo = ({
                 ext: response.extension,
             };
 
-            updateLogo(packets, pageID)
+            updateImage(packets, pageID)
             .then((data) => {
                 if(data.success) {
                     dispatch({
-                        type: LP_ACTIONS.UPDATE_LOGO,
+                        type: LP_ACTIONS.UPDATE_IMAGE,
                         payload: {
                             imagePath: data.imagePath
                         }

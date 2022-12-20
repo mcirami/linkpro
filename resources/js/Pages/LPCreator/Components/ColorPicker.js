@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {SketchPicker} from 'react-color';
 import {RiCloseCircleFill} from 'react-icons/ri';
+import {updateColor} from '../../../Services/LandingPageRequests';
+import {LP_ACTIONS} from '../Reducer';
 
 
 const ColorPicker = ({
@@ -8,6 +10,8 @@ const ColorPicker = ({
                          colors,
                          setColors,
                          elementName,
+                         pageData,
+                         dispatch,
                          bgColor = null,
                          textColor = null
 }) => {
@@ -23,17 +27,19 @@ const ColorPicker = ({
 
     const [showPicker, setShowPicker] = useState(false);
     const [pickerBg, setPickerBg] = useState({
-        background: `url(${Vapor.asset("images/transparent-block.png")})`,
+        background: pageData[elementName],
     });
 
-    useEffect(() => {
+    var timer;
 
-        setPickerBg(
-            a == 0 ?
-                {background: `url(${Vapor.asset("images/transparent-block.png")})`}
-                :
-                {background: `rgba(${r} , ${g} , ${b} , ${a})`}
-        )
+    useEffect(() => {
+        /*setPickerBg(
+                    a == 0 ?
+                        {background: `url(${Vapor.asset("images/transparent-block.png")})`}
+                        :
+                        {background: `rgba(${r} , ${g} , ${b} , ${a})`}
+                )*/
+        setPickerBg({background: `rgba(${r} , ${g} , ${b} , ${a})`});
 
     },[sketchPickerColor])
 
@@ -48,11 +54,42 @@ const ColorPicker = ({
     },[])
 
     const handleOnChange = (color) => {
+        clearTimeout(timer);
         setSketchPickerColor(color);
+        const value = `rgba(${color.r} , ${color.g} , ${color.b} , ${color.a})`;
         setColors({
             ...colors,
-            [`${elementName}`]: `rgba(${color.r} , ${color.g} , ${color.b} , ${color.a})`
+            [`${elementName}`]: value
         })
+
+        dispatch({
+            type: LP_ACTIONS.UPDATE_COLOR,
+            payload: {
+                value: value,
+                name: elementName
+            }
+        })
+
+        const packets = {
+            [`${elementName}`]: value,
+        };
+
+        timer = setTimeout(() => {
+            updateColor(packets, pageData["id"], elementName)
+            .then((response) => {
+                if (response.success) {
+                    /*dispatch({
+                        type: LP_ACTIONS.UPDATE_COLOR,
+                        payload: {
+                            value: value,
+                            name: elementName
+                        }
+                    })*/
+                    console.log("triggered");
+                }
+            })
+        },5000)
+
     }
 
     return (
