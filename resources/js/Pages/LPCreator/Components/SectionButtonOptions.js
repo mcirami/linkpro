@@ -55,7 +55,7 @@ const SectionButtonOptions = ({
                 <Switch
                     onChange={handleSwitchChange}
                     height={20}
-                    checked={includeButtonValue}
+                    checked={Boolean(includeButtonValue)}
                     onColor="#424fcf"
                     uncheckedIcon={false}
                     checkedIcon={false}

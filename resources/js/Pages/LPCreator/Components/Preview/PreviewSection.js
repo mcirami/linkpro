@@ -2,13 +2,12 @@ import React, {useEffect, useState} from 'react';
 import SectionImage from './SectionImage';
 
 const PreviewSection = ({
-                            colors,
                             data,
-                            textArray,
                             nodesRef,
                             completedCrop,
                             fileNames,
-                            position
+                            position,
+                            pageData
 }) => {
 
    /* console.log("completed crop: ", completedCrop);
@@ -19,20 +18,20 @@ const PreviewSection = ({
     //console.log("nodesRef: ", nodesRef.current[elementName])
 
 
-    const {type, bgColor, textColor, text, imgUrl, includeButton, buttonPosition} = data;
+    const {type, bg_color, text_color, text, image, button, button_position} = data;
     const [buttonStyle, setButtonStyle] = useState(null);
 
     useEffect(() => {
         setButtonStyle ({
-            background: colors.buttonBg || '#000000',
-            color: colors.buttonText || '#ffffff'
+            background: pageData["button_color"],
+            color: pageData["button_text"]
         })
 
-    },[colors.buttonBg, colors.buttonText])
+    },[pageData["button_color"], pageData["button_text"]])
 
     const Button = ({buttonText}) => {
         return (
-            <div className={`button_wrap ${buttonPosition ? buttonPosition : "above"}`}>
+            <div className={`button_wrap ${button_position ? button_position : "above"}`}>
                 <a href="#"
                    className="button"
                    style={buttonStyle}
@@ -45,19 +44,19 @@ const PreviewSection = ({
         <section className="my_row">
             {{
                 "text":
-                    <div className={type} style={{ background: colors["section" + position + "BgColor"] || bgColor}}>
+                    <div className={type} style={{ background: bg_color || 'rgba(255,255,255,1)'}}>
                         <div className="container">
-                            {(includeButton && (buttonPosition === "above" || !buttonPosition)) &&
-                               <Button
-                                   buttonText={textArray.buttonText}
-                               />
+                            {( !!button && button_position === "above") &&
+                                <Button
+                                    buttonText={pageData["button_text"]}
+                                />
                             }
                             <p
-                                style={{ color: colors["section" + position + "TextColor"] || textColor}}
-                            >{textArray["section" + position + "Text"] || text}</p>
-                            {(includeButton && buttonPosition === "below") &&
+                                style={{ color: text_color || 'rgba(0,0,0,1)'}}
+                            >{text || ""}</p>
+                            {( !!button && button_position === "below") &&
                                 <Button
-                                    buttonText={textArray.buttonText}
+                                    buttonText={pageData["button_text"]}
                                 />
                             }
                         </div>
@@ -67,8 +66,8 @@ const PreviewSection = ({
                         nodesRef={nodesRef}
                         completedCrop={completedCrop}
                         fileNames={fileNames}
-                        elementName={"section"+position+type}
-                        imgUrl={imgUrl}
+                        elementName={"section_"+ position + "_" + type}
+                        imgUrl={image}
                         type={type}
                     />,
             }[type]}

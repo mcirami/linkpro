@@ -5,17 +5,21 @@ import Hero from './Hero';
 import {
     PreviewHeight,
 } from '../../../../Services/PreviewHooks';
+import {isEmpty} from 'lodash';
 
 const Preview = ({
                      completedCrop,
                      nodesRef,
                      fileNames,
                      setFileNames,
-                     colors,
-                     sections,
-                     textArray,
                      pageData,
+                     sections
 }) => {
+
+    useLayoutEffect(() => {
+        console.log("use layout effect")
+        PreviewHeight();
+    }, []);
 
     useLayoutEffect(() => {
 
@@ -24,10 +28,6 @@ const Preview = ({
         return () => {
             window.removeEventListener('resize', PreviewHeight);
         }
-    }, []);
-
-    useLayoutEffect(() => {
-        PreviewHeight();
     }, []);
 
     return (
@@ -45,33 +45,28 @@ const Preview = ({
                                 nodesRef={nodesRef}
                                 completedCrop={completedCrop}
                                 fileNames={fileNames}
-                                colors={colors}
-                                textArray={textArray}
                                 pageData={pageData}
                             />
                             <Hero
                                 nodesRef={nodesRef}
                                 completedCrop={completedCrop}
                                 fileNames={fileNames}
-                                colors={colors}
-                                textArray={textArray}
                                 pageData={pageData}
                                 elementName="hero"
                             />
 
                         </section>
-                        {sections.map((data, index) => {
+                        {!isEmpty(sections) && sections.map((data, index) => {
 
                             return (
                                 <PreviewSection
                                     key={index}
-                                    colors={colors}
                                     data={data}
-                                    textArray={textArray}
                                     nodesRef={nodesRef}
                                     completedCrop={completedCrop}
                                     fileNames={fileNames}
                                     setFileNames={setFileNames}
+                                    pageData={pageData}
                                     position={index + 1}
                                 />
                             )

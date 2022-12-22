@@ -4,8 +4,6 @@ const Hero = ({
                   nodesRef,
                   completedCrop,
                   fileNames,
-                  colors,
-                  textArray,
                   elementName,
                   pageData
 }) => {
@@ -43,11 +41,11 @@ const Hero = ({
 
     useEffect(() => {
         setButtonStyle ({
-            background: colors.button_color || '#000000',
-            color: colors.button_text_color || '#ffffff'
+            background: pageData["button_color"] || '#000000',
+            color: pageData["button_text_color"] || '#ffffff'
         })
 
-    },[colors.button_color, colors.button_text_color])
+    },[pageData["button_color"], pageData["button_text_color"]])
 
     return (
         <article className="header_image my_row"
@@ -69,7 +67,7 @@ const Hero = ({
                 />
             }
             <a className="button" href="#" style={buttonStyle}>
-                {textArray.button_text || "Get Course"}
+                {pageData["button_text"] || "Get Course"}
             </a>
         </article>
     );

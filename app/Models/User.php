@@ -87,7 +87,11 @@ class User extends VoyagerUser
         return $this->hasMany(ShopifyStore::class);
     }
 
-    public function LandingPages() {
+    public function LandingPage() {
         return $this->hasOne(LandingPage::class);
+    }
+
+    public function LandingPageSection() {
+        return $this->hasMany(LandingPageSection::class);
     }
 }

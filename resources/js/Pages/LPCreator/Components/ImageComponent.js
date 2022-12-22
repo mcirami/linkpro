@@ -191,11 +191,11 @@ const ImageComponent = ({
                                     htmlFor={`${elementName}_file_upload`}
                                     className="custom"
                                 >
-                                    {elementName} Image
+                                    {elementName === "hero" ? "Header" : elementName} Image
                                     <span className="edit_icon">
                                         <MdEdit />
                                         <div className="hover_text edit_image">
-                                            <p>Edit {elementName} Image</p>
+                                            <p>Edit {elementName === "hero" ? "Header" : elementName} Image</p>
                                         </div>
                                     </span>
                                 </label>

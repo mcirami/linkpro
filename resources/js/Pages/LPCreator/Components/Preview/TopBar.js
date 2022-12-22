@@ -4,8 +4,6 @@ const TopBar = ({
                     nodesRef,
                     completedCrop,
                     fileNames,
-                    colors,
-                    textArray,
                     pageData
 }) => {
 

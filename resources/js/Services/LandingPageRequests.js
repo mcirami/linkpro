@@ -2,7 +2,7 @@ import axios from 'axios';
 import EventBus from '../Utils/Bus';
 
 /**
- * Submit a request to update landing page logo
+ * Submit a request to update landing page images
  * return object
  */
 export const updateImage = (packets, id, elementName) => {
@@ -11,7 +11,7 @@ export const updateImage = (packets, id, elementName) => {
     .then(
         (response) => {
             const returnMessage = JSON.stringify(response.data.message);
-            EventBus.dispatch("success", { message: returnMessage });
+            EventBus.dispatch("success", { message: returnMessage.replace("_", " ") });
 
             return {
                 success : true,
@@ -38,16 +38,19 @@ export const updateImage = (packets, id, elementName) => {
 }
 
 /**
- * Submit a request to update landing page logo
+ * Submit a request to update landing page text
  * return object
  */
-export const updateText = (packets, id, elementName) => {
+export const updateData = (packets, id, elementName) => {
 
-    return axios.post('/course-manager/landing-page/save-text/' + id, packets)
+    return axios.post('/course-manager/landing-page/save-data/' + id, packets)
     .then(
         (response) => {
             const returnMessage = JSON.stringify(response.data.message);
-            EventBus.dispatch("success", { message: returnMessage });
+
+            if (!returnMessage.includes("color")) {
+                EventBus.dispatch("success", { message: returnMessage.replace("_", " ") });
+            }
 
             return {
                 success : true,
@@ -73,19 +76,20 @@ export const updateText = (packets, id, elementName) => {
 }
 
 /**
- * Submit a request to update landing page logo
+ * Submit a request to add landing page section
  * return object
  */
-export const updateColor = (packets, id, elementName) => {
+export const addSection = (packets, id, elementName) => {
 
-    return axios.post('/course-manager/landing-page/save-color/' + id, packets)
+    return axios.post('/course-manager/landing-page/add-section/' + id, packets)
     .then(
         (response) => {
-            const returnMessage = JSON.stringify(response.data.message);
-            //EventBus.dispatch("success", { message: returnMessage });
+            //const returnMessage = JSON.stringify(response.data.message);
+            //EventBus.dispatch("success", { message: returnMessage.replace("_", " ") });
 
             return {
                 success : true,
+                section: response.data.section
             }
         }
     )
@@ -93,7 +97,7 @@ export const updateColor = (packets, id, elementName) => {
         if (error.response !== undefined) {
             if (error.response.data.errors[elementName] !== undefined) {
                 EventBus.dispatch("error",
-                    {message: error.response.data.errors["elementName"][0]});
+                    {message: error.response.data.errors[elementName][0]});
             }
             console.error("ERROR:: ", error.response.data);
         } else {
@@ -106,3 +110,42 @@ export const updateColor = (packets, id, elementName) => {
 
     });
 }
+
+/**
+ * Submit a request to update landing page section data
+ * return object
+ */
+export const updateSectionData = (packets, id, elementName) => {
+
+    return axios.post('/course-manager/landing-page/update-section-data/' + id, packets)
+    .then(
+        (response) => {
+            const returnMessage = JSON.stringify(response.data.message);
+            //EventBus.dispatch("success", { message: returnMessage.replace("_", " ") });
+            if (!returnMessage.includes("color")) {
+                EventBus.dispatch("success", { message: returnMessage.replace("_", " ") });
+            }
+
+            return {
+                success : true,
+            }
+        }
+    )
+    .catch((error) => {
+        if (error.response !== undefined) {
+            if (error.response.data.errors[elementName] !== undefined) {
+                EventBus.dispatch("error",
+                    {message: error.response.data.errors[elementName][0]});
+            }
+            console.error("ERROR:: ", error.response.data);
+        } else {
+            console.error("ERROR:: ", error);
+        }
+
+        return {
+            success : false,
+        }
+
+    });
+}
+

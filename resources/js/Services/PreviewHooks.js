@@ -6,9 +6,9 @@ export const PreviewHeight = () => {
 
     let pixelsToMinus;
     if (windowWidth > 551) {
-        pixelsToMinus = 35;
+        pixelsToMinus = 30;
     } else {
-        pixelsToMinus = 25;
+        pixelsToMinus = 20;
     }
 
     box.style.maxHeight = innerContent.offsetHeight - pixelsToMinus + "px";

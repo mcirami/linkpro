@@ -93,10 +93,14 @@ Route::group(['middleware' => 'auth'], function() {
     Route::group(['prefix' => 'course-manager'], function() {
         Route::get('/', [CourseController::class, 'showCourseManager'])->name('show.course.manager');
         Route::get('/add-landing-page', [LandingPageController::class, 'store'])->name('add.landing.page');
-        Route::get('/landing-page/{landing_page}', [LandingPageController::class, 'edit'])->name('edit.landing.page');
-        Route::post('/landing-page/save-image/{landing_page}', [LandingPageController::class, 'saveImage'])->name('lp.save.image');
-        Route::post('/landing-page/save-text/{landing_page}', [LandingPageController::class, 'saveText'])->name('lp.save.text');
-        Route::post('/landing-page/save-color/{landing_page}', [LandingPageController::class, 'saveColor'])->name('lp.save.color');
+
+        Route::group(['prefix' => 'landing-page'], function() {
+            Route::get('/{landing_page}', [LandingPageController::class, 'edit'])->name('edit.landing.page');
+            Route::post('/save-image/{landing_page}', [LandingPageController::class, 'saveImage'])->name('lp.save.image');
+            Route::post('/save-data/{landing_page}', [LandingPageController::class, 'saveLandingPageData'])->name('lp.save.data');
+            Route::post('/add-section/{landing_page}', [LandingPageController::class, 'addSection'])->name('lp.add.section');
+            Route::post('/update-section-data/{landing_page_section}', [LandingPageController::class, 'updateSectionData'])->name('update.section.data');
+        });
     });
 
 });

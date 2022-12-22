@@ -26,7 +26,16 @@ class LandingPage extends Model
         'button_color',
     ];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     */
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function user() {
         return $this->belongsTo(User::class);
+    }
+
+    public function LandingPageSections() {
+        return $this->hasMany(LandingPageSection::class);
     }
 }

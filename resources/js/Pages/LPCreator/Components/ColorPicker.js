@@ -1,19 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import {SketchPicker} from 'react-color';
 import {RiCloseCircleFill} from 'react-icons/ri';
-import {updateColor} from '../../../Services/LandingPageRequests';
+import {
+    updateData,
+    updateSectionData,
+} from '../../../Services/LandingPageRequests';
 import {LP_ACTIONS} from '../Reducer';
 
 
 const ColorPicker = ({
                          label,
-                         colors,
-                         setColors,
                          elementName,
-                         pageData,
-                         dispatch,
-                         bgColor = null,
-                         textColor = null
+                         pageData = null,
+                         dispatch = null,
+                         sections = null,
+                         setSections = null,
+                         currentSection = null
 }) => {
 
     const [sketchPickerColor, setSketchPickerColor] = useState({
@@ -26,11 +28,9 @@ const ColorPicker = ({
     const { r, g, b, a } = sketchPickerColor;
 
     const [showPicker, setShowPicker] = useState(false);
-    const [pickerBg, setPickerBg] = useState({
-        background: pageData[elementName],
-    });
+    const [pickerBg, setPickerBg] = useState({});
 
-    var timer;
+    var timer = 0;
 
     useEffect(() => {
         /*setPickerBg(
@@ -44,38 +44,55 @@ const ColorPicker = ({
     },[sketchPickerColor])
 
     useEffect(() => {
-        if(bgColor) {
-            setPickerBg(
-                {background: bgColor}
-            );
-        } else if(textColor) {
-            setPickerBg({background: textColor});
+
+        if(currentSection) {
+            let element = elementName.split(/(\d+)/);
+            element = element[2].replace('_', '');
+
+            let color;
+            if(element === "text_color" && !currentSection[element]) {
+                color = 'rgba(0,0,0,1)';
+            } else if (element === "bg_color" && !currentSection[element]) {
+                color = 'rgba(255,255,255,1)';
+            } else {
+                color = currentSection[element];
+            }
+
+            setPickerBg({background: color});
+        } else {
+            setPickerBg({ background: pageData[elementName] })
         }
+
     },[])
 
+    useEffect(() => {
+        // "timer" will be undefined again after the next re-render
+        return () => clearTimeout(timer);
+    }, []);
+
     const handleOnChange = (color) => {
-        clearTimeout(timer);
         setSketchPickerColor(color);
         const value = `rgba(${color.r} , ${color.g} , ${color.b} , ${color.a})`;
-        setColors({
-            ...colors,
-            [`${elementName}`]: value
-        })
+        if(sections) {
 
-        dispatch({
-            type: LP_ACTIONS.UPDATE_COLOR,
-            payload: {
-                value: value,
-                name: elementName
-            }
-        })
+            let element = elementName.split(/(\d+)/);
+            element = element[2].replace('_', '');
 
-        const packets = {
-            [`${elementName}`]: value,
-        };
+            setSections(sections.map((section) => {
+                if (section.id === currentSection.id) {
+                    return {
+                        ...section,
+                        [`${element}`]: value,
+                    }
+                }
+                return section;
+            }))
 
-        timer = setTimeout(() => {
-            updateColor(packets, pageData["id"], elementName)
+            const packets = {
+                [`${element}`]: value,
+            };
+
+            updateSectionData(packets, currentSection.id)
             .then((response) => {
                 if (response.success) {
                     /*dispatch({
@@ -87,8 +104,41 @@ const ColorPicker = ({
                     })*/
                     console.log("triggered");
                 }
+            });
+
+        } else {
+
+            dispatch({
+                type: LP_ACTIONS.UPDATE_PAGE_DATA,
+                payload: {
+                    value: value,
+                    name: elementName
+                }
             })
-        },5000)
+
+            const packets = {
+                [`${elementName}`]: value,
+            };
+
+            timer = setTimeout(() => {
+                updateData(packets, pageData["id"], elementName)
+                .then((response) => {
+                    if (response.success) {
+                        /*dispatch({
+                            type: LP_ACTIONS.UPDATE_COLOR,
+                            payload: {
+                                value: value,
+                                name: elementName
+                            }
+                        })*/
+                        console.log("triggered");
+                    }
+                })
+            },5000)
+
+            console.log("timer: ", timer);
+        }
+
 
     }
 

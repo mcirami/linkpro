@@ -1,21 +1,19 @@
 import React, {useState, useRef, useReducer, useEffect} from 'react';
 
 const landingPageArray = user.landingPage;
-import Logo from './Components/Logo';
 import {Loader} from '../../Utils/Loader';
 import {Flash} from '../../Utils/Flash';
 import InputComponent from './Components/InputComponent';
-import HeaderImage from './Components/HeaderImage';
 import ColorPicker from './Components/ColorPicker';
 import Preview from './Components/Preview/Preview';
 import DropdownComponent from './Components/DropdownComponent';
-import sectionData from './Components/SectionData';
 import AddTextSection from './Components/AddTextSection';
 import AddImageSection from './Components/AddImageSection';
 import ImageComponent from './Components/ImageComponent';
 import SectionButtonOptions from './Components/SectionButtonOptions';
 import {reducer} from './Reducer';
 import EventBus from '../../Utils/Bus';
+import {isEmpty} from 'lodash';
 
 function App() {
 
@@ -25,13 +23,11 @@ function App() {
     //const [fileNameHeader, setFileNameHeader] = useState(null);
 
     const [pageData, dispatch] = useReducer(reducer, landingPageArray);
+    const [sections, setSections] = useState(pageData["sections"]);
 
-    const [sections, setSections] = useState(sectionData);
     const [completedCrop, setCompletedCrop] = useState([])
     const nodesRef = useRef([]);
     const [fileNames, setFileNames] = useState([]);
-    const [colors, setColors] = useState([]);
-    const [textArray, setTextArray] = useState([]);
 
     const [showLoader, setShowLoader] = useState({
         show: false,
@@ -133,9 +129,8 @@ function App() {
                                 hoverText="Submit Slogan Text"
                                 elementName="slogan"
                                 pageData={pageData}
-                                textArray={textArray}
-                                setTextArray={setTextArray}
                                 dispatch={dispatch}
+                                value={pageData["slogan"]}
                             />
                             {/*<HeaderImage
                                 nodesRef={nodesRef}
@@ -166,8 +161,6 @@ function App() {
                             />
                             <ColorPicker
                                 label="Top Header Color"
-                                colors={colors}
-                                setColors={setColors}
                                 pageData={pageData}
                                 dispatch={dispatch}
                                 elementName="header_color"
@@ -182,16 +175,12 @@ function App() {
                         <div className="section_content my_row">
                             <ColorPicker
                                 label="Button Color"
-                                colors={colors}
-                                setColors={setColors}
                                 pageData={pageData}
                                 dispatch={dispatch}
                                 elementName="button_color"
                             />
                             <ColorPicker
                                 label="Button Text Color"
-                                colors={colors}
-                                setColors={setColors}
                                 pageData={pageData}
                                 dispatch={dispatch}
                                 elementName="button_text_color"
@@ -203,16 +192,16 @@ function App() {
                                 hoverText="Submit Button Text"
                                 elementName="button_text"
                                 pageData={pageData}
+                                value={pageData["button_text"]}
                                 dispatch={dispatch}
-                                setTextArray={setTextArray}
                             />
                             <DropdownComponent />
                         </div>
                     </section>
 
-                    {/*{sections?.map((data, index) => {
+                    {!isEmpty(sections) && sections.map((section, index) => {
 
-                        const {id, type, bgColor, textColor, text, buttonPosition, includeButton} = data;
+                        const {id, type, text, button_position, button, image} = section;
 
                         return (
                             <section className="my_row" key={id}>
@@ -227,23 +216,25 @@ function App() {
                                                 type="textarea"
                                                 maxChar={65}
                                                 hoverText={`Add Text to Section ${index + 1}`}
-                                                elementName={`section${index + 1}Text`}
+                                                elementName={`section_${index + 1}_text`}
                                                 value={text}
-                                                setTextArray={setTextArray}
+                                                currentSection={section}
+                                                sections={sections}
+                                                setSections={setSections}
                                             />
                                             <ColorPicker
                                                 label="Background Color"
-                                                colors={colors}
-                                                setColors={setColors}
-                                                bgColor={bgColor}
-                                                elementName={`section${index + 1}BgColor`}
+                                                currentSection={section}
+                                                sections={sections}
+                                                setSections={setSections}
+                                                elementName={`section_${index + 1}_bg_color`}
                                             />
                                             <ColorPicker
                                                 label="Text Color"
-                                                colors={colors}
-                                                setColors={setColors}
-                                                textColor={textColor}
-                                                elementName={`section${index + 1}TextColor`}
+                                                currentSection={section}
+                                                sections={sections}
+                                                setSections={setSections}
+                                                elementName={`section_${index + 1}_text_color`}
                                             />
                                         </>
                                         :
@@ -254,28 +245,33 @@ function App() {
                                             fileNames={fileNames}
                                             setFileNames={setFileNames}
                                             setShowLoader={setShowLoader}
-                                            elementName={`section${index + 1}image`}
+                                            pageData={pageData}
+                                            dispatch={dispatch}
+                                            elementName={`section_${index + 1}_image`}
                                         />
                                     }
                                     <div className="my_row button_options">
                                         <SectionButtonOptions
                                             position={index + 1}
-                                            buttonPosition={buttonPosition}
-                                            includeButton={includeButton}
+                                            buttonPosition={button_position}
+                                            includeButton={button}
                                             sections={sections}
                                             setSections={setSections}
+                                            pageData={pageData}
+                                            dispatch={dispatch}
                                             id={id}
                                         />
                                     </div>
                                 </div>
                             </section>
                         )
-                    })}*/}
+                    })}
 
                     <div className="link_row">
                         <AddTextSection
                             sections={sections}
                             setSections={setSections}
+                            pageID={pageData["id"]}
                         />
                         <AddImageSection
                             sections={sections}
@@ -292,9 +288,7 @@ function App() {
                     nodesRef={nodesRef}
                     fileNames={fileNames}
                     setFileNames={setFileNames}
-                    colors={colors}
                     sections={sections}
-                    textArray={textArray}
                     pageData={pageData}
                 />
             </div>

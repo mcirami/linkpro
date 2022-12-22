@@ -3,7 +3,10 @@ import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from 'draft-js';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import {updateText} from '../../../Services/LandingPageRequests';
+import {
+    updateData,
+    updateSectionData,
+} from '../../../Services/LandingPageRequests';
 import {LP_ACTIONS} from '../Reducer';
 
 const InputComponent = ({
@@ -12,22 +15,39 @@ const InputComponent = ({
                             maxChar,
                             hoverText,
                             elementName,
-                            textArray,
-                            setTextArray,
-                            dispatch,
-                            pageData
+                            value,
+                            pageData = null,
+                            dispatch = null,
+                            sections = null,
+                            setSections = null,
+                            currentSection = null
 }) => {
 
     const [charactersLeft, setCharactersLeft] = useState(maxChar);
     //const [editorState, setEditorState] = useState(value)
     //const [contentState, setContentState] = useState(value)
-    const [value, setValue] = useState("");
+    //const [isSection, setIsSection] = useState(false);
 
-    useEffect(() => {
-        if (pageData?.hasOwnProperty(elementName)) {
+    //const [value, setValue] = useState("");
+
+    /*useEffect(() => {
+
+        if (elementName.includes("section")) {
+            setIsSection(true);
+        }
+
+    },[])*/
+
+   /* useEffect(() => {
+
+        if (isSection) {
+
+            setValue(section[])
+
+        } else if (pageData?.hasOwnProperty(elementName)) {
             setValue(pageData[elementName])
         }
-    },[])
+    },[])*/
 
     useEffect(() => {
         if(value) {
@@ -40,40 +60,66 @@ const InputComponent = ({
     const handleChange = (e) => {
         const value = e.target.value;
         setCharactersLeft(maxChar - value.length);
-        setTextArray((prev) => ({
-            ...prev,
-            [`${elementName}`]: value
-        }))
-        dispatch({
-            type: LP_ACTIONS.UPDATE_PAGE_DATA,
-            payload: {
-                value: value,
-                name: elementName
-            }
-        })
+
+        if(sections) {
+
+            let element = elementName.split(/(\d+)/);
+            element = element[2].replace('_', '');
+
+            setSections(sections.map((section) => {
+                if (section.id === currentSection.id) {
+                    return {
+                        ...section,
+                        [`${element}`]: value,
+                    }
+                }
+                return section;
+            }))
+
+        } else {
+            dispatch({
+                type: LP_ACTIONS.UPDATE_PAGE_DATA,
+                payload: {
+                    value: value,
+                    name: elementName
+                }
+            })
+        }
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const value = textArray[elementName];
+        if (sections) {
 
-        const packets = {
-            [`${elementName}`]: value,
-        };
+            let element = elementName.split(/(\d+)/);
+            element = element[2].replace('_', '');
 
-        updateText(packets, pageData["id"], elementName)
-        .then((response) => {
-            if (response.success) {
-                dispatch({
-                    type: LP_ACTIONS.UPDATE_TEXT,
-                    payload: {
-                        value: value,
-                        name: elementName
-                    }
-                })
-            }
-        })
+            const packets = {
+                [`${element}`]: e.target.value,
+            };
+
+            updateSectionData(packets, currentSection.id);
+
+        } else {
+            const value = pageData[elementName];
+            const packets = {
+                [`${elementName}`]: value,
+            };
+
+            updateData(packets, pageData["id"], elementName)
+            .then((response) => {
+                if (response.success) {
+                    /*dispatch({
+                        type: LP_ACTIONS.UPDATE_PAGE_DATA,
+                        payload: {
+                            value: value,
+                            name: elementName
+                        }
+                    })*/
+                }
+            })
+        }
     }
 
     /*const handleEditorChange = (contentState) => {
@@ -90,7 +136,7 @@ const InputComponent = ({
                            name={elementName}
                            type="text"
                            placeholder={placeholder}
-                           defaultValue={value}
+                           defaultValue={value || ""}
                            onChange={(e) => handleChange(e)}
                            onKeyDown={event => {
                                if (event.key === 'Enter') {
@@ -103,7 +149,7 @@ const InputComponent = ({
                         <textarea
                             name={elementName}
                             placeholder={placeholder}
-                            defaultValue={value}
+                            defaultValue={value || ""}
                             rows={5}
                             onChange={(e) => handleChange(e)}
                             onKeyDown={event => {
@@ -111,6 +157,7 @@ const InputComponent = ({
                                     handleSubmit(event);
                                 }
                             }}
+                            onBlur={(e) => handleSubmit(e)}
                         ></textarea>
                    /* <Editor
                         initialEditorState={contentState}

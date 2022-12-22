@@ -5,6 +5,25 @@ use Illuminate\Support\Facades\Storage;
 
 class LandingPageService {
 
+    public function getLPData($landingPage) {
+
+        $landingPageData = $landingPage->attributesToArray();
+        $sections = $landingPage->landingPageSections()->get()->toArray();
+
+        $sectionArray = [];
+        foreach ($sections as $index => $section) {
+            $object = [
+                "name" => "section_" . $index + 1,
+            ];
+            $merged = array_merge($section, $object);
+            array_push( $sectionArray, $merged );
+        }
+
+        $landingPageData["sections"] = $sectionArray;
+
+        return $landingPageData;
+    }
+
     public function savePageImage($userID, $request, $key, $landingPage) {
         $imgName = $userID . '-' . time() . '.' . $request->ext;
         $path = 'landing-pages/' . $userID . '/' . $imgName;
@@ -23,19 +42,30 @@ class LandingPageService {
         return $imagePath;
     }
 
-    public function savePageText($landingPage, $request) {
+    public function savePageData($landingPage, $request) {
         $keys = collect($request->all())->keys();
 
-        $landingPage->update([$keys[0] => $request[$keys[0]] ]);
+        $landingPage->update([
+            $keys[0] => $request[$keys[0]]
+        ]);
 
         return $keys[0];
     }
 
-    public function savePageColor($landingPage, $request) {
-        $keys = collect($request->all())->keys();
+   public function addLPSection($landingPage, $userID, $request) {
+       return $landingPage->LandingPageSections()->create([
+           'user_id' => $userID,
+           'type'  => $request->type,
+       ]);
+   }
 
-        $landingPage->update([$keys[0] => $request[$keys[0]] ]);
+   public function saveLPSection($section, $request) {
+       $keys = collect($request->all())->keys();
 
-        return $keys[0];
+       $section->update([
+           $keys[0] => $request[$keys[0]]
+       ]);
+
+       return $keys[0];
     }
 }
