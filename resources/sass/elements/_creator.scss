@@ -66,6 +66,19 @@
                 }
 
                 .section_title {
+                    display: -webkit-box;
+                    display: -ms-flexbox;
+                    display: flex;
+                    -webkit-box-orient: horizontal;
+                    -webkit-box-direction: normal;
+                    -ms-flex-direction: row;
+                    flex-direction: row;
+                    -ms-flex-wrap: nowrap;
+                    flex-wrap: nowrap;
+                    justify-content: space-between;
+                    -webkit-justify-content: space-between;
+                    align-items: center;
+                    -webkit-align-items: center;
                     margin-bottom: 20px;
 
                     h4 {
@@ -222,7 +235,30 @@
                 }
             }
 
+            .sections {
+                position: relative;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-orient: vertical;
+                -webkit-box-direction: normal;
+                -ms-flex-direction: column;
+                flex-direction: column;
+                -ms-flex-wrap: nowrap;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                -webkit-justify-content: flex-start;
+                align-items: stretch;
+                -webkit-align-items: stretch;
+                width: 100%;
+            }
+
             section {
+                position: relative;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                flex-wrap: nowrap;
 
                 .button_wrap {
                     text-align: center;
@@ -267,6 +303,23 @@
                         }
                     }
                 }
+            }
+        }
+
+        .preview_button_wrap {
+            position: fixed;
+            bottom: 20px;
+            right: -34px;
+            width: 122px;
+            z-index: 999;
+
+            @media screen and (max-width: 768px) {
+                width: 102px;
+            }
+
+            a {
+                font-size: 12px;
+                padding-right: 40px;
             }
         }
     }

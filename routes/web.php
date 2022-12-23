@@ -16,6 +16,8 @@ use App\Http\Controllers\ContactMailController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\MailchimpController;
+use App\Http\Controllers\ShopifyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,6 +92,16 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::post('/folder/new', [FolderController::class, 'store'])->name('add.folder');
 
+    Route::get('/auth/shopify', [ShopifyController::class, 'auth'])->name('shopify.auth');
+    Route::get('/auth/shopify/callback', [ShopifyController::class, 'callback']);
+    Route::get('/shopify/get-products/{id}', [ShopifyController::class, 'getAllProducts'])->name('shopify.get.products');
+    Route::get('/shopify/get-stores', [ShopifyController::class, 'getStores'])->name('shopify.get.stores');
+
+    Route::get('/auth/mailchimp', [MailchimpController::class, 'auth'])->name('mailchimp.auth');
+    Route::get('/auth/mailchimp/callback', [MailchimpController::class, 'callback']);
+    Route::get('/mailchimp/list', [MailchimpController::class, 'getLists'])->name('mailchimp.get.lists');
+    Route::post('/mailchimp/remove-connection', [MailchimpController::class, 'removeConnection'])->name('mailchimp.remove.connection');
+
     Route::group(['prefix' => 'course-manager'], function() {
         Route::get('/', [CourseController::class, 'showCourseManager'])->name('show.course.manager');
         Route::get('/add-landing-page', [LandingPageController::class, 'store'])->name('add.landing.page');
@@ -99,6 +111,7 @@ Route::group(['middleware' => 'auth'], function() {
             Route::post('/save-image/{landing_page}', [LandingPageController::class, 'saveImage'])->name('lp.save.image');
             Route::post('/save-data/{landing_page}', [LandingPageController::class, 'saveLandingPageData'])->name('lp.save.data');
             Route::post('/add-section/{landing_page}', [LandingPageController::class, 'addSection'])->name('lp.add.section');
+            Route::post('/delete-section/{landing_page_section}', [LandingPageController::class, 'deleteSection'])->name('delete.section');
             Route::post('/update-section-data/{landing_page_section}', [LandingPageController::class, 'updateSectionData'])->name('update.section.data');
             Route::post('/update-section-image/{landing_page_section}', [LandingPageController::class, 'updateSectionImage'])->name('update.section.image');
         });

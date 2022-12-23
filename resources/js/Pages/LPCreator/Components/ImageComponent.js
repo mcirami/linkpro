@@ -24,17 +24,28 @@ const ImageComponent = ({
                             currentSection = null
 }) => {
 
+    const [elementLabel, setElementLabel] = useState(elementName);
     const [upImg, setUpImg] = useState();
     const imgRef = useRef();
     const previewCanvasRef = nodesRef;
+
     const [crop, setCrop] = useState(
-        /*unit: "%",
-        width: 30,
-        x: 25,
-        y: 25,
-        aspect: 16 / 12 */
         cropArray
     );
+
+    useEffect(() => {
+
+        if(sections) {
+            const words = elementName.split("_");
+            const name = words.map((word) => {
+                return word.charAt(0). toUpperCase() + word.slice(1);
+            })
+            setElementLabel(name.join(" "));
+        } else {
+            setElementLabel( elementName === "hero" ? "Header Image" : elementName.charAt(0).toUpperCase() + elementName.slice(1) + " Image");
+        }
+
+    },[])
 
     const checkFound = () => {
         const found = fileNames?.find(el => {
@@ -234,11 +245,11 @@ const ImageComponent = ({
                                     htmlFor={`${elementName}_file_upload`}
                                     className="custom"
                                 >
-                                    {elementName === "hero" ? "Header" : elementName} Image
+                                    {elementLabel}
                                     <span className="edit_icon">
                                         <MdEdit />
                                         <div className="hover_text edit_image">
-                                            <p>Edit {elementName === "hero" ? "Header" : elementName} Image</p>
+                                            <p>Edit {elementLabel}</p>
                                         </div>
                                     </span>
                                 </label>

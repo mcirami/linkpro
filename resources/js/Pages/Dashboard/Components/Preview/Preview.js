@@ -41,8 +41,8 @@ const Preview = ({
     const [clickType, setClickType] = useState(null);
 
     const ClosePreview = () => {
-        setShowPreview(false);
         document.querySelector('body').classList.remove('fixed');
+        setShowPreview(false);
     }
 
     useEffect(() => {

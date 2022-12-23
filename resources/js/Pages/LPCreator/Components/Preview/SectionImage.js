@@ -26,7 +26,7 @@ const SectionImage = ({
                 {
                     width: (completedCrop[elementName]?.isCompleted) ? `100%` : 0,
                     height: (completedCrop[elementName]?.isCompleted) ? `auto` : 0,
-                    maxHeight: '200px',
+                    maxHeight: '232px',
                     overflow:'hidden'
                 }
                 :

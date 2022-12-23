@@ -146,15 +146,15 @@ function App() {
 
     }, []);
 
-    function setPreviewButton() {
-        previewButtonRequest(setShowPreviewButton);
-    }
-
     useEffect(() => {
-        setPreviewButton();
+        previewButtonRequest(setShowPreviewButton);
     }, [])
 
     useEffect(() => {
+
+        function setPreviewButton() {
+            previewButtonRequest(setShowPreviewButton);
+        }
 
         window.addEventListener('resize', setPreviewButton);
 

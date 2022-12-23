@@ -1,6 +1,4 @@
 import React, {useContext, useEffect, useRef} from 'react';
-import { Element } from  'react-scroll';
-import {infoScrollPosition} from '../../../../Services/PageRequests';
 import {PageContext} from '../../App';
 
 const InfoText = ({leftColWrap}) => {

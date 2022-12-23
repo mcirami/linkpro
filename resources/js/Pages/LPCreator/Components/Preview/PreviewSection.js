@@ -41,7 +41,7 @@ const PreviewSection = ({
     }
 
     return (
-        <section className="my_row">
+        <section className="">
             <div className={type} style={{ background: bg_color || 'rgba(255,255,255,1)'}}>
                 {( !!button && button_position === "above") &&
                     <Button

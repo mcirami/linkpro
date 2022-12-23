@@ -114,6 +114,13 @@ class LandingPageController extends Controller
         return response()->json(['section' => $section]);
     }
 
+    /**
+     * @param Request $request
+     * @param LandingPageSection $landingPageSection
+     * @param LandingPageService $service
+     *
+     * @return JsonResponse|never
+     */
     public function updateSectionData(Request $request, LandingPageSection $landingPageSection, LandingPageService $service) {
         $userID = Auth::id();
 
@@ -127,6 +134,13 @@ class LandingPageController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * @param LandingPageSection $landingPageSection
+     * @param LandingPageService $service
+     *
+     * @return JsonResponse|never
+     */
     public function updateSectionImage(Request $request, LandingPageSection $landingPageSection, LandingPageService $service) {
         $userID = Auth::id();
 
@@ -140,5 +154,22 @@ class LandingPageController extends Controller
 
         return response()->json(['message' => $keys[0] . ' Updated', 'imagePath' => $imagePath]);
 
+    }
+
+    /**
+     * @param LandingPageSection $landingPageSection
+     *
+     * @return JsonResponse|never
+     */
+    public function deleteSection(LandingPageSection $landingPageSection) {
+        $userID = Auth::id();
+
+        if ($landingPageSection->user_id != $userID) {
+            return abort(404);
+        }
+
+        $landingPageSection->delete();
+
+        return response()->json(['message' => "Section Deleted"]);
     }
 }

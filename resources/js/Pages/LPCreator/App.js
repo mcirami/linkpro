@@ -14,6 +14,10 @@ import SectionButtonOptions from './Components/SectionButtonOptions';
 import {reducer} from './Reducer';
 import EventBus from '../../Utils/Bus';
 import {isEmpty} from 'lodash';
+import {MdDeleteForever} from 'react-icons/md';
+import DeleteSection from './Components/DeleteSection';
+import PreviewButton from '../Dashboard/Components/Preview/PreviewButton';
+import {previewButtonRequest} from '../../Services/PageRequests';
 
 function App() {
 
@@ -24,6 +28,8 @@ function App() {
 
     const [pageData, dispatch] = useReducer(reducer, landingPageArray);
     const [sections, setSections] = useState(pageData["sections"]);
+    const [showPreviewButton, setShowPreviewButton] = useState(false);
+    const [showPreview, setShowPreview] = useState(false);
 
     const [completedCrop, setCompletedCrop] = useState([])
     const nodesRef = useRef([]);
@@ -39,6 +45,24 @@ function App() {
         type: '',
         msg: ''
     });
+
+    useEffect(() => {
+        previewButtonRequest(setShowPreviewButton);
+    }, [])
+
+    useEffect(() => {
+
+        function setPreviewButton() {
+            previewButtonRequest(setShowPreviewButton);
+        }
+
+        window.addEventListener('resize', setPreviewButton);
+
+        return () => {
+            window.removeEventListener('resize', setPreviewButton);
+        }
+
+    }, [])
 
     const showFlash = (show = false, type='', msg='') => {
         setFlash({show, type, msg})
@@ -83,6 +107,10 @@ function App() {
                     removeFlash={showFlash}
                     pageSettings={pageData}
                 />
+            }
+
+            {showPreviewButton &&
+                <PreviewButton setShowPreview={setShowPreview}/>
             }
 
             <div className="left_column">
@@ -187,6 +215,11 @@ function App() {
                             <section className="my_row" key={id}>
                                 <div className="section_title">
                                     <h4>Section {index + 1}</h4>
+                                    <DeleteSection
+                                        id={id}
+                                        sections={sections}
+                                        setSections={setSections}
+                                    />
                                 </div>
                                 <div className="section_content my_row">
                                     {type === "text" ?
@@ -269,7 +302,7 @@ function App() {
                 </div>
             </div>
 
-            <div className={`right_column links_col preview`}>
+            <div className={`right_column links_col preview  ${showPreview && "show"}`}>
                 <Preview
                     completedCrop={completedCrop}
                     nodesRef={nodesRef}
@@ -277,6 +310,7 @@ function App() {
                     setFileNames={setFileNames}
                     sections={sections}
                     pageData={pageData}
+                    setShowPreview={setShowPreview}
                 />
             </div>
 

@@ -85,6 +85,7 @@ export const addSection = (packets, id, elementName) => {
             //const returnMessage = JSON.stringify(response.data.message);
             //EventBus.dispatch("success", { message: returnMessage.replace("_", " ") });
 
+            console.log(response.data.section);
             return {
                 success : true,
                 section: response.data.section
@@ -170,6 +171,40 @@ export const updateSectionImage = (packets, id) => {
         if (error.response !== undefined) {
             EventBus.dispatch("error",
                 {message: "There was an error saving your image."});
+            console.error("ERROR:: ", error.response.data);
+        } else {
+            console.error("ERROR:: ", error);
+        }
+
+        return {
+            success : false,
+        }
+
+    });
+}
+
+/**
+ * Submit a request to update landing page section image
+ * return object
+ */
+export const deleteSection = (id) => {
+
+    return axios.post('/course-manager/landing-page/delete-section/' + id)
+    .then(
+        (response) => {
+            const returnMessage = JSON.stringify(response.data.message);
+            //EventBus.dispatch("success", { message: returnMessage.replace("_", " ") });
+            EventBus.dispatch("success", { message: returnMessage });
+
+            return {
+                success : true,
+            }
+        }
+    )
+    .catch((error) => {
+        if (error.response !== undefined) {
+            EventBus.dispatch("error",
+                {message: "There was an error deleting the section."});
             console.error("ERROR:: ", error.response.data);
         } else {
             console.error("ERROR:: ", error);
