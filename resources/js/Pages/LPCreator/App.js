@@ -302,7 +302,7 @@ function App() {
                 </div>
             </div>
 
-            <div className={`right_column links_col preview  ${showPreview && "show"}`}>
+            <div className={`right_column links_col preview${showPreview ? " show" : ""}`}>
                 <Preview
                     completedCrop={completedCrop}
                     nodesRef={nodesRef}

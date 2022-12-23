@@ -36,8 +36,6 @@ const PageHeader = ({
     const previewCanvasRef = setRef;
     const [crop, setCrop] = useState({ unit: "%", width: 30, aspect: 16 / 9 });
 
-    const infoDiv = useRef();
-
     const onSelectFile = (e) => {
         let files = e.target.files || e.dataTransfer.files;
         if (!files.length) {

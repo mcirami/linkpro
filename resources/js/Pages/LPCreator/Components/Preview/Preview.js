@@ -2,9 +2,9 @@ import React, {useEffect, useState, useLayoutEffect, createRef} from 'react';
 import TopBar from './TopBar';
 import PreviewSection from './PreviewSection';
 import Hero from './Hero';
-/*import {
+import {
     PreviewHeight,
-} from '../../../../Services/PreviewHooks';*/
+} from '../../../../Services/PreviewHooks';
 import {isEmpty} from 'lodash';
 import {IoIosCloseCircleOutline} from 'react-icons/io';
 
@@ -19,36 +19,20 @@ const Preview = ({
 }) => {
 
 
-    const innerContentRef = createRef();
+/*    const innerContentRef = createRef();
     const previewWrapRef = createRef();
 
+    console.log("innerContentRef: ", innerContentRef.current)*/
     useLayoutEffect(() => {
+
         PreviewHeight()
+
         window.addEventListener('resize', PreviewHeight);
 
         return () => {
             window.removeEventListener('resize', PreviewHeight);
         }
     }, []);
-
-    const PreviewHeight = () => {
-        const windowWidth = window.outerWidth;
-
-        const innerContent = document.getElementById('preview_wrap');
-        const box = document.querySelector('.inner_content_wrap');
-
-        console.log("window width: ", windowWidth);
-        let pixelsToMinus;
-        if (windowWidth > 551) {
-            pixelsToMinus = 30;
-        } else {
-            pixelsToMinus = 20;
-        }
-
-        console.log("ref height: ", previewWrapRef.current.offsetHeight);
-
-        box.style.maxHeight = innerContent.offsetHeight - pixelsToMinus + "px";
-    }
 
     const ClosePreview = () => {
         document.querySelector('body').classList.remove('fixed');
@@ -63,8 +47,8 @@ const Preview = ({
             </div>
 
             <div className="links_wrap preview">
-                <div className="inner_content" id="preview_wrap" ref={previewWrapRef}>
-                    <div className="inner_content_wrap" ref={innerContentRef}>
+                <div className="inner_content" id="preview_wrap" >
+                    <div className="inner_content_wrap" >
                         <section className="header">
                             <TopBar
                                 nodesRef={nodesRef}
