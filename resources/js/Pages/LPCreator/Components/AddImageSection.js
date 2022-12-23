@@ -1,25 +1,25 @@
 import React from 'react';
 import { ImPlus } from "react-icons/im";
+import {addSection} from '../../../Services/LandingPageRequests';
 
-const AddImageSection = ({sections, setSections}) => {
+const AddImageSection = ({sections, setSections, pageID}) => {
 
     const handleOnClick = (e) => {
         e.preventDefault();
-        const object = {
-            id: sections.length + 1,
-            type: 'image',
-            bgColor: null,
-            textColor: null,
-            text: null,
-            imgUrl: Vapor.asset("images/top-circle-image.jpg"),
-            includeButton: false,
-            buttonPosition: null
+
+        const packets = {
+            type: "image"
         }
 
-        setSections([
-            ...sections,
-            object
-        ])
+        addSection(packets, pageID)
+        .then((response) => {
+            if (response.success) {
+                setSections([
+                    ...sections,
+                    response.section
+                ])
+            }
+        })
     }
 
     return (

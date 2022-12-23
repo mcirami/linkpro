@@ -52,14 +52,14 @@ class LandingPageService {
         return $keys[0];
     }
 
-   public function addLPSection($landingPage, $userID, $request) {
+    public function addLPSection($landingPage, $userID, $request) {
        return $landingPage->LandingPageSections()->create([
            'user_id' => $userID,
            'type'  => $request->type,
        ]);
-   }
+    }
 
-   public function saveLPSection($section, $request) {
+    public function saveLPSection($section, $request) {
        $keys = collect($request->all())->keys();
 
        $section->update([
@@ -67,5 +67,23 @@ class LandingPageService {
        ]);
 
        return $keys[0];
+    }
+
+    public function saveSectionImage($userID, $request, $key, $section ) {
+        $imgName = $userID . '-' . time() . '.' . $request->ext;
+        $path = 'landing-pages/' . $userID . '/' . $imgName;
+
+        Storage::disk('s3')->delete($path);
+
+        Storage::disk('s3')->copy(
+            $request->$key,
+            str_replace($request->$key, $path, $request->$key)
+        );
+
+        $imagePath = Storage::disk('s3')->url($path);
+
+        $section->update(['image' => $imagePath]);
+
+        return $imagePath;
     }
 }

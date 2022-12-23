@@ -32,8 +32,8 @@ const SectionImage = ({
                 :
                 {
                     background: "url(" + imgUrl + ") center 25% no-repeat",
-                    backgroundSize: "20%",
-                    minHeight: "200px"
+                    backgroundSize: 'cover',
+                    padding: '29%'
                 }
         )
     },[completedCrop[elementName], fileNames])
@@ -56,9 +56,11 @@ const SectionImage = ({
                     }}
                 />
                 :
-                <div className={type} >
+                ""
+                /*<div className={type} >
                     <img src={imgUrl} alt=""/>
-                </div>}
+                </div>*/
+            }
         </div>
     );
 };

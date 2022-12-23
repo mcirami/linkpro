@@ -14,26 +14,12 @@ const AddTextSection = ({sections, setSections, pageID}) => {
         addSection(packets, pageID)
         .then((response) => {
             if (response.success) {
-                console.log(response.section)
                 setSections([
                     ...sections,
                     response.section
                 ])
             }
         })
-
-       /* const object = {
-            id: sections.length + 1,
-            type: 'text',
-            bgColor: 'rgba(255,255,255,1)',
-            textColor: 'rgba(0,0,0,1)',
-            text: "",
-            imgUrl: null,
-            includeButton: false,
-            buttonPosition: null
-        }*/
-
-
     }
 
     return (

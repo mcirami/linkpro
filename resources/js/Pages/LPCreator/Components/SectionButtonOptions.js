@@ -1,5 +1,6 @@
 import React, {createRef, useEffect, useState} from 'react';
 import Switch from 'react-switch';
+import {updateSectionData} from '../../../Services/LandingPageRequests';
 
 const SectionButtonOptions = ({
                                   position,
@@ -24,28 +25,45 @@ const SectionButtonOptions = ({
     const handleSwitchChange = () => {
         setIncludeButtonValue(!includeButtonValue);
 
-        setSections(
-            sections.map((section) => {
-                if(section.id === id) {
-                    section.includeButton = !includeButtonValue;
-                }
+        const packets = {
+            button: !includeButtonValue,
+        };
 
-                return section;
-            })
-        )
+        updateSectionData(packets, id).then((response) => {
+            if(response.success) {
+                setSections(
+                    sections.map((section) => {
+                        if(section.id === id) {
+                            section.button = !includeButtonValue;
+                        }
+
+                        return section;
+                    })
+                )
+            }
+        });
     }
 
     const handleRadioChange = (value) => {
         setButtonPositionValue(value);
-        setSections(
-            sections.map((section) => {
-                if(section.id === id) {
-                    section.buttonPosition = value;
-                }
 
-                return section;
-            })
-        )
+        const packets = {
+            button_position: value,
+        };
+
+        updateSectionData(packets, id).then((response) => {
+            if(response.success) {
+                setSections(
+                    sections.map((section) => {
+                        if(section.id === id) {
+                            section.button_position = value;
+                        }
+
+                        return section;
+                    })
+                )
+            }
+        });
     }
 
     return (

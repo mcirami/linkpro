@@ -5,7 +5,7 @@ import EventBus from '../Utils/Bus';
  * Submit a request to update landing page images
  * return object
  */
-export const updateImage = (packets, id, elementName) => {
+export const updateImage = (packets, id) => {
 
     return axios.post('/course-manager/landing-page/save-image/' + id, packets)
     .then(
@@ -21,10 +21,8 @@ export const updateImage = (packets, id, elementName) => {
     )
     .catch((error) => {
         if (error.response !== undefined) {
-            if (error.response.data.errors[elementName] !== undefined) {
-                EventBus.dispatch("error",
-                    {message: error.response.data.errors[elementName][0]});
-            }
+            EventBus.dispatch("error",
+                {message: "There was an error saving your image."});
             console.error("ERROR:: ", error.response.data);
         } else {
             console.error("ERROR:: ", error);
@@ -122,7 +120,7 @@ export const updateSectionData = (packets, id, elementName) => {
         (response) => {
             const returnMessage = JSON.stringify(response.data.message);
             //EventBus.dispatch("success", { message: returnMessage.replace("_", " ") });
-            if (!returnMessage.includes("color")) {
+            if (!returnMessage.includes("color") && !returnMessage.includes("button")) {
                 EventBus.dispatch("success", { message: returnMessage.replace("_", " ") });
             }
 
@@ -149,3 +147,37 @@ export const updateSectionData = (packets, id, elementName) => {
     });
 }
 
+/**
+ * Submit a request to update landing page section image
+ * return object
+ */
+export const updateSectionImage = (packets, id) => {
+
+    return axios.post('/course-manager/landing-page/update-section-image/' + id, packets)
+    .then(
+        (response) => {
+            const returnMessage = JSON.stringify(response.data.message);
+            //EventBus.dispatch("success", { message: returnMessage.replace("_", " ") });
+           EventBus.dispatch("success", { message: returnMessage.replace("_", " ") });
+
+            return {
+                success : true,
+                imagePath: response.data.imagePath
+            }
+        }
+    )
+    .catch((error) => {
+        if (error.response !== undefined) {
+            EventBus.dispatch("error",
+                {message: "There was an error saving your image."});
+            console.error("ERROR:: ", error.response.data);
+        } else {
+            console.error("ERROR:: ", error);
+        }
+
+        return {
+            success : false,
+        }
+
+    });
+}

@@ -93,17 +93,6 @@ function App() {
                             <h4>Header</h4>
                         </div>
                         <div className="section_content my_row">
-                           {/* <Logo
-                                nodesRef={nodesRef}
-                                completedCrop={completedCrop}
-                                setCompletedCrop={setCompletedCrop}
-                                fileNames={fileNames}
-                                setFileNames={setFileNames}
-                                setShowLoader={setShowLoader}
-                                pageID={pageData["id"]}
-                                dispatch={dispatch}
-                                elementName="logo"
-                            />*/}
                             <ImageComponent
                                 nodesRef={nodesRef}
                                 completedCrop={completedCrop}
@@ -132,15 +121,6 @@ function App() {
                                 dispatch={dispatch}
                                 value={pageData["slogan"]}
                             />
-                            {/*<HeaderImage
-                                nodesRef={nodesRef}
-                                completedCrop={completedCrop}
-                                setCompletedCrop={setCompletedCrop}
-                                fileNames={fileNames}
-                                setFileNames={setFileNames}
-                                setShowLoader={setShowLoader}
-                                elementName="hero"
-                            />*/}
                             <ImageComponent
                                 nodesRef={nodesRef}
                                 completedCrop={completedCrop}
@@ -201,7 +181,7 @@ function App() {
 
                     {!isEmpty(sections) && sections.map((section, index) => {
 
-                        const {id, type, text, button_position, button, image} = section;
+                        const {id, type, text, button_position, button} = section;
 
                         return (
                             <section className="my_row" key={id}>
@@ -245,9 +225,17 @@ function App() {
                                             fileNames={fileNames}
                                             setFileNames={setFileNames}
                                             setShowLoader={setShowLoader}
-                                            pageData={pageData}
-                                            dispatch={dispatch}
+                                            currentSection={section}
+                                            sections={sections}
+                                            setSections={setSections}
                                             elementName={`section_${index + 1}_image`}
+                                            cropArray={{
+                                                unit: "%",
+                                                width: 30,
+                                                x: 25,
+                                                y: 25,
+                                                aspect: 16 / 12
+                                            }}
                                         />
                                     }
                                     <div className="my_row button_options">
@@ -257,8 +245,6 @@ function App() {
                                             includeButton={button}
                                             sections={sections}
                                             setSections={setSections}
-                                            pageData={pageData}
-                                            dispatch={dispatch}
                                             id={id}
                                         />
                                     </div>
@@ -276,6 +262,7 @@ function App() {
                         <AddImageSection
                             sections={sections}
                             setSections={setSections}
+                            pageID={pageData["id"]}
                         />
                     </div>
 

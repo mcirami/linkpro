@@ -16606,6 +16606,18 @@ form .bottom_row a {
   left: 50%;
   transform: translateX(-50%);
 }
+#links_page #creator .preview section .button_wrap {
+  text-align: center;
+}
+#links_page #creator .preview section .button_wrap.above {
+  margin-bottom: 20px;
+}
+#links_page #creator .preview section .button_wrap.below {
+  margin-top: 20px;
+}
+#links_page #creator .preview section .button_wrap a {
+  display: inline-block;
+}
 #links_page #creator .preview section .text {
   padding: 20px 0;
 }
@@ -16614,17 +16626,19 @@ form .bottom_row a {
   text-align: center;
   font-size: 1.2em;
 }
-#links_page #creator .preview section .text .button_wrap {
-  text-align: center;
+#links_page #creator .preview section .image {
+  position: relative;
 }
-#links_page #creator .preview section .text .button_wrap.above {
-  margin-bottom: 20px;
+#links_page #creator .preview section .image .button_wrap {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
-#links_page #creator .preview section .text .button_wrap.below {
-  margin-top: 20px;
+#links_page #creator .preview section .image .button_wrap.above {
+  top: 20px;
 }
-#links_page #creator .preview section .text .button_wrap a {
-  display: inline-block;
+#links_page #creator .preview section .image .button_wrap.below {
+  bottom: 20px;
 }
 
 footer {

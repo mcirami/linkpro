@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useLayoutEffect} from 'react';
+import React, {useEffect, useState, useLayoutEffect, createRef} from 'react';
 import TopBar from './TopBar';
 import PreviewSection from './PreviewSection';
 import Hero from './Hero';
@@ -16,13 +16,12 @@ const Preview = ({
                      sections
 }) => {
 
-    useLayoutEffect(() => {
-        console.log("use layout effect")
-        PreviewHeight();
-    }, []);
+
+    const innerContentRef = createRef();
+    const previewWrapRef = createRef();
 
     useLayoutEffect(() => {
-
+        PreviewHeight()
         window.addEventListener('resize', PreviewHeight);
 
         return () => {
@@ -38,8 +37,8 @@ const Preview = ({
             </div>*/}
 
             <div className="links_wrap preview">
-                <div className="inner_content" id="preview_wrap">
-                    <div className="inner_content_wrap">
+                <div className="inner_content" id="preview_wrap" ref={previewWrapRef}>
+                    <div className="inner_content_wrap" ref={innerContentRef}>
                         <section className="header">
                             <TopBar
                                 nodesRef={nodesRef}
@@ -56,12 +55,12 @@ const Preview = ({
                             />
 
                         </section>
-                        {!isEmpty(sections) && sections.map((data, index) => {
+                        {!isEmpty(sections) && sections.map((section, index) => {
 
                             return (
                                 <PreviewSection
-                                    key={index}
-                                    data={data}
+                                    key={section.id}
+                                    currentSection={section}
                                     nodesRef={nodesRef}
                                     completedCrop={completedCrop}
                                     fileNames={fileNames}

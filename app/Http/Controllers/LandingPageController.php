@@ -126,4 +126,19 @@ class LandingPageController extends Controller
         return response()->json(['message' => $key .  " Updated"]);
 
     }
+
+    public function updateSectionImage(Request $request, LandingPageSection $landingPageSection, LandingPageService $service) {
+        $userID = Auth::id();
+
+        if ($landingPageSection->user_id != $userID) {
+            return abort(404);
+        }
+
+        $keys = collect($request->all())->keys();
+
+        $imagePath = $service->saveSectionImage($userID, $request, $keys[0], $landingPageSection);
+
+        return response()->json(['message' => $keys[0] . ' Updated', 'imagePath' => $imagePath]);
+
+    }
 }

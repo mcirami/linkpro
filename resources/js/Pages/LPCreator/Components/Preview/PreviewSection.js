@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import SectionImage from './SectionImage';
 
 const PreviewSection = ({
-                            data,
+                            currentSection,
                             nodesRef,
                             completedCrop,
                             fileNames,
@@ -18,13 +18,13 @@ const PreviewSection = ({
     //console.log("nodesRef: ", nodesRef.current[elementName])
 
 
-    const {type, bg_color, text_color, text, image, button, button_position} = data;
+    const {type, bg_color, text_color, text, image, button, button_position} = currentSection;
     const [buttonStyle, setButtonStyle] = useState(null);
 
     useEffect(() => {
         setButtonStyle ({
             background: pageData["button_color"],
-            color: pageData["button_text"]
+            color: pageData["button_text_color"]
         })
 
     },[pageData["button_color"], pageData["button_text"]])
@@ -42,35 +42,35 @@ const PreviewSection = ({
 
     return (
         <section className="my_row">
-            {{
-                "text":
-                    <div className={type} style={{ background: bg_color || 'rgba(255,255,255,1)'}}>
+            <div className={type} style={{ background: bg_color || 'rgba(255,255,255,1)'}}>
+                {( !!button && button_position === "above") &&
+                    <Button
+                        buttonText={pageData["button_text"]}
+                    />
+                }
+                {{
+                    "text":
                         <div className="container">
-                            {( !!button && button_position === "above") &&
-                                <Button
-                                    buttonText={pageData["button_text"]}
-                                />
-                            }
                             <p
                                 style={{ color: text_color || 'rgba(0,0,0,1)'}}
                             >{text || ""}</p>
-                            {( !!button && button_position === "below") &&
-                                <Button
-                                    buttonText={pageData["button_text"]}
-                                />
-                            }
-                        </div>
-                    </div>,
-                "image":
-                    <SectionImage
-                        nodesRef={nodesRef}
-                        completedCrop={completedCrop}
-                        fileNames={fileNames}
-                        elementName={"section_"+ position + "_" + type}
-                        imgUrl={image}
-                        type={type}
-                    />,
-            }[type]}
+                        </div>,
+                    "image":
+                        <SectionImage
+                            nodesRef={nodesRef}
+                            completedCrop={completedCrop}
+                            fileNames={fileNames}
+                            elementName={"section_"+ position + "_" + type}
+                            imgUrl={image}
+                            type={type}
+                        />,
+                }[type]}
+                {( !!button && button_position === "below") &&
+                    <Button
+                        buttonText={pageData["button_text"]}
+                    />
+                }
+            </div>
         </section>
     );
 };

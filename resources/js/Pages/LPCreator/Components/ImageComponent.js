@@ -2,7 +2,10 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {MdEdit} from 'react-icons/md';
 import ReactCrop from 'react-image-crop';
 import {completedImageCrop, createImage} from '../../../Services/ImageService';
-import {updateImage} from '../../../Services/LandingPageRequests';
+import {
+    updateImage,
+    updateSectionImage,
+} from '../../../Services/LandingPageRequests';
 import {LP_ACTIONS} from '../Reducer';
 
 const ImageComponent = ({
@@ -13,9 +16,12 @@ const ImageComponent = ({
                             setFileNames,
                             setShowLoader,
                             elementName,
-                            pageData,
-                            dispatch,
-                            cropArray
+                            cropArray,
+                            pageData = null,
+                            dispatch = null,
+                            sections = null,
+                            setSections = null,
+                            currentSection = null
 }) => {
 
     const [upImg, setUpImg] = useState();
@@ -119,46 +125,83 @@ const ImageComponent = ({
                     this.uploadProgress = Math.round(progress * 100);
                 },
             }
-        )
-        .then((response) => {
+        ).then((response) => {
+
             const packets = {
                 [`${elementName}`]: response.key,
                 ext: response.extension,
             };
-            updateImage(packets, pageData["id"], elementName)
-            .then((data) => {
-                if(data.success) {
-                    dispatch({
-                        type: LP_ACTIONS.UPDATE_PAGE_DATA,
-                        payload: {
-                            value: data.imagePath,
-                            name: elementName
+
+            if(sections) {
+
+                updateSectionImage(packets, currentSection.id)
+                .then((data) => {
+                    if (data.success) {
+                        console.log(data.imagePath);
+                        setSections(sections.map((section) => {
+                            if (section.id === currentSection.id) {
+                                return {
+                                    ...section,
+                                    image: data.imagePath,
+                                }
+                            }
+                            return section;
+                        }))
+
+                        setShowLoader({
+                            show: false,
+                            icon: '',
+                            position: ''
+                        });
+
+                        setFileNames(fileNames.filter(element => {
+                            return element.name !== elementName
+                        }));
+                        setUpImg(null);
+                        delete completedCrop[elementName];
+                        setCompletedCrop(completedCrop);
+                        document.querySelector(
+                            "." + CSS.escape(elementName) +
+                            "_form .bottom_section").
+                            classList.
+                            add("hidden");
+                    }
+                })
+
+            } else {
+
+                updateImage(packets, pageData["id"]).
+                    then((data) => {
+                        if (data.success) {
+                            dispatch({
+                                type: LP_ACTIONS.UPDATE_PAGE_DATA,
+                                payload: {
+                                    value: data.imagePath,
+                                    name: elementName
+                                }
+                            })
+                            setShowLoader({
+                                show: false,
+                                icon: '',
+                                position: ''
+                            });
+
+                            setFileNames(fileNames.filter(element => {
+                                return element.name !== elementName
+                            }));
+                            setUpImg(null);
+                            delete completedCrop[elementName];
+                            setCompletedCrop(completedCrop);
+                            document.querySelector(
+                                "." + CSS.escape(elementName) +
+                                "_form .bottom_section").
+                                classList.
+                                add("hidden");
                         }
                     })
-                    setShowLoader({
-                        show: false,
-                        icon: '',
-                        position: ''
-                    });
-
-                    setFileNames(fileNames.filter(element => {
-                        return element.name !== elementName
-                    }));
-                    setUpImg(null);
-                    delete completedCrop[elementName];
-                    setCompletedCrop(completedCrop);
-                    document.querySelector("." + CSS.escape(elementName) + "_form .bottom_section").classList.add("hidden");
-                }
-            })
-        })
-        .catch((error) => {
+            }
+        }).catch((error) => {
             console.error(error);
-            /*if (error.response) {
-            EventBus.dispatch("error", { message: error.response.data.errors.profile_img[0] });
-            console.error("ERROR: " + error.response);
-        } else {
-            console.error("ERROR:: ", error);
-        }*/
         });
     };
 

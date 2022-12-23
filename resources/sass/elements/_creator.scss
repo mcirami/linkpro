@@ -224,6 +224,22 @@
 
             section {
 
+                .button_wrap {
+                    text-align: center;
+
+                    &.above {
+                        margin-bottom: 20px;
+                    }
+
+                    &.below {
+                        margin-top: 20px;
+                    }
+
+                    a {
+                        display: inline-block;
+                    }
+                }
+
                 .text {
                     padding: 20px 0;
 
@@ -232,20 +248,22 @@
                         text-align: center;
                         font-size: 1.2em;
                     }
+                }
+
+                .image {
+                    position: relative;
 
                     .button_wrap {
-                        text-align: center;
+                        position: absolute;
+                        left: 50%;
+                        transform: translateX(-50%);
 
                         &.above {
-                            margin-bottom: 20px;
+                            top: 20px;
                         }
 
                         &.below {
-                            margin-top: 20px;
-                        }
-
-                        a {
-                            display: inline-block;
+                            bottom: 20px;
                         }
                     }
                 }
