@@ -16685,6 +16685,70 @@ a.delete svg {
   padding-right: 40px;
 }
 
+#manager ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+#manager ul li {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  align-items: flex-start;
+  -webkit-align-items: flex-start;
+  gap: 15px;
+  -moz-column-gap: 15px;
+       column-gap: 15px;
+  margin-bottom: 20px;
+}
+#manager ul li span {
+  font-family: "opensanssemibold", sans-serif;
+  background: #424fcf;
+  color: #ffffff;
+  padding: 5px 18px;
+  border-radius: 100%;
+  font-size: 24px;
+}
+#manager ul li h4, #manager ul li .h4 {
+  margin-bottom: 5px;
+}
+#manager ul li p {
+  margin: 0;
+}
+#manager ul li .text_wrap.flex {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  align-items: center;
+  -webkit-align-items: center;
+  gap: 20px;
+  -moz-column-gap: 20px;
+       column-gap: 20px;
+  align-self: center;
+  -webkit-align-self: center;
+}
+#manager ul li .text_wrap.flex h4, #manager ul li .text_wrap.flex .h4 {
+  margin-bottom: 0;
+}
+#manager ul li .text_wrap a:not(.button) {
+  color: #000;
+  text-decoration: underline;
+  font-size: 18px;
+}
+#manager ul li .text_wrap a.button {
+  display: inline-block;
+  margin-top: 10px;
+}
+#manager ul li .text_wrap svg {
+  width: 40px;
+  height: 40px;
+  color: #0ba921;
+}
+
 footer {
   box-shadow: 0px 0px 35px 5px rgba(170, 170, 170, 0.18);
   width: 100%;

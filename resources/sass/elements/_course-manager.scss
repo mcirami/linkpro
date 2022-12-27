@@ -1,0 +1,88 @@
+#manager {
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin-top: 20px;
+
+        li {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            -ms-flex-wrap: nowrap;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            -webkit-justify-content: flex-start;
+            align-items: flex-start;
+            -webkit-align-items: flex-start;
+            gap: 15px;
+            column-gap: 15px;
+            margin-bottom: 20px;
+
+            span {
+                @include ossemibold;
+                background: $blue;
+                color: $white;
+                padding: 5px 18px;
+                border-radius: 100%;
+                font-size: 24px;
+            }
+
+            h4 {
+                margin-bottom: 5px;
+            }
+
+            p {
+                margin: 0;
+            }
+
+            .text_wrap {
+
+                &.flex {
+                    display: -webkit-box;
+                    display: -ms-flexbox;
+                    display: flex;
+                    -webkit-box-orient: horizontal;
+                    -webkit-box-direction: normal;
+                    -ms-flex-direction: row;
+                    flex-direction: row;
+                    -ms-flex-wrap: nowrap;
+                    flex-wrap: nowrap;
+                    justify-content: flex-start;
+                    -webkit-justify-content: flex-start;
+                    align-items: center;
+                    -webkit-align-items: center;
+                    gap: 20px;
+                    column-gap: 20px;
+                    align-self: center;
+                    -webkit-align-self: center;
+
+                    h4 {
+                        margin-bottom: 0;
+                    }
+                }
+
+                a:not(.button) {
+                    color: $black;
+                    text-decoration: underline;
+                    font-size: 18px;
+                }
+
+                a.button {
+                    display: inline-block;
+                    margin-top: 10px;
+                }
+
+                svg {
+                    width: 40px;
+                    height: 40px;
+                    color: $green;
+                }
+            }
+        }
+    }
+}
