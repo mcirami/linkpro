@@ -79,16 +79,19 @@
 
                                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                                                <a href="{{ url('/dashboard/pages/' . $page[0]->id) }}" class="dropdown-item @php if(Route::is('pages.edit')) { echo "current"; } @endphp">
+                                                <a href="{{ url('/dashboard/pages/' . $page[0]->id) }}" class="dropdown-item @php if(Route::current()->getName() == 'pages.edit') { echo "current"; } @endphp">
                                                     Pages
                                                 </a>
-                                                <a href="{{ route('stats')}}" class="dropdown-item @php if(Route::is('stats')) { echo "current"; } @endphp">
+                                                <a href="{{ route('stats')}}" class="dropdown-item @php if(Route::current()->getName() == 'stats') { echo "current"; } @endphp">
                                                     Stats
                                                 </a>
-                                                <a href="{{ route('user.edit') }}" class="dropdown-item @php if(Route::is('user.edit')) { echo "current"; } @endphp">
+                                                <a href="{{ route('course.manager') }}" class="dropdown-item @php if(Route::current()->getName() == 'course.manager') { echo "current"; } @endphp">
+                                                    Course Manager
+                                                </a>
+                                                <a href="{{ route('user.edit') }}" class="dropdown-item @php if(Route::current()->getName() == 'user.edit') { echo "current"; } @endphp">
                                                     Settings
                                                 </a>
-                                                <a href="{{ route('contact') }}" class="dropdown-item @php if(Route::is('contact')) { echo "current"; } @endphp">
+                                                <a href="{{ route('contact') }}" class="dropdown-item @php if(Route::current()->getName() == 'contact') { echo "current"; } @endphp">
                                                     Contact Us
                                                 </a>
                                                 <a class="dropdown-item" href="{{ route('logout') }}"

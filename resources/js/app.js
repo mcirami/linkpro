@@ -37,3 +37,7 @@ if (document.getElementById('contact_form')) {
 if (document.getElementById('creator')) {
     require('./Pages/LPCreator/Index');
 }
+
+if (document.getElementById('edit_course')) {
+    require('./Pages/CourseCreator/Index');
+}

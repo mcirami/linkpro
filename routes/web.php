@@ -103,8 +103,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/mailchimp/remove-connection', [MailchimpController::class, 'removeConnection'])->name('mailchimp.remove.connection');
 
     Route::group(['prefix' => 'course-manager'], function() {
-        Route::get('/', [CourseController::class, 'showCourseManager'])->name('show.course.manager');
+        Route::get('/', [CourseController::class, 'showCourseManager'])->name('course.manager');
         Route::get('/add-landing-page', [LandingPageController::class, 'store'])->name('add.landing.page');
+        Route::get('/add-course', [CourseController::class, 'store'])->name('add.course');
 
         Route::group(['prefix' => 'landing-page'], function() {
             Route::get('/{landing_page}', [LandingPageController::class, 'edit'])->name('edit.landing.page');
@@ -114,6 +115,16 @@ Route::group(['middleware' => 'auth'], function() {
             Route::post('/delete-section/{landing_page_section}', [LandingPageController::class, 'deleteSection'])->name('delete.section');
             Route::post('/update-section-data/{landing_page_section}', [LandingPageController::class, 'updateSectionData'])->name('update.section.data');
             Route::post('/update-section-image/{landing_page_section}', [LandingPageController::class, 'updateSectionImage'])->name('update.section.image');
+        });
+
+        Route::group(['prefix' => 'course'], function() {
+            Route::get('/{course}', [CourseController::class, 'edit'])->name('edit.course');
+            Route::post('/save-data/{course}', [CourseController::class, 'saveCourseData'])->name('course.save.data');
+            Route::post('/save-image/{course}', [CourseController::class, 'saveImage'])->name('course.save.image');
+            Route::post('/add-section/{course}', [CourseController::class, 'addSection'])->name('course.add.section');
+            Route::post('/update-section-image/{course}', [CourseController::class, 'addSection'])->name('update.course.section.image');
+            Route::post('/delete-section/{course_section}', [CourseController::class, 'deleteSection'])->name('delete.course.section');
+            Route::post('/update-section-data/{course_section}', [CourseController::class, 'updateSectionData'])->name('update.course.section.data');
         });
     });
 

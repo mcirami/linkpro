@@ -52,6 +52,7 @@
         "react-paginate": "^8.1.4",
         "react-scroll": "^1.8.6",
         "react-switch": "^6.0.0",
-        "resize-observer-polyfill": "^1.5.1"
+        "resize-observer-polyfill": "^1.5.1",
+        "validator": "^13.7.0"
     }
 }

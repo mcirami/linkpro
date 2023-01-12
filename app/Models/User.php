@@ -94,4 +94,8 @@ class User extends VoyagerUser
     public function LandingPageSection() {
         return $this->hasMany(LandingPageSection::class);
     }
+
+    public function Course() {
+        return $this->hasMany(Course::class);
+    }
 }

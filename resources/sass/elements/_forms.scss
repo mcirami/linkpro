@@ -33,7 +33,7 @@
 }
 
 
-input[type="text"], input[type="tel"], #card-element, input[type="email"], input[type="password"], textarea, #card-number, #expiration-date, #cvv, #postal-code, select {
+input[type="text"], input[type="tel"], #card-element, input[type="email"], input[type="password"], input[type="url"], textarea, #card-number, #expiration-date, #cvv, #postal-code, select {
     border: 1px solid $borderGray;
     border-top-right-radius: 8px;
     -webkit-border-top-right-radius: 8px;

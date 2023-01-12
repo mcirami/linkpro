@@ -1,6 +1,6 @@
 #links_page {
 
-    #creator {
+    .creator_wrap {
 
         .content_wrap {
 
@@ -83,6 +83,7 @@
 
                     h4 {
                         color: $blue;
+                        text-transform: capitalize;
                     }
                 }
 

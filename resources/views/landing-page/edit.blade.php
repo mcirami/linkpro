@@ -7,7 +7,7 @@
         <h2 class="page_title">Course Creator</h2>
         <section class="card edit_page creator">
             <div id="links_page">
-                <div id="creator" class="my_row"></div>
+                <div id="creator" class="my_row creator_wrap"></div>
             </div>
         </section>
 

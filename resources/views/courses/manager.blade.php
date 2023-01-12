@@ -31,7 +31,7 @@
                         <h4>Add A Course</h4>
                         <p>Create and upload your proprietary Course videos and charge for customers to access your content</p>
                         @if (!empty($landingPage) )
-                            <a class="button blue" href="">Create A Course</a>
+                            <a class="button blue" href="{{route('add.course')}}">Create A Course</a>
                         @endif
                     </div>
                 </li>
