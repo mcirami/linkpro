@@ -16686,6 +16686,12 @@ a.delete svg {
   padding-right: 40px;
 }
 
+#manager {
+  max-width: 975px;
+}
+#manager > h3, #manager > .h3 {
+  line-height: 1.6;
+}
 #manager ul {
   list-style: none;
   padding: 0;
@@ -16704,7 +16710,7 @@ a.delete svg {
        column-gap: 15px;
   margin-bottom: 20px;
 }
-#manager ul li span {
+#manager ul li span.number {
   font-family: "opensanssemibold", sans-serif;
   background: #424fcf;
   color: #ffffff;

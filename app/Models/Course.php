@@ -20,10 +20,6 @@ class Course extends Model
         'icon',
         'intro_text',
         'intro_background_color',
-        'intro_text_color',
-        'price',
-        'public',
-        'active',
     ];
 
     /**

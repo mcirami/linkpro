@@ -17,8 +17,12 @@ class CourseController extends Controller
         $user = Auth::user();
 
         $landingPage = $user->LandingPage()->get()->toArray();
+        $courses = $user->Courses()->where('landing_page_id', $landingPage[0]["id"])->get()->toArray();
 
-        return view('courses.manager')->with(['landingPage' => $landingPage]);
+        return view('courses.manager')->with([
+            'landingPage' => $landingPage,
+            'courses' => $courses
+        ]);
     }
 
     public function edit(Course $course, CourseService $courseService) {
