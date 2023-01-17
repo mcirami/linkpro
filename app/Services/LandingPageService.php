@@ -8,7 +8,7 @@ class LandingPageService {
     public function getLPData($landingPage) {
 
         $landingPageData = $landingPage->attributesToArray();
-        $sections = $landingPage->landingPageSections()->get()->toArray();
+        $sections = $landingPage->LandingPageSections()->get()->toArray();
 
         $sectionArray = [];
         foreach ($sections as $index => $section) {

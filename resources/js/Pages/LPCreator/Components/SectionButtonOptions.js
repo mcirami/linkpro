@@ -67,7 +67,7 @@ const SectionButtonOptions = ({
     }
 
     return (
-        <>
+        <div className="button_options">
             <div className="switch_wrap page_settings border_wrap">
                 <h3>Include Button</h3>
                 <Switch
@@ -102,7 +102,7 @@ const SectionButtonOptions = ({
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

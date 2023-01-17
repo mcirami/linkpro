@@ -6,7 +6,7 @@ class CourseService {
 
     public function getCourseData($course) {
         $courseData = $course->attributesToArray();
-        $sections = $course->CourseSection()->get()->toArray();
+        $sections = $course->CourseSections()->get()->toArray();
 
         $sectionArray = [];
         if (!empty($sections)) {
@@ -24,6 +24,11 @@ class CourseService {
         return $courseData;
     }
 
+    public function getCourseOfferData($course) {
+
+        return $course->Offer()->first();
+    }
+
     public function saveCourseData($course, $request) {
         $keys = collect($request->all())->keys();
 
@@ -35,7 +40,7 @@ class CourseService {
     }
 
     public function addCourseSection($course, $userID, $request) {
-        return $course->CourseSection()->create([
+        return $course->CourseSections()->create([
            'user_id' => $userID,
            'type' => $request->type,
            'text' => null,

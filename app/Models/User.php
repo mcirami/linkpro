@@ -91,11 +91,15 @@ class User extends VoyagerUser
         return $this->hasOne(LandingPage::class);
     }
 
-    public function LandingPageSection() {
+    public function LandingPageSections() {
         return $this->hasMany(LandingPageSection::class);
     }
 
     public function Courses() {
         return $this->hasMany(Course::class);
+    }
+
+    public function Offers() {
+        return $this->hasMany(Offer::class);
     }
 }

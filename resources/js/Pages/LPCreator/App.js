@@ -271,7 +271,7 @@ function App() {
                                             }}
                                         />
                                     }
-                                    <div className="my_row button_options">
+                                    <div className="my_row">
                                         <SectionButtonOptions
                                             position={index + 1}
                                             buttonPosition={button_position}

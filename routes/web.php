@@ -18,6 +18,7 @@ use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\MailchimpController;
 use App\Http\Controllers\ShopifyController;
+use App\Http\Controllers\OfferController;
 
 /*
 |--------------------------------------------------------------------------
@@ -125,6 +126,12 @@ Route::group(['middleware' => 'auth'], function() {
             Route::post('/update-section-image/{course}', [CourseController::class, 'addSection'])->name('update.course.section.image');
             Route::post('/delete-section/{course_section}', [CourseController::class, 'deleteSection'])->name('delete.course.section');
             Route::post('/update-section-data/{course_section}', [CourseController::class, 'updateSectionData'])->name('update.course.section.data');
+        });
+
+        Route::group(['prefix' => 'offer'], function() {
+            Route::post('/update-icon/{offer}', [OfferController::class, 'updateOfferIcon'])->name('update.offer.icon');
+            Route::post('/update-data/{offer}', [OfferController::class, 'updateOfferData'])->name('update.offer.data');
+            Route::post('/publish/{offer}', [OfferController::class, 'publishOffer'])->name('publish.offer');
         });
     });
 

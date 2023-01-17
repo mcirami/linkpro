@@ -155,41 +155,41 @@
                 .button_options {
                     padding-top: 20px;
                     border-top: 1px ridge;
-                    border-color: rgba(155,155,155,.2);
+                    border-color: rgba(155, 155, 155, .2);
+                }
 
-                    h3 {
-                        font-size: 1.2em;
-                        margin: 0;
-                    }
+                .switch_wrap {
+                    justify-content: space-between;
+                    -webkit-justify-content: space-between;
+                    margin-bottom: 20px;
+                }
 
-                    .switch_wrap {
-                        justify-content: space-between;
-                        -webkit-justify-content: space-between;
-                        margin-bottom: 20px;
-                    }
+                h3 {
+                    font-size: 1.2em;
+                    margin: 0;
+                }
 
-                    .radios_wrap {
-                        justify-content: space-between;
-                        -webkit-justify-content: space-between;
+                .radios_wrap {
+                    justify-content: space-between;
+                    -webkit-justify-content: space-between;
 
-                        .radios {
-                            display: -webkit-box;
-                            display: -ms-flexbox;
-                            display: flex;
-                            -webkit-box-orient: horizontal;
-                            -webkit-box-direction: normal;
-                            -ms-flex-direction: row;
-                            flex-direction: row;
-                            -ms-flex-wrap: nowrap;
-                            flex-wrap: nowrap;
-                            gap: 10px;
-                            column-gap: 10px;
-                            -webkit-column-gap: 10px;
-                            -moz-column-gap: 10px;
+                    .radios {
+                        display: -webkit-box;
+                        display: -ms-flexbox;
+                        display: flex;
+                        -webkit-box-orient: horizontal;
+                        -webkit-box-direction: normal;
+                        -ms-flex-direction: row;
+                        flex-direction: row;
+                        -ms-flex-wrap: nowrap;
+                        flex-wrap: nowrap;
+                        gap: 10px;
+                        column-gap: 10px;
+                        -webkit-column-gap: 10px;
+                        -moz-column-gap: 10px;
 
-                            input {
-                                margin-right: 3px;
-                            }
+                        input {
+                            margin-right: 3px;
                         }
                     }
                 }

@@ -18,7 +18,7 @@ class CreateOffersTable extends Migration
             $table->integer('user_id');
             $table->integer('course_id');
             $table->string('icon')->nullable();
-            $table->string('price')->nullable();
+            $table->decimal('price', 10, 2)->nullable();
             $table->boolean('public')->default(false);
             $table->boolean('active')->default(false);
             $table->boolean('published')->default(false);

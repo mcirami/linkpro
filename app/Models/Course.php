@@ -17,8 +17,8 @@ class Course extends Model
     protected $fillable = [
         'user_id',
         'landing_page_id',
-        'icon',
         'intro_text',
+        'intro_text_color',
         'intro_background_color',
     ];
 
@@ -31,7 +31,11 @@ class Course extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function CourseSection() {
+    public function CourseSections() {
         return $this->hasMany(CourseSection::class);
+    }
+
+    public function Offer() {
+        return $this->hasOne(Offer::class);
     }
 }

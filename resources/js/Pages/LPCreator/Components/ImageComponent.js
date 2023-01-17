@@ -35,15 +35,8 @@ const ImageComponent = ({
 
     useEffect(() => {
 
-        if(sections) {
-            const words = elementName.split("_");
-            const name = words.map((word) => {
-                return word.charAt(0). toUpperCase() + word.slice(1);
-            })
-            setElementLabel(name.join(" "));
-        } else {
-            setElementLabel( elementName === "hero" ? "Header Image" : elementName.charAt(0).toUpperCase() + elementName.slice(1) + " Image");
-        }
+        const words = elementName.split("_");
+        setElementLabel( elementName === "hero" ? "Header Image" : words.join(" "));
 
     },[])
 

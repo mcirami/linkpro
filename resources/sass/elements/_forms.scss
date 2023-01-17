@@ -103,6 +103,11 @@ label.custom {
     -webkit-justify-content: space-between;
     align-items: center;
     -webkit-align-items: center;
+    text-transform: capitalize;
+
+    img {
+        max-width: 28px;
+    }
 
     @media screen and (max-width: 350px) {
         font-size: 12px;
@@ -146,6 +151,7 @@ form .bottom_row a {
         margin: 5px 0 5px 5px;
         align-self: flex-start;
         -webkit-align-self: flex-start;
+        text-transform: capitalize;
     }
 
     form {

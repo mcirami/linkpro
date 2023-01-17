@@ -33,12 +33,14 @@ class CourseController extends Controller
             return abort(404);
         }
 
-        $data = $courseService->getCourseData($course);
+        $courseData = $courseService->getCourseData($course);
         $landingPageLogo = $user->LandingPage()->pluck('logo');
+        $offerData = $courseService->getCourseOfferData($course);
 
         Javascript::put([
-            'course' => $data,
-            'LPLogo' => $landingPageLogo[0]
+            'course' => $courseData,
+            'LPLogo' => $landingPageLogo[0],
+            'offerData' => $offerData
         ]);
 
         return view('courses.edit');
@@ -49,8 +51,12 @@ class CourseController extends Controller
         $user = Auth::user();
 
         $landingPageID = $user->LandingPage()->pluck('id')->first();
-        $course = $user->course()->create([
+        $course = $user->Courses()->create([
             'landing_page_id' => $landingPageID
+        ]);
+
+        $user->Offer()->create([
+            'course_id' => $course->id,
         ]);
 
         return redirect('/course-manager/course/' . $course->id);

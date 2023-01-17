@@ -1,6 +1,5 @@
 export const LP_ACTIONS = {
     UPDATE_PAGE_DATA: 'update-page-data',
-    UPDATE_COURSE_DATA: 'update-course-data'
 }
 
 export function reducer(data, action) {
@@ -10,7 +9,16 @@ export function reducer(data, action) {
                 ...data,
                 [`${action.payload.name}`]: action.payload.value
             }
-        case LP_ACTIONS.UPDATE_COURSE_DATA:
+    }
+}
+
+export const OFFER_ACTIONS = {
+    UPDATE_OFFER_DATA: 'update-offer-data',
+}
+
+export function offerDataReducer(data, action) {
+    switch(action.type) {
+        case OFFER_ACTIONS.UPDATE_OFFER_DATA:
             return {
                 ...data,
                 [`${action.payload.name}`]: action.payload.value

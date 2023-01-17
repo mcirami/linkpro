@@ -13385,6 +13385,10 @@ label.custom {
   -webkit-justify-content: space-between;
   align-items: center;
   -webkit-align-items: center;
+  text-transform: capitalize;
+}
+label.custom img {
+  max-width: 28px;
 }
 @media screen and (max-width: 350px) {
   label.custom {
@@ -13420,6 +13424,7 @@ form .bottom_row a {
   margin: 5px 0 5px 5px;
   align-self: flex-start;
   -webkit-align-self: flex-start;
+  text-transform: capitalize;
 }
 .edit_form form {
   width: 100%;
@@ -16561,20 +16566,20 @@ a.delete svg {
   border-top: 1px ridge;
   border-color: rgba(155, 155, 155, 0.2);
 }
-#links_page .creator_wrap .content_wrap section .button_options h3, #links_page .creator_wrap .content_wrap section .button_options .h3 {
-  font-size: 1.2em;
-  margin: 0;
-}
-#links_page .creator_wrap .content_wrap section .button_options .switch_wrap {
+#links_page .creator_wrap .content_wrap section .switch_wrap {
   justify-content: space-between;
   -webkit-justify-content: space-between;
   margin-bottom: 20px;
 }
-#links_page .creator_wrap .content_wrap section .button_options .radios_wrap {
+#links_page .creator_wrap .content_wrap section h3, #links_page .creator_wrap .content_wrap section .h3 {
+  font-size: 1.2em;
+  margin: 0;
+}
+#links_page .creator_wrap .content_wrap section .radios_wrap {
   justify-content: space-between;
   -webkit-justify-content: space-between;
 }
-#links_page .creator_wrap .content_wrap section .button_options .radios_wrap .radios {
+#links_page .creator_wrap .content_wrap section .radios_wrap .radios {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -16583,7 +16588,7 @@ a.delete svg {
   -webkit-column-gap: 10px;
   -moz-column-gap: 10px;
 }
-#links_page .creator_wrap .content_wrap section .button_options .radios_wrap .radios input {
+#links_page .creator_wrap .content_wrap section .radios_wrap .radios input {
   margin-right: 3px;
 }
 #links_page .creator_wrap .preview .header {
@@ -16756,6 +16761,10 @@ a.delete svg {
   color: #0ba921;
 }
 
+.creator.course_creator #links_page .creator_wrap .left_column .button {
+  display: block;
+  width: 100%;
+}
 .creator.course_creator #links_page .creator_wrap .preview .header {
   min-height: unset;
 }

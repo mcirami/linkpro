@@ -2,13 +2,11 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {MdEdit} from 'react-icons/md';
 import ReactCrop from 'react-image-crop';
 import {completedImageCrop, createImage} from '../../../Services/ImageService';
-import {
-    updateImage,
-    updateSectionImage,
-} from '../../../Services/CourseRequests';
-import {LP_ACTIONS} from '../Reducer';
+import { updateIcon} from '../../../Services/OfferRequests';
+import {OFFER_ACTIONS} from '../Reducer';
 
 const ImageComponent = ({
+                            placeholder,
                             nodesRef,
                             completedCrop,
                             setCompletedCrop,
@@ -17,11 +15,8 @@ const ImageComponent = ({
                             setShowLoader,
                             elementName,
                             cropArray,
-                            courseData = null,
+                            offerData = null,
                             dispatch = null,
-                            sections = null,
-                            setSections = null,
-                            currentSection = null
 }) => {
 
     const [elementLabel, setElementLabel] = useState(elementName);
@@ -35,15 +30,8 @@ const ImageComponent = ({
 
     useEffect(() => {
 
-        if(sections) {
-            const words = elementName.split("_");
-            const name = words.map((word) => {
-                return word.charAt(0). toUpperCase() + word.slice(1);
-            })
-            setElementLabel(name.join(" "));
-        } else {
-            setElementLabel( elementName === "hero" ? "Header Image" : elementName.charAt(0).toUpperCase() + elementName.slice(1) + " Image");
-        }
+        const words = elementName.split("_");
+        setElementLabel( words.join(" "));
 
     },[])
 
@@ -80,16 +68,16 @@ const ImageComponent = ({
     }, []);
 
     useEffect(() => {
-        if (!completedCrop[elementName]?.isCompleted || !previewCanvasRef.current[elementName] || !imgRef.current) {
+        if (!completedCrop[elementName]?.isCompleted || !previewCanvasRef.current || !imgRef.current) {
             return;
         }
 
-        completedImageCrop(completedCrop[elementName].isCompleted, imgRef, previewCanvasRef.current[elementName]);
+        completedImageCrop(completedCrop[elementName].isCompleted, imgRef, previewCanvasRef.current);
     }, [completedCrop[elementName]]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        previewCanvasRef.current[elementName].toBlob(
+        previewCanvasRef.current.toBlob(
             (blob) => {
                 const reader = new FileReader();
                 reader.readAsDataURL(blob);
@@ -143,22 +131,16 @@ const ImageComponent = ({
                 ext: response.extension,
             };
 
-            if(sections) {
-
-                updateSectionImage(packets, currentSection.id)
-                .then((data) => {
+            updateIcon(packets, offerData["id"]).
+                then((data) => {
                     if (data.success) {
-                        console.log(data.imagePath);
-                        setSections(sections.map((section) => {
-                            if (section.id === currentSection.id) {
-                                return {
-                                    ...section,
-                                    image: data.imagePath,
-                                }
+                        dispatch({
+                            type: OFFER_ACTIONS.UPDATE_OFFER_DATA,
+                            payload: {
+                                value: data.imagePath,
+                                name: elementName
                             }
-                            return section;
-                        }))
-
+                        })
                         setShowLoader({
                             show: false,
                             icon: '',
@@ -176,41 +158,15 @@ const ImageComponent = ({
                             "_form .bottom_section").
                             classList.
                             add("hidden");
+                    } else {
+                        setShowLoader({
+                            show: false,
+                            icon: '',
+                            position: ''
+                        });
                     }
                 })
 
-            } else {
-
-                updateImage(packets, courseData["id"]).
-                    then((data) => {
-                        if (data.success) {
-                            dispatch({
-                                type: LP_ACTIONS.UPDATE_PAGE_DATA,
-                                payload: {
-                                    value: data.imagePath,
-                                    name: elementName
-                                }
-                            })
-                            setShowLoader({
-                                show: false,
-                                icon: '',
-                                position: ''
-                            });
-
-                            setFileNames(fileNames.filter(element => {
-                                return element.name !== elementName
-                            }));
-                            setUpImg(null);
-                            delete completedCrop[elementName];
-                            setCompletedCrop(completedCrop);
-                            document.querySelector(
-                                "." + CSS.escape(elementName) +
-                                "_form .bottom_section").
-                                classList.
-                                add("hidden");
-                        }
-                    })
-            }
         }).catch((error) => {
             console.error(error);
         });
@@ -245,7 +201,13 @@ const ImageComponent = ({
                                     htmlFor={`${elementName}_file_upload`}
                                     className="custom"
                                 >
-                                    {elementLabel}
+                                    {offerData["icon"] ?
+                                        <img src={offerData["icon"]} alt=""/>
+                                        :
+                                        placeholder
+                                    }
+                                    {/*{placeholder}*/}
+
                                     <span className="edit_icon">
                                         <MdEdit />
                                         <div className="hover_text edit_image">
@@ -283,6 +245,29 @@ const ImageComponent = ({
                                     }
                                 })}
                             />
+
+                            {fileNames.length > 0 &&
+                                <div className="icon_col">
+                                    <p>Icon Preview</p>
+                                    <canvas
+                                        ref={nodesRef}
+                                        // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
+                                        style={{
+                                            backgroundImage: nodesRef,
+                                            backgroundSize: `cover`,
+                                            backgroundRepeat: `no-repeat`,
+                                            width: completedCrop[elementName]?.isCompleted ?
+                                                `100%` :
+                                                0,
+                                            height: completedCrop[elementName]?.isCompleted ?
+                                                `100%` :
+                                                0,
+                                            borderRadius: `20px`,
+                                        }}
+
+                                    />
+                                </div>
+                            }
                         </div>
                         <div className="bottom_row">
                             <button

@@ -1,6 +1,7 @@
 import React, {useState, useRef, useReducer, useEffect} from 'react';
 
 const courseArray = user.course;
+const offerArray = user.offerData;
 import {Loader} from '../../Utils/Loader';
 import {Flash} from '../../Utils/Flash';
 import InputComponent from './Components/InputComponent';
@@ -11,12 +12,14 @@ import AddTextSection from './Components/AddTextSection';
 import AddVideoSection from './Components/AddVideoSection';
 import ImageComponent from './Components/ImageComponent';
 import SectionButtonOptions from './Components/SectionButtonOptions';
-import {reducer} from './Reducer';
+import {offerDataReducer, reducer} from './Reducer';
 import EventBus from '../../Utils/Bus';
 import {isEmpty} from 'lodash';
 import DeleteSection from './Components/DeleteSection';
 import PreviewButton from '../Dashboard/Components/Preview/PreviewButton';
 import {previewButtonRequest} from '../../Services/PageRequests';
+import SwitchOptions from './Components/SwitchOptions';
+import PublishButton from './Components/PublishButton';
 
 function App() {
 
@@ -27,6 +30,8 @@ function App() {
 
     const [courseData, dispatch] = useReducer(reducer, courseArray);
     const [sections, setSections] = useState(courseArray["sections"]);
+    const [offerData, dispatchOfferData] = useReducer(offerDataReducer, offerArray);
+    //const [stateOfferData, setStateOfferData] = useState(offerArray);
     const [showPreviewButton, setShowPreviewButton] = useState(false);
     const [showPreview, setShowPreview] = useState(false);
 
@@ -286,7 +291,7 @@ function App() {
                         )
                     })}
 
-                    <div className="link_row">
+                    <div className="link_row mb-5">
                         <AddTextSection
                             sections={sections}
                             setSections={setSections}
@@ -299,6 +304,51 @@ function App() {
                         />
                     </div>
 
+                    <section className="my_row">
+                        <div className="section_title">
+                            <h4>Nitty Gritty</h4>
+                        </div>
+                        <div className="section_content my_row">
+                            <ImageComponent
+                                placeholder="Course Icon"
+                                nodesRef={nodesRef}
+                                completedCrop={completedCrop}
+                                setCompletedCrop={setCompletedCrop}
+                                fileNames={fileNames}
+                                setFileNames={setFileNames}
+                                setShowLoader={setShowLoader}
+                                elementName={`icon`}
+                                dispatch={dispatchOfferData}
+                                offerData={offerData}
+                                cropArray={{
+                                    unit: '%',
+                                    width: 30,
+                                    aspect: 1
+                                }}
+                            />
+                            <InputComponent
+                                placeholder="$ Course price in USD"
+                                type="currency"
+                                hoverText="Add Embed Link"
+                                elementName="price"
+                                offerData={offerData}
+                                dispatchOffer={dispatchOfferData}
+                                value={offerData["price"]}
+                            />
+                            <SwitchOptions
+                                dispatchOffer={dispatchOfferData}
+                                offerData={offerData}
+                            />
+                        </div>
+                    </section>
+
+                    {!offerData["published"] &&
+
+                        <PublishButton
+                            offerID={offerData["id"]}
+                            dispatchOffer={dispatchOfferData}
+                        />
+                    }
                 </div>
             </div>
 
