@@ -24,7 +24,7 @@ const Hero = ({
                 {
                     width: (completedCrop[elementName]?.isCompleted) ? `100%` : 0,
                     height: (completedCrop[elementName]?.isCompleted) ? `auto` : 0,
-                    maxHeight: '200px',
+                    maxHeight: '152px',
                     overflow:'hidden'
                 }
                 :
@@ -34,7 +34,7 @@ const Hero = ({
                         ") center 25% no-repeat",
                     backgroundSize: pageData["hero"] ? "cover" : "20%",
                     backgroundRepeat: "no-repeat",
-                    minHeight: "200px"
+                    minHeight: "152px"
                 }
         )
     },[completedCrop[elementName], fileNames])

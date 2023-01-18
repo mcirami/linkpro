@@ -26,14 +26,14 @@ const SectionImage = ({
                 {
                     width: (completedCrop[elementName]?.isCompleted) ? `100%` : 0,
                     height: (completedCrop[elementName]?.isCompleted) ? `auto` : 0,
-                    maxHeight: '232px',
+                    minHeight: '130px',
                     overflow:'hidden'
                 }
                 :
                 {
-                    background: "url(" + imgUrl + ") center 25% no-repeat",
+                    background: "url(" + imgUrl + ") center no-repeat",
                     backgroundSize: 'cover',
-                    padding: '29%'
+                    minHeight: '130px'
                 }
         )
     },[completedCrop[elementName], fileNames])

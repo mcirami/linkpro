@@ -2,12 +2,12 @@ import React, {useState, useRef, useReducer, useEffect} from 'react';
 
 const landingPageArray = user.landingPage;
 const courses = user.courses;
+const username = user.username;
 import {Loader} from '../../Utils/Loader';
 import {Flash} from '../../Utils/Flash';
 import InputComponent from './Components/InputComponent';
 import ColorPicker from './Components/ColorPicker';
 import Preview from './Components/Preview/Preview';
-import DropdownComponent from './Components/DropdownComponent';
 import AddTextSection from './Components/AddTextSection';
 import AddImageSection from './Components/AddImageSection';
 import ImageComponent from './Components/ImageComponent';
@@ -15,10 +15,10 @@ import SectionButtonOptions from './Components/SectionButtonOptions';
 import {reducer} from './Reducer';
 import EventBus from '../../Utils/Bus';
 import {isEmpty} from 'lodash';
-import {MdDeleteForever} from 'react-icons/md';
 import DeleteSection from './Components/DeleteSection';
 import PreviewButton from '../Dashboard/Components/Preview/PreviewButton';
 import {previewButtonRequest} from '../../Services/PageRequests';
+import PublishButton from './Components/PublishButton';
 
 function App() {
 
@@ -92,7 +92,8 @@ function App() {
     console.log("colors: ", colors)*/
    /* console.log("filenames: " , fileNames)*/
 
-    console.log(sections);
+    const url = window.location.protocol + "//" + window.location.host + "/" + username + "/" + pageData["slug"];
+
     return (
         <div className="my_row page_wrap">
 
@@ -133,6 +134,9 @@ function App() {
                                 dispatch={dispatch}
                                 value={pageData["title"]}
                             />
+                            <div className="url_wrap">
+                                <a target="_blank" href={url}>{url}</a>
+                            </div>
                         </div>
                     </section>
                     <section className="my_row section">
@@ -183,7 +187,7 @@ function App() {
                                     width: 30,
                                     x: 25,
                                     y: 25,
-                                    aspect: 16 / 12
+                                    aspect: 16 / 8
                                 }}
                             />
                             <ColorPicker
@@ -285,7 +289,7 @@ function App() {
                                                 width: 30,
                                                 x: 25,
                                                 y: 25,
-                                                aspect: 16 / 12
+                                                aspect: 16 / 8
                                             }}
                                         />
                                     }
@@ -319,6 +323,13 @@ function App() {
                         />
                     </div>
 
+                    {!pageData["published"] &&
+
+                        <PublishButton
+                            pageData={pageData}
+                            dispatch={dispatch}
+                        />
+                    }
                 </div>
             </div>
 

@@ -45,6 +45,7 @@ export const updateData = (packets, id, elementName) => {
     .then(
         (response) => {
             const returnMessage = JSON.stringify(response.data.message);
+            const slug = response.data.slug
 
             if (!returnMessage.includes("color")) {
                 EventBus.dispatch("success", { message: returnMessage.replace("_", " ") });
@@ -52,6 +53,7 @@ export const updateData = (packets, id, elementName) => {
 
             return {
                 success : true,
+                slug: slug
             }
         }
     )
@@ -59,7 +61,7 @@ export const updateData = (packets, id, elementName) => {
         if (error.response !== undefined) {
             if (error.response.data.errors[elementName] !== undefined) {
                 EventBus.dispatch("error",
-                    {message: error.response.data.errors["elementName"][0]});
+                    {message: error.response.data.errors[elementName][0]});
             }
             console.error("ERROR:: ", error.response.data);
         } else {
@@ -205,6 +207,49 @@ export const deleteSection = (id) => {
         if (error.response !== undefined) {
             EventBus.dispatch("error",
                 {message: "There was an error deleting the section."});
+            console.error("ERROR:: ", error.response.data);
+        } else {
+            console.error("ERROR:: ", error);
+        }
+
+        return {
+            success : false,
+        }
+
+    });
+}
+
+
+/**
+ * Submit a request to update page published status
+ * return object
+ */
+export const publishPage = (packets, id) => {
+
+    return axios.post('/course-manager/landing-page/publish/' + id, packets)
+    .then(
+        (response) => {
+            const returnMessage = JSON.stringify(response.data.message);
+            const status = JSON.stringify(response.data.success);
+
+            EventBus.dispatch("success", { message: returnMessage.replace("_", " ") });
+
+            return {
+                success : status,
+            }
+
+        }
+    )
+    .catch((error) => {
+        if (error.response !== undefined) {
+            if (error.response.data.code == 400) {
+                EventBus.dispatch("error",
+                    {message: error.response.data.message});
+            } else {
+                EventBus.dispatch("error",
+                    {message: "There was an error saving page data."});
+            }
+
             console.error("ERROR:: ", error.response.data);
         } else {
             console.error("ERROR:: ", error);

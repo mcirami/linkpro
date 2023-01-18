@@ -1,8 +1,9 @@
 import React from 'react';
 import {publishOffer} from '../../../Services/OfferRequests';
 import {OFFER_ACTIONS} from '../Reducer';
+import {IoWarningOutline} from 'react-icons/io5';
 
-const PublishButton = ({offerID, dispatchOffer}) => {
+const PublishButton = ({offerData, dispatchOffer}) => {
 
 
    const handleOnClick = (e) => {
@@ -12,7 +13,7 @@ const PublishButton = ({offerID, dispatchOffer}) => {
            published: true,
        };
 
-       publishOffer(packets, offerID)
+       publishOffer(packets, offerData["id"])
        .then((response) => {
            if (response.success) {
                dispatchOffer({
@@ -27,10 +28,16 @@ const PublishButton = ({offerID, dispatchOffer}) => {
    }
 
     return (
-        <div className="my_row">
-            <a className="button blue" href="#" onClick={(e) => handleOnClick(e)}>
+        <div className="my_row button_wrap">
+            <button type="submit" disabled={!offerData["price"] || !offerData["icon"] ? "disabled" : ""} className={!offerData["price"] || !offerData["icon"] ? "button blue disabled" : "button blue"} onClick={(e) => handleOnClick(e)}>
                 Publish
-            </a>
+            </button>
+            {!offerData["price"] || !offerData["icon"] ?
+                <p><IoWarningOutline /> Course requires an Icon and Price before being published</p>
+                :
+                ""
+            }
+
         </div>
     );
 };

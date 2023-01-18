@@ -2,6 +2,7 @@
 
 namespace App\Services;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class LandingPageService {
 
@@ -44,12 +45,23 @@ class LandingPageService {
 
     public function savePageData($landingPage, $request) {
         $keys = collect($request->all())->keys();
+        $slug = null;
 
         $landingPage->update([
             $keys[0] => $request[$keys[0]]
         ]);
 
-        return $keys[0];
+        if ($keys[0] == "title") {
+            $slug = Str::slug($request[$keys[0]], '-');
+            $landingPage->update([
+                'slug' => $slug
+            ]);
+        }
+
+        return [
+            "key" => $keys[0],
+            "slug" => $slug
+        ];
     }
 
     public function addLPSection($landingPage, $userID, $request) {
@@ -91,5 +103,17 @@ class LandingPageService {
         $section->update(['image' => $imagePath]);
 
         return $imagePath;
+    }
+
+    public function publishPage($page) {
+
+        if ($page->title !== null && $page->slug !== null) {
+            $page->update([
+                "published" => true,
+            ]);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -69,7 +69,7 @@ export const updateOfferData = (packets, id) => {
 }
 
 /**
- * Submit a request to update offer icon
+ * Submit a request to update offer published status
  * return object
  */
 export const publishOffer = (packets, id) => {

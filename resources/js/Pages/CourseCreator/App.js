@@ -257,7 +257,7 @@ function App() {
                                                 setSections={setSections}
                                             />
                                             <InputComponent
-                                                placeholder="YouTube or Vimeo Embed Link"
+                                                placeholder="YouTube or Vimeo Link"
                                                 type="url"
                                                 hoverText="Add Embed Link"
                                                 elementName={`video_${index + 1}_link`}
@@ -362,7 +362,7 @@ function App() {
                     {!offerData["published"] &&
 
                         <PublishButton
-                            offerID={offerData["id"]}
+                            offerData={offerData}
                             dispatchOffer={dispatchOfferData}
                         />
                     }

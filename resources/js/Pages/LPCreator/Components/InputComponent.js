@@ -110,13 +110,16 @@ const InputComponent = ({
             updateData(packets, pageData["id"], elementName)
             .then((response) => {
                 if (response.success) {
-                    /*dispatch({
-                        type: LP_ACTIONS.UPDATE_PAGE_DATA,
-                        payload: {
-                            value: value,
-                            name: elementName
-                        }
-                    })*/
+                    if (response.slug) {
+                        dispatch({
+                            type: LP_ACTIONS.UPDATE_PAGE_DATA,
+                            payload: {
+                                value: response.slug,
+                                name: 'slug'
+                            }
+                        })
+                    }
+
                 }
             })
         }

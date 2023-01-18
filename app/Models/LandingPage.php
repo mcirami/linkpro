@@ -24,7 +24,8 @@ class LandingPage extends Model
         'button_text',
         'button_text_color',
         'button_color',
-        'title'
+        'title',
+        'slug'
     ];
 
     /**

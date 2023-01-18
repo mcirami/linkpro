@@ -358,6 +358,7 @@ button {
 
     &.disabled {
         background: $gray;
+        box-shadow: unset;
 
         &:hover {
             background: $gray !important;

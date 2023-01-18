@@ -17,7 +17,7 @@ class CourseController extends Controller
 
         $user = Auth::user();
 
-        $landingPage = $user->LandingPage()->get()->toArray();
+        $landingPage = $user->LandingPages()->get()->toArray();
         //$courses = $user->Courses()->where('landing_page_id', $landingPage[0]["id"])->get()->toArray();
         //$offers = $user->Offers()->where('course_id',$courses[0]["id"])->first()->toArray();
 
@@ -38,7 +38,7 @@ class CourseController extends Controller
         }
 
         $courseData = $courseService->getCourseData($course);
-        $landingPageLogo = $user->LandingPage()->pluck('logo');
+        $landingPageLogo = $user->LandingPages()->pluck('logo');
         $offerData = $courseService->getCourseOfferData($course);
 
         Javascript::put([
@@ -54,12 +54,12 @@ class CourseController extends Controller
     public function store() {
         $user = Auth::user();
 
-        $landingPageID = $user->LandingPage()->pluck('id')->first();
+        $landingPageID = $user->LandingPages()->pluck('id')->first();
         $course = $user->Courses()->create([
             'landing_page_id' => $landingPageID
         ]);
 
-        $user->Offer()->create([
+        $user->Offers()->create([
             'course_id' => $course->id,
         ]);
 

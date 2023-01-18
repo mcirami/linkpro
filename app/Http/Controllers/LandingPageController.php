@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\LandingPage;
 use App\Models\LandingPageSection;
+use App\Models\User;
 use App\Services\CourseService;
 use App\Services\LandingPageService;
 use Illuminate\Contracts\Foundation\Application;
@@ -18,8 +19,15 @@ use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
 
 class LandingPageController extends Controller
 {
-    public function show() {
+    public function show(User $user, LandingPage $landingPage) {
 
+        if (!$landingPage->published) {
+            return abort(404);
+        }
+
+        $sections = $landingPage->LandingPageSections()->get();
+
+        return view('landing-page.show')->with(['page' => $landingPage, 'sections' => $sections]);
     }
 
     /**
@@ -28,7 +36,7 @@ class LandingPageController extends Controller
     public function store() {
         $user = Auth::user();
 
-        $landingPage = $user->landingPage()->create([]);
+        $landingPage = $user->LandingPages()->create([]);
 
         return redirect('/course-manager/landing-page/' . $landingPage->id);
     }
@@ -51,7 +59,8 @@ class LandingPageController extends Controller
 
         Javascript::put([
             'landingPage' => $landingPageData,
-            'courses' => $courses
+            'courses' => $courses,
+            'username' => $user["username"]
         ]);
 
         return view('landing-page.edit');
@@ -95,7 +104,7 @@ class LandingPageController extends Controller
 
         $key = $service->savePageData($landingPage, $request);
 
-        return response()->json(['message' => $key .  " Updated"]);
+        return response()->json(['message' => $key["key"] .  " Updated", 'slug' => $key["slug"]]);
     }
 
     /**
@@ -174,5 +183,38 @@ class LandingPageController extends Controller
         $landingPageSection->delete();
 
         return response()->json(['message' => "Section Deleted"]);
+    }
+
+    /**
+     * @param LandingPage $landingPage
+     * @param LandingPageService $landingPageService
+     *
+     * @return JsonResponse|never
+     */
+    public function publishLandingPage(LandingPage $landingPage, LandingPageService $landingPageService) {
+        $userID = Auth::id();
+
+        if ($landingPage->user_id != $userID) {
+            return abort(404);
+        }
+
+        $success = $landingPageService->publishPage($landingPage);
+
+        if ($success) {
+            $returnData = array(
+                'success' => true,
+                'message' => 'Page Published'
+            );
+
+            return response()->json($returnData);
+        } else {
+            $returnData = array(
+                'success' => false,
+                'message' => 'Page must have a Title/Slug set before publishing',
+                'code' => 400
+            );
+            return response()->json($returnData, 400);
+        }
+
     }
 }

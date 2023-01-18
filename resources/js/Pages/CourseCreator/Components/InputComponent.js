@@ -78,7 +78,12 @@ const InputComponent = ({
         }
 
         if ( type === "url" ) {
-            check = checkValidity(value, "url")
+            check = checkValidity(value, "url");
+            if(check) {
+                value = checkEmbedLink(value);
+                e.target.value = value;
+                console.log(value);
+            }
         }
 
         if (check) {
@@ -129,12 +134,14 @@ const InputComponent = ({
         if (isValid) {
             if (sections) {
 
+                //remove section_number from element name to save in section data
                 let element = elementName.split(/(\d+)/);
                 if (elementName.includes("video")) {
                     element = element[0] + element[2].replace('_', '');
                 } else {
                     element = element[2].replace('_', '');
                 }
+
                 const packets = {
                     [`${element}`]: e.target.value,
                 };
@@ -150,9 +157,8 @@ const InputComponent = ({
                 updateOfferData(packets, offerData["id"]);
 
             } else {
-                const value = courseData[elementName];
                 const packets = {
-                    [`${elementName}`]: value,
+                    [`${elementName}`]: courseData[elementName],
                 };
 
                 updateData(packets, courseData["id"], elementName);
@@ -179,7 +185,24 @@ const InputComponent = ({
                 return false;
             }
         }
+    }
 
+    const checkEmbedLink = (link) => {
+
+        //return proper embed link with video code.
+        if(link.includes("embed")) {
+            return link;
+        } else if(link.includes("youtube") && link.includes("v=")) {
+            const split = link.split("v=");
+            return "https://www.youtube.com/embed/" + split[1];
+        } else if (link.includes("youtu.be")) {
+            const split = link.split("youtu.be/");
+            return "https://www.youtube.com/embed/" + split[1];
+        } else if (link.includes("vimeo") && !link.includes("player.vimeo")) {
+            const split = link.split("vimeo.com/");
+            return "https://player.vimeo.com/video/" + split[1];
+        }
+        return link;
     }
 
     const switchStatement = () => {
@@ -198,6 +221,7 @@ const InputComponent = ({
                                }
                            }}
                            onBlur={(e) => handleSubmit(e)}
+                           onPaste={(e) => handleChange(e)}
                     />
                 )
             case 'textarea':

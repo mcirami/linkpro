@@ -23,6 +23,28 @@
                     -moz-border-radius: 8px;
                     padding: 10px;
                 }
+
+                .button_wrap {
+
+                    .button {
+                        display: block;
+                        width: 100%;
+                    }
+
+                    p {
+                        @include ossemibold;
+                        margin: 0;
+                        text-align: center;
+                        color: $red;
+                        font-size: .8rem;
+
+                        svg {
+                            width: 1.5em;
+                            height: 1.5em;
+                            display: inline-block;
+                        }
+                    }
+                }
             }
 
             section {
@@ -203,7 +225,7 @@
         .preview {
 
             .header {
-                min-height: 312px;
+                min-height: 290px;
                 position: relative;
 
                 .header_image {
