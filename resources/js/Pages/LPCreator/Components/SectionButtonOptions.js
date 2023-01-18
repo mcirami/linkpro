@@ -1,6 +1,7 @@
 import React, {createRef, useEffect, useState} from 'react';
 import Switch from 'react-switch';
 import {updateSectionData} from '../../../Services/LandingPageRequests';
+import DropdownComponent from './DropdownComponent';
 
 const SectionButtonOptions = ({
                                   position,
@@ -8,7 +9,9 @@ const SectionButtonOptions = ({
                                   includeButton,
                                   sections,
                                   setSections,
-                                  id
+                                  id,
+                                  courses,
+                                  button_link
 }) => {
 
     const [includeButtonValue, setIncludeButtonValue] = useState(false);
@@ -102,6 +105,14 @@ const SectionButtonOptions = ({
                     </div>
                 </div>
             </div>
+
+            <DropdownComponent
+                courses={courses}
+                button_link={button_link}
+                sections={sections}
+                setSections={setSections}
+                id={id}
+            />
         </div>
     );
 };

@@ -24,6 +24,7 @@ class LandingPageSection extends Model
         'button',
         'button_position',
         'image',
+        'button_link'
     ];
 
     /**

@@ -1,6 +1,7 @@
 import React, {useState, useRef, useReducer, useEffect} from 'react';
 
 const landingPageArray = user.landingPage;
+const courses = user.courses;
 import {Loader} from '../../Utils/Loader';
 import {Flash} from '../../Utils/Flash';
 import InputComponent from './Components/InputComponent';
@@ -91,6 +92,7 @@ function App() {
     console.log("colors: ", colors)*/
    /* console.log("filenames: " , fileNames)*/
 
+    console.log(sections);
     return (
         <div className="my_row page_wrap">
 
@@ -116,6 +118,23 @@ function App() {
             <div className="left_column">
                 <h3 className="mb-4 card_title">Create Your Landing Page</h3>
                 <div className="content_wrap my_row creator" id="left_col_wrap">
+                    <section className="my_row">
+                        <div className="section_title">
+                            <h4>Title</h4>
+                        </div>
+                        <div className="section_content my_row">
+                            <InputComponent
+                                placeholder="Page Title"
+                                type="text"
+                                maxChar={60}
+                                hoverText="Submit Page Title"
+                                elementName="title"
+                                pageData={pageData}
+                                dispatch={dispatch}
+                                value={pageData["title"]}
+                            />
+                        </div>
+                    </section>
                     <section className="my_row section">
                         <div className="section_title">
                             <h4>Header</h4>
@@ -203,13 +222,12 @@ function App() {
                                 value={pageData["button_text"]}
                                 dispatch={dispatch}
                             />
-                            <DropdownComponent />
                         </div>
                     </section>
 
                     {!isEmpty(sections) && sections.map((section, index) => {
 
-                        const {id, type, text, button_position, button} = section;
+                        const {id, type, text, button_position, button, button_link} = section;
 
                         return (
                             <section className="my_row" key={id}>
@@ -278,6 +296,8 @@ function App() {
                                             includeButton={button}
                                             sections={sections}
                                             setSections={setSections}
+                                            button_link={button_link}
+                                            courses={courses}
                                             id={id}
                                         />
                                     </div>

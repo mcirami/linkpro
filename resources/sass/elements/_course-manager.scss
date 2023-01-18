@@ -5,6 +5,142 @@
         line-height: 1.6;
     }
 
+    a {
+        @include osregular;
+        line-height: 1.2;
+    }
+
+    .grid_columns {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        padding-top: 20px;
+
+        @media screen and (max-width: 768px) {
+            grid-template-columns: 1fr;
+        }
+
+        h3 {
+            @include ossemibold;
+            margin: 0;
+
+            @media screen and (max-width: 992px) {
+                font-size: 1.4em;
+            }
+
+            @media screen and (max-width: 768px) {
+                font-size: 1.2em;
+            }
+        }
+
+        &.top_section {
+            padding-bottom: 20px;
+            padding-top: 0;
+            border-bottom: 1px solid $borderGray;
+
+            > h3 {
+                @media screen and (max-width: 768px) {
+                    margin-bottom: 10px;
+                }
+            }
+        }
+
+        .column {
+
+            &:first-child {
+                padding-right: 40px;
+
+                @media screen and (max-width: 768px) {
+                    display: none;
+                }
+
+                img {
+                    background: $lightGray;
+                    padding: 40px;
+                    border-radius: 8px;
+                    -webkit-border-radius: 8px;
+                    -moz-border-radius: 8px;
+
+                }
+            }
+
+            &:last-child {
+                border-radius: 8px;
+                -webkit-border-radius: 8px;
+                -moz-border-radius: 8px;
+                border: 1px solid $borderGray;
+
+                @media screen and (max-width: 768px) {
+                    overflow-x:scroll;
+                }
+
+                table {
+                    border-radius: 8px;
+                    -webkit-border-radius: 8px;
+                    -moz-border-radius: 8px;
+
+                    @media screen and (max-width: 768px) {
+                        min-width: 700px;
+                    }
+
+                    thead {
+                        @include ossemibold;
+                        background: $lightGray;
+
+                        th {
+                            @include osregular;
+                            padding: 1rem;
+                            font-size: 1.1em;
+
+                            &:first-child {
+                                border-top-left-radius: 8px;
+                                -webkit-border-top-left-radius: 8px;
+                                -moz-border-radius-topleft: 8px;
+                            }
+
+                            &:last-child {
+                                border-top-right-radius: 8px;
+                                -webkit-border-top-right-radius: 8px;
+                                -moz-border-radius-topright: 8px;
+                            }
+                        }
+                    }
+
+                    td {
+                        @include osregular;
+                        padding: 1rem;
+                        font-size: 1.1em;
+                    }
+                }
+            }
+
+            .form-switch .form-check-input {
+                width: 2.5em;
+                height: 1.2em;
+            }
+        }
+    }
+
+    .text_wrap.flex {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        -webkit-justify-content: flex-start;
+        align-items: flex-end;
+        -webkit-align-items: flex-end;
+        column-gap: 15px;
+        -moz-column-gap: 15px;
+        -webkit-column-gap: 15px;
+        align-self: center;
+        -webkit-align-self: center;
+    }
+
     ul {
         list-style: none;
         padding: 0;
@@ -48,26 +184,15 @@
             .text_wrap {
 
                 &.flex {
-                    display: -webkit-box;
-                    display: -ms-flexbox;
-                    display: flex;
-                    -webkit-box-orient: horizontal;
-                    -webkit-box-direction: normal;
-                    -ms-flex-direction: row;
-                    flex-direction: row;
-                    -ms-flex-wrap: nowrap;
-                    flex-wrap: nowrap;
-                    justify-content: flex-start;
-                    -webkit-justify-content: flex-start;
                     align-items: center;
                     -webkit-align-items: center;
-                    gap: 20px;
-                    column-gap: 20px;
-                    align-self: center;
-                    -webkit-align-self: center;
 
                     h4 {
                         margin-bottom: 0;
+                    }
+
+                    span {
+                        font-size: 24px;
                     }
                 }
 

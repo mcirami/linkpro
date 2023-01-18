@@ -4,6 +4,11 @@ namespace App\Services;
 
 class CourseService {
 
+    public function getCourses($user) {
+
+        return $user->Courses()->get()->toArray();
+    }
+
     public function getCourseData($course) {
         $courseData = $course->attributesToArray();
         $sections = $course->CourseSections()->get()->toArray();

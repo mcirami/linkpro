@@ -20,6 +20,7 @@ class Course extends Model
         'intro_text',
         'intro_text_color',
         'intro_background_color',
+        'title'
     ];
 
     /**

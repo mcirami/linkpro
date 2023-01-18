@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Services\CourseService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
 
 class CourseController extends Controller
@@ -17,11 +18,14 @@ class CourseController extends Controller
         $user = Auth::user();
 
         $landingPage = $user->LandingPage()->get()->toArray();
-        $courses = $user->Courses()->where('landing_page_id', $landingPage[0]["id"])->get()->toArray();
+        //$courses = $user->Courses()->where('landing_page_id', $landingPage[0]["id"])->get()->toArray();
+        //$offers = $user->Offers()->where('course_id',$courses[0]["id"])->first()->toArray();
+
+        $offers = DB::table('courses')->leftJoin('offers', 'courses.id', '=', 'courses.id')->get()->toArray();
 
         return view('courses.manager')->with([
             'landingPage' => $landingPage,
-            'courses' => $courses
+            'offers' => $offers
         ]);
     }
 

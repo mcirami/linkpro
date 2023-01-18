@@ -2,6 +2,10 @@
 
     .creator_wrap {
 
+        .page_settings:last-child, .edit_form:last-child {
+            margin-bottom: 0;
+        }
+
         .content_wrap {
 
             &.creator {

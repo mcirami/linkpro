@@ -123,6 +123,23 @@ function App() {
                 <div className="content_wrap my_row creator" id="left_col_wrap">
                     <section className="my_row section">
                         <div className="section_title">
+                            <h4>Title</h4>
+                        </div>
+                        <div className="section_content my_row">
+                            <InputComponent
+                                placeholder="Course Title"
+                                type="text"
+                                maxChar={60}
+                                hoverText="Submit Course Title"
+                                elementName="title"
+                                courseData={courseData}
+                                dispatch={dispatch}
+                                value={courseData["title"]}
+                            />
+                        </div>
+                    </section>
+                    <section className="my_row section">
+                        <div className="section_title">
                             <h4>Intro Text</h4>
                         </div>
                         <div className="section_content my_row">

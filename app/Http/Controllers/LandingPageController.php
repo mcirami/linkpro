@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\LandingPage;
 use App\Models\LandingPageSection;
+use App\Services\CourseService;
 use App\Services\LandingPageService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -37,7 +38,7 @@ class LandingPageController extends Controller
      *
      * @return Application|Factory|View|never
      */
-    public function edit(LandingPage $landingPage, LandingPageService $service) {
+    public function edit(LandingPage $landingPage, LandingPageService $service, CourseService $courseService) {
 
         $user = Auth::user();
 
@@ -46,9 +47,11 @@ class LandingPageController extends Controller
         }
 
         $landingPageData = $service->getLPData($landingPage);
+        $courses = $courseService->getCourses($user);
 
         Javascript::put([
             'landingPage' => $landingPageData,
+            'courses' => $courses
         ]);
 
         return view('landing-page.edit');
