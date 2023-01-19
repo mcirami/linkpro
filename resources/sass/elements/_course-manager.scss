@@ -6,8 +6,12 @@
     }
 
     a {
-        @include osregular;
         line-height: 1.2;
+
+        &.button.full {
+            width: 100%;
+            font-size: 1.5em;
+        }
     }
 
     .grid_columns {

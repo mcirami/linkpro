@@ -21,6 +21,8 @@ const SectionImage = ({
     //console.log("check Found: ", checkFound());
 
     useEffect(() => {
+
+        const backgroundImg = imgUrl || Vapor.asset("images/image-placeholder.jpg");
         setSectionImageStyle (
             checkFound() ?
                 {
@@ -31,7 +33,7 @@ const SectionImage = ({
                 }
                 :
                 {
-                    background: "url(" + imgUrl + ") center no-repeat",
+                    background: "url(" + backgroundImg + ") center no-repeat",
                     backgroundSize: 'cover',
                     minHeight: '130px'
                 }

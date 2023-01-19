@@ -252,7 +252,6 @@ function App() {
                                             <InputComponent
                                                 placeholder="Add Text"
                                                 type="textarea"
-                                                maxChar={65}
                                                 hoverText={`Add Text to Section ${index + 1}`}
                                                 elementName={`section_${index + 1}_text`}
                                                 value={text}

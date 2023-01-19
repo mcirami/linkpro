@@ -26,6 +26,8 @@ class CourseService {
             }
 
             $courseData["sections"] = $sectionArray;
+        } else {
+            $courseData["sections"] = [];
         }
 
         return $courseData;

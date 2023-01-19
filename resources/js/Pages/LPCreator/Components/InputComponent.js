@@ -12,7 +12,7 @@ import {LP_ACTIONS} from '../Reducer';
 const InputComponent = ({
                             placeholder,
                             type,
-                            maxChar,
+                            maxChar = null,
                             hoverText,
                             elementName,
                             value,

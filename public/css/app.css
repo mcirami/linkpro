@@ -16725,8 +16725,11 @@ a.delete svg {
   line-height: 1.6;
 }
 #manager a {
-  font-family: "opensansregular", sans-serif;
   line-height: 1.2;
+}
+#manager a.button.full {
+  width: 100%;
+  font-size: 1.5em;
 }
 #manager .grid_columns {
   display: grid;

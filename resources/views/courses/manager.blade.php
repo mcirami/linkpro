@@ -5,7 +5,7 @@
     <div class="container">
         <h2 class="page_title">Course Manager</h2>
         <section id="manager" class="card edit_page">
-            @if (count($offers) > 1 || $offers[0]->published)
+            @if (!empty($offers) && (count($offers) > 1 || $offers[0]->published))
                 <div class="grid_columns top_section">
                     <h3>Landing Page</h3>
                     <div class="text_wrap flex">
@@ -100,7 +100,7 @@
                     </li>
                 </ul>
                 @if (empty($landingPage) )
-                    <a class="button blue" href="{{ route('add.landing.page') }}">
+                    <a class="button blue full" href="{{ route('add.landing.page') }}">
                         Get Started!
                     </a>
                 @endif
