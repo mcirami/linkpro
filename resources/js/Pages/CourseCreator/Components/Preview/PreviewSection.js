@@ -30,35 +30,33 @@ const PreviewSection = ({
     }*/
 
     return (
-        <article className={type} style={{ background: background_color || 'rgba(255,255,255,1)'}}>
-            <div className="container">
-                {/*{( !!button && button_position === "above") &&
-                    <Button
-                        buttonText={courseData["button_text"]}
-                    />
-                }*/}
-                {{
-                    "text":
-                        <p
-                            style={{ color: text_color || 'rgba(0,0,0,1)'}}
-                        >{text || ""}</p>
-                        ,
-                    "video":
-                        <SectionVideo
-                            title={video_title}
-                            link={video_link}
-                            text={text}
-                            textColor={text_color}
+        <section className={type} style={{ background: background_color || 'rgba(255,255,255,1)'}}>
+            {/*{( !!button && button_position === "above") &&
+                <Button
+                    buttonText={courseData["button_text"]}
+                />
+            }*/}
+            {{
+                "text":
+                    <p
+                        style={{ color: text_color || 'rgba(0,0,0,1)'}}
+                    >{text || ""}</p>
+                    ,
+                "video":
+                    <SectionVideo
+                        title={video_title}
+                        link={video_link}
+                        text={text}
+                        textColor={text_color}
 
-                        />,
-                }[type]}
-                {/*{( !!button && button_position === "below") &&
-                    <Button
-                        buttonText={courseData["button_text"]}
-                    />
-                }*/}
-            </div>
-        </article>
+                    />,
+            }[type]}
+            {/*{( !!button && button_position === "below") &&
+                <Button
+                    buttonText={courseData["button_text"]}
+                />
+            }*/}
+        </section>
     );
 };
 

@@ -136,6 +136,8 @@ Route::group(['middleware' => 'auth'], function() {
         });
     });
 
+    Route::get('/{user:username}/course/{course:slug}', [CourseController::class, 'show'])->name('live.course.page');
+
 });
 
 Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated'], 'prefix' => 'dashboard'], function() {

@@ -16,12 +16,10 @@ const Hero = ({
 
     return (
         <article className="intro_text my_row" style={{ background: courseData["intro_background_color"] || 'rgba(255,255,255,1)' }}>
-            <div className="container">
-                <p style={{ color: courseData["intro_text_color"] || 'rgba(0,0,0,1)'}}>{ courseData['intro_text'] }</p>
-                {/*<a className="button" href="#" style={buttonStyle}>
-                    {courseData["button_text"] || "Get Course"}
-                </a>*/}
-            </div>
+            <p style={{ color: courseData["intro_text_color"] || 'rgba(0,0,0,1)'}}>{ courseData['intro_text'] }</p>
+            {/*<a className="button" href="#" style={buttonStyle}>
+                {courseData["button_text"] || "Get Course"}
+            </a>*/}
         </article>
     );
 };

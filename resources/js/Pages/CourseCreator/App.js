@@ -2,6 +2,7 @@ import React, {useState, useRef, useReducer, useEffect} from 'react';
 
 const courseArray = user.course;
 const offerArray = user.offerData;
+const username = user.username;
 import {Loader} from '../../Utils/Loader';
 import {Flash} from '../../Utils/Flash';
 import InputComponent from './Components/InputComponent';
@@ -95,6 +96,7 @@ function App() {
     console.log("colors: ", colors)*/
    /* console.log("filenames: " , fileNames)*/
 
+    const url = window.location.protocol + "//" + window.location.host + "/" + username + "/course/" + courseData["slug"];
     let videoCount = 0;
     let textCount = 0;
     return (
@@ -136,6 +138,12 @@ function App() {
                                 dispatch={dispatch}
                                 value={courseData["title"]}
                             />
+                            {courseData["slug"] &&
+                                <div className="url_wrap">
+                                    <p>Course URL:</p>
+                                    <a target="_blank" href={url}>{url}</a>
+                                </div>
+                            }
                         </div>
                     </section>
                     <section className="my_row section">
@@ -146,7 +154,6 @@ function App() {
                             <InputComponent
                                 placeholder="Intro Text"
                                 type="textarea"
-                                maxChar={100}
                                 hoverText="Submit Intro Text"
                                 elementName="intro_text"
                                 courseData={courseData}
@@ -220,7 +227,6 @@ function App() {
                                             <InputComponent
                                                 placeholder="Add Text"
                                                 type="textarea"
-                                                maxChar={65}
                                                 hoverText="Add Text to Section"
                                                 elementName={`section_${index + 1}_text`}
                                                 value={text}
@@ -251,7 +257,7 @@ function App() {
                                                 maxChar={65}
                                                 hoverText="Add Video Title"
                                                 elementName={`video_${index + 1}_title`}
-                                                value={video_title}
+                                                value={video_title || ""}
                                                 currentSection={section}
                                                 sections={sections}
                                                 setSections={setSections}
@@ -261,7 +267,7 @@ function App() {
                                                 type="url"
                                                 hoverText="Add Embed Link"
                                                 elementName={`video_${index + 1}_link`}
-                                                value={video_link}
+                                                value={video_link || ""}
                                                 currentSection={section}
                                                 sections={sections}
                                                 setSections={setSections}
@@ -269,10 +275,9 @@ function App() {
                                             <InputComponent
                                                 placeholder="Video Text Blurb (optional)"
                                                 type="textarea"
-                                                maxChar={100}
-                                                hoverText={`Add Text Blurb to Section ${index + 1}`}
+                                                hoverText={`Submit Text Blurb`}
                                                 elementName={`section_${index + 1}_text`}
-                                                value={text}
+                                                value={text || ""}
                                                 currentSection={section}
                                                 sections={sections}
                                                 setSections={setSections}

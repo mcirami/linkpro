@@ -45,7 +45,7 @@ const InputComponent = ({
     },[])
 
     useEffect(() => {
-        if (type === "url" && value && checkValidity(value, "url")) {
+        if ( ((type === "url" && checkValidity(value, "url") ) || type === "textarea") && value ) {
             setIsValid(true);
         }
     },[])
@@ -82,12 +82,11 @@ const InputComponent = ({
             if(check) {
                 value = checkEmbedLink(value);
                 e.target.value = value;
-                console.log(value);
             }
         }
 
-        if (check) {
-
+        if (check || type === "textarea") {
+            setIsValid(true)
             if (sections) {
 
                 let element = elementName.split(/(\d+)/);
@@ -118,13 +117,13 @@ const InputComponent = ({
             }
         } else if (type === "currency") {
 
-             dispatchOffer({
-                 type: OFFER_ACTIONS.UPDATE_OFFER_DATA,
-                 payload: {
-                     value: value,
-                     name: elementName
+            dispatchOffer({
+                type: OFFER_ACTIONS.UPDATE_OFFER_DATA,
+                payload: {
+                    value: value,
+                    name: elementName
                 }
-             })
+            })
         }
     }
 
@@ -161,7 +160,18 @@ const InputComponent = ({
                     [`${elementName}`]: courseData[elementName],
                 };
 
-                updateData(packets, courseData["id"], elementName);
+                updateData(packets, courseData["id"], elementName)
+                .then((response) => {
+                    if(response.success) {
+                        dispatch({
+                            type: LP_ACTIONS.UPDATE_PAGE_DATA,
+                            payload: {
+                                value: response.slug,
+                                name: 'slug'
+                            }
+                        })
+                    }
+                });
             }
         }
     }
@@ -238,6 +248,7 @@ const InputComponent = ({
                             }
                         }}
                         onBlur={(e) => handleSubmit(e)}
+                        onPaste={(e) => handleChange(e)}
                     ></textarea>
                 )
             case 'currency' :

@@ -54,7 +54,7 @@ const Preview = ({
                             />
 
                         </section>
-                        <section className="sections">
+                        <div className="sections">
                             {!isEmpty(sections) && sections.map((section, index) => {
 
                                 return (
@@ -65,7 +65,7 @@ const Preview = ({
                                     />
                                 )
                             })}
-                        </section>
+                        </div>
 
                     </div>
                 </div>

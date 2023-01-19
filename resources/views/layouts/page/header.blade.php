@@ -21,7 +21,7 @@
 </head>
 <body>
 <div id="app" class="my_row">
-    <main class="@php if(!Route::is('live.landing.page')) { echo "py-4"; } else { echo "pt-0"; } @endphp">
+    <main class="@php if(!Route::is('live.landing.page') && !Route::is('live.course.page')) { echo "py-4"; } else { echo "pt-0"; } @endphp">
 
         @yield('content')
 

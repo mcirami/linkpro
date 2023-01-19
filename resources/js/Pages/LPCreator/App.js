@@ -134,9 +134,12 @@ function App() {
                                 dispatch={dispatch}
                                 value={pageData["title"]}
                             />
-                            <div className="url_wrap">
-                                <a target="_blank" href={url}>{url}</a>
-                            </div>
+                            {pageData["slug"] &&
+                                <div className="url_wrap">
+                                    <p>Landing Page URL:</p>
+                                    <a target="_blank" href={url}>{url}</a>
+                                </div>
+                            }
                         </div>
                     </section>
                     <section className="my_row section">

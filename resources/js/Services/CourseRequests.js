@@ -45,6 +45,7 @@ export const updateData = (packets, id, elementName) => {
     .then(
         (response) => {
             const returnMessage = JSON.stringify(response.data.message);
+            const slug = response.data.slug
 
             if (!returnMessage.includes("color")) {
                 EventBus.dispatch("success", { message: returnMessage.replace("_", " ") });
@@ -52,6 +53,7 @@ export const updateData = (packets, id, elementName) => {
 
             return {
                 success : true,
+                slug: slug
             }
         }
     )
@@ -59,7 +61,7 @@ export const updateData = (packets, id, elementName) => {
         if (error.response !== undefined) {
             if (error.response.data.errors[elementName] !== undefined) {
                 EventBus.dispatch("error",
-                    {message: error.response.data.errors["elementName"][0]});
+                    {message: error.response.data.errors[elementName][0]});
             }
             console.error("ERROR:: ", error.response.data);
         } else {

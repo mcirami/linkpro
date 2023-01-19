@@ -2,7 +2,7 @@
 
 @section('content')
 
-   <div id="links_page" class="live_landing_page">
+   <div id="links_page" class="live_page">
        <div class="container">
            <div class="creator_wrap">
                <div class="preview">

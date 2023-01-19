@@ -20,7 +20,8 @@ class Course extends Model
         'intro_text',
         'intro_text_color',
         'intro_background_color',
-        'title'
+        'title',
+        'slug'
     ];
 
     /**
@@ -38,5 +39,9 @@ class Course extends Model
 
     public function Offer() {
         return $this->hasOne(Offer::class);
+    }
+
+    public function LandingPage() {
+        return $this->hasOne(LandingPage::class);
     }
 }

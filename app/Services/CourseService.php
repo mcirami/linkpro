@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Str;
+
 class CourseService {
 
     public function getCourses($user) {
@@ -36,12 +38,23 @@ class CourseService {
 
     public function saveCourseData($course, $request) {
         $keys = collect($request->all())->keys();
+        $slug = null;
 
         $course->update([
             $keys[0] => $request[$keys[0]]
         ]);
 
-        return $keys[0];
+        if ($keys[0] == "title") {
+            $slug = Str::slug($request[$keys[0]], '-');
+            $course->update([
+                'slug' => $slug
+            ]);
+        }
+
+        return [
+            "key" => $keys[0],
+            "slug" => $slug
+        ];
     }
 
     public function addCourseSection($course, $userID, $request) {

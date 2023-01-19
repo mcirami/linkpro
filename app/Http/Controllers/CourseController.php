@@ -13,6 +13,19 @@ use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
 
 class CourseController extends Controller
 {
+    public function show(User $user, Course $course) {
+
+        $offer = $course->Offer()->first();
+        $logo = $user->LandingPages()->pluck('logo')->first();
+        $sections = $course->CourseSections()->get();
+
+        if (!$offer->published) {
+            return abort(404);
+        }
+
+        return view('courses.show')->with(['course' => $course, 'logo' => $logo, 'sections' => $sections]);
+    }
+
     public function showCourseManager() {
 
         $user = Auth::user();
@@ -44,7 +57,8 @@ class CourseController extends Controller
         Javascript::put([
             'course' => $courseData,
             'LPLogo' => $landingPageLogo[0],
-            'offerData' => $offerData
+            'offerData' => $offerData,
+            'username' => $user["username"]
         ]);
 
         return view('courses.edit');
@@ -76,7 +90,7 @@ class CourseController extends Controller
 
         $key = $courseService->saveCourseData($course, $request);
 
-        return response()->json(['message' => $key .  " Updated"]);
+        return response()->json(['message' => $key["key"] .  " Updated", 'slug' => $key["slug"]]);
     }
 
     public function saveImage() {
