@@ -13,7 +13,7 @@
                 .edit_form form {
                         .submit_circle.textarea, .cancel_icon.textarea {
                             bottom: 15px;
-                            right: 20px;
+                            right: 10px;
                     }
                 }
             }
@@ -78,15 +78,6 @@
                     section {
                         padding: 20px;
                     }
-                }
-
-                .inner_content_wrap {
-                    border-bottom-right-radius: 0 !important;
-                    -webkit-border-bottom-right-radius: 0 !important;
-                    -moz-border-radius-bottomright: 0 !important;
-                    border-bottom-left-radius: 0 !important;
-                    -webkit-border-bottom-left-radius: 0 !important;
-                    -moz-border-radius-bottomleft: 0 !important;
                 }
             }
         }

@@ -29,16 +29,12 @@ const ColorPicker = ({
 
     const [showPicker, setShowPicker] = useState(false);
     const [pickerBg, setPickerBg] = useState({});
-
-    var timer = 0;
+    const [colorValues, setColorValues] = useState({
+        previous: null,
+        current: null
+    })
 
     useEffect(() => {
-        /*setPickerBg(
-                    a == 0 ?
-                        {background: `url(${Vapor.asset("images/transparent-block.png")})`}
-                        :
-                        {background: `rgba(${r} , ${g} , ${b} , ${a})`}
-                )*/
         setPickerBg({background: `rgba(${r} , ${g} , ${b} , ${a})`});
 
     },[sketchPickerColor])
@@ -59,20 +55,26 @@ const ColorPicker = ({
             }
 
             setPickerBg({background: color});
+
+            setColorValues((prev) => ({
+                    ...prev,
+                    previous: color
+            }))
+
         } else {
             setPickerBg({ background: pageData[elementName] })
+            setColorValues((prev) => ({
+                ...prev,
+                previous: pageData[elementName]
+            }))
         }
 
     },[])
 
-    useEffect(() => {
-        // "timer" will be undefined again after the next re-render
-        return () => clearTimeout(timer);
-    }, []);
-
     const handleOnChange = (color) => {
         setSketchPickerColor(color);
         const value = `rgba(${color.r} , ${color.g} , ${color.b} , ${color.a})`;
+
         if(sections) {
 
             let element = elementName.split(/(\d+)/);
@@ -88,24 +90,6 @@ const ColorPicker = ({
                 return section;
             }))
 
-            const packets = {
-                [`${element}`]: value,
-            };
-
-            updateSectionData(packets, currentSection.id)
-            .then((response) => {
-                if (response.success) {
-                    /*dispatch({
-                        type: LP_ACTIONS.UPDATE_COLOR,
-                        payload: {
-                            value: value,
-                            name: elementName
-                        }
-                    })*/
-                    console.log("triggered");
-                }
-            });
-
         } else {
 
             dispatch({
@@ -115,30 +99,89 @@ const ColorPicker = ({
                     name: elementName
                 }
             })
-
-            const packets = {
-                [`${elementName}`]: value,
-            };
-
-            timer = setTimeout(() => {
-                updateData(packets, pageData["id"], elementName)
-                .then((response) => {
-                    if (response.success) {
-                        /*dispatch({
-                            type: LP_ACTIONS.UPDATE_COLOR,
-                            payload: {
-                                value: value,
-                                name: elementName
-                            }
-                        })*/
-                        console.log("triggered");
-                    }
-                })
-            },5000)
-
-            console.log("timer: ", timer);
         }
 
+        setColorValues((prev) => ({
+            ...prev,
+            current: value
+        }))
+    }
+
+    const handleSave = (e) => {
+
+        e.preventDefault();
+
+        if (sections) {
+            const packets = {
+                [`${element}`]: colorValues.current,
+            };
+
+            updateSectionData(packets, currentSection.id)
+            .then((response) => {
+                if (response.success) {
+                    setColorValues({
+                        previous: null,
+                        current: colorValues.current
+                    })
+                    setShowPicker(false);
+                }
+            });
+        } else {
+
+            const packets = {
+                [`${elementName}`]: colorValues.current,
+            };
+
+            updateData(packets, pageData["id"], elementName).
+                then((response) => {
+                    if (response.success) {
+                        setShowPicker(false);
+                        setColorValues({
+                            previous: null,
+                            current:  colorValues.current
+                        })
+                    }
+                })
+        }
+    }
+
+    const handleClose = (e) => {
+
+        e.preventDefault();
+
+        if(sections) {
+
+            let element = elementName.split(/(\d+)/);
+            element = element[2].replace('_', '');
+
+            setSections(sections.map((section) => {
+                if (section.id === currentSection.id) {
+                    return {
+                        ...section,
+                        [`${element}`]: colorValues.previous,
+                    }
+                }
+                return section;
+            }))
+
+        } else {
+
+            dispatch({
+                type: LP_ACTIONS.UPDATE_PAGE_DATA,
+                payload: {
+                    value: colorValues.previous,
+                    name: elementName
+                }
+            })
+        }
+
+        setColorValues((prev) => ({
+            previous: null,
+            current:  colorValues.previous
+        }))
+        setPickerBg({background: colorValues.previous})
+
+        setShowPicker(false);
 
     }
 
@@ -163,10 +206,7 @@ const ColorPicker = ({
                 {showPicker &&
                     <div className="picker_wrapper">
                         <div className="close_icon icon_wrap">
-                            <a href="#" onClick={(e) => {
-                                e.preventDefault();
-                                setShowPicker(false);
-                            }}>
+                            <a href="#" onClick={(e) => { handleClose(e) }}>
                                 <RiCloseCircleFill />
                             </a>
                         </div>
@@ -177,6 +217,8 @@ const ColorPicker = ({
                             color={sketchPickerColor}
                             width={300}
                         />
+                        <a className="button blue" href="#"
+                           onClick={(e) => { handleSave(e)}}>Save</a>
                     </div>
                 }
             </div>

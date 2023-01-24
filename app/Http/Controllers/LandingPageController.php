@@ -19,6 +19,12 @@ use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
 
 class LandingPageController extends Controller
 {
+    /**
+     * @param User $user
+     * @param LandingPage $landingPage
+     *
+     * @return Application|Factory|View|never
+     */
     public function show(User $user, LandingPage $landingPage) {
 
         if (!$landingPage->published) {
@@ -27,7 +33,12 @@ class LandingPageController extends Controller
 
         $sections = $landingPage->LandingPageSections()->get();
 
-        return view('landing-page.show')->with(['page' => $landingPage, 'sections' => $sections]);
+        Javascript::put([
+            'livePage' => $landingPage,
+            'liveSections' => $sections,
+        ]);
+
+        return view('landing-page.show');
     }
 
     /**

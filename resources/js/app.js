@@ -41,3 +41,7 @@ if (document.getElementById('creator')) {
 if (document.getElementById('edit_course')) {
     require('./Pages/CourseCreator/Index');
 }
+
+if (document.getElementById('live_landing_page')) {
+    require('./Pages/LiveLP/Index');
+}

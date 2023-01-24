@@ -199,6 +199,12 @@ function App() {
                                 dispatch={dispatch}
                                 elementName="header_color"
                             />
+                            <ColorPicker
+                                label="Header Text Color"
+                                pageData={pageData}
+                                dispatch={dispatch}
+                                elementName="header_text_color"
+                            />
                         </div>
                     </section>
 
@@ -247,13 +253,15 @@ function App() {
                                     />
                                 </div>
                                 <div className="section_content my_row">
-                                    {type === "text" ?
+                                    {type === "text" &&
                                         <>
                                             <InputComponent
                                                 placeholder="Add Text"
                                                 type="textarea"
-                                                hoverText={`Add Text to Section ${index + 1}`}
-                                                elementName={`section_${index + 1}_text`}
+                                                hoverText={`Add Text to Section ${index +
+                                                1}`}
+                                                elementName={`section_${index +
+                                                1}_text`}
                                                 value={text}
                                                 currentSection={section}
                                                 sections={sections}
@@ -264,17 +272,19 @@ function App() {
                                                 currentSection={section}
                                                 sections={sections}
                                                 setSections={setSections}
-                                                elementName={`section_${index + 1}_bg_color`}
+                                                elementName={`section_${index +
+                                                1}_bg_color`}
                                             />
-                                            <ColorPicker
+                                            {/* <ColorPicker
                                                 label="Text Color"
                                                 currentSection={section}
                                                 sections={sections}
                                                 setSections={setSections}
                                                 elementName={`section_${index + 1}_text_color`}
-                                            />
+                                            />*/}
                                         </>
-                                        :
+                                    }
+                                    {type === "image" &&
                                         <ImageComponent
                                             nodesRef={nodesRef}
                                             completedCrop={completedCrop}

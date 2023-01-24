@@ -21,6 +21,7 @@ class LandingPage extends Model
         'slogan',
         'hero',
         'header_color',
+        'header_text_color',
         'button_text',
         'button_text_color',
         'button_color',

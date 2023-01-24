@@ -13468,7 +13468,7 @@ form .bottom_row a {
 }
 .edit_form form .submit_circle.textarea, .edit_form form .cancel_icon.textarea {
   top: auto;
-  bottom: 35px;
+  bottom: 10px;
 }
 .edit_form.new_page {
   margin-bottom: 0;
@@ -16517,6 +16517,15 @@ a.delete svg {
 #links_page .creator_wrap .content_wrap section .section_content .url_wrap a {
   color: #424fcf;
 }
+#links_page .creator_wrap .content_wrap section .section_content .wysiwyg {
+  margin-bottom: 0;
+}
+#links_page .creator_wrap .content_wrap section .section_content .wysiwyg .public-DraftStyleDefault-block {
+  margin: 0;
+}
+#links_page .creator_wrap .content_wrap section .section_content .wysiwyg .rdw-editor-wrapper {
+  min-height: 200px;
+}
 #links_page .creator_wrap .content_wrap section h4, #links_page .creator_wrap .content_wrap section .h4 {
   font-family: "opensansbold", sans-serif;
   font-size: 1.2em;
@@ -16573,20 +16582,39 @@ a.delete svg {
   height: 20px;
 }
 #links_page .creator_wrap .content_wrap section .picker_wrapper {
+  box-shadow: 0px 0px 35px 5px rgba(170, 170, 170, 0.18);
   position: absolute;
   bottom: 0;
   left: 100%;
   z-index: 999;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  padding: 10px;
+  background: #ffffff;
+}
+#links_page .creator_wrap .content_wrap section .picker_wrapper .sketch-picker {
+  box-shadow: none !important;
+}
+#links_page .creator_wrap .content_wrap section .picker_wrapper .button {
+  float: right;
+  width: 100px;
+  padding: 5px;
 }
 #links_page .creator_wrap .content_wrap section .picker_wrapper .close_icon.icon_wrap {
   position: absolute;
   top: -15px;
   right: -15px;
+  background: #ffffff;
+  border-radius: 50px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
 }
 #links_page .creator_wrap .content_wrap section .picker_wrapper .close_icon.icon_wrap svg {
   width: 26px;
   height: 26px;
   color: #000;
+  margin: 0;
 }
 #links_page .creator_wrap .content_wrap section .button_options {
   padding-top: 20px;
@@ -16617,6 +16645,14 @@ a.delete svg {
 }
 #links_page .creator_wrap .content_wrap section .radios_wrap .radios input {
   margin-right: 3px;
+}
+#links_page .creator_wrap .preview .inner_content_wrap {
+  border-bottom-right-radius: 0 !important;
+  -webkit-border-bottom-right-radius: 0 !important;
+  -moz-border-radius-bottomright: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  -webkit-border-bottom-left-radius: 0 !important;
+  -moz-border-radius-bottomleft: 0 !important;
 }
 #links_page .creator_wrap .preview .header {
   min-height: 290px;
@@ -16684,8 +16720,6 @@ a.delete svg {
 }
 #links_page .creator_wrap .preview section .text p {
   margin: 0;
-  text-align: center;
-  font-size: 1.2em;
 }
 #links_page .creator_wrap .preview section .image {
   position: relative;
@@ -16906,7 +16940,7 @@ a.delete svg {
 }
 .creator.course_creator #links_page .creator_wrap .left_column .edit_form form .submit_circle.textarea, .creator.course_creator #links_page .creator_wrap .left_column .edit_form form .cancel_icon.textarea {
   bottom: 15px;
-  right: 20px;
+  right: 10px;
 }
 .creator.course_creator #links_page .creator_wrap .preview .header {
   min-height: unset;
@@ -16948,14 +16982,6 @@ a.delete svg {
 }
 .creator.course_creator #links_page .creator_wrap .preview .sections section {
   padding: 20px;
-}
-.creator.course_creator #links_page .creator_wrap .preview .inner_content_wrap {
-  border-bottom-right-radius: 0 !important;
-  -webkit-border-bottom-right-radius: 0 !important;
-  -moz-border-radius-bottomright: 0 !important;
-  border-bottom-left-radius: 0 !important;
-  -webkit-border-bottom-left-radius: 0 !important;
-  -moz-border-radius-bottomleft: 0 !important;
 }
 
 #links_page.live_page .creator_wrap {
@@ -17031,9 +17057,28 @@ a.delete svg {
 #links_page.live_page .preview .sections .image .button_wrap.above {
   top: 20px;
 }
+#links_page.live_page .preview .sections .text h2, #links_page.live_page .preview .sections .text .h2 {
+  font-size: 3em !important;
+}
+@media screen and (max-width: 992px) {
+  #links_page.live_page .preview .sections .text h2, #links_page.live_page .preview .sections .text .h2 {
+    font-size: 2.4em !important;
+  }
+}
 @media screen and (max-width: 768px) {
-  #links_page.live_page .preview .sections .text p {
-    font-size: 1em;
+  #links_page.live_page .preview .sections .text h2, #links_page.live_page .preview .sections .text .h2 {
+    font-size: 2em !important;
+  }
+}
+#links_page.live_page .preview .sections .text p {
+  font-size: 1.2rem !important;
+}
+#links_page.live_page .preview .sections .text p span {
+  font-size: 1.2rem !important;
+}
+@media screen and (max-width: 992px) {
+  #links_page.live_page .preview .sections .text p span {
+    font-size: 1rem !important;
   }
 }
 #links_page.live_page .preview .sections .text .button_wrap.below {

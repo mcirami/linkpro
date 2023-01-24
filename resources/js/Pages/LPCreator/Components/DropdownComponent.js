@@ -31,7 +31,7 @@ const DropdownComponent = ({
     }
 
     return (
-        <select name="courses" id="courses" onChange={(e) => handleChange(e)} value={button_link && button_link}>
+        <select name="courses" id="courses" onChange={(e) => handleChange(e)} value={button_link || ""}>
             <option value="">Select Course</option>
             {courses?.map((course, index) => {
                 return <option key={index} value={course.title} >{course.title}</option>

@@ -1,5 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import SectionImage from './SectionImage';
+import DOMPurify from 'dompurify';
+import draftToHtml from 'draftjs-to-html';
 
 const PreviewSection = ({
                             currentSection,
@@ -10,16 +12,11 @@ const PreviewSection = ({
                             pageData
 }) => {
 
-   /* console.log("completed crop: ", completedCrop);
-    console.log("el name: ", elementName);
-    console.log("with el name: ", completedCrop[elementName]);
-    console.log("nodesRef: ", nodesRef.current)
-    console.log("filenames: ", fileNames);*/
-    //console.log("nodesRef: ", nodesRef.current[elementName])
-
-
     const {type, bg_color, text_color, text, image, button, button_position} = currentSection;
     const [buttonStyle, setButtonStyle] = useState(null);
+    const [textValue, setTextValue] = useState(text)
+
+    const firstUpdate = useRef(true);
 
     useEffect(() => {
         setButtonStyle ({
@@ -27,7 +24,25 @@ const PreviewSection = ({
             color: pageData["button_text_color"]
         })
 
-    },[pageData["button_color"], pageData["button_text"]])
+    },[pageData["button_color"], pageData["button_text"], pageData["button_text_color"]])
+
+    useEffect(() => {
+
+        if (firstUpdate.current) {
+            setTextValue(draftToHtml(JSON.parse(text)));
+            firstUpdate.current = false;
+        } else {
+            setTextValue(text)
+        }
+
+    },[text])
+
+    const createMarkup = (text) => {
+        return {
+            __html: DOMPurify.sanitize(text)
+        }
+    }
+
 
     const Button = ({buttonText}) => {
         return (
@@ -51,9 +66,15 @@ const PreviewSection = ({
                 {{
                     "text":
                         <div className="container">
-                            <p
+                            {/*<p
                                 style={{ color: text_color || 'rgba(0,0,0,1)'}}
-                            >{text || ""}</p>
+                            >{text || ""}</p>*/}
+                            {/*{text &&
+                                <div dangerouslySetInnerHTML={createMarkup(text)}>
+                                </div>
+                            }*/}
+                            <div dangerouslySetInnerHTML={createMarkup(textValue)}>
+                            </div>
                         </div>,
                     "image":
                         <SectionImage

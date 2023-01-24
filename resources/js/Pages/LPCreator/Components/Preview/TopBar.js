@@ -39,7 +39,7 @@ const TopBar = ({
                     }
                 </article>
                 <article className="text_wrap">
-                    <p>{pageData["slogan"]}</p>
+                    <p style={{color: pageData["header_text_color"] || '#ffffff'}}>{pageData["slogan"]}</p>
                 </article>
             </div>
         </div>
