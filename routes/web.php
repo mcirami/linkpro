@@ -19,7 +19,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\MailchimpController;
 use App\Http\Controllers\ShopifyController;
 use App\Http\Controllers\OfferController;
-
+use App\Http\Controllers\PurchaseController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -152,6 +152,9 @@ Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated']], function() {
     Route::get('/subscribe', [SubscriptionController::class, 'purchase'])->name('subscribe.get');
 });
 
+Route::get('/checkout/{course}', [PurchaseController::class, 'show'])->name('course.checkout');
+Route::post('/checkout/purchase', [PurchaseController::class, 'store'])->name('course.purchase');
+
 Route::post('/mailchimp/subscribe', [MailchimpController::class, 'subscribeToList'])->name('mailchimp.subscribe');
 
 Route::get('/contact', [ContactMailController::class, 'index'])->name('contact');
@@ -177,6 +180,4 @@ Route::get('/setup', [UtilityController::class, 'showSetupPage'])->name('setup.p
 Route::get('/{page}', [PageController::class, 'show']);
 
 Route::get('/{user:username}/{landing_page:slug}', [LandingPageController::class, 'show'])->name('live.landing.page');
-
-
 

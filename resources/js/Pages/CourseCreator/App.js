@@ -351,7 +351,7 @@ function App() {
                             <InputComponent
                                 placeholder="$ Course price in USD"
                                 type="currency"
-                                hoverText="Add Embed Link"
+                                hoverText="Submit Course Price"
                                 elementName="price"
                                 offerData={offerData}
                                 dispatchOffer={dispatchOfferData}

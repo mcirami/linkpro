@@ -23,6 +23,10 @@ class Offer extends Model
         'published'
     ];
 
+    protected $casts = [
+        'price' => 'float'
+    ];
+
     public function user() {
         return $this->belongsTo(User::class);
     }

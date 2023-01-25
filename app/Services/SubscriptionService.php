@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\SubscriptionTrait;
 use App\Http\Traits\UserTrait;
 use Braintree\Exception;
+use Illuminate\Support\Facades\DB;
 
 class SubscriptionService {
 
@@ -205,11 +206,7 @@ class SubscriptionService {
                 ];
 
             } else {
-                $errorString = "";
-
-                foreach ( $result->errors->deepAll() as $error ) {
-                    $errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
-                }
+                $this->saveErrors($result);
 
                 $data = [
                     "success" => false,
@@ -218,9 +215,7 @@ class SubscriptionService {
             }
 
         } else {
-            foreach ( $customer->errors->deepAll() as $error ) {
-                echo( $error->code . ": " . $error->message . "\n" );
-            }
+            $this->saveErrors($customer);
 
             $data = [
                 "success" => false,
@@ -293,17 +288,12 @@ class SubscriptionService {
                     ];
 
                 } else {
-                    $errorString = "";
-
-                    foreach ( $result->errors->deepAll() as $error ) {
-                        $errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
-                    }
+                    $this->saveErrors($result);
 
                     $data = [
                         "success" => false,
                         "message" => 'An error occurred with the message: ' . $result->message
                     ];
-                    //return back()->withErrors('An error occurred with the message: '. $result->message);
                 }
 
 
@@ -349,11 +339,7 @@ class SubscriptionService {
                     ];
 
                 } else {
-                    $errorString = "";
-
-                    foreach ( $result->errors->deepAll() as $error ) {
-                        $errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
-                    }
+                    $this->saveErrors($result);
 
                     $data = [
                         "success" => false,
@@ -433,9 +419,7 @@ class SubscriptionService {
                 } else {
                     $errorString = "";
 
-                    foreach ($result->errors->deepAll() as $error) {
-                        $errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
-                    }
+                    $this->saveErrors($result);
 
                     $data = [
                         "success" => false,
@@ -444,11 +428,7 @@ class SubscriptionService {
                 }
             } else {
 
-                $errorString = "";
-
-                foreach ($update->errors->deepAll() as $error) {
-                    $errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
-                }
+                $this->saveErrors($update);
 
                 $data = [
                     "success" => false,
@@ -460,9 +440,11 @@ class SubscriptionService {
 
             $errorString = explode('not found', $e );
 
-            /*foreach ($e->errors->deepAll() as $error) {
-                $errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
-            }*/
+            DB::table('transaction_errors')->insert([
+                'code' => 'find plan error',
+                'message' => $errorString[0],
+                'attribute' => 'find plan error',
+            ]);
 
             $data = [
                 "success" => false,
@@ -583,11 +565,7 @@ class SubscriptionService {
             ];
 
         } else {
-            $errorString = "";
-
-            foreach ( $result->errors->deepAll() as $error ) {
-                $errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
-            }
+            $this->saveErrors($result);
 
             $data = [
                 "success" => false,
