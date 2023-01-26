@@ -21,7 +21,8 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
 </head>
-<body>
+<body id="body">
+@include('layouts.menu')
     <div id="app" class="my_row">
         <header class="my_row nav_row">
             <nav>
@@ -35,23 +36,10 @@
                         <div class="right_column">
                             @php $userSub = Auth::user()->subscriptions()->first(); @endphp
 
-                            @if( empty($userSub) || ($userSub->name != "premier" && !$userSub->ends_at) || ($userSub->ends_at && $userSub->ends_at < \Carbon\Carbon::now()) )
-                                <div class="upgrade_link mobile">
-                                    <a class="button blue" href="{{route('plans.get')}}">Upgrade</a>
-                                </div>
-                            @endif
-                            <div class="toggler" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                                <a class="mobile_menu_icon" href="#">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                </a>
-                            </div>
-
-                            <div class="nav_links_wrap" id="navbarSupportedContent">
+                            <div class="nav_links_wrap" >
 
                                 <!-- Right Side Of Navbar -->
-                                <ul class="navbar-nav ml-auto">
+                                <ul class="ml-auto">
                                     <!-- Authentication Links -->
                                     @guest
                                         @if (Route::has('login'))
@@ -66,75 +54,15 @@
                                             </li>
                                         @endif
                                     @else
-                                        @php $page = Auth::user()->pages()->where('user_id', Auth::user()->id)->where('default', true)->get(); $image = $page[0]->profile_img;  @endphp
                                         @if( empty($userSub) || ($userSub->name != "premier" && !$userSub->ends_at) || ($userSub->ends_at && $userSub->ends_at < \Carbon\Carbon::now()) )
-                                            <li class="upgrade_link desktop">
+                                            <li class="upgrade_link">
                                                 <a class="button blue" href="{{route('plans.get')}}">Upgrade</a>
                                             </li>
                                         @endif
-                                        <li class="nav-item dropdown">
-                                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <li class="nav-item">
+                                            @php $page = Auth::user()->pages()->where('user_id', Auth::user()->id)->where('default', true)->get(); $image = $page[0]->profile_img;  @endphp
+                                            <a class="nav-link" href="{{ route('user.edit') }}" role="button" >
                                                 <img id="user_image" src="{{ $image ? : asset('images/profile-placeholder-img.png') }}" alt="User Profile"><span id="username">{{ Auth::user()->username }}</span>
-                                            </a>
-
-                                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-
-                                                <a href="{{ url('/dashboard/pages/' . $page[0]->id) }}" class="dropdown-item @php if(Route::is('pages.edit')) { echo "current"; } @endphp">
-                                                    Pages
-                                                </a>
-                                                <a href="{{ route('stats')}}" class="dropdown-item @php if(Route::is('stats')) { echo "current"; } @endphp">
-                                                    Stats
-                                                </a>
-                                                <a href="{{ route('user.edit') }}" class="dropdown-item @php if(Route::is('user.edit')) { echo "current"; } @endphp">
-                                                    Settings
-                                                </a>
-                                                <a href="{{ route('contact') }}" class="dropdown-item @php if(Route::is('contact')) { echo "current"; } @endphp">
-                                                    Contact Us
-                                                </a>
-                                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                                   onclick="event.preventDefault();
-                                                                 document.getElementById('logout-form').submit();">
-                                                    {{ __('Logout') }}
-                                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                                        @csrf
-                                                    </form>
-                                                </a>
-                                            </div>
-                                        </li>
-
-                                        <li class="mobile">
-                                            <a class="nav-link" href="{{ route('user.edit') }}">
-                                                <img id="mobile_user_image" src="{{ $image ? : asset('images/profile-placeholder-img.png') }}" alt="User Profile"><span id="mobile_username">{{ Auth::user()->username }}</span>
-                                            </a>
-                                        </li>
-                                        <li class="mobile">
-                                            <a href="{{ url('/dashboard/pages/' . $page[0]->id) }}" class="nav-link @php if(Route::is('pages.edit')) { echo "current"; } @endphp">
-                                                Pages
-                                            </a>
-                                        </li>
-                                        <li class="mobile">
-                                            <a href="{{ route('stats')}}" class="nav-link @php if(Route::is('stats')) { echo "current"; } @endphp">
-                                                Stats
-                                            </a>
-                                        </li>
-                                        <li class="mobile">
-                                            <a href="{{ route('user.edit') }}" class="nav-link @php if(Route::is('user.edit')) { echo "current"; } @endphp">
-                                                Settings
-                                            </a>
-                                        </li>
-                                        <li class="mobile">
-                                            <a href="{{ route('contact') }}" class="nav-link @php if(Route::is('contact')) { echo "current"; } @endphp">
-                                                Contact Us
-                                            </a>
-                                        </li>
-                                        <li class="mobile">
-                                            <a href="{{ route('logout') }}"
-                                               onclick="event.preventDefault();
-                                                                 document.getElementById('logout-form-mobile').submit();">
-                                                {{ __('Logout') }}
-                                                <form id="logout-form-mobile" action="{{ route('logout') }}" method="POST" class="d-none">
-                                                    @csrf
-                                                </form>
                                             </a>
                                         </li>
                                     @endguest

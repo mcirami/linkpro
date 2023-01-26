@@ -34,5 +34,8 @@ if (document.getElementById('contact_form')) {
     require('./Pages/Contact/Index');
 }
 
+if (document.getElementById('off_canvas_menu')) {
+    require('./Menu/Index');
+}
 
 

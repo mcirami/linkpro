@@ -100,6 +100,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/mailchimp/list', [MailchimpController::class, 'getLists'])->name('mailchimp.get.lists');
     Route::post('/mailchimp/remove-connection', [MailchimpController::class, 'removeConnection'])->name('mailchimp.remove.connection');
 
+    Route::post('logout', [UserController::class, 'logout'])->name('logout');
 });
 
 Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated'], 'prefix' => 'dashboard'], function() {
