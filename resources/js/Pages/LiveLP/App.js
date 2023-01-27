@@ -1,20 +1,13 @@
 import React, {useState, useRef, useReducer, useEffect} from 'react';
 import draftToHtml from 'draftjs-to-html';
 import DOMPurify from 'dompurify';
+import SectionComponent from './SectionComponent';
 
 const page = user.livePage;
 const sections = user.liveSections;
 
 
 function App() {
-
-    const createMarkup = (text) => {
-
-        const html = draftToHtml(JSON.parse(text));
-        return {
-            __html: DOMPurify.sanitize(html)
-        }
-    }
 
     /*useEffect(() => {
 
@@ -63,72 +56,10 @@ function App() {
             </div>
         </section>
             <div className="sections">
-                {sections?.map((section => {
+                {sections?.map(( (section, index) => {
+
                     return (
-                        <section>
-                            {section.type === "text" &&
-                                <div className="text" style={{ background: section.bg_color }}>
-                                    <div className="container">
-                                        { (section.button && section.button_position === "above") ?
-                                            <div className={`button_wrap ${section.button_position}`}>
-                                                <a className={`button ${section.button_position}`}
-                                                   style={{
-                                                          background: page.button_color,
-                                                          color: page.button_text_color
-                                                          }}
-                                                   href={section.button_link}
-                                                >
-                                                    {page.button_text}
-                                                </a>
-                                            </div>
-                                            :
-                                            ""
-                                        }
-                                        <div dangerouslySetInnerHTML={createMarkup(section.text)}>
-                                        </div>
-                                        { (section.button && section.button_position === "below") ?
-                                            <div className={`button_wrap ${section.button_position}`}>
-                                                <a className={`button ${section.button_position}`}
-                                                   style={{
-                                                       background: page.button_color,
-                                                       color: page.button_text_color
-                                                   }}
-                                                   href={section.button_link}
-                                                >
-                                                    {page.button_text}
-                                                </a>
-                                            </div>
-                                            :
-                                            ""
-                                        }
-                                    </div>
-                                </div>
-                            }
-                            {section.type === "image" &&
-                                <div className="image"
-                                     style={{
-                                         background: "url(" + section.image + ") no-repeat",
-                                         backgroundPosition: "center",
-                                         backgroundSize: "cover"
-                                     }}>
-                                    {section.button ?
-                                        <div className={`button_wrap ${section.button_position}`}>
-                                            <a className="button"
-                                               style={{
-                                                   background: page.button_color,
-                                                   color: page.button_text_color
-                                               }}
-                                               href={section.button_link}
-                                            >
-                                                { page.button_text}
-                                            </a>
-                                        </div>
-                                        :
-                                        ""
-                                    }
-                                </div>
-                            }
-                        </section>
+                        <SectionComponent page={page} section={section} key={index}/>
                     )
                 }))}
 

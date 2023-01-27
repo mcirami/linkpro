@@ -17160,7 +17160,7 @@ a.delete svg {
   text-align: center;
 }
 #links_page.live_page .preview .sections .image {
-  min-height: 30vw;
+  min-height: 25vw;
 }
 @media screen and (max-width: 992px) {
   #links_page.live_page .preview .sections .image {
@@ -17249,6 +17249,22 @@ a.delete svg {
   #links_page.live_page.course .sections section.text {
     grid-column: span 1;
   }
+}
+
+.course_page header .logo h1, .course_page header .logo .h1 {
+  text-align: center;
+}
+.course_page header .logo h1 img, .course_page header .logo .h1 img {
+  max-width: 300px;
+  margin: 0 auto;
+}
+.course_page main {
+  padding: 0;
+}
+.course_page main #links_page.live_page .creator_wrap {
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
 }
 
 footer {

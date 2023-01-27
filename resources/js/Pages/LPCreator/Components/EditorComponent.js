@@ -27,7 +27,7 @@ const EditorComponent = ({
 
     useEffect(() => {
         setEditorState(
-            isJSON(currentSection["text"]) ?
+            currentSection["text"] && isJSON(currentSection["text"]) ?
                 EditorState.createWithContent(convertFromRaw(JSON.parse(currentSection["text"])))
                 :
                 EditorState.createEmpty()
@@ -35,7 +35,9 @@ const EditorComponent = ({
     },[])
 
     useEffect(() => {
-        if (isJSON(currentSection["text"]) && JSON.parse(currentSection["text"])["blocks"][0]["text"] !== "") {
+        if (currentSection["text"] &&
+            isJSON(currentSection["text"]) &&
+            JSON.parse(currentSection["text"])["blocks"][0]["text"] !== "") {
             setIsValid(true)
         }
     },[])
@@ -116,8 +118,6 @@ const EditorComponent = ({
             }
         }
     }
-
-
 
     return (
         <div className="page_settings border_wrap wysiwyg">
