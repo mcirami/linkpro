@@ -1,0 +1,207 @@
+#off_canvas_menu {
+
+    &:before {
+        content: '';
+        z-index: -999;
+        background-color: transparent;
+        transition: background-color ease-in-out 500ms;
+        -moz-transition: background-color ease-in-out 500ms;
+        -webkit-transition: background-color ease-in-out 500ms;
+    }
+
+    &.open {
+
+        &:before {
+            content: '';
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,.8);
+            z-index: 1000;
+        }
+    }
+
+    .menu_wrap {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+        position: fixed;
+        left: -275px;
+        top: 0;
+        height: 100%;
+        width: 350px;
+        background: $blue;
+        transition: all ease-in-out 500ms;
+        -moz-transition: all ease-in-out 500ms;
+        -webkit-transition: all ease-in-out 500ms;
+        z-index: 1000;
+
+        @media screen and (max-width: 768px) {
+            background: transparent;
+        }
+
+        &.open {
+            left: 0;
+            background: $blue;
+
+            @media screen and (max-width: 768px) {
+                width: 100%;
+            }
+
+            .menu ul li a svg {
+                left: 20px;
+
+                @media screen and (max-width: 768px) {
+                    left: unset;
+                }
+            }
+
+            .menu_top .icon_wrap span {
+                @media screen and (max-width: 768px) {
+                    background: $white;
+                }
+            }
+        }
+
+        /*.line {
+            width: 0;
+            display: block;
+            transition: width ease-in-out 500ms;
+            -moz-transition: width ease-in-out 500ms;
+            -webkit-transition: width ease-in-out 500ms;
+            background: $white;
+            height: 3px;
+        }*/
+
+        .menu_top {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            -ms-flex-wrap: nowrap;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            -webkit-justify-content: space-between;
+            align-items: center;
+            -webkit-align-items: center;
+            padding: 10px 20px;
+            border-bottom: 1px solid;
+            border-color: rgba(255,255,255,.6);
+            min-height: 80px;
+
+            .logo {
+                max-width: 130px;
+            }
+
+            .icon_wrap {
+                display: inline-block;
+                z-index: 1000;
+                position: absolute;
+                right: 25px;
+
+                @media screen and (max-width: 768px) {
+                    position: fixed;
+                    right: 15px;
+                    top: 25px
+                }
+
+                span {
+                    background: $white;
+
+                    @media screen and (max-width: 768px) {
+                        background: $blue;
+                    }
+                }
+            }
+
+        }
+
+        .menu {
+            width: 100%;
+            padding-top: 15px;
+
+            ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+
+                li {
+                    display: block;
+                    width: 100%;
+
+                    a {
+                        display: -webkit-box;
+                        display: -ms-flexbox;
+                        display: flex;
+                        -webkit-box-orient: horizontal;
+                        -webkit-box-direction: normal;
+                        -ms-flex-direction: row;
+                        flex-direction: row;
+                        -ms-flex-wrap: nowrap;
+                        flex-wrap: nowrap;
+                        align-items: center;
+                        -webkit-align-items: center;
+                        color: $white;
+                        width: 100%;
+                        padding: 20px 20px 20px 80px;
+                        font-size: 1.3rem;
+
+                        @media screen and (max-width: 768px) {
+                            display: -webkit-box;
+                            display: -ms-flexbox;
+                            display: flex;
+                            -webkit-box-orient: horizontal;
+                            -webkit-box-direction: normal;
+                            -ms-flex-direction: row;
+                            flex-direction: row;
+                            -ms-flex-wrap: nowrap;
+                            flex-wrap: nowrap;
+                            justify-content: flex-start;
+                            -webkit-justify-content: flex-start;
+                            column-gap: 20px;
+                            -webkit-column-gap: 20px;
+                            -moz-column-gap: 20px;
+                            padding: 20px;
+                        }
+
+                        svg {
+                            position: absolute;
+                            left: 290px;
+                            transition: left ease-in-out 500ms;
+                            -moz-transition: left ease-in-out 500ms;
+                            -webkit-transition: left ease-in-out 500ms;
+                            background: $blue;
+                            width: 40px;
+                            height: 40px;
+                            display: block;
+                            margin: auto;
+                            color: $white;
+
+                            @media screen and (max-width: 768px) {
+                                position: relative;
+                                margin: 0;
+                                left: unset;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .menu_bottom {
+            margin-top: auto;
+            margin-bottom: 40px;
+            border-top: 1px solid;
+            border-color: rgba(255,255,255,.2);
+        }
+    }
+}

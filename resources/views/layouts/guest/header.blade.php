@@ -25,10 +25,10 @@
 <body class="guest">
 <div id="app">
     <header class="guest_header">
-        <div class="col left">
+        <div class="column left">
             <h1><a href="/"><img src="{{ asset('images/logo.png') }}" alt="Link Pro"></a></h1>
         </div>
-        <div class="col right">
+        <div class="column right">
             <a href="/login">Log In</a>
             <a href="{{route('contact')}}">Contact Us</a>
             <a class="button transparent" href="/register">Sign Up</a>
