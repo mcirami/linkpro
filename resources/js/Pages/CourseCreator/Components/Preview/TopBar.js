@@ -8,10 +8,8 @@ const TopBar = ({courseData}) => {
         <div className="top_section" style={{
             background: courseData["header_color"] || '#000'
         }}>
-            <div className="container">
-                <article className="logo">
-                    <img src={logo || Vapor.asset("images/logo.png") } alt=""/>
-                </article>
+            <div className="logo">
+                <img src={logo || Vapor.asset("images/logo.png") } alt=""/>
             </div>
         </div>
 

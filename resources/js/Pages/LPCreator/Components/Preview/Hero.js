@@ -49,7 +49,7 @@ const Hero = ({
     },[pageData["button_color"], pageData["button_text_color"]])
 
     return (
-        <article className="header_image my_row"
+        <div className="header_image my_row"
                  style={headerImageStyle}>
             {checkFound() &&
                 <canvas
@@ -70,7 +70,7 @@ const Hero = ({
             <a className="button" href="#" style={buttonStyle}>
                 {pageData["button_text"] || "Get Course"}
             </a>
-        </article>
+        </div>
     );
 };
 

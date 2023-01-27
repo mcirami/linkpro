@@ -56,7 +56,7 @@ const PreviewSection = ({
     }
 
     return (
-        <section className="">
+        <section>
             <div className={type} style={{ background: bg_color || 'rgba(255,255,255,1)'}}>
                 {( !!button && button_position === "above") &&
                     <Button
@@ -65,16 +65,7 @@ const PreviewSection = ({
                 }
                 {{
                     "text":
-                        <div className="container">
-                            {/*<p
-                                style={{ color: text_color || 'rgba(0,0,0,1)'}}
-                            >{text || ""}</p>*/}
-                            {/*{text &&
-                                <div dangerouslySetInnerHTML={createMarkup(text)}>
-                                </div>
-                            }*/}
-                            <div dangerouslySetInnerHTML={createMarkup(textValue)}>
-                            </div>
+                        <div dangerouslySetInnerHTML={createMarkup(textValue)}>
                         </div>,
                     "image":
                         <SectionImage

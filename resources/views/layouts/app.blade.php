@@ -21,9 +21,9 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
 </head>
-<body id="body">
+<body>
 @include('layouts.menu')
-    <div id="app" class="my_row">
+    <div id="app" class="my_row @auth member @endauth">
         <header class="my_row nav_row">
             <nav>
                 <div class="container">
