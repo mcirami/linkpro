@@ -35,3 +35,13 @@
     -webkit-box-shadow: rgba(0, 0, 0, .1) 2px -1px 10px -1px;
     -moz-box-shadow: rgba(0, 0, 0, .1) 2px -1px 10px -1px;
 }
+
+@mixin query($screen) {
+    @each $key, $value in $bp {
+        @if ($screen == $key) {
+            @media (max-width: $value) {
+                @content;
+            }
+        }
+    }
+}
