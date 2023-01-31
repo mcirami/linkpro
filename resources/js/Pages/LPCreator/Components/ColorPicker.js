@@ -112,6 +112,10 @@ const ColorPicker = ({
         e.preventDefault();
 
         if (sections) {
+
+            let element = elementName.split(/(\d+)/);
+            element = element[2].replace('_', '');
+
             const packets = {
                 [`${element}`]: colorValues.current,
             };
@@ -120,7 +124,7 @@ const ColorPicker = ({
             .then((response) => {
                 if (response.success) {
                     setColorValues({
-                        previous: null,
+                        previous: colorValues.current,
                         current: colorValues.current
                     })
                     setShowPicker(false);
@@ -137,7 +141,7 @@ const ColorPicker = ({
                     if (response.success) {
                         setShowPicker(false);
                         setColorValues({
-                            previous: null,
+                            previous: colorValues.current,
                             current:  colorValues.current
                         })
                     }
@@ -175,10 +179,10 @@ const ColorPicker = ({
             })
         }
 
-        setColorValues((prev) => ({
-            previous: null,
+        setColorValues({
+            previous: colorValues.previous,
             current:  colorValues.previous
-        }))
+        })
         setPickerBg({background: colorValues.previous})
 
         setShowPicker(false);

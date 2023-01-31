@@ -6,7 +6,7 @@
 
     <div class="creator course_creator">
         <div id="links_page" class="live_page course">
-            <div class="creator_wrap">
+            <div class="creator_wrap my_row">
                 <div class="preview">
                     <section class="header">
                         {{--<div class="top_section" style="background: {{$course["header_bg_color"] ?: "rgba(0,0,0,1)"}}">

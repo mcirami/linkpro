@@ -11,16 +11,20 @@ const DropdownComponent = ({
 
     const handleChange = (e) => {
 
+        const value = e.target.value;
         const packets = {
-            button_link: e.target.value
+            button_link: value
         }
 
-        updateSectionData(packets, id).then((response) => {
+        updateSectionData(packets, id)
+        .then((response) => {
+
             if(response.success) {
                 setSections(
                     sections.map((section) => {
                         if(section.id === id) {
-                            section.button_link =  e.target.value;
+                            section.button_link =  value;
+                            return section;
                         }
 
                         return section;

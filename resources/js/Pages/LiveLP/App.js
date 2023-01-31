@@ -44,15 +44,6 @@ function App() {
                      backgroundSize: "cover"
                  }}
             >
-                <a className="button"
-                   style={{
-                       background: page.button_color,
-                       color: page.button_text_color
-                }}
-                   href={page.button_link}
-                >
-                    {page.button_text}
-                </a>
             </div>
         </section>
             <div className="sections">

@@ -16800,12 +16800,6 @@ a.delete svg {
 #links_page .creator_wrap .preview .header .text_wrap p {
   margin: 0;
 }
-#links_page .creator_wrap .preview .header .button {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-}
 #links_page .creator_wrap .preview .sections {
   position: relative;
   display: flex;
@@ -17215,6 +17209,9 @@ a.delete svg {
   border-bottom-left-radius: 10px;
   -webkit-border-bottom-left-radius: 10px;
   -moz-border-radius-bottomleft: 10px;
+}
+#links_page.live_page.course {
+  min-height: 75vh;
 }
 #links_page.live_page.course .intro_text p {
   font-size: 1.2em;

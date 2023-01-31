@@ -9,7 +9,6 @@ const Hero = ({
 }) => {
 
     const [headerImageStyle, setHeaderImageStyle] = useState(null);
-    const [buttonStyle, setButtonStyle] = useState(null);
 
     const checkFound = () => {
         const isFound = fileNames?.find(el => {
@@ -40,14 +39,6 @@ const Hero = ({
         )
     },[completedCrop[elementName], fileNames])
 
-    useEffect(() => {
-        setButtonStyle ({
-            background: pageData["button_color"] || '#000000',
-            color: pageData["button_text_color"] || '#ffffff'
-        })
-
-    },[pageData["button_color"], pageData["button_text_color"]])
-
     return (
         <div className="header_image my_row"
                  style={headerImageStyle}>
@@ -67,9 +58,6 @@ const Hero = ({
                     }}
                 />
             }
-            <a className="button" href="#" style={buttonStyle}>
-                {pageData["button_text"] || "Get Course"}
-            </a>
         </div>
     );
 };
