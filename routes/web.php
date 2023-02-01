@@ -20,6 +20,7 @@ use App\Http\Controllers\MailchimpController;
 use App\Http\Controllers\ShopifyController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\Auth\LoginController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -136,8 +137,6 @@ Route::group(['middleware' => 'auth'], function() {
         });
     });
 
-    Route::get('/{user:username}/course/{course:slug}', [CourseController::class, 'show'])->name('live.course.page');
-
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
 });
 
@@ -152,6 +151,14 @@ Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated']], function() {
     Route::get('/plans', [SubscriptionController::class, 'plans'])->name('plans.get');
     Route::get('/subscribe', [SubscriptionController::class, 'purchase'])->name('subscribe.get');
 });
+
+Route::get('/{user:username}/course/login', [LoginController::class, 'courseLogin'])->name('course.login');
+
+Route::group(['middleware' => ['course.user']], function() {
+    Route::get('/{user:username}/course/{course:slug}', [CourseController::class, 'show'])->name('live.course.page');
+});
+
+
 
 Route::get('/checkout/{course}', [PurchaseController::class, 'show'])->name('course.checkout');
 Route::post('/checkout/purchase', [PurchaseController::class, 'store'])->name('course.purchase');

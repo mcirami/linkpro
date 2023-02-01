@@ -47,7 +47,11 @@ class LandingPageController extends Controller
     public function store() {
         $user = Auth::user();
 
-        $landingPage = $user->LandingPages()->create([]);
+        if ($user->LandingPages()->exists()) {
+            return redirect()->route('course.manager');
+        } else {
+            $landingPage = $user->LandingPages()->create([]);
+        }
 
         return redirect('/course-manager/landing-page/' . $landingPage->id);
     }

@@ -20,24 +20,27 @@
 
 </head>
 <body>
-@include('layouts.menu')
+@auth
+    @include('layouts.menu')
+@endauth
 <div id="app" class="my_row member course_page">
-    <header class="my_row nav_row" style="background: {{$course["header_bg_color"] ?: "rgba(0,0,0,1)"}}">
+    <header class="my_row nav_row" style="background: {{ $landingPageData["header_bg_color"] ?: "rgba(0,0,0,1)"}}">
         <nav>
             <div class="container">
                 <a class="logo" href="{{ url('/dashboard') }}">
-                    <h1><img src="{{$logo}}" alt="{{$course["title"]}}"></h1>
+                    <h1><img src="{{ $landingPageData["logo"] }}" alt="{{ $landingPageData["title"] ?? ''}}"></h1>
                 </a>
             </div>
         </nav>
     </header>
+
     <main>
         @yield('content')
     </main>
 
     <div class="my_row user_page_footer">
         <div class="image_wrap">
-            <a href="{{ Route('register') }}">
+            <a href="{{ Route('register') }}" target="_blank">
                 <p>Powered By</p>
                 <img src="{{ asset('/images/logo.png') }}" alt="">
             </a>

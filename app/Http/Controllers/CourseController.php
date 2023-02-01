@@ -16,14 +16,14 @@ class CourseController extends Controller
     public function show(User $user, Course $course) {
 
         $offer = $course->Offer()->first();
-        $logo = $user->LandingPages()->pluck('logo')->first();
+        $landingPageData = $user->LandingPages()->first();
         $sections = $course->CourseSections()->get();
 
         if (!$offer->published) {
             return abort(404);
         }
 
-        return view('courses.show')->with(['course' => $course, 'logo' => $logo, 'sections' => $sections]);
+        return view('courses.show')->with(['course' => $course, 'landingPageData' => $landingPageData, 'sections' => $sections]);
     }
 
     public function showCourseManager() {

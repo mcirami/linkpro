@@ -1,6 +1,7 @@
 @extends('layouts.guest.header')
 
 @section('content')
+
 <div class="container">
 
     <div class="my_row form_page">
@@ -20,11 +21,14 @@
                                    id="identity"
                                    type="text"
                                    class="form-control
-                                   @error('username') is-invalid
+                                   @error('username')
+                                        is-invalid
                                    @enderror
-                                   @error('email') is-invalid
+                                   @error('email')
+                                        is-invalid
                                    @enderror
-                                   @error('identity') is-invalid
+                                   @error('identity')
+                                        is-invalid
                                    @enderror
                                    "
                                    name="identity"

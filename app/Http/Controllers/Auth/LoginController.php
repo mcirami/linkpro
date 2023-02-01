@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -62,6 +63,13 @@ class LoginController extends Controller
         return $field;
     }
 
+    public function courseLogin(User $user) {
+
+        $landingPageData = $user->LandingPages()->first();
+
+        return view('auth.course-login', ['url' => 'course'])->with(['landingPageData' => $landingPageData]);
+    }
+
 
     /**
      * Validate the user login request.
@@ -95,17 +103,42 @@ class LoginController extends Controller
     }
 
     protected function authenticated(Request $request, $user) {
-        $userPages = $user->pages()->get();
 
-        if ( $userPages->isEmpty() ) {
-            return redirect()->route('create.page');
-        } else {
-            $previousURL = Session::get('url.intended');
-            if ($previousURL) {
-                return Redirect::intended();
-            } else {
-                return redirect('/dashboard');
-            }
+        switch (Auth::user()->role_id) {
+
+            case 1:
+                $previousURL = Session::get('url.intended');
+                if ($previousURL) {
+                    return Redirect::intended();
+                } else {
+                    return redirect('/admin');
+                }
+
+            case 2:
+                $userPages = $user->pages()->get();
+
+                if ( $userPages->isEmpty() ) {
+                    return redirect()->route('create.page');
+                } else {
+                    $previousURL = Session::get('url.intended');
+                    if ($previousURL) {
+                        return Redirect::intended();
+                    } else {
+                        return redirect('/dashboard');
+                    }
+                }
+                break;
+
+            case 3:
+                $previousURL = Session::get('url.intended');
+                if ($previousURL) {
+                    return Redirect::intended();
+                } else {
+                    return redirect('/courses');
+                }
+                break;
+            default:
+                return redirect('/');
         }
     }
 }
