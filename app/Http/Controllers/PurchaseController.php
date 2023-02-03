@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\Offer;
+use App\Models\User;
 use App\Services\PurchaseService;
 use Illuminate\Http\Request;
 use App\Http\Traits\SubscriptionTrait;
@@ -26,12 +27,13 @@ class PurchaseController extends Controller
     }
 
 
-    public function show(Course $course) {
+    public function show(User $user, Course $course) {
 
         $token = $this->gateway->ClientToken()->generate();
         $offer = $course->Offer()->first();
+        $landingPageData = $user->LandingPages()->first();
 
-        return view('purchase.show')->with(['token' => $token, 'offer' => $offer, 'courseTitle' => $course->title]);
+        return view('purchase.show')->with(['token' => $token, 'offer' => $offer, 'courseTitle' => $course->title, 'landingPageData' => $landingPageData]);
     }
 
     public function store(Request $request, PurchaseService $purchaseService) {

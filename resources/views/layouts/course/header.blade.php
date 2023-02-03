@@ -11,6 +11,10 @@
 
     <!-- Scripts -->
     <script src="{{ asset('/js/app.js') }}" defer></script>
+    @if(Route::is('course.checkout'))
+        <script src="https://js.braintreegateway.com/web/3.82.0/js/client.min.js"></script>
+        <script src="https://js.braintreegateway.com/web/dropin/1.32.0/js/dropin.min.js"></script>
+    @endif
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -21,13 +25,17 @@
 </head>
 <body>
 @auth
-    @include('layouts.menu')
+    @if(Auth::user()->role_id == 3)
+        @include('layouts.courseMenu')
+    @else
+        @include('layouts.menu')
+    @endif
 @endauth
 <div id="app" class="my_row member course_page">
     <header class="my_row nav_row" style="background: {{ $landingPageData["header_bg_color"] ?: "rgba(0,0,0,1)"}}">
         <nav>
             <div class="container">
-                <a class="logo" href="{{ url('/dashboard') }}">
+                <a class="logo" href="{{ Request::url() }}">
                     <h1><img src="{{ $landingPageData["logo"] }}" alt="{{ $landingPageData["title"] ?? ''}}"></h1>
                 </a>
             </div>

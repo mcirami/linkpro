@@ -6,6 +6,8 @@ use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class CourseUser
 {
@@ -30,6 +32,25 @@ class CourseUser
 
         if (Auth::user()->role_id == 3) {
             return $next($request);
+        }
+    }
+
+    /**
+     * Get the path the user should be redirected to when they are not authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return string|null
+     */
+    protected function redirectTo($request)
+    {
+        if (! $request->expectsJson()) {
+
+            $previousURL = Session::get('url.intended');
+            if ($previousURL) {
+                return Redirect::intended();
+            } else {
+                return route('login');
+            }
         }
     }
 }

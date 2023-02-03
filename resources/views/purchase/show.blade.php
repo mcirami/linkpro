@@ -1,4 +1,4 @@
-@extends(Auth::check() ? 'layouts.app' : 'layouts.guest.header')
+@extends('layouts.course.header')
 
 @section('content')
 

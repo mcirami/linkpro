@@ -177,6 +177,12 @@ class PageController extends Controller
         $user = Auth::user();
         $page = $user->pages()->where('user_id', $user["id"])->where('default', true)->get();
 
-        return redirect('/dashboard/pages/' . $page[0]->id . "?redirected=" . $param);
+        if ($param) {
+            $url = '/dashboard/pages/' . $page[0]->id . "?redirected=" . $param;
+        } else {
+            $url = '/dashboard/pages/' . $page[0]->id;
+        }
+
+        return redirect($url);
     }
 }

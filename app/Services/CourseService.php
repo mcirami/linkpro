@@ -47,9 +47,12 @@ class CourseService {
         ]);
 
         if ($keys[0] == "title") {
+            $username = $course->user()->pluck('username')->first();
             $slug = Str::slug($request[$keys[0]], '-');
+            $purchaseURL = $request->getScheme() . "://" . $request->getHost() . "/" . $username . "/" . $slug . "/" . "checkout";
             $course->update([
-                'slug' => $slug
+                'slug' => $slug,
+                'purchase_link' => $purchaseURL
             ]);
         }
 

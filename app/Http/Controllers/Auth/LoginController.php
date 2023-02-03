@@ -67,7 +67,7 @@ class LoginController extends Controller
 
         $landingPageData = $user->LandingPages()->first();
 
-        return view('auth.course-login', ['url' => 'course'])->with(['landingPageData' => $landingPageData]);
+        return view('auth.course-login', ['url' => 'course'])->with(['landingPageData' => $landingPageData, 'username' => $user->username]);
     }
 
 
@@ -134,7 +134,9 @@ class LoginController extends Controller
                 if ($previousURL) {
                     return Redirect::intended();
                 } else {
-                    return redirect('/courses');
+                    $creator = $_GET['creator'];
+                    Session::put('creator', $creator);
+                    return redirect('/' . $creator . '/courses');
                 }
                 break;
             default:

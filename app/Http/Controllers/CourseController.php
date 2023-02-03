@@ -93,10 +93,6 @@ class CourseController extends Controller
         return response()->json(['message' => $key["key"] .  " Updated", 'slug' => $key["slug"]]);
     }
 
-    public function saveImage() {
-
-    }
-
     public function addSection(Request $request, Course $course, CourseService $service) {
         $userID = Auth::id();
 
@@ -121,10 +117,6 @@ class CourseController extends Controller
         return response()->json(['message' => $key .  " Updated"]);
     }
 
-    public function updateSectionImage() {
-
-    }
-
     public function deleteSection(CourseSection $courseSection) {
         $userID = Auth::id();
 
@@ -135,5 +127,12 @@ class CourseController extends Controller
         $courseSection->delete();
 
         return response()->json(['message' => "Section Deleted"]);
+    }
+
+    public function showAllCourses(User $user) {
+
+        $landingPageData = $user->LandingPages()->first();
+
+        return view('courses.all')->with(['landingPageData' => $landingPageData]);
     }
 }

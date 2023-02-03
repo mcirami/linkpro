@@ -26,7 +26,7 @@ class LPUser
         }
 
         if (Auth::user()->role_id == 3) {
-            return redirect()->route('/');
+            return redirect('/courses');
         }
 
         //return $next($request);

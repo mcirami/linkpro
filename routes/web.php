@@ -44,30 +44,6 @@ Route::group(['prefix' => 'admin'], function () {
 
 Auth::routes();
 
-// laravel-links.com/dashboard
-Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
-
-    Route::post('/links/new', [LinkController::class, 'store']);
-    Route::post('/links/update/{link}', [LinkController::class, 'update']);
-    Route::post('/links/status/{link}', [LinkController::class, 'updateStatus']);
-    Route::post('/links/update-positions', [LinkController::class, 'updatePositions']);
-    Route::post('/links/delete/{link}', [LinkController::class, 'destroy']);
-    Route::post('/page/new', [PageController::class, 'store'])->name('page.new');
-    Route::post('/page/update-header-image/{page}', [PageController::class, 'updateHeaderImage'])->name('page.header.update');
-    Route::post('/page/update-profile-image/{page}', [PageController::class, 'updateProfileImage'])->name('page.profile.update');
-    Route::post('/page/update-name/{page}', [PageController::class, 'updateName'])->name('page.name.update');
-    Route::post('/page/update-title/{page}', [PageController::class, 'updateTitle'])->name('page.title.update');
-    Route::post('/page/update-bio/{page}', [PageController::class, 'updateBio'])->name('page.bio.update');
-    Route::post('/page/update-profile-layout/{page}', [PageController::class, 'updateProfileLayout'])->name('profile.layout.update');
-
-    Route::get('/page/get-links/{page}', [LinkController::class, 'getPageLinks'])->name('page.get.links');
-
-    Route::get('/pages/folder/links/{folder}', [FolderController::class, 'getFolderLinks'])->name('get.folder.links');
-    Route::post('/folder/status/{folder}', [FolderController::class, 'updateFolderStatus']);
-    Route::post('/folder/delete/{folder}', [FolderController::class, 'destroy']);
-    Route::post('/folder/update-name/{folder}', [FolderController::class, 'updateName']);
-});
-
 Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/register/create-page', [PageController::class, 'showCreatePage'])->name('create.page');
@@ -90,7 +66,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/stats/get/link', [TrackingController::class, 'getLinkStats']);
     Route::get('/stats/get/deleted', [TrackingController::class, 'getDeletedStats']);
     Route::get('/stats/get/folder', [TrackingController::class, 'getFolderStats']);
-    Route::get('/stats', [TrackingController::class, 'show'])->name('stats');
 
     Route::post('/folder/new', [FolderController::class, 'store'])->name('add.folder');
 
@@ -104,13 +79,33 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/mailchimp/list', [MailchimpController::class, 'getLists'])->name('mailchimp.get.lists');
     Route::post('/mailchimp/remove-connection', [MailchimpController::class, 'removeConnection'])->name('mailchimp.remove.connection');
 
+    Route::group(['prefix' => 'dashboard'], function() {
+        Route::post('/links/new', [LinkController::class, 'store']);
+        Route::post('/links/update/{link}', [LinkController::class, 'update']);
+        Route::post('/links/status/{link}', [LinkController::class, 'updateStatus']);
+        Route::post('/links/update-positions', [LinkController::class, 'updatePositions']);
+        Route::post('/links/delete/{link}', [LinkController::class, 'destroy']);
+        Route::post('/page/new', [PageController::class, 'store'])->name('page.new');
+        Route::post('/page/update-header-image/{page}', [PageController::class, 'updateHeaderImage'])->name('page.header.update');
+        Route::post('/page/update-profile-image/{page}', [PageController::class, 'updateProfileImage'])->name('page.profile.update');
+        Route::post('/page/update-name/{page}', [PageController::class, 'updateName'])->name('page.name.update');
+        Route::post('/page/update-title/{page}', [PageController::class, 'updateTitle'])->name('page.title.update');
+        Route::post('/page/update-bio/{page}', [PageController::class, 'updateBio'])->name('page.bio.update');
+        Route::post('/page/update-profile-layout/{page}', [PageController::class, 'updateProfileLayout'])->name('profile.layout.update');
+
+        Route::get('/page/get-links/{page}', [LinkController::class, 'getPageLinks'])->name('page.get.links');
+
+        Route::get('/pages/folder/links/{folder}', [FolderController::class, 'getFolderLinks'])->name('get.folder.links');
+        Route::post('/folder/status/{folder}', [FolderController::class, 'updateFolderStatus']);
+        Route::post('/folder/delete/{folder}', [FolderController::class, 'destroy']);
+        Route::post('/folder/update-name/{folder}', [FolderController::class, 'updateName']);
+    });
+
     Route::group(['prefix' => 'course-manager'], function() {
-        Route::get('/', [CourseController::class, 'showCourseManager'])->name('course.manager');
         Route::get('/add-landing-page', [LandingPageController::class, 'store'])->name('add.landing.page');
         Route::get('/add-course', [CourseController::class, 'store'])->name('add.course');
 
         Route::group(['prefix' => 'landing-page'], function() {
-            Route::get('/{landing_page}', [LandingPageController::class, 'edit'])->name('edit.landing.page');
             Route::post('/save-image/{landing_page}', [LandingPageController::class, 'saveImage'])->name('lp.save.image');
             Route::post('/save-data/{landing_page}', [LandingPageController::class, 'saveLandingPageData'])->name('lp.save.data');
             Route::post('/add-section/{landing_page}', [LandingPageController::class, 'addSection'])->name('lp.add.section');
@@ -121,9 +116,7 @@ Route::group(['middleware' => 'auth'], function() {
         });
 
         Route::group(['prefix' => 'course'], function() {
-            Route::get('/{course}', [CourseController::class, 'edit'])->name('edit.course');
             Route::post('/save-data/{course}', [CourseController::class, 'saveCourseData'])->name('course.save.data');
-            Route::post('/save-image/{course}', [CourseController::class, 'saveImage'])->name('course.save.image');
             Route::post('/add-section/{course}', [CourseController::class, 'addSection'])->name('course.add.section');
             Route::post('/update-section-image/{course}', [CourseController::class, 'addSection'])->name('update.course.section.image');
             Route::post('/delete-section/{course_section}', [CourseController::class, 'deleteSection'])->name('delete.course.section');
@@ -140,27 +133,35 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
 });
 
-Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated'], 'prefix' => 'dashboard'], function() {
-    Route::get('/pages/{page}', [PageController::class, 'edit'])->name('pages.edit');
-    Route::get('/pages', [PageController::class, 'redirect']);
-    Route::get('/', [PageController::class, 'redirect'])->name('dashboard');
-});
+Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated', 'lp.user']], function() {
 
-Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated']], function() {
-    Route::get('/edit-account', [UserController::class, 'edit'])->name('user.edit');
+    Route::group(['prefix' => 'dashboard'], function() {
+        Route::get('/pages/{page}', [PageController::class, 'edit'])->name('pages.edit');
+        Route::get('/pages', [PageController::class, 'redirect']);
+        Route::get('/', [PageController::class, 'redirect'])->name('dashboard');
+    });
+
+    Route::get('/course-manager', [CourseController::class, 'showCourseManager'])->name('course.manager');
+    Route::get('/course-manager/landing-page/{landing_page}', [LandingPageController::class, 'edit'])->name('edit.landing.page');
+    Route::get('/course-manager/course/{course}', [CourseController::class, 'edit'])->name('edit.course');
+    Route::get('/stats', [TrackingController::class, 'show'])->name('stats');
     Route::get('/plans', [SubscriptionController::class, 'plans'])->name('plans.get');
     Route::get('/subscribe', [SubscriptionController::class, 'purchase'])->name('subscribe.get');
+
+});
+
+Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated', 'lp.user', 'course.user']], function() {
+    Route::get('/edit-account', [UserController::class, 'edit'])->name('user.edit');
 });
 
 Route::get('/{user:username}/course/login', [LoginController::class, 'courseLogin'])->name('course.login');
 
 Route::group(['middleware' => ['course.user']], function() {
     Route::get('/{user:username}/course/{course:slug}', [CourseController::class, 'show'])->name('live.course.page');
+    Route::get('/{user:username}/courses', [CourseController::class, 'showAllCourses'])->name('all.courses');
 });
 
-
-
-Route::get('/checkout/{course}', [PurchaseController::class, 'show'])->name('course.checkout');
+Route::get('/{user:username}/{course:slug}/checkout', [PurchaseController::class, 'show'])->name('course.checkout');
 Route::post('/checkout/purchase', [PurchaseController::class, 'store'])->name('course.purchase');
 
 Route::post('/mailchimp/subscribe', [MailchimpController::class, 'subscribeToList'])->name('mailchimp.subscribe');
@@ -178,7 +179,7 @@ Route::view('/terms-and-conditions', 'utility.terms')->name('terms');
 Route::view('/privacy-policy', 'utility.privacy')->name('privacy');
 Route::view('/how-it-works', 'utility.how-it-works')->name('how-it-works');
 Route::view('/plan-options', 'subscription.public-plans')->name('public.plans');
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+/*Route::get('/home', [HomeController::class, 'index'])->name('home');*/
 
 Route::post('/check-page-auth/{page}', [PageController::class, 'pageAuth'])->name('check.page.auth');
 Route::get('/email-subscription/{user}', [UserController::class, 'emailSubscription'])->name('email.subscription');

@@ -41,6 +41,10 @@ if (document.getElementById('off_canvas_menu')) {
     require('./Menu/Index');
 }
 
+if (document.getElementById('off_canvas_course_menu')) {
+    require('./CourseMenu/Index');
+}
+
 if (document.getElementById('edit_course')) {
     require('./Pages/CourseCreator/Index');
 }

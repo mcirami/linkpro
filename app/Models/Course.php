@@ -23,7 +23,8 @@ class Course extends Model
         'intro_text_color',
         'intro_background_color',
         'title',
-        'slug'
+        'slug',
+        'purchase_link'
     ];
 
     /**
