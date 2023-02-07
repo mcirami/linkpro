@@ -72,6 +72,7 @@
                 -webkit-border-radius: 8px;
                 -moz-border-radius: 8px;
                 border: 1px solid $borderGray;
+                padding-bottom: 20px;
 
                 @media screen and (max-width: 768px) {
                     overflow-x:scroll;
@@ -120,6 +121,29 @@
             .form-switch .form-check-input {
                 width: 2.5em;
                 height: 1.2em;
+            }
+        }
+
+        .link_wrap {
+
+            a {
+                @include osbold;
+                font-size: 20px;
+
+                svg {
+                    display: inline-block;
+                    fill: $blue;
+                    width: 30px;
+                    height: 30px;
+                }
+
+                &:hover {
+                    color: $hoverBlue;
+
+                    svg {
+                        fill: $hoverBlue;
+                    }
+                }
             }
         }
     }

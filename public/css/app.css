@@ -16966,6 +16966,7 @@ a.delete svg {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   border: 1px solid #d2d2d2;
+  padding-bottom: 20px;
 }
 @media screen and (max-width: 768px) {
   #manager .grid_columns .column:last-child {
@@ -17009,6 +17010,22 @@ a.delete svg {
 #manager .grid_columns .column .form-switch .form-check-input {
   width: 2.5em;
   height: 1.2em;
+}
+#manager .grid_columns .link_wrap a {
+  font-family: "opensansbold", sans-serif;
+  font-size: 20px;
+}
+#manager .grid_columns .link_wrap a svg {
+  display: inline-block;
+  fill: #424fcf;
+  width: 30px;
+  height: 30px;
+}
+#manager .grid_columns .link_wrap a:hover {
+  color: #2b37ab;
+}
+#manager .grid_columns .link_wrap a:hover svg {
+  fill: #2b37ab;
 }
 #manager .text_wrap.flex {
   display: flex;
@@ -17083,7 +17100,6 @@ a.delete svg {
 
 .creator.course_creator #links_page .creator_wrap .left_column .button {
   display: block;
-  width: 100%;
 }
 .creator.course_creator #links_page .creator_wrap .left_column .edit_form form .submit_circle.textarea, .creator.course_creator #links_page .creator_wrap .left_column .edit_form form .cancel_icon.textarea {
   bottom: 15px;

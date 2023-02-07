@@ -50,6 +50,12 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="link_wrap my_row px-3">
+                            <a class="blue" href="{{route('add.course')}}">
+                                <svg fill="#000000" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg" id="memory-plus"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M12 17H10V12H5V10H10V5H12V10H17V12H12Z"></path></g></svg>
+                                Add New Course
+                            </a>
+                        </div>
                     </div>
                 </div>
             @else

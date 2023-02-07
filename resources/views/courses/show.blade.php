@@ -24,10 +24,10 @@
 
                     </section>
                     <section>
-                        <div class="sections">
-                            @foreach($sections as $section)
-                                <section class="{{$section->type}}" style="background: {{$section->background_color}}">
-                                    <div class="container">
+                        <div class="container">
+                            <div class="sections">
+                                @foreach($sections as $section)
+                                    <section class="{{$section->type}}" style="background: {{$section->background_color}}">
                                         @if($section->type == "video")
                                             <h3 style="color: {{$section->text_color}}">{{$section->video_title}}</h3>
                                             <div class="video_wrapper">
@@ -35,9 +35,9 @@
                                             </div>
                                         @endif
                                             <p style="color: {{$section->text_color}}">{{$section->text}}</p>
-                                    </div>
-                                </section>
-                            @endforeach
+                                    </section>
+                                @endforeach
+                            </div>
                         </div>
                     </section>
                 </div>

@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\CourseSection;
 use App\Models\User;
 use App\Services\CourseService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -34,7 +35,7 @@ class CourseController extends Controller
         //$courses = $user->Courses()->where('landing_page_id', $landingPage[0]["id"])->get()->toArray();
         //$offers = $user->Offers()->where('course_id',$courses[0]["id"])->first()->toArray();
 
-        $offers = DB::table('courses')->leftJoin('offers', 'courses.id', '=', 'courses.id')->get()->toArray();
+        $offers = DB::table('courses')->leftJoin('offers', 'course_id', '=', 'courses.id')->get()->toArray();
 
         return view('courses.manager')->with([
             'landingPage' => $landingPage,
@@ -132,7 +133,22 @@ class CourseController extends Controller
     public function showAllCourses(User $user) {
 
         $landingPageData = $user->LandingPages()->first();
+        $creator = $user->username;
+        $courses = $user->Courses()->get();
 
-        return view('courses.all')->with(['landingPageData' => $landingPageData]);
+        $purchasedCourses = Course::where('user_id', $user->id)->whereHas('purchases', function (Builder $query) {
+            $query->where('user_id', 'like', Auth::user()->id);
+        })->get();
+
+        $unPurchasedCourses = Course::where('user_id', $user->id)->whereDoesntHave('purchases', function (Builder $query) {
+            $query->where('user_id', 'like', Auth::user()->id);
+        })->get();
+
+        return view('courses.all')->with([
+            'landingPageData'       => $landingPageData,
+            'purchasedCourses'      => $purchasedCourses,
+            'unPurchasedCourses'    => $unPurchasedCourses,
+            'creator'               => $creator
+        ]);
     }
 }
