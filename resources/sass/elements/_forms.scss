@@ -728,6 +728,27 @@ form .bottom_row a {
         }
     }
 
+    .card-body {
+        overflow: hidden;
+        min-height: 42vh;
+        position: relative;
+    }
+
+    #course_register {
+        transition: .5s all ease-in-out;
+        -webkit-transition: .5s all ease-in-out;
+        -moz-transition: .5s all ease-in-out;
+        -o-transition: .5s all ease-in-out;
+        left: 0;
+        position: relative;
+
+        &.offscreen {
+            left: -150%;
+            opacity: 0;
+            position: absolute;
+        }
+    }
+
     #payment-form {
         margin-top: 0;
         transition: .5s all ease-in-out;
@@ -741,6 +762,18 @@ form .bottom_row a {
 
         .braintree-sheet__content--form .braintree-form__field-group label {
             width: 100%;
+        }
+
+        &.offscreen {
+            right: -150%;
+            opacity: 0;
+            position: absolute;
+
+            &.active {
+                right: 0;
+                opacity: 1;
+                position: relative;
+            }
         }
     }
 
@@ -874,6 +907,16 @@ form .bottom_row a {
             transform: rotate(360deg);
         }
     }*/
+
+    &.course_purchase {
+
+        .card {
+            .button {
+                width: 150px;
+                float: right;
+            }
+        }
+    }
 }
 
 #create_page {

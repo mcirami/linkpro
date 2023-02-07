@@ -47,4 +47,8 @@ class Course extends Model
     public function LandingPage() {
         return $this->hasOne(LandingPage::class);
     }
+
+    public function Purchases() {
+        return $this->hasMany(Purchase::class);
+    }
 }

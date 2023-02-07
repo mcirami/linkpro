@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Auth\CourseRegisterController;
 use App\Models\Course;
 use App\Models\Offer;
 use App\Models\User;
@@ -9,6 +10,7 @@ use App\Services\PurchaseService;
 use Illuminate\Http\Request;
 use App\Http\Traits\SubscriptionTrait;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 
 class PurchaseController extends Controller
@@ -27,8 +29,9 @@ class PurchaseController extends Controller
     }
 
 
-    public function show(User $user, Course $course) {
+    public function show(User $user, Course $course, Request $request) {
 
+        Session::put('creator', $user->username);
         $token = $this->gateway->ClientToken()->generate();
         $offer = $course->Offer()->first();
         $landingPageData = $user->LandingPages()->first();
@@ -43,7 +46,10 @@ class PurchaseController extends Controller
         $data = $purchaseService->purchase($offer, $request, $this->gateway);
 
         if ($data["success"]) {
-            return back()->with( ['success' => $data["message"]] );
+            $username = $offer->user()->pluck('username')->first();
+            $courseSlug = $data["course_slug"];
+
+            return redirect('/' . $username . "/course/" . $courseSlug)->with( ['success' => $data["message"]] );
         } else {
             return back()->withErrors($data["message"]);
         }

@@ -1,11 +1,17 @@
-import {createRef, useEffect, useState} from 'react';
-import {RiPagesLine, RiBarChart2Line, RiUserSettingsLine, RiMailLine, RiLogoutBoxRLine, RiInstagramLine} from 'react-icons/ri';
+import {useEffect, useState} from 'react';
+import {RiUserSettingsLine, RiLogoutBoxRLine, RiInstagramLine} from 'react-icons/ri';
 import {MdOutlineSchool} from 'react-icons/md'
 import HoverText from '../Utils/HoverText';
 
 function App() {
 
-    const creator = window.creator;
+    const [creator, setCreator] = useState("");
+
+    useEffect(() => {
+
+        setCreator(window.creator)
+
+    },[])
 
     const [isHovering, setIsHovering] = useState({
         status: false,

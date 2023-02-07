@@ -459,6 +459,43 @@ jQuery(document).ready(function($) {
             console.error("ERROR:: ", error);
 
         });
+    });
+
+    document.querySelector('#course_register')?.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const username = document.querySelector('#username').value;
+        const email = document.querySelector('#email').value;
+        const password = document.querySelector('#password').value;
+        const passwordConfirm = document.querySelector('#password-confirm').value;
+
+        const packets = {
+            username: username,
+            email: email,
+            password: password,
+            password_confirmation: passwordConfirm
+        }
+
+        axios.post("/course-register", packets)
+        .then(
+            (response) => {
+
+                const success = JSON.stringify(response.data.success);
+                const user = JSON.stringify(response.data.user)
+
+                if(success) {
+                    this.classList.add('offscreen');
+                    document.querySelector('#payment-form').classList.add('active');
+                    document.querySelector('#user').value = user;
+                }
+
+                console.log("response data: ", JSON.stringify(response.data))
+            }
+        )
+        .catch((error) => {
+            console.error("ERROR:: ", error);
+
+        });
 
     });
 

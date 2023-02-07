@@ -21,6 +21,8 @@ use App\Http\Controllers\ShopifyController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\CourseRegisterController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,6 +47,8 @@ Route::group(['prefix' => 'admin'], function () {
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function() {
+
+    Route::get('/edit-account', [UserController::class, 'edit'])->name('user.edit');
 
     Route::get('/register/create-page', [PageController::class, 'showCreatePage'])->name('create.page');
     Route::get('/email-test', [MailController::class, 'sendEmail']);
@@ -150,10 +154,6 @@ Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated', 'lp.user']], funct
 
 });
 
-Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated', 'lp.user', 'course.user']], function() {
-    Route::get('/edit-account', [UserController::class, 'edit'])->name('user.edit');
-});
-
 Route::get('/{user:username}/course/login', [LoginController::class, 'courseLogin'])->name('course.login');
 
 Route::group(['middleware' => ['course.user']], function() {
@@ -162,6 +162,7 @@ Route::group(['middleware' => ['course.user']], function() {
 });
 
 Route::get('/{user:username}/{course:slug}/checkout', [PurchaseController::class, 'show'])->name('course.checkout');
+Route::post('/course-register', [CourseRegisterController::class, 'customRegistration'])->name('course.register');
 Route::post('/checkout/purchase', [PurchaseController::class, 'store'])->name('course.purchase');
 
 Route::post('/mailchimp/subscribe', [MailchimpController::class, 'subscribeToList'])->name('mailchimp.subscribe');
@@ -189,4 +190,3 @@ Route::get('/setup', [UtilityController::class, 'showSetupPage'])->name('setup.p
 Route::get('/{page}', [PageController::class, 'show']);
 
 Route::get('/{user:username}/{landing_page:slug}', [LandingPageController::class, 'show'])->name('live.landing.page');
-

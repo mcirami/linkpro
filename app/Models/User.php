@@ -33,7 +33,8 @@ class User extends VoyagerUser
         'email_subscription',
         'mailchimp_server',
         'mailchimp_token',
-        'mailchimp_lists'
+        'mailchimp_lists',
+        'role_id'
     ];
 
     /**
@@ -105,5 +106,9 @@ class User extends VoyagerUser
 
     public function roles() {
         return $this->belongsTo(Role::class);
+    }
+
+    public function Purchases() {
+        return $this->hasMany(Purchase::class);
     }
 }
