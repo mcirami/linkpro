@@ -165,6 +165,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
         SocialiteProviders\Manager\ServiceProvider::class,
+        App\Providers\TenancyServiceProvider::class,
 
         /*
          * Package Service Providers...
