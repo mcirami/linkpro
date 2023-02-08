@@ -11,7 +11,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -36,14 +38,21 @@ class UserController extends Controller
      */
     public function edit(UserService $userService) {
 
+        $landingPageData = null;
+        if (Auth::user()->role_id == 3) {
+            $creatorUsername = Session::get('creator');
+            $landingPageData = DB::table('users')->where('username', $creatorUsername)->leftJoin('landing_pages', 'user_id', '=', 'users.id')->first();
+        }
+
         $data = $userService->getUserInfo();
 
         return view('users.edit', [
-            'user' => $data['user'],
-            'subscription' => $data["subscription"],
-            'payment_method' => $data["payment_method"],
-            'token' => $data['token'],
-            'payment_method_token' => $data['payment_method_token']
+            'user'                  => $data['user'],
+            'subscription'          => $data["subscription"],
+            'payment_method'        => $data["payment_method"],
+            'token'                 => $data['token'],
+            'payment_method_token'  => $data['payment_method_token'],
+            'landingPageData'       => $landingPageData
         ]);
     }
 

@@ -38,8 +38,8 @@ class Handler extends ExceptionHandler
 
         $this->renderable(function (\Exception $e) {
             if ($e->getPrevious() instanceof \Illuminate\Session\TokenMismatchException) {
-                if(isset($_GET['creator'])) {
-                    $creator = $_GET['creator'];
+                if(isset($_GET['creator']) || !empty(Session::get('creator'))) {
+                    $creator = isset($_GET['creator']) ? $_GET['creator'] : Session::get('creator');
                     return redirect( '/' . $creator . '/course/login' );
                 } else {
                     return redirect()->route('login');

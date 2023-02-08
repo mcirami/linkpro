@@ -134,7 +134,6 @@ class CourseController extends Controller
 
         $landingPageData = $user->LandingPages()->first();
         $creator = $user->username;
-        $courses = $user->Courses()->get();
 
         $purchasedCourses = Course::where('user_id', $user->id)->whereHas('purchases', function (Builder $query) {
             $query->where('user_id', 'like', Auth::user()->id);

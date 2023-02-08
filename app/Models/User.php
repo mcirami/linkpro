@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use App\Models\Link as Link;
 use App\Models\Page as Page;
 use App\Models\Referral as Referral;
+use Spatie\Permission\Traits\HasRoles;
 use function Illuminate\Events\queueable;
 use TCG\Voyager\Models\User as VoyagerUser;
 
@@ -16,7 +17,7 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends VoyagerUser
 {
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasRoles, HasFactory, Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.

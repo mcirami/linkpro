@@ -32,11 +32,11 @@
     @endif
 @endauth
 <div id="app" class="my_row member course_page">
-    <header class="my_row nav_row" style="background: {{ $landingPageData["header_bg_color"] ?: "rgba(0,0,0,1)"}}">
+    <header class="my_row nav_row" style="background: {{ $landingPageData->header_color ?: "rgba(255,255,255,1)"}}">
         <nav>
             <div class="container">
                 <a class="logo" href="{{ Request::url() }}">
-                    <h1><img src="{{ $landingPageData["logo"] }}" alt="{{ $landingPageData["title"] ?? ''}}"></h1>
+                    <h1><img src="{{ $landingPageData->logo }}" alt="{{ $landingPageData->title ?? ''}}"></h1>
                 </a>
             </div>
         </nav>
