@@ -31,11 +31,11 @@ class CourseController extends Controller
 
         $user = Auth::user();
 
-        $landingPage = $user->LandingPages()->get()->toArray();
-        //$courses = $user->Courses()->where('landing_page_id', $landingPage[0]["id"])->get()->toArray();
-        //$offers = $user->Offers()->where('course_id',$courses[0]["id"])->first()->toArray();
+        $landingPage = $user->LandingPages()->first();
 
-        $offers = DB::table('courses')->leftJoin('offers', 'course_id', '=', 'courses.id')->get()->toArray();
+        $offers = DB::table('courses')->join('offers', function ($join) use($user){
+            $join->on('course_id', '=', 'courses.id')->where('offers.user_id', '=', $user->id);
+        })->get()->toArray();
 
         return view('courses.manager')->with([
             'landingPage' => $landingPage,

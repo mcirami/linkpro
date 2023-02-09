@@ -9,8 +9,8 @@
                 <div class="grid_columns top_section">
                     <h3>Landing Page</h3>
                     <div class="text_wrap flex">
-                        <h3>{{$landingPage[0]["title"]}}</h3>
-                        <a href="/course-manager/landing-page/{{$landingPage[0]["id"]}}">Edit</a>
+                        <h3>{{$landingPage->title}}</h3>
+                        <a href="/course-manager/landing-page/{{$landingPage->id}}">Edit</a>
                     </div>
                 </div>
                 <div class="grid_columns">
@@ -72,7 +72,7 @@
                             <div class="text_wrap flex">
                                 <h4>Landing Page Complete</h4>
                                 <span>-</span>
-                                <a href="/course-manager/landing-page/{{$landingPage[0]["id"]}}">(Edit Landing Page)</a>
+                                <a href="/course-manager/landing-page/{{$landingPage->id}}">(Edit Landing Page)</a>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
                                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
                                 </svg>

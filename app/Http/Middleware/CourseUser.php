@@ -23,15 +23,17 @@ class CourseUser
         if (!Auth::check()) {
             session()->put('url.intended', $request->url());
             $username = $request->route('user')->username;
-            return redirect('/' .$username . '/course/login');
+            return redirect('/' . $username . '/course/login');
         }
 
-        if (Auth::user()->role_id == 2) {
-            return redirect()->route('/');
-        }
+        $user = Auth::user();
 
-        if (Auth::user()->role_id == 3) {
+        if ($user->hasAnyRole(['admin', 'course.user'])) {
             return $next($request);
+        }
+
+        if ($user->hasRole('lp.user')) {
+            return redirect()->route('dashboard');
         }
     }
 

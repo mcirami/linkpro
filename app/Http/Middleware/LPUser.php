@@ -21,11 +21,13 @@ class LPUser
             return redirect()->route('login');
         }
 
-        if (Auth::user()->role_id == 2) {
+        $user = Auth::user();
+
+        if ($user->hasAnyRole(['admin', 'lp.user'])) {
             return $next($request);
         }
 
-        if (Auth::user()->role_id == 3) {
+        if ($user->hasRole('course.user')) {
             return redirect('/courses');
         }
 

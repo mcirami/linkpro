@@ -105,10 +105,6 @@ class User extends VoyagerUser
         return $this->hasMany(Offer::class);
     }
 
-    public function roles() {
-        return $this->belongsTo(Role::class);
-    }
-
     public function Purchases() {
         return $this->hasMany(Purchase::class);
     }
