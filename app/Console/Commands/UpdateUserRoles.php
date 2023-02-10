@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class UpdateUserRoles extends Command
 {
@@ -38,6 +39,7 @@ class UpdateUserRoles extends Command
      */
     public function handle()
     {
+
         $users = User::all();
 
         foreach ($users as $user) {

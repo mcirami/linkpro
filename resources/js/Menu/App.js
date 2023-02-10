@@ -11,6 +11,19 @@ function App() {
     });
     const [isOpen, setIsOpen] = useState(false);
 
+    const [creator, setCreator] = useState("");
+    const [userRoles, setUserRoles] = useState("");
+
+    useEffect(() => {
+        setCreator(window.creator)
+    },[])
+
+    useEffect(() => {
+        setUserRoles(window.roles)
+    },[])
+
+    console.log(userRoles);
+
     const handleOnClick = (e) => {
         e.preventDefault();
         setIsOpen(!isOpen);

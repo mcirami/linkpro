@@ -104,43 +104,73 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user) {
 
-        switch (Auth::user()->role_id) {
+        $loginURL = url()->previous();
+        $roles = $user->getRoleNames();
+        $creator = $_GET['creator'] ?? "";
 
-            case 1:
-                $previousURL = Session::get('url.intended');
-                if ($previousURL) {
-                    return Redirect::intended();
+        Session::put('roles', json_encode($roles));
+
+        if ($roles->contains('admin')) {
+
+            $previousURL = Session::get( 'url.intended' );
+            if ( $previousURL ) {
+                return Redirect::intended();
+            } else {
+                if (str_contains($loginURL, "course")) {
+                    Session::put('creator', $creator);
+                    return redirect('/' . $creator . '/courses');
+                } else if (str_contains($loginURL, "admin")) {
+                    return redirect( '/admin' );
                 } else {
-                    return redirect('/admin');
+                    return redirect( '/dashboard' );
                 }
+            }
 
-            case 2:
+        } else if ($roles->contains("course.user") && $roles->contains('lp.user')) {
+
+            if (str_contains($loginURL, "course")) {
+                Session::put('creator', $creator);
+                return redirect('/' . $creator . '/courses');
+            } else {
                 $userPages = $user->pages()->get();
 
                 if ( $userPages->isEmpty() ) {
-                    return redirect()->route('create.page');
+                    return redirect()->route( 'create.page' );
                 } else {
-                    $previousURL = Session::get('url.intended');
-                    if ($previousURL) {
+                    $previousURL = Session::get( 'url.intended' );
+                    if ( $previousURL ) {
                         return Redirect::intended();
                     } else {
-                        return redirect('/dashboard');
+                        return redirect( '/dashboard' );
                     }
                 }
-                break;
+            }
 
-            case 3:
-                $previousURL = Session::get('url.intended');
-                if ($previousURL) {
+        } else if ($roles->contains('lp.user')) {
+
+            $userPages = $user->pages()->get();
+
+            if ( $userPages->isEmpty() ) {
+                return redirect()->route( 'create.page' );
+            } else {
+                $previousURL = Session::get( 'url.intended' );
+                if ( $previousURL ) {
                     return Redirect::intended();
                 } else {
-                    $creator = $_GET['creator'];
-                    Session::put('creator', $creator);
-                    return redirect('/' . $creator . '/courses');
+                    return redirect( '/dashboard' );
                 }
-                break;
-            default:
-                return redirect('/');
+            }
+
+        } else if ($roles->contains("course.user")) {
+
+            $previousURL = Session::get('url.intended');
+            if ($previousURL) {
+                return Redirect::intended();
+            } else {
+                Session::put('creator', $creator);
+                return redirect('/' . $creator . '/courses');
+            }
+
         }
     }
 }

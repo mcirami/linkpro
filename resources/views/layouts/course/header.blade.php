@@ -25,11 +25,11 @@
 </head>
 <body>
 @auth
-    @if(Auth::user()->role_id == 3)
+    @hasrole('course.user')
         @include('layouts.courseMenu')
     @else
         @include('layouts.menu')
-    @endif
+    @endhasrole
 @endauth
 <div id="app" class="my_row member course_page">
     <header class="my_row nav_row" style="background: {{ $landingPageData->header_color ?: "rgba(255,255,255,1)"}}">
