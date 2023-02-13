@@ -1,5 +1,5 @@
 <script>
     window.creator = "{{Session::get('creator')}}";
-    window.roles = "{{Session::get('roles')}}";
+    window.permissions = "{{Session::get('permissions')}}";
 </script>
 <div id="off_canvas_menu"></div>

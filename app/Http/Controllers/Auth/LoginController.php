@@ -106,9 +106,13 @@ class LoginController extends Controller
 
         $loginURL = url()->previous();
         $roles = $user->getRoleNames();
+        $permissions = $user->getPermissionsViaRoles()->pluck('name');
         $creator = $_GET['creator'] ?? "";
 
-        Session::put('roles', json_encode($roles));
+        Session::put('permissions', $permissions);
+        /*foreach ($permissions as $permission) {
+            Session::push('permissions', $permission);
+        }*/
 
         if ($roles->contains('admin')) {
 

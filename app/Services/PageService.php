@@ -84,6 +84,8 @@ class PageService {
                 'userID'  => $this->user->id,
             ]);
 
+            $this->user->assignRole('lp.user');
+
             $this->user->notify(new WelcomeNotification($userData));
         }
 

@@ -6,12 +6,21 @@ import HoverText from '../Utils/HoverText';
 function App() {
 
     const [creator, setCreator] = useState("");
+    const [userPermissions, setPermissions] = useState("");
 
     useEffect(() => {
 
         setCreator(window.creator)
 
     },[])
+
+    useEffect(() => {
+
+        const permissions = window.permissions.replaceAll('&quot;', '').replaceAll('[', '').replaceAll(']').split(',');
+        setPermissions(permissions)
+    },[])
+
+    console.log(userPermissions);
 
     const [isHovering, setIsHovering] = useState({
         status: false,
@@ -74,40 +83,45 @@ function App() {
             </div>
             <div className="menu">
                 <ul>
-                    <li>
-                        <a id="course_manager"
-                           className="menu-item"
-                           href={`/${creator}/courses`}
-                           onMouseOver={() => handleMouseOver("courses")}
-                           onMouseOut={handleMouseOut}>
+                    {userPermissions.includes("view courses") &&
+                        <li>
+                            <a id="course_manager"
+                               className="menu-item"
+                               href={`/${creator}/courses`}
+                               onMouseOver={() => handleMouseOver("courses")}
+                               onMouseOut={handleMouseOut}>
                             <span className="menu_icon">
-                                <MdOutlineSchool />
+                                <MdOutlineSchool/>
                             </span>
-                            Courses
-                        </a>
-                        {!isOpen && isHovering.status && isHovering.section === "courses" ?
-                            <HoverText text="courses"/>
-                            :
-                            ""
-                        }
-                    </li>
+                                Courses
+                            </a>
+                            {!isOpen && isHovering.status &&
+                            isHovering.section === "courses" ?
+                                <HoverText text="courses"/>
+                                :
+                                ""
+                            }
+                        </li>
+                    }
                     <li>
                         <a id="settings"
                            className="menu-item"
                            href="/edit-account"
                            onMouseOver={() => handleMouseOver("settings")}
                            onMouseOut={handleMouseOut}>
-                            <span className="menu_icon">
-                                <RiUserSettingsLine />
-                            </span>
+                        <span className="menu_icon">
+                            <RiUserSettingsLine/>
+                        </span>
                             Settings
                         </a>
-                        {!isOpen && isHovering.status && isHovering.section === "settings" ?
+                        {!isOpen && isHovering.status &&
+                        isHovering.section === "settings" ?
                             <HoverText text="settings"/>
                             :
                             ""
                         }
                     </li>
+
                     <li>
                         <a id="logout"
                            href="#"

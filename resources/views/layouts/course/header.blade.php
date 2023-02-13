@@ -25,11 +25,7 @@
 </head>
 <body>
 @auth
-    @hasrole('course.user')
-        @include('layouts.courseMenu')
-    @else
-        @include('layouts.menu')
-    @endhasrole
+    @include('layouts.menu')
 @endauth
 <div id="app" class="my_row member course_page">
     <header class="my_row nav_row" style="background: {{ $landingPageData->header_color ?: "rgba(255,255,255,1)"}}">

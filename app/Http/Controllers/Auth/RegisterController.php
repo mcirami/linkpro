@@ -72,6 +72,8 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
+        $user->assignRole('lp.user');
+
         if($cookie) {
             Referral::create([
                 'user_id' => $cookie,

@@ -66,6 +66,7 @@ class CourseRegisterController extends Controller
 
         $data = $request->all();
         $user = $this->create($data);
+        $user->assignRole('course.user');
 
         Auth::login($user);
 
