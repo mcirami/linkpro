@@ -39,7 +39,8 @@ class UserController extends Controller
     public function edit(UserService $userService) {
 
         $landingPageData = null;
-        if (Auth::user()->role_id == 3) {
+
+        if (Session::get('creator')) {
             $creatorUsername = Session::get('creator');
             $landingPageData = DB::table('users')->where('username', $creatorUsername)->leftJoin('landing_pages', 'user_id', '=', 'users.id')->first();
         }
@@ -52,7 +53,7 @@ class UserController extends Controller
             'payment_method'        => $data["payment_method"],
             'token'                 => $data['token'],
             'payment_method_token'  => $data['payment_method_token'],
-            'landingPageData'       => $landingPageData
+            'landingPageData'       => $landingPageData,
         ]);
     }
 
@@ -119,6 +120,16 @@ class UserController extends Controller
 
     public function logout() {
         Auth::logout();
-        return redirect('/');
+
+        if (Session::get( 'creator' )) {
+            $path = "/". Session::get( 'creator' ) . "/course/login";
+            Session::forget('creator');
+            Session::forget('url.intended');
+        } else {
+            $path = "/login";
+            Session::forget('url.intended');
+        }
+
+        return response()->json(['path' => $path]);
     }
 }

@@ -61,7 +61,7 @@ function App() {
             }
         });
 
-        window.location = "/";
+        window.location = res.data.path;
     }
 
     return (
