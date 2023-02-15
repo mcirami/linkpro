@@ -52,3 +52,7 @@ if (document.getElementById('edit_course')) {
 if (document.getElementById('live_landing_page')) {
     require('./Pages/LiveLP/Index');
 }
+
+if (document.getElementById('single_course')) {
+    require('./Pages/SingleCourse');
+}

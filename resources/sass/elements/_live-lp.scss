@@ -151,7 +151,8 @@
             display: grid;
             //grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             grid-template-columns: repeat(3, 1fr);
-            grid-gap: 1rem;
+            grid-gap: 1rem 2rem;
+            padding: 60px 0;
 
             @media screen and (max-width: 1199px) {
                 grid-template-columns: repeat(2, 1fr);
@@ -161,7 +162,7 @@
                 grid-template-columns: repeat(1, 1fr);
             }
 
-            section {
+            .column {
                 padding: 20px;
 
                 &.text {

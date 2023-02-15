@@ -1,27 +1,10 @@
-import React, {useState, useRef, useReducer, useEffect} from 'react';
-import draftToHtml from 'draftjs-to-html';
-import DOMPurify from 'dompurify';
+import React from 'react';
 import SectionComponent from './SectionComponent';
 
 const page = user.livePage;
 const sections = user.liveSections;
 
-
 function App() {
-
-    /*useEffect(() => {
-
-        const textSections = document.querySelectorAll('.sections .text');
-        console.log(textSections)
-        textSections.forEach((section) => {
-           if(section.querySelector('p span').style.fontSize) {
-               const size = section.querySelector('p span').style.fontSize
-
-               section.querySelector('p span').style.fontSize = size + .20;
-           }
-        })
-
-    },[])*/
 
     return (
 

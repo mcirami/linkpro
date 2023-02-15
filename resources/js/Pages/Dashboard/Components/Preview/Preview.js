@@ -30,8 +30,6 @@ const Preview = ({
                      setValue,
                      subStatus,
                      pageHeaderRef,
-                     infoIndex,
-                     setInfoIndex,
                      setShowPreview
 }) => {
 

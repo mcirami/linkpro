@@ -492,8 +492,6 @@ function App() {
                                         setValue={setValue}
                                         subStatus={subStatus}
                                         pageHeaderRef={pageHeaderRef}
-                                        infoIndex={infoIndex}
-                                        setInfoIndex={setInfoIndex}
                                         setShowPreview={setShowPreview}
                                     />
                                 </div>

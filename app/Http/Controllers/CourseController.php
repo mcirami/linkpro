@@ -24,7 +24,12 @@ class CourseController extends Controller
             return abort(404);
         }
 
-        return view('courses.show')->with(['course' => $course, 'landingPageData' => $landingPageData, 'sections' => $sections]);
+        Javascript::put([
+            'course' => $course,
+            'sections' => $sections
+        ]);
+
+        return view('courses.show')->with(['landingPageData' => $landingPageData]);
     }
 
     public function showCourseManager() {

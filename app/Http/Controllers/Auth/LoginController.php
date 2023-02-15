@@ -107,7 +107,7 @@ class LoginController extends Controller
         $loginURL = url()->previous();
         $roles = $user->getRoleNames();
         $permissions = $user->getPermissionsViaRoles()->pluck('name');
-        $creator = $_GET['creator'] ?? "";
+        $creator = isset($_GET['creator']) ? $_GET['creator'] : "";
 
         Session::put('permissions', $permissions);
         /*foreach ($permissions as $permission) {
