@@ -162,7 +162,7 @@ const InputComponent = ({
 
                 updateData(packets, courseData["id"], elementName)
                 .then((response) => {
-                    if(response.success) {
+                    if(response.success && response.slug) {
                         dispatch({
                             type: LP_ACTIONS.UPDATE_PAGE_DATA,
                             payload: {

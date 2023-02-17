@@ -28,6 +28,7 @@ const InputComponent = ({
     useEffect(() => {
         if(value) {
             setCharactersLeft(maxChar - value.length);
+            setIsValid(true);
         } else {
             setCharactersLeft(maxChar);
         }

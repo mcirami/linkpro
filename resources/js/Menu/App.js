@@ -94,12 +94,13 @@ function App() {
                 <ul>
                     {userPermissions.includes('view dashboard') &&
                         <li>
-                            <a id="pages"
+                            <a style={ landingPageData && { color: landingPageData["header_text_color"] }}
+                               id="pages"
                                className="menu-item"
                                href="/dashboard/pages/"
                                onMouseOver={() => handleMouseOver("pages")}
                                onMouseOut={handleMouseOut}>
-                                <span className="menu_icon">
+                                <span className="menu_icon" style={ landingPageData && {  background: landingPageData["header_color"], color: landingPageData["header_text_color"] }}>
                                     <RiPagesLine/>
                                 </span>
                                 Pages
@@ -114,12 +115,13 @@ function App() {
                     }
                     {userPermissions.includes('view stats') &&
                         <li>
-                            <a id="stats"
+                            <a style={ landingPageData && { color: landingPageData["header_text_color"] }}
+                               id="stats"
                                className="menu-item"
                                href="/stats/"
                                onMouseOver={() => handleMouseOver("stats")}
                                onMouseOut={handleMouseOut}>
-                            <span className="menu_icon">
+                            <span className="menu_icon" style={ landingPageData && {  background: landingPageData["header_color"], color: landingPageData["header_text_color"] }}>
                                 <RiBarChart2Line/>
                             </span>
                                 Stats
@@ -134,13 +136,14 @@ function App() {
                     }
                     {userPermissions.includes('view course manager') &&
                         <li>
-                            <a id="course_manager"
+                            <a style={ landingPageData && { color: landingPageData["header_text_color"] }}
+                               id="course_manager"
                                className="menu-item"
                                href="/course-manager"
                                onMouseOver={() => handleMouseOver(
                                    "course manager")}
                                onMouseOut={handleMouseOut}>
-                            <span className="menu_icon">
+                            <span className="menu_icon" style={ landingPageData && {  background: landingPageData["header_color"], color: landingPageData["header_text_color"] }}>
                                 <MdOutlineDashboard />
                             </span>
                                 Course Manager
