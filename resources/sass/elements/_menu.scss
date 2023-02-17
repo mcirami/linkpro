@@ -25,7 +25,7 @@
 
         span {
             position: absolute;
-            height: 2px;
+            height: 3px;
             width: 100%;
             background: $blue;
             border-radius: 9px;
@@ -305,6 +305,16 @@
             margin-bottom: 40px;
             border-top: 1px solid;
             border-color: rgba(255,255,255,.2);
+
+            a {
+                column-gap: 10px;
+                -moz-column-gap: 10px;
+                -webkit-column-gap: 10px;
+
+                span {
+                    font-style: oblique;
+                }
+            }
         }
     }
 }

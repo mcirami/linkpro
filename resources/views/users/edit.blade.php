@@ -17,7 +17,9 @@
                     @endif
                     <div class="card-body">
                         <div class="my_row @can('view subscription details') three_columns {{!$subscription || $subscription->braintree_id == "bypass" ? "two_columns" : ""}} @endcan">
-                            <div class="column update_info @cannot('view subscription details') w-100 @endcannot">
+                            <div class="column update_info @cannot('view subscription details') w-100 @endcannot"
+                                @if($landingPageData) style="background: #ffffff; border-color: {{$landingPageData->button_color}}" @endif
+                            >
                                 <h2 class="text-uppercase">Account Info</h2>
                                 <form method="POST" action="/update-account/{{ $user->id }}">
                                     @csrf
@@ -61,7 +63,9 @@
                                         </div>
                                         <div class="form-group row form_buttons">
                                             <div class="col-12">
-                                                <button type="submit" class="button blue text-uppercase">
+                                                <button type="submit" class="button blue text-uppercase"
+                                                        @if($landingPageData) style="background: {{$landingPageData->button_color}}; color: {{$landingPageData->button_text_color}}" @endif
+                                                >
                                                     {{ __('Update My Info') }}
                                                 </button>
                                             </div>

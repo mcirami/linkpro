@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
+use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
 
 class UserController extends Controller
 {
@@ -46,6 +47,11 @@ class UserController extends Controller
         }
 
         $data = $userService->getUserInfo();
+
+        Javascript::put([
+            'user_info' => Auth::user(),
+            'landingPageData' => $landingPageData
+        ]);
 
         return view('users.edit', [
             'user'                  => $data['user'],

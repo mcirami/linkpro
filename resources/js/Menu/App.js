@@ -3,6 +3,8 @@ import {RiPagesLine, RiBarChart2Line, RiUserSettingsLine, RiMailLine, RiLogoutBo
 import {MdOutlineSchool, MdOutlineDashboard} from 'react-icons/md'
 import HoverText from '../Utils/HoverText';
 
+const landingPageData = user?.landingPageData;
+
 function App() {
 
     const [isHovering, setIsHovering] = useState({
@@ -65,17 +67,27 @@ function App() {
     }
 
     return (
-        <div className="menu_wrap">
-            <div className="menu_top">
+        <div className="menu_wrap" style={ landingPageData && { background: landingPageData["header_color"] }}>
+            <div className="menu_top" style={ landingPageData && { borderColor: landingPageData["header_text_color"] }}>
                 <div className="logo">
-                    <img src={Vapor.asset('images/logo-white.png')} alt=""/>
+                    {landingPageData ?
+                        <img src={landingPageData["logo"]} alt=""/>
+                        :
+                        <img src={Vapor.asset('images/logo-white.png')} alt=""/>
+                    }
                 </div>
                 <a className="icon_wrap mobile_menu_icon"
                    href="#"
                    onClick={(e) => handleOnClick(e)}>
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    <span
+                        style={ landingPageData && { background: landingPageData["header_text_color"] }}
+                    ></span>
+                    <span
+                        style={ landingPageData && { background: landingPageData["header_text_color"] }}
+                    ></span>
+                    <span
+                        style={ landingPageData && { background: landingPageData["header_text_color"] }}
+                    ></span>
                 </a>
             </div>
             <div className="menu">
@@ -87,9 +99,9 @@ function App() {
                                href="/dashboard/pages/"
                                onMouseOver={() => handleMouseOver("pages")}
                                onMouseOut={handleMouseOut}>
-                            <span className="menu_icon">
-                                <RiPagesLine/>
-                            </span>
+                                <span className="menu_icon">
+                                    <RiPagesLine/>
+                                </span>
                                 Pages
                             </a>
                             {!isOpen && isHovering.status &&
@@ -143,14 +155,17 @@ function App() {
                     }
                     {userPermissions.includes("view courses") &&
                         <li>
-                            <a id="course_manager"
+                            <a style={{ color: landingPageData && landingPageData["header_text_color"] }}
+                               id="course_manager"
                                className="menu-item"
                                href={`/${creator}/courses`}
                                onMouseOver={() => handleMouseOver("courses")}
                                onMouseOut={handleMouseOut}>
-                            <span className="menu_icon">
-                                <MdOutlineSchool/>
-                            </span>
+                                <span className="menu_icon" style={ landingPageData &&
+                                    { background: landingPageData["header_color"], color: landingPageData["header_text_color"]}
+                                }>
+                                    <MdOutlineSchool/>
+                                </span>
                                 Courses
                             </a>
                             {!isOpen && isHovering.status &&
@@ -162,12 +177,13 @@ function App() {
                         </li>
                     }
                     <li>
-                        <a id="settings"
+                        <a style={{ color: landingPageData && landingPageData["header_text_color"] }}
+                           id="settings"
                            className="menu-item"
                            href="/edit-account"
                            onMouseOver={() => handleMouseOver("settings")}
                            onMouseOut={handleMouseOut}>
-                            <span className="menu_icon">
+                            <span className="menu_icon" style={ landingPageData && { background: landingPageData["header_color"], color: landingPageData["header_text_color"] }}>
                                 <RiUserSettingsLine />
                             </span>
                             Settings
@@ -199,12 +215,13 @@ function App() {
                         </li>
                     }
                     <li>
-                        <a id="logout"
+                        <a style={{ color: landingPageData && landingPageData["header_text_color"] }}
+                           id="logout"
                            href="#"
                            onClick={(e) => handleSubmit(e)}
                            onMouseOver={() => handleMouseOver("logout")}
                            onMouseOut={handleMouseOut}>
-                            <span className="menu_icon">
+                            <span className="menu_icon" style={ landingPageData && { background: landingPageData["header_color"], color: landingPageData["header_text_color"] }}>
                                 <RiLogoutBoxRLine />
                             </span>
                             Logout
@@ -223,19 +240,20 @@ function App() {
                         {creator ?
                             <li>
                                 <a href={`${window.location.origin}/${creator}`}
+                                   style={{ color: landingPageData && landingPageData["header_text_color"] }}
                                    target="_blank"
                                    onMouseOver={() => handleMouseOver(
                                        "contact " + creator)}
                                    onMouseOut={handleMouseOut}>
-                                    <span className="menu_icon">
-                                        <svg viewBox="0 0 15.82 15.82" xmlns="http://www.w3.org/2000/svg">
+                                    <span className="menu_icon" style={{ background: landingPageData && landingPageData["header_color"] }}>
+                                        <svg viewBox="0 0 15.82 15.82" xmlns="http://www.w3.org/2000/svg" style={{ color: landingPageData && landingPageData["header_text_color"] }}>
                                             <g fill="currentColor" transform="translate(-.1 -.12)">
                                                 <path d="m8 15.94a7.91 7.91 0 1 1 7.92-7.94 7.92 7.92 0 0 1 -7.92 7.94zm0-14.11a6.2 6.2 0 1 0 6.21 6.17 6.21 6.21 0 0 0 -6.21-6.17z"/>
                                                 <path d="m12.93 6.6a3.28 3.28 0 0 0 -.27-.38 2.66 2.66 0 0 0 -2.16-.9 2.52 2.52 0 0 0 -2 1.26.21.21 0 0 0 0 .1.26.26 0 0 0 .08.13 2.82 2.82 0 0 0 .8.66 1.44 1.44 0 0 0 1.15 0l-.64-.58a.47.47 0 0 1 -.06-.09.15.15 0 0 1 .09-.14 1.44 1.44 0 0 1 1.56-.05 1.51 1.51 0 0 1 .24 2.28 1.4 1.4 0 0 1 -1.84.11c-.96-1-1.94-1.89-2.83-2.89a2.55 2.55 0 1 0 -1.29 4.22 2.44 2.44 0 0 0 1.68-1.33c-.89-.93-1.1-1-2.09-.82l.65.57c.11.1.15.19 0 .3a1.54 1.54 0 0 1 -1.81-.19 1.5 1.5 0 0 1 0-2.09 1.46 1.46 0 0 1 2 .06c.23.22.45.46.68.69.79.79 1.53 1.63 2.38 2.35a2.49 2.49 0 0 0 3.68-3.27z"/>
                                             </g>
                                         </svg>
                                     </span>
-                                    Contact {creator}
+                                    Contact <span>{creator}</span>
                                 </a>
                                 {!isOpen && isHovering.status &&
                                 isHovering.section === "follow us" ?

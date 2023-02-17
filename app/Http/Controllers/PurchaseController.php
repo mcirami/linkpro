@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Traits\SubscriptionTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
 
 
 class PurchaseController extends Controller
@@ -35,6 +36,10 @@ class PurchaseController extends Controller
         $token = $this->gateway->ClientToken()->generate();
         $offer = $course->Offer()->first();
         $landingPageData = $user->LandingPages()->first();
+
+        Javascript::put([
+            'landingPageData' => $landingPageData
+        ]);
 
         return view('purchase.show')->with(['token' => $token, 'offer' => $offer, 'courseTitle' => $course->title, 'landingPageData' => $landingPageData]);
     }

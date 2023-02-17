@@ -26,7 +26,9 @@ class CourseController extends Controller
 
         Javascript::put([
             'course' => $course,
-            'sections' => $sections
+            'sections' => $sections,
+            'landingPageData'       => $landingPageData,
+            'creator'               => $user->username
         ]);
 
         return view('courses.show')->with(['landingPageData' => $landingPageData]);
@@ -42,6 +44,7 @@ class CourseController extends Controller
             $join->on('course_id', '=', 'courses.id')->where('offers.user_id', '=', $user->id);
         })->get()->toArray();
 
+        Javascript::put([]);
         return view('courses.manager')->with([
             'landingPage' => $landingPage,
             'offers' => $offers
@@ -147,6 +150,11 @@ class CourseController extends Controller
         $unPurchasedCourses = Course::where('user_id', $user->id)->whereDoesntHave('purchases', function (Builder $query) {
             $query->where('user_id', 'like', Auth::user()->id);
         })->get();
+
+        Javascript::put([
+            'landingPageData'       => $landingPageData,
+            'creator'               => $creator
+        ]);
 
         return view('courses.all')->with([
             'landingPageData'       => $landingPageData,

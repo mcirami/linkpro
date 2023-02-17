@@ -6,11 +6,13 @@ use App\Mail\ContactMail;
 use Illuminate\Http\Request;
 use App\Http\Requests\ContactRequest;
 use Illuminate\Support\Facades\Mail;
+use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
 
 class ContactMailController extends Controller
 {
     public function index() {
 
+        Javascript::put([]);
         return view('contact.show');
     }
 

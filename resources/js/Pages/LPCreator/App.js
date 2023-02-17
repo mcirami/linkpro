@@ -19,6 +19,7 @@ import DeleteSection from './Components/DeleteSection';
 import PreviewButton from '../Dashboard/Components/Preview/PreviewButton';
 import {previewButtonRequest} from '../../Services/PageRequests';
 import PublishButton from './Components/PublishButton';
+import InfoText from './Components/InfoText';
 
 function App() {
 
@@ -193,18 +194,24 @@ function App() {
                                     aspect: 16 / 8
                                 }}
                             />
-                            <ColorPicker
-                                label="Top Header Color"
-                                pageData={pageData}
-                                dispatch={dispatch}
-                                elementName="header_color"
-                            />
-                            <ColorPicker
-                                label="Header Text Color"
-                                pageData={pageData}
-                                dispatch={dispatch}
-                                elementName="header_text_color"
-                            />
+                            <div className="picker_wrap">
+                                <ColorPicker
+                                    label="Top Header Color"
+                                    pageData={pageData}
+                                    dispatch={dispatch}
+                                    elementName="header_color"
+                                />
+                                <InfoText section="header_color" />
+                            </div>
+                            <div className="picker_wrap">
+                                <ColorPicker
+                                    label="Header Text Color"
+                                    pageData={pageData}
+                                    dispatch={dispatch}
+                                    elementName="header_text_color"
+                                />
+                                <InfoText section="header_text_color"/>
+                            </div>
                         </div>
                     </section>
 

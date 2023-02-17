@@ -6,6 +6,7 @@ use App\Models\Link;
 use App\Models\Folder;
 use App\Services\TrackingServices;
 use Illuminate\Http\Request;
+use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
 
 class TrackingController extends Controller
 {
@@ -15,6 +16,7 @@ class TrackingController extends Controller
      */
     public function show() {
 
+        Javascript::put([]);
         return view('stats.show');
     }
 

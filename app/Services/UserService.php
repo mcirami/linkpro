@@ -5,10 +5,13 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use App\Notifications\NotifyAboutUnsubscribe;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
 use App\Http\Traits\SubscriptionTrait;
 use App\Http\Traits\UserTrait;
@@ -68,10 +71,6 @@ class UserService {
             'token' => $token,
             'payment_method_token' => $paymentMethodToken
         ];
-
-        Javascript::put([
-            'user_info' => $this->user,
-        ]);
 
         return $data;
     }

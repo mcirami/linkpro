@@ -185,6 +185,26 @@
                     height: 20px;
                 }
 
+                .picker_wrap {
+                    position: relative;
+                    width: 100%;
+                    display: -webkit-box;
+                    display: -ms-flexbox;
+                    display: flex;
+                    -webkit-box-orient: horizontal;
+                    -webkit-box-direction: normal;
+                    -ms-flex-direction: row;
+                    flex-direction: row;
+                    -ms-flex-wrap: nowrap;
+                    flex-wrap: nowrap;
+
+                    &:last-child {
+                        .page_settings {
+                            margin-bottom: 0;
+                        }
+                    }
+                }
+
                 .picker_wrapper {
                     @include boxShadow;
                     position: absolute;
