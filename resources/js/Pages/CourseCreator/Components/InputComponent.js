@@ -11,6 +11,7 @@ import {
 } from '../../../Services/CourseRequests';
 import {LP_ACTIONS, OFFER_ACTIONS} from '../Reducer';
 import {updateOfferData} from '../../../Services/OfferRequests';
+import EditorComponent from '../../LPCreator/Components/EditorComponent';
 
 const InputComponent = ({
                             placeholder,
@@ -251,6 +252,19 @@ const InputComponent = ({
                         onPaste={(e) => handleChange(e)}
                     ></textarea>
                 )
+            case 'wysiwyg':
+                return (
+                    <EditorComponent
+                        dispatch={dispatch}
+                        sections={sections}
+                        setSections={setSections}
+                        currentSection={currentSection}
+                        elementName={elementName}
+                        data={courseData}
+                        isValid={isValid}
+                        setIsValid={setIsValid}
+                    />
+                )
             case 'currency' :
 
                 return (
@@ -303,8 +317,8 @@ const InputComponent = ({
             <form onSubmit={handleSubmit}>
                 {switchStatement()}
                 {isValid ?
-                    <a className={`submit_circle ${type === "textarea" &&
-                    "textarea"}`} href="#"
+                    <a className={`submit_circle ${type === "textarea" || type === "wysiwyg" ?
+                    "textarea" : ""}`} href="#"
                        onClick={(e) => handleSubmit(e)}
                     >
                         <FiThumbsUp/>

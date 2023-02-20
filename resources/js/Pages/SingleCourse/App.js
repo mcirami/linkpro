@@ -1,6 +1,8 @@
 import ColumnComponent from './Components/ColumnComponent';
 import VideoComponent from './Components/VideoComponent';
 import React, {useEffect, useState} from 'react';
+import draftToHtml from 'draftjs-to-html';
+import DOMPurify from 'dompurify';
 
 const course = user.course;
 const sections = user.sections;
@@ -17,14 +19,23 @@ function App() {
         setVideoCount(videos.length);
     },[])
 
+    const createMarkup = (text) => {
+
+        const html = draftToHtml(JSON.parse(text));
+        return {
+            __html: DOMPurify.sanitize(html)
+        }
+    }
+
     return (
         <div className="creator_wrap my_row courses_grid">
             <div className="preview">
                 <section className="header">
                     <div className="intro_text my_row" style={{background: intro_background_color}}>
                         <div className="container">
-                            <h2 style={{ color: intro_text_color }}>{title}</h2>
-                            <p style={{ color: intro_text_color }}>{intro_text}</p>
+                            <h2 className="title" style={{ color: intro_text_color }}>{title}</h2>
+                            <div dangerouslySetInnerHTML={createMarkup(intro_text)}>
+                            </div>
                         </div>
                     </div>
                 </section>

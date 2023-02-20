@@ -52,7 +52,6 @@ const Preview = ({
                             <Hero
                                 courseData={courseData}
                             />
-
                         </section>
                         <div className="sections">
                             {!isEmpty(sections) && sections.map((section, index) => {

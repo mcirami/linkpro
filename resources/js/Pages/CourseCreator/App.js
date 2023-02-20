@@ -153,7 +153,7 @@ function App() {
                         <div className="section_content my_row">
                             <InputComponent
                                 placeholder="Intro Text"
-                                type="textarea"
+                                type="wysiwyg"
                                 hoverText="Submit Intro Text"
                                 elementName="intro_text"
                                 courseData={courseData}
@@ -166,12 +166,12 @@ function App() {
                                 dispatch={dispatch}
                                 elementName="intro_background_color"
                             />
-                            <ColorPicker
+                            {/*<ColorPicker
                                 label="Text Color"
                                 courseData={courseData}
                                 dispatch={dispatch}
                                 elementName="intro_text_color"
-                            />
+                            />*/}
                         </div>
                     </section>
 

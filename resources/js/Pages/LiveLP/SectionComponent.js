@@ -4,7 +4,7 @@ import DOMPurify from 'dompurify';
 
 const SectionComponent = ({page, section}) => {
 
-    const bgImage = section.type === "image" && section.image ? section.image : Vapor.asset('images/image-placeholder.jpg');
+    //const bgImage = section.type === "image" && section.image ? section.image : Vapor.asset('images/image-placeholder.jpg');
 
     const [bgStyle, setBgStyle] = useState(null);
 

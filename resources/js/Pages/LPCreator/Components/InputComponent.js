@@ -15,7 +15,7 @@ const InputComponent = ({
                             hoverText,
                             elementName,
                             value,
-                            pageData = null,
+                            data = null,
                             dispatch = null,
                             sections = null,
                             setSections = null,
@@ -87,12 +87,12 @@ const InputComponent = ({
             updateSectionData(packets, currentSection.id);
 
         } else {
-            const value = pageData[elementName];
+            const value = data[elementName];
             const packets = {
                 [`${elementName}`]: value,
             };
 
-            updateData(packets, pageData["id"], elementName)
+            updateData(packets, data["id"], elementName)
             .then((response) => {
                 if (response.success) {
                     dispatch({
@@ -166,14 +166,14 @@ const InputComponent = ({
                         setSections={setSections}
                         currentSection={currentSection}
                         elementName={elementName}
-                        pageData={pageData}
+                        data={data}
                         isValid={isValid}
                         setIsValid={setIsValid}
                     />
 
                 }[type]}
                 {isValid ?
-                    <a className={ `submit_circle ${type === "textarea" && "textarea"}`} href="#"
+                    <a className={ `submit_circle ${type === "textarea" ? "textarea" : ""}`} href="#"
                        onClick={(e) => handleSubmit(e)}
                     >
                         <FiThumbsUp />

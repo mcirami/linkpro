@@ -141,12 +141,6 @@
     &.course {
         min-height: 75vh;
 
-        .intro_text {
-            p {
-                font-size: 1.2em;
-            }
-        }
-
         .sections {
             display: grid;
             //grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));

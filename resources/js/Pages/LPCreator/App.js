@@ -131,7 +131,7 @@ function App() {
                                 maxChar={60}
                                 hoverText="Submit Page Title"
                                 elementName="title"
-                                pageData={pageData}
+                                data={pageData}
                                 dispatch={dispatch}
                                 value={pageData["title"]}
                             />
@@ -172,7 +172,7 @@ function App() {
                                 maxChar={30}
                                 hoverText="Submit Slogan Text"
                                 elementName="slogan"
-                                pageData={pageData}
+                                data={pageData}
                                 dispatch={dispatch}
                                 value={pageData["slogan"]}
                             />
@@ -238,7 +238,7 @@ function App() {
                                 maxChar={10}
                                 hoverText="Submit Button Text"
                                 elementName="button_text"
-                                pageData={pageData}
+                                data={pageData}
                                 value={pageData["button_text"]}
                                 dispatch={dispatch}
                             />

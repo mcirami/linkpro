@@ -13599,6 +13599,10 @@ form .bottom_row a {
   top: auto;
   bottom: 10px;
 }
+.edit_form form.wysiwig {
+  right: 10px;
+  bottom: 10px;
+}
 .edit_form.new_page {
   margin-bottom: 0;
 }
@@ -16633,6 +16637,15 @@ a.delete svg {
   height: 1.5em;
   display: inline-block;
 }
+#links_page .creator_wrap .content_wrap.creator .wysiwyg {
+  margin-bottom: 0;
+}
+#links_page .creator_wrap .content_wrap.creator .wysiwyg .public-DraftStyleDefault-block {
+  margin: 0;
+}
+#links_page .creator_wrap .content_wrap.creator .wysiwyg .rdw-editor-main {
+  min-height: 200px;
+}
 #links_page .creator_wrap .content_wrap section {
   position: relative;
   margin-bottom: 20px;
@@ -16677,15 +16690,6 @@ a.delete svg {
 }
 #links_page .creator_wrap .content_wrap section .section_content .url_wrap a {
   color: #424fcf;
-}
-#links_page .creator_wrap .content_wrap section .section_content .wysiwyg {
-  margin-bottom: 0;
-}
-#links_page .creator_wrap .content_wrap section .section_content .wysiwyg .public-DraftStyleDefault-block {
-  margin: 0;
-}
-#links_page .creator_wrap .content_wrap section .section_content .wysiwyg .rdw-editor-wrapper {
-  min-height: 200px;
 }
 #links_page .creator_wrap .content_wrap section h4, #links_page .creator_wrap .content_wrap section .h4 {
   font-family: "opensansbold", sans-serif;
@@ -16840,6 +16844,9 @@ a.delete svg {
   text-align: center;
   max-width: 175px;
   margin: 0 auto;
+}
+#links_page .creator_wrap .preview .header .intro_text h2:not(.title), #links_page .creator_wrap .preview .header .intro_text .h2:not(.title) {
+  font-size: 1.4rem;
 }
 #links_page .creator_wrap .preview .header .text_wrap {
   text-align: center;
@@ -17134,7 +17141,6 @@ a.delete svg {
 }
 .creator.course_creator #links_page .creator_wrap .preview .intro_text {
   padding: 20px;
-  text-align: center;
 }
 .creator.course_creator #links_page .creator_wrap .preview .intro_text p {
   margin: 0;
@@ -17279,9 +17285,6 @@ a.delete svg {
 #links_page.live_page.course {
   min-height: 75vh;
 }
-#links_page.live_page.course .intro_text p {
-  font-size: 1.2em;
-}
 #links_page.live_page.course .sections {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -17331,9 +17334,11 @@ a.delete svg {
   -webkit-box-shadow: none;
 }
 
-.courses_grid .intro_text h2, .courses_grid .intro_text .h2 {
+.courses_grid .intro_text h2.title, .courses_grid .intro_text .title.h2 {
   text-transform: uppercase;
   font-size: 3rem;
+  text-align: center;
+  margin-bottom: 20px;
 }
 .courses_grid .content_wrap h2, .courses_grid .content_wrap .h2 {
   text-transform: uppercase;

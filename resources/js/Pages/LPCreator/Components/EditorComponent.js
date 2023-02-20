@@ -7,18 +7,20 @@ import draftToHtml from 'draftjs-to-html';
 import {SketchPicker} from 'react-color';
 
 import {
-    updateData,
     updateSectionData,
 } from '../../../Services/LandingPageRequests';
+import {
+    updateData as updateCourseData
+} from '../../../Services/CourseRequests';
 import isJSON from 'validator/es/lib/isJSON';
 
 const EditorComponent = ({
                              dispatch,
-                             sections,
+                             sections = null,
                              setSections,
-                             currentSection,
+                             currentSection = null,
                              elementName,
-                             pageData,
+                             data,
                              isValid,
                              setIsValid
 }) => {
@@ -26,19 +28,40 @@ const EditorComponent = ({
     const [editorState, setEditorState] = useState(null);
 
     useEffect(() => {
-        setEditorState(
-            currentSection["text"] && isJSON(currentSection["text"]) ?
-                EditorState.createWithContent(convertFromRaw(JSON.parse(currentSection["text"])))
-                :
-                EditorState.createEmpty()
-        )
+        if (currentSection) {
+            setEditorState(
+                currentSection["text"] && isJSON(currentSection["text"]) ?
+                    EditorState.createWithContent(
+                        convertFromRaw(JSON.parse(currentSection["text"])))
+                    :
+                    EditorState.createEmpty()
+            )
+        } else {
+            setEditorState(
+                data["intro_text"] && isJSON(data["intro_text"]) ?
+                    EditorState.createWithContent(
+                        convertFromRaw(JSON.parse(data["intro_text"])))
+                    :
+                    EditorState.createEmpty()
+            )
+        }
     },[])
 
     useEffect(() => {
-        if (currentSection["text"] &&
-            isJSON(currentSection["text"]) &&
-            JSON.parse(currentSection["text"])["blocks"][0]["text"] !== "") {
-            setIsValid(true)
+        if (currentSection) {
+            if (currentSection["text"] &&
+                isJSON(currentSection["text"]) &&
+                JSON.parse(currentSection["text"])["blocks"][0]["text"] !==
+                "") {
+                setIsValid(true)
+            }
+        } else {
+            if (data["intro_text"] &&
+                isJSON(data["intro_text"]) &&
+                JSON.parse(data["intro_text"])["blocks"][0]["text"] !==
+                "") {
+                setIsValid(true)
+            }
         }
     },[])
 
@@ -98,14 +121,14 @@ const EditorComponent = ({
                 updateSectionData(packets, currentSection.id);
 
             } else {
-                //const value = pageData[elementName];
+                //const value = data[elementName];
                 const packets = {
                     [`${elementName}`]: value,
                 };
 
-                updateData(packets, pageData["id"], elementName).
+                updateCourseData(packets, data["id"], elementName).
                     then((response) => {
-                        if (response.success) {
+                        if (response.success && response.slug) {
                             dispatch({
                                 type: LP_ACTIONS.UPDATE_PAGE_DATA,
                                 payload: {
