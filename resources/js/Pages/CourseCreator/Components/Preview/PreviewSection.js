@@ -3,7 +3,8 @@ import SectionVideo from './SectionVideo';
 
 const PreviewSection = ({
                             currentSection,
-                            position
+                            position,
+                            index
 }) => {
 
 
@@ -48,6 +49,7 @@ const PreviewSection = ({
                         link={video_link}
                         text={text}
                         textColor={text_color}
+                        index={index}
 
                     />,
             }[type]}

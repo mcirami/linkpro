@@ -1,17 +1,48 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 const SectionVideo = ({
                           title,
                           link,
                           text,
-                          textColor
+                          textColor,
+                          index
 }) => {
+
+    const [imagePlaceholder, setImagePlaceholder] = useState("");
+    const [indexValue, setIndexValue] = useState(null);
+
+    useEffect(() => {
+
+        let split;
+        if (link.includes('youtube')) {
+            split = link.split("/embed/");
+            setImagePlaceholder("https://img.youtube.com/vi/" + split[1] + "/mqdefault.jpg");
+        } else {
+            split = link.split("/video/");
+            setImagePlaceholder("https://vumbnail.com/" + split[1] + ".jpg")
+        }
+    },[])
+
+    const handleOnClick = (e) => {
+        e.preventDefault();
+        setIndexValue(e.currentTarget.dataset.index);
+    }
 
     return (
         <>
             {link ?
-                <div className="video_wrapper">
-                    <iframe src={link}></iframe>
+                <div className="video_content">
+                    {indexValue == index ?
+                        <div className="video_row my_row">
+                            <div className="video_wrapper">
+                                <iframe src={link}></iframe>
+                            </div>
+                        </div>
+                        :
+                        <a href="#" data-index={index} onClick={(e) => handleOnClick(e)}>
+                            <img src={imagePlaceholder} alt=""/>
+                        </a>
+                    }
                 </div>
                 :
                 <img src={ Vapor.asset('images/image-placeholder.jpg')} alt=""/>

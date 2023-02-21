@@ -64,6 +64,7 @@ const Preview = ({
                                         key={section.id}
                                         currentSection={section}
                                         position={index + 1}
+                                        index={index}
                                     />
                                 )
                             })}
