@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import VideoComponent from './VideoComponent';
 
 const ColumnComponent = ({
@@ -12,6 +12,21 @@ const ColumnComponent = ({
 }) => {
 
     const {id, type, text, text_color, video_title, video_link, background_color} = section;
+    const [imagePlaceholder, setImagePlaceholder] = useState(null);
+
+    useEffect(() => {
+        if (type === "video") {
+            let split;
+            if (video_link.includes('youtube')) {
+                split = video_link.split("/embed/");
+                setImagePlaceholder("https://img.youtube.com/vi/" + split[1] +
+                    "/mqdefault.jpg");
+            } else {
+                split = video_link.split("/video/");
+                setImagePlaceholder("https://vumbnail.com/" + split[1] + ".jpg")
+            }
+        }
+    },[])
 
     const iframeRef = useRef();
 
@@ -43,7 +58,7 @@ const ColumnComponent = ({
                 {type === "video" &&
                     <a className="my_row" href="#" data-video={video_link} data-index={index} data-row={dataRow} onClick={(e) => handleOnClick(e)}>
                          <span className="image_wrap my_row">
-                            <img src={Vapor.asset('images/image-placeholder.jpg')} alt=""/>
+                            <img src={imagePlaceholder} alt=""/>
                          </span>
                     </a>
                 }

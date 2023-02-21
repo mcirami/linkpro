@@ -1,0 +1,12 @@
+.courses_grid {
+
+    .sections {
+        grid-template-columns: repeat(3, minmax(29rem, 1fr));
+
+        .section_wrap {
+
+        }
+    }
+
+
+}

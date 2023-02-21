@@ -17521,6 +17521,9 @@ a.delete svg {
   padding-top: 40px;
 }
 
+.courses_grid .sections {
+  grid-template-columns: repeat(3, minmax(29rem, 1fr));
+}
 footer {
   box-shadow: 0px 0px 35px 5px rgba(170, 170, 170, 0.18);
   width: 100%;
