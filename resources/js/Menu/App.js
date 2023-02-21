@@ -100,7 +100,7 @@ function App() {
                                href="/dashboard/pages/"
                                onMouseOver={() => handleMouseOver("pages")}
                                onMouseOut={handleMouseOut}>
-                                <span className="menu_icon" style={ landingPageData && {  background: landingPageData["header_color"], color: landingPageData["header_text_color"] }}>
+                                <span className="menu_icon" style={ landingPageData && { color: landingPageData["header_text_color"] }}>
                                     <RiPagesLine/>
                                 </span>
                                 Pages
@@ -121,7 +121,7 @@ function App() {
                                href="/stats/"
                                onMouseOver={() => handleMouseOver("stats")}
                                onMouseOut={handleMouseOut}>
-                            <span className="menu_icon" style={ landingPageData && {  background: landingPageData["header_color"], color: landingPageData["header_text_color"] }}>
+                            <span className="menu_icon" style={ landingPageData && { color: landingPageData["header_text_color"] }}>
                                 <RiBarChart2Line/>
                             </span>
                                 Stats
@@ -143,7 +143,7 @@ function App() {
                                onMouseOver={() => handleMouseOver(
                                    "course manager")}
                                onMouseOut={handleMouseOut}>
-                            <span className="menu_icon" style={ landingPageData && {  background: landingPageData["header_color"], color: landingPageData["header_text_color"] }}>
+                            <span className="menu_icon" style={ landingPageData && { color: landingPageData["header_text_color"] }}>
                                 <MdOutlineDashboard />
                             </span>
                                 Course Manager
@@ -164,8 +164,7 @@ function App() {
                                href={`/${creator}/courses`}
                                onMouseOver={() => handleMouseOver("courses")}
                                onMouseOut={handleMouseOut}>
-                                <span className="menu_icon" style={ landingPageData &&
-                                    { background: landingPageData["header_color"], color: landingPageData["header_text_color"]}
+                                <span className="menu_icon" style={ landingPageData && { color: landingPageData["header_text_color"]}
                                 }>
                                     <MdOutlineSchool/>
                                 </span>
@@ -186,7 +185,7 @@ function App() {
                            href="/edit-account"
                            onMouseOver={() => handleMouseOver("settings")}
                            onMouseOut={handleMouseOut}>
-                            <span className="menu_icon" style={ landingPageData && { background: landingPageData["header_color"], color: landingPageData["header_text_color"] }}>
+                            <span className="menu_icon" style={ landingPageData && { color: landingPageData["header_text_color"] }}>
                                 <RiUserSettingsLine />
                             </span>
                             Settings
@@ -203,10 +202,12 @@ function App() {
                                className="menu-item"
                                href="/contact"
                                onMouseOver={() => handleMouseOver("contact us")}
-                               onMouseOut={handleMouseOut}>
-                            <span className="menu_icon">
-                                <RiMailLine/>
-                            </span>
+                               onMouseOut={handleMouseOut}
+                               style={{ color: landingPageData && landingPageData["header_text_color"] }}
+                            >
+                                <span className="menu_icon" style={{ color: landingPageData && landingPageData["header_text_color"] }}>
+                                    <RiMailLine/>
+                                </span>
                                 Contact Us
                             </a>
                             {!isOpen && isHovering.status &&
@@ -224,7 +225,7 @@ function App() {
                            onClick={(e) => handleSubmit(e)}
                            onMouseOver={() => handleMouseOver("logout")}
                            onMouseOut={handleMouseOut}>
-                            <span className="menu_icon" style={ landingPageData && { background: landingPageData["header_color"], color: landingPageData["header_text_color"] }}>
+                            <span className="menu_icon" style={ landingPageData && { color: landingPageData["header_text_color"] }}>
                                 <RiLogoutBoxRLine />
                             </span>
                             Logout
@@ -248,7 +249,7 @@ function App() {
                                    onMouseOver={() => handleMouseOver(
                                        "contact " + creator)}
                                    onMouseOut={handleMouseOut}>
-                                    <span className="menu_icon" style={{ background: landingPageData && landingPageData["header_color"] }}>
+                                    <span className="menu_icon">
                                         <svg viewBox="0 0 15.82 15.82" xmlns="http://www.w3.org/2000/svg" style={{ color: landingPageData && landingPageData["header_text_color"] }}>
                                             <g fill="currentColor" transform="translate(-.1 -.12)">
                                                 <path d="m8 15.94a7.91 7.91 0 1 1 7.92-7.94 7.92 7.92 0 0 1 -7.92 7.94zm0-14.11a6.2 6.2 0 1 0 6.21 6.17 6.21 6.21 0 0 0 -6.21-6.17z"/>

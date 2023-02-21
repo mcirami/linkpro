@@ -8,6 +8,11 @@
         z-index: 999;
     }
 
+    @include query(mobile) {
+        position: fixed;
+        z-index: 999;
+    }
+
     .content_wrap {
         width: 100%;
         display: -webkit-box;
@@ -269,7 +274,7 @@
             }
         }
 
-        .menu_icon {
+        /*.menu_icon {
             display: inline-block;
             color: $blue;
             display: -webkit-box;
@@ -316,7 +321,7 @@
                 margin: auto;
                 height: auto;
             }
-        }
+        }*/
 
     }
 }

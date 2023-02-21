@@ -49,6 +49,9 @@ const Preview = ({
                             <TopBar
                                 courseData={courseData}
                             />
+                            {courseData['title'] &&
+                                <h2 className="title">{courseData['title']}</h2>
+                            }
                             <Hero
                                 courseData={courseData}
                             />

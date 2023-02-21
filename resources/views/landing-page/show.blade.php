@@ -7,9 +7,7 @@
    <div id="links_page" class="live_page">
        <div class="container">
            <div class="creator_wrap">
-               <div class="preview">
-                   <div id="live_landing_page"></div>
-               </div>
+               <div id="live_landing_page"></div>
            </div>
        </div>
    </div>

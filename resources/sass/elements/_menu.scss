@@ -1,4 +1,4 @@
-#off_canvas_menu, #off_canvas_course_menu {
+#off_canvas_menu {
 
     &:before {
         content: '';
@@ -140,6 +140,7 @@
 
         @media screen and (max-width: 768px) {
             background: transparent;
+            left: -100%;
         }
 
         .menu_top {
@@ -277,7 +278,6 @@
                             transition: left ease-in-out 500ms;
                             -moz-transition: left ease-in-out 500ms;
                             -webkit-transition: left ease-in-out 500ms;
-                            background: $blue;
                             width: 40px;
                             height: 40px;
                             display: block;

@@ -31,7 +31,6 @@ const Hero = ({ courseData }) => {
                 {
                 courseData['intro_text']
             }</p>*/}
-            <h2 className="title">{courseData['title']}</h2>
             <div dangerouslySetInnerHTML={createMarkup(textValue)}>
             </div>
         </article>

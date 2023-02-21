@@ -1,6 +1,6 @@
 import ColumnComponent from './Components/ColumnComponent';
 import VideoComponent from './Components/VideoComponent';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import draftToHtml from 'draftjs-to-html';
 import DOMPurify from 'dompurify';
 
@@ -13,6 +13,8 @@ function App() {
     const [row, setRow] = useState(null);
     const [indexValue, setIndexValue] = useState(null);
     const [videoCount, setVideoCount] = useState(0);
+
+    let currentVideoCount = 0;
 
     useEffect(() => {
         const videos = (sections.filter((section) => section.type === "video"));
@@ -27,52 +29,63 @@ function App() {
         }
     }
 
+    const resetVideoCount = (amount) => {
+        currentVideoCount = amount;
+        return "";
+    }
+
     return (
-        <div className="creator_wrap my_row courses_grid">
-            <div className="preview">
+        <div className="container">
+            <div className="creator_wrap my_row courses_grid">
                 <section className="header">
+                    <h2 className="title" style={{ color: intro_text_color }}>{title}</h2>
                     <div className="intro_text my_row" style={{background: intro_background_color}}>
-                        <div className="container">
-                            <h2 className="title" style={{ color: intro_text_color }}>{title}</h2>
-                            <div dangerouslySetInnerHTML={createMarkup(intro_text)}>
-                            </div>
+                        <div dangerouslySetInnerHTML={createMarkup(intro_text)}>
                         </div>
                     </div>
                 </section>
-                <section>
-                    <div className="container">
-                        <div className="sections">
-                            {sections.map((section, index) => {
+                <section className="my_row">
+                    <div className="sections">
+                        {sections.map((section, index) => {
 
+                            let dataRow = Math.ceil((index + 1) / 3);
 
-                                const dataRow = Math.ceil((index + 1) / 3);
+                            {section.type === "video" && ++currentVideoCount}
 
-                                return(
-                                    <React.Fragment key={section.id}>
-                                        <ColumnComponent
-                                            section={section}
-                                            dataRow={dataRow}
-                                            setRow={setRow}
-                                            indexValue={indexValue}
-                                            setIndexValue={setIndexValue}
-                                            index={index}
-                                        />
+                            return(
+                                <React.Fragment key={section.id}>
 
-                                        {(index + 1) % 3 === 0 || index + 1 === videoCount ?
+                                    <ColumnComponent
+                                        section={section}
+                                        row={row}
+                                        dataRow={dataRow}
+                                        setRow={setRow}
+                                        indexValue={indexValue}
+                                        setIndexValue={setIndexValue}
+                                        index={index}
+                                    />
+
+                                    {/*{
+                                        currentVideoCount === 3 ||
+                                        (sections[index + 1]?.type === "text" && section.type !== "text") ||
+                                        !sections[index + 1]
+                                            ?
+                                            <>
                                                 <VideoComponent
                                                     sections={sections}
                                                     indexValue={indexValue}
                                                     dataRow={dataRow}
                                                     row={row}
+                                                    iframeRef={iframeRef}
                                                 />
-                                                :
-                                            ""
-                                        }
-                                    </React.Fragment>
-                                )
-                            })}
-
-                        </div>
+                                                {resetVideoCount()}
+                                            </>
+                                            :
+                                        ""
+                                    }*/}
+                                </React.Fragment>
+                            )
+                        })}
                     </div>
                 </section>
             </div>

@@ -298,6 +298,45 @@
                 -moz-border-radius-bottomleft: 0 !important;
             }
 
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+
+                &.title {
+                    text-transform: uppercase;
+                    font-size: 1.7rem;
+                    text-align: center;
+                    margin: 20px 0;
+                }
+            }
+
+            h3 {
+                font-size: 1.3rem;
+            }
+
+            h4 {
+                font-size: 1.2rem;
+            }
+
+            h5 {
+                font-size: 1rem;
+            }
+
+            h6 {
+                font-size: .9rem;
+            }
+
+            p {
+                font-size: 1rem;
+
+                @include query(smallMobile) {
+                    font-size: .8rem;
+                }
+            }
+
             .header {
                 min-height: 290px;
                 position: relative;
@@ -315,12 +354,6 @@
                     text-align: center;
                     max-width: 175px;
                     margin: 0 auto;
-                }
-
-                .intro_text {
-                    h2:not(.title) {
-                        font-size: 1.4rem;
-                    }
                 }
 
                 .text_wrap {
@@ -351,53 +384,53 @@
                 align-items: stretch;
                 -webkit-align-items: stretch;
                 width: 100%;
-            }
 
-            section {
-                position: relative;
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                flex-wrap: nowrap;
-
-                .button_wrap {
-                    text-align: center;
-
-                    &.above {
-                        margin-bottom: 20px;
-                    }
-
-                    &.below {
-                        margin-top: 20px;
-                    }
-
-                    a {
-                        display: inline-block;
-                    }
-                }
-
-                .text {
-                    padding: 20px;
-
-                    p {
-                        margin: 0;
-                    }
-                }
-
-                .image {
+                section {
                     position: relative;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    flex-wrap: nowrap;
 
                     .button_wrap {
-                        position: absolute;
-                        left: 50%;
-                        transform: translateX(-50%);
+                        text-align: center;
 
                         &.above {
-                            top: 20px;
+                            margin-bottom: 20px;
                         }
 
                         &.below {
-                            bottom: 20px;
+                            margin-top: 20px;
+                        }
+
+                        a {
+                            display: inline-block;
+                        }
+                    }
+
+                    .text {
+                        padding: 20px;
+
+                        p {
+                            margin: 0;
+                        }
+                    }
+
+                    .image {
+                        position: relative;
+
+                        .button_wrap {
+                            position: absolute;
+                            left: 50%;
+                            transform: translateX(-50%);
+
+                            &.above {
+                                top: 20px;
+                            }
+
+                            &.below {
+                                bottom: 20px;
+                            }
                         }
                     }
                 }

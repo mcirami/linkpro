@@ -1,7 +1,9 @@
 #links_page.live_page {
 
     .creator_wrap {
-        box-shadow: 0px 0px 32px 0px rgba(0,0,0,.6);
+        width: 100%;
+        float: left;
+        @include boxShadow;
         border-bottom-right-radius: 10px;
         -webkit-border-bottom-right-radius: 10px;
         -moz-border-radius-bottomright: 10px;
@@ -10,196 +12,140 @@
         -moz-border-radius-bottomleft: 10px;
     }
 
-    .preview {
+    .button {
+        width: 200px;
+        font-size: 1.4em;
 
-        .button {
-            width: 200px;
-            font-size: 1.4em;
+        @media screen and (max-width: 768px) {
+            width: 150px;
+            font-size: 1em;
+        }
+    }
+
+    .header {
+        float: left;
+        width: 100%;
+
+        .top_section {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            max-width: 300px;
+            margin: 0 auto;
 
             @media screen and (max-width: 768px) {
-                width: 150px;
-                font-size: 1em;
+                max-width: 150px;
             }
         }
 
-        .header {
+        .text_wrap {
+            padding: 0;
+            border: none;
 
-            .top_section {
-                padding: 20px 0;
-            }
-
-            .logo {
-                max-width: 350px;
+            p {
+                font-size: 1.3rem;
 
                 @media screen and (max-width: 768px) {
-                    max-width: 200px;
-                }
-            }
-
-            .text_wrap {
-                padding: 0;
-                border: none;
-
-                p {
-                    font-size: 1.3rem;
-
-                    @media screen and (max-width: 768px) {
-                        font-size: .9rem;
-                    }
-                }
-            }
-
-            .header_image {
-                min-height: 25vw;
-
-                @media screen and (max-width: 992px) {
-                    min-height: 35vw;
+                    font-size: .9rem;
                 }
             }
         }
 
-        .sections {
+        .header_image {
+            min-height: 25vw;
+
+            @media screen and (max-width: 992px) {
+                min-height: 35vw;
+            }
+        }
+    }
+
+    .sections {
+        width: 100%;
+        float: left;
+
+        section {
+            padding: 60px 0;
+        }
+
+        .button_wrap {
+            width: 100%;
+            text-align: center;
+        }
+
+        .image {
+            position: relative;
+            min-height: 25vw;
+
+            @media screen and (max-width: 992px) {
+                min-height: 40vw;
+            }
 
             .button_wrap {
-                width: 100%;
-                text-align: center;
-            }
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
 
-            .image {
-                min-height: 25vw;
+                &.below {
+                    bottom: 20px;
+                }
+
+                &.above {
+                    top: 20px;
+                }
+            }
+        }
+
+        .text {
+
+            h2 {
+                font-size: 3em !important;
 
                 @media screen and (max-width: 992px) {
-                    min-height: 40vw;
+                    font-size: 2.4em !important;
                 }
 
-                .button_wrap {
-                    position: absolute;
-                    left: 50%;
-                    transform: translateX(-50%);
-
-                    &.below {
-                        bottom: 20px;
-                    }
-
-                    &.above {
-                        top: 20px;
-                    }
+                @media screen and (max-width: 768px) {
+                    font-size: 2em !important;
                 }
             }
 
-            .text {
+            p {
+                font-size: 1.2rem;
+                margin: 0;
 
-                h2 {
-                    font-size: 3em !important;
+                span {
+                    font-size: 1.2rem;
 
                     @media screen and (max-width: 992px) {
-                        font-size: 2.4em !important;
-                    }
-
-                    @media screen and (max-width: 768px) {
-                        font-size: 2em !important;
-                    }
-                }
-
-                p {
-                    font-size: 1.2rem !important;
-
-                    span {
-                        font-size: 1.2rem !important;
-
-                        @media screen and (max-width: 992px) {
-                            font-size: 1rem !important;
-                        }
-                    }
-                }
-
-                .button_wrap {
-
-                    &.below {
-                        margin-top: 20px;
-                    }
-
-                    &.above {
-                        margin-bottom: 20px;
+                        font-size: 1rem;
                     }
                 }
             }
 
-            section:last-child {
-                .text, .image {
-                    border-bottom-right-radius: 10px;
-                    -webkit-border-bottom-right-radius: 10px;
-                    -moz-border-radius-bottomright: 10px;
-                    border-bottom-left-radius: 10px;
-                    -webkit-border-bottom-left-radius: 10px;
-                    -moz-border-radius-bottomleft: 10px;
+            .button_wrap {
+
+                &.below {
+                    margin-top: 20px;
+                }
+
+                &.above {
+                    margin-bottom: 20px;
                 }
             }
         }
-    }
 
-    &.course {
-        min-height: 75vh;
-
-        .sections {
-            display: grid;
-            //grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            grid-template-columns: repeat(3, 1fr);
-            grid-gap: 1rem 2rem;
-            padding: 60px 0;
-
-            @media screen and (max-width: 1199px) {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            @media screen and (max-width: 768px) {
-                grid-template-columns: repeat(1, 1fr);
-            }
-
-            .column {
-                padding: 20px;
-
-                &.text {
-                    grid-column: span 3;
-
-                    @media screen and (max-width: 1199px) {
-                        grid-column: span 2;
-                    }
-
-                    @media screen and (max-width: 768px) {
-                        grid-column: span 1;
-                    }
-                }
+        section:last-child {
+            .text, .image {
+                border-bottom-right-radius: 10px;
+                -webkit-border-bottom-right-radius: 10px;
+                -moz-border-radius-bottomright: 10px;
+                border-bottom-left-radius: 10px;
+                -webkit-border-bottom-left-radius: 10px;
+                -moz-border-radius-bottomleft: 10px;
             }
         }
     }
-}
-
-.course_page {
-
-    header .logo {
-
-        h1 {
-            text-align: center;
-
-            img {
-                max-width: 300px;
-                margin: 0 auto;
-            }
-        }
-    }
-
-    main {
-        padding: 0;
-
-        #links_page.live_page {
-
-            .creator_wrap {
-                box-shadow: none;
-                -moz-box-shadow: none;
-                -webkit-box-shadow: none;
-            }
-        }
-    }
-
 }

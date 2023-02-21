@@ -41,51 +41,29 @@ const SectionComponent = ({page, section}) => {
     },[])
 
     return (
-        <section>
+        <section className={type} style={ type === "text" ? { background: bg_color } : bgStyle }>
             {type === "text" &&
-                <div className="text" style={{ background: bg_color }}>
-                    <div className="container">
-                        { (button && button_position === "above") ?
-                            <div className={`button_wrap ${button_position}`}>
-                                <a className={`button ${button_position}`}
-                                   style={{
-                                       background: button_color,
-                                       color: button_text_color
-                                   }}
-                                   href={button_link}
-                                >
-                                    {button_text}
-                                </a>
-                            </div>
-                            :
-                            ""
-                        }
-                        <div dangerouslySetInnerHTML={createMarkup(text)}>
-                        </div>
-                        { (button && button_position === "below") ?
-                            <div className={`button_wrap ${button_position}`}>
-                                <a className={`button ${button_position}`}
-                                   style={{
-                                       background: button_color,
-                                       color: button_text_color
-                                   }}
-                                   href={button_link}
-                                >
-                                    {button_text}
-                                </a>
-                            </div>
-                            :
-                            ""
-                        }
-                    </div>
-                </div>
-            }
-            {type === "image" &&
-                <div className="image"
-                     style={bgStyle}>
-                    {button ?
+                <div className="container">
+                    { (button && button_position === "above") ?
                         <div className={`button_wrap ${button_position}`}>
-                            <a className="button"
+                            <a className={`button ${button_position}`}
+                               style={{
+                                   background: button_color,
+                                   color: button_text_color
+                               }}
+                               href={button_link}
+                            >
+                                {button_text}
+                            </a>
+                        </div>
+                        :
+                        ""
+                    }
+                    <div dangerouslySetInnerHTML={createMarkup(text)}>
+                    </div>
+                    { (button && button_position === "below") ?
+                        <div className={`button_wrap ${button_position}`}>
+                            <a className={`button ${button_position}`}
                                style={{
                                    background: button_color,
                                    color: button_text_color
@@ -99,6 +77,22 @@ const SectionComponent = ({page, section}) => {
                         ""
                     }
                 </div>
+            }
+            {type === "image" &&
+                button ?
+                    <div className={`button_wrap ${button_position}`}>
+                        <a className="button"
+                           style={{
+                               background: button_color,
+                               color: button_text_color
+                           }}
+                           href={button_link}
+                        >
+                            {button_text}
+                        </a>
+                    </div>
+                    :
+                    ""
             }
         </section>
     );
