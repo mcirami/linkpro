@@ -161,7 +161,7 @@ function App() {
                             <a style={{ color: landingPageData && landingPageData["header_text_color"] }}
                                id="course_manager"
                                className="menu-item"
-                               href={`/${creator}/courses`}
+                               href={creator ? `/${creator}/courses` : '/courses'}
                                onMouseOver={() => handleMouseOver("courses")}
                                onMouseOut={handleMouseOut}>
                                 <span className="menu_icon" style={ landingPageData && { color: landingPageData["header_text_color"]}

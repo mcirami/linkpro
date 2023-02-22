@@ -134,6 +134,8 @@ Route::group(['middleware' => 'auth'], function() {
         });
     });
 
+    Route::get('/courses', [CourseController::class, 'showCoursesLpUser'])->name('all.courses.lpuser');
+
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
 });
 

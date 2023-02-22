@@ -52,19 +52,6 @@
         padding: 20px;
     }
 
-   /* .content_wrap {
-
-        h2 {
-            text-transform: uppercase;
-            border-bottom: 2px solid rgba(0,0,0,.4);
-            padding-bottom: 15px;
-
-            span {
-                font-style: oblique;
-            }
-        }
-    }*/
-
     .sections {
         display: grid;
         //grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -75,13 +62,13 @@
         //grid-auto-flow: dense;
         justify-content: center;
 
-        @media screen and (max-width: 1199px) {
+       /* @media screen and (max-width: 1199px) {
             grid-template-columns: repeat(2, 1fr);
         }
 
         @media screen and (max-width: 768px) {
             grid-template-columns: repeat(1, 1fr);
-        }
+        }*/
 
         .column {
             padding: 0;

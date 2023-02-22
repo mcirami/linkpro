@@ -138,18 +138,15 @@ class CourseController extends Controller
         return response()->json(['message' => "Section Deleted"]);
     }
 
-    public function showAllCourses(User $user) {
+    public function showAllCourses(User $user, CourseService $courseService) {
 
+        $authUserID = Auth::user()->id;
         $landingPageData = $user->LandingPages()->first();
         $creator = $user->username;
 
-        $purchasedCourses = Course::where('user_id', $user->id)->whereHas('purchases', function (Builder $query) {
-            $query->where('user_id', 'like', Auth::user()->id);
-        })->get();
+        $purchasedCourses = $courseService->getPurchasedCreatorCourses($user, $authUserID);
 
-        $unPurchasedCourses = Course::where('user_id', $user->id)->whereDoesntHave('purchases', function (Builder $query) {
-            $query->where('user_id', 'like', Auth::user()->id);
-        })->get();
+        $unPurchasedCourses = $courseService->getUnpurchasedCreatorCourses($user, $authUserID);
 
         Javascript::put([
             'landingPageData'       => $landingPageData,
@@ -161,6 +158,21 @@ class CourseController extends Controller
             'purchasedCourses'      => $purchasedCourses,
             'unPurchasedCourses'    => $unPurchasedCourses,
             'creator'               => $creator
+        ]);
+    }
+
+    public function showCoursesLpUser(CourseService $courseService) {
+        $userID = Auth::id();
+
+        $purchasedCourses = $courseService->getUserPurchasedCourses($userID);
+
+        $unPurchasedCourses = $courseService->getUserUnpurchasedCourses($userID);
+
+        Javascript::put([]);
+
+        return view('courses.showAll')->with([
+            'purchasedCourses'      => $purchasedCourses,
+            'unPurchasedCourses'    => $unPurchasedCourses,
         ]);
     }
 }
