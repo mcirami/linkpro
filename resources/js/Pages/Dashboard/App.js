@@ -46,6 +46,7 @@ import FolderHeading from './Components/Folder/FolderHeading';
 import InfoText from './Components/Page/InfoText';
 import {MessageAlertPopup} from './Components/Popups/MessageAlertPopup';
 import LinkForm from './Components/Link/Forms/LinkForm';
+import FormComponents from './Components/Link/Forms/FormComponents';
 
 const page = user.page;
 const userPages = user.user_pages;
@@ -388,7 +389,6 @@ function App() {
                                             <LinkForm
                                                 setShowLinkForm={setShowLinkForm}
                                                 folderID={editFolderID}
-                                                setEditFolderID={setEditFolderID}
                                                 editID={editID}
                                                 setEditID={setEditID}
                                                 setShowUpgradePopup={setShowUpgradePopup}

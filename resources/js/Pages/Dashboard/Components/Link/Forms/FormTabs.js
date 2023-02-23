@@ -1,4 +1,8 @@
 import React, {useEffect} from 'react';
+import IconList from '../IconList';
+import InputTypeRadio from './InputTypeRadio';
+import InputComponent from './InputComponent';
+import NewLinkForm from './NewLinkForm';
 
 const FormTabs = ({
                       radioValue,
@@ -93,6 +97,11 @@ const FormTabs = ({
                         Standard Icons
                 </label>
             </div>
+            {radioValue === "standard" &&
+                <NewLinkForm
+
+                />
+            }
             <div className={radioValue === "custom" ? "radio_wrap active" : "radio_wrap" }>
                 <label htmlFor="custom_radio">
                     <div className="radio_input_wrap">

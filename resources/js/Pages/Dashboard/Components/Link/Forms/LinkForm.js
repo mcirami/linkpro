@@ -45,7 +45,6 @@ import {isEmpty} from 'lodash';
 const LinkForm = ({
                       setShowLinkForm,
                       folderID,
-                      setEditFolderID,
                       editID,
                       setEditID,
                       setShowUpgradePopup,
@@ -837,20 +836,7 @@ const LinkForm = ({
 
     return (
         <>
-            <div className="my_row icon_breadcrumb" id="scrollTo">
-                <p>{editID ? "Editing" : "Adding" } Icon</p>
-                <FormBreadcrumbs
-                    setEditFolderID={setEditFolderID}
-                    setShowLinkForm={setShowLinkForm}
-                    folderID={folderID}
-                    iconSelected={iconSelected}
-                    editID={editID}
-                    setEditID={setEditID}
-                    setShowConfirmPopup={setShowConfirmPopup}
-                    setIntegrationType={setIntegrationType}
-                    setInputType={setInputType}
-                />
-            </div>
+
             <div className="edit_form link my_row">
                 <div className="tab_content_wrap my_row">
                     <div className="tabs">
