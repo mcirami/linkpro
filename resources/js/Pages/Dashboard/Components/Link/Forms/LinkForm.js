@@ -48,7 +48,6 @@ const LinkForm = ({
                       editID,
                       setEditID,
                       setShowUpgradePopup,
-                      setShowConfirmPopup,
                       setShowMessageAlertPopup,
                       setOptionText,
                       customIconArray,

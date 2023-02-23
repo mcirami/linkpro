@@ -386,13 +386,13 @@ function App() {
                                         }
 
                                         {(showLinkForm || editID) &&
-                                            <LinkForm
+
+                                            <FormComponents
                                                 setShowLinkForm={setShowLinkForm}
                                                 folderID={editFolderID}
                                                 editID={editID}
                                                 setEditID={setEditID}
                                                 setShowUpgradePopup={setShowUpgradePopup}
-                                                setShowConfirmPopup={setShowConfirmPopup}
                                                 setShowMessageAlertPopup={setShowMessageAlertPopup}
                                                 setOptionText={setOptionText}
                                                 customIconArray={customIconArray}
@@ -411,6 +411,31 @@ function App() {
                                                 shopifyStores={shopifyStores}
                                                 setShopifyStores={setShopifyStores}
                                             />
+
+                                            /*<LinkForm
+                                                setShowLinkForm={setShowLinkForm}
+                                                folderID={editFolderID}
+                                                editID={editID}
+                                                setEditID={setEditID}
+                                                setShowUpgradePopup={setShowUpgradePopup}
+                                                setShowMessageAlertPopup={setShowMessageAlertPopup}
+                                                setOptionText={setOptionText}
+                                                customIconArray={customIconArray}
+                                                setCustomIconArray={setCustomIconArray}
+                                                subStatus={subStatus}
+                                                radioValue={radioValue}
+                                                setRadioValue={setRadioValue}
+                                                redirectedType={redirectedType}
+                                                connectionError={connectionError}
+                                                showLoader={showLoader}
+                                                setShowLoader={setShowLoader}
+                                                inputType={inputType}
+                                                setInputType={setInputType}
+                                                integrationType={integrationType}
+                                                setIntegrationType={setIntegrationType}
+                                                shopifyStores={shopifyStores}
+                                                setShopifyStores={setShopifyStores}
+                                            />*/
                                         }
 
                                          { (!editID && !showLinkForm && !editFolderID) &&
@@ -425,17 +450,14 @@ function App() {
                                                             setRadioValue={setRadioValue}
                                                         />
                                                     </div>
-
-                                                    {!editFolderID &&
-                                                        <div className="add_more_link">
-                                                            <AddFolder
-                                                                subStatus={subStatus}
-                                                                setShowUpgradePopup={setShowUpgradePopup}
-                                                                setOptionText={setOptionText}
-                                                                setEditFolderID={setEditFolderID}
-                                                            />
-                                                        </div>
-                                                    }
+                                                    <div className="add_more_link">
+                                                        <AddFolder
+                                                            subStatus={subStatus}
+                                                            setShowUpgradePopup={setShowUpgradePopup}
+                                                            setOptionText={setOptionText}
+                                                            setEditFolderID={setEditFolderID}
+                                                        />
+                                                    </div>
                                                 </div>
                                             </>
                                         }
