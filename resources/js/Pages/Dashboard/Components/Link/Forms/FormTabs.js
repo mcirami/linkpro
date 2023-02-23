@@ -128,6 +128,16 @@ const FormTabs = ({
                     }
                 </div>
             }
+            <div className={radioValue === "affiliate" ? "radio_wrap active" : "radio_wrap" }>
+                <label htmlFor="affiliate_radio">
+                    <div className="radio_input_wrap">
+                        <input id="affiliate_radio" type="radio" value="affiliate" name="icon_type"
+                               checked={radioValue === "affiliate"}
+                               onChange={(e) => {handleOnChange(e) }}/>
+                    </div>
+                    Affiliate Offers
+                </label>
+            </div>
         </div>
     );
 };

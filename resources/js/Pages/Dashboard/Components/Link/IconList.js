@@ -169,7 +169,32 @@ const IconList = ({
                             </div>
                         )
                     })}
-                </div>
+                </div>,
+
+                "affiliate" :
+                    <div className="icons_wrap my_row">
+                        {iconArray.map((icon, index) => {
+
+                            return (
+                                <div key={index} className="icon_col">
+                                    <img
+                                        className="img-fluid icon_image"
+                                        src={icon.path}
+                                        onClick={(e) => {
+                                            selectIcon(e, icon.path)
+                                        }}
+                                        data-name={icon.name}
+                                        alt=""
+                                    />
+                                    <div className="hover_text icon_text">
+                                        <p>
+                                            {icon.name}
+                                        </p>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
             }[radioValue]}
         </>
 
