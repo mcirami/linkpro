@@ -6,6 +6,7 @@ use App\Models\Offer;
 use App\Services\IconService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class IconController extends Controller
 {
@@ -23,6 +24,20 @@ class IconController extends Controller
         return response()->json([
             'iconData' => $iconData,
             'authUser' => $userID
+        ]);
+    }
+
+    public function getStandardIcons() {
+
+        $standardIcons = [];
+        $iconNames = Storage::disk('s3')->allFiles("icons/");
+        foreach($iconNames as $icon) {
+            $path = Storage::disk('s3')->url($icon);
+            array_push($standardIcons, $path);
+        }
+
+        return response()->json([
+            'iconData' => $standardIcons,
         ]);
     }
 

@@ -3,7 +3,6 @@ import React, {
     useCallback,
     useContext,
     useEffect,
-    useMemo,
     useRef,
     useState,
 } from 'react';
@@ -85,7 +84,7 @@ const LinkForm = ({
     const previewCanvasRef = iconRef;
     const [crop, setCrop] = useState({ unit: '%', width: 30, aspect: 1 });
     const [customIcon, setCustomIcon] = useState(null);
-    let iconArray = getIconPaths(iconPaths);
+    //let iconArray = getIconPaths(iconPaths);
 
     const [lists, setLists] = useState([]);
     const [charactersLeft, setCharactersLeft] = useState();
@@ -120,8 +119,6 @@ const LinkForm = ({
             //setStoreID(currentLink.shopify_id)
         }
     },[])
-
-    const [searchInput, setSearchInput] = useState("");
 
     useEffect(() => {
         if(currentLink.name) {
@@ -172,19 +169,6 @@ const LinkForm = ({
             setShowMessageAlertPopup(true);
             setOptionText("Integrations are currently not allowed in a folder.");
         }
-    }
-
-    const handleChange = (e) => {
-        e.preventDefault();
-        setSearchInput(e.target.value);
-    }
-
-    if (searchInput.length > 0) {
-        iconArray = iconArray.filter((i) => {
-            const iconName = i.name.toLowerCase().replace(" ", "");
-            const userInput = searchInput.toLowerCase().replace(" ", "");
-            return iconName.match(userInput);
-        });
     }
 
     const selectCustomIcon = e => {
@@ -963,35 +947,27 @@ const LinkForm = ({
                                             <div className="icon_row">
                                                 <div className="icon_box">
 
-                                                    <div className="uploader">
-                                                        {(radioValue === "custom" ||
-                                                            radioValue ===
-                                                            "integration") ?
+                                                    {(radioValue === "custom" ||
+                                                        radioValue ===
+                                                        "integration") ?
 
-                                                            <>
-                                                                <label htmlFor="custom_icon_upload" className="custom text-uppercase button blue">
-                                                                    Upload Image
-                                                                </label>
-                                                                <input id="custom_icon_upload" type="file" className="custom" onChange={selectCustomIcon} accept="image/png, image/jpeg, image/jpg, image/gif"/>
-                                                                <div className="my_row info_text file_types text-center mb-2">
-                                                                    <p className="m-0 char_count w-100 ">Allowed File Types: <span>png, jpg, jpeg, gif</span>
-                                                                    </p>
-                                                                </div>
-                                                            </>
-                                                            :
-                                                            <>
-                                                                <input name="search" type="text" placeholder="Search Icons" onChange={handleChange} defaultValue={searchInput}/>
-                                                                <div className="my_row info_text file_types text-center mb-2 text-center">
-                                                                    <a href="mailto:help@link.pro" className="mx-auto m-0 char_count">Don't See Your Icon? Contact Us!</a>
-                                                                </div>
-                                                            </>
-                                                        }
-                                                    </div>
+                                                        <div className="uploader">
+                                                            <label htmlFor="custom_icon_upload" className="custom text-uppercase button blue">
+                                                                Upload Image
+                                                            </label>
+                                                            <input id="custom_icon_upload" type="file" className="custom" onChange={selectCustomIcon} accept="image/png, image/jpeg, image/jpg, image/gif"/>
+                                                            <div className="my_row info_text file_types text-center mb-2">
+                                                                <p className="m-0 char_count w-100 ">Allowed File Types: <span>png, jpg, jpeg, gif</span>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        :
+                                                       ""
+                                                    }
 
                                                     <IconList
                                                         currentLink={currentLink}
                                                         setCurrentLink={setCurrentLink}
-                                                        iconArray={iconArray}
                                                         radioValue={radioValue}
                                                         setCharactersLeft={setCharactersLeft}
                                                         customIconArray={customIconArray}
