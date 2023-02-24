@@ -1042,7 +1042,7 @@ const LinkForm = ({
                                         </div>
                                     </div>
                                 }
-                                {radioValue !== "integration" &&
+                                { (radioValue !== "integration" && radioValue !== "affiliate") &&
                                     <div className="row">
                                         <div className="col-12">
                                             <InputTypeRadio
@@ -1054,6 +1054,7 @@ const LinkForm = ({
                                         </div>
                                     </div>
                                 }
+
                                 <div className="row">
                                     <div className="col-12">
                                         <InputComponent
@@ -1077,6 +1078,7 @@ const LinkForm = ({
                                         />
                                     </div>
                                 </div>
+
                                 {!displayAllProducts &&
                                     <div className="row">
                                         <div className="col-12 button_row">

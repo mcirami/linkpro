@@ -55,6 +55,15 @@ function App() {
                             return(
                                 <React.Fragment key={section.id}>
 
+                                    {/*{(section[index - 1] === undefined ||
+                                    section[index - 1].type === "text") &&
+                                    section.type === "video" &&
+                                    <div className="grid_section">}*/}
+
+                                    {/*{ (section[index + 1] === undefined ||
+                                        section[index + 1].type === "text") &&
+                                    section.type === "video" && </div>}*/}
+
                                     <ColumnComponent
                                         section={section}
                                         row={row}

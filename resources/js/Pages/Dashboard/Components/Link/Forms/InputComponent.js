@@ -239,6 +239,16 @@ const InputComponent = ({
                                 }
                             </div>
                         )
+
+                    case "affiliate" :
+
+                        return (
+                            <div className="my_row external_link">
+                                <h3>Offer Landing Page:</h3>
+                                <a href={url.split("?")[0]} target="_blank">{url.split("?")[0]}</a>
+                            </div>
+                        )
+
                     default:
 
                         return (

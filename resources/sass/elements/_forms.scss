@@ -530,6 +530,19 @@ form .bottom_row a {
                         -moz-border-radius: 0px;
                     }
                 }
+
+                .external_link {
+                    h3 {
+                        font-size: 1.1rem;
+                        margin: 0;
+                    }
+
+                    a {
+                        padding: 10px 10px 10px 0;
+                        border-bottom: 1px solid $borderGray;
+                        display: block;
+                    }
+                }
             }
 
             &.new_page_form {

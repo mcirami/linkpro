@@ -83,6 +83,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/mailchimp/list', [MailchimpController::class, 'getLists'])->name('mailchimp.get.lists');
     Route::post('/mailchimp/remove-connection', [MailchimpController::class, 'removeConnection'])->name('mailchimp.remove.connection');
 
+    Route::get('/get-aff-icons', [IconController::class, 'getAffIcons']);
+
     Route::group(['prefix' => 'dashboard'], function() {
         Route::post('/links/new', [LinkController::class, 'store']);
         Route::post('/links/update/{link}', [LinkController::class, 'update']);

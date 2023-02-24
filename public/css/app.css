@@ -13889,6 +13889,15 @@ form .bottom_row a {
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
 }
+#links_page .edit_form.popup .link_form .external_link h3, #links_page .edit_form.popup .link_form .external_link .h3, #links_page .edit_form.link .link_form .external_link h3, #links_page .edit_form.link .link_form .external_link .h3 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+#links_page .edit_form.popup .link_form .external_link a, #links_page .edit_form.link .link_form .external_link a {
+  padding: 10px 10px 10px 0;
+  border-bottom: 1px solid #d2d2d2;
+  display: block;
+}
 #links_page .edit_form.popup.new_page_form, #links_page .edit_form.link.new_page_form {
   align-items: flex-start;
   -webkit-align-items: flex-start;
@@ -17382,6 +17391,7 @@ a.delete svg {
   grid-template-columns: repeat(auto-fit, minmax(29rem, 1fr));
   grid-gap: 2rem;
   padding: 40px 0;
+  grid-auto-flow: dense;
   justify-content: center;
   /* @media screen and (max-width: 1199px) {
        grid-template-columns: repeat(2, 1fr);
@@ -17440,6 +17450,17 @@ a.delete svg {
 }
 .courses_grid .sections .column.video.open .triangle {
   opacity: 1;
+}
+.courses_grid .sections .column.video .image_wrap {
+  display: flex;
+  max-height: 265px;
+  overflow: hidden;
+}
+.courses_grid .sections .column.video .image_wrap img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
 }
 .courses_grid .sections .my_row.folder {
   display: none;

@@ -1,5 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {icons} from '../../../../Services/IconObjects';
+import {getAffIcons} from '../../../../Services/IconRequests';
 
 const IconList = ({
                       currentLink,
@@ -14,9 +15,13 @@ const IconList = ({
 }) => {
 
     const [isDefaultIcon, setIsDefaultIcon] = useState(false);
+    const [iconList, setIconList] = useState(null);
+    const [authUser, setAuthUser] = useState(null);
+
     const selectIcon = useCallback((e, source) => {
         e.preventDefault();
         const el = e.target;
+        const iconType = el.dataset.icontype;
 
         if(!el.classList.contains('active')) {
             $('.icon_image').removeClass('active');
@@ -39,17 +44,24 @@ const IconList = ({
                 name = currentLink.name;
             }
 
-            let urlPrefix = "";
-            let icon = icons.find(icon => icon.name === name);
-            if (icon?.prefix) {
-                urlPrefix = icon.prefix;
+            let url = null;
+            if(iconType === "standard") {
+                let icon = icons.find(icon => icon.name === name);
+                if (icon?.prefix) {
+                    url = icon.prefix;
+                }
+            }
+
+            if(iconType === "affiliate") {
+                url = window.location.origin + "/" + el.dataset.creator + "/" + el.dataset.slug + "?a=" + authUser;
+                setInputType("affiliate")
             }
 
             setCurrentLink(prevState => ({
                 ...prevState,
                 name: name,
                 icon: source,
-                url: urlPrefix,
+                url: url,
                 type: "standard"
             }))
 
@@ -86,6 +98,25 @@ const IconList = ({
 
     },[radioValue])
 
+    useEffect(() => {
+
+        switch(radioValue) {
+            case "affiliate":
+                getAffIcons().then((data) => {
+                    if(data.success) {
+                        setIconList(data.iconData);
+                        setAuthUser(data.authUser);
+                    }
+                })
+                break;
+            case "custom":
+            case "standard":
+            case "integration":
+            default:
+        }
+
+    },[radioValue])
+
     return (
 
         <>
@@ -99,10 +130,13 @@ const IconList = ({
 
                             return (
                                 <div key={index} className="icon_col">
-                                    <img alt="" className="img-fluid icon_image" src={newPath} onClick={(e) => {
-                                        e.preventDefault();
-                                        selectIcon(e, newPath)
-                                    }}/>
+                                    <img alt=""
+                                         className="img-fluid icon_image"
+                                         data-icontype={radioValue}
+                                         src={newPath}
+                                         onClick={(e) => {
+                                             selectIcon(e, newPath)
+                                         }}/>
                                 </div>
                             )
 
@@ -119,6 +153,7 @@ const IconList = ({
                              className={`
                              ${isDefaultIcon ? "active img-fluid icon_image" : "img-fluid icon_image"}`}
                              src={inputType === "mailchimp" ? "https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png" : "https://lp-production-images.s3.us-east-2.amazonaws.com/icons/Shopify.png"}
+                             data-icontype="default"
                              onClick={(e) => {
                                 selectIcon(e, e.target.src)
                             }}/>
@@ -135,6 +170,7 @@ const IconList = ({
                                         <img alt=""
                                              className="img-fluid icon_image"
                                              src={newPath}
+                                             data-icontype={radioValue}
                                              onClick={(e) => {
                                                  selectIcon(e, newPath)
                                             }}/>
@@ -159,6 +195,7 @@ const IconList = ({
                                         selectIcon(e, icon.path)
                                     }}
                                     data-name={icon.name}
+                                    data-icontype={radioValue}
                                     alt=""
                                 />
                                 <div className="hover_text icon_text">
@@ -173,7 +210,7 @@ const IconList = ({
 
                 "affiliate" :
                     <div className="icons_wrap my_row">
-                        {iconArray.map((icon, index) => {
+                        {iconList?.map((icon, index) => {
 
                             return (
                                 <div key={index} className="icon_col">
@@ -184,6 +221,9 @@ const IconList = ({
                                             selectIcon(e, icon.path)
                                         }}
                                         data-name={icon.name}
+                                        data-creator={icon.creator}
+                                        data-slug={icon.slug}
+                                        data-icontype={radioValue}
                                         alt=""
                                     />
                                     <div className="hover_text icon_text">
