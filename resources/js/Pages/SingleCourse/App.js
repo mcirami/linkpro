@@ -13,8 +13,11 @@ function App() {
     const [row, setRow] = useState(null);
     const [indexValue, setIndexValue] = useState(null);
     const [videoCount, setVideoCount] = useState(0);
+    let dataRow = 0;
 
     let currentVideoCount = 0;
+    let textCount = 0;
+    let column = 0;
 
     useEffect(() => {
         const videos = (sections.filter((section) => section.type === "video"));
@@ -34,11 +37,36 @@ function App() {
         return "";
     }
 
+    const resetTextCount = () => {
+        textCount = 0;
+        return "";
+    }
+
+    const addToDataRow = (index) => {
+        dataRow = Math.ceil((index + 1) / 3);
+        return "";
+    }
+
+    const resetColumn = () => {
+        column = 0;
+        return "";
+    }
+
     return (
         <div className="container">
             <div className="creator_wrap my_row courses_grid">
                 <section className="header">
                     <h2 className="title" style={{ color: intro_text_color }}>{title}</h2>
+                    {indexValue &&
+                        <VideoComponent
+                            /*section={section}*/
+                            indexValue={indexValue}
+                            sections={sections}
+                            /* dataRow={dataRow}
+                             row={row}
+                             index={index}*/
+                        />
+                    }
                     <div className="intro_text my_row" style={{background: intro_background_color}}>
                         <div dangerouslySetInnerHTML={createMarkup(intro_text)}>
                         </div>
@@ -48,10 +76,11 @@ function App() {
                     <div className="sections">
                         {sections.map((section, index) => {
 
-                            let dataRow = Math.ceil((index + 1) / 3);
+                            /*let dataRow = Math.ceil((index + 1) / 3);
 
-                            {section.type === "video" && ++currentVideoCount}
-
+                            { (section.type === "video" && column === 3) && resetColumn()}
+                            { (section.type === "video" && column !== 3) && ++column}
+                            { section.type === "text" && resetColumn()}*/
                             return(
                                 <React.Fragment key={section.id}>
 
@@ -64,14 +93,13 @@ function App() {
                                         section[index + 1].type === "text") &&
                                     section.type === "video" && </div>}*/}
 
-                                    <ColumnComponent
+                                     <ColumnComponent
                                         section={section}
-                                        row={row}
-                                        dataRow={dataRow}
-                                        setRow={setRow}
+                                        sections={sections}
                                         indexValue={indexValue}
                                         setIndexValue={setIndexValue}
                                         index={index}
+                                        column={column}
                                     />
 
                                     {/*{
