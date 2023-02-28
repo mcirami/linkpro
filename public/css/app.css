@@ -14232,9 +14232,29 @@ form .bottom_row a {
   box-shadow: 0px 0px 35px 5px rgba(170, 170, 170, 0.18);
   border: none;
 }
+.form_page.checkout.course_purchase .card h4, .form_page.checkout.course_purchase .card .h4 {
+  color: #000;
+  margin-bottom: 15px;
+}
 .form_page.checkout.course_purchase .card .button {
   width: 150px;
   float: right;
+}
+.form_page.checkout.course_purchase .column_wrap {
+  min-height: 300px;
+}
+.form_page.checkout.course_purchase .column_wrap section {
+  padding: 20px;
+}
+.form_page.checkout.course_purchase .column_wrap section:first-child {
+  border-right: 1px solid #d2d2d2;
+}
+.form_page.checkout.course_purchase .invalid-feedback {
+  color: #f24d1d;
+  font-size: 12px;
+}
+.form_page.checkout.course_purchase .invalid-feedback.active {
+  display: block;
 }
 
 #create_page h3, #create_page .h3 {

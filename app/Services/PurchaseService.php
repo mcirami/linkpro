@@ -12,7 +12,22 @@ class PurchaseService {
 
     use SubscriptionTrait;
 
-    public function purchase($offer, $request, $gateway) {
+    private $gateway;
+
+    /**
+     * @param $gateway
+     */
+    public function __construct() {
+        $this->gateway = $this->createGateway();
+
+        return $this->gateway;
+    }
+
+    public function getToken() {
+        return $this->gateway->ClientToken()->generate();
+    }
+
+    public function purchase($offer, $request) {
 
         $nonce = $request->payment_method_nonce;
 
@@ -20,14 +35,14 @@ class PurchaseService {
 
         $email = $user->email;
 
-        $customer = $gateway->customer()->create( [
+        $customer = $this->gateway->customer()->create( [
             'email'              => $email,
             'paymentMethodNonce' => $nonce
         ] );
 
         if ( $customer->success ) {
 
-            $result = $gateway->transaction()->sale([
+            $result = $this->gateway->transaction()->sale([
                 'amount' => $offer->price,
                 'paymentMethodToken' => $customer->customer->paymentMethods[0]->token,
                 'options' => [

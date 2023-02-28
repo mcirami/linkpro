@@ -3,18 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Referral;
 use App\Models\User;
 //use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Contracts\Foundation\Application;
+use App\Notifications\WelcomeCourseNotification;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class CourseRegisterController extends Controller
@@ -58,17 +53,39 @@ class CourseRegisterController extends Controller
     public function customRegistration(Request $request)
     {
 
-        $request->validate([
+        $validator = Validator::make($request->all(),[
             'username' => ['required', 'string', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        ],
+            [
+                'username.required'     => 'Please provide your username',
+                'username.unique'       => 'Sorry, username is already taken',
+                'email.required'        => 'Please provide a valid Email address',
+                'email.unique'          => 'Sorry, Email is already registered',
+                'password.required'     => 'Password is required',
+                'password.min'          => 'Password Length Should Be More Than 8 Characters'
+            ]
+        );
+
+        if($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ]);
+        }
 
         $data = $request->all();
         $user = $this->create($data);
         $user->assignRole('course.user');
 
         Auth::login($user);
+
+        $userData = [
+            'username' => $user->username,
+            'creator' => $request->get('creator')
+        ];
+
+        $this->user->notify(new WelcomeCourseNotification($userData));
 
         return response()->json(['success' => true, 'user' => $user->id]);
     }
@@ -86,7 +103,6 @@ class CourseRegisterController extends Controller
             'username' => $data['username'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'role_id' => 3
         ]);
 
         /*if($cookie) {

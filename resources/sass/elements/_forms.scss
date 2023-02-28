@@ -929,9 +929,36 @@ form .bottom_row a {
     &.course_purchase {
 
         .card {
+
+            h4 {
+                color: $black;
+                margin-bottom: 15px;
+            }
+
             .button {
                 width: 150px;
                 float: right;
+            }
+        }
+
+        .column_wrap {
+            min-height: 300px;
+
+            section {
+                padding: 20px;
+            }
+
+            section:first-child {
+                border-right: 1px solid $borderGray;
+            }
+        }
+
+        .invalid-feedback {
+            color: $red;
+            font-size: 12px;
+
+            &.active {
+                display: block;
             }
         }
     }
