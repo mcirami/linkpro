@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class CourseRegisterController extends Controller
@@ -80,12 +81,21 @@ class CourseRegisterController extends Controller
 
         Auth::login($user);
 
+        $permissions = $user->getPermissionsViaRoles()->pluck('name');
+        Session::put('permissions', $permissions);
+
+        $creator = $request->input('course_creator');
+        $courseTitle = $request->input('course_title');
+        $landingPageData = User::where('username', $creator)->first()->LandingPages()->first();
+
         $userData = [
             'username' => $user->username,
-            'creator' => $request->get('creator')
+            'creator' => $creator,
+            'landingPageData' => $landingPageData,
+            'courseTitle' => $courseTitle
         ];
 
-        $this->user->notify(new WelcomeCourseNotification($userData));
+        $user->notify(new WelcomeCourseNotification($userData));
 
         return response()->json(['success' => true, 'user' => $user->id]);
     }

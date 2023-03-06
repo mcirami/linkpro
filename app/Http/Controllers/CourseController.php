@@ -11,18 +11,24 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
+use App\Http\Traits\PermissionTrait;
 
 class CourseController extends Controller
 {
+    use PermissionTrait;
+
     public function show(User $user, Course $course) {
 
         $offer = $course->Offer()->first();
-        $landingPageData = $user->LandingPages()->first();
-        $sections = $course->CourseSections()->get();
 
         if (!$offer->published) {
             return abort(404);
         }
+
+        $this->checkPermissions();
+
+        $landingPageData = $user->LandingPages()->first();
+        $sections = $course->CourseSections()->get();
 
         Javascript::put([
             'course' => $course,
@@ -140,6 +146,8 @@ class CourseController extends Controller
 
     public function showAllCourses(User $user, CourseService $courseService) {
 
+        $this->checkPermissions();
+
         $authUserID = Auth::user()->id;
         $landingPageData = $user->LandingPages()->first();
         $creator = $user->username;
@@ -162,6 +170,9 @@ class CourseController extends Controller
     }
 
     public function showCoursesLpUser(CourseService $courseService) {
+
+        $this->checkPermissions();
+
         $userID = Auth::id();
 
         $purchasedCourses = $courseService->getUserPurchasedCourses($userID);

@@ -1,17 +1,18 @@
-@component('mail::message', ['id' => $data['userID']])
-# Welcome To LinkPro!
+@component('mail::message-course', ['landingPageData' => $data['landingPageData'], 'loginLink' => config('app.url') . '/' . $data['creator'] . '/course/login'])
+# Welcome!
 
-<p class="sub_title">You're on your way to becoming a social icon!</p>
+<p class="sub_title">Thanks for registering for {{ $data['courseTitle'] }} course!</p>
 
 <p>Keep your account details handy:</p>
 <p class="username">Username: <span>{{ $data['username'] }}</span></p>
 <br>
-Link: <a href="{{ config('app.url') }}/{{ $data['link'] }}">{{ config('app.url') }}/{{ $data['link'] }}</a>
 
-@component('mail::button', ['url' => config('app.url') . "/login" ])
-    Login Now
+@component('mail::button-course', ['url' => config('app.url') . '/' . $data['creator'] . '/course/login',
+'backgroundColor' =>  $data['landingPageData']['button_color'],
+'buttonTextColor' => $data['landingPageData']['button_text_color'] ])
+Login Now
 @endcomponent
 
 <p class="sign_off">To Your Success!</p>
-<p class="signature">The LinkPro Team</p
+<p class="signature">{{ $data['creator'] }}</p>
 @endcomponent

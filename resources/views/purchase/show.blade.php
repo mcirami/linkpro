@@ -28,10 +28,12 @@
                         <input id="form_discount_code" type="hidden" name="discountCode">
                         <input type="hidden" id="bypass" value=null>
                         <input id="user" type="hidden" name="user">
-                        <input type="hidden" id="course_creator" name="course_creator" value={{$creator}}>
+                        <input type="hidden" id="course_creator" name="course_creator" value="{{$creator}}">
+                        <input type="hidden" id="course_title" name="course_title" value="{{$courseTitle}}">
+                        <input type="hidden" id="user_guest" name="user_guest" value="@guest true @else false @endguest">
                         <div class="column_wrap row">
                             @guest
-                                <section class="col-6">
+                                <section id="account_register" class="col-6">
                                     <h4>Register for an account</h4>
                                     <div class="form-group row">
                                         <div class="col-12">

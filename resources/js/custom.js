@@ -468,13 +468,15 @@ jQuery(document).ready(function($) {
         const password = document.querySelector('#password').value;
         const passwordConfirm = document.querySelector('#password-confirm').value;
         const creator = document.querySelector('#course_creator').value;
+        const courseTitle = document.querySelector('#course_title').value;
 
         const packets = {
             username: username,
             email: email,
             password: password,
             password_confirmation: passwordConfirm,
-            creator: creator
+            course_creator: creator,
+            course_title: courseTitle
         }
 
         //let data = {};
@@ -516,46 +518,7 @@ jQuery(document).ready(function($) {
 
     }
 
-    /*document.querySelector('#course_register')?.addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const username = document.querySelector('#username').value;
-        const email = document.querySelector('#email').value;
-        const password = document.querySelector('#password').value;
-        const passwordConfirm = document.querySelector('#password-confirm').value;
-
-        const packets = {
-            username: username,
-            email: email,
-            password: password,
-            password_confirmation: passwordConfirm
-        }
-
-        axios.post("/course-register", packets)
-        .then(
-            (response) => {
-
-                const success = JSON.stringify(response.data.success);
-                const user = JSON.stringify(response.data.user)
-
-                if(success) {
-                    this.classList.add('offscreen');
-                    document.querySelector('#payment-form').classList.add('active');
-                    document.querySelector('#user').value = user;
-                }
-
-                console.log("response data: ", JSON.stringify(response.data))
-            }
-        )
-        .catch((error) => {
-            console.error("ERROR:: ", error);
-
-        });
-
-    });*/
-
     const braintreeDropin = document.querySelector('#bt-dropin');
-
     if (braintreeDropin) {
         let spinner = document.querySelector('#loading_spinner');
         var form = document.querySelector('#payment-form');
@@ -604,55 +567,73 @@ jQuery(document).ready(function($) {
             form.addEventListener('submit', function(event) {
                 event.preventDefault();
 
-                registerUser().then((response) => {
+                const userGuest = document.querySelector('#user_guest').value.trim();
 
-                    if (response.success) {
-                        spinner.classList.add('active');
+                if (userGuest) {
 
-                        const code = document.querySelector(
-                            '#form_discount_code').value;
+                    registerUser().then((response) => {
 
-                        if (code.toLowerCase() === "freepremier" ||
-                            code.toLowerCase() === "freepro") {
-                            form.submit();
+                        if (response.success) {
+
+                            purchaseCourse(form, instance, spinner);
+
                         } else {
-                            instance.requestPaymentMethod(
-                                function(err, payload) {
-                                    if (err) {
-                                        console.log(
-                                            'Request Payment Method Error',
-                                            err);
-                                        return;
-                                    }
-                                    // Add the nonce to the form and submit
-                                    document.querySelector(
-                                        '#nonce').value = payload.nonce;
-                                    form.submit();
-                                });
-                        }
-                    } else {
 
-                        if (response.errors.username) {
-                            const usernameError = document.querySelector('#username_error');
-                            usernameError.classList.add('active');
-                            usernameError.innerHTML = response.errors.username[0]
-                        }
+                            if (response.errors.username) {
+                                const usernameError = document.querySelector(
+                                    '#username_error');
+                                usernameError.classList.add('active');
+                                usernameError.innerHTML = response.errors.username[0]
+                            }
 
-                        if (response.errors.email) {
-                            const emailError = document.querySelector('#email_error');
-                            emailError.classList.add('active');
-                            emailError.innerHTML = response.errors.email[0];
-                        }
+                            if (response.errors.email) {
+                                const emailError = document.querySelector(
+                                    '#email_error');
+                                emailError.classList.add('active');
+                                emailError.innerHTML = response.errors.email[0];
+                            }
 
-                        if (response.errors.password) {
-                            const passwordError =  document.querySelector('#password_error');
-                            passwordError.classList.add('active');
-                            passwordError.innerHTML = response.errors.password[0];
+                            if (response.errors.password) {
+                                const passwordError = document.querySelector(
+                                    '#password_error');
+                                passwordError.classList.add('active');
+                                passwordError.innerHTML = response.errors.password[0];
+                            }
                         }
-                    }
-                });
+                    });
+                } else {
+                    purchaseCourse(form, instance, spinner);
+                }
+
             });
         });
+
+        function purchaseCourse(form, instance, spinner) {
+            spinner.classList.add('active');
+            const code = document.querySelector(
+                '#form_discount_code').value;
+
+            if (code.toLowerCase() === "freepremier" ||
+                code.toLowerCase() === "freepro") {
+                form.submit();
+            } else {
+                instance.requestPaymentMethod(
+                    function(err, payload) {
+                        if (err) {
+                            console.log(
+                                'Request Payment Method Error',
+                                err);
+                            document.querySelector(
+                                '#account_register').remove();
+                            return;
+                        }
+                        // Add the nonce to the form and submit
+                        document.querySelector(
+                            '#nonce').value = payload.nonce;
+                        form.submit();
+                    });
+            }
+        }
     }
 
 });
