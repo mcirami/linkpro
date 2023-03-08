@@ -8,9 +8,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use App\Http\Traits\PermissionTrait;
 
 class CourseUser
 {
+
+    use PermissionTrait;
+
     /**
      * Handle an incoming request.
      *
@@ -20,15 +24,17 @@ class CourseUser
      */
     public function handle(Request $request, Closure $next)
     {
+        $username = $request->route('user')->username;
         if (!Auth::check()) {
             session()->put('url.intended', $request->url());
-            $username = $request->route('user')->username;
             return redirect('/' . $username . '/course/login');
         }
 
         $user = Auth::user();
+        $this->checkPermissions();
 
         if ($user->hasAnyRole(['admin', 'course.user'])) {
+            $this->setCreatorSession($username);
             return $next($request);
         }
 

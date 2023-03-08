@@ -25,7 +25,6 @@ class CourseController extends Controller
             return abort(404);
         }
 
-        $this->checkPermissions();
         $hasCourseAccess = $this->checkCoursePermission($course);
 
         if ($hasCourseAccess) {
@@ -153,8 +152,8 @@ class CourseController extends Controller
 
         $creator = $user->username;
 
-        $this->checkPermissions();
-        $this->setCreatorSession($creator);
+        //$this->checkPermissions();
+        //$this->setCreatorSession($creator);
 
         $authUserID = Auth::user()->id;
         $landingPageData = $user->LandingPages()->first();
@@ -179,7 +178,7 @@ class CourseController extends Controller
 
     public function showCoursesLpUser(CourseService $courseService) {
 
-        $this->checkPermissions();
+        //$this->checkPermissions();
 
         $userID = Auth::id();
 

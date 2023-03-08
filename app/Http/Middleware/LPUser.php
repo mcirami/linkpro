@@ -5,9 +5,12 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Traits\PermissionTrait;
 
 class LPUser
 {
+    use PermissionTrait;
+
     /**
      * Handle an incoming request.
      *
@@ -22,6 +25,7 @@ class LPUser
         }
 
         $user = Auth::user();
+        $this->checkPermissions();
 
         if ($user->hasAnyRole(['admin', 'lp.user'])) {
             return $next($request);

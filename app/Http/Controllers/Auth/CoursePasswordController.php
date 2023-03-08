@@ -13,11 +13,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Traits\PermissionTrait;
 
 class CoursePasswordController extends Controller
 {
-    use PermissionTrait;
 
     public function showResetPassword(User $user) {
         $landingPageData = $user->LandingPages()->first();
@@ -118,7 +116,6 @@ class CoursePasswordController extends Controller
 
         //login the user immediately they change password successfully
         Auth::login($user);
-        $this->checkPermissions();
 
         //Delete the token
         DB::table('password_resets')->where('email', $user->email)->delete();
