@@ -43,7 +43,7 @@ class UpdateUserRoles extends Command
         $users = User::all();
 
         foreach ($users as $user) {
-            if ($user->email == "mcirami@gmail.com") {
+            if ($user->email == "mcirami@gmail.com" || $user->email == "jefftochtrop@hotmail.com") {
                 $user->assignRole(['admin','lp.user', 'course.user']);
             } elseif ($user->role_id == 3) {
                 $user->assignRole('course.user');
