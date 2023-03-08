@@ -16,4 +16,24 @@ trait PermissionTrait {
         }
 
     }
+
+    public function checkCoursePermission($course) {
+
+        $user = Auth::user();
+        $coursePurchased = $user->Purchases()->where('course_id', $course->id)->first();
+        if ($coursePurchased) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public function setCreatorSession($creator) {
+
+        if (!Session::has('creator')) {
+            Session::put('creator', $creator);
+        }
+
+    }
 }

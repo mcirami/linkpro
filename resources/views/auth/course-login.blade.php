@@ -103,7 +103,7 @@
                         @if (Route::has('password.request'))
                             <div class="form-group mb-0">
                                 <div class="col-12 text-center">
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
+                                    <a class="btn btn-link" href="{{ route('show.reset.password', ['user' => $username]) }}">
                                         {{ __('Need your password reset?') }}
                                     </a>
                                 </div>

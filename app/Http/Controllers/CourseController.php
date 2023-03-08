@@ -26,18 +26,23 @@ class CourseController extends Controller
         }
 
         $this->checkPermissions();
+        $hasCourseAccess = $this->checkCoursePermission($course);
 
-        $landingPageData = $user->LandingPages()->first();
-        $sections = $course->CourseSections()->get();
+        if ($hasCourseAccess) {
+            $landingPageData = $user->LandingPages()->first();
+            $sections        = $course->CourseSections()->get();
 
-        Javascript::put([
-            'course' => $course,
-            'sections' => $sections,
-            'landingPageData'       => $landingPageData,
-            'creator'               => $user->username
-        ]);
+            Javascript::put( [
+                'course'          => $course,
+                'sections'        => $sections,
+                'landingPageData' => $landingPageData,
+                'creator'         => $user->username
+            ] );
 
-        return view('courses.show')->with(['landingPageData' => $landingPageData]);
+            return view( 'courses.show' )->with( [ 'landingPageData' => $landingPageData ] );
+        } else {
+            return redirect('/' . $user->username . "/" . $course->slug . "/checkout");
+        }
     }
 
     public function showCourseManager() {
@@ -146,11 +151,14 @@ class CourseController extends Controller
 
     public function showAllCourses(User $user, CourseService $courseService) {
 
+        $creator = $user->username;
+
         $this->checkPermissions();
+        $this->setCreatorSession($creator);
 
         $authUserID = Auth::user()->id;
         $landingPageData = $user->LandingPages()->first();
-        $creator = $user->username;
+
 
         $purchasedCourses = $courseService->getPurchasedCreatorCourses($user, $authUserID);
 

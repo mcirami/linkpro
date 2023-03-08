@@ -22,6 +22,7 @@ use App\Http\Controllers\OfferController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\CourseRegisterController;
+use App\Http\Controllers\Auth\CoursePasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -160,6 +161,10 @@ Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated', 'lp.user']], funct
 });
 
 Route::get('/{user:username}/course/login', [LoginController::class, 'courseLogin'])->name('course.login');
+Route::get('/{user:username}/course/reset-password', [CoursePasswordController::class, 'showResetPassword'])->name('show.reset.password');
+Route::post('/send-reset-course-password', [CoursePasswordController::class, 'sendResetCoursePassword'])->name('send.reset.course.password');
+Route::get('/{user:username}/password/reset/', [CoursePasswordController::class, 'showPasswordUpdate'])->name('show.password.update');
+Route::post('/reset-course-password', [CoursePasswordController::class, 'resetCoursePassword'])->name('reset.course.password');
 
 Route::group(['middleware' => ['course.user']], function() {
     Route::get('/{user:username}/course/{course:slug}', [CourseController::class, 'show'])->name('live.course.page');
@@ -192,6 +197,7 @@ Route::get('/email-subscription/{user}', [UserController::class, 'emailSubscript
 Route::post('/link-click/{link}', [TrackingController::class, 'storeLinkVisit']);
 Route::post('/folder-click/{folder}', [TrackingController::class, 'storeFolderClick']);
 Route::get('/setup', [UtilityController::class, 'showSetupPage'])->name('setup.page');
-Route::get('/{page}', [PageController::class, 'show']);
+Route::get('/{page}', [PageController::class, 'show'])->name('show.live.page');
 
 Route::get('/{user:username}/{landing_page:slug}', [LandingPageController::class, 'show'])->name('live.landing.page');
+
