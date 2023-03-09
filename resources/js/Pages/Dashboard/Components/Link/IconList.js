@@ -13,7 +13,8 @@ const IconList = ({
                       customIconArray,
                       inputType,
                       setInputType,
-                      editID
+                      editID,
+                      setIconSelected = null
 }) => {
 
     const [isDefaultIcon, setIsDefaultIcon] = useState(false);
@@ -30,13 +31,16 @@ const IconList = ({
         if(!el.classList.contains('active')) {
             $('.icon_image').removeClass('active');
             el.classList.add('active');
+            //setIconSelected(true)
 
             let name;
             if(el.dataset.name) {
                 name = el.dataset.name;
                 setCharactersLeft(11 - name.length);
 
-                if((name.toLowerCase().includes("mail") && !name.toLowerCase().includes("mailchimp") )|| name.toLowerCase().includes("yahoo") || name.toLowerCase().includes("outlook") ) {
+                if( (name.toLowerCase().includes("mail") && !name.toLowerCase().includes("mailchimp") )
+                    || name.toLowerCase().includes("yahoo")
+                    || name.toLowerCase().includes("outlook") ) {
                     setInputType("email");
                 } else if (name.toLowerCase() === "phone" || name.toLowerCase() === "facetime") {
                     setInputType("phone");
@@ -88,8 +92,6 @@ const IconList = ({
             })
         )
     }
-
-    console.log(radioValue);
 
     useEffect(() => {
 
@@ -157,7 +159,7 @@ const IconList = ({
         <>
             {radioValue === "standard" &&
                 <div className="uploader">
-                    <input name="search" type="text" placeholder="Search Icons" onChange={handleChange} defaultValue={searchInput}/>
+                    <input name="search" type="text" placeholder="Search Icons" onChange={(e) => handleChange(e)} defauvalueltValue={searchInput}/>
                     <div className="my_row info_text file_types text-center mb-2 text-center">
                         <a href="mailto:help@link.pro" className="mx-auto m-0 char_count">Don't See Your Icon? Contact Us!</a>
                     </div>

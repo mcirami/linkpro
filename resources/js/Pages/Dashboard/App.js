@@ -42,10 +42,13 @@ import {
 import PageHeaderLayout from './Components/Page/PageHeaderLayout';
 import LivePageButton from './Components/LivePageButton';
 import EventBus from '../../Utils/Bus';
-import FolderHeading from './Components/Folder/FolderHeading';
 import InfoText from './Components/Page/InfoText';
 import {MessageAlertPopup} from './Components/Popups/MessageAlertPopup';
-import LinkForm from './Components/Link/Forms/LinkForm';
+import StandardForm from './Components/Link/Forms/StandardForm';
+import FormBreadcrumbs from './Components/Link/Forms/FormBreadcrumbs';
+import DeleteIcon from './Components/Link/Forms/DeleteIcon';
+import FolderNameInput from './Components/Folder/FolderNameInput';
+import AccordionLink from './Components/Link/Forms/AccordionLink';
 
 const page = user.page;
 const userPages = user.user_pages;
@@ -370,21 +373,135 @@ function App() {
                                             <LivePageButton pageName={pageSettings['name']}/>
                                         </div>
 
-                                        { (editFolderID && !showLinkForm && !editID) &&
+                                        {editID || showLinkForm || editFolderID ?
+                                            <div className="my_row icon_breadcrumb" id="scrollTo">
+                                                <p>
+                                                    {editID || editFolderID ? "Editing " : "" }
+                                                    {showLinkForm ? "Adding " : "" }
+                                                    {editFolderID && !editID ? "Folder" : "Icon"}
+                                                </p>
+                                                <div className="breadcrumb_links">
+                                                    <FormBreadcrumbs
+                                                        setEditFolderID={setEditFolderID}
+                                                        setShowLinkForm={setShowLinkForm}
+                                                        folderID={editFolderID}
+                                                        /*iconSelected={iconSelected}*/
+                                                        editID={editID}
+                                                        setEditID={setEditID}
+                                                        setShowConfirmPopup={setShowConfirmPopup}
+                                                        setIntegrationType={setIntegrationType}
+                                                        setInputType={setInputType}
+                                                    />
+                                                    { editID || editFolderID &&
+                                                        <div className="delete_icon">
+                                                            <DeleteIcon
+                                                                setShowConfirmFolderDelete={setShowConfirmFolderDelete}
+                                                                setShowConfirmPopup={setShowConfirmPopup}
+                                                                editFolderID={editFolderID}
+                                                            />
+                                                        </div>
+                                                    }
+                                                </div>
+                                                {editFolderID && !editID ?
+                                                    <div className="folder_name my_row">
+                                                        <FolderNameInput
+                                                            folderID={editFolderID}
+                                                        />
+                                                    </div>
+                                                    :
+                                                    ""
+                                                }
+                                            </div>
+                                            :
+                                            ""
+                                        }
 
-                                            <FolderHeading
-                                                subStatus={subStatus}
-                                                setShowUpgradePopup={setShowUpgradePopup}
-                                                setOptionText={setOptionText}
-                                                setEditFolderID={setEditFolderID}
-                                                setShowLinkForm={setShowLinkForm}
-                                                setShowConfirmFolderDelete={setShowConfirmFolderDelete}
-                                                editFolderID={editFolderID}
-                                                setRadioValue={setRadioValue}
-                                            />
+
+                                        {!editID && !editFolderID && !showLinkForm ?
+                                            <div className="my_row link_row">
+                                                <div className="add_more_link">
+                                                    <AddLink
+                                                        setShowLinkForm={setShowLinkForm}
+                                                        subStatus={subStatus}
+                                                        setShowUpgradePopup={setShowUpgradePopup}
+                                                        setOptionText={setOptionText}
+                                                    />
+                                                </div>
+                                                <div className="add_more_link">
+                                                    <AddFolder
+                                                        subStatus={subStatus}
+                                                        setShowUpgradePopup={setShowUpgradePopup}
+                                                        setOptionText={setOptionText}
+                                                        setEditFolderID={setEditFolderID}
+                                                    />
+                                                </div>
+                                            </div>
+                                            :
+                                            editFolderID && !editID && !showLinkForm ?
+                                                <div className="my_row link_row">
+                                                    <div className="add_more_link">
+                                                        <AddLink
+                                                            setShowLinkForm={setShowLinkForm}
+                                                            subStatus={subStatus}
+                                                            setShowUpgradePopup={setShowUpgradePopup}
+                                                            setOptionText={setOptionText}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                :
+                                                ""
                                         }
 
                                         {(showLinkForm || editID) &&
+                                            <div className="edit_form link my_row">
+                                                <div className={"my_row tab_content_wrap"}>
+                                                    <div className={radioValue ===
+                                                    "standard" ?
+                                                        "radio_wrap active" :
+                                                        "radio_wrap"}>
+                                                        <AccordionLink
+                                                            setRadioValue={setRadioValue}
+                                                            linkText="Standard Icon"
+                                                            type="standard"
+                                                        />
+                                                    </div>
+                                                    {radioValue === "standard" &&
+                                                        <div className={`inner_wrap ${radioValue ===
+                                                        "standard" && "open"}`}>
+
+                                                            <StandardForm
+                                                                radioValue={radioValue}
+                                                                inputType={inputType}
+                                                                setInputType={setInputType}
+                                                                editID={editID}
+                                                                subStatus={subStatus}
+                                                                setShowLinkForm={setShowLinkForm}
+                                                                setEditID={setEditID}
+                                                                setShowUpgradePopup={setShowUpgradePopup}
+                                                                setOptionText={setOptionText}
+                                                            />
+
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+
+                                        {/*{(showLinkForm || editID) &&
+                                            <LinkFormNew
+                                                setRadioValue={setRadioValue}
+                                                radioValue={radioValue}
+                                                inputType={inputType}
+                                                setInputType={setInputType}
+                                                editID={editID}
+                                                subStatus={subStatus}
+                                                setShowLinkForm={setShowLinkForm}
+                                                setEditID={setEditID}
+                                                setShowUpgradePopup={setShowUpgradePopup}
+                                                setOptionText={setOptionText}
+                                            />
+                                        }*/}
+                                        {/*{(showLinkForm || editID) &&
                                             <LinkForm
                                                 setShowLinkForm={setShowLinkForm}
                                                 folderID={editFolderID}
@@ -411,35 +528,7 @@ function App() {
                                                 shopifyStores={shopifyStores}
                                                 setShopifyStores={setShopifyStores}
                                             />
-                                        }
-
-                                         { (!editID && !showLinkForm && !editFolderID) &&
-                                            <>
-                                                <div className="my_row link_row">
-                                                    <div className="add_more_link">
-                                                        <AddLink
-                                                            setShowLinkForm={setShowLinkForm}
-                                                            subStatus={subStatus}
-                                                            setShowUpgradePopup={setShowUpgradePopup}
-                                                            setOptionText={setOptionText}
-                                                            setRadioValue={setRadioValue}
-                                                        />
-                                                    </div>
-
-                                                    {!editFolderID &&
-                                                        <div className="add_more_link">
-                                                            <AddFolder
-                                                                subStatus={subStatus}
-                                                                setShowUpgradePopup={setShowUpgradePopup}
-                                                                setOptionText={setOptionText}
-                                                                setEditFolderID={setEditFolderID}
-                                                            />
-                                                        </div>
-                                                    }
-                                                </div>
-                                            </>
-                                        }
-
+                                        }*/}
 
                                         { (editFolderID && !editID && !showLinkForm) ?
                                             <div ref={iconsWrapRef} className='icons_wrap add_icons icons folder'>
@@ -460,20 +549,20 @@ function App() {
                                             :
 
                                             (!showLinkForm && !editID && !editFolderID) &&
-                                            <div ref={iconsWrapRef} className='icons_wrap add_icons icons'>
-                                                <ErrorBoundary FallbackComponent={errorFallback} onError={myErrorHandler}>
-                                                    <Links
-                                                        setEditID={setEditID}
-                                                        setEditFolderID={setEditFolderID}
-                                                        subStatus={subStatus}
-                                                        setRow={setRow}
-                                                        setValue={setValue}
-                                                        setShowUpgradePopup={setShowUpgradePopup}
-                                                        setOptionText={setOptionText}
-                                                        iconsWrapRef={iconsWrapRef}
-                                                    />
-                                                </ErrorBoundary>
-                                            </div>
+                                                <div ref={iconsWrapRef} className='icons_wrap add_icons icons'>
+                                                    <ErrorBoundary FallbackComponent={errorFallback} onError={myErrorHandler}>
+                                                        <Links
+                                                            setEditID={setEditID}
+                                                            setEditFolderID={setEditFolderID}
+                                                            subStatus={subStatus}
+                                                            setRow={setRow}
+                                                            setValue={setValue}
+                                                            setShowUpgradePopup={setShowUpgradePopup}
+                                                            setOptionText={setOptionText}
+                                                            iconsWrapRef={iconsWrapRef}
+                                                        />
+                                                    </ErrorBoundary>
+                                                </div>
                                         }
 
                                     </div>

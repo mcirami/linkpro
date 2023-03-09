@@ -34,7 +34,7 @@ const InputComponent = ({
         key: null
     })
 
-    useEffect(() => {
+    /*useEffect(() => {
 
         let currentInputType;
 
@@ -62,7 +62,7 @@ const InputComponent = ({
             type:currentInputType
         }));
 
-    },[])
+    },[])*/
 
     useEffect(() => {
 

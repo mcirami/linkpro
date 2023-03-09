@@ -5,7 +5,7 @@ import {UserLinksContext} from '../../App';
 const AddLink = ({
                      subStatus,
                      setShowUpgradePopup,
-                     setOptionText,setRadioValue,
+                     setOptionText,
                      setShowLinkForm
 }) => {
 
@@ -13,7 +13,6 @@ const AddLink = ({
     const handleClick = (e) => {
         e.preventDefault();
 
-        setRadioValue("standard");
         const newUserLinks = userLinks.filter(element => !element.type);
         const count = newUserLinks.length;
 

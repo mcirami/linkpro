@@ -13571,24 +13571,24 @@ form .bottom_row a {
   top: 4px;
 }
 .edit_form form ::-moz-placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-  font-family: "opensansbold", sans-serif;
-  color: #000;
+  font-family: "opensanssemibold", sans-serif;
+  color: #d4d2d2;
   opacity: 1; /* Firefox */
   font-size: 16px;
 }
 .edit_form form ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-  font-family: "opensansbold", sans-serif;
-  color: #000;
+  font-family: "opensanssemibold", sans-serif;
+  color: #d4d2d2;
   opacity: 1; /* Firefox */
   font-size: 16px;
 }
 .edit_form form :-ms-input-placeholder { /* Internet Explorer 10-11 */
-  font-family: "opensansbold", sans-serif;
-  color: #000;
+  font-family: "opensanssemibold", sans-serif;
+  color: #d4d2d2;
 }
 .edit_form form ::-ms-input-placeholder { /* Microsoft Edge */
-  font-family: "opensansbold", sans-serif;
-  color: #000;
+  font-family: "opensanssemibold", sans-serif;
+  color: #d4d2d2;
 }
 .edit_form form input {
   width: 100%;

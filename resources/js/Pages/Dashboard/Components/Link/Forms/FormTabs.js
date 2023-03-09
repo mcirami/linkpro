@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import StandardForm from './StandardForm';
 
 const FormTabs = ({
                       radioValue,
@@ -12,7 +13,11 @@ const FormTabs = ({
                       folderID,
                       integrationType,
                       editID,
-                      redirectedType
+                      redirectedType,
+                      charactersLeft,
+                      setCharactersLeft,
+                      setShowLinkForm,
+                      setEditID
 }) => {
 
     useEffect(() => {
@@ -93,6 +98,26 @@ const FormTabs = ({
                         Standard Icons
                 </label>
             </div>
+
+            {radioValue === "standard" &&
+                <div className={`inner_wrap ${radioValue === "standard" && "open"}`}>
+
+                    <StandardForm
+                        radioValue={radioValue}
+                        currentLink={currentLink}
+                        setCurrentLink={setCurrentLink}
+                        charactersLeft={charactersLeft}
+                        setCharactersLeft={setCharactersLeft}
+                        inputType={inputType}
+                        setInputType={setInputType}
+                        editID={editID}
+                        subStatus={subStatus}
+                        setShowLinkForm={setShowLinkForm}
+                        setEditID={setEditID}
+                    />
+
+                </div>
+            }
             <div className={radioValue === "custom" ? "radio_wrap active" : "radio_wrap" }>
                 <label htmlFor="custom_radio">
                     <div className="radio_input_wrap">
