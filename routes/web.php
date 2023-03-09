@@ -86,6 +86,7 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/get-aff-icons', [IconController::class, 'getAffIcons']);
     Route::get('/get-standard-icons', [IconController::class, 'getStandardIcons']);
+    Route::get('/get-custom-icons', [IconController::class, 'getCustomIcons']);
 
     Route::group(['prefix' => 'dashboard'], function() {
         Route::post('/links/new', [LinkController::class, 'store']);

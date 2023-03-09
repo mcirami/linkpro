@@ -41,6 +41,25 @@ class IconController extends Controller
         ]);
     }
 
+    public function getCustomIcons() {
+
+        $userID = Auth::id();
+
+        $userIcons = [];
+        if (Storage::disk('s3')->exists("custom-icons/" . $userID . "/")) {
+            $imageNames = Storage::disk('s3')->allFiles("custom-icons/" . $userID);
+
+            foreach($imageNames as $name) {
+                $path = Storage::disk('s3')->url($name);
+                array_push($userIcons, $path);
+            }
+        }
+
+        return response()->json([
+            'iconData' => $userIcons,
+        ]);
+    }
+
     public function getIcons(IconService $iconService) {
 
         $icons = $iconService->getIcons();

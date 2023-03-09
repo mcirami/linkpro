@@ -12364,120 +12364,158 @@ header.guest_header .column.right {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  justify-content: space-evenly;
-  -webkit-justify-content: space-around;
-  margin-bottom: 25px;
-}
-.my_row.radios_wrap .radio_wrap {
-  position: relative;
-  width: 33.33%;
-  border-bottom: 1px solid #d2d2d2;
-}
-.my_row.radios_wrap .radio_wrap.active {
-  border-top: 1px solid #d2d2d2;
-  border-right: 1px solid #d2d2d2;
-  border-left: 1px solid #d2d2d2;
-  border-top-right-radius: 10px;
-  -webkit-border-top-right-radius: 10px;
-  -moz-border-radius-topright: 10px;
-  border-top-left-radius: 10px;
-  -webkit-border-top-left-radius: 10px;
-  -moz-border-radius-topleft: 10px;
-  border-bottom: none;
-}
-.my_row.radios_wrap .radio_wrap .radio_input_wrap {
-  width: auto;
-  display: flex;
-}
-@media all and (max-width: 550px) {
-  .my_row.radios_wrap .radio_wrap .radio_input_wrap {
-    width: 100%;
-    text-align: center;
-    display: inline-block;
-  }
-}
-.my_row.radios_wrap .radio_wrap .radio_input_wrap input {
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-}
-@media all and (max-width: 1199px) {
-  .my_row.radios_wrap .radio_wrap .radio_input_wrap input {
-    width: 15px;
-    height: 15px;
-    margin-right: 5px;
-  }
-}
-@media screen and (max-width: 768px) {
-  .my_row.radios_wrap .radio_wrap .radio_input_wrap input {
-    width: 15px;
-    margin-right: 5px;
-  }
-}
-.my_row.radios_wrap .radio_wrap label {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-items: center;
-  -webkit-align-items: center;
-  justify-content: center;
-  -webkit-justify-content: center;
-  padding: 20px 10px;
-  line-height: 1.2;
-  font-size: 16px;
-}
-@media all and (max-width: 1199px) {
-  .my_row.radios_wrap .radio_wrap label {
-    font-size: 1.3vw;
-  }
-}
-@media all and (max-width: 992px) {
-  .my_row.radios_wrap .radio_wrap label {
-    font-size: 16px;
-  }
-}
-@media screen and (max-width: 768px) {
-  .my_row.radios_wrap .radio_wrap label {
-    font-size: 14px;
-    padding: 10px 5px;
-  }
-}
-@media all and (max-width: 550px) {
-  .my_row.radios_wrap .radio_wrap label {
-    font-size: 12px;
-    padding: 5px 5px 10px;
-    flex-wrap: wrap;
-    text-align: center;
-  }
-}
-.my_row.radios_wrap.two_col .radio_wrap {
-  width: 50%;
-}
-.my_row.radios_wrap.input_types {
-  margin-bottom: 0;
-  justify-content: flex-start;
-  -webkit-justify-content: flex-start;
   gap: 20px;
   column-gap: 20px;
   -webkit-column-gap: 20px;
   -moz-column-gap: 20px;
+  /*.radio_wrap {
+      position: relative;
+      width: 33.33%;
+      border-bottom: 1px solid $borderGray;
+
+      &.active {
+          border-top: 1px solid $borderGray;
+          border-right: 1px solid $borderGray;
+          border-left: 1px solid $borderGray;
+          border-top-right-radius: 10px;
+          -webkit-border-top-right-radius: 10px;
+          -moz-border-radius-topright: 10px;
+          border-top-left-radius: 10px;
+          -webkit-border-top-left-radius: 10px;
+          -moz-border-radius-topleft: 10px;
+          border-bottom: none;
+      }
+
+      .radio_input_wrap {
+          width: auto;
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+
+          @media all and (max-width: 550px) {
+              width: 100%;
+              text-align: center;
+              display: inline-block;
+          }
+
+          input {
+              width: 20px;
+              height: 20px;
+              margin-right: 10px;
+
+              @media all and (max-width: 1199px) {
+                  width: 15px;
+                  height: 15px;
+                  margin-right: 5px;
+              }
+
+              @media screen and (max-width: 768px) {
+                  width: 15px;
+                  margin-right: 5px;
+              }
+          }
+      }
+
+      label {
+          width: 100%;
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-orient: horizontal;
+          -webkit-box-direction: normal;
+          -ms-flex-direction: row;
+          flex-direction: row;
+          -ms-flex-wrap: nowrap;
+          flex-wrap: nowrap;
+          align-items: center;
+          -webkit-align-items: center;
+          justify-content: center;
+          -webkit-justify-content: center;
+          padding: 20px 10px;
+          line-height: 1.2;
+          font-size: 16px;
+
+          @media all and (max-width: 1199px) {
+              font-size: 1.3vw;
+          }
+
+          @media all and (max-width: 992px) {
+              font-size: 16px;
+          }
+
+          @media screen and (max-width: 768px) {
+              font-size: 14px;
+              padding: 10px 5px;
+          }
+
+          @media all and (max-width: 550px) {
+              font-size: 12px;
+              padding: 5px 5px 10px;
+              -ms-flex-wrap: wrap;
+              flex-wrap: wrap;
+              text-align: center;
+          }
+      }
+  }*/
+  /*&.input_types {
+
+      .radio_wrap {
+          border-bottom: none;
+          width: auto;
+
+          &.active {
+              border: none;
+          }
+
+          label {
+              padding: 0;
+              font-size: 14px;
+
+              input {
+                  width: 15px;
+                  height: 15px;
+                  margin-right: 5px;
+              }
+          }
+      }
+  }*/
 }
-.my_row.radios_wrap.input_types .radio_wrap {
-  border-bottom: none;
-  width: auto;
-}
-.my_row.radios_wrap.input_types .radio_wrap.active {
-  border: none;
-}
-.my_row.radios_wrap.input_types .radio_wrap label {
+.my_row.radios_wrap label {
   padding: 0;
   font-size: 14px;
 }
-.my_row.radios_wrap.input_types .radio_wrap label input {
+.my_row.radios_wrap label input {
   width: 15px;
   height: 15px;
   margin-right: 5px;
+}
+
+.accordion_row {
+  display: block;
+  padding: 10px;
+  border: 1px solid #d2d2d2;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  margin-bottom: 5px;
+}
+.accordion_row .accordion_link {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+}
+.accordion_row .accordion_link svg {
+  transition: all 500ms linear;
+  width: 35px;
+  height: 35px;
+}
+.accordion_row .accordion_link.open {
+  padding-bottom: 5px;
+}
+.accordion_row .accordion_link.open svg {
+  transform: rotate(180deg);
 }
 
 .page_settings {
@@ -13671,12 +13709,15 @@ form .bottom_row a {
   flex-direction: row;
   flex-wrap: nowrap;
 }
-#links_page .edit_form.popup .uploader, #links_page .edit_form.link .uploader {
-  margin-bottom: 20px;
-}
 #links_page .edit_form.popup label.custom, #links_page .edit_form.link label.custom {
   justify-content: center;
   -webkit-justify-content: center;
+}
+#links_page .edit_form.popup .uploader, #links_page .edit_form.link .uploader {
+  margin-bottom: 20px;
+}
+#links_page .edit_form.popup .uploader label.custom, #links_page .edit_form.link .uploader label.custom {
+  margin: 0;
 }
 #links_page .edit_form.popup .icons_wrap, #links_page .edit_form.link .icons_wrap {
   border: 1px solid #d2d2d2;

@@ -49,11 +49,12 @@ import FormBreadcrumbs from './Components/Link/Forms/FormBreadcrumbs';
 import DeleteIcon from './Components/Link/Forms/DeleteIcon';
 import FolderNameInput from './Components/Folder/FolderNameInput';
 import AccordionLink from './Components/Link/Forms/AccordionLink';
+import CustomForm from './Components/Link/Forms/CustomForm';
+import IntegrationForm from './Components/Link/Forms/IntegrationForm';
 
 const page = user.page;
 const userPages = user.user_pages;
 const userSub = user.userSub;
-const customIcons = user.userIcons;
 
 export const UserLinksContext = createContext();
 export const OriginalArrayContext = createContext();
@@ -83,7 +84,7 @@ function App() {
     const [editID, setEditID] = useState(null);
     const [showLinkForm, setShowLinkForm] = useState(false);
 
-    const [radioValue, setRadioValue] = useState("standard");
+    const [accordionValue, setAccordionValue] = useState("standard");
     const [inputType, setInputType] = useState(null);
     const [integrationType, setIntegrationType] = useState(null);
     //const [storeID, setStoreID] = useState(null);
@@ -94,7 +95,6 @@ function App() {
     const [showMessageAlertPopup, setShowMessageAlertPopup] = useState(false);
     const [showConfirmFolderDelete, setShowConfirmFolderDelete] = useState(false);
     const [optionText, setOptionText] = useState("");
-    const [customIconArray, setCustomIconArray] = useState(customIcons);
 
     const headerRef = createRef(null);
     const [completedCrop, setCompletedCrop] = useState(null);
@@ -179,7 +179,7 @@ function App() {
 
         if (redirected && redirected !== "") {
             setInputType(localStorage.getItem('inputType') || null)
-            setRadioValue("integration");
+            setAccordionValue("integration");
             setRedirectedType(redirected);
             setIntegrationType(redirected);
             setEditID(JSON.parse(localStorage.getItem('editID')) || null)
@@ -392,7 +392,7 @@ function App() {
                                                         setIntegrationType={setIntegrationType}
                                                         setInputType={setInputType}
                                                     />
-                                                    { editID || editFolderID &&
+                                                    { (editID || editFolderID) &&
                                                         <div className="delete_icon">
                                                             <DeleteIcon
                                                                 setShowConfirmFolderDelete={setShowConfirmFolderDelete}
@@ -455,34 +455,86 @@ function App() {
                                         {(showLinkForm || editID) &&
                                             <div className="edit_form link my_row">
                                                 <div className={"my_row tab_content_wrap"}>
-                                                    <div className={radioValue ===
-                                                    "standard" ?
-                                                        "radio_wrap active" :
-                                                        "radio_wrap"}>
+                                                    <div className="accordion_row">
                                                         <AccordionLink
-                                                            setRadioValue={setRadioValue}
+                                                            accordionValue={accordionValue}
+                                                            setAccordionValue={setAccordionValue}
                                                             linkText="Standard Icon"
                                                             type="standard"
                                                         />
+                                                        {accordionValue === "standard" &&
+                                                            <div className={`inner_wrap ${accordionValue ===
+                                                            "standard" && "open"}`}>
+
+                                                                <StandardForm
+                                                                    accordionValue={accordionValue}
+                                                                    inputType={inputType}
+                                                                    setInputType={setInputType}
+                                                                    editID={editID}
+                                                                    subStatus={subStatus}
+                                                                    setShowLinkForm={setShowLinkForm}
+                                                                    setEditID={setEditID}
+                                                                    setShowUpgradePopup={setShowUpgradePopup}
+                                                                    setOptionText={setOptionText}
+                                                                />
+
+                                                            </div>
+                                                        }
                                                     </div>
-                                                    {radioValue === "standard" &&
-                                                        <div className={`inner_wrap ${radioValue ===
-                                                        "standard" && "open"}`}>
+                                                    <div className="accordion_row">
+                                                        <AccordionLink
+                                                            accordionValue={accordionValue}
+                                                            setAccordionValue={setAccordionValue}
+                                                            linkText="Custom Icon"
+                                                            type="custom"
+                                                        />
+                                                        {accordionValue === "custom" &&
+                                                            <div className={`inner_wrap ${accordionValue ===
+                                                            "custom" && "open"}`}>
 
-                                                            <StandardForm
-                                                                radioValue={radioValue}
-                                                                inputType={inputType}
-                                                                setInputType={setInputType}
-                                                                editID={editID}
-                                                                subStatus={subStatus}
-                                                                setShowLinkForm={setShowLinkForm}
-                                                                setEditID={setEditID}
-                                                                setShowUpgradePopup={setShowUpgradePopup}
-                                                                setOptionText={setOptionText}
-                                                            />
+                                                                <CustomForm
+                                                                    accordionValue={accordionValue}
+                                                                    inputType={inputType}
+                                                                    setInputType={setInputType}
+                                                                    editID={editID}
+                                                                    setShowLinkForm={setShowLinkForm}
+                                                                    setEditID={setEditID}
+                                                                    setShowUpgradePopup={setShowUpgradePopup}
+                                                                    setOptionText={setOptionText}
+                                                                    setShowLoader={setShowLoader}
+                                                                    subStatus={subStatus}
+                                                                />
 
-                                                        </div>
-                                                    }
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                    <div className="accordion_row">
+                                                        <AccordionLink
+                                                            accordionValue={accordionValue}
+                                                            setAccordionValue={setAccordionValue}
+                                                            linkText="Integrations"
+                                                            type="integration"
+                                                        />
+                                                        {accordionValue === "integration" &&
+                                                            <div className={`inner_wrap ${accordionValue ===
+                                                            "integration" && "open"}`}>
+
+                                                                <IntegrationForm
+                                                                    accordionValue={accordionValue}
+                                                                    inputType={inputType}
+                                                                    setInputType={setInputType}
+                                                                    editID={editID}
+                                                                    setShowLinkForm={setShowLinkForm}
+                                                                    setEditID={setEditID}
+                                                                    setShowUpgradePopup={setShowUpgradePopup}
+                                                                    setOptionText={setOptionText}
+                                                                    setShowLoader={setShowLoader}
+                                                                    subStatus={subStatus}
+                                                                />
+
+                                                            </div>
+                                                        }
+                                                    </div>
                                                 </div>
                                             </div>
                                         }

@@ -287,13 +287,17 @@ form .bottom_row a {
                 flex-wrap: nowrap;
             }
 
-            .uploader {
-                margin-bottom: 20px;
-            }
-
             label.custom {
                 justify-content: center;
                 -webkit-justify-content: center;
+            }
+
+            .uploader {
+                margin-bottom: 20px;
+
+                label.custom {
+                    margin: 0;
+                }
             }
 
 

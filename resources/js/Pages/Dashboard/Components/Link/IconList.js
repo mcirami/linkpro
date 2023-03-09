@@ -8,17 +8,18 @@ import {getIconPaths} from '../../../../Services/ImageService';
 const IconList = ({
                       currentLink,
                       setCurrentLink,
-                      radioValue,
+                      accordionValue,
                       setCharactersLeft,
-                      customIconArray,
                       inputType,
                       setInputType,
                       editID,
-                      setIconSelected = null
+                      customIconArray = null,
+                      setCustomIconArray = null,
+                      iconList = null,
+                      setIconList = null,
 }) => {
 
     const [isDefaultIcon, setIsDefaultIcon] = useState(false);
-    const [iconList, setIconList] = useState(null);
     const [authUser, setAuthUser] = useState(null);
     const [searchInput, setSearchInput] = useState("");
     const [isLoading, setIsLoading] = useState(true);
@@ -31,7 +32,6 @@ const IconList = ({
         if(!el.classList.contains('active')) {
             $('.icon_image').removeClass('active');
             el.classList.add('active');
-            //setIconSelected(true)
 
             let name;
             if(el.dataset.name) {
@@ -78,7 +78,7 @@ const IconList = ({
         }
     });
 
-    const handleChange = (e) => {
+    /*const handleChange = (e) => {
         e.preventDefault();
         setSearchInput(e.target.value);
     }
@@ -91,11 +91,11 @@ const IconList = ({
                 return iconName.match(userInput);
             })
         )
-    }
+    }*/
 
     useEffect(() => {
 
-        if (radioValue === "integration" && !editID) {
+        if (accordionValue === "integration" && !editID) {
             setIsDefaultIcon(true)
 
             if (inputType === "mailchimp") {
@@ -113,34 +113,37 @@ const IconList = ({
                     type: "shopify"
                 }))
             }
-
-
         }
 
         setIsLoading(false);
 
-    },[radioValue])
+    },[accordionValue])
 
     useEffect(() => {
 
         let url;
 
-        switch(radioValue) {
+        switch(accordionValue) {
             case "affiliate":
                 url = '/get-aff-icons';
                 break;
-            //case "custom":
+            case "custom":
+                url = '/get-custom-icons';
+                break;
             case "standard":
                 url = '/get-standard-icons'
                 break;
             //case "integration":
             default:
+                break;
         }
 
         getIcons(url).then((data) => {
             if(data.success) {
-                if (radioValue === "standard") {
+                if (accordionValue === "standard") {
                     setIconList(getIconPaths(data.iconData));
+                } else if (accordionValue === "custom") {
+                    setCustomIconArray(data.iconData);
                 } else {
                     setIconList(data.iconData)
                 }
@@ -152,21 +155,21 @@ const IconList = ({
             }
         })
 
-    },[radioValue])
+    },[accordionValue])
 
     return (
 
         <>
-            {radioValue === "standard" &&
+            {/*{accordionValue === "standard" &&
                 <div className="uploader">
-                    <input name="search" type="text" placeholder="Search Icons" onChange={(e) => handleChange(e)} defauvalueltValue={searchInput}/>
+                    <input name="search" type="text" placeholder="Search Icons" onChange={(e) => handleChange(e)} defaultValue={searchInput}/>
                     <div className="my_row info_text file_types text-center mb-2 text-center">
                         <a href="mailto:help@link.pro" className="mx-auto m-0 char_count">Don't See Your Icon? Contact Us!</a>
                     </div>
                 </div>
-            }
+            }*/}
 
-            <div className={`icons_wrap my_row ${radioValue === "integration" ? "outer integration_icons" : ""}`}>
+            <div className={`icons_wrap my_row ${accordionValue === "integration" ? "outer integration_icons" : ""}`}>
                 {isLoading &&
                     <div id="loading_spinner" className="active">
                         <img src={Vapor.asset('images/spinner.svg')} alt="" />
@@ -183,7 +186,7 @@ const IconList = ({
                                 <div key={index} className="icon_col">
                                     <img alt=""
                                          className="img-fluid icon_image"
-                                         data-icontype={radioValue}
+                                         data-icontype={accordionValue}
                                          src={newPath}
                                          onClick={(e) => {
                                              selectIcon(e, newPath)
@@ -218,7 +221,7 @@ const IconList = ({
                                             <img alt=""
                                                  className="img-fluid icon_image"
                                                  src={newPath}
-                                                 data-icontype={radioValue}
+                                                 data-icontype={accordionValue}
                                                  onClick={(e) => {
                                                      selectIcon(e, newPath)
                                                 }}/>
@@ -242,7 +245,7 @@ const IconList = ({
                                             selectIcon(e, icon.path)
                                         }}
                                         data-name={icon.name}
-                                        data-icontype={radioValue}
+                                        data-icontype={accordionValue}
                                         alt=""
                                     />
                                     <div className="hover_text icon_text">
@@ -268,7 +271,7 @@ const IconList = ({
                                         data-name={icon.name}
                                         data-creator={icon.creator}
                                         data-slug={icon.slug}
-                                        data-icontype={radioValue}
+                                        data-icontype={accordionValue}
                                         alt=""
                                     />
                                     <div className="hover_text icon_text">
@@ -279,7 +282,7 @@ const IconList = ({
                                 </div>
                             )
                         })
-                }[radioValue]}
+                }[accordionValue]}
             </div>
 
         </>

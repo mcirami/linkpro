@@ -23,7 +23,7 @@ import {
 } from '../../../App';
 
 const StandardForm = ({
-                          radioValue,
+                          accordionValue,
                           inputType,
                           setInputType,
                           editID,
@@ -353,7 +353,6 @@ const StandardForm = ({
 
     };
 
-    console.log(currentLink);
     const handleCancel = (e) => {
         e.preventDefault();
         setEditID(null);
@@ -363,6 +362,24 @@ const StandardForm = ({
             'left_col_wrap').style.minHeight = "unset";
     }
 
+    const [searchInput, setSearchInput] = useState("");
+    const [iconList, setIconList] = useState(null);
+
+    const handleChange = (e) => {
+        e.preventDefault();
+        setSearchInput(e.target.value);
+    }
+
+    if (searchInput.length > 0) {
+        setIconList (
+            iconList.filter((i) => {
+                const iconName = i.name.toLowerCase().replace(" ", "");
+                const userInput = searchInput.toLowerCase().replace(" ", "");
+                return iconName.match(userInput);
+            })
+        )
+    }
+
     return (
         <form onSubmit={handleSubmit} className="link_form">
             <div className="row">
@@ -370,15 +387,22 @@ const StandardForm = ({
 
                     <div className="icon_row">
                         <div className="icon_box">
-
+                            <div className="uploader">
+                                <input name="search" type="text" placeholder="Search Icons" onChange={(e) => handleChange(e)} defaultValue={searchInput}/>
+                                <div className="my_row info_text file_types text-center mb-2 text-center">
+                                    <a href="mailto:help@link.pro" className="mx-auto m-0 char_count">Don't See Your Icon? Contact Us!</a>
+                                </div>
+                            </div>
                             <IconList
                                 currentLink={currentLink}
                                 setCurrentLink={setCurrentLink}
-                                radioValue={radioValue}
+                                accordionValue={accordionValue}
                                 setCharactersLeft={setCharactersLeft}
                                 inputType={inputType}
                                 setInputType={setInputType}
                                 editID={editID}
+                                iconList={iconList}
+                                setIconList={setIconList}
                             />
 
                         </div>
@@ -422,7 +446,7 @@ const StandardForm = ({
                 </div>
             </div>
 
-            <div className="row">
+            <div className="row mb-0">
                 <div className="col-12">
                     <InputTypeRadio
                         inputType={inputType}

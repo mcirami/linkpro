@@ -122,17 +122,6 @@ class PageService {
 
         $userPages = $this->getUserPages($this->user);
 
-        $userIcons = [];
-
-        if (Storage::disk('s3')->exists("custom-icons/" . $page->user_id . "/")) {
-            $imageNames = Storage::disk('s3')->allFiles("custom-icons/" . $page->user_id);
-
-            foreach($imageNames as $name) {
-                $path = Storage::disk('s3')->url($name);
-                array_push($userIcons, $path);
-            }
-        }
-
         $standardIcons = [];
         $iconNames = Storage::disk('s3')->allFiles("icons/");
         foreach($iconNames as $icon) {
@@ -157,7 +146,6 @@ class PageService {
             'icons' => $standardIcons,
             'page' => $page,
             'user_pages' => $userPages,
-            'userIcons' => $userIcons,
             'allPageNames' => $pageNames,
             'userSub'   => $userSubscription,
         ]);

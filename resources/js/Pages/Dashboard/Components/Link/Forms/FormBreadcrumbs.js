@@ -20,7 +20,7 @@ const FormBreadcrumbs = ({
     }
 
     return (
-        <div className="breadcrumb_links">
+        <>
             {folderID  ?
                 <>
                     <a className="back" href="#"
@@ -60,7 +60,7 @@ const FormBreadcrumbs = ({
                     Back To Icons
                 </a>
             }
-            { (!iconSelected && editID) &&
+            {/*{ (!iconSelected && editID) &&
                 <div className="delete_icon">
                     <a className="delete" href="resources/js/Pages/Dashboard/Components/Link/Forms/FormBreadcrumbs#"
                        onClick={handleDeleteClick}>
@@ -68,9 +68,9 @@ const FormBreadcrumbs = ({
                     </a>
                     <div className="hover_text delete_folder"><p>Delete Icon</p></div>
                 </div>
-            }
+            }*/}
 
-        </div>
+        </>
     );
 };
 
