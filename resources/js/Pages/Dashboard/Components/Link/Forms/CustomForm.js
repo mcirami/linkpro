@@ -34,7 +34,6 @@ const CustomForm = ({
                         inputType,
                         setInputType,
                         editID,
-                        subStatus,
                         setShowLinkForm,
                         setEditID,
                         setShowUpgradePopup,
@@ -516,7 +515,6 @@ const CustomForm = ({
                             placeholder="Link Name"
                             onChange={(e) => handleLinkName(
                                 e)}
-                            disabled={!subStatus}
                         />
                     </div>
                     <div className="my_row info_text title">

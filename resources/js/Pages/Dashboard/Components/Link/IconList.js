@@ -10,8 +10,9 @@ const IconList = ({
                       setCurrentLink,
                       accordionValue,
                       setCharactersLeft,
-                      inputType,
-                      setInputType,
+                      inputType = null,
+                      setInputType = null,
+                      integrationType = null,
                       editID,
                       customIconArray = null,
                       setCustomIconArray = null,
@@ -98,7 +99,7 @@ const IconList = ({
         if (accordionValue === "integration" && !editID) {
             setIsDefaultIcon(true)
 
-            if (inputType === "mailchimp") {
+            if (integrationType === "mailchimp") {
                 setCurrentLink(prevState => ({
                     ...prevState,
                     icon: "https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png",
@@ -106,7 +107,7 @@ const IconList = ({
                 }))
             }
 
-            if (inputType === "shopify") {
+            if (integrationType === "shopify") {
                 setCurrentLink(prevState => ({
                     ...prevState,
                     icon: "https://lp-production-images.s3.us-east-2.amazonaws.com/icons/Shopify.png",
@@ -128,12 +129,12 @@ const IconList = ({
                 url = '/get-aff-icons';
                 break;
             case "custom":
+            case "integration":
                 url = '/get-custom-icons';
                 break;
             case "standard":
                 url = '/get-standard-icons'
                 break;
-            //case "integration":
             default:
                 break;
         }
@@ -142,7 +143,7 @@ const IconList = ({
             if(data.success) {
                 if (accordionValue === "standard") {
                     setIconList(getIconPaths(data.iconData));
-                } else if (accordionValue === "custom") {
+                } else if (accordionValue === "custom" || accordionValue === "integration") {
                     setCustomIconArray(data.iconData);
                 } else {
                     setIconList(data.iconData)
@@ -178,7 +179,7 @@ const IconList = ({
                 {{
                     "custom" :
 
-                        customIconArray?.map((iconPath, index) => {
+                        customIconArray ? customIconArray.map((iconPath, index) => {
                             const newPath = iconPath?.replace("public",
                                 "/storage");
 
@@ -194,7 +195,12 @@ const IconList = ({
                                 </div>
                             )
 
-                        }),
+                        })
+                            :
+                            <div className="info_message">
+                                <p>You don't have any icons to display.</p>
+                                <p>Click 'Upload Image' above to add a custom icon.</p>
+                            </div>,
 
                     "integration" :
                     <>
@@ -203,7 +209,7 @@ const IconList = ({
                             <img alt=""
                                  className={`
                                  ${isDefaultIcon ? "active img-fluid icon_image" : "img-fluid icon_image"}`}
-                                 src={inputType === "mailchimp" ? "https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png" : "https://lp-production-images.s3.us-east-2.amazonaws.com/icons/Shopify.png"}
+                                 src={integrationType === "mailchimp" ? "https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png" : "https://lp-production-images.s3.us-east-2.amazonaws.com/icons/Shopify.png"}
                                  data-icontype="default"
                                  onClick={(e) => {
                                     selectIcon(e, e.target.src)
@@ -212,7 +218,7 @@ const IconList = ({
                         <div className="custom_icons">
                             <p>Custom Icons</p>
                             <div className="icons_wrap inner">
-                                {customIconArray?.map((iconPath, index) => {
+                                {customIconArray ? customIconArray.map((iconPath, index) => {
                                     const newPath = iconPath.replace("public",
                                         "/storage");
 
@@ -227,7 +233,13 @@ const IconList = ({
                                                 }}/>
                                         </div>
                                     )
-                                })}
+                                })
+                                    :
+                                    <div className="info_message">
+                                        <p>You don't have any icons to display.</p>
+                                        <p>Click 'Upload Image' above to add a custom icon.</p>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </>,

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MailchimpIntegration = ({connectionError, inputType, editID}) => {
+const MailchimpIntegration = ({connectionError, integrationType, editID}) => {
 
     const handleMailchimpClick = (e) => {
         e.preventDefault();
@@ -12,7 +12,7 @@ const MailchimpIntegration = ({connectionError, inputType, editID}) => {
             localStorage.setItem('showLinkForm', true);
         }
 
-        localStorage.setItem('inputType', inputType);
+        localStorage.setItem('integrationType', integrationType);
 
         window.location.href = url;
     }

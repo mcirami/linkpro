@@ -12691,6 +12691,13 @@ header.guest_header .column.right {
   -webkit-align-self: center;
 }
 
+.custom_icons .info_message {
+  margin: 10% 0;
+}
+.custom_icons .info_message p {
+  border: none !important;
+}
+
 .selected_products .info_message {
   font-size: 14px;
   padding: 40px 0;

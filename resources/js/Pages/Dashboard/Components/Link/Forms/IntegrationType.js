@@ -8,7 +8,6 @@ import {isEmpty} from 'lodash';
 const IntegrationType = ({
                              integrationType,
                              setIntegrationType,
-                             setInputType,
                              setShowLoader,
                              setLists,
                              currentLink,
@@ -20,11 +19,9 @@ const IntegrationType = ({
 
         if (currentLink.mailchimp_list_id) {
             setIntegrationType("mailchimp");
-            setInputType("mailchimp")
             fetchLists()
         } else if (currentLink.shopify_products){
             setIntegrationType("shopify")
-            setInputType("shopify")
             fetchStores()
         }
 
@@ -40,7 +37,6 @@ const IntegrationType = ({
     const handleChange = (e) => {
         const value = e.target.value;
 
-        setInputType(value)
         setIntegrationType(value);
 
         if(value === "mailchimp") {

@@ -84,7 +84,7 @@ function App() {
     const [editID, setEditID] = useState(null);
     const [showLinkForm, setShowLinkForm] = useState(false);
 
-    const [accordionValue, setAccordionValue] = useState("standard");
+    const [accordionValue, setAccordionValue] = useState(null);
     const [inputType, setInputType] = useState(null);
     const [integrationType, setIntegrationType] = useState(null);
     //const [storeID, setStoreID] = useState(null);
@@ -181,7 +181,7 @@ function App() {
             setInputType(localStorage.getItem('inputType') || null)
             setAccordionValue("integration");
             setRedirectedType(redirected);
-            setIntegrationType(redirected);
+            setIntegrationType(localStorage.getItem('integrationType') || null);
             setEditID(JSON.parse(localStorage.getItem('editID')) || null)
             setShowLinkForm(JSON.parse(localStorage.getItem('showLinkForm')) || false)
             if(storeID) {
@@ -502,7 +502,6 @@ function App() {
                                                                     setShowUpgradePopup={setShowUpgradePopup}
                                                                     setOptionText={setOptionText}
                                                                     setShowLoader={setShowLoader}
-                                                                    subStatus={subStatus}
                                                                 />
 
                                                             </div>
@@ -521,15 +520,19 @@ function App() {
 
                                                                 <IntegrationForm
                                                                     accordionValue={accordionValue}
-                                                                    inputType={inputType}
-                                                                    setInputType={setInputType}
                                                                     editID={editID}
                                                                     setShowLinkForm={setShowLinkForm}
                                                                     setEditID={setEditID}
                                                                     setShowUpgradePopup={setShowUpgradePopup}
                                                                     setOptionText={setOptionText}
                                                                     setShowLoader={setShowLoader}
-                                                                    subStatus={subStatus}
+                                                                    setIntegrationType={setIntegrationType}
+                                                                    integrationType={integrationType}
+                                                                    setShowMessageAlertPopup={setShowMessageAlertPopup}
+                                                                    connectionError={connectionError}
+                                                                    shopifyStores={shopifyStores}
+                                                                    setShopifyStores={setShopifyStores}
+                                                                    redirectedType={redirectedType}
                                                                 />
 
                                                             </div>
@@ -538,49 +541,6 @@ function App() {
                                                 </div>
                                             </div>
                                         }
-
-                                        {/*{(showLinkForm || editID) &&
-                                            <LinkFormNew
-                                                setRadioValue={setRadioValue}
-                                                radioValue={radioValue}
-                                                inputType={inputType}
-                                                setInputType={setInputType}
-                                                editID={editID}
-                                                subStatus={subStatus}
-                                                setShowLinkForm={setShowLinkForm}
-                                                setEditID={setEditID}
-                                                setShowUpgradePopup={setShowUpgradePopup}
-                                                setOptionText={setOptionText}
-                                            />
-                                        }*/}
-                                        {/*{(showLinkForm || editID) &&
-                                            <LinkForm
-                                                setShowLinkForm={setShowLinkForm}
-                                                folderID={editFolderID}
-                                                setEditFolderID={setEditFolderID}
-                                                editID={editID}
-                                                setEditID={setEditID}
-                                                setShowUpgradePopup={setShowUpgradePopup}
-                                                setShowConfirmPopup={setShowConfirmPopup}
-                                                setShowMessageAlertPopup={setShowMessageAlertPopup}
-                                                setOptionText={setOptionText}
-                                                customIconArray={customIconArray}
-                                                setCustomIconArray={setCustomIconArray}
-                                                subStatus={subStatus}
-                                                radioValue={radioValue}
-                                                setRadioValue={setRadioValue}
-                                                redirectedType={redirectedType}
-                                                connectionError={connectionError}
-                                                showLoader={showLoader}
-                                                setShowLoader={setShowLoader}
-                                                inputType={inputType}
-                                                setInputType={setInputType}
-                                                integrationType={integrationType}
-                                                setIntegrationType={setIntegrationType}
-                                                shopifyStores={shopifyStores}
-                                                setShopifyStores={setShopifyStores}
-                                            />
-                                        }*/}
 
                                         { (editFolderID && !editID && !showLinkForm) ?
                                             <div ref={iconsWrapRef} className='icons_wrap add_icons icons folder'>
@@ -612,6 +572,7 @@ function App() {
                                                             setShowUpgradePopup={setShowUpgradePopup}
                                                             setOptionText={setOptionText}
                                                             iconsWrapRef={iconsWrapRef}
+                                                            setAccordionValue={setAccordionValue}
                                                         />
                                                     </ErrorBoundary>
                                                 </div>
