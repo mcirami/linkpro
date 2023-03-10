@@ -284,7 +284,7 @@ const Links = ({
 
         if(currentLink.type === "shopify" || currentLink.type === "mailchimp") {
             setAccordionValue("integration")
-        } else if(currentLink.type === "affiliate") {
+        } else if(currentLink.icon.includes("offer-images")) {
             setAccordionValue("affiliate")
         } else if (currentLink.icon.includes("custom-icons")){
             setAccordionValue("custom")

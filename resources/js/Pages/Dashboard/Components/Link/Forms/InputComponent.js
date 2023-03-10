@@ -93,8 +93,8 @@ const InputComponent = ({
 
         let key2;
         let key3;
-        let key4;
-        let key5;
+        /*let key4;
+        let key5;*/
         let iconType;
 
         //based on what is being submitted, set the key for current link, all other keys need to be null.
@@ -136,34 +136,13 @@ const InputComponent = ({
     return (
 
         <div className="my_row">
-            {(() => {
-
-                switch (inputType) {
-
-                    case "affiliate" :
-
-                        return (
-                            <div className="my_row external_link">
-                                <h3>Offer Landing Page:</h3>
-                                <a href={url.split("?")[0]} target="_blank">{url.split("?")[0]}</a>
-                            </div>
-                        )
-
-                    default:
-
-                        return (
-
-                            <input
-                                name={name}
-                                type={type}
-                                defaultValue={value || ""}
-                                placeholder={placeholder}
-                                onChange={(e) => handleChange(e, key)}
-                            />
-                        )
-                }
-
-            })()}
+            <input
+                name={name}
+                type={type}
+                defaultValue={value || ""}
+                placeholder={placeholder}
+                onChange={(e) => handleChange(e, key)}
+            />
         </div>
 
     )

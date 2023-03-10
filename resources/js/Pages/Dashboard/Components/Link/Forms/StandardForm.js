@@ -24,6 +24,7 @@ import {
 
 const StandardForm = ({
                           accordionValue,
+                          setAccordionValue,
                           inputType,
                           setInputType,
                           editID,
@@ -73,12 +74,16 @@ const StandardForm = ({
 
     useEffect(() => {
 
-        if (currentLink.phone) {
-            setInputType("phone")
-        } else if (currentLink.email) {
-            setInputType("email")
-        } else {
-            setInputType("url")
+        if(accordionValue === "standard") {
+            if (currentLink.phone) {
+                setInputType("phone")
+            } else if (currentLink.email) {
+                setInputType("email")
+            } else {
+                setInputType("url")
+            }
+        } else if (accordionValue === "affiliate") {
+            setInputType("affiliate")
         }
 
     },[])
@@ -148,6 +153,16 @@ const StandardForm = ({
                         name: currentLink.name,
                         phone: currentLink.phone,
                         icon: currentLink.icon,
+                        page_id: pageSettings["id"],
+                        /*folder_id: folderID,*/
+                        type: "standard",
+                    };
+                    break;
+                case "affiliate":
+                    packets = {
+                        name: currentLink.name,
+                        icon: currentLink.icon,
+                        url: URL,
                         page_id: pageSettings["id"],
                         /*folder_id: folderID,*/
                         type: "standard",
@@ -331,6 +346,7 @@ const StandardForm = ({
                         })
                     }
 
+                    setAccordionValue(null);
                     setShowLinkForm(false);
                     setInputType(null);
                     setEditID(null);
@@ -358,6 +374,7 @@ const StandardForm = ({
         setEditID(null);
         setShowLinkForm(false);
         setInputType(null);
+        setAccordionValue(null);
         document.getElementById(
             'left_col_wrap').style.minHeight = "unset";
     }
@@ -387,12 +404,15 @@ const StandardForm = ({
 
                     <div className="icon_row">
                         <div className="icon_box">
-                            <div className="uploader">
-                                <input name="search" type="text" placeholder="Search Icons" onChange={(e) => handleChange(e)} defaultValue={searchInput}/>
-                                <div className="my_row info_text file_types text-center mb-2 text-center">
-                                    <a href="mailto:help@link.pro" className="mx-auto m-0 char_count">Don't See Your Icon? Contact Us!</a>
+                            {accordionValue !== "affiliate" &&
+                                <div className="uploader">
+                                    <input name="search" type="text" placeholder="Search Icons" onChange={(e) => handleChange(
+                                        e)} defaultValue={searchInput}/>
+                                    <div className="my_row info_text file_types text-center mb-2 text-center">
+                                        <a href="mailto:help@link.pro" className="mx-auto m-0 char_count">Don't See Your Icon? Contact Us!</a>
+                                    </div>
                                 </div>
-                            </div>
+                            }
                             <IconList
                                 currentLink={currentLink}
                                 setCurrentLink={setCurrentLink}
@@ -446,25 +466,41 @@ const StandardForm = ({
                 </div>
             </div>
 
-            <div className="row mb-0">
-                <div className="col-12">
-                    <InputTypeRadio
-                        inputType={inputType}
-                        setInputType={setInputType}
-                        currentLink={currentLink}
-                        setCurrentLink={setCurrentLink}
-                    />
+            {accordionValue !== "affiliate" &&
+                <div className="row mb-0">
+                    <div className="col-12">
+                        <InputTypeRadio
+                            inputType={inputType}
+                            setInputType={setInputType}
+                            currentLink={currentLink}
+                            setCurrentLink={setCurrentLink}
+                        />
+                    </div>
                 </div>
-            </div>
+            }
 
             <div className="row">
                 <div className="col-12">
-                    <InputComponent
-                        inputType={inputType}
-                        setInputType={setInputType}
-                        currentLink={currentLink}
-                        setCurrentLink={setCurrentLink}
-                    />
+
+                    {accordionValue === "affiliate" ?
+                        <div className="my_row external_link">
+                            <h3>Offer Landing Page:</h3>
+                            {currentLink.url ?
+                                <a href={currentLink.url.split("?")[0]} target="_blank">{currentLink.url.split("?")[0]}</a>
+                                :
+                                <p>Select An Icon Above</p>
+                            }
+                        </div>
+                        :
+                        <InputComponent
+                            inputType={inputType}
+                            setInputType={setInputType}
+                            currentLink={currentLink}
+                            setCurrentLink={setCurrentLink}
+                        />
+                    }
+
+
                 </div>
             </div>
 

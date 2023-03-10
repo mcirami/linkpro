@@ -13937,14 +13937,23 @@ form .bottom_row a {
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
 }
+#links_page .edit_form.popup .link_form .external_link, #links_page .edit_form.link .link_form .external_link {
+  border-bottom: 1px solid #d2d2d2;
+  padding: 10px 10px 10px 0;
+}
 #links_page .edit_form.popup .link_form .external_link h3, #links_page .edit_form.popup .link_form .external_link .h3, #links_page .edit_form.link .link_form .external_link h3, #links_page .edit_form.link .link_form .external_link .h3 {
   font-size: 1.1rem;
   margin: 0;
 }
 #links_page .edit_form.popup .link_form .external_link a, #links_page .edit_form.link .link_form .external_link a {
-  padding: 10px 10px 10px 0;
-  border-bottom: 1px solid #d2d2d2;
   display: block;
+  margin-top: 5px;
+}
+#links_page .edit_form.popup .link_form .external_link p, #links_page .edit_form.link .link_form .external_link p {
+  margin-top: 5px;
+  margin-bottom: 0;
+  font-size: 0.8em;
+  font-style: italic;
 }
 #links_page .edit_form.popup.new_page_form, #links_page .edit_form.link.new_page_form {
   align-items: flex-start;
@@ -16065,8 +16074,7 @@ a.delete svg {
 }
 
 .folder_name {
-  padding: 0 5%;
-  margin-bottom: 20px;
+  margin: 10px 0;
 }
 .folder_name input {
   width: 100%;
@@ -16175,7 +16183,7 @@ a.delete svg {
 .icon_breadcrumb .breadcrumb_links a:first-child {
   margin-right: 2px;
 }
-.icon_breadcrumb p {
+.icon_breadcrumb p.form_title {
   font-family: "opensansbold", sans-serif;
   color: #424fcf;
   font-size: 20px;

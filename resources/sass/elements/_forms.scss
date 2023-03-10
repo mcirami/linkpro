@@ -536,15 +536,24 @@ form .bottom_row a {
                 }
 
                 .external_link {
+                    border-bottom: 1px solid $borderGray;
+                    padding: 10px 10px 10px 0;
+
                     h3 {
                         font-size: 1.1rem;
                         margin: 0;
                     }
 
                     a {
-                        padding: 10px 10px 10px 0;
-                        border-bottom: 1px solid $borderGray;
                         display: block;
+                        margin-top: 5px;
+                    }
+
+                    p {
+                        margin-top: 5px;
+                        margin-bottom: 0;
+                        font-size: .8em;
+                        font-style: italic;
                     }
                 }
             }

@@ -23,14 +23,17 @@ import {
     updateLink, updateLinkStatus,
 } from '../../../../../Services/LinksRequest';
 import {
-    FOLDER_LINKS_ACTIONS, LINKS_ACTIONS,
-    ORIG_FOLDER_LINKS_ACTIONS, ORIGINAL_LINKS_ACTIONS,
+    FOLDER_LINKS_ACTIONS,
+    LINKS_ACTIONS,
+    ORIG_FOLDER_LINKS_ACTIONS,
+    ORIGINAL_LINKS_ACTIONS,
 } from '../../../../../Services/Reducer';
 import EventBus from '../../../../../Utils/Bus';
 import ReactCrop from 'react-image-crop';
 
 const CustomForm = ({
                         accordionValue,
+                        setAccordionValue,
                         inputType,
                         setInputType,
                         editID,
@@ -391,6 +394,7 @@ const CustomForm = ({
                         ]);
 
                         setShowLinkForm(false);
+                        setAccordionValue(null);
                         setEditID(null)
                         setInputType(null);
                         setCurrentLink({
@@ -418,6 +422,7 @@ const CustomForm = ({
         e.preventDefault();
         setEditID(null);
         setShowLinkForm(false);
+        setAccordionValue(null);
         setInputType(null);
         document.getElementById(
             'left_col_wrap').style.minHeight = "unset";

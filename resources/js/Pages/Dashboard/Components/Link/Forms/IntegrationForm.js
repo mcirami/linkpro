@@ -27,6 +27,7 @@ import StoreDropdown from './Shopify/StoreDropdown';
 import SelectedProducts from './Shopify/SelectedProducts';
 
 const IntegrationForm = ({
+                             setAccordionValue,
                              accordionValue,
                              editID,
                              setShowLinkForm,
@@ -267,6 +268,7 @@ const IntegrationForm = ({
                                 })
                             }
 
+                            setAccordionValue(null);
                             setShowLinkForm(false);
                             setIntegrationType(null);
                             setEditID(null);
@@ -420,6 +422,7 @@ const IntegrationForm = ({
                         ]);
 
                         setShowLinkForm(false);
+                        setAccordionValue(null);
                         setEditID(null)
                         setIntegrationType(null);
                         setCurrentLink({
@@ -472,11 +475,11 @@ const IntegrationForm = ({
         setEditID(null);
         setShowLinkForm(false);
         setIntegrationType(null);
+        setAccordionValue(null);
         document.getElementById(
             'left_col_wrap').style.minHeight = "unset";
     }
 
-    console.log("currentLink: ", currentLink);
     return (
         <>
             <IntegrationType
