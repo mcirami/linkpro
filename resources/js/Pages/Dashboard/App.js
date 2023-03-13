@@ -108,7 +108,7 @@ function App() {
     const iconsWrapRef = useRef(null);
     const leftColWrap = useRef(null);
 
-    const [subStatus] = useState(checkSubStatus());
+    const [subStatus, setSubStatus] = useState(null);
 
     const [showLoader, setShowLoader] = useState({
         show: false,
@@ -130,6 +130,10 @@ function App() {
     const [showPreview, setShowPreview] = useState(false);
 
     const [connectionError, setConnectionError] = useState(false);
+
+    useEffect(() => {
+        setSubStatus(checkSubStatus())
+    },[])
 
     useEffect(() => {
         EventBus.on('success', (data) => {
@@ -242,6 +246,24 @@ function App() {
 
     const showFlash = (show = false, type='', msg='') => {
         setFlash({show, type, msg})
+    }
+
+    const handleDisabledClick = (e) => {
+        const type = e.target.dataset.type;
+        if (!subStatus) {
+
+            let text;
+            if (type === "custom" ) {
+                text = "add custom icons"
+            } else if (type === "integration") {
+                text = "add an integration"
+            } else if (type === "affiliate") {
+                text = "earn money from an affiliate offer"
+            }
+
+            setShowUpgradePopup(true);
+            setOptionText(text);
+        }
     }
 
     return (
@@ -391,6 +413,7 @@ function App() {
                                                         setShowConfirmPopup={setShowConfirmPopup}
                                                         setIntegrationType={setIntegrationType}
                                                         setInputType={setInputType}
+                                                        showLinkForm={showLinkForm}
                                                     />
                                                     { (editID || editFolderID) &&
                                                         <div className="delete_icon">
@@ -455,8 +478,9 @@ function App() {
                                         {(showLinkForm || editID) &&
                                             <div className="edit_form link my_row">
                                                 <div className={"my_row tab_content_wrap"}>
-                                                    <div className="accordion_row">
+                                                    <div className={`accordion_row`}>
                                                         <AccordionLink
+                                                            subStatus={subStatus}
                                                             accordionValue={accordionValue}
                                                             setAccordionValue={setAccordionValue}
                                                             linkText="Standard Icon"
@@ -477,12 +501,16 @@ function App() {
                                                                     setEditID={setEditID}
                                                                     setShowUpgradePopup={setShowUpgradePopup}
                                                                     setOptionText={setOptionText}
+                                                                    folderID={editFolderID}
                                                                 />
 
                                                             </div>
                                                         }
                                                     </div>
-                                                    <div className="accordion_row">
+                                                    <div data-type="custom"
+                                                         className={`accordion_row ${!subStatus ? "disabled" : ""}`}
+                                                         onClick={(e) => handleDisabledClick(e)}
+                                                    >
                                                         <AccordionLink
                                                             accordionValue={accordionValue}
                                                             setAccordionValue={setAccordionValue}
@@ -504,13 +532,17 @@ function App() {
                                                                     setShowUpgradePopup={setShowUpgradePopup}
                                                                     setOptionText={setOptionText}
                                                                     setShowLoader={setShowLoader}
+                                                                    folderID={editFolderID}
                                                                 />
 
                                                             </div>
                                                         }
                                                     </div>
                                                     {!editFolderID &&
-                                                        <div className="accordion_row">
+                                                        <div data-type="integration"
+                                                             className={`accordion_row ${!subStatus ? "disabled" : ""}`}
+                                                             onClick={(e) => handleDisabledClick(e)}
+                                                        >
                                                             <AccordionLink
                                                                 accordionValue={accordionValue}
                                                                 setAccordionValue={setAccordionValue}
@@ -545,7 +577,10 @@ function App() {
                                                             }
                                                         </div>
                                                     }
-                                                    <div className="accordion_row">
+                                                    <div data-type="affiliate"
+                                                         className={`accordion_row ${!subStatus ? "disabled" : ""}`}
+                                                         onClick={(e) => handleDisabledClick(e)}
+                                                    >
                                                         <AccordionLink
                                                             accordionValue={accordionValue}
                                                             setAccordionValue={setAccordionValue}
@@ -567,6 +602,7 @@ function App() {
                                                                     setEditID={setEditID}
                                                                     setShowUpgradePopup={setShowUpgradePopup}
                                                                     setOptionText={setOptionText}
+                                                                    folderID={editFolderID}
                                                                 />
 
                                                             </div>
@@ -588,6 +624,7 @@ function App() {
                                                         setEditID={setEditID}
                                                         setShowConfirmFolderDelete={setShowConfirmFolderDelete}
                                                         iconsWrapRef={iconsWrapRef}
+                                                        setAccordionValue={setAccordionValue}
                                                     />
                                                 </ErrorBoundary>
                                             </div>

@@ -10,9 +10,10 @@ const FormBreadcrumbs = ({
                              iconSelected,
                              setShowConfirmPopup,
                              setAccordionValue,
+                             showLinkForm,
                              setShowLinkForm,
                              setIntegrationType,
-                             setInputType,
+                             setInputType
 }) => {
 
     /*const handleDeleteClick = e => {
@@ -24,7 +25,7 @@ const FormBreadcrumbs = ({
         <>
             {folderID  ?
                 <>
-                    {editID &&
+                    {editID || showLinkForm &&
                         <a className="back" href="#"
                            onClick={(e) => {
                                e.preventDefault();

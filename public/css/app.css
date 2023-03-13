@@ -12498,6 +12498,19 @@ header.guest_header .column.right {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   margin-bottom: 5px;
+  position: relative;
+}
+.accordion_row.disabled:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+}
+.accordion_row.disabled a {
+  color: #d4d2d2;
 }
 .accordion_row .accordion_link {
   display: flex;

@@ -32,7 +32,8 @@ const StandardForm = ({
                           setShowLinkForm,
                           setEditID,
                           setShowUpgradePopup,
-                          setOptionText
+                          setOptionText,
+                          folderID
 
 }) => {
 
@@ -134,7 +135,7 @@ const StandardForm = ({
                         url: URL,
                         icon: currentLink.icon,
                         page_id: pageSettings["id"],
-                        /*folder_id: folderID,*/
+                        folder_id: folderID,
                         type: "standard",
                     };
                     break;
@@ -144,7 +145,7 @@ const StandardForm = ({
                         email: currentLink.email,
                         icon: currentLink.icon,
                         page_id: pageSettings["id"],
-                        /*folder_id: folderID,*/
+                        folder_id: folderID,
                         type: "standard",
                     };
                     break;
@@ -154,7 +155,7 @@ const StandardForm = ({
                         phone: currentLink.phone,
                         icon: currentLink.icon,
                         page_id: pageSettings["id"],
-                        /*folder_id: folderID,*/
+                        folder_id: folderID,
                         type: "standard",
                     };
                     break;
@@ -164,7 +165,7 @@ const StandardForm = ({
                         icon: currentLink.icon,
                         url: URL,
                         page_id: pageSettings["id"],
-                        /*folder_id: folderID,*/
+                        folder_id: folderID,
                         type: "standard",
                     };
                     break;
@@ -178,7 +179,7 @@ const StandardForm = ({
 
                 if (data.success) {
 
-                    /*if (folderID) {
+                    if (folderID) {
 
                         if (editID) {
                             dispatchFolderLinks({
@@ -235,9 +236,6 @@ const StandardForm = ({
                                 email: currentLink.email,
                                 phone: currentLink.phone,
                                 type: currentLink.type,
-                                mailchimp_list_id: currentLink.mailchimp_list_id,
-                                shopify_products: currentLink.shopify_products,
-                                shopify_id: currentLink.shopify_id,
                                 icon: currentLink.icon,
                                 position: data.position,
                                 active_status: true
@@ -291,59 +289,60 @@ const StandardForm = ({
                             })
                         }
 
-                    } else {*/
-
-                    if (editID) {
-                        dispatch({
-                            type: LINKS_ACTIONS.UPDATE_LINK,
-                            payload: {
-                                editID: editID,
-                                currentLink: currentLink,
-                                url: URL,
-                                iconPath: currentLink.icon
-                            }
-                        })
-
-                        dispatchOrig({
-                            type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK,
-                            payload: {
-                                editID: editID,
-                                currentLink: currentLink,
-                                url: URL,
-                                iconPath: currentLink.icon
-                            }
-                        })
-
                     } else {
-                        let newLinks = [...userLinks];
-                        let originalLinks = [...originalArray];
 
-                        const newLinkObject = {
-                            id: data.link_id,
-                            name: currentLink.name,
-                            url: URL,
-                            email: currentLink.email,
-                            phone: currentLink.phone,
-                            type: currentLink.type,
-                            icon: currentLink.icon,
-                            position: data.position,
-                            active_status: true
+                        if (editID) {
+                            dispatch({
+                                type: LINKS_ACTIONS.UPDATE_LINK,
+                                payload: {
+                                    editID: editID,
+                                    currentLink: currentLink,
+                                    url: URL,
+                                    iconPath: currentLink.icon
+                                }
+                            })
+
+                            dispatchOrig({
+                                type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK,
+                                payload: {
+                                    editID: editID,
+                                    currentLink: currentLink,
+                                    url: URL,
+                                    iconPath: currentLink.icon
+                                }
+                            })
+
+                        } else {
+                            let newLinks = [...userLinks];
+                            let originalLinks = [...originalArray];
+
+                            const newLinkObject = {
+                                id: data.link_id,
+                                name: currentLink.name,
+                                url: URL,
+                                email: currentLink.email,
+                                phone: currentLink.phone,
+                                type: currentLink.type,
+                                icon: currentLink.icon,
+                                position: data.position,
+                                active_status: true
+                            }
+
+                            dispatchOrig({
+                                type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS,
+                                payload: {
+                                    links: originalLinks.concat(
+                                        newLinkObject)
+                                }
+                            })
+                            dispatch({
+                                type: LINKS_ACTIONS.SET_LINKS,
+                                payload: {
+                                    links: newLinks.concat(
+                                        newLinkObject)
+                                }
+                            })
                         }
-
-                        dispatchOrig({
-                            type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS,
-                            payload: {
-                                links: originalLinks.concat(
-                                    newLinkObject)
-                            }
-                        })
-                        dispatch({
-                            type: LINKS_ACTIONS.SET_LINKS,
-                            payload: {
-                                links: newLinks.concat(
-                                    newLinkObject)
-                            }
-                        })
                     }
 
                     setAccordionValue(null);
@@ -362,11 +361,8 @@ const StandardForm = ({
                         type: null
                     })
                 }
-
-               /* }*/
             })
         }
-
     };
 
     const handleCancel = (e) => {

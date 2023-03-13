@@ -49,7 +49,8 @@ function clamp(n, min, max) {
 const FolderLinks = ({
                          folderID,
                          setEditID,
-                         iconsWrapRef
+                         iconsWrapRef,
+                         setAccordionValue
 
                }) => {
 
@@ -249,6 +250,18 @@ const FolderLinks = ({
 
     const handleOnClick = (linkID) => {
         setEditID(linkID);
+
+        const currentLink = folderLinks.find(function(e) {
+            return e.id === linkID
+        });
+
+        if(currentLink.icon.includes("offer-images")) {
+            setAccordionValue("affiliate")
+        } else if (currentLink.icon.includes("custom-icons")){
+            setAccordionValue("custom")
+        } else {
+            setAccordionValue("standard")
+        }
 
         setTimeout(function(){
             document.querySelector('#scrollTo').scrollIntoView({
