@@ -13,15 +13,19 @@ const SectionVideo = ({
 
     useEffect(() => {
 
-        let split;
-        if (link.includes('youtube')) {
-            split = link.split("/embed/");
-            setImagePlaceholder("https://img.youtube.com/vi/" + split[1] + "/mqdefault.jpg");
-        } else {
-            split = link.split("/video/");
-            setImagePlaceholder("https://vumbnail.com/" + split[1] + ".jpg")
+
+        if(link) {
+            let split;
+            if (link.includes('youtube')) {
+                split = link.split("/embed/");
+                setImagePlaceholder("https://img.youtube.com/vi/" + split[1] +
+                    "/mqdefault.jpg");
+            } else {
+                split = link.split("/video/");
+                setImagePlaceholder("https://vumbnail.com/" + split[1] + ".jpg")
+            }
         }
-    },[])
+    },[link])
 
     const handleOnClick = (e) => {
         e.preventDefault();

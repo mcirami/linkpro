@@ -85,7 +85,6 @@ export const addSection = (packets, id, elementName) => {
     .then(
         (response) => {
 
-            console.log(response);
             return {
                 success : true,
                 section: response.data.section
