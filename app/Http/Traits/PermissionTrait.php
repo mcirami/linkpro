@@ -20,8 +20,9 @@ trait PermissionTrait {
     public function checkCoursePermission($course) {
 
         $user = Auth::user();
+
         $coursePurchased = $user->Purchases()->where('course_id', $course->id)->first();
-        if ($coursePurchased) {
+        if ($coursePurchased || $user->id == $course->user_id) {
             return true;
         } else {
             return false;

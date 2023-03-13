@@ -24,21 +24,27 @@ class CourseUser
      */
     public function handle(Request $request, Closure $next)
     {
-        $username = $request->route('user')->username;
+        $courseCreator = $request->route('user');
         if (!Auth::check()) {
             session()->put('url.intended', $request->url());
-            return redirect('/' . $username . '/course/login');
+            return redirect('/' . $courseCreator->username . '/course/login');
         }
 
         $user = Auth::user();
         $this->checkPermissions();
 
         if ($user->hasAnyRole(['admin', 'course.user'])) {
-            $this->setCreatorSession($username);
+            $this->setCreatorSession($courseCreator->username);
             return $next($request);
         }
 
         if ($user->hasRole('lp.user')) {
+
+            if ($user->id == $courseCreator->id) {
+                $this->setCreatorSession($courseCreator->username);
+                return $next($request);
+            }
+
             return redirect()->route('dashboard');
         }
     }
