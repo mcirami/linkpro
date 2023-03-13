@@ -108,7 +108,7 @@ function App() {
     const iconsWrapRef = useRef(null);
     const leftColWrap = useRef(null);
 
-    const [subStatus, setSubStatus] = useState(null);
+    const [subStatus] = useState(checkSubStatus());
 
     const [showLoader, setShowLoader] = useState({
         show: false,
@@ -130,10 +130,6 @@ function App() {
     const [showPreview, setShowPreview] = useState(false);
 
     const [connectionError, setConnectionError] = useState(false);
-
-    useEffect(() => {
-        setSubStatus(checkSubStatus())
-    },[])
 
     useEffect(() => {
         EventBus.on('success', (data) => {

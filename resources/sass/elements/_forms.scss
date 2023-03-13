@@ -157,6 +157,10 @@ form .bottom_row a {
     form {
         width: 100%;
 
+        .form_content {
+            position: relative;
+        }
+
         .cancel_icon, .submit_circle {
             position: absolute;
             right: 12px;
@@ -197,7 +201,7 @@ form .bottom_row a {
 
         .submit_circle.textarea, .cancel_icon.textarea {
             top: auto;
-            bottom: 10px;
+            bottom: 15px;
         }
 
         &.wysiwig {
@@ -1136,6 +1140,10 @@ form .bottom_row a {
     .icon_wrap {
         display: block;
         position: relative;
+
+        &:hover {
+            cursor: help;
+        }
 
         &:before {
             content: '';

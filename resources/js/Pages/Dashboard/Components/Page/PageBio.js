@@ -44,31 +44,33 @@ const PageBio = () => {
 
         <div className="edit_form">
             <form onSubmit={handleSubmit}>
-                <textarea maxLength="65" name="bio" id="" rows="5"
-                          placeholder="Add Bio or Slogan (Optional)"
-                          defaultValue={pageSettings["bio"] || ""}
-                          onChange={(e) => handleChange(e) }
-                          onKeyDown={ event => {
-                                  if(event.key === 'Enter') {
-                                      handleSubmit(event);
+                <div className="form_content">
+                    <textarea maxLength="65" name="bio" id="" rows="5"
+                              placeholder="Add Bio or Slogan (Optional)"
+                              defaultValue={pageSettings["bio"] || ""}
+                              onChange={(e) => handleChange(e) }
+                              onKeyDown={ event => {
+                                      if(event.key === 'Enter') {
+                                          handleSubmit(event);
+                                      }
                                   }
                               }
-                          }
-                          onBlur={(e) => handleSubmit(e)}
-                >
-                </textarea>
-                {charactersLeft < 62  ?
-                    <a className="submit_circle textarea" href="#"
-                       onClick={(e) => handleSubmit(e)}
+                              onBlur={(e) => handleSubmit(e)}
                     >
-                        <FiThumbsUp />
-                        <div className="hover_text submit_button"><p>Submit Bio Text</p></div>
-                    </a>
-                    :
-                    <span className="cancel_icon">
-                        <FiThumbsDown />
-                    </span>
-                }
+                    </textarea>
+                    {charactersLeft < 62  ?
+                        <a className="submit_circle textarea" href="#"
+                           onClick={(e) => handleSubmit(e)}
+                        >
+                            <FiThumbsUp />
+                            <div className="hover_text submit_button"><p>Submit Bio Text</p></div>
+                        </a>
+                        :
+                        <span className="cancel_icon textarea">
+                            <FiThumbsDown />
+                        </span>
+                    }
+                </div>
                 <div className="my_row info_text">
                     <p className="char_max">Max 65 Characters</p>
                     <p className="char_count">

@@ -13623,6 +13623,9 @@ form .bottom_row a {
 .edit_form form {
   width: 100%;
 }
+.edit_form form .form_content {
+  position: relative;
+}
 .edit_form form .cancel_icon, .edit_form form .submit_circle {
   position: absolute;
   right: 12px;
@@ -13661,7 +13664,7 @@ form .bottom_row a {
 }
 .edit_form form .submit_circle.textarea, .edit_form form .cancel_icon.textarea {
   top: auto;
-  bottom: 10px;
+  bottom: 15px;
 }
 .edit_form form.wysiwig {
   right: 10px;
@@ -14462,6 +14465,9 @@ form .bottom_row a {
 .tooltip_icon .icon_wrap {
   display: block;
   position: relative;
+}
+.tooltip_icon .icon_wrap:hover {
+  cursor: help;
 }
 .tooltip_icon .icon_wrap:before {
   content: "";
