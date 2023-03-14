@@ -12,19 +12,14 @@ class Course extends Model
     protected $guard = 'course';
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that are not mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'user_id',
-        'landing_page_id',
-        'intro_text',
-        'intro_text_color',
-        'intro_background_color',
-        'title',
-        'slug',
-        'purchase_link'
+    protected $guarded = [
+        'id',
+        'created_at',
+        'updated_at'
     ];
 
     /**

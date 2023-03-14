@@ -15847,6 +15847,19 @@ a.delete svg {
   height: 100%;
 }
 
+.video_wrapper {
+  padding-bottom: 56.25%;
+  height: 0;
+  position: relative;
+}
+.video_wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .my_row.form_page.stats .card {
   max-width: 850px;
 }
@@ -17300,17 +17313,8 @@ a.delete svg {
 .creator.course_creator #links_page .creator_wrap .preview .sections section.text {
   padding: 15px;
 }
-.creator.course_creator #links_page .creator_wrap .preview .sections section .video_wrapper {
-  padding-bottom: 56.25%;
-  height: 0;
-  position: relative;
-}
-.creator.course_creator #links_page .creator_wrap .preview .sections section .video_wrapper iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+.creator.course_creator #links_page .creator_wrap .preview .sections section.text p {
+  text-align: center;
 }
 
 #links_page.live_page .creator_wrap {
@@ -17327,6 +17331,7 @@ a.delete svg {
 #links_page.live_page .button {
   width: 200px;
   font-size: 1.4em;
+  display: inline-block;
 }
 @media screen and (max-width: 768px) {
   #links_page.live_page .button {
@@ -17369,6 +17374,14 @@ a.delete svg {
 @media screen and (max-width: 992px) {
   #links_page.live_page .header .header_image {
     min-height: 35vw;
+  }
+}
+#links_page.live_page .intro_text p {
+  font-size: 1.3rem;
+}
+@media screen and (max-width: 768px) {
+  #links_page.live_page .intro_text p {
+    font-size: 0.9rem;
   }
 }
 #links_page.live_page .sections {
@@ -17418,6 +17431,7 @@ a.delete svg {
 #links_page.live_page .sections .text p {
   font-size: 1.2rem;
   margin: 0;
+  text-align: center;
 }
 #links_page.live_page .sections .text p span {
   font-size: 1.2rem;
@@ -17531,6 +17545,10 @@ a.delete svg {
 }
 .courses_grid .my_row.folder.open .video_wrapper {
   padding-bottom: 56.25%;
+}
+.courses_grid .intro_video {
+  max-width: 800px;
+  margin: 0 auto;
 }
 .courses_grid .intro_text {
   border-radius: 6px;

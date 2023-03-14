@@ -146,36 +146,7 @@ function App() {
                             }
                         </div>
                     </section>
-                    <section className="my_row section">
-                        <div className="section_title">
-                            <h4>Intro Text</h4>
-                        </div>
-                        <div className="section_content my_row">
-                            <InputComponent
-                                placeholder="Intro Text"
-                                type="wysiwyg"
-                                hoverText="Submit Intro Text"
-                                elementName="intro_text"
-                                courseData={courseData}
-                                dispatch={dispatch}
-                                value={courseData["intro_text"]}
-                            />
-                            <ColorPicker
-                                label="Background Color"
-                                courseData={courseData}
-                                dispatch={dispatch}
-                                elementName="intro_background_color"
-                            />
-                            {/*<ColorPicker
-                                label="Text Color"
-                                courseData={courseData}
-                                dispatch={dispatch}
-                                elementName="intro_text_color"
-                            />*/}
-                        </div>
-                    </section>
-
-                    {/*<section className="my_row">
+                    <section className="my_row">
                         <div className="section_title">
                             <h4>Buttons</h4>
                         </div>
@@ -202,13 +173,50 @@ function App() {
                                 value={courseData["button_text"]}
                                 dispatch={dispatch}
                             />
-                            <DropdownComponent />
                         </div>
-                    </section>*/}
+                    </section>
+                    <section className="my_row section">
+                        <div className="section_title">
+                            <h4>Intro Video</h4>
+                        </div>
+                        <div className="section_content my_row">
+                            <InputComponent
+                                placeholder="YouTube or Vimeo Link"
+                                type="url"
+                                hoverText="Add Embed Link"
+                                elementName="intro_video"
+                                value={courseData["intro_video"] || ""}
+                                courseData={courseData}
+                                dispatch={dispatch}
+                            />
+                        </div>
+                    </section>
+                    <section className="my_row section">
+                        <div className="section_title">
+                            <h4>Intro Text</h4>
+                        </div>
+                        <div className="section_content my_row">
+                            <InputComponent
+                                placeholder="Intro Text"
+                                type="wysiwyg"
+                                hoverText="Submit Intro Text"
+                                elementName="intro_text"
+                                courseData={courseData}
+                                dispatch={dispatch}
+                                value={courseData["intro_text"]}
+                            />
+                            <ColorPicker
+                                label="Background Color"
+                                courseData={courseData}
+                                dispatch={dispatch}
+                                elementName="intro_background_color"
+                            />
+                        </div>
+                    </section>
 
                     {!isEmpty(sections) && sections.map((section, index) => {
 
-                        const {id, type, text, video_title, video_link} = section;
+                        const {id, type, text, video_title, video_link, button_position, button} = section;
 
                         {type === "video" ? ++videoCount : ++textCount}
                         return (
@@ -248,6 +256,16 @@ function App() {
                                                 setSections={setSections}
                                                 elementName={`section_${index + 1}_text_color`}
                                             />
+                                            <div className="my_row button_options">
+                                                <SectionButtonOptions
+                                                    position={index + 1}
+                                                    buttonPosition={button_position}
+                                                    includeButton={button}
+                                                    sections={sections}
+                                                    setSections={setSections}
+                                                    id={id}
+                                                />
+                                            </div>
                                         </>
                                         :
                                         <>
@@ -298,16 +316,6 @@ function App() {
                                             />
                                         </>
                                     }
-                                    {/*<div className="my_row button_options">
-                                        <SectionButtonOptions
-                                            position={index + 1}
-                                            buttonPosition={button_position}
-                                            includeButton={button}
-                                            sections={sections}
-                                            setSections={setSections}
-                                            id={id}
-                                        />
-                                    </div>*/}
                                 </div>
                             </section>
                         )
@@ -379,6 +387,7 @@ function App() {
                     sections={sections}
                     courseData={courseData}
                     setShowPreview={setShowPreview}
+                    url={url}
                 />
             </div>
 

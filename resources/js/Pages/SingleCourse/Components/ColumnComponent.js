@@ -1,18 +1,24 @@
 import React, {useEffect, useState} from 'react';
+const hasCourseAccess = user.hasCourseAccess;
+const creator = user.creator;
 
 const ColumnComponent = ({
-                             sections,
                              section,
                              dataRow,
                              indexValue,
                              setIndexValue,
                              index,
-                             column
+                             column,
+                             course
 }) => {
 
-    const {id, type, text, text_color, video_title, video_link, background_color} = section;
+    const {id, type, text, text_color, video_title, video_link, background_color, button, button_position} = section;
+    const {button_color, button_text_color, button_text, slug} = course;
+    const buttonUrl = window.location.protocol + "//" + window.location.host + "/" + creator + "/course/" + slug + "/checkout";
+
     const [imagePlaceholder, setImagePlaceholder] = useState(null);
     const [mobileVideo, setMobileVideo] = useState(null);
+    const [buttonStyle, setButtonStyle] = useState(null);
 
     useEffect(() => {
         if (type === "video") {
@@ -47,76 +53,66 @@ const ColumnComponent = ({
 
     },[])
 
-    const handleOnClick = (e) => {
-        e.preventDefault();
-        const clickedDiv = e.currentTarget.parentNode
-        //const videoUrl = clickedDiv.firstChild.dataset.video;
+    useEffect(() => {
 
-        if(window.innerWidth < 551) {
-            setMobileVideo(true);
-        } else {
-            if (clickedDiv.classList.contains('open')) {
-                setIndexValue(null);
-            } else {
-                setIndexValue(clickedDiv.firstChild.dataset.index);
-                setTimeout(function(){
-                    document.querySelector('.video_viewer').scrollIntoView({
-                        behavior: 'smooth',
-                        block: "nearest",
-                    });
-
-                }, 600)
-            }
+        if(button) {
+            setButtonStyle({
+                background: button_color,
+                color: button_text_color
+            })
         }
 
-        /*if (clickedDiv.classList.contains('open')) {
-            document.querySelector('.folder').remove();
-        } else {
-            setIndexValue(index);
+    },[])
 
-            if (clickedDiv.classList.contains('end_column')) {
+    const handleOnClick = (e) => {
+        e.preventDefault();
 
-                const parentDiv = document.createElement("div");
-                parentDiv.className = "my_row open folder";
-                const videoWrapper = document.createElement("div");
-                videoWrapper.className = "video_wrapper";
-                const iframe = document.createElement("iframe");
-                iframe.src = video_link;
-                iframe.allow = "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture;";
-                iframe.allowFullscreen = true;
-                videoWrapper.appendChild(iframe);
-                parentDiv.appendChild(videoWrapper);
 
-                clickedDiv.after(parentDiv)
+        if(hasCourseAccess) {
+            const clickedDiv = e.currentTarget.parentNode
+
+            if (window.innerWidth < 551) {
+                setMobileVideo(true);
+            } else {
+                if (clickedDiv.classList.contains('open')) {
+                    setIndexValue(null);
+                } else {
+                    setIndexValue(clickedDiv.firstChild.dataset.index);
+                    setTimeout(function() {
+                        document.querySelector('.video_viewer').scrollIntoView({
+                            behavior: 'smooth',
+                            block: "nearest",
+                        });
+
+                    }, 600)
+                }
             }
-        }*/
-        /*if (clickedDiv.classList.contains('open')) {
-            setIndexValue(null)
-        } else {
-            document.querySelector('.video_' + index + ' iframe' ).src = videoUrl;
-            setIndexValue(index);
+        }
+    }
 
-            setTimeout(function(){
-                document.querySelector('.my_row.folder.open').scrollIntoView({
-                    behavior: 'smooth',
-                    block: "nearest",
-                });
-
-            }, 800)
-        }*/
+    const Button = () => {
+        return (
+            <div className={`button_wrap ${button_position ? button_position : "above"}`}>
+                <a href={buttonUrl}
+                   target="_blank"
+                   className="button"
+                   style={buttonStyle}
+                >{button_text || "Get Course"}</a>
+            </div>
+        )
     }
 
     return (
         <>
-            <div className={`column ${type} ${index == indexValue ? "open" : ""}
-                ${(column === 3 || sections[index + 1]?.type === "text") ? "end_column" : ""}`
-            } style={{background: background_color}}>
-                {type === "video" &&
+            <div className={`column ${type} ${index == indexValue ? "open" : ""}`}
+                 style={{background: background_color}}>
+
+                {type === "video" ?
 
                     mobileVideo ?
                         <div className="my_row folder open">
                             <div className="video_wrapper">
-                                <iframe src={video_link}></iframe>
+                                <iframe src={video_link} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture;" allowFullScreen></iframe>
                             </div>
                         </div>
                         :
@@ -132,26 +128,29 @@ const ColumnComponent = ({
                              </span>
                         </a>
 
+                    :
+                    ""
                 }
                 <div className="my_row text_wrap">
                     {type === "video" &&
-                        <h3 style={{color: text_color}}>{video_title}</h3>}
+                        <h3 style={{color: text_color}}>{video_title}</h3>
+                    }
+
+                    { !hasCourseAccess &&
+                        (button && button_position === "above") ?
+                            <Button />
+                            :
+                            ""
+                    }
                     <p style={{color: text_color}}>{text}</p>
+                    { !hasCourseAccess &&
+                        (button && button_position === "below") ?
+                                <Button />
+                            :
+                            ""
+                    }
                 </div>
-
-                <div className="triangle"></div>
             </div>
-
-            {/*{type === "video" &&
-                <VideoComponent
-                    section={section}
-                    indexValue={indexValue}
-                    dataRow={dataRow}
-                    row={row}
-                    iframeRef={iframeRef}
-                    index={index}
-                />
-            }*/}
         </>
 
     );

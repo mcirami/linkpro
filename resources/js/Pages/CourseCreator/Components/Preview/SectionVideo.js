@@ -39,7 +39,7 @@ const SectionVideo = ({
                     {indexValue == index ?
                         <div className="video_row my_row">
                             <div className="video_wrapper">
-                                <iframe src={link}></iframe>
+                                <iframe src={link} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture;" allowFullScreen></iframe>
                             </div>
                         </div>
                         :

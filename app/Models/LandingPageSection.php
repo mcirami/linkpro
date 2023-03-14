@@ -10,21 +10,14 @@ class LandingPageSection extends Model
     use HasFactory;
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that are not mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'user_id',
-        'landing_page_id',
-        'type',
-        'text',
-        'bg_color',
-        'text_color',
-        'button',
-        'button_position',
-        'image',
-        'button_link'
+    protected $guarded = [
+        'id',
+        'created_at',
+        'updated_at'
     ];
 
     /**

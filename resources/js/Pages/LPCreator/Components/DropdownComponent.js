@@ -6,7 +6,8 @@ const DropdownComponent = ({
                                button_link,
                                sections,
                                setSections,
-                               id
+                               id,
+                               url
 }) => {
 
     const handleChange = (e) => {
@@ -38,7 +39,7 @@ const DropdownComponent = ({
         <select name="courses" id="courses" onChange={(e) => handleChange(e)} value={button_link || ""}>
             <option value="">Select Course</option>
             {courses?.map((course, index) => {
-                return <option key={index} value={course.purchase_link} >{course.title}</option>
+                return <option key={index} value={`${url}/course/${course.slug}`} >{course.title}</option>
             })}
         </select>
     );

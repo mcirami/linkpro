@@ -9,7 +9,7 @@ const sections = user.sections;
 
 function App() {
 
-    const {intro_text, intro_background_color, intro_text_color, title} = course;
+    const {intro_video, intro_text, intro_background_color, intro_text_color, title} = course;
     const [row, setRow] = useState(null);
     const [indexValue, setIndexValue] = useState(null);
     const [videoCount, setVideoCount] = useState(0);
@@ -55,22 +55,28 @@ function App() {
     return (
         <div className="container">
             <div className="creator_wrap my_row courses_grid">
+                <h2 className="title" style={{ color: intro_text_color }}>{title}</h2>
+                {indexValue &&
+                    <VideoComponent
+                        indexValue={indexValue}
+                        sections={sections}
+                    />
+                }
                 <section className="header">
-                    <h2 className="title" style={{ color: intro_text_color }}>{title}</h2>
-                    {indexValue &&
-                        <VideoComponent
-                            /*section={section}*/
-                            indexValue={indexValue}
-                            sections={sections}
-                            /* dataRow={dataRow}
-                             row={row}
-                             index={index}*/
-                        />
-                    }
-                    <div className="intro_text my_row" style={{background: intro_background_color}}>
-                        <div dangerouslySetInnerHTML={createMarkup(intro_text)}>
+                    {intro_video &&
+                        <div className="intro_video">
+                            <div className="video_wrapper">
+                                <iframe src={intro_video} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture;" allowFullScreen></iframe>
+                            </div>
                         </div>
-                    </div>
+                    }
+                    {intro_text &&
+                        <div className="intro_text my_row" style={{background: intro_background_color}}>
+                            <div dangerouslySetInnerHTML={createMarkup(
+                                intro_text)}>
+                            </div>
+                        </div>
+                    }
                 </section>
                 <section className="my_row">
                     <div className="sections">
@@ -95,11 +101,11 @@ function App() {
 
                                      <ColumnComponent
                                         section={section}
-                                        sections={sections}
                                         indexValue={indexValue}
                                         setIndexValue={setIndexValue}
                                         index={index}
                                         column={column}
+                                        course={course}
                                     />
 
                                     {/*{

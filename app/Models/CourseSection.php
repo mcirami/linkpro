@@ -10,19 +10,14 @@ class CourseSection extends Model
     use HasFactory;
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that are not mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'user_id',
-        'course_id',
-        'type',
-        'text',
-        'background_color',
-        'text_color',
-        'video_link',
-        'video_title',
+    protected $guarded = [
+        'id',
+        'created_at',
+        'updated_at'
     ];
 
     /**

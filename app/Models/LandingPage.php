@@ -10,23 +10,14 @@ class LandingPage extends Model
     use HasFactory;
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that are not mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'user_id',
-        'published',
-        'logo',
-        'slogan',
-        'hero',
-        'header_color',
-        'header_text_color',
-        'button_text',
-        'button_text_color',
-        'button_color',
-        'title',
-        'slug'
+    protected $guarded = [
+        'id',
+        'created_at',
+        'updated_at'
     ];
 
     /**

@@ -12,7 +12,7 @@ const PreviewSection = ({
                             pageData
 }) => {
 
-    const {type, bg_color, text_color, text, image, button, button_position} = currentSection;
+    const {type, bg_color, text_color, text, image, button, button_position, button_link} = currentSection;
     const [buttonStyle, setButtonStyle] = useState(null);
     const [textValue, setTextValue] = useState(text)
 
@@ -47,7 +47,8 @@ const PreviewSection = ({
     const Button = ({buttonText}) => {
         return (
             <div className={`button_wrap ${button_position ? button_position : "above"}`}>
-                <a href="#"
+                <a href={button_link}
+                   target="_blank"
                    className="button"
                    style={buttonStyle}
                 >{buttonText || "Get Course"}</a>

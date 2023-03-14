@@ -168,11 +168,12 @@ Route::get('/{user:username}/password/reset/', [CoursePasswordController::class,
 Route::post('/reset-course-password', [CoursePasswordController::class, 'resetCoursePassword'])->name('reset.course.password');
 
 Route::group(['middleware' => ['course.user']], function() {
-    Route::get('/{user:username}/course/{course:slug}', [CourseController::class, 'show'])->name('live.course.page');
     Route::get('/{user:username}/courses', [CourseController::class, 'showAllCourses'])->name('all.courses');
 });
 
-Route::get('/{user:username}/{course:slug}/checkout', [PurchaseController::class, 'show'])->name('course.checkout');
+Route::get('/{user:username}/course/{course:slug}', [CourseController::class, 'show'])->name('live.course.page');
+
+Route::get('/{user:username}/course/{course:slug}/checkout', [PurchaseController::class, 'show'])->name('course.checkout');
 Route::post('/course-register', [CourseRegisterController::class, 'customRegistration'])->name('course.register');
 Route::post('/checkout/purchase', [PurchaseController::class, 'store'])->name('course.purchase');
 

@@ -11,7 +11,8 @@ import {IoIosCloseCircleOutline} from 'react-icons/io';
 const Preview = ({
                      courseData,
                      sections,
-                     setShowPreview
+                     setShowPreview,
+                     url
 }) => {
 
 
@@ -46,9 +47,7 @@ const Preview = ({
                 <div className="inner_content" id="preview_wrap" >
                     <div className="inner_content_wrap" >
                         <section className="header">
-                            <TopBar
-                                courseData={courseData}
-                            />
+                            <TopBar />
                             {courseData['title'] &&
                                 <h2 className="title">{courseData['title']}</h2>
                             }
@@ -65,6 +64,8 @@ const Preview = ({
                                         currentSection={section}
                                         position={index + 1}
                                         index={index}
+                                        courseData={courseData}
+                                        url={url}
                                     />
                                 )
                             })}

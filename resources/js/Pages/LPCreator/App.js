@@ -93,7 +93,7 @@ function App() {
     console.log("colors: ", colors)*/
    /* console.log("filenames: " , fileNames)*/
 
-    const url = window.location.protocol + "//" + window.location.host + "/" + username + "/" + pageData["slug"];
+    const url = window.location.protocol + "//" + window.location.host + "/" + username;
 
     return (
         <div className="my_row page_wrap">
@@ -138,7 +138,7 @@ function App() {
                             {pageData["slug"] &&
                                 <div className="url_wrap">
                                     <p>Landing Page URL:</p>
-                                    <a target="_blank" href={url}>{url}</a>
+                                    <a target="_blank" href={`${url}/${pageData["slug"]}`}>{`${url}/${pageData["slug"]}`}</a>
                                 </div>
                             }
                         </div>
@@ -322,6 +322,7 @@ function App() {
                                             button_link={button_link}
                                             courses={courses}
                                             id={id}
+                                            url={url}
                                         />
                                     </div>
                                 </div>

@@ -27,21 +27,18 @@ class CourseController extends Controller
 
         $hasCourseAccess = $this->checkCoursePermission($course);
 
-        if ($hasCourseAccess) {
-            $landingPageData = $user->LandingPages()->first();
-            $sections        = $course->CourseSections()->get();
+        $landingPageData = $user->LandingPages()->first();
+        $sections        = $course->CourseSections()->get();
 
-            Javascript::put( [
-                'course'          => $course,
-                'sections'        => $sections,
-                'landingPageData' => $landingPageData,
-                'creator'         => $user->username
-            ] );
+        Javascript::put( [
+            'course'          => $course,
+            'sections'        => $sections,
+            'landingPageData' => $landingPageData,
+            'creator'         => $user->username,
+            'hasCourseAccess'    => $hasCourseAccess
+        ] );
 
-            return view( 'courses.show' )->with( [ 'landingPageData' => $landingPageData ] );
-        } else {
-            return redirect('/' . $user->username . "/" . $course->slug . "/checkout");
-        }
+        return view( 'courses.show' )->with( [ 'landingPageData' => $landingPageData ] );
     }
 
     public function showCourseManager() {
@@ -70,12 +67,12 @@ class CourseController extends Controller
         }
 
         $courseData = $courseService->getCourseData($course);
-        $landingPageLogo = $user->LandingPages()->pluck('logo');
+        $landingPageData = $user->LandingPages()->select('logo','header_color')->get();
         $offerData = $courseService->getCourseOfferData($course);
 
         Javascript::put([
             'course' => $courseData,
-            'LPLogo' => $landingPageLogo[0],
+            'LPData' => $landingPageData[0],
             'offerData' => $offerData,
             'username' => $user["username"]
         ]);
@@ -152,9 +149,6 @@ class CourseController extends Controller
 
         $creator = $user->username;
 
-        //$this->checkPermissions();
-        //$this->setCreatorSession($creator);
-
         $authUserID = Auth::user()->id;
         $landingPageData = $user->LandingPages()->first();
 
@@ -177,8 +171,6 @@ class CourseController extends Controller
     }
 
     public function showCoursesLpUser(CourseService $courseService) {
-
-        //$this->checkPermissions();
 
         $userID = Auth::id();
 

@@ -1,6 +1,6 @@
 import React, {createRef, useEffect, useState} from 'react';
 import Switch from 'react-switch';
-import {updateSectionData} from '../../../Services/LandingPageRequests';
+import {updateSectionData} from '../../../Services/CourseRequests';
 
 const SectionButtonOptions = ({
                                   position,
@@ -8,7 +8,8 @@ const SectionButtonOptions = ({
                                   includeButton,
                                   sections,
                                   setSections,
-                                  id
+                                  id,
+                                  url
 }) => {
 
     const [includeButtonValue, setIncludeButtonValue] = useState(false);

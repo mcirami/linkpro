@@ -4,12 +4,14 @@ import SectionVideo from './SectionVideo';
 const PreviewSection = ({
                             currentSection,
                             position,
-                            index
+                            courseData,
+                            index,
+                            url
 }) => {
 
 
-    const {type, background_color, text_color, text, video_title, video_link} = currentSection;
-    /*const [buttonStyle, setButtonStyle] = useState(null);
+    const {type, background_color, text_color, text, video_title, video_link, button, button_position} = currentSection;
+    const [buttonStyle, setButtonStyle] = useState(null);
 
     useEffect(() => {
         setButtonStyle ({
@@ -22,21 +24,22 @@ const PreviewSection = ({
     const Button = ({buttonText}) => {
         return (
             <div className={`button_wrap ${button_position ? button_position : "above"}`}>
-                <a href="#"
+                <a href={`${url}/checkout`}
+                   target="_blank"
                    className="button"
                    style={buttonStyle}
                 >{buttonText || "Get Course"}</a>
             </div>
         )
-    }*/
+    }
 
     return (
         <section className={type} style={{ background: background_color || 'rgba(255,255,255,1)'}}>
-            {/*{( !!button && button_position === "above") &&
+            {( !!button && button_position === "above") &&
                 <Button
                     buttonText={courseData["button_text"]}
                 />
-            }*/}
+            }
             {{
                 "text":
                     <p
@@ -53,11 +56,11 @@ const PreviewSection = ({
 
                     />,
             }[type]}
-            {/*{( !!button && button_position === "below") &&
+            {( !!button && button_position === "below") &&
                 <Button
                     buttonText={courseData["button_text"]}
                 />
-            }*/}
+            }
         </section>
     );
 };

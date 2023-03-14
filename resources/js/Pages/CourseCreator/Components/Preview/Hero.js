@@ -10,11 +10,13 @@ const Hero = ({ courseData }) => {
 
     useEffect(() => {
 
-        if (firstUpdate.current) {
-            setTextValue(draftToHtml(JSON.parse(courseData["intro_text"])));
-            firstUpdate.current = false;
-        } else {
-            setTextValue(courseData["intro_text"])
+        if (courseData["intro_text"]) {
+            if (firstUpdate.current) {
+                setTextValue(draftToHtml(JSON.parse(courseData["intro_text"])));
+                firstUpdate.current = false;
+            } else {
+                setTextValue(courseData["intro_text"])
+            }
         }
 
     },[courseData["intro_text"]])
@@ -26,14 +28,21 @@ const Hero = ({ courseData }) => {
     }
 
     return (
-        <article className="intro_text my_row" style={{ background: courseData["intro_background_color"] || 'rgba(255,255,255,1)' }}>
-           {/* <p style={{ color: courseData["intro_text_color"] || 'rgba(0,0,0,1)'}}>
-                {
-                courseData['intro_text']
-            }</p>*/}
-            <div dangerouslySetInnerHTML={createMarkup(textValue)}>
-            </div>
-        </article>
+        <div className="hero_section">
+            {courseData['intro_video'] &&
+                <div className="video_wrapper">
+                    <iframe src={courseData['intro_video']} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture;" allowFullScreen></iframe>
+                </div>
+            }
+            {courseData["intro_text"] &&
+                <article className="intro_text my_row" style={{
+                    background: courseData["intro_background_color"] ||
+                        'rgba(255,255,255,1)'
+                }}>
+                    <div dangerouslySetInnerHTML={createMarkup(textValue)}></div>
+                </article>
+            }
+        </div>
     );
 };
 

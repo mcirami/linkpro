@@ -46,7 +46,7 @@ const InputComponent = ({
     },[])
 
     useEffect(() => {
-        if ( ((type === "url" && checkValidity(value, "url") ) || type === "textarea") && value ) {
+        if ( ( (type === "url" && checkValidity(value, "url") ) || type === "textarea") && value ) {
             setIsValid(true);
         }
     },[])
@@ -86,7 +86,7 @@ const InputComponent = ({
             }
         }
 
-        if (check || type === "textarea") {
+        if (check || type === "textarea" || type === "text") {
             setIsValid(true)
             if (sections) {
 
@@ -160,6 +160,9 @@ const InputComponent = ({
                 const packets = {
                     [`${elementName}`]: courseData[elementName],
                 };
+
+                console.log("element name:", elementName);
+                console.log("value: ", courseData[elementName])
 
                 updateData(packets, courseData["id"], elementName)
                 .then((response) => {
