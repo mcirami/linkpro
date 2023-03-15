@@ -8,8 +8,8 @@ const ColumnComponent = ({
                              indexValue,
                              setIndexValue,
                              index,
-                             column,
-                             course
+                             course,
+                             setPurchasePopup
 }) => {
 
     const {id, type, text, text_color, video_title, video_link, background_color, button, button_position} = section;
@@ -87,7 +87,19 @@ const ColumnComponent = ({
                     }, 600)
                 }
             }
+        } else {
+            handleOverlayClick()
         }
+    }
+
+    const handleOverlayClick = () => {
+        setPurchasePopup({
+            show: true,
+            button_color: button_color,
+            button_text_color: button_text_color,
+            button_text: button_text,
+            button_link: buttonUrl
+        })
     }
 
     const Button = () => {
@@ -103,55 +115,59 @@ const ColumnComponent = ({
     }
 
     return (
-        <>
-            <div className={`column ${type} ${index == indexValue ? "open" : ""}`}
-                 style={{background: background_color}}>
 
-                {type === "video" ?
+        <div className={`column ${type} ${index == indexValue ? "open" : ""}`}
+             style={{background: background_color}}>
 
-                    mobileVideo ?
-                        <div className="my_row folder open">
-                            <div className="video_wrapper">
-                                <iframe src={video_link} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture;" allowFullScreen></iframe>
-                            </div>
+            {type === "video" ?
+
+                mobileVideo ?
+                    <div className="my_row folder open">
+                        <div className="video_wrapper">
+                            <iframe src={video_link} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture;" allowFullScreen></iframe>
                         </div>
-                        :
-                        <a className="my_row" href="#"
-                           data-video={video_link}
-                           data-index={index}
-                           data-row={dataRow}
-                           data-column={column}
-                           onClick={(e) => handleOnClick(
-                               e)}>
-                             <span className="image_wrap my_row">
-                                <img src={imagePlaceholder} alt=""/>
-                             </span>
-                        </a>
-
+                    </div>
                     :
-                    ""
-                }
-                <div className="my_row text_wrap">
-                    {type === "video" &&
-                        <h3 style={{color: text_color}}>{video_title}</h3>
-                    }
+                    <a className="my_row" href="#"
+                       data-video={video_link}
+                       data-index={index}
+                       data-row={dataRow}
+                       onClick={(e) => handleOnClick(
+                           e)}>
+                         <span className="image_wrap my_row">
+                            <img src={imagePlaceholder} alt=""/>
+                         </span>
+                    </a>
 
-                    { !hasCourseAccess &&
-                        (button && button_position === "above") ?
+                :
+                ""
+            }
+            <div className="my_row text_wrap">
+                {type === "video" &&
+                    <h3 style={{color: text_color}}>{video_title}</h3>
+                }
+
+                { !hasCourseAccess &&
+                    (button && button_position === "above") ?
+                        <Button />
+                        :
+                        ""
+                }
+                <p style={{color: text_color}}>{text}</p>
+                { !hasCourseAccess &&
+                    (button && button_position === "below") ?
                             <Button />
-                            :
-                            ""
-                    }
-                    <p style={{color: text_color}}>{text}</p>
-                    { !hasCourseAccess &&
-                        (button && button_position === "below") ?
-                                <Button />
-                            :
-                            ""
-                    }
-                </div>
+                        :
+                        ""
+                }
             </div>
-        </>
+            { (!hasCourseAccess && type === "video") ?
+                <span className="overlay" onClick={handleOverlayClick}></span>
+                :
+                ""
+            }
+        </div>
+
 
     );
 };
