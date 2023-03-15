@@ -172,7 +172,7 @@ class PageService {
      */
     public function updateHeaderImage($request, $userID, $page) {
 
-        $imgName = $userID . '-' . time() . '.' . $request->ext;
+        $imgName = $userID . '-header_img' . '.' . $request->ext; //time() . '.' . $request->ext;
         $path = 'page-images/' . $userID . '/' . $imgName;
 
         Storage::disk('s3')->delete($path);
@@ -194,7 +194,7 @@ class PageService {
      */
     public function updateProfileImage($request, $userID, $page) {
 
-        $imgName = $userID . '-' . time() . '.' . $request->ext;
+        $imgName = $userID . '-profile_img' . '.' . $request->ext; //. time() . '.' . $request->ext;
         $path = 'page-images/' . $userID . '/' . $imgName;
 
         Storage::disk('s3')->delete($path);

@@ -8,7 +8,7 @@ class OfferService {
 
     public function updateOfferIcon($request, $userID, $offer) {
 
-        $imgName = $userID . '-' . time() . '.' . $request->ext;
+        $imgName = $userID . '-icon' . '.' .  $request->ext;//time() . '.' . $request->ext;
         $path = 'offer-images/' . $userID . '/' . $imgName;
 
         Storage::disk('s3')->delete($path);

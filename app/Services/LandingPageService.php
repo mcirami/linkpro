@@ -26,7 +26,7 @@ class LandingPageService {
     }
 
     public function savePageImage($userID, $request, $key, $landingPage) {
-        $imgName = $userID . '-' . time() . '.' . $request->ext;
+        $imgName = $userID . '-' . $key . '.' . $request->ext; //. time() . '.' . $request->ext;
         $path = 'landing-pages/' . $userID . '/' . $imgName;
 
         Storage::disk('s3')->delete($path);
@@ -88,7 +88,7 @@ class LandingPageService {
     }
 
     public function saveSectionImage($userID, $request, $key, $section ) {
-        $imgName = $userID . '-' . time() . '.' . $request->ext;
+        $imgName = $userID . '-' . $section->id . '-' . $key . '.' . $request->ext; //time() . '.' . $request->ext;
         $path = 'landing-pages/' . $userID . '/' . $imgName;
 
         Storage::disk('s3')->delete($path);

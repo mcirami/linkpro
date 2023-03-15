@@ -47,6 +47,7 @@
 
             p {
                 font-size: 1.3rem;
+                margin: 0;
 
                 @media screen and (max-width: 768px) {
                     font-size: .9rem;
@@ -55,10 +56,10 @@
         }
 
         .header_image {
-            min-height: 25vw;
+            min-height: 30vw;
 
             @media screen and (max-width: 992px) {
-                min-height: 35vw;
+                min-height: 46vw;
             }
         }
     }

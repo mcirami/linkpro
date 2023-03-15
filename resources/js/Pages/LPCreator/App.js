@@ -160,10 +160,10 @@ function App() {
                                 elementName="logo"
                                 cropArray={{
                                     unit: "%",
-                                    width: 30,
+                                    width: 60,
+                                    height: 30,
                                     x: 25,
                                     y: 25,
-                                    aspect: 16 / 6
                                 }}
                             />
                             <InputComponent
