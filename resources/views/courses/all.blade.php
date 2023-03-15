@@ -65,12 +65,12 @@
                                 @endphp
                                 <div class="column">
                                     <div class="column_image">
-                                        <a href="/{{$creator}}/{{$course->slug}}/checkout">
+                                        <a href="/{{$creator}}/course/{{$course->slug}}">
                                             <img src="{{ $imageUrl }}" alt="">
                                         </a>
                                     </div>
                                     <div class="column_title">
-                                        <a href="/{{$creator}}/{{$course->slug}}/checkout">
+                                        <a href="/{{$creator}}/course/{{$course->slug}}">
                                             <h3>{{$course->title}}</h3>
                                         </a>
                                     </div>

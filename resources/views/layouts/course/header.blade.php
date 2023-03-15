@@ -27,7 +27,7 @@
 @auth
     @include('layouts.menu')
 @endauth
-<div id="app" class="my_row member course_page">
+<div id="app" class="my_row @auth member @endauth course_page">
     <header class="my_row nav_row" style="background: {{ $landingPageData->header_color ?: "rgba(255,255,255,1)"}}">
         <nav>
             <div class="container">

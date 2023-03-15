@@ -17567,7 +17567,7 @@ a.delete svg {
 }
 .courses_grid .sections {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(29rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
   grid-gap: 2rem;
   padding: 40px 0;
   justify-content: center;
@@ -17648,7 +17648,7 @@ a.delete svg {
   font-style: oblique;
 }
 .courses_grid.all_courses .section_wrap .sections {
-  grid-template-columns: repeat(3, minmax(29rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
   padding: 0;
 }
 .courses_grid.all_courses .section_wrap .sections .column {

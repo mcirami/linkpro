@@ -10,7 +10,7 @@ const sections = user.sections;
 
 function App() {
 
-    const {intro_video, intro_text, intro_background_color, intro_text_color, title} = course;
+    const {intro_video, intro_text, intro_background_color, title} = course;
     const [indexValue, setIndexValue] = useState(null);
     const [purchasePopup, setPurchasePopup] = useState({
         show: false,
@@ -30,13 +30,15 @@ function App() {
 
     return (
         <div className="single_course_content my_row">
-            <PurchaseCoursePopup
-                purchasePopup={purchasePopup}
-                setPurchasePopup={setPurchasePopup}
-            />
+            {purchasePopup.show &&
+                <PurchaseCoursePopup
+                    purchasePopup={purchasePopup}
+                    setPurchasePopup={setPurchasePopup}
+                />
+            }
             <div className="container">
                 <div className="creator_wrap my_row courses_grid">
-                    <h2 className="title" style={{ color: intro_text_color }}>{title}</h2>
+                    <h2 className="title" style={{color: '#000000'}}>{title}</h2>
                     {indexValue &&
                         <VideoComponent
                             indexValue={indexValue}

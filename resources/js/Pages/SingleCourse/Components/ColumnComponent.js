@@ -57,8 +57,8 @@ const ColumnComponent = ({
 
         if(button) {
             setButtonStyle({
-                background: button_color,
-                color: button_text_color
+                background: button_color || '#000000',
+                color: button_text_color || '#ffffff'
             })
         }
 
@@ -95,9 +95,9 @@ const ColumnComponent = ({
     const handleOverlayClick = () => {
         setPurchasePopup({
             show: true,
-            button_color: button_color,
-            button_text_color: button_text_color,
-            button_text: button_text,
+            button_color: button_color || "#000000",
+            button_text_color: button_text_color || '#ffffff',
+            button_text: button_text || 'Buy Course',
             button_link: buttonUrl
         })
     }
