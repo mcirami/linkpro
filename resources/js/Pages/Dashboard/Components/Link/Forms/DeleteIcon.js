@@ -4,12 +4,13 @@ import {MdDeleteForever} from 'react-icons/md';
 const DeleteIcon = ({
                         setShowConfirmPopup,
                         setShowConfirmFolderDelete,
-                        editFolderID = null
+                        editFolderID,
+                        editID
 }) => {
 
     const handleDeleteClick = e => {
         e.preventDefault();
-        if(editFolderID) {
+        if(editFolderID && !editID) {
             setShowConfirmFolderDelete(true);
         } else {
             setShowConfirmPopup(true);
@@ -22,7 +23,7 @@ const DeleteIcon = ({
                onClick={handleDeleteClick}>
                 <MdDeleteForever />
             </a>
-            <div className="hover_text delete_folder"><p>Delete {editFolderID ? "Folder" : "Icon"}</p></div>
+            <div className="hover_text delete_folder"><p>Delete {editID ? "Icon" : "Folder"}</p></div>
         </>
     );
 };

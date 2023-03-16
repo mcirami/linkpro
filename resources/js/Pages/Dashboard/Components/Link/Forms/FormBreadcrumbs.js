@@ -25,7 +25,7 @@ const FormBreadcrumbs = ({
         <>
             {folderID  ?
                 <>
-                    {editID || showLinkForm &&
+                    {editID || showLinkForm ?
                         <a className="back" href="#"
                            onClick={(e) => {
                                e.preventDefault();
@@ -37,6 +37,8 @@ const FormBreadcrumbs = ({
                             <BiChevronLeft />
                             Folder
                         </a>
+                        :
+                        ""
                     }
                     <a className="back" href="#"
                        onClick={(e) => {

@@ -312,6 +312,7 @@ function App() {
                                     iconsWrapRef={iconsWrapRef}
                                     setInputType={setInputType}
                                     setIntegrationType={setIntegrationType}
+                                    setAccordionValue={setAccordionValue}
                                 />
                             }
 
@@ -321,6 +322,7 @@ function App() {
                                     setShowConfirmFolderDelete={setShowConfirmFolderDelete}
                                     folderID={editFolderID}
                                     setEditFolderID={setEditFolderID}
+                                    setAccordionValue={setAccordionValue}
                                 />
                             }
 
@@ -411,12 +413,14 @@ function App() {
                                                         setInputType={setInputType}
                                                         showLinkForm={showLinkForm}
                                                     />
-                                                    { (editID || editFolderID) &&
+                                                    { (editID || editFolderID && !showLinkForm) &&
                                                         <div className="delete_icon">
                                                             <DeleteIcon
                                                                 setShowConfirmFolderDelete={setShowConfirmFolderDelete}
                                                                 setShowConfirmPopup={setShowConfirmPopup}
                                                                 editFolderID={editFolderID}
+                                                                editID={editID}
+                                                                setAccordionValue={setAccordionValue}
                                                             />
                                                         </div>
                                                     }
@@ -525,8 +529,6 @@ function App() {
                                                                     editID={editID}
                                                                     setShowLinkForm={setShowLinkForm}
                                                                     setEditID={setEditID}
-                                                                    setShowUpgradePopup={setShowUpgradePopup}
-                                                                    setOptionText={setOptionText}
                                                                     setShowLoader={setShowLoader}
                                                                     folderID={editFolderID}
                                                                 />
@@ -557,12 +559,11 @@ function App() {
                                                                         editID={editID}
                                                                         setShowLinkForm={setShowLinkForm}
                                                                         setEditID={setEditID}
-                                                                        setShowUpgradePopup={setShowUpgradePopup}
+                                                                        setShowMessageAlertPopup={setShowMessageAlertPopup}
                                                                         setOptionText={setOptionText}
                                                                         setShowLoader={setShowLoader}
                                                                         setIntegrationType={setIntegrationType}
                                                                         integrationType={integrationType}
-                                                                        setShowMessageAlertPopup={setShowMessageAlertPopup}
                                                                         connectionError={connectionError}
                                                                         shopifyStores={shopifyStores}
                                                                         setShopifyStores={setShopifyStores}
