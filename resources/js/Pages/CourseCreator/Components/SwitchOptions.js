@@ -32,6 +32,8 @@ const SwitchOptions = ({offerData, dispatchOffer}) => {
         });
     }
 
+    console.log(Boolean(offerData["published"]));
+
     return (
         <>
             <div className="my_row">
@@ -44,6 +46,7 @@ const SwitchOptions = ({offerData, dispatchOffer}) => {
                         onColor="#424fcf"
                         uncheckedIcon={false}
                         checkedIcon={false}
+                        disabled={!Boolean(offerData["published"])}
                     />
                 </div>
             </div>
@@ -57,6 +60,7 @@ const SwitchOptions = ({offerData, dispatchOffer}) => {
                         onColor="#424fcf"
                         uncheckedIcon={false}
                         checkedIcon={false}
+                        disabled={!Boolean(offerData["published"])}
                     />
                 </div>
             </div>

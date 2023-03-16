@@ -64,6 +64,9 @@
                     -webkit-border-radius: 8px;
                     -moz-border-radius: 8px;
 
+                    @include query('desktop') {
+                        padding: 3vw;
+                    }
                 }
             }
 

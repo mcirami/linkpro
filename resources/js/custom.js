@@ -420,46 +420,30 @@ jQuery(document).ready(function($) {
         })
     }
 
-    document.querySelector('#active_switch')?.addEventListener('change', function(event, state) {
-        const value = event.target.checked;
-        const offerID = this.dataset.offer;
+    document.querySelectorAll('.switch')?.forEach((offerSwitch) => {
+        offerSwitch.addEventListener('change', function(event, state) {
+            const value = event.target.checked;
+            const currentSwitch = event.target.name.split("_");
+            const switchName = currentSwitch[0];
+            const offerID = currentSwitch[1];
 
-        const packets = {
-            active: value
-        }
-
-        axios.post("/course-manager/offer/update-data/" + offerID, packets)
-        .then(
-            (response) => {
-                console.log(JSON.stringify(response.data))
+            const packets = {
+                [switchName]: value
             }
-        )
-        .catch((error) => {
-            console.error("ERROR:: ", error);
+
+            axios.post("/course-manager/offer/update-data/" + offerID, packets)
+            .then(
+                (response) => {
+                    console.log(JSON.stringify(response.data))
+                }
+            )
+            .catch((error) => {
+                console.error("ERROR:: ", error);
+
+            });
 
         });
-
-    });
-
-    document.querySelector('#public_switch')?.addEventListener('change', function(event, state) {
-        const value = event.target.checked;
-        const offerID = this.dataset.offer;
-
-        const packets = {
-            public: value
-        }
-
-        axios.post("/course-manager/offer/update-data/" + offerID, packets)
-        .then(
-            (response) => {
-                console.log(JSON.stringify(response.data))
-            }
-        )
-        .catch((error) => {
-            console.error("ERROR:: ", error);
-
-        });
-    });
+    })
 
     async function registerUser()  {
 
@@ -507,14 +491,7 @@ jQuery(document).ready(function($) {
                 errors: error
             };
 
-            /*return {
-                success: false,
-                error: error
-            };*/
-
         });
-
-        //return data;
 
     }
 

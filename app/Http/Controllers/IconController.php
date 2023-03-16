@@ -15,11 +15,14 @@ class IconController extends Controller
 
         $userID = Auth::id();
 
-        $iconData = DB::table('offers')->leftJoin('courses', function ($join) {
-            $join->on('course_id', '=', 'courses.id')->where('offers.public', '=', true)->where('offers.active', '=', true);
-        })->leftJoin('landing_pages', 'offers.user_id', '=', 'landing_pages.user_id')
-          ->leftJoin('users', 'offers.user_id', '=', 'users.id')
-          ->select('offers.icon as path', 'courses.title as name', 'landing_pages.slug', 'users.username as creator')->get()->toArray();
+        $iconData = DB::table('offers')
+                      ->where('offers.public', '=', true)
+                      ->where('offers.active', '=', true)
+                      ->leftJoin('courses', function ($join) {
+                          $join->on('course_id', '=', 'courses.id');
+                      })->leftJoin('landing_pages', 'offers.user_id', '=', 'landing_pages.user_id')
+                        ->leftJoin('users', 'offers.user_id', '=', 'users.id')
+                        ->select('offers.icon as path', 'courses.title as name', 'landing_pages.slug', 'users.username as creator')->get()->toArray();
 
         return response()->json([
             'iconData' => $iconData,

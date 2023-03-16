@@ -377,6 +377,7 @@ function App() {
                         <PublishButton
                             offerData={offerData}
                             dispatchOffer={dispatchOfferData}
+                            courseTitle={courseData["title"]}
                         />
                     }
                 </div>

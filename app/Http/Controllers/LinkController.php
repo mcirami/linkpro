@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AddLinkRequest;
 use App\Http\Requests\UpdateLinkRequest;
 use App\Services\LinkService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Link;
 use App\Models\Page;
@@ -14,6 +15,12 @@ use Illuminate\Support\Facades\Storage;
 class LinkController extends Controller
 {
 
+    /**
+     * @param Page $page
+     * @param LinkService $linkService
+     *
+     * @return JsonResponse
+     */
     public function getPageLinks(Page $page, LinkService $linkService) {
 
         $links = $linkService->getAllLinks($page);
@@ -21,6 +28,12 @@ class LinkController extends Controller
         return response()->json(['userLinks'=> $links]);
     }
 
+    /**
+     * @param AddLinkRequest $request
+     * @param LinkService $linkService
+     *
+     * @return JsonResponse
+     */
     public function store(AddLinkRequest $request, LinkService $linkService) {
 
         $data = $linkService->addLink($request);
@@ -33,6 +46,13 @@ class LinkController extends Controller
         ]);
     }
 
+    /**
+     * @param UpdateLinkRequest $request
+     * @param Link $link
+     * @param LinkService $linkService
+     *
+     * @return JsonResponse|never
+     */
     public function update(UpdateLinkRequest $request, Link $link, LinkService $linkService) {
 
         if ($link->user_id != Auth::id()) {
@@ -49,6 +69,13 @@ class LinkController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * @param Link $link
+     * @param LinkService $linkService
+     *
+     * @return JsonResponse|never
+     */
     public function updateStatus(Request $request, Link $link, LinkService $linkService) {
         if ($link->user_id != Auth::id()) {
             return abort(403);
@@ -60,6 +87,12 @@ class LinkController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * @param LinkService $linkService
+     *
+     * @return JsonResponse
+     */
     public function updatePositions(Request $request, LinkService $linkService) {
 
         $allRequest = $request->all();
@@ -69,6 +102,13 @@ class LinkController extends Controller
         return response()->json(['message' => "Links Position Updated"]);
     }
 
+    /**
+     * @param Request $request
+     * @param Link $link
+     * @param LinkService $linkService
+     *
+     * @return JsonResponse|never
+     */
     public function destroy(Request $request, Link $link, LinkService $linkService) {
         if ($link->user_id != Auth::id()) {
             return abort(403);

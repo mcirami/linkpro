@@ -17138,6 +17138,11 @@ a.delete svg {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
 }
+@media (max-width: 1199px) {
+  #manager .grid_columns .column:first-child img {
+    padding: 3vw;
+  }
+}
 #manager .grid_columns .column:last-child {
   border-radius: 8px;
   -webkit-border-radius: 8px;
