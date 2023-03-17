@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class OfferService {
@@ -64,5 +65,21 @@ class OfferService {
         } else {
             return false;
         }
+    }
+
+    public function getOffers($user) {
+
+        return DB::table('courses')->join('offers', function ($join) use($user){
+            $join->on('course_id', '=', 'courses.id')->where('offers.user_id', '=', $user->id);
+        })->select(
+            'courses.slug',
+            'courses.title',
+            'offers.id',
+            'offers.course_id',
+            'offers.price',
+            'offers.public as public_offer',
+            'offers.active',
+            'offers.published'
+        )->get()->toArray();
     }
 }

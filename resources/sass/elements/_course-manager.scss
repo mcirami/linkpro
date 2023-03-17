@@ -48,6 +48,10 @@
             }
         }
 
+        .tooltip_icon {
+            display: inline-flex;
+        }
+
         .column {
 
             &:first-child {
@@ -79,6 +83,12 @@
 
                 @media screen and (max-width: 768px) {
                     overflow-x:scroll;
+                }
+
+                .table_wrap {
+                    position: relative;
+                    display: inline-block;
+                    width: 100%;
                 }
 
                 table {

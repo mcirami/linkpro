@@ -1,10 +1,8 @@
-import React, {useContext, useState, useEffect, useRef} from 'react';
-import axios from "axios";
+import React, {useContext, useState, useEffect} from 'react';
 import {PageContext} from '../../App';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
-import {BiHelpCircle} from 'react-icons/bi';
 import {pageBio} from '../../../../Services/PageRequests';
-import ToolTipIcon from './ToolTipIcon';
+import ToolTipIcon from '../../../../Utils/ToolTips/ToolTipIcon';
 
 const PageBio = () => {
 

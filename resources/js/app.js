@@ -52,3 +52,7 @@ if (document.getElementById('live_landing_page')) {
 if (document.getElementById('single_course')) {
     require('./Pages/SingleCourse');
 }
+
+if (document.getElementById('manager_table')) {
+    require('./Pages/CourseManager');
+}

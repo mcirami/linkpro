@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\CourseSection;
 use App\Models\User;
 use App\Services\CourseService;
+use App\Services\OfferService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,17 +42,17 @@ class CourseController extends Controller
         return view( 'courses.show' )->with( [ 'landingPageData' => $landingPageData ] );
     }
 
-    public function showCourseManager() {
+    public function showCourseManager(OfferService $offerService) {
 
         $user = Auth::user();
 
         $landingPage = $user->LandingPages()->first();
 
-        $offers = DB::table('courses')->join('offers', function ($join) use($user){
-            $join->on('course_id', '=', 'courses.id')->where('offers.user_id', '=', $user->id);
-        })->get()->toArray();
+        $offers = $offerService->getOffers($user);
 
-        Javascript::put([]);
+        Javascript::put([
+            'offers' => $offers
+        ]);
         return view('courses.manager')->with([
             'landingPage' => $landingPage,
             'offers' => $offers

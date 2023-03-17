@@ -6,11 +6,6 @@ import {OFFER_ACTIONS} from '../Reducer';
 
 const SwitchOptions = ({offerData, dispatchOffer}) => {
 
-    const [publicValue, setPublicValue] = useState(false);
-    const [activeValue, setActiveValue] = useState(false);
-
-
-
     const handleChange = (type) => {
 
         const value = !offerData[type];
@@ -31,8 +26,6 @@ const SwitchOptions = ({offerData, dispatchOffer}) => {
             }
         });
     }
-
-    console.log(Boolean(offerData["published"]));
 
     return (
         <>

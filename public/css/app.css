@@ -17123,6 +17123,9 @@ a.delete svg {
     margin-bottom: 10px;
   }
 }
+#manager .grid_columns .tooltip_icon {
+  display: inline-flex;
+}
 #manager .grid_columns .column:first-child {
   padding-right: 40px;
 }
@@ -17154,6 +17157,11 @@ a.delete svg {
   #manager .grid_columns .column:last-child {
     overflow-x: scroll;
   }
+}
+#manager .grid_columns .column:last-child .table_wrap {
+  position: relative;
+  display: inline-block;
+  width: 100%;
 }
 #manager .grid_columns .column:last-child table {
   border-radius: 8px;

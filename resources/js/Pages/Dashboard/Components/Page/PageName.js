@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import {PageContext} from '../../App';
 import {updatePageName} from '../../../../Services/PageRequests';
-import ToolTipIcon from './ToolTipIcon';
+import ToolTipIcon from '../../../../Utils/ToolTips/ToolTipIcon';
 let pageNames = user.allPageNames;
 
 const PageName = () => {

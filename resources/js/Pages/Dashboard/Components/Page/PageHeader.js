@@ -12,7 +12,7 @@ import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
 import {headerImage} from '../../../../Services/PageRequests';
 import {completedImageCrop} from '../../../../Services/ImageService';
-import ToolTipIcon from './ToolTipIcon';
+import ToolTipIcon from '../../../../Utils/ToolTips/ToolTipIcon';
 
 export const RefContext = createContext();
 export const cropStatus = createContext();
