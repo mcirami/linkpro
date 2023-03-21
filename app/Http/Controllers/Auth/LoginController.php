@@ -117,6 +117,7 @@ class LoginController extends Controller
         if ($roles->contains('admin')) {
 
             $previousURL = Session::get( 'url.intended' );
+
             if ( $previousURL ) {
                 return Redirect::intended();
             } else {

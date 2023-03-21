@@ -114,14 +114,13 @@ class CoursePasswordController extends Controller
         $user->password = Hash::make($password);
         $user->update(); //or $user->save();
 
-        //login the user immediately they change password successfully
-        Auth::login($user);
-
         //Delete the token
         DB::table('password_resets')->where('email', $user->email)->delete();
 
         //Send Email Reset Success Email
         if ($this->sendSuccessEmail($user, $creator)) {
+            //login the user immediately they change password successfully
+            Auth::login($user);
             return redirect('/' . $creator . '/courses');
         } else {
             return redirect()->back()->withErrors(['email' => trans('A Network Error occurred. Please try again.')]);

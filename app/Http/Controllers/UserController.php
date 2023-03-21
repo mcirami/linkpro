@@ -130,12 +130,13 @@ class UserController extends Controller
 
         if (Session::get( 'creator' )) {
             $path = "/". Session::get( 'creator' ) . "/course/login";
-            Session::forget('creator');
-            Session::forget('url.intended');
         } else {
             $path = "/login";
-            Session::forget('url.intended');
         }
+
+        Session::forget('creator');
+        Session::forget('url.intended');
+        Session::forget('permissions');
 
         return response()->json(['path' => $path]);
     }

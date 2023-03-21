@@ -91,8 +91,11 @@ class CourseService {
     }
 
     public function getUnpurchasedCreatorCourses($user, $authUserID) {
-        return Course::where('user_id', $user->id)->whereDoesntHave('purchases', function (Builder $query)  use($authUserID) {
+        return Course::where('user_id', $user->id)->whereDoesntHave('purchases',
+            function (Builder $query)  use($authUserID) {
             $query->where('user_id', 'like', $authUserID);
+        })->whereHas('offer', function($query) {
+            $query->where('active', true)->where('public', true);
         })->get();
     }
 
@@ -106,6 +109,8 @@ class CourseService {
     public function getUserUnpurchasedCourses($userID) {
         return Course::whereDoesntHave('purchases', function (Builder $query) use($userID) {
             $query->where('user_id', 'like', $userID);
+        })->whereHas('offer', function($query) {
+            $query->where('active', true)->where('public', true);
         })->leftJoin('landing_pages', 'landing_pages.user_id', '=', 'courses.user_id')
           ->leftJoin('users', 'users.id', '=', 'courses.user_id')
           ->select('courses.*', 'landing_pages.slug as lp_slug', 'users.username')->get();

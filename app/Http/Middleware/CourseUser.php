@@ -26,7 +26,12 @@ class CourseUser
     {
         $courseCreator = $request->route('user');
         if (!Auth::check()) {
+            $name = $request->route()->getName();
             session()->put('url.intended', $request->url());
+            if ($courseCreator && $name != 'all.courses') {
+                $this->setCreatorSession($courseCreator->username);
+                return $next($request);
+            }
             return redirect('/' . $courseCreator->username . '/course/login');
         }
 
@@ -34,7 +39,11 @@ class CourseUser
         $this->checkPermissions();
 
         if ($user->hasAnyRole(['admin', 'course.user'])) {
-            $this->setCreatorSession($courseCreator->username);
+
+            if($user->hasRole('course.user')) {
+                $this->setCreatorSession($courseCreator->username);
+            }
+
             return $next($request);
         }
 

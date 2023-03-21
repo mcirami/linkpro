@@ -13,7 +13,6 @@ use App\Http\Controllers\IconController;
 use App\Http\Controllers\UtilityController;
 use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\ContactMailController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\MailchimpController;
@@ -161,19 +160,18 @@ Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated', 'lp.user']], funct
 
 });
 
-Route::get('/{user:username}/course/login', [LoginController::class, 'courseLogin'])->name('course.login');
-Route::get('/{user:username}/course/reset-password', [CoursePasswordController::class, 'showResetPassword'])->name('show.reset.password');
-Route::post('/send-reset-course-password', [CoursePasswordController::class, 'sendResetCoursePassword'])->name('send.reset.course.password');
-Route::get('/{user:username}/password/reset/', [CoursePasswordController::class, 'showPasswordUpdate'])->name('show.password.update');
-Route::post('/reset-course-password', [CoursePasswordController::class, 'resetCoursePassword'])->name('reset.course.password');
-
 Route::group(['middleware' => ['course.user']], function() {
+    Route::get('/{user:username}/password/reset/', [CoursePasswordController::class, 'showPasswordUpdate'])->name('show.password.update');
+    Route::get('/{user:username}/course/login', [LoginController::class, 'courseLogin'])->name('course.login');
+    Route::get('/{user:username}/course/reset-password', [CoursePasswordController::class, 'showResetPassword'])->name('show.reset.password');
     Route::get('/{user:username}/courses', [CourseController::class, 'showAllCourses'])->name('all.courses');
+    Route::get('/{user:username}/course/{course:slug}', [CourseController::class, 'show'])->name('live.course.page');
+    Route::get('/{user:username}/course/{course:slug}/checkout', [PurchaseController::class, 'show'])->name('course.checkout');
+    Route::get('/{user:username}/{landing_page:slug}', [LandingPageController::class, 'show'])->name('live.landing.page');
 });
 
-Route::get('/{user:username}/course/{course:slug}', [CourseController::class, 'show'])->name('live.course.page');
-
-Route::get('/{user:username}/course/{course:slug}/checkout', [PurchaseController::class, 'show'])->name('course.checkout');
+Route::post('/send-reset-course-password', [CoursePasswordController::class, 'sendResetCoursePassword'])->name('send.reset.course.password');
+Route::post('/reset-course-password', [CoursePasswordController::class, 'resetCoursePassword'])->name('reset.course.password');
 Route::post('/course-register', [CourseRegisterController::class, 'customRegistration'])->name('course.register');
 Route::post('/checkout/purchase', [PurchaseController::class, 'store'])->name('course.purchase');
 
@@ -192,7 +190,6 @@ Route::view('/terms-and-conditions', 'utility.terms')->name('terms');
 Route::view('/privacy-policy', 'utility.privacy')->name('privacy');
 Route::view('/how-it-works', 'utility.how-it-works')->name('how-it-works');
 Route::view('/plan-options', 'subscription.public-plans')->name('public.plans');
-/*Route::get('/home', [HomeController::class, 'index'])->name('home');*/
 
 Route::post('/check-page-auth/{page}', [PageController::class, 'pageAuth'])->name('check.page.auth');
 Route::get('/email-subscription/{user}', [UserController::class, 'emailSubscription'])->name('email.subscription');
@@ -200,6 +197,4 @@ Route::post('/link-click/{link}', [TrackingController::class, 'storeLinkVisit'])
 Route::post('/folder-click/{folder}', [TrackingController::class, 'storeFolderClick']);
 Route::get('/setup', [UtilityController::class, 'showSetupPage'])->name('setup.page');
 Route::get('/{page}', [PageController::class, 'show'])->name('show.live.page');
-
-Route::get('/{user:username}/{landing_page:slug}', [LandingPageController::class, 'show'])->name('live.landing.page');
 

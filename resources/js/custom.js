@@ -420,31 +420,6 @@ jQuery(document).ready(function($) {
         })
     }
 
-    document.querySelectorAll('.switch')?.forEach((offerSwitch) => {
-        offerSwitch.addEventListener('change', function(event, state) {
-            const value = event.target.checked;
-            const currentSwitch = event.target.name.split("_");
-            const switchName = currentSwitch[0];
-            const offerID = currentSwitch[1];
-
-            const packets = {
-                [switchName]: value
-            }
-
-            axios.post("/course-manager/offer/update-data/" + offerID, packets)
-            .then(
-                (response) => {
-                    console.log(JSON.stringify(response.data))
-                }
-            )
-            .catch((error) => {
-                console.error("ERROR:: ", error);
-
-            });
-
-        });
-    })
-
     async function registerUser()  {
 
         const username = document.querySelector('#username').value;
