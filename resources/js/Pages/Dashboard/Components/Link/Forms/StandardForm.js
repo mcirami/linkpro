@@ -136,7 +136,7 @@ const StandardForm = ({
                         icon: currentLink.icon,
                         page_id: pageSettings["id"],
                         folder_id: folderID,
-                        type: "standard",
+                        type: "url",
                     };
                     break;
                 case "email":
@@ -146,7 +146,7 @@ const StandardForm = ({
                         icon: currentLink.icon,
                         page_id: pageSettings["id"],
                         folder_id: folderID,
-                        type: "standard",
+                        type: "email",
                     };
                     break;
                 case "phone":
@@ -156,7 +156,7 @@ const StandardForm = ({
                         icon: currentLink.icon,
                         page_id: pageSettings["id"],
                         folder_id: folderID,
-                        type: "standard",
+                        type: "phone",
                     };
                     break;
                 case "affiliate":
@@ -166,7 +166,7 @@ const StandardForm = ({
                         url: URL,
                         page_id: pageSettings["id"],
                         folder_id: folderID,
-                        type: "standard",
+                        type: "offer",
                     };
                     break;
                 default:

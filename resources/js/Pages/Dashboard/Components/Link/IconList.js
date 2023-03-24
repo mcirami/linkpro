@@ -62,7 +62,7 @@ const IconList = ({
             }
 
             if(iconType === "affiliate") {
-                url = window.location.origin + "/" + el.dataset.creator + "/" + el.dataset.slug + "?a=" + authUser;
+                url = window.location.origin + "/" + el.dataset.creator + "/course/" + el.dataset.slug + "?a=" + authUser + "&o=" + el.dataset.offer;
                 setInputType("affiliate")
             }
 
@@ -283,6 +283,7 @@ const IconList = ({
                                         data-name={icon.name}
                                         data-creator={icon.creator}
                                         data-slug={icon.slug}
+                                        data-offer={icon.offer_id}
                                         data-icontype={accordionValue}
                                         alt=""
                                     />

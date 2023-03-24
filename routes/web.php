@@ -8,6 +8,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\TrackingController;
+use App\Http\Controllers\StatsController;
 use App\Http\Controllers\FolderController;
 use App\Http\Controllers\IconController;
 use App\Http\Controllers\UtilityController;
@@ -62,14 +63,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/update-account/{user}', [UserController::class, 'updateAccountInfo'])->name('user.update.info');
     Route::post('/update-card', [UserController::class, 'updateCard'])->name('user.update.card');
     Route::post('/update-payment-method', [UserController::class, 'updateMethod'])->name('user.update.payment');
-
-    Route::post('/stats/link/range', [TrackingController::class, 'getLinkStatsRange']);
-    Route::post('/stats/page/range', [TrackingController::class, 'getPageStatsRange']);
-    Route::post('/stats/folder/range', [TrackingController::class, 'getFolderStatsRange']);
-    Route::get('/stats/get/page', [TrackingController::class, 'getPageStats']);
-    Route::get('/stats/get/link', [TrackingController::class, 'getLinkStats']);
-    Route::get('/stats/get/deleted', [TrackingController::class, 'getDeletedStats']);
-    Route::get('/stats/get/folder', [TrackingController::class, 'getFolderStats']);
 
     Route::post('/folder/new', [FolderController::class, 'store'])->name('add.folder');
 
@@ -154,9 +147,17 @@ Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated', 'lp.user']], funct
     Route::get('/course-manager', [CourseController::class, 'showCourseManager'])->name('course.manager');
     Route::get('/course-manager/landing-page/{landing_page}', [LandingPageController::class, 'edit'])->name('edit.landing.page');
     Route::get('/course-manager/course/{course}', [CourseController::class, 'edit'])->name('edit.course');
-    Route::get('/stats', [TrackingController::class, 'show'])->name('stats');
     Route::get('/plans', [SubscriptionController::class, 'plans'])->name('plans.get');
     Route::get('/subscribe', [SubscriptionController::class, 'purchase'])->name('subscribe.get');
+
+    Route::post('/stats/link/range', [StatsController::class, 'getLinkStatsRange']);
+    Route::post('/stats/page/range', [StatsController::class, 'getPageStatsRange']);
+    Route::post('/stats/folder/range', [StatsController::class, 'getFolderStatsRange']);
+    Route::get('/stats/get/page', [StatsController::class, 'getPageStats']);
+    Route::get('/stats/get/link', [StatsController::class, 'getLinkStats']);
+    Route::get('/stats/get/deleted', [StatsController::class, 'getDeletedStats']);
+    Route::get('/stats/get/folder', [StatsController::class, 'getFolderStats']);
+    Route::get('/stats', [StatsController::class, 'show'])->name('stats');
 
 });
 

@@ -339,13 +339,24 @@ jQuery(document).ready(function($) {
 
     const linkTrackers = document.querySelectorAll('.link_tracker');
 
-    if (linkTrackers.length > 0) {
+    if (linkTrackers) {
 
         linkTrackers.forEach((link) => {
             link.addEventListener('click', function(e) {
                 const linkID = this.dataset.id;
 
-                axios.post('/link-click/' + linkID, ).then(
+                const url = this.getAttribute('href');
+                const queryString = url.replace('?', "&");
+                const urlParams = new URLSearchParams(queryString);
+                const aff = urlParams?.get('a');
+                const offer = urlParams?.get('o');
+
+                const packets = {
+                    aff: aff ? aff : null,
+                    offer: offer ? offer : null
+                }
+
+                axios.post('/link-click/' + linkID, packets).then(
                     (response) => {
                         console.log(JSON.stringify(response.data.message));
                     },
