@@ -167,6 +167,7 @@ Route::group(['middleware' => ['course.user']], function() {
     Route::get('/{user:username}/course/reset-password', [CoursePasswordController::class, 'showResetPassword'])->name('show.reset.password');
     Route::get('/{user:username}/courses', [CourseController::class, 'showAllCourses'])->name('all.courses');
     Route::get('/{user:username}/course/{course:slug}', [CourseController::class, 'show'])->name('live.course.page');
+    Route::get('/{user:username}/course-page/{course:slug}', [CourseController::class, 'showCourseLander'])->name('live.course.lander');
     Route::get('/{user:username}/course/{course:slug}/checkout', [PurchaseController::class, 'show'])->name('course.checkout');
     Route::get('/{user:username}/{landing_page:slug}', [LandingPageController::class, 'show'])->name('live.landing.page');
 });

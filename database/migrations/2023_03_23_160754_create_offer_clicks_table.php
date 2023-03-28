@@ -14,7 +14,11 @@ class CreateOfferClicksTable extends Migration
     public function up()
     {
         Schema::create('offer_clicks', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
+            $table->string('ip_address');
+            $table->integer('referral_id');
+            $table->integer('offer_id');
+            $table->boolean('is_unique');
             $table->timestamps();
         });
     }

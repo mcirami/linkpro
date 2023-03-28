@@ -28,7 +28,7 @@ class CourseUser
         if (!Auth::check()) {
             $name = $request->route()->getName();
             session()->put('url.intended', $request->url());
-            if ($courseCreator && $name != 'all.courses') {
+            if ($courseCreator && $name != 'all.courses' && $name != 'live.course.page') {
                 $this->setCreatorSession($courseCreator->username);
                 return $next($request);
             }

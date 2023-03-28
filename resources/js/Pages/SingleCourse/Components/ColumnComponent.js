@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 const hasCourseAccess = user.hasCourseAccess;
 const creator = user.creator;
+const affRef = user.affRef;
+const clickId = user.clickId;
 
 const ColumnComponent = ({
                              section,
@@ -14,11 +16,19 @@ const ColumnComponent = ({
 
     const {id, type, text, text_color, video_title, video_link, background_color, button, button_position} = section;
     const {button_color, button_text_color, button_text, slug} = course;
-    const buttonUrl = window.location.protocol + "//" + window.location.host + "/" + creator + "/course/" + slug + "/checkout";
+
+    let additionalVars = "";
+    if (affRef && clickId) {
+        additionalVars = "?a=" + affRef + "&cid=" + clickId;
+    }
+    const buttonUrl = window.location.protocol + "//" + window.location.host + "/" + creator + "/course/" + slug + "/checkout" + additionalVars;
 
     const [imagePlaceholder, setImagePlaceholder] = useState(null);
     const [mobileVideo, setMobileVideo] = useState(null);
     const [buttonStyle, setButtonStyle] = useState(null);
+
+    console.log("affRef: ", affRef);
+    console.log("clickId: ", clickId);
 
     useEffect(() => {
         if (type === "video") {

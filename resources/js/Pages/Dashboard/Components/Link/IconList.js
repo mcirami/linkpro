@@ -10,7 +10,6 @@ const IconList = ({
                       setCurrentLink,
                       accordionValue,
                       setCharactersLeft,
-                      inputType = null,
                       setInputType = null,
                       integrationType = null,
                       editID,
@@ -61,9 +60,9 @@ const IconList = ({
                 }
             }
 
-            if(iconType === "affiliate") {
-                url = window.location.origin + "/" + el.dataset.creator + "/course/" + el.dataset.slug + "?a=" + authUser + "&o=" + el.dataset.offer;
-                setInputType("affiliate")
+            if(iconType === "offer") {
+                url = window.location.origin + "/" + el.dataset.creator + "/course-page/" + el.dataset.slug + "?a=" + authUser;
+                setInputType("offer")
             }
 
             setCurrentLink(prevState => ({
@@ -71,7 +70,7 @@ const IconList = ({
                 name: name,
                 icon: source,
                 url: url,
-                type: "standard"
+                type: iconType
             }))
 
         } else {
@@ -125,7 +124,7 @@ const IconList = ({
         let url;
 
         switch(accordionValue) {
-            case "affiliate":
+            case "offer":
                 url = '/get-aff-icons';
                 break;
             case "custom":
@@ -269,7 +268,7 @@ const IconList = ({
                             )
                         }),
 
-                    "affiliate" :
+                    "offer" :
                         iconList?.map((icon, index) => {
 
                             return (

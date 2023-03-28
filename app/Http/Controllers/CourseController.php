@@ -7,10 +7,9 @@ use App\Models\CourseSection;
 use App\Models\User;
 use App\Services\CourseService;
 use App\Services\OfferService;
-use Illuminate\Database\Eloquent\Builder;
+use App\Services\TrackingServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
 use App\Http\Traits\PermissionTrait;
 
@@ -32,11 +31,39 @@ class CourseController extends Controller
         $sections        = $course->CourseSections()->get();
 
         Javascript::put( [
-            'course'          => $course,
-            'sections'        => $sections,
-            'landingPageData' => $landingPageData,
-            'creator'         => $user->username,
-            'hasCourseAccess'    => $hasCourseAccess
+            'course'            => $course,
+            'sections'          => $sections,
+            'landingPageData'   => $landingPageData,
+            'creator'           => $user->username,
+            'hasCourseAccess'   => $hasCourseAccess,
+        ] );
+
+        return view( 'courses.show' )->with( [ 'landingPageData' => $landingPageData ] );
+    }
+
+    public function showCourseLander(Request $request, User $user, Course $course, TrackingServices $trackingServices) {
+
+        $offer = $course->Offer()->first();
+
+        if (!$offer->published) {
+            return abort(404);
+        }
+
+        $responseData = $trackingServices->storeOfferClick($offer, $request, $user);
+
+        $hasCourseAccess = $this->checkCoursePermission($course);
+
+        $landingPageData = $user->LandingPages()->first();
+        $sections        = $course->CourseSections()->get();
+
+        Javascript::put( [
+            'course'            => $course,
+            'sections'          => $sections,
+            'landingPageData'   => $landingPageData,
+            'creator'           => $user->username,
+            'hasCourseAccess'   => $hasCourseAccess,
+            'affRef'            => $responseData['affRef'],
+            'clickId'           => $responseData['clickId']
         ] );
 
         return view( 'courses.show' )->with( [ 'landingPageData' => $landingPageData ] );

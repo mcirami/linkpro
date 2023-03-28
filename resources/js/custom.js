@@ -187,24 +187,7 @@ jQuery(document).ready(function($) {
         })
     }
 
-    /*$('.mobile_menu_icon').click(function(e){
-        //e.preventDefault();
-        $(this).toggleClass('open');
-        $('.nav_links_wrap').toggleClass('open');
-
-        setTimeout(function() {
-            $('.nav_row').toggleClass('fixed');
-        }, 500);
-    });*/
-
     $(window).on('resize', function() {
-
-        /*const mobileMenuIcon = $('.mobile_menu_icon');
-        if ( mobileMenuIcon.hasClass('open') && window.outerWidth > 768) {
-            mobileMenuIcon.removeClass('open');
-            $('.nav_links_wrap').removeClass('open');
-            $('.nav_row').removeClass('fixed');
-        }*/
 
         if (window.outerWidth < 769) {
             const videoWrap = document.querySelectorAll('#desktop_video .video_wrap');
@@ -343,22 +326,12 @@ jQuery(document).ready(function($) {
 
         linkTrackers.forEach((link) => {
             link.addEventListener('click', function(e) {
+
                 const linkID = this.dataset.id;
 
-                const url = this.getAttribute('href');
-                const queryString = url.replace('?', "&");
-                const urlParams = new URLSearchParams(queryString);
-                const aff = urlParams?.get('a');
-                const offer = urlParams?.get('o');
-
-                const packets = {
-                    aff: aff ? aff : null,
-                    offer: offer ? offer : null
-                }
-
-                axios.post('/link-click/' + linkID, packets).then(
+                axios.post('/link-click/' + linkID).then(
                     (response) => {
-                        console.log(JSON.stringify(response.data.message));
+                        console.log("click tracked");
                     },
 
                 ).catch(error => {

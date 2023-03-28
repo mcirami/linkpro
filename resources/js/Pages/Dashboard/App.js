@@ -253,7 +253,7 @@ function App() {
                 text = "add custom icons"
             } else if (type === "integration") {
                 text = "add an integration"
-            } else if (type === "affiliate") {
+            } else if (type === "offer") {
                 text = "earn money from an affiliate offer"
             }
 
@@ -576,7 +576,7 @@ function App() {
                                                                 }
                                                             </div>
                                                         }
-                                                        <div data-type="affiliate"
+                                                        <div data-type="offer"
                                                              className={`accordion_row ${!subStatus ? "disabled" : ""}`}
                                                              onClick={(e) => handleDisabledClick(e)}
                                                         >
@@ -584,11 +584,11 @@ function App() {
                                                                 accordionValue={accordionValue}
                                                                 setAccordionValue={setAccordionValue}
                                                                 linkText="Affiliate Offers"
-                                                                type="affiliate"
+                                                                type="offer"
                                                             />
-                                                            {accordionValue === "affiliate" &&
+                                                            {accordionValue === "offer" &&
                                                                 <div className={`inner_wrap ${accordionValue ===
-                                                                "affiliate" && "open"}`}>
+                                                                "offer" && "open"}`}>
 
                                                                     <StandardForm
                                                                         accordionValue={accordionValue}

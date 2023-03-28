@@ -18,23 +18,27 @@ class PurchaseController extends Controller
 {
     use SubscriptionTrait;
 
-    public function show(User $user, Course $course, PurchaseService $purchaseService) {
+    public function show(Request $request, User $user, Course $course, PurchaseService $purchaseService) {
 
         Session::put('creator', $user->username);
         $token = $purchaseService->getToken();
         $offer = $course->Offer()->first();
         $landingPageData = $user->LandingPages()->first();
+        $affRef = $request->get('a') ? $request->get('a') : null;
+        $clickId = $request->get('cid') ? $request->get('cid') : null;
 
         Javascript::put([
             'landingPageData' => $landingPageData
         ]);
 
         return view('purchase.show')->with([
-            'token' => $token,
-            'offer' => $offer,
-            'courseTitle' => $course->title,
-            'landingPageData' => $landingPageData,
-            'creator' => $user->username
+            'token'             => $token,
+            'offer'             => $offer,
+            'courseTitle'       => $course->title,
+            'landingPageData'   => $landingPageData,
+            'creator'           => $user->username,
+            'affRef'            => $affRef,
+            'clickId'           => $clickId
         ]);
     }
 
@@ -45,6 +49,7 @@ class PurchaseController extends Controller
         $data = $purchaseService->purchase($offer, $request);
 
         if ($data["success"]) {
+
             $username = $offer->user()->pluck('username')->first();
             $courseSlug = $data["course_slug"];
 

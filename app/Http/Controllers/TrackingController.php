@@ -16,17 +16,13 @@ class TrackingController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function storeLinkVisit(Link $link, TrackingServices $services, Request $request) {
+    public function storeLinkVisit(Link $link) {
 
-        if($link->type == "offer") {
-            $services->storeOfferClick($link, $request);
-        } else {
-            $link->linkVisits()->create([
-                'page_id' => $link->page_id
-            ]);
-        }
+        $link->linkVisits()->create([
+            'page_id' => $link->page_id
+        ]);
 
-        return response()->json(['message' => "Success!"]);
+        return response()->json(['success' => true]);
     }
 
     public function storeFolderClick(Folder $folder) {

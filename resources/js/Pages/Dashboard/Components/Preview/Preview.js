@@ -140,7 +140,7 @@ const Preview = ({
                                 const dataRow = Math.ceil((index + 1) / 4);
 
                                 let displayIcon = null;
-                                if(type === "standard" || type === "mailchimp" || type === "shopify") {
+                                if(type !== "folder") {
                                     displayIcon = checkIcon(icon, "preview");
                                 }
 
@@ -153,53 +153,60 @@ const Preview = ({
 
                                 return (
                                     <React.Fragment key={index}>
-
-                                        {{
-                                            "folder":
-                                                active_status && subStatus ?
-                                                    <Folder
-                                                        colClasses={colClasses}
-                                                        mainIndex={index}
-                                                        links={links}
-                                                        setRow={setRow}
-                                                        value={value}
-                                                        setValue={setValue}
-                                                        dataRow={dataRow}
-                                                        name={name}
-                                                        clickType={clickType}
-                                                        setClickType={setClickType}
-                                                    />
-                                                    :
-                                                    subStatus && <div className={ ` ${colClasses} `}>
-                                                    </div>,
-
-                                            "standard":
-
-                                                <div className={ ` ${colClasses} `}>
-                                                    {active_status ?
-                                                        <>
-                                                            <a className={!url ||
-                                                            !displayIcon ?
-                                                                "default" :
-                                                                ""} target="_blank" href={url ||
-                                                            "#"}>
-                                                                <img src={displayIcon} alt=""/>
-                                                            </a>
-                                                            <p>
-                                                                {name?.length >
-                                                                11 ?
-                                                                    name.substring(0,
-                                                                        11) + "..."
-                                                                    :
-                                                                    name || "Link Name"
-                                                                }
-                                                            </p>
-                                                        </>
+                                        {(() => {
+                                            switch (type) {
+                                                case "folder":
+                                                    return ( active_status && subStatus ?
+                                                        <Folder
+                                                            colClasses={colClasses}
+                                                            mainIndex={index}
+                                                            links={links}
+                                                            setRow={setRow}
+                                                            value={value}
+                                                            setValue={setValue}
+                                                            dataRow={dataRow}
+                                                            name={name}
+                                                            clickType={clickType}
+                                                            setClickType={setClickType}
+                                                        />
                                                         :
-                                                        ""
-                                                    }
-                                                </div>
-                                        }[type]}
+                                                        subStatus &&
+                                                        <div className={` ${colClasses} `}>
+                                                        </div>
+                                                    )
+                                                case "standard":
+                                                case "offer":
+                                                    return (
+                                                        <div className={` ${colClasses} `}>
+                                                            {active_status ?
+                                                                <>
+                                                                    <a className={!url ||
+                                                                    !displayIcon ?
+                                                                        "default" :
+                                                                        ""} target="_blank" href={url ||
+                                                                        "#"}>
+                                                                        <img src={displayIcon} alt=""/>
+                                                                    </a>
+                                                                    <p>
+                                                                        {name?.length >
+                                                                        11 ?
+                                                                            name.substring(
+                                                                                0,
+                                                                                11) +
+                                                                            "..."
+                                                                            :
+                                                                            name ||
+                                                                            "Link Name"
+                                                                        }
+                                                                    </p>
+                                                                </>
+                                                                :
+                                                                ""
+                                                            }
+                                                        </div>
+                                                    )
+                                            }
+                                        })()}
 
                                         { (type === "mailchimp" || type === "shopify") &&
 

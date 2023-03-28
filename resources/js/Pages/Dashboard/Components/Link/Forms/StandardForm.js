@@ -83,8 +83,8 @@ const StandardForm = ({
             } else {
                 setInputType("url")
             }
-        } else if (accordionValue === "affiliate") {
-            setInputType("affiliate")
+        } else if (accordionValue === "offer") {
+            setInputType("offer")
         }
 
     },[])
@@ -159,7 +159,7 @@ const StandardForm = ({
                         type: "phone",
                     };
                     break;
-                case "affiliate":
+                case "offer":
                     packets = {
                         name: currentLink.name,
                         icon: currentLink.icon,
@@ -400,7 +400,7 @@ const StandardForm = ({
 
                     <div className="icon_row">
                         <div className="icon_box">
-                            {accordionValue !== "affiliate" &&
+                            {accordionValue !== "offer" &&
                                 <div className="uploader">
                                     <input name="search" type="text" placeholder="Search Icons" onChange={(e) => handleChange(
                                         e)} defaultValue={searchInput}/>
@@ -462,7 +462,7 @@ const StandardForm = ({
                 </div>
             </div>
 
-            {accordionValue !== "affiliate" &&
+            {accordionValue !== "offer" &&
                 <div className="row mb-0">
                     <div className="col-12">
                         <InputTypeRadio
@@ -478,7 +478,7 @@ const StandardForm = ({
             <div className="row">
                 <div className="col-12">
 
-                    {accordionValue === "affiliate" ?
+                    {accordionValue === "offer" ?
                         <div className="my_row external_link">
                             <h3>Offer Landing Page:</h3>
                             {currentLink.url ?

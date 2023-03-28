@@ -30,6 +30,8 @@
                         <input id="user" type="hidden" name="user">
                         <input type="hidden" id="course_creator" name="course_creator" value="{{$creator}}">
                         <input type="hidden" id="course_title" name="course_title" value="{{$courseTitle}}">
+                        <input type="hidden" name="affRef" value="{{$affRef}}">
+                        <input type="hidden" name="clickId" value="{{$clickId}}">
                         <input type="hidden" id="user_guest" name="user_guest" value="@guest true @else false @endguest">
                         <div class="column_wrap row">
                             @guest

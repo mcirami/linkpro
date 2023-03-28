@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserRequest;
 use App\Services\UserService;
-use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -13,7 +12,6 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
 
@@ -134,9 +132,7 @@ class UserController extends Controller
             $path = "/login";
         }
 
-        Session::forget('creator');
-        Session::forget('url.intended');
-        Session::forget('permissions');
+        Session::flush();
 
         return response()->json(['path' => $path]);
     }

@@ -10,19 +10,14 @@ class Purchase extends Model
     use HasFactory;
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that are not mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'user_id',
-        'course_id',
-        'customer_id',
-        'transaction_id',
-        'purchase_amount',
-        'pm_last_four',
-        'pm_type',
-        'status',
+    protected $guarded = [
+        'id',
+        'created_at',
+        'updated_at'
     ];
 
     public function User() {

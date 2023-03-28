@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Purchase;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use App\Http\Traits\SubscriptionTrait;
 
@@ -62,8 +63,15 @@ class PurchaseService {
                     $last4 = null;
                 }
 
+                if ($request->clickId != "") {
+                    $clickId = $request->clickId;
+                } else {
+                    $clickId = Cookie::get('lpcid_'.$request->affRef. '_'.$offer->id);
+                }
+
                 $course->Purchases()->create([
                     'user_id'           => $user->id,
+                    'offer_click_id'    => $clickId,
                     'customer_id'       => $customer->customer->id,
                     'transaction_id'    => $result->transaction->id,
                     'purchase_amount'   => $offer->price,

@@ -10,17 +10,14 @@ class Offer extends Model
     use HasFactory;
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that are not mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'course_id',
-        'icon',
-        'price',
-        'public',
-        'active',
-        'published'
+    protected $guarded = [
+        'id',
+        'created_at',
+        'updated_at'
     ];
 
     protected $casts = [
@@ -33,5 +30,9 @@ class Offer extends Model
 
     public function Course() {
         return $this->belongsTo(Course::class);
+    }
+
+    public function OfferClicks() {
+        return $this->hasMany(OfferClick::class);
     }
 }
