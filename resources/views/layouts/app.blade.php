@@ -66,7 +66,10 @@
                                             </li>
                                         @endif
                                     @else
-                                        @php $page = Auth::user()->pages()->where('user_id', Auth::user()->id)->where('default', true)->get(); $image = $page[0]->profile_img;  @endphp
+                                        @php
+                                            $page = Auth::user()->pages()->where('user_id', Auth::user()->id)->where('default', true)->first();
+                                            $image = !empty($page) ? $page[0]->profile_img : "";
+                                        @endphp
                                         @if( empty($userSub) || ($userSub->name != "premier" && !$userSub->ends_at) || ($userSub->ends_at && $userSub->ends_at < \Carbon\Carbon::now()) )
                                             <li class="upgrade_link desktop">
                                                 <a class="button blue" href="{{route('plans.get')}}">Upgrade</a>
@@ -79,7 +82,7 @@
 
                                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                                                <a href="{{ url('/dashboard/pages/' . $page[0]->id) }}" class="dropdown-item @php if(Route::is('pages.edit')) { echo "current"; } @endphp">
+                                                <a href="{{ !empty($page) ? url('/dashboard/pages/' . $page[0]->id) : url('/dashboard') }}" class="dropdown-item @php if(Route::is('pages.edit')) { echo "current"; } @endphp">
                                                     Pages
                                                 </a>
                                                 <a href="{{ route('stats')}}" class="dropdown-item @php if(Route::is('stats')) { echo "current"; } @endphp">
@@ -108,7 +111,7 @@
                                             </a>
                                         </li>
                                         <li class="mobile">
-                                            <a href="{{ url('/dashboard/pages/' . $page[0]->id) }}" class="nav-link @php if(Route::is('pages.edit')) { echo "current"; } @endphp">
+                                            <a href="{{ !empty($page) ? url('/dashboard/pages/' . $page[0]->id) : url('/dashboard') }}" class="nav-link @php if(Route::is('pages.edit')) { echo "current"; } @endphp">
                                                 Pages
                                             </a>
                                         </li>
