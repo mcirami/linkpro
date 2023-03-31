@@ -6,7 +6,9 @@ use App\Models\Folder;
 use App\Models\FolderClick;
 use App\Models\Link;
 use App\Models\LinkVisit;
+use App\Models\OfferClick;
 use Carbon\Carbon;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -191,5 +193,32 @@ trait StatsTrait {
             'startDate' => $startDate,
             'endDate' => $endDate
         ];
+    }
+
+    public function getOfferStats($startDate, $endDate) {
+        $user = Auth::user();
+
+        $offers = $user->Offers()->where('published', true)->get();
+
+        $offerArray = array();
+        foreach ($offers as $offer) {
+            $rawCount = $offer->OfferClicks()->where('is_unique', false)->whereBetween('created_at', [ $startDate, $endDate ])->count();
+            $uniqueCount = $offer->OfferClicks()->where('is_unique', true)->whereBetween('created_at', [ $startDate, $endDate ])->count();
+            $conversions = $offer->OfferClicks()->whereHas('purchases', function (
+                \Illuminate\Database\Eloquent\Builder $query) use($startDate, $endDate) {
+                $query->whereBetween('created_at', [ $startDate, $endDate ]);
+            })->count();
+            $object = [
+                'icon'          => $offer->icon,
+                'rawClicks'     => $rawCount,
+                'uniqueClicks'  => $uniqueCount,
+                'conversions'   => $conversions,
+                'payout'        => $offer->price
+            ];
+            array_push($offerArray, $object );
+        }
+
+        return $offerArray;
+
     }
 }

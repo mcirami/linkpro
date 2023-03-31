@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import PageStats from './Components/PageStats';
 import LinkStats from './Components/LinkStats';
 import FolderStats from './Components/FolderStats';
+import OfferStats from './Components/OfferStats';
 
 function App() {
 
@@ -10,7 +11,7 @@ function App() {
     const [linkStats, setLinkStats] = useState([])
     const [deletedStats, setDeletedStats] = useState([]);
     const [folderStats, setFolderStats] = useState([])
-    const [tab, setTab] = useState("link");
+    const [tab, setTab] = useState("page");
 
     const [linkStartDate, setLinkStartDate] = useState(null);
     const [linkEndDate, setLinkEndDate] = useState(null);
@@ -57,7 +58,7 @@ function App() {
 
         <div className="tabs_wrap">
             <div className="my_row tab_nav">
-                <a href="#" className={`tab_link ${tab === "link" ? "active" : "" }` } data-tab="link" onClick={(e) => { handleClick(e) } }>
+                <a href="#" className={`tab_link ${tab === "page" ? "active" : "" }` } data-tab="page" onClick={(e) => { handleClick(e) } }>
                     Page Stats
                 </a>
                 <a href="#" className={`tab_link ${tab === "icon" ? "active" : "" }` } data-tab="icon" onClick={(e) => { handleClick(e) } }>
@@ -66,32 +67,37 @@ function App() {
                 <a href="#" className={`tab_link ${tab === "folder" ? "active" : "" }` } data-tab="folder" onClick={(e) => { handleClick(e) } }>
                     Folder Stats
                 </a>
+                <a href="#" className={`tab_link ${tab === "offer" ? "active" : "" }` } data-tab="offer" onClick={(e) => { handleClick(e) } }>
+                    Offer Stats
+                </a>
             </div>
 
-            {tab === "link" &&
-                <PageStats pageStats={pageStats}
-                           setPageStats={setPageStats}
-                           pageStartDate={pageStartDate}
-                           setPageStartDate={setPageStartDate}
-                           pageEndDate={pageEndDate}
-                           setPageEndDate={setPageEndDate}
-                           pageDropdownValue={pageDropdownValue}
-                           setPageDropdownValue={setPageDropdownValue}
-                           tab={tab}
+            {tab === "page" &&
+                <PageStats
+                    pageStats={pageStats}
+                    setPageStats={setPageStats}
+                    pageStartDate={pageStartDate}
+                    setPageStartDate={setPageStartDate}
+                    pageEndDate={pageEndDate}
+                    setPageEndDate={setPageEndDate}
+                    pageDropdownValue={pageDropdownValue}
+                    setPageDropdownValue={setPageDropdownValue}
+                    tab={tab}
                 />
             }
             {tab ==="icon" &&
-                <LinkStats linkStats={linkStats}
-                           setLinkStats={setLinkStats}
-                           deletedStats={deletedStats}
-                           setDeletedStats={setDeletedStats}
-                           linkStartDate={linkStartDate}
-                           setLinkStartDate={setLinkStartDate}
-                           linkEndDate={linkEndDate}
-                           setLinkEndDate={setLinkEndDate}
-                           linkDropdownValue={linkDropdownValue}
-                           setLinkDropdownValue={setLinkDropdownValue}
-                           tab={tab}
+                <LinkStats
+                    linkStats={linkStats}
+                    setLinkStats={setLinkStats}
+                    deletedStats={deletedStats}
+                    setDeletedStats={setDeletedStats}
+                    linkStartDate={linkStartDate}
+                    setLinkStartDate={setLinkStartDate}
+                    linkEndDate={linkEndDate}
+                    setLinkEndDate={setLinkEndDate}
+                    linkDropdownValue={linkDropdownValue}
+                    setLinkDropdownValue={setLinkDropdownValue}
+                    tab={tab}
                 />
             }
 
@@ -105,6 +111,12 @@ function App() {
                     setFolderEndDate={setFolderEndDate}
                     folderDropdownValue={folderDropdownValue}
                     setFolderDropdownValue={setFolderDropdownValue}
+                    tab={tab}
+                />
+            }
+
+            {tab === "offer" &&
+                <OfferStats
                     tab={tab}
                 />
             }

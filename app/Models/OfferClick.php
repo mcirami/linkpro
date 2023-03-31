@@ -24,4 +24,8 @@ class OfferClick extends Model
     public function offer() {
         return $this->belongsTo(Offer::class);
     }
+
+    public function purchases() {
+        return $this->hasOne(Purchase::class);
+    }
 }

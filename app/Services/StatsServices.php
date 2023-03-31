@@ -166,4 +166,30 @@ class StatsServices {
             /*'pastData' => $pastData*/
         ];
     }
+
+    public function getAllOfferStats($request) {
+
+        if ($request->currentDay) {
+            $startDate = Carbon::now()->startOfDay();
+            $endDate = Carbon::now()->endOfDay();
+
+            $currentData = $this->getOfferStats($startDate, $endDate);
+
+        } else if ($request->dateValue) {
+            $data = $this->getDateRange($request->dateValue);
+
+            $currentData = $this->getOfferStats($data['startDate'], $data['endDate']);
+
+        } else {
+
+            $startDate = Carbon::createFromTimestamp($request->startDate)->startOfDay();
+            $endDate = Carbon::createFromTimestamp($request->endDate)->endOfDay();
+
+            $currentData = $this->getOfferStats($startDate, $endDate);
+        }
+
+        return [
+            'currentData'=> $currentData,
+        ];
+    }
 }

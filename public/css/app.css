@@ -16040,6 +16040,19 @@ a.delete svg {
 #stats_page .stats_wrap .table {
   text-align: center;
   margin-bottom: 0;
+  min-height: 200px;
+}
+#stats_page .stats_wrap .table tbody {
+  position: relative;
+}
+#stats_page .stats_wrap .table tbody > h3, #stats_page .stats_wrap .table tbody > .h3 {
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-130px);
+}
+#stats_page .stats_wrap .table tbody > h3.hidden, #stats_page .stats_wrap .table tbody > .hidden.h3 {
+  opacity: 0;
 }
 #stats_page .stats_wrap .table tr:first-child td {
   padding-top: 20px;

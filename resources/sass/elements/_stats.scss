@@ -225,6 +225,22 @@
         .table {
             text-align: center;
             margin-bottom: 0;
+            min-height: 200px;
+
+            tbody {
+                position: relative;
+
+                > h3 {
+                    position: absolute;
+                    top: 50px;
+                    left: 50%;
+                    transform: translateX(-130px);
+
+                    &.hidden {
+                        opacity: 0;
+                    }
+                }
+            }
 
             tr {
 

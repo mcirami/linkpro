@@ -27,4 +27,8 @@ class Purchase extends Model
     public function Course() {
         return $this->belongsTo(Course::class);
     }
+
+    public function OfferClick() {
+        return $this->belongsTo(OfferClick::class);
+    }
 }

@@ -113,4 +113,11 @@ class StatsController extends Controller
 
         return response()->json(['data' => $data]);
     }
+
+    public function getOfferStats(Request $request, StatsServices $statsServices) {
+
+        $data = $statsServices->getAllOfferStats($request);
+
+        return response()->json(['data' => $data]);
+    }
 }
