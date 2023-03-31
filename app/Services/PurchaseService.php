@@ -69,7 +69,7 @@ class PurchaseService {
                     $clickId = Cookie::get('lpcid_'.$request->affRef. '_'.$offer->id);
                 }
 
-                $course->Purchases()->create([
+                $purchase = $course->Purchases()->create([
                     'user_id'           => $user->id,
                     'offer_click_id'    => $clickId,
                     'customer_id'       => $customer->customer->id,
@@ -81,9 +81,10 @@ class PurchaseService {
                 ]);
 
                 $data = [
-                    "success" => true,
-                    "message" => "You Have Purchased This Course",
-                    "course_slug" => $course->slug,
+                    "success"           => true,
+                    "message"           => "You Have Purchased This Course",
+                    "course_slug"       => $course->slug,
+                    "purchase"          => $purchase
                 ];
 
             } else {

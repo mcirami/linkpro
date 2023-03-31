@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Auth\CourseRegisterController;
+use App\Events\PurchasedItem;
 use App\Models\Course;
 use App\Models\Offer;
 use App\Models\User;
 use App\Services\PurchaseService;
 use Illuminate\Http\Request;
 use App\Http\Traits\SubscriptionTrait;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
 
@@ -49,6 +48,8 @@ class PurchaseController extends Controller
         $data = $purchaseService->purchase($offer, $request);
 
         if ($data["success"]) {
+
+            //PurchasedItem::dispatch($data["purchase"]);
 
             $username = $offer->user()->pluck('username')->first();
             $courseSlug = $data["course_slug"];

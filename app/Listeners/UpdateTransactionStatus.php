@@ -41,21 +41,29 @@ class UpdateTransactionStatus implements ShouldQueue
     public function handle(PurchasedItem $event)
     {
         $transactionId = $event->purchase->transaction_id;
-        $gateway = $this->createGateway();
-        $result = $gateway->transaction()->search([\Braintree\TransactionSearch::id()->is($transactionId)]);
 
-        if ($result->success) {
+        try {
+            $gateway = $this->createGateway();
+            $result = $gateway->transaction()->find($transactionId);
 
             $purchase = Purchase::where('transaction_id', $transactionId)->first();
             $purchase->update([
-                'status' =>  $result->transaction->status
+                'status' =>  $result->status
             ]);
 
-        } else {
+            Log::channel( 'cloudwatch' )->info( "--transaction id--" .
+                                                $transactionId .
+                                                "--Transaction Status--" .
+                                                $result->status
+            );
+
+            return $purchase;
+
+        } catch(\Throwable $e) {
             Log::channel( 'cloudwatch' )->info( "--transaction id--" .
                                                 $transactionId .
                                                 "--error getting transaction status in Event Listener--" .
-                                                $result->message
+                                                $e->getMessage()
             );
         }
     }

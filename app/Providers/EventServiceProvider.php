@@ -28,7 +28,7 @@ class EventServiceProvider extends ServiceProvider
             MailChimpExtendSocialite::class.'@handle',
         ],
         PurchasedItem::class => [
-            UpdateTransactionStatus::class, '@handle',
+            UpdateTransactionStatus::class,
         ],
     ];
 
