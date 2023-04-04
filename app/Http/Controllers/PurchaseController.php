@@ -49,7 +49,7 @@ class PurchaseController extends Controller
 
         if ($data["success"]) {
 
-            //PurchasedItem::dispatch($data["purchase"]);
+            PurchasedItem::dispatch($data["purchase"]);
 
             $username = $offer->user()->pluck('username')->first();
             $courseSlug = $data["course_slug"];

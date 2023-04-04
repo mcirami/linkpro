@@ -92,8 +92,8 @@ export const getOfferStats = (packets) => {
 
             return {
                 success : true,
-                currentData: returnData["currentData"],
-                /*pastData: returnData["pastData"]*/
+                creatorOfferData: returnData["creatorOfferData"],
+                publisherOfferData: returnData["publisherOfferData"]
             }
         },
 

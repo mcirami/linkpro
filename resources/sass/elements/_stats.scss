@@ -225,21 +225,9 @@
         .table {
             text-align: center;
             margin-bottom: 0;
-            min-height: 200px;
 
             tbody {
                 position: relative;
-
-                > h3 {
-                    position: absolute;
-                    top: 50px;
-                    left: 50%;
-                    transform: translateX(-130px);
-
-                    &.hidden {
-                        opacity: 0;
-                    }
-                }
             }
 
             tr {
@@ -256,7 +244,13 @@
                 }
             }
             td {
-                width: 33.33%;
+                //width: 33.33%;
+
+                &.no_stats {
+                    &.hidden {
+                        opacity: 0;
+                    }
+                }
             }
 
             thead {

@@ -505,7 +505,7 @@ jQuery(document).ready(function($) {
 
                 const userGuest = document.querySelector('#user_guest').value.trim();
 
-                if (userGuest) {
+                if (userGuest === "true") {
 
                     registerUser().then((response) => {
 

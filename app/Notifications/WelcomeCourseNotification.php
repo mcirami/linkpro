@@ -42,8 +42,8 @@ class WelcomeCourseNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->from('no-reply@noreply.com', $this->userData["creator"])
-            ->subject('Welcome!')
+            ->from($this->userData["creator"]."@link.pro",$this->userData["creator"])
+            ->subject('Thanks for registering for the' . $this->userData["courseTitle"] . 'course')
             ->markdown('emails.welcome-course', ['data' => $this->userData]);
     }
 

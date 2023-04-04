@@ -6,9 +6,11 @@ use App\Models\Folder;
 use App\Models\FolderClick;
 use App\Models\Link;
 use App\Models\LinkVisit;
+use App\Models\Offer;
 use App\Models\OfferClick;
+use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -195,19 +197,27 @@ trait StatsTrait {
         ];
     }
 
-    public function getOfferStats($startDate, $endDate) {
+    public function getCreatorOfferStats($startDate, $endDate) {
         $user = Auth::user();
 
         $offers = $user->Offers()->where('published', true)->get();
 
         $offerArray = array();
         foreach ($offers as $offer) {
-            $rawCount = $offer->OfferClicks()->where('is_unique', false)->whereBetween('created_at', [ $startDate, $endDate ])->count();
-            $uniqueCount = $offer->OfferClicks()->where('is_unique', true)->whereBetween('created_at', [ $startDate, $endDate ])->count();
-            $conversions = $offer->OfferClicks()->whereHas('purchases', function (
-                \Illuminate\Database\Eloquent\Builder $query) use($startDate, $endDate) {
-                $query->whereBetween('created_at', [ $startDate, $endDate ]);
-            })->count();
+            $rawCount = $offer->OfferClicks()
+                              ->where('is_unique', false)
+                              ->whereBetween('created_at', [ $startDate, $endDate ])
+                              ->count();
+            $uniqueCount = $offer->OfferClicks()
+                                 ->where('is_unique', true)
+                                 ->whereBetween('created_at', [ $startDate, $endDate ])
+                                 ->count();
+            $conversions = $offer->OfferClicks()
+                                 ->whereHas('purchases', function (
+                                     Builder $query) use($startDate, $endDate) {
+                                     $query->whereBetween('created_at', [ $startDate, $endDate ]);
+                                 })
+                                 ->count();
             $object = [
                 'icon'          => $offer->icon,
                 'rawClicks'     => $rawCount,
@@ -216,6 +226,47 @@ trait StatsTrait {
                 'payout'        => $offer->price
             ];
             array_push($offerArray, $object );
+        }
+
+        return $offerArray;
+
+    }
+
+    public function getPublisherOfferStats($startDate, $endDate) {
+        $authUserID = Auth::user()->id;
+
+        $offers = Offer::where('published', true)->get();
+
+        $offerArray = array();
+        foreach ($offers as $offer) {
+
+            if ($offer->user_id != $authUserID) {
+
+                $rawCount    = $offer->OfferClicks()
+                                     ->where( 'is_unique', false )
+                                     ->where( 'referral_id', $authUserID )
+                                     ->whereBetween( 'created_at', [ $startDate, $endDate ] )
+                                     ->count();
+                $uniqueCount = $offer->OfferClicks()
+                                     ->where( 'is_unique', true )
+                                     ->where( 'referral_id', $authUserID )
+                                     ->whereBetween( 'created_at', [ $startDate, $endDate ] )
+                                     ->count();
+                $conversions = $offer->OfferClicks()
+                                     ->where( 'referral_id', $authUserID )
+                                     ->whereHas( 'purchases', function ( Builder $query ) use ( $startDate, $endDate ) {
+                                         $query->whereBetween( 'created_at', [ $startDate, $endDate ] );
+                                     } )
+                                     ->count();
+                $object      = [
+                    'icon'         => $offer->icon,
+                    'rawClicks'    => $rawCount,
+                    'uniqueClicks' => $uniqueCount,
+                    'conversions'  => $conversions,
+                    'payout'       => $offer->price
+                ];
+                array_push( $offerArray, $object );
+            }
         }
 
         return $offerArray;

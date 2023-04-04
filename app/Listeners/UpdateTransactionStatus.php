@@ -20,7 +20,7 @@ class UpdateTransactionStatus implements ShouldQueue
      *
      * @var int
      */
-    public $delay = 900;
+    public $delay = 600;
 
     /**
      * Create the event listener.

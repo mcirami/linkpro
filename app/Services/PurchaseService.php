@@ -63,7 +63,7 @@ class PurchaseService {
                     $last4 = null;
                 }
 
-                if ($request->clickId != "") {
+                if ($request->clickId && $request->clickId != "") {
                     $clickId = $request->clickId;
                 } else {
                     $clickId = Cookie::get('lpcid_'.$request->affRef. '_'.$offer->id);

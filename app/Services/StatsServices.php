@@ -173,23 +173,27 @@ class StatsServices {
             $startDate = Carbon::now()->startOfDay();
             $endDate = Carbon::now()->endOfDay();
 
-            $currentData = $this->getOfferStats($startDate, $endDate);
+            $creatorOfferData = $this->getCreatorOfferStats($startDate, $endDate);
+            $publisherOfferData = $this->getPublisherOfferStats($startDate, $endDate);
 
         } else if ($request->dateValue) {
             $data = $this->getDateRange($request->dateValue);
 
-            $currentData = $this->getOfferStats($data['startDate'], $data['endDate']);
+            $creatorOfferData = $this->getCreatorOfferStats($data['startDate'], $data['endDate']);
+            $publisherOfferData = $this->getPublisherOfferStats($data['startDate'], $data['endDate']);
 
         } else {
 
             $startDate = Carbon::createFromTimestamp($request->startDate)->startOfDay();
             $endDate = Carbon::createFromTimestamp($request->endDate)->endOfDay();
 
-            $currentData = $this->getOfferStats($startDate, $endDate);
+            $creatorOfferData = $this->getCreatorOfferStats($startDate, $endDate);
+            $publisherOfferData = $this->getPublisherOfferStats($startDate, $endDate);
         }
 
         return [
-            'currentData'=> $currentData,
+            'creatorOfferData'      => $creatorOfferData,
+            'publisherOfferData'    => $publisherOfferData
         ];
     }
 }

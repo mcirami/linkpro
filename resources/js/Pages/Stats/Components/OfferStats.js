@@ -5,7 +5,9 @@ import {isEmpty} from 'lodash';
 
 const OfferStats = ({tab}) => {
 
-    const [offerStats, setOfferStats] = useState([])
+    const [creatorOfferStats, setCreatorOfferStats] = useState([]);
+    const [publisherOfferStats, setPublisherOfferStats] = useState([]);
+
     /*const [linkStartDate, setLinkStartDate] = useState(null);
     const [linkEndDate, setEndDate] = useState(null);*/
     const [statsDate, setStatsDate] = useState({
@@ -29,8 +31,10 @@ const OfferStats = ({tab}) => {
         getOfferStats(packets)
         .then((data) => {
             if (data["success"]) {
+                console.log(data);
                 setTimeout(() => {
-                    setOfferStats(data["currentData"])
+                    setCreatorOfferStats(data["creatorOfferData"])
+                    setPublisherOfferStats(data["publisherOfferData"])
                     setIsLoading(false);
                     animatedElements.forEach((element) => {
                         element.classList.remove('hide');
@@ -82,8 +86,9 @@ const OfferStats = ({tab}) => {
             getOfferStats(packets)
             .then((data) => {
                 if (data["success"]) {
+                    console.log(data);
                     setTimeout(() => {
-                        setOfferStats(data["currentData"])
+                        setCreatorOfferStats(data["creatorOfferData"])
                         animatedElements.forEach((element) => {
                             element.classList.remove('hide');
                         })
@@ -118,7 +123,7 @@ const OfferStats = ({tab}) => {
             getOfferStats(packets).then((data) => {
                 if (data["success"]) {
                     setTimeout(() => {
-                        setOfferStats(data["currentData"]);
+                        setCreatorOfferStats(data["creatorOfferData"]);
                         animatedElements.forEach((element) => {
                             element.classList.remove('hide');
                         })
@@ -133,6 +138,8 @@ const OfferStats = ({tab}) => {
         }
     }
 
+    console.log(publisherOfferStats);
+
     return (
 
         <div className="stats_wrap my_row">
@@ -144,7 +151,7 @@ const OfferStats = ({tab}) => {
                     handleDropdownChange={handleDropdownChange}
                     dropdownValue={dropdownValue}
                     tab={tab}
-                    setStatsFunc={setOfferStats}
+                    setStatsFunc={setCreatorOfferStats}
                 />
             </div>
 
@@ -153,6 +160,8 @@ const OfferStats = ({tab}) => {
                 <table className="table table-borderless">
                     <thead>
                     <tr>
+                        {/*<th scope="col" rowSpan={creatorOfferStats.length}>
+                        </th>*/}
                         <th scope="col">
                             <h5>Offer</h5>
                         </th>
@@ -172,36 +181,77 @@ const OfferStats = ({tab}) => {
                     </thead>
                     <tbody>
                     {isLoading &&
-                        <div id="loading_spinner" className="active">
-                            <img src={Vapor.asset('images/spinner.svg')} alt="" />
-                        </div>
+                        <tr id="loading_spinner" className="active">
+                            <td colSpan="5" >
+                                <img src={Vapor.asset('images/spinner.svg')} alt="" />
+                            </td>
+                        </tr>
                     }
-                    {isEmpty(offerStats) ?
-                        <h3 className={ isLoading ? "hidden" : ""}>No Stats Available</h3>
+                    {isEmpty(creatorOfferStats) && isEmpty(publisherOfferStats) ?
+                        <tr>
+                            <td className={ isLoading ? "hidden no_stats" : "no_stats"} colSpan="5"><h3>No Stats Available</h3></td>
+                        </tr>
                         :
-                        offerStats.map((item, index) => {
-                        const {icon, rawClicks, uniqueClicks, conversions, payout} = item;
+                        !isEmpty(creatorOfferStats) &&
+                        <>
+                            {/*<tr>
+                                <td rowSpan="0"><h3>Your Offers</h3></td>
+                            </tr>*/}
+                            {creatorOfferStats.map((item, index) => {
+                                const {icon, rawClicks, uniqueClicks, conversions, payout} = item;
+                                return (
+                                    <tr key={index}>
+                                        <td>
+                                            <img src={icon} />
+                                        </td>
+                                        <td>
+                                            <p className="animate">{rawClicks}</p>
+                                        </td>
+                                        <td>
+                                            <p className="animate">{uniqueClicks}</p>
+                                        </td>
+                                        <td>
+                                            <p className="animate">{conversions}</p>
+                                        </td>
+                                        <td>
+                                            <p className="animate">{payout}</p>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
 
-                        return (
-                            <tr key={index}>
-                                <td>
-                                    <img src={icon} />
-                                </td>
-                                <td>
-                                    <p className="animate">{rawClicks}</p>
-                                </td>
-                                <td>
-                                    <p className="animate">{uniqueClicks}</p>
-                                </td>
-                                <td>
-                                    <p className="animate">{conversions}</p>
-                                </td>
-                                <td>
-                                    <p className="animate">{payout}</p>
-                                </td>
-                            </tr>
-                        )
-                    })}
+                            {!isEmpty(publisherOfferStats) &&
+                                <>
+                                {/*<tr>
+                                <td rowSpan="0"><h3>Your Offers</h3></td>
+                            </tr>*/
+                                }
+                                {publisherOfferStats.map((item, index) => {
+                                    const {icon, rawClicks, uniqueClicks, conversions, payout} = item;
+                                    return (
+                                    <tr key={index}>
+                                        <td>
+                                            <img src={icon} />
+                                        </td>
+                                        <td>
+                                            <p className="animate">{rawClicks}</p>
+                                        </td>
+                                        <td>
+                                            <p className="animate">{uniqueClicks}</p>
+                                        </td>
+                                        <td>
+                                            <p className="animate">{conversions}</p>
+                                        </td>
+                                        <td>
+                                            <p className="animate">{payout}</p>
+                                        </td>
+                                    </tr>
+                                    )
+                                })}
+                                </>
+                            }
+                        </>
+                    }
                     </tbody>
                 </table>
             </div>
