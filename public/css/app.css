@@ -16050,6 +16050,15 @@ a.delete svg {
 #stats_page .stats_wrap .table tr:last-child td {
   padding-bottom: 20px;
 }
+#stats_page .stats_wrap .table tr.totals {
+  border-top: 1px solid #d2d2d2;
+}
+#stats_page .stats_wrap .table tr.totals h3, #stats_page .stats_wrap .table tr.totals .h3 {
+  font-size: 1.3em;
+}
+#stats_page .stats_wrap .table tr.totals td {
+  padding: 10px 0;
+}
 #stats_page .stats_wrap .table td.no_stats.hidden {
   opacity: 0;
 }
@@ -16071,12 +16080,14 @@ a.delete svg {
 #stats_page .stats_wrap .table p {
   margin: auto;
   padding: 10px 0;
+}
+#stats_page .stats_wrap .table .animate {
   opacity: 1;
   transition: 500ms all linear;
   -moz-transition: 500ms all linear;
   -webkit-transition: 500ms all linear;
 }
-#stats_page .stats_wrap .table p.animate.hide {
+#stats_page .stats_wrap .table .animate.hide {
   opacity: 0;
 }
 

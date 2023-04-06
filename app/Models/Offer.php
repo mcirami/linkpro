@@ -35,4 +35,8 @@ class Offer extends Model
     public function OfferClicks() {
         return $this->hasMany(OfferClick::class);
     }
+
+    public function purchases() {
+        return $this->hasManyThrough(Purchase::class, OfferClick::class);
+    }
 }

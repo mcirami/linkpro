@@ -242,9 +242,20 @@
                         padding-bottom: 20px;
                     }
                 }
+
+                &.totals {
+                    border-top: 1px solid $borderGray;
+
+                    h3 {
+                        font-size: 1.3em;
+                    }
+
+                    td {
+                        padding: 10px 0;
+                    }
+                }
             }
             td {
-                //width: 33.33%;
 
                 &.no_stats {
                     &.hidden {
@@ -275,18 +286,18 @@
             p {
                 margin: auto;
                 padding: 10px 0;
+            }
+
+            .animate {
                 opacity: 1;
                 transition: 500ms all linear;
                 -moz-transition: 500ms all linear;
                 -webkit-transition: 500ms all linear;
 
-                &.animate {
-                    &.hide {
-                        opacity: 0;
-                    }
+                &.hide {
+                    opacity: 0;
                 }
             }
-
         }
     }
 }

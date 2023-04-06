@@ -5,23 +5,16 @@ import {isEmpty} from 'lodash';
 
 const OfferStats = ({tab}) => {
 
-    const [creatorOfferStats, setCreatorOfferStats] = useState([]);
-    const [publisherOfferStats, setPublisherOfferStats] = useState([]);
+    const [offerStats, setOfferStats] = useState([]);
+    const [totals, setTotals] = useState([]);
 
-    /*const [linkStartDate, setLinkStartDate] = useState(null);
-    const [linkEndDate, setEndDate] = useState(null);*/
     const [statsDate, setStatsDate] = useState({
         startDate: null,
         endDate: null
     });
     const [dropdownValue, setDropdownValue] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
-
-    let animatedElements;
-
-    useEffect(() => {
-        animatedElements = document.querySelectorAll('p.animate');
-    })
+    const [animate, setAnimate] = useState(true);
 
     useEffect(() => {
         const packets = {
@@ -31,21 +24,17 @@ const OfferStats = ({tab}) => {
         getOfferStats(packets)
         .then((data) => {
             if (data["success"]) {
-                console.log(data);
                 setTimeout(() => {
-                    setCreatorOfferStats(data["creatorOfferData"])
-                    setPublisherOfferStats(data["publisherOfferData"])
-                    setIsLoading(false);
-                    animatedElements.forEach((element) => {
-                        element.classList.remove('hide');
-                    })
+                    setOfferStats(data["creatorOfferData"])
+                    setTotals(data["totals"]);
+                    setAnimate(false)
 
                 }, 500)
             } else {
-                animatedElements.forEach((element) => {
-                    element.classList.remove('hide');
-                })
+                setAnimate(false)
             }
+
+            setIsLoading(false);
         });
     },[])
 
@@ -73,10 +62,7 @@ const OfferStats = ({tab}) => {
         }
 
         if ( currentEndDate && currentStartDate && (currentStartDate <= currentEndDate) ) {
-            animatedElements.forEach((element) => {
-                element.classList.add('hide');
-            })
-
+            setAnimate(true);
             setDropdownValue(0);
             const packets = {
                 startDate: Math.round(new Date(currentStartDate) / 1000),
@@ -86,19 +72,16 @@ const OfferStats = ({tab}) => {
             getOfferStats(packets)
             .then((data) => {
                 if (data["success"]) {
-                    console.log(data);
                     setTimeout(() => {
-                        setCreatorOfferStats(data["creatorOfferData"])
-                        animatedElements.forEach((element) => {
-                            element.classList.remove('hide');
-                        })
+                        setOfferStats(data["creatorOfferData"]);
+                        setTotals(data["totals"]);
+                        setAnimate(false);
 
                     }, 500)
                 } else {
-                    animatedElements.forEach((element) => {
-                        element.classList.remove('hide');
-                    })
+                    setAnimate(false);
                 }
+
             });
         }
     }
@@ -106,15 +89,13 @@ const OfferStats = ({tab}) => {
     const handleDropdownChange = (e) => {
 
         if (e.target.value !== 0) {
+
+            setAnimate(true);
             setStatsDate({
                 startDate: null,
                 endDate: null
             })
             setDropdownValue(e.target.value);
-
-            animatedElements.forEach((element) => {
-                element.classList.add('hide');
-            })
 
             const packets = {
                 dateValue: e.target.value
@@ -123,22 +104,16 @@ const OfferStats = ({tab}) => {
             getOfferStats(packets).then((data) => {
                 if (data["success"]) {
                     setTimeout(() => {
-                        setCreatorOfferStats(data["creatorOfferData"]);
-                        animatedElements.forEach((element) => {
-                            element.classList.remove('hide');
-                        })
-
+                        setOfferStats(data["creatorOfferData"]);
+                        setTotals(data["totals"]);
+                        setAnimate(false);
                     }, 500)
                 } else {
-                    animatedElements.forEach((element) => {
-                        element.classList.remove('hide');
-                    })
+                    setAnimate(false);
                 }
             })
         }
     }
-
-    console.log(publisherOfferStats);
 
     return (
 
@@ -151,7 +126,7 @@ const OfferStats = ({tab}) => {
                     handleDropdownChange={handleDropdownChange}
                     dropdownValue={dropdownValue}
                     tab={tab}
-                    setStatsFunc={setCreatorOfferStats}
+                    setStatsFunc={setOfferStats}
                 />
             </div>
 
@@ -160,7 +135,7 @@ const OfferStats = ({tab}) => {
                 <table className="table table-borderless">
                     <thead>
                     <tr>
-                        {/*<th scope="col" rowSpan={creatorOfferStats.length}>
+                        {/*<th scope="col" rowSpan={offerStats.length}>
                         </th>*/}
                         <th scope="col">
                             <h5>Offer</h5>
@@ -187,17 +162,17 @@ const OfferStats = ({tab}) => {
                             </td>
                         </tr>
                     }
-                    {isEmpty(creatorOfferStats) && isEmpty(publisherOfferStats) ?
+                    {isEmpty(offerStats) ?
                         <tr>
                             <td className={ isLoading ? "hidden no_stats" : "no_stats"} colSpan="5"><h3>No Stats Available</h3></td>
                         </tr>
                         :
-                        !isEmpty(creatorOfferStats) &&
+                        !isEmpty(offerStats) &&
                         <>
                             {/*<tr>
                                 <td rowSpan="0"><h3>Your Offers</h3></td>
                             </tr>*/}
-                            {creatorOfferStats.map((item, index) => {
+                            {offerStats.map((item, index) => {
                                 const {icon, rawClicks, uniqueClicks, conversions, payout} = item;
                                 return (
                                     <tr key={index}>
@@ -205,51 +180,28 @@ const OfferStats = ({tab}) => {
                                             <img src={icon} />
                                         </td>
                                         <td>
-                                            <p className="animate">{rawClicks}</p>
+                                            <p className={`${animate ? "animate hide" : "animate"}`}>{rawClicks}</p>
                                         </td>
                                         <td>
-                                            <p className="animate">{uniqueClicks}</p>
+                                            <p className={`${animate ? "animate hide" : "animate"}`}>{uniqueClicks}</p>
                                         </td>
                                         <td>
-                                            <p className="animate">{conversions}</p>
+                                            <p className={`${animate ? "animate hide" : "animate"}`}>{conversions}</p>
                                         </td>
                                         <td>
-                                            <p className="animate">{payout}</p>
+                                            <p className={`${animate ? "animate hide" : "animate"}`}>{"$"}{payout}</p>
                                         </td>
                                     </tr>
                                 )
                             })}
 
-                            {!isEmpty(publisherOfferStats) &&
-                                <>
-                                {/*<tr>
-                                <td rowSpan="0"><h3>Your Offers</h3></td>
-                            </tr>*/
-                                }
-                                {publisherOfferStats.map((item, index) => {
-                                    const {icon, rawClicks, uniqueClicks, conversions, payout} = item;
-                                    return (
-                                    <tr key={index}>
-                                        <td>
-                                            <img src={icon} />
-                                        </td>
-                                        <td>
-                                            <p className="animate">{rawClicks}</p>
-                                        </td>
-                                        <td>
-                                            <p className="animate">{uniqueClicks}</p>
-                                        </td>
-                                        <td>
-                                            <p className="animate">{conversions}</p>
-                                        </td>
-                                        <td>
-                                            <p className="animate">{payout}</p>
-                                        </td>
-                                    </tr>
-                                    )
-                                })}
-                                </>
-                            }
+                            <tr className="totals">
+                                <td><h3>Total</h3></td>
+                                <td><h3 className={`${animate ? "animate hide" : "animate"}`}>{totals["totalRaw"]}</h3></td>
+                                <td><h3 className={`${animate ? "animate hide" : "animate"}`}>{totals["totalUnique"]}</h3></td>
+                                <td><h3 className={`${animate ? "animate hide" : "animate"}`}>{totals["totalConversions"]}</h3></td>
+                                <td><h3 className={`${animate ? "animate hide" : "animate"}`}>${totals["totalPayout"]}</h3></td>
+                            </tr>
                         </>
                     }
                     </tbody>

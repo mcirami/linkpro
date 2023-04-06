@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Mockery\Undefined;
 
 trait StatsTrait {
 
@@ -197,79 +198,198 @@ trait StatsTrait {
         ];
     }
 
-    public function getCreatorOfferStats($startDate, $endDate) {
-        $user = Auth::user();
+    public function getOfferStats($startDate, $endDate) {
 
-        $offers = $user->Offers()->where('published', true)->get();
-
-        $offerArray = array();
-        foreach ($offers as $offer) {
-            $rawCount = $offer->OfferClicks()
-                              ->where('is_unique', false)
-                              ->whereBetween('created_at', [ $startDate, $endDate ])
-                              ->count();
-            $uniqueCount = $offer->OfferClicks()
-                                 ->where('is_unique', true)
-                                 ->whereBetween('created_at', [ $startDate, $endDate ])
-                                 ->count();
-            $conversions = $offer->OfferClicks()
-                                 ->whereHas('purchases', function (
-                                     Builder $query) use($startDate, $endDate) {
-                                     $query->whereBetween('created_at', [ $startDate, $endDate ]);
-                                 })
-                                 ->count();
-            $object = [
-                'icon'          => $offer->icon,
-                'rawClicks'     => $rawCount,
-                'uniqueClicks'  => $uniqueCount,
-                'conversions'   => $conversions,
-                'payout'        => $offer->price
-            ];
-            array_push($offerArray, $object );
-        }
-
-        return $offerArray;
-
-    }
-
-    public function getPublisherOfferStats($startDate, $endDate) {
         $authUserID = Auth::user()->id;
-
         $offers = Offer::where('published', true)->get();
 
         $offerArray = array();
+        $totalsArray = array();
+
         foreach ($offers as $offer) {
 
             if ($offer->user_id != $authUserID) {
 
-                $rawCount    = $offer->OfferClicks()
+                $object = $this->getPublisherOfferStats($authUserID, $startDate, $endDate, $offer);
+                $totalsArray = $this->sumTotals($totalsArray, $object);
+                array_push( $offerArray, $object );
+
+                /*$rawCount    = $offer->OfferClicks()
                                      ->where( 'is_unique', false )
-                                     ->where( 'referral_id', $authUserID )
+                                     ->where( 'referral_id', '=', $authUserID )
                                      ->whereBetween( 'created_at', [ $startDate, $endDate ] )
                                      ->count();
                 $uniqueCount = $offer->OfferClicks()
                                      ->where( 'is_unique', true )
-                                     ->where( 'referral_id', $authUserID )
+                                     ->where( 'referral_id', '=',$authUserID )
                                      ->whereBetween( 'created_at', [ $startDate, $endDate ] )
                                      ->count();
-                $conversions = $offer->OfferClicks()
-                                     ->where( 'referral_id', $authUserID )
-                                     ->whereHas( 'purchases', function ( Builder $query ) use ( $startDate, $endDate ) {
-                                         $query->whereBetween( 'created_at', [ $startDate, $endDate ] );
-                                     } )
-                                     ->count();
-                $object      = [
-                    'icon'         => $offer->icon,
-                    'rawClicks'    => $rawCount,
-                    'uniqueClicks' => $uniqueCount,
-                    'conversions'  => $conversions,
-                    'payout'       => $offer->price
+                $conversions = $offer->purchases()
+                                     ->whereBetween('purchases.created_at', [ $startDate, $endDate ])
+                                     ->where( 'referral_id', '=', $authUserID )
+                                     ->select('offer_clicks.referral_id')->get();
+                if ($conversions) {
+                    $payout = $this->calculatePayout($conversions, $offer->price);
+                }
+
+                $totalsObject = [
+                    'rawCount'      => array_key_exists('rawCount',$totalsArray) ? $totalsArray['rawCount'] += $rawCount : $rawCount,
+                    'uniqueCount'   => array_key_exists('uniqueCount',$totalsArray) ? $totalsArray['uniqueCount'] += $uniqueCount : $uniqueCount,
+                    'conversions'   => array_key_exists('conversions',$totalsArray) ? $totalsArray['conversions'] += count($conversions) : count($conversions),
+                    'payout'        => array_key_exists('payout',$totalsArray) ? number_format($totalsArray['payout'] += $payout,2) : number_format($payout, 2)
                 ];
-                array_push( $offerArray, $object );
+
+                $totalsArray = $totalsObject;
+
+                $object      = [
+                    'icon'          => $offer->icon,
+                    'rawClicks'     => $rawCount,
+                    'uniqueClicks'  => $uniqueCount,
+                    'conversions'   => count($conversions),
+                    'payout'        => $payout,
+                    'totals'        => $startDate
+                ];*/
+
+            } else {
+
+
+                $object = $this->getCreatorOfferStats($authUserID, $startDate, $endDate, $offer);
+                $totalsArray = $this->sumTotals($totalsArray, $object);
+                array_push($offerArray, $object );
+
+                /*$rawCount = $offer->OfferClicks()
+                                  ->where('is_unique', false)
+                                  ->whereBetween('created_at', [ $startDate, $endDate ])
+                                  ->count();
+                $uniqueCount = $offer->OfferClicks()
+                                     ->where('is_unique', true)
+                                     ->whereBetween('created_at', [ $startDate, $endDate ])
+                                     ->count();
+                $conversions = $offer->purchases()
+                                     ->whereBetween('purchases.created_at', [ $startDate, $endDate ])
+                                     ->select('offer_clicks.referral_id')
+                                     ->get();
+
+                if ($conversions) {
+                    $payout = $this->calculatePayout($conversions, $offer->price, $authUserID);
+                }
+
+                $totalsObject = [
+                    'rawCount'      => array_key_exists('rawCount',$totalsArray) ? $totalsArray['rawCount'] += $rawCount : $rawCount,
+                    'uniqueCount'   => array_key_exists('uniqueCount',$totalsArray) ? $totalsArray['uniqueCount'] += $uniqueCount : $uniqueCount,
+                    'conversions'   => array_key_exists('conversions',$totalsArray) ? $totalsArray['conversions'] += count($conversions) : count($conversions),
+                    'payout'        => array_key_exists('payout',$totalsArray) ? number_format($totalsArray['payout'] += $payout,2) : number_format($payout, 2)
+                ];
+
+                $totalsArray = $totalsObject;
+
+                $object = [
+                    'icon'          => $offer->icon,
+                    'rawClicks'     => $rawCount,
+                    'uniqueClicks'  => $uniqueCount,
+                    'conversions'   => count($conversions),
+                    'payout'        => $payout,
+                ];*/
             }
         }
 
-        return $offerArray;
+        return [
+            'offerArray'    => $offerArray,
+            'totals'        => $totalsArray
+        ];
+    }
 
+    private function getCreatorOfferStats($authUserID, $startDate, $endDate, $offer) {
+        $payout = 0.00;
+
+        $rawCount = $offer->OfferClicks()
+                          ->where('is_unique', false)
+                          ->whereBetween('created_at', [ $startDate, $endDate ])
+                          ->count();
+        $uniqueCount = $offer->OfferClicks()
+                             ->where('is_unique', true)
+                             ->whereBetween('created_at', [ $startDate, $endDate ])
+                             ->count();
+        $conversions = $offer->purchases()
+                             ->whereBetween('purchases.created_at', [ $startDate, $endDate ])
+                             ->select('offer_clicks.referral_id')
+                             ->get();
+
+        if ($conversions) {
+            $payout = $this->calculatePayout($conversions, $offer->price, $authUserID);
+        }
+
+        return [
+            'icon'          => $offer->icon,
+            'rawClicks'     => $rawCount,
+            'uniqueClicks'  => $uniqueCount,
+            'conversions'   => count($conversions),
+            'payout'        => $payout,
+        ];
+    }
+    private function getPublisherOfferStats($authUserID, $startDate, $endDate, $offer) {
+
+        $payout = 0.00;
+        $rawCount    = $offer->OfferClicks()
+                             ->where( 'is_unique', false )
+                             ->where( 'referral_id', '=', $authUserID )
+                             ->whereBetween( 'created_at', [ $startDate, $endDate ] )
+                             ->count();
+        $uniqueCount = $offer->OfferClicks()
+                             ->where( 'is_unique', true )
+                             ->where( 'referral_id', '=',$authUserID )
+                             ->whereBetween( 'created_at', [ $startDate, $endDate ] )
+                             ->count();
+        $conversions = $offer->purchases()
+                             ->whereBetween('purchases.created_at', [ $startDate, $endDate ])
+                             ->where( 'referral_id', '=', $authUserID )
+                             ->select('offer_clicks.referral_id')->get();
+        if ($conversions) {
+            $payout = $this->calculatePayout($conversions, $offer->price);
+        }
+
+        return [
+            'icon'          => $offer->icon,
+            'rawClicks'     => $rawCount,
+            'uniqueClicks'  => $uniqueCount,
+            'conversions'   => count($conversions),
+            'payout'        => $payout,
+        ];
+    }
+
+    private function sumTotals($totalsArray, $object) {
+
+        return [
+            'totalRaw'      =>
+                array_key_exists( 'totalRaw',$totalsArray) ?
+                    $totalsArray['totalRaw'] += $object['rawClicks'] :
+                    $object['rawClicks'],
+            'totalUnique'   =>
+                array_key_exists( 'totalUnique',$totalsArray) ?
+                    $totalsArray['totalUnique'] += $object['uniqueClicks'] :
+                    $object['uniqueClicks'],
+            'totalConversions'   =>
+                array_key_exists( 'totalConversions',$totalsArray) ?
+                    $totalsArray['totalConversions'] += $object['conversions'] :
+                    $object['conversions'],
+            'totalPayout'        =>
+                array_key_exists( 'totalPayout',$totalsArray) ?
+                    number_format($totalsArray['totalPayout'] += $object['payout'],2) :
+                    number_format($object['payout'], 2)
+        ];
+    }
+
+    private function calculatePayout($conversions, $price,  $userId = null) {
+
+        $payout = 0.00;
+        foreach ( $conversions as $conversion ) {
+            if ( $conversion->referral_id == $userId ) {
+                $payout += $price * .80;
+            } else {
+                $payout += $price * .40;
+            }
+        }
+
+        return number_format($payout, 2);
     }
 }
