@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 
 import PageStats from './Components/PageStats';
 import LinkStats from './Components/LinkStats';
@@ -7,47 +7,36 @@ import OfferStats from './Components/OfferStats';
 
 function App() {
 
+    const [tab, setTab] = useState("page");
+
     const [pageStats, setPageStats] = useState([])
     const [linkStats, setLinkStats] = useState([])
     const [deletedStats, setDeletedStats] = useState([]);
     const [folderStats, setFolderStats] = useState([])
-    const [tab, setTab] = useState("page");
+    const [offerStats, setOfferStats] = useState([]);
+    const [offerTotals, setOfferTotals] = useState([]);
 
-    const [linkStartDate, setLinkStartDate] = useState(null);
-    const [linkEndDate, setLinkEndDate] = useState(null);
-    const [linkDropdownValue, setLinkDropdownValue] = useState(1);
+    const [linkStatsDate, setLinkStatsDate] = useState({
+        startDate: null,
+        endDate: null
+    });
+    const [pageStatsDate, setPageStatsDate] = useState({
+        startDate: null,
+        endDate: null
+    });
+    const [folderStatsDate, setFolderStatsDate] = useState({
+        startDate: null,
+        endDate: null
+    });
+    const [offerStatsDate, setOfferStatsDate] = useState({
+        startDate: null,
+        endDate: null
+    });
 
-    const [pageStartDate, setPageStartDate] = useState(null);
-    const [pageEndDate, setPageEndDate] = useState(null);
     const [pageDropdownValue, setPageDropdownValue] = useState(1);
-
-    const [folderStartDate, setFolderStartDate] = useState(null);
-    const [folderEndDate, setFolderEndDate] = useState(null);
+    const [linkDropdownValue, setLinkDropdownValue] = useState(1);
     const [folderDropdownValue, setFolderDropdownValue] = useState(1);
-
-    const fetchStats = async () => {
-
-        const pageUrl = '/stats/get/page';
-        const linkUrl = '/stats/get/link';
-        const deletedUrl = '/stats/get/deleted';
-        const folderUrl = '/stats/get/folder';
-
-        const responses = await Promise.allSettled([fetchAllStats(pageUrl), fetchAllStats(linkUrl), fetchAllStats(deletedUrl), fetchAllStats(folderUrl)])
-
-        setPageStats(responses[0]['value']['pageStats'])
-        setLinkStats(responses[1]['value']['linkStats']);
-        setDeletedStats(responses[2]['value']['deletedStats']);
-        setFolderStats(responses[3]['value']['folderStats'])
-    }
-
-    useEffect(() => {
-        fetchStats()
-    }, []);
-
-    const fetchAllStats = async (url) => {
-        const response = await fetch(url);
-        return await response.json();
-    }
+    const [offerDropdownValue, setOfferDropdownValue] = useState(1);
 
     const handleClick = e => {
         e.preventDefault();
@@ -76,10 +65,8 @@ function App() {
                 <PageStats
                     pageStats={pageStats}
                     setPageStats={setPageStats}
-                    pageStartDate={pageStartDate}
-                    setPageStartDate={setPageStartDate}
-                    pageEndDate={pageEndDate}
-                    setPageEndDate={setPageEndDate}
+                    pageStatsDate={pageStatsDate}
+                    setPageStatsDate={setPageStatsDate}
                     pageDropdownValue={pageDropdownValue}
                     setPageDropdownValue={setPageDropdownValue}
                     tab={tab}
@@ -91,10 +78,8 @@ function App() {
                     setLinkStats={setLinkStats}
                     deletedStats={deletedStats}
                     setDeletedStats={setDeletedStats}
-                    linkStartDate={linkStartDate}
-                    setLinkStartDate={setLinkStartDate}
-                    linkEndDate={linkEndDate}
-                    setLinkEndDate={setLinkEndDate}
+                    linkStatsDate={linkStatsDate}
+                    setLinkStatsDate={setLinkStatsDate}
                     linkDropdownValue={linkDropdownValue}
                     setLinkDropdownValue={setLinkDropdownValue}
                     tab={tab}
@@ -105,10 +90,8 @@ function App() {
                 <FolderStats
                     folderStats={folderStats}
                     setFolderStats={setFolderStats}
-                    folderStartDate={folderStartDate}
-                    setFolderStartDate={setFolderStartDate}
-                    folderEndDate={folderEndDate}
-                    setFolderEndDate={setFolderEndDate}
+                    folderStatsDate={folderStatsDate}
+                    setFolderStatsDate={setFolderStatsDate}
                     folderDropdownValue={folderDropdownValue}
                     setFolderDropdownValue={setFolderDropdownValue}
                     tab={tab}
@@ -118,6 +101,14 @@ function App() {
             {tab === "offer" &&
                 <OfferStats
                     tab={tab}
+                    offerStats={offerStats}
+                    setOfferStats={setOfferStats}
+                    totals={offerTotals}
+                    setTotals={setOfferTotals}
+                    statsDate={offerStatsDate}
+                    setStatsDate={setOfferStatsDate}
+                    dropdownValue={offerDropdownValue}
+                    setDropdownValue={setOfferDropdownValue}
                 />
             }
 

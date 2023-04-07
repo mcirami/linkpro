@@ -150,13 +150,10 @@ Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated', 'lp.user']], funct
     Route::get('/plans', [SubscriptionController::class, 'plans'])->name('plans.get');
     Route::get('/subscribe', [SubscriptionController::class, 'purchase'])->name('subscribe.get');
 
-    Route::post('/stats/link/range', [StatsController::class, 'getLinkStatsRange']);
-    Route::post('/stats/page/range', [StatsController::class, 'getPageStatsRange']);
-    Route::post('/stats/folder/range', [StatsController::class, 'getFolderStatsRange']);
-    Route::get('/stats/get/page', [StatsController::class, 'getPageStats']);
-    Route::get('/stats/get/link', [StatsController::class, 'getLinkStats']);
+    Route::post('/stats/link', [StatsController::class, 'getLinkStats']);
+    Route::post('/stats/page', [StatsController::class, 'getPageStats']);
+    Route::post('/stats/folder', [StatsController::class, 'getFolderStats']);
     Route::get('/stats/get/deleted', [StatsController::class, 'getDeletedStats']);
-    Route::get('/stats/get/folder', [StatsController::class, 'getFolderStats']);
     Route::post('/stats/get/offer', [StatsController::class, 'getOfferStats']);
     Route::get('/stats', [StatsController::class, 'show'])->name('stats');
 

@@ -24,14 +24,14 @@ class StatsController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getPageStats(StatsServices $statsServices) {
+   /* public function getPageStats(StatsServices $statsServices) {
 
         $data = $statsServices->getTodaysPageStats();
 
         return response()->json([
             'pageStats' => $data,
         ]);
-    }
+    }*/
 
     /**
      * @param Request $request
@@ -39,9 +39,9 @@ class StatsController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getPageStatsRange(Request $request, StatsServices $statsServices) {
+    public function getPageStats(Request $request, StatsServices $statsServices) {
 
-        $data = $statsServices->getPageDateRangeStats($request);
+        $data = $statsServices->getAllPageStats($request);
 
         return response()->json(['data' => $data]);
     }
@@ -53,14 +53,14 @@ class StatsController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getLinkStats(StatsServices $statsServices) {
+    /*public function getLinkStats(StatsServices $statsServices) {
 
         $data = $statsServices->getTodaysLinkStats();
 
         return response()->json([
             'linkStats' => $data,
         ]);
-    }
+    }*/
 
     /**
      * @param Request $request
@@ -68,9 +68,9 @@ class StatsController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getLinkStatsRange(Request $request, StatsServices $statsServices) {
+    public function getLinkStats(Request $request, StatsServices $statsServices) {
 
-        $data = $statsServices->getLinksDateRangeStats($request);
+        $data = $statsServices->getAllLinkStats($request);
 
         return response()->json(['data' => $data]);
     }
@@ -98,18 +98,18 @@ class StatsController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getFolderStats(StatsServices $statsServices) {
+   /* public function getFolderStats(StatsServices $statsServices) {
 
         $data = $statsServices->getTodaysFolderStats();
 
         return response()->json([
             'folderStats' => $data,
         ]);
-    }
+    }*/
 
-    public function getFolderStatsRange(Request $request, StatsServices $statsServices) {
+    public function getFolderStats(Request $request, StatsServices $statsServices) {
 
-        $data = $statsServices->getFolderDateRangeStats($request);
+        $data = $statsServices->getAllFolderStats($request);
 
         return response()->json(['data' => $data]);
     }

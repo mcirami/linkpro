@@ -1,166 +1,163 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {getPageStats} from '../../../Services/StatsRequests';
 import Filters from './Filters';
+import {isEmpty} from 'lodash';
 
 const PageStats = ({
                        pageStats,
                        setPageStats,
-                       pageStartDate,
-                       setPageStartDate,
-                       pageEndDate,
-                       setPageEndDate,
+                       pageStatsDate,
+                       setPageStatsDate,
                        pageDropdownValue,
                        setPageDropdownValue,
-                       tab
 }) => {
 
-    let animatedElements;
+    const [isLoading, setIsLoading] = useState(true);
+    const [animate, setAnimate] = useState(true);
 
     useEffect(() => {
-        animatedElements = document.querySelectorAll('p.animate');
-    })
+
+        if (isEmpty(pageStats)) {
+            const packets = {
+                currentDay: true
+            }
+            pageStatsCall(packets)
+        } else {
+            setIsLoading(false);
+            setAnimate(false);
+        }
+
+    },[])
 
     const handleDateChange = (date, type) => {
         let currentStartDate = null;
         let currentEndDate = null;
 
         if (type === "start") {
-            setPageStartDate(date);
+            setPageStatsDate(prevState => ({
+                ...prevState,
+                startDate: date
+            }));
             currentStartDate = date;
-            if (pageEndDate) {
-                currentEndDate = pageEndDate;
-            }
+            currentEndDate = pageStatsDate.endDate ? pageStatsDate.endDate : null;
         } else {
-            setPageEndDate(date);
+            setPageStatsDate(prevState => ({
+                ...prevState,
+                endDate: date
+            }));
             currentEndDate = date;
-            if (pageStartDate) {
-                currentStartDate = pageStartDate;
-            }
+            currentStartDate = pageStatsDate.startDate ? pageStatsDate.startDate : null;
         }
 
         if (currentStartDate && currentEndDate && (currentStartDate <= currentEndDate)) {
-            animatedElements.forEach((element) => {
-                element.classList.add('hide');
-            })
+
             setPageDropdownValue(0);
             const packets = {
                 startDate: Math.round(new Date(currentStartDate) / 1000),
                 endDate: Math.round(new Date(currentEndDate) /1000),
             }
 
-            getPageStats(packets)
-            .then((data) => {
-                if (data["success"]) {
-                    setTimeout(() => {
-                        setPageStats(data["data"]);
-                        animatedElements.forEach((element) => {
-                            element.classList.remove('hide');
-                        })
-
-                    }, 500)
-                } else {
-                    animatedElements.forEach((element) => {
-                        element.classList.remove('hide');
-                    })
-                }
-
-            });
+            pageStatsCall(packets);
         }
     }
 
     const handleDropdownChange = (e) => {
 
-        setPageStartDate(null);
-        setPageEndDate(null);
-        setPageDropdownValue(e.target.value);
-
-        console.log(animatedElements);
-
-        animatedElements.forEach((element) => {
-            element.classList.add('hide');
+        setPageStatsDate({
+            startDate: null,
+            endData: null
         })
-
+        setPageDropdownValue(e.target.value);
 
         const packets = {
             dateValue: e.target.value
         }
 
+        pageStatsCall(packets);
+    }
+
+    const pageStatsCall = useCallback((packets) => {
+        setAnimate(true)
         getPageStats(packets)
         .then((data) => {
             if (data["success"]) {
                 setTimeout(() => {
                     setPageStats(data["data"]);
-                    animatedElements.forEach((element) => {
-                        element.classList.remove('hide');
-                    })
-
+                    setAnimate(false)
+                    setIsLoading(false);
                 }, 500)
             } else {
-                animatedElements.forEach((element) => {
-                    element.classList.remove('hide');
-                })
+                setAnimate(false)
+                setIsLoading(false);
             }
-        })
-    }
+
+        });
+    }, [pageStatsDate])
+
 
     return (
         <div className="stats_wrap my_row">
             <div className="my_row filter">
-                <Filters handleDateChange={handleDateChange}
-                         startDate={pageStartDate}
-                         endDate={pageEndDate}
-                         handleDropdownChange={handleDropdownChange}
-                         dropdownValue={pageDropdownValue}
-                         tab={tab}
-                         setStatsFunc={setPageStats}
+                <Filters
+                    handleDateChange={handleDateChange}
+                    startDate={pageStatsDate.startDate}
+                    endDate={pageStatsDate.endDate}
+                    handleDropdownChange={handleDropdownChange}
+                    dropdownValue={pageDropdownValue}
+                    getStats={pageStatsCall}
                 />
             </div>
 
-            {pageStats && pageStats.length > 0 ?
-                <div className="table_wrap my_row table-responsive">
-                    <table className="table table-borderless mb-0">
-                        <thead>
-                            <tr>
-                                <th scope="col">
-                                    <h5>Page Name</h5>
-                                </th>
-                                <th scope="col">
-                                    <h5>Page Loads</h5>
-                                </th>
-                                <th scope="col">
-                                    <h5>Icon Clicks</h5>
-                                </th>
-                            </tr>
-                        </thead>
 
-                            <tbody>
+            <div className="table_wrap my_row table-responsive">
+                <table className="table table-borderless mb-0">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                <h5>Page Name</h5>
+                            </th>
+                            <th scope="col">
+                                <h5>Page Loads</h5>
+                            </th>
+                            <th scope="col">
+                                <h5>Icon Clicks</h5>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {isLoading &&
+                        <tr id="loading_spinner" className="active">
+                            <td colSpan="5" >
+                                <img src={Vapor.asset('images/spinner.svg')} alt="" />
+                            </td>
+                        </tr>
+                    }
+                    {isEmpty(pageStats) ?
+                        <tr>
+                            <td className={ isLoading ? "hidden no_stats" : "no_stats"} colSpan="5"><h3>No Stats Available</h3></td>
+                        </tr>
+                        :
+                        pageStats.map((item) => {
+                            const {id, pageName, visits, linkVisits} = item;
 
-                                {pageStats.map((item) => {
-                                    const {id, pageName, visits, linkVisits} = item;
-
-                                    return (
-
-                                        <tr key={id}>
-                                            <td>
-                                                <p>{pageName}</p>
-                                            </td>
-                                            <td>
-                                                <p className="animate">{visits}</p>
-                                            </td>
-                                            <td>
-                                                <p className="animate">{linkVisits}</p>
-                                            </td>
-                                        </tr>
-                                    )
-                                })}
-
-                            </tbody>
-
-                    </table>
-                </div>
-                :
-                <h3>No Stats Available</h3>
-            }
+                            return (
+                                <tr key={id}>
+                                    <td>
+                                        <p>{pageName}</p>
+                                    </td>
+                                    <td>
+                                        <p className={`${animate ? "animate hide" : "animate"}`}>{visits}</p>
+                                    </td>
+                                    <td>
+                                        <p className={`${animate ? "animate hide" : "animate"}`}>{linkVisits}</p>
+                                    </td>
+                                </tr>
+                            )
+                        })
+                    }
+                    </tbody>
+                </table>
+            </div>
         </div>
     )
 }

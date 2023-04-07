@@ -1,29 +1,37 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
     getFolderStats,
 } from '../../../Services/StatsRequests';
 
 import "react-datepicker/dist/react-datepicker.css";
 import Filters from './Filters';
+import {isEmpty} from 'lodash';
 
 const FolderStats = ({
                          folderStats,
                          setFolderStats,
-                         folderStartDate,
-                         setFolderStartDate,
-                         folderEndDate,
-                         setFolderEndDate,
+                         folderStatsDate,
+                         setFolderStatsDate,
                          folderDropdownValue,
                          setFolderDropdownValue,
-                         tab
-
                      }) => {
 
-    let animatedElements;
+    const [isLoading, setIsLoading] = useState(true);
+    const [animate, setAnimate] = useState(true);
 
     useEffect(() => {
-        animatedElements = document.querySelectorAll('p.animate');
-    })
+
+        if (isEmpty(folderStats)) {
+            const packets = {
+                currentDay: true
+            }
+            folderStatsCall(packets)
+        } else {
+            setIsLoading(false);
+            setAnimate(false);
+        }
+
+    },[])
 
     const handleDateChange = (date, type) => {
 
@@ -31,178 +39,158 @@ const FolderStats = ({
         let currentEndDate =  null;
 
         if (type === "start") {
-            setFolderStartDate(date);
+            setFolderStatsDate(prevState => ({
+                ...prevState,
+                startDate: date
+            }));
             currentStartDate = date;
-            if (folderEndDate) {
-                currentEndDate = folderEndDate;
-            }
+            currentEndDate = folderStatsDate.endDate ? folderStatsDate.endDate : null;
         } else {
-            setFolderEndDate(date);
+            setFolderStatsDate(prevState => ({
+                ...prevState,
+                endDate: date
+            }));
             currentEndDate = date;
-            if (folderStartDate) {
-                currentStartDate = folderStartDate;
-            }
+            currentStartDate = folderStatsDate.startDate ? folderStatsDate.startDate : null;
         }
 
         if ( currentEndDate && currentStartDate && (currentStartDate <= currentEndDate) ) {
-            animatedElements.forEach((element) => {
-                element.classList.add('hide');
-            })
-
             setFolderDropdownValue(0);
+
             const packets = {
                 startDate: Math.round(new Date(currentStartDate) / 1000),
                 endDate: Math.round(new Date(currentEndDate) /1000),
             }
 
-            getFolderStats(packets)
-            .then((data) => {
-
-                if (data["success"]) {
-                    setTimeout(() => {
-                        setFolderStats(data["currentData"]);
-                        //setDeletedStats(data["pastData"]);
-                        animatedElements.forEach((element) => {
-                            element.classList.remove('hide');
-                        })
-
-                    }, 500)
-                } else {
-                    animatedElements.forEach((element) => {
-                        element.classList.remove('hide');
-                    })
-                }
-            });
+            folderStatsCall(packets);
         }
     }
 
     const handleDropdownChange = (e) => {
 
-        setFolderStartDate(null);
-        setFolderEndDate(null);
-        setFolderDropdownValue(e.target.value);
-
-        animatedElements.forEach((element) => {
-            element.classList.add('hide');
+        setFolderStatsDate({
+            startDate: null,
+            endData: null
         })
+
+        setFolderDropdownValue(e.target.value);
 
         const packets = {
             dateValue: e.target.value
         }
 
+        folderStatsCall(packets);
+    }
+
+    const folderStatsCall = useCallback((packets) => {
+
+        setAnimate(true);
         getFolderStats(packets)
         .then((data) => {
 
             if (data["success"]) {
                 setTimeout(() => {
                     setFolderStats(data["currentData"]);
-                    //setDeletedStats(data["deletedStats"]);
-                    animatedElements.forEach((element) => {
-                        element.classList.remove('hide');
-                    })
-
+                    setAnimate(false)
+                    setIsLoading(false);
                 }, 500)
             } else {
-                animatedElements.forEach((element) => {
-                    element.classList.remove('hide');
-                })
+                setAnimate(false)
+                setIsLoading(false);
             }
-        })
-    }
+        });
+
+    }, [folderStatsDate])
 
     return (
-        <div className="stats_wrap my_row">
-            {folderStats ?
-                <>
-                <div className="my_row filter">
-                    <Filters handleDateChange={handleDateChange}
-                             startDate={folderStartDate}
-                             endDate={folderEndDate}
-                             handleDropdownChange={handleDropdownChange}
-                             dropdownValue={folderDropdownValue}
-                             tab={tab}
-                             setStatsFunc={setFolderStats}
-                    />
+        <div className="stats_wrap my_row position-relative">
+
+            <div className="my_row filter">
+                <Filters handleDateChange={handleDateChange}
+                         startDate={folderStatsDate.startDate}
+                         endDate={folderStatsDate.endDate}
+                         handleDropdownChange={handleDropdownChange}
+                         dropdownValue={folderDropdownValue}
+                         getStats={folderStatsCall}
+                />
+            </div>
+            {isLoading &&
+                <div className="my_row">
+                    <div id="loading_spinner" className="active">
+                        <img src={Vapor.asset('images/spinner.svg')} alt="" />
+                    </div>
                 </div>
+            }
+            {folderStats.map((item) => {
 
-                {folderStats.map((item) => {
+                const {id, name, clickCount, links } = item;
 
-                    const {
-                        id,
-                        name,
-                        clickCount,
-                        links } = item;
-
-                    return (
-                        <div className="my_row" key={id}>
-                            <div className="my_row labels">
-                                <h5>Folder Name</h5>
-                                <h5>Folder Clicks</h5>
+                return (
+                    <div className="my_row" key={id}>
+                        <div className="my_row labels">
+                            <h5>Folder Name</h5>
+                            <h5>Folder Clicks</h5>
+                        </div>
+                        <div className="content_wrap">
+                            <div className="my_row title">
+                                <p> {name} </p>
+                                <p className="animate">{clickCount}</p>
                             </div>
-                            <div className="content_wrap">
-                                <div className="my_row title">
-                                    <p> {name} </p>
-                                    <p className="animate">{clickCount}</p>
-                                </div>
-                                {links && links.length > 0 ?
-                                    <div className="table_wrap my_row table-responsive mb-4">
-                                        <table className="table table-borderless">
-                                            <thead>
+
+                            <div className="table_wrap my_row table-responsive mb-4">
+                                <table className="table table-borderless">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">
+                                            <h5>Current Icons</h5>
+                                        </th>
+                                        <th scope="col">
+                                            <h5>Icon Name</h5>
+                                        </th>
+                                        <th scope="col">
+                                            <h5>Icon Clicks</h5>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {isEmpty(links) ?
                                             <tr>
-                                                <th scope="col">
-                                                    <h5>Current Icons</h5>
-                                                </th>
-                                                <th scope="col">
-                                                    <h5>Icon Name</h5>
-                                                </th>
-                                                <th scope="col">
-                                                    <h5>Icon Clicks</h5>
-                                                </th>
+                                                <td className={ isLoading ? "hidden no_stats" : "no_stats"} colSpan="5"><h3>No Stats Available</h3></td>
                                             </tr>
-                                            </thead>
-                                                <tbody>
-                                                    {links.map((link) => {
+                                            :
+                                            links.map((link) => {
 
-                                                        const {
-                                                            id,
-                                                            iconName,
-                                                            icon,
-                                                            visits
-                                                        } = link;
+                                                const {
+                                                    id,
+                                                    iconName,
+                                                    icon,
+                                                    visits
+                                                } = link;
 
-                                                        return (
+                                                return (
 
-                                                            <tr key={id}>
-                                                                <td>
-                                                                    <img src={icon}/>
-                                                                </td>
-                                                                <td>
-                                                                    <p>{iconName}</p>
-                                                                </td>
-                                                                <td>
-                                                                    <p className="animate">{visits}</p>
-                                                                </td>
-                                                            </tr>
+                                                    <tr key={id}>
+                                                        <td>
+                                                            <img src={icon}/>
+                                                        </td>
+                                                        <td>
+                                                            <p>{iconName}</p>
+                                                        </td>
+                                                        <td>
+                                                            <p className={`${animate ? "animate hide" : "animate"}`}>{visits}</p>
+                                                        </td>
+                                                    </tr>
 
-                                                        )
-                                                    })
-                                                }
-
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    :
-                                    <h3>No Stats Available</h3>
-                                }
+                                                )
+                                            })
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                    )
-                })
-            }
-            </>
-                :
-                <h3>No Stats Available</h3>
-            }
+                    </div>
+                )
+            })}
         </div>
     )
 }

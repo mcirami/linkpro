@@ -14,7 +14,7 @@ class StatsServices {
      *
      * @return array
      */
-    public function getAllStats() {
+   /* public function getAllStats() {
 
         $startDate = Carbon::now()->startOfDay();
         $endDate = Carbon::now()->endOfDay();
@@ -33,20 +33,20 @@ class StatsServices {
             'deletedStats' => $deletedArray,
             'folderStats' => $folderArray
         ];
-    }
+    }*/
 
     /**
      * Get Page stats for Current day
      *
      * @return array
      */
-    public function getTodaysPageStats() {
+    /*public function getTodaysPageStats() {
         $startDate = Carbon::now()->startOfDay();
         $endDate = Carbon::now()->endOfDay();
 
         return $this->getPageStats($startDate, $endDate);
 
-    }
+    }*/
 
     /**
      * Get Page stats from date range entered
@@ -55,9 +55,15 @@ class StatsServices {
      *
      * @return array
      */
-    public function getPageDateRangeStats($request) {
+    public function getAllPageStats($request) {
 
-        if ($request->dateValue) {
+        if($request->currentDay) {
+            $startDate = Carbon::now()->startOfDay();
+            $endDate = Carbon::now()->endOfDay();
+
+            return $this->getPageStats($startDate, $endDate);
+
+        } else if ($request->dateValue) {
             $dateValues = $this->getDateRange($request->dateValue);
 
             $data = $this->getPageStats($dateValues['startDate'], $dateValues['endDate']);
@@ -76,13 +82,13 @@ class StatsServices {
      *
      * @return array
      */
-    public function getTodaysLinkStats() {
+    /*public function getTodaysLinkStats() {
         $startDate = Carbon::now()->startOfDay();
         $endDate = Carbon::now()->endOfDay();
 
         return $this->getLinkStats($startDate, $endDate);
 
-    }
+    }*/
 
     /**
      * Get Link stats from date range entered
@@ -91,9 +97,16 @@ class StatsServices {
      *
      * @return array
      */
-    public function getLinksDateRangeStats($request) {
+    public function getAllLinkStats($request) {
 
-        if ($request->dateValue) {
+        if ($request->currentDay) {
+            $startDate = Carbon::now()->startOfDay();
+            $endDate = Carbon::now()->endOfDay();
+
+            $currentData = $this->getLinkStats($startDate, $endDate);
+            $pastData = $this->getDeletedLinksStats($startDate, $endDate);
+
+        } else if ($request->dateValue) {
             $data = $this->getDateRange($request->dateValue);
 
             $currentData = $this->getLinkStats($data['startDate'], $data['endDate']);
@@ -107,8 +120,6 @@ class StatsServices {
             $currentData = $this->getLinkStats($startDate, $endDate);
             $pastData = $this->getDeletedLinksStats($startDate, $endDate);
         }
-
-
 
         return [
             'currentData'=> $currentData,
@@ -134,17 +145,24 @@ class StatsServices {
      *
      * @return array
      */
-    public function getTodaysFolderStats() {
+    /*public function getTodaysFolderStats() {
         $startDate = Carbon::now()->startOfDay();
         $endDate = Carbon::now()->endOfDay();
 
         return $this->getFolderStats($startDate, $endDate);
 
-    }
+    }*/
 
-    public function getFolderDateRangeStats($request) {
+    public function getAllFolderStats($request) {
 
-        if ($request->dateValue) {
+        if ($request->currentDay) {
+        $startDate = Carbon::now()->startOfDay();
+        $endDate = Carbon::now()->endOfDay();
+
+        $currentData = $this->getFolderStats($startDate, $endDate);
+        //$pastData = $this->getDeletedLinksStats($startDate, $endDate);
+
+        } else if ($request->dateValue) {
             $data = $this->getDateRange($request->dateValue);
 
             $currentData = $this->getFolderStats($data['startDate'], $data['endDate']);
@@ -159,8 +177,6 @@ class StatsServices {
             /*$pastData = $this->getDeletedLinksStats($startDate, $endDate);*/
         }
 
-
-
         return [
             'currentData'=> $currentData,
             /*'pastData' => $pastData*/
@@ -174,13 +190,11 @@ class StatsServices {
             $endDate = Carbon::now()->endOfDay();
 
             $offerData = $this->getOfferStats($startDate, $endDate);
-            //$publisherOfferData = $this->getPublisherOfferStats($startDate, $endDate);
 
         } else if ($request->dateValue) {
             $data = $this->getDateRange($request->dateValue);
 
             $offerData = $this->getOfferStats($data['startDate'], $data['endDate']);
-            //$publisherOfferData = $this->getPublisherOfferStats($data['startDate'], $data['endDate']);
 
         } else {
 
@@ -188,9 +202,7 @@ class StatsServices {
             $endDate = Carbon::createFromTimestamp($request->endDate)->endOfDay();
 
             $offerData = $this->getOfferStats($startDate, $endDate);
-            //$publisherOfferData = $this->getPublisherOfferStats($startDate, $endDate);
         }
-
 
         return [
             'creatorOfferData'      => $offerData['offerArray'],

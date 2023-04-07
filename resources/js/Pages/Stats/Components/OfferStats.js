@@ -1,43 +1,38 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {getOfferStats} from '../../../Services/StatsRequests';
 import Filters from './Filters';
 import {isEmpty} from 'lodash';
 
-const OfferStats = ({tab}) => {
+const OfferStats = ({
+                        offerStats,
+                        setOfferStats,
+                        totals,
+                        setTotals,
+                        statsDate,
+                        setStatsDate,
+                        dropdownValue,
+                        setDropdownValue
+}) => {
 
-    const [offerStats, setOfferStats] = useState([]);
-    const [totals, setTotals] = useState([]);
 
-    const [statsDate, setStatsDate] = useState({
-        startDate: null,
-        endDate: null
-    });
-    const [dropdownValue, setDropdownValue] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
     const [animate, setAnimate] = useState(true);
 
+
     useEffect(() => {
-        const packets = {
-            currentDay: true
-        }
 
-        getOfferStats(packets)
-        .then((data) => {
-            if (data["success"]) {
-                setTimeout(() => {
-                    setOfferStats(data["creatorOfferData"])
-                    setTotals(data["totals"]);
-                    setAnimate(false)
-
-                }, 500)
-            } else {
-                setAnimate(false)
+        if (isEmpty(offerStats)) {
+            const packets = {
+                currentDay: true
             }
 
+            offerStatsCall(packets)
+        } else {
             setIsLoading(false);
-        });
-    },[])
+            setAnimate(false);
+        }
 
+    },[])
 
     const handleDateChange = (date, type) => {
 
@@ -62,27 +57,14 @@ const OfferStats = ({tab}) => {
         }
 
         if ( currentEndDate && currentStartDate && (currentStartDate <= currentEndDate) ) {
-            setAnimate(true);
+
             setDropdownValue(0);
             const packets = {
                 startDate: Math.round(new Date(currentStartDate) / 1000),
                 endDate: Math.round(new Date(currentEndDate) /1000),
             }
 
-            getOfferStats(packets)
-            .then((data) => {
-                if (data["success"]) {
-                    setTimeout(() => {
-                        setOfferStats(data["creatorOfferData"]);
-                        setTotals(data["totals"]);
-                        setAnimate(false);
-
-                    }, 500)
-                } else {
-                    setAnimate(false);
-                }
-
-            });
+            offerStatsCall(packets)
         }
     }
 
@@ -90,7 +72,6 @@ const OfferStats = ({tab}) => {
 
         if (e.target.value !== 0) {
 
-            setAnimate(true);
             setStatsDate({
                 startDate: null,
                 endDate: null
@@ -101,19 +82,30 @@ const OfferStats = ({tab}) => {
                 dateValue: e.target.value
             }
 
-            getOfferStats(packets).then((data) => {
-                if (data["success"]) {
-                    setTimeout(() => {
-                        setOfferStats(data["creatorOfferData"]);
-                        setTotals(data["totals"]);
-                        setAnimate(false);
-                    }, 500)
-                } else {
-                    setAnimate(false);
-                }
-            })
+            offerStatsCall(packets)
         }
     }
+
+    const offerStatsCall = useCallback((packets) => {
+        setAnimate(true)
+
+        getOfferStats(packets)
+        .then((data) => {
+            if (data["success"]) {
+                setTimeout(() => {
+                    setOfferStats(data["creatorOfferData"])
+                    setTotals(data["totals"]);
+                    setAnimate(false)
+                    setIsLoading(false);
+
+                }, 500)
+            } else {
+                setAnimate(false)
+                setIsLoading(false);
+            }
+        });
+
+    }, [statsDate])
 
     return (
 
@@ -125,8 +117,7 @@ const OfferStats = ({tab}) => {
                     endDate={statsDate.endDate}
                     handleDropdownChange={handleDropdownChange}
                     dropdownValue={dropdownValue}
-                    tab={tab}
-                    setStatsFunc={setOfferStats}
+                    getStats={offerStatsCall}
                 />
             </div>
 
@@ -167,7 +158,6 @@ const OfferStats = ({tab}) => {
                             <td className={ isLoading ? "hidden no_stats" : "no_stats"} colSpan="5"><h3>No Stats Available</h3></td>
                         </tr>
                         :
-                        !isEmpty(offerStats) &&
                         <>
                             {/*<tr>
                                 <td rowSpan="0"><h3>Your Offers</h3></td>

@@ -7,23 +7,11 @@ const RefreshButton = ({
                            startDate,
                            endDate,
                            dropdownValue,
-                           tab,
-                           setStatsFunc,
-                           setDeletedFunc,
+                           getStats,
 }) => {
-
-    let animatedElements;
-
-    useEffect(() => {
-        animatedElements = document.querySelectorAll('p.animate');
-    })
 
     const handleClick = (e) => {
         e.preventDefault();
-
-        animatedElements.forEach((element) => {
-            element.classList.add('hide');
-        })
 
         let packets;
 
@@ -38,9 +26,10 @@ const RefreshButton = ({
             }
         }
 
-        switch (tab) {
+        getStats(packets);
+        /*switch (tab) {
 
-            case "link":
+            case "page":
 
                 getPageStats(packets)
                 .then((data) => {
@@ -103,10 +92,30 @@ const RefreshButton = ({
                 });
                 break;
 
+            case "offer":
+                getOfferStats(packets)
+                .then((data) => {
+
+                    if (data["success"]) {
+                        setTimeout(() => {
+                            setStatsFunc(data["currentData"]);
+                            //setDeletedStats(data["pastData"]);
+                            animatedElements.forEach((element) => {
+                                element.classList.remove('hide');
+                            })
+
+                        }, 500)
+                    } else {
+                        animatedElements.forEach((element) => {
+                            element.classList.remove('hide');
+                        })
+                    }
+                });
+                break;
             default:
                 break;
 
-        }
+        }*/
 
     }
 

@@ -28,10 +28,10 @@ trait StatsTrait {
             $visitCount = count($page->pageVisits()->whereBetween('created_at', [ $startDate, $endDate ])->get());
             $linkVisitCount = count(LinkVisit::whereBetween('created_at', [ $startDate, $endDate ])->where('page_id', $page->id)->get());
             $object = [
-                "id" => $page->id,
-                "pageName" => $page->name,
-                "visits" => $visitCount,
-                "linkVisits" => $linkVisitCount
+                "id"            => $page->id,
+                "pageName"      => $page->name,
+                "visits"        => $visitCount,
+                "linkVisits"    => $linkVisitCount
             ];
             array_push($pageArray, $object);
         }
@@ -50,10 +50,10 @@ trait StatsTrait {
             if ($link->name && $link->icon) {
                 $visitCount = count( $link->linkVisits()->whereBetween('created_at', [ $startDate, $endDate ])->get() );
                 $object     = [
-                    "id" => $link->id,
-                    "iconName" => $link->name,
-                    "icon"     => $link->icon,
-                    "visits"   => $visitCount
+                    "id"        => $link->id,
+                    "iconName"  => $link->name,
+                    "icon"      => $link->icon,
+                    "visits"    => $visitCount
                 ];
                 array_push( $linksArray, $object );
             };
@@ -69,10 +69,10 @@ trait StatsTrait {
         foreach ($deletedLinks as $deletedLink) {
             $visitCount = count(LinkVisit::whereBetween('created_at', [ $startDate, $endDate ])->where('link_id', $deletedLink->link_id)->get());
             $object     = [
-                "id" => $deletedLink->id,
-                "iconName" => $deletedLink->name,
-                "icon"     => $deletedLink->icon,
-                "visits"   => $visitCount
+                "id"        => $deletedLink->id,
+                "iconName"  => $deletedLink->name,
+                "icon"      => $deletedLink->icon,
+                "visits"    => $visitCount
             ];
             array_push( $deletedArray, $object );
         }
@@ -112,10 +112,10 @@ trait StatsTrait {
             }
 
             $object     = [
-                "id" => $folder->uuid,
-                "name" => $folder->folder_name ? : "N/A",
-                "clickCount"   => $folderClickCount,
-                "links"     => $linksArray
+                "id"            => $folder->uuid,
+                "name"          => $folder->folder_name ? : "N/A",
+                "clickCount"    => $folderClickCount,
+                "links"         => $linksArray
             ];
 
             array_push( $folderArray, $object );
@@ -214,82 +214,11 @@ trait StatsTrait {
                 $totalsArray = $this->sumTotals($totalsArray, $object);
                 array_push( $offerArray, $object );
 
-                /*$rawCount    = $offer->OfferClicks()
-                                     ->where( 'is_unique', false )
-                                     ->where( 'referral_id', '=', $authUserID )
-                                     ->whereBetween( 'created_at', [ $startDate, $endDate ] )
-                                     ->count();
-                $uniqueCount = $offer->OfferClicks()
-                                     ->where( 'is_unique', true )
-                                     ->where( 'referral_id', '=',$authUserID )
-                                     ->whereBetween( 'created_at', [ $startDate, $endDate ] )
-                                     ->count();
-                $conversions = $offer->purchases()
-                                     ->whereBetween('purchases.created_at', [ $startDate, $endDate ])
-                                     ->where( 'referral_id', '=', $authUserID )
-                                     ->select('offer_clicks.referral_id')->get();
-                if ($conversions) {
-                    $payout = $this->calculatePayout($conversions, $offer->price);
-                }
-
-                $totalsObject = [
-                    'rawCount'      => array_key_exists('rawCount',$totalsArray) ? $totalsArray['rawCount'] += $rawCount : $rawCount,
-                    'uniqueCount'   => array_key_exists('uniqueCount',$totalsArray) ? $totalsArray['uniqueCount'] += $uniqueCount : $uniqueCount,
-                    'conversions'   => array_key_exists('conversions',$totalsArray) ? $totalsArray['conversions'] += count($conversions) : count($conversions),
-                    'payout'        => array_key_exists('payout',$totalsArray) ? number_format($totalsArray['payout'] += $payout,2) : number_format($payout, 2)
-                ];
-
-                $totalsArray = $totalsObject;
-
-                $object      = [
-                    'icon'          => $offer->icon,
-                    'rawClicks'     => $rawCount,
-                    'uniqueClicks'  => $uniqueCount,
-                    'conversions'   => count($conversions),
-                    'payout'        => $payout,
-                    'totals'        => $startDate
-                ];*/
-
             } else {
-
 
                 $object = $this->getCreatorOfferStats($authUserID, $startDate, $endDate, $offer);
                 $totalsArray = $this->sumTotals($totalsArray, $object);
                 array_push($offerArray, $object );
-
-                /*$rawCount = $offer->OfferClicks()
-                                  ->where('is_unique', false)
-                                  ->whereBetween('created_at', [ $startDate, $endDate ])
-                                  ->count();
-                $uniqueCount = $offer->OfferClicks()
-                                     ->where('is_unique', true)
-                                     ->whereBetween('created_at', [ $startDate, $endDate ])
-                                     ->count();
-                $conversions = $offer->purchases()
-                                     ->whereBetween('purchases.created_at', [ $startDate, $endDate ])
-                                     ->select('offer_clicks.referral_id')
-                                     ->get();
-
-                if ($conversions) {
-                    $payout = $this->calculatePayout($conversions, $offer->price, $authUserID);
-                }
-
-                $totalsObject = [
-                    'rawCount'      => array_key_exists('rawCount',$totalsArray) ? $totalsArray['rawCount'] += $rawCount : $rawCount,
-                    'uniqueCount'   => array_key_exists('uniqueCount',$totalsArray) ? $totalsArray['uniqueCount'] += $uniqueCount : $uniqueCount,
-                    'conversions'   => array_key_exists('conversions',$totalsArray) ? $totalsArray['conversions'] += count($conversions) : count($conversions),
-                    'payout'        => array_key_exists('payout',$totalsArray) ? number_format($totalsArray['payout'] += $payout,2) : number_format($payout, 2)
-                ];
-
-                $totalsArray = $totalsObject;
-
-                $object = [
-                    'icon'          => $offer->icon,
-                    'rawClicks'     => $rawCount,
-                    'uniqueClicks'  => $uniqueCount,
-                    'conversions'   => count($conversions),
-                    'payout'        => $payout,
-                ];*/
             }
         }
 

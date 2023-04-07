@@ -9,9 +9,7 @@ export const Filters = ({
                             endDate,
                             handleDropdownChange,
                             dropdownValue,
-                            tab,
-                            setStatsFunc,
-                            setDeletedFunc = null,
+                            getStats,
 }) => {
 
     return (
@@ -56,9 +54,7 @@ export const Filters = ({
                     startDate={startDate}
                     endDate={endDate}
                     dropdownValue={dropdownValue}
-                    tab={tab}
-                    setStatsFunc={setStatsFunc}
-                    setDeletedFunc={setDeletedFunc}
+                    getStats={getStats}
                 />
             </div>
         </>
