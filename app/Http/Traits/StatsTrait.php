@@ -7,13 +7,9 @@ use App\Models\FolderClick;
 use App\Models\Link;
 use App\Models\LinkVisit;
 use App\Models\Offer;
-use App\Models\OfferClick;
-use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Mockery\Undefined;
 
 trait StatsTrait {
 

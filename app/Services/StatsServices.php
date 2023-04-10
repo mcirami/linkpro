@@ -10,45 +10,6 @@ class StatsServices {
     use StatsTrait;
 
     /**
-     * Get Page, Link, and Deleted Links stats for Current day
-     *
-     * @return array
-     */
-   /* public function getAllStats() {
-
-        $startDate = Carbon::now()->startOfDay();
-        $endDate = Carbon::now()->endOfDay();
-
-        $pageArray = $this->getPageStats($startDate, $endDate);
-
-        $linksArray = $this->getLinkStats($startDate, $endDate);
-
-        $deletedArray = $this->getDeletedLinksStats($startDate, $endDate);
-
-        $folderArray = $this->getFolderStats($startDate, $endDate);
-
-        return [
-            'pageStats' => $pageArray,
-            'linkStats' => $linksArray,
-            'deletedStats' => $deletedArray,
-            'folderStats' => $folderArray
-        ];
-    }*/
-
-    /**
-     * Get Page stats for Current day
-     *
-     * @return array
-     */
-    /*public function getTodaysPageStats() {
-        $startDate = Carbon::now()->startOfDay();
-        $endDate = Carbon::now()->endOfDay();
-
-        return $this->getPageStats($startDate, $endDate);
-
-    }*/
-
-    /**
      * Get Page stats from date range entered
      *
      * @param $request
@@ -76,19 +37,6 @@ class StatsServices {
 
         return $data;
     }
-
-    /**
-     * Get Link stats for Current day
-     *
-     * @return array
-     */
-    /*public function getTodaysLinkStats() {
-        $startDate = Carbon::now()->startOfDay();
-        $endDate = Carbon::now()->endOfDay();
-
-        return $this->getLinkStats($startDate, $endDate);
-
-    }*/
 
     /**
      * Get Link stats from date range entered
@@ -139,19 +87,6 @@ class StatsServices {
         return $this->getDeletedLinksStats($startDate, $endDate);
 
     }
-
-    /**
-     * Get Deleted link stats for Current day
-     *
-     * @return array
-     */
-    /*public function getTodaysFolderStats() {
-        $startDate = Carbon::now()->startOfDay();
-        $endDate = Carbon::now()->endOfDay();
-
-        return $this->getFolderStats($startDate, $endDate);
-
-    }*/
 
     public function getAllFolderStats($request) {
 

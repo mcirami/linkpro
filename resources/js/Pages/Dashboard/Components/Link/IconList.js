@@ -15,14 +15,84 @@ const IconList = ({
                       editID,
                       customIconArray = null,
                       setCustomIconArray = null,
-                      iconList = null,
-                      setIconList = null,
 }) => {
 
     const [isDefaultIcon, setIsDefaultIcon] = useState(false);
     const [authUser, setAuthUser] = useState(null);
     const [searchInput, setSearchInput] = useState("");
     const [isLoading, setIsLoading] = useState(true);
+    const [iconList, setIconList] = useState(null);
+
+    let iconsArray =  null;
+
+    useEffect(() => {
+
+        let url;
+
+        switch(accordionValue) {
+            case "offer":
+                url = '/get-aff-icons';
+                break;
+            case "custom":
+            case "integration":
+                url = '/get-custom-icons';
+                break;
+            case "standard":
+                url = '/get-standard-icons'
+                break;
+            default:
+                break;
+        }
+
+        getIcons(url).then((data) => {
+            if(data.success) {
+                if (accordionValue === "standard") {
+                    iconsArray = getIconPaths(data.iconData);
+                    setIconList(iconsArray);
+                } else if (accordionValue === "custom" || accordionValue === "integration") {
+                    setCustomIconArray(data.iconData);
+                } else {
+                    setIconList(data.iconData)
+                }
+                if (data.authUser) {
+                    setAuthUser(data.authUser);
+                }
+
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 500)
+            }
+        })
+
+    },[accordionValue])
+
+    useEffect(() => {
+
+        if (accordionValue === "integration" && !editID) {
+            setIsDefaultIcon(true)
+
+            if (integrationType === "mailchimp") {
+                setCurrentLink(prevState => ({
+                    ...prevState,
+                    icon: "https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png",
+                    type: "mailchimp"
+                }))
+            }
+
+            if (integrationType === "shopify") {
+                setCurrentLink(prevState => ({
+                    ...prevState,
+                    icon: "https://lp-production-images.s3.us-east-2.amazonaws.com/icons/Shopify.png",
+                    type: "shopify"
+                }))
+            }
+        }
+
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 500)
+
+    },[accordionValue])
 
     const selectIcon = useCallback((e, source) => {
         e.preventDefault();
@@ -78,96 +148,32 @@ const IconList = ({
         }
     });
 
-    /*const handleChange = (e) => {
+    const handleChange = (e) => {
         e.preventDefault();
         setSearchInput(e.target.value);
     }
 
     if (searchInput.length > 0) {
-        setIconList (
-            iconList.filter((i) => {
+
+        iconsArray = iconList.filter((i) => {
                 const iconName = i.name.toLowerCase().replace(" ", "");
                 const userInput = searchInput.toLowerCase().replace(" ", "");
                 return iconName.match(userInput);
-            })
-        )
-    }*/
+         })
 
-    useEffect(() => {
-
-        if (accordionValue === "integration" && !editID) {
-            setIsDefaultIcon(true)
-
-            if (integrationType === "mailchimp") {
-                setCurrentLink(prevState => ({
-                    ...prevState,
-                    icon: "https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png",
-                    type: "mailchimp"
-                }))
-            }
-
-            if (integrationType === "shopify") {
-                setCurrentLink(prevState => ({
-                    ...prevState,
-                    icon: "https://lp-production-images.s3.us-east-2.amazonaws.com/icons/Shopify.png",
-                    type: "shopify"
-                }))
-            }
-        }
-
-        setIsLoading(false);
-
-    },[accordionValue])
-
-    useEffect(() => {
-
-        let url;
-
-        switch(accordionValue) {
-            case "offer":
-                url = '/get-aff-icons';
-                break;
-            case "custom":
-            case "integration":
-                url = '/get-custom-icons';
-                break;
-            case "standard":
-                url = '/get-standard-icons'
-                break;
-            default:
-                break;
-        }
-
-        getIcons(url).then((data) => {
-            if(data.success) {
-                if (accordionValue === "standard") {
-                    setIconList(getIconPaths(data.iconData));
-                } else if (accordionValue === "custom" || accordionValue === "integration") {
-                    setCustomIconArray(data.iconData);
-                } else {
-                    setIconList(data.iconData)
-                }
-                if (data.authUser) {
-                    setAuthUser(data.authUser);
-                }
-
-                setIsLoading(false);
-            }
-        })
-
-    },[accordionValue])
+    }
 
     return (
 
         <>
-            {/*{accordionValue === "standard" &&
+            {accordionValue === "standard" &&
                 <div className="uploader">
                     <input name="search" type="text" placeholder="Search Icons" onChange={(e) => handleChange(e)} defaultValue={searchInput}/>
                     <div className="my_row info_text file_types text-center mb-2 text-center">
                         <a href="mailto:help@link.pro" className="mx-auto m-0 char_count">Don't See Your Icon? Contact Us!</a>
                     </div>
                 </div>
-            }*/}
+            }
 
             <div className={`icons_wrap my_row ${accordionValue === "integration" ? "outer integration_icons" : ""}`}>
                 {isLoading &&
@@ -245,28 +251,53 @@ const IconList = ({
 
                     "standard" :
 
-                        iconList?.map((icon, index) => {
+                        iconsArray ?
 
-                            return (
-                                <div key={index} className="icon_col">
-                                    <img
-                                        className="img-fluid icon_image"
-                                        src={icon.path}
-                                        onClick={(e) => {
-                                            selectIcon(e, icon.path)
-                                        }}
-                                        data-name={icon.name}
-                                        data-icontype={accordionValue}
-                                        alt=""
-                                    />
-                                    <div className="hover_text icon_text">
-                                        <p>
-                                            {icon.name}
-                                        </p>
+                            iconsArray?.map((icon, index) => {
+
+                                return (
+                                    <div key={index} className="icon_col">
+                                        <img
+                                            className="img-fluid icon_image"
+                                            src={icon.path}
+                                            onClick={(e) => {
+                                                selectIcon(e, icon.path)
+                                            }}
+                                            data-name={icon.name}
+                                            data-icontype={accordionValue}
+                                            alt=""
+                                        />
+                                        <div className="hover_text icon_text">
+                                            <p>
+                                                {icon.name}
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                            )
-                        }),
+                                )
+                            })
+                            :
+                            iconList?.map((icon, index) => {
+
+                                return (
+                                    <div key={index} className="icon_col">
+                                        <img
+                                            className="img-fluid icon_image"
+                                            src={icon.path}
+                                            onClick={(e) => {
+                                                selectIcon(e, icon.path)
+                                            }}
+                                            data-name={icon.name}
+                                            data-icontype={accordionValue}
+                                            alt=""
+                                        />
+                                        <div className="hover_text icon_text">
+                                            <p>
+                                                {icon.name}
+                                            </p>
+                                        </div>
+                                    </div>
+                                )
+                            }),
 
                     "offer" :
                         iconList?.map((icon, index) => {
