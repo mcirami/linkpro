@@ -48,8 +48,12 @@ function App() {
                             </th>
                             <th scope="col">Price</th>
                             <th scope="col">
-                                <span>Payout</span>
-                                <ToolTipIcon section="manager_payout" />
+                                <span>PRP</span>
+                                <ToolTipIcon section="manager_prp" />
+                            </th>
+                            <th scope="col">
+                                <span>ARP</span>
+                                <ToolTipIcon section="manager_arp" />
                             </th>
                         </tr>
                     </thead>

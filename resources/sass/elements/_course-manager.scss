@@ -1,6 +1,12 @@
 #manager {
     max-width: 975px;
 
+    &.card {
+        @include query(desktop) {
+            padding: 20px;
+        }
+    }
+
     > h3 {
         line-height: 1.6;
     }
@@ -19,7 +25,7 @@
         grid-template-columns: 1fr 3fr;
         padding-top: 20px;
 
-        @media screen and (max-width: 768px) {
+        @media screen and (max-width: 992px) {
             grid-template-columns: 1fr;
         }
 
@@ -42,7 +48,7 @@
             border-bottom: 1px solid $borderGray;
 
             > h3 {
-                @media screen and (max-width: 768px) {
+                @media screen and (max-width: 992px) {
                     margin-bottom: 10px;
                 }
             }
@@ -50,6 +56,13 @@
 
         .tooltip_icon {
             display: inline-flex;
+
+            svg {
+                @include query(mobile) {
+                    width: 20px;
+                    height: 20px;
+                }
+            }
         }
 
         .column {
@@ -57,7 +70,7 @@
             &:first-child {
                 padding-right: 40px;
 
-                @media screen and (max-width: 768px) {
+                @media screen and (max-width: 992px) {
                     display: none;
                 }
 
@@ -81,7 +94,7 @@
                 border: 1px solid $borderGray;
                 padding-bottom: 20px;
 
-                @media screen and (max-width: 768px) {
+                @media screen and (max-width: 992px) {
                     overflow-x:scroll;
                 }
 
@@ -96,7 +109,7 @@
                     -webkit-border-radius: 8px;
                     -moz-border-radius: 8px;
 
-                    @media screen and (max-width: 768px) {
+                    @media screen and (max-width: 992px) {
                         min-width: 700px;
                     }
 
@@ -108,6 +121,10 @@
                             @include osregular;
                             padding: 1rem;
                             font-size: 1.1em;
+
+                            @include query(desktop) {
+                                padding: 1rem .6rem;
+                            }
 
                             &:first-child {
                                 border-top-left-radius: 8px;
@@ -123,10 +140,25 @@
                         }
                     }
 
+                    th {
+                        @include query(desktop) {
+                            font-size: 1em;
+                        }
+                        span {
+                            @include query(desktop) {
+                                font-size: 1em;
+                            }
+                        }
+                    }
+
                     td {
                         @include osregular;
                         padding: 1rem;
                         font-size: 1.1em;
+
+                        @include query(desktop) {
+                            padding: 1rem .6rem;
+                        }
                     }
                 }
             }

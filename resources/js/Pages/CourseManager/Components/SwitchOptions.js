@@ -59,6 +59,7 @@ const SwitchOptions = ({offer}) => {
             </td>
             <td>${price || '0.00'}</td>
             <td>${ (Math.round( (price * .80) * 100) / 100).toFixed(2) }</td>
+            <td>${ (Math.round( (price * .40) * 100) / 100).toFixed(2) }</td>
         </tr>
     );
 };

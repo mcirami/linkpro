@@ -13,13 +13,17 @@ const InfoText = ({divRef}) => {
     } = useContext(ToolTipContext);
 
     useEffect(() => {
-        const infoBox = infoDiv.current;
-        const {center, top} = infoLocation;
-        const vert =  (top - infoDiv.current.offsetHeight) - 10;
-        const horz = (center - infoDiv.current.offsetWidth) + 15;
 
-        infoBox.style.left = ` ${horz}px`;
-        infoBox.style.top = `${vert}px`;
+        const infoBox = infoDiv.current;
+
+        setTimeout(() => {
+            const {center, top} = infoLocation;
+            const vert =  (top - infoBox.offsetHeight) - 10;
+            const horz = (center - infoBox.offsetWidth) + 15;
+
+            infoBox.style.left = ` ${horz}px`;
+            infoBox.style.top = `${vert}px`;
+        })
 
         if (infoText.section.includes('manager')) {
             infoBox.style.maxWidth = `${divRef.current.offsetWidth * .62}px`
