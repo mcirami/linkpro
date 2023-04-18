@@ -71,6 +71,9 @@ const InfoText = ({divRef}) => {
                 {infoText?.text?.map((text, index) => {
                     return (
                         <React.Fragment key={index}>
+                            {text.title &&
+                                <h3>{text.title}</h3>
+                            }
                             <p>{text.description}</p>
                             {text.subTitle &&
                                 <h5>{text.subTitle}</h5>

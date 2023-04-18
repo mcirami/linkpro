@@ -1,7 +1,8 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, Fragment} from 'react';
 import {getOfferStats} from '../../../Services/StatsRequests';
 import Filters from './Filters';
 import {isEmpty} from 'lodash';
+import {HiOutlinePlusSm, HiMinusSm} from 'react-icons/hi';
 
 const OfferStats = ({
                         offerStats,
@@ -14,10 +15,9 @@ const OfferStats = ({
                         setDropdownValue
 }) => {
 
-
     const [isLoading, setIsLoading] = useState(true);
     const [animate, setAnimate] = useState(true);
-
+    const [openIndex, setOpenIndex] = useState([]);
 
     useEffect(() => {
 
@@ -107,6 +107,17 @@ const OfferStats = ({
 
     }, [statsDate])
 
+    const handleRowClick = (rowIndex) => {
+        console.log(openIndex);
+        if(openIndex.includes(rowIndex)) {
+            const newArrayIndex = openIndex.filter(element => element !== rowIndex)
+            setOpenIndex(newArrayIndex)
+        } else {
+            const newArrayIndex = openIndex.concat(rowIndex);
+            setOpenIndex(newArrayIndex);
+        }
+    }
+
     return (
 
         <div className="stats_wrap my_row">
@@ -121,29 +132,28 @@ const OfferStats = ({
                 />
             </div>
 
-
             <div className="table_wrap my_row table-responsive">
                 <table className="table table-borderless">
                     <thead>
-                    <tr>
-                        {/*<th scope="col" rowSpan={offerStats.length}>
-                        </th>*/}
-                        <th scope="col">
-                            <h5>Offer</h5>
-                        </th>
-                        <th scope="col">
-                            <h5>Raw Clicks</h5>
-                        </th>
-                        <th scope="col">
-                            <h5>Unique Clicks</h5>
-                        </th>
-                        <th scope="col">
-                            <h5>Conversions</h5>
-                        </th>
-                        <th scope="col">
-                            <h5>Payout</h5>
-                        </th>
-                    </tr>
+                        <tr>
+                            {/*<th scope="col" rowSpan={offerStats.length}>
+                            </th>*/}
+                            <th scope="col">
+                                <h5>Offer</h5>
+                            </th>
+                            <th scope="col">
+                                <h5>Raw Clicks</h5>
+                            </th>
+                            <th scope="col">
+                                <h5>Unique Clicks</h5>
+                            </th>
+                            <th scope="col">
+                                <h5>Conversions</h5>
+                            </th>
+                            <th scope="col">
+                                <h5>Payout</h5>
+                            </th>
+                        </tr>
                     </thead>
                     <tbody>
                     {isLoading &&
@@ -159,15 +169,13 @@ const OfferStats = ({
                         </tr>
                         :
                         <>
-                            {/*<tr>
-                                <td rowSpan="0"><h3>Your Offers</h3></td>
-                            </tr>*/}
                             {offerStats.map((item, index) => {
-                                const {icon, rawClicks, uniqueClicks, conversions, payout} = item;
+                                const {icon, rawClicks, uniqueClicks, conversions, payout, userStats} = item;
                                 return (
-                                    <tr key={index}>
+                                    <React.Fragment key={index}>
+                                    <tr key={index} className={userStats?.length > 0 && "no_border"}>
                                         <td>
-                                            <img src={icon} />
+                                            <img src={icon} alt=""/>
                                         </td>
                                         <td>
                                             <p className={`${animate ? "animate hide" : "animate"}`}>{rawClicks}</p>
@@ -182,11 +190,64 @@ const OfferStats = ({
                                             <p className={`${animate ? "animate hide" : "animate"}`}>{"$"}{payout}</p>
                                         </td>
                                     </tr>
+                                    {userStats?.length > 0 &&
+                                        <tr>
+                                            <td colSpan="5">
+                                                <table className="table table-borderless user_stats">
+                                                    <thead>
+                                                        <tr onClick={(e) => handleRowClick(index)}>
+                                                            <th scope="col">
+                                                                <h5>Stats By User</h5>
+                                                            </th>
+                                                            <th scope="col"></th>
+                                                            <th scope="col"></th>
+                                                            <th scope="col"></th>
+                                                            <th scope="col">{ openIndex.includes(index) ? <HiMinusSm /> : <HiOutlinePlusSm />}</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody className={openIndex.includes(index) ? "open" : ""}>
+
+                                                    {userStats.map((username, index) => {
+                                                        return (
+                                                            <tr key={index}>
+                                                                {Object.keys(username).map((user, i) => {
+
+                                                                    const {rawCount, uniqueCount, conversionCount, total} = userStats[index][user];
+
+                                                                    return (
+                                                                        <React.Fragment key={i}>
+                                                                            <td>
+                                                                                <p className={`${animate ? "animate hide" : "animate"}`}>{user}</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p className={`${animate ? "animate hide" : "animate"}`}>{rawCount}</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p className={`${animate ? "animate hide" : "animate"}`}>{uniqueCount}</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p className={`${animate ? "animate hide" : "animate"}`}>{conversionCount}</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p className={`${animate ? "animate hide" : "animate"}`}>{"$"}{total}</p>
+                                                                            </td>
+                                                                        </React.Fragment>
+                                                                    )
+                                                                })}
+                                                            </tr>
+                                                        )
+                                                    })}
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    }
+                                    </React.Fragment>
                                 )
                             })}
 
                             <tr className="totals">
-                                <td><h3>Total</h3></td>
+                                <td><h3>Totals</h3></td>
                                 <td><h3 className={`${animate ? "animate hide" : "animate"}`}>{totals["totalRaw"]}</h3></td>
                                 <td><h3 className={`${animate ? "animate hide" : "animate"}`}>{totals["totalUnique"]}</h3></td>
                                 <td><h3 className={`${animate ? "animate hide" : "animate"}`}>{totals["totalConversions"]}</h3></td>

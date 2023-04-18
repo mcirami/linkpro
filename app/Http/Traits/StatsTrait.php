@@ -227,29 +227,32 @@ trait StatsTrait {
     private function getCreatorOfferStats($authUserID, $startDate, $endDate, $offer) {
         $payout = 0.00;
 
-        $rawCount = $offer->OfferClicks()
-                          ->where('is_unique', false)
-                          ->whereBetween('created_at', [ $startDate, $endDate ])
-                          ->count();
-        $uniqueCount = $offer->OfferClicks()
-                             ->where('is_unique', true)
-                             ->whereBetween('created_at', [ $startDate, $endDate ])
-                             ->count();
-        $conversions = $offer->purchases()
-                             ->whereBetween('purchases.created_at', [ $startDate, $endDate ])
-                             ->select('offer_clicks.referral_id')
-                             ->get();
+        $offerClicks = $offer
+            ->OfferClicks()
+            ->whereBetween('offer_clicks.created_at', [ $startDate, $endDate ])
+            ->leftJoin('users', 'users.id', '=', 'offer_clicks.referral_id')
+            ->leftJoin('purchases', 'purchases.offer_click_id', '=', 'offer_clicks.id')
+            ->select('users.username', 'offer_clicks.is_unique', 'offer_clicks.referral_id', 'purchases.purchase_amount')
+            ->get();
 
-        if ($conversions) {
-            $payout = $this->calculatePayout($conversions, $offer->price, $authUserID);
+        if ($offerClicks) {
+            $payout = $this->calculatePayout($offerClicks, $offer->price, $authUserID);
+            $conversionCount = $this->countConversions($offerClicks->toArray());
         }
+
+        $userStats = $this->getUserOfferStats($offerClicks, $authUserID);
+
+        $count = $offerClicks->countBy(function ($click) {
+            return $click['is_unique'];
+        })->toArray();
 
         return [
             'icon'          => $offer->icon,
-            'rawClicks'     => $rawCount,
-            'uniqueClicks'  => $uniqueCount,
-            'conversions'   => count($conversions),
+            'rawClicks'     => array_key_exists(0, $count) ? $count[0] : 0,
+            'uniqueClicks'  => array_key_exists(1, $count) ? $count[1] : 0,
+            'conversions'   => $conversionCount,
             'payout'        => $payout,
+            'userStats'     => $userStats,
         ];
     }
     private function getPublisherOfferStats($authUserID, $startDate, $endDate, $offer) {
@@ -304,17 +307,83 @@ trait StatsTrait {
         ];
     }
 
-    private function calculatePayout($conversions, $price,  $userId = null) {
+    private function calculatePayout($clicks, $price,  $userId = null) {
 
         $payout = 0.00;
-        foreach ( $conversions as $conversion ) {
-            if ( $conversion->referral_id == $userId ) {
-                $payout += $price * .80;
-            } else {
-                $payout += $price * .40;
+        foreach ( $clicks as $click ) {
+
+            if ($click->purchase_amount) {
+                if ( $click->referral_id == $userId ) {
+                    $payout += $price * .80;
+                } else {
+                    $payout += $price * .40;
+                }
             }
         }
 
         return number_format($payout, 2);
+    }
+
+    private function countConversions($array) {
+        return count(array_filter($array, function ($var) {
+            return $var['purchase_amount'] != null;
+        }));
+    }
+
+    private function getUserOfferStats($offerClicks, $authUserID) {
+
+        $groups = $offerClicks->mapToGroups(function ($item, $key) {
+            return [
+                $item['username'] => [
+                    'unique'        => $item['is_unique'],
+                    'conversion'    => $item['purchase_amount'],
+                    'referralId'    => $item['referral_id'],
+                ]
+            ];
+        });
+
+        $groupArray = $groups->toArray();
+        $array = [];
+
+        foreach($groups as $key => $value) {
+
+            $uniqueCount = 0;
+            $rawCount = 0;
+            $conversionCount = 0;
+            $conversionTotal = 0.00;
+
+            foreach($groupArray[$key] as $innerValue){
+
+                if($innerValue['unique'] == 0) {
+                    ++$rawCount;
+                }
+
+                if($innerValue['unique'] == 1) {
+                    ++$uniqueCount;
+                }
+
+                if($innerValue['conversion'] != null) {
+                    ++$conversionCount;
+                    if ( $innerValue["referralId"] == $authUserID ) {
+                        $conversionTotal += $innerValue["conversion"] * .80;
+                    } else {
+                        $conversionTotal += $innerValue["conversion"] * .40;
+                    }
+                }
+            }
+
+            $object = new \stdClass();
+            $object->$key = [
+                'rawCount'          => $rawCount,
+                'uniqueCount'       => $uniqueCount,
+                'conversionCount'   => $conversionCount,
+                'total'             => number_format($conversionTotal,2)
+            ];
+
+            array_push($array, $object);
+        }
+
+        return $array;
+
     }
 }

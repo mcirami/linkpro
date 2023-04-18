@@ -18,22 +18,6 @@ class StatsController extends Controller
     }
 
     /**
-     * Get page stats for today
-     *
-     * @param StatsServices $tracking
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-   /* public function getPageStats(StatsServices $statsServices) {
-
-        $data = $statsServices->getTodaysPageStats();
-
-        return response()->json([
-            'pageStats' => $data,
-        ]);
-    }*/
-
-    /**
      * @param Request $request
      * @param StatsServices $statsServices
      *
@@ -45,22 +29,6 @@ class StatsController extends Controller
 
         return response()->json(['data' => $data]);
     }
-
-    /**
-     * Get page stats for today
-     *
-     * @param StatsServices $statsServices
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    /*public function getLinkStats(StatsServices $statsServices) {
-
-        $data = $statsServices->getTodaysLinkStats();
-
-        return response()->json([
-            'linkStats' => $data,
-        ]);
-    }*/
 
     /**
      * @param Request $request
@@ -90,22 +58,6 @@ class StatsController extends Controller
             'deletedStats' => $data,
         ]);
     }
-
-    /**
-     * Get folder stats for today
-     *
-     * @param StatsServices $statsServices
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-   /* public function getFolderStats(StatsServices $statsServices) {
-
-        $data = $statsServices->getTodaysFolderStats();
-
-        return response()->json([
-            'folderStats' => $data,
-        ]);
-    }*/
 
     public function getFolderStats(Request $request, StatsServices $statsServices) {
 

@@ -92,7 +92,8 @@ const hoverText = [
         section: 'manager_prp',
         text: [
             {
-                description: 'Personal Referral Payout. Your payout will be 80% of the price you set when you personally refer someone to your course',
+                title: 'Personal Referral Payout',
+                description: 'Your payout will be 80% of the price you set when you personally refer someone to your course',
             }
         ]
     },
@@ -100,7 +101,8 @@ const hoverText = [
         section: 'manager_arp',
         text: [
             {
-                description: 'Affiliate Referral Payout. Your payout will be 40% of the price you set when someone adds your course to their Link Pro page.',
+                title: 'Affiliate Referral Payout',
+                description: 'Your payout will be 40% of the price you set when someone adds your course to their Link Pro page.',
             }
         ]
     }
