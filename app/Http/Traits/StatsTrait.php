@@ -258,7 +258,17 @@ trait StatsTrait {
     private function getPublisherOfferStats($authUserID, $startDate, $endDate, $offer) {
 
         $payout = 0.00;
-        $rawCount    = $offer->OfferClicks()
+
+        $offerClicks = $offer
+            ->OfferClicks()
+            ->where( 'referral_id', '=', $authUserID )
+            ->whereBetween('offer_clicks.created_at', [ $startDate, $endDate ])
+            ->leftJoin('users', 'users.id', '=', 'offer_clicks.referral_id')
+            ->leftJoin('purchases', 'purchases.offer_click_id', '=', 'offer_clicks.id')
+            ->select('users.username', 'offer_clicks.is_unique', 'offer_clicks.referral_id', 'purchases.purchase_amount')
+            ->get();
+
+        /*$rawCount    = $offer->OfferClicks()
                              ->where( 'is_unique', false )
                              ->where( 'referral_id', '=', $authUserID )
                              ->whereBetween( 'created_at', [ $startDate, $endDate ] )
@@ -271,16 +281,21 @@ trait StatsTrait {
         $conversions = $offer->purchases()
                              ->whereBetween('purchases.created_at', [ $startDate, $endDate ])
                              ->where( 'referral_id', '=', $authUserID )
-                             ->select('offer_clicks.referral_id')->get();
-        if ($conversions) {
-            $payout = $this->calculatePayout($conversions, $offer->price);
+                             ->select('offer_clicks.referral_id')->get();*/
+        if ($offerClicks) {
+            $payout = $this->calculatePayout($offerClicks, $offer->price);
+            $conversionCount = $this->countConversions($offerClicks->toArray());
         }
+
+        $count = $offerClicks->countBy(function ($click) {
+            return $click['is_unique'];
+        })->toArray();
 
         return [
             'icon'          => $offer->icon,
-            'rawClicks'     => $rawCount,
-            'uniqueClicks'  => $uniqueCount,
-            'conversions'   => count($conversions),
+            'rawClicks'     => array_key_exists(0, $count) ? $count[0] : 0,
+            'uniqueClicks'  => array_key_exists(1, $count) ? $count[1] : 0,
+            'conversions'   => $conversionCount,
             'payout'        => $payout,
         ];
     }
