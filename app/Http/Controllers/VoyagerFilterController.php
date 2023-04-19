@@ -1,18 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Subscription;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use TCG\Voyager\Facades\Voyager;
 use Illuminate\Http\Request;
-use App\Http\Traits\TrackingTrait;
+use App\Http\Traits\StatsTrait;
 
 class VoyagerFilterController extends \TCG\Voyager\Http\Controllers\VoyagerBaseController
 {
-    use TrackingTrait;
+    use StatsTrait;
 
     //***************************************
     //               ____

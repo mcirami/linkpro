@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Http\Traits\TrackingTrait;
+use App\Http\Traits\StatsTrait;
 
 
 class Referral extends Model
 {
-    use HasFactory, TrackingTrait;
+    use HasFactory, StatsTrait;
 
     /**
      * The attributes that are mass assignable.

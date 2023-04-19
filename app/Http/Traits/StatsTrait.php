@@ -268,20 +268,6 @@ trait StatsTrait {
             ->select('users.username', 'offer_clicks.is_unique', 'offer_clicks.referral_id', 'purchases.purchase_amount')
             ->get();
 
-        /*$rawCount    = $offer->OfferClicks()
-                             ->where( 'is_unique', false )
-                             ->where( 'referral_id', '=', $authUserID )
-                             ->whereBetween( 'created_at', [ $startDate, $endDate ] )
-                             ->count();
-        $uniqueCount = $offer->OfferClicks()
-                             ->where( 'is_unique', true )
-                             ->where( 'referral_id', '=',$authUserID )
-                             ->whereBetween( 'created_at', [ $startDate, $endDate ] )
-                             ->count();
-        $conversions = $offer->purchases()
-                             ->whereBetween('purchases.created_at', [ $startDate, $endDate ])
-                             ->where( 'referral_id', '=', $authUserID )
-                             ->select('offer_clicks.referral_id')->get();*/
         if ($offerClicks) {
             $payout = $this->calculatePayout($offerClicks, $offer->price);
             $conversionCount = $this->countConversions($offerClicks->toArray());
