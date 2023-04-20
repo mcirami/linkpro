@@ -3226,7 +3226,7 @@ function App() {
     _useState6 = _slicedToArray(_useState5, 2),
     pathName = _useState6[0],
     setPathName = _useState6[1];
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1),
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("custom"),
     _useState8 = _slicedToArray(_useState7, 2),
     dropdownValue = _useState8[0],
     setDropdownValue = _useState8[1];

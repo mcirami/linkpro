@@ -23,6 +23,7 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\CourseRegisterController;
 use App\Http\Controllers\Auth\CoursePasswordController;
+use App\Http\Controllers\Admin\AffiliateStatsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,12 +38,13 @@ use App\Http\Controllers\Auth\CoursePasswordController;
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
-
-    Route::post('/subscriptions', [App\Http\Controllers\VoyagerFilterController::class, 'index']);
+    Route::get('/affiliate-stats', [AffiliateStatsController::class, 'show']);
+    /*Route::post('/subscriptions', [App\Http\Controllers\VoyagerFilterController::class, 'index']);
     Route::post('/users', [App\Http\Controllers\VoyagerFilterController::class, 'index']);
     Route::post('/pages', [App\Http\Controllers\VoyagerFilterController::class, 'index']);
     Route::post('/links', [App\Http\Controllers\VoyagerFilterController::class, 'index']);
     Route::post('/referrals', [App\Http\Controllers\VoyagerFilterController::class, 'index']);
+    Route::post('/purchases', [App\Http\Controllers\VoyagerFilterController::class, 'index']);*/
 });
 
 Auth::routes();

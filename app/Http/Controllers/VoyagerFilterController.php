@@ -81,15 +81,16 @@ class VoyagerFilterController extends \TCG\Voyager\Http\Controllers\VoyagerBaseC
                         [ $getData['startDate'], $getData['endDate'] ] );
                 }
 
-            } else if (isset($_GET['clear'])) {
+            } /*else if (isset($_GET['clear'])) {
                 $query = $model::select($dataType->name.'.*');
-            } else {
-                $getData = $this->getDateRange(1);
+            } */else {
+                $query = $model::select($dataType->name.'.*');
+               /* $getData = $this->getDateRange(1);
                 if ($dataType->name == 'referrals') {
                     $query = $model::select($dataType->name.'.*')->whereBetween('updated_at', [ $getData['startDate'], $getData['endDate'] ]);
                 } else {
                     $query = $model::select($dataType->name.'.*')->whereBetween('created_at', [ $getData['startDate'], $getData['endDate'] ]);
-                }
+                }*/
             }
 
             if ($dataType->scope && $dataType->scope != '' && method_exists($model, 'scope'.ucfirst($dataType->scope))) {

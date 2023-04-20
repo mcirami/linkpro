@@ -1,4 +1,4 @@
-input[type=text], select {
+#admin_filters input[type=text], #admin_filters select {
   border: 1px solid #d4d2d2;
   border-top-right-radius: 8px;
   -webkit-border-top-right-radius: 8px;
