@@ -1,5 +1,5 @@
 .my_row.form_page.stats .card {
-    max-width: 850px;
+    max-width: 1000px;
 
     button {
         width: auto;
@@ -31,7 +31,6 @@
     }
 
     .tabs_wrap {
-        max-width: 750px;
         margin: 0 auto;
         width: 100%;
 
@@ -296,8 +295,25 @@
                     width: 20%;
 
                     h5 {
+                        display: -webkit-box;
+                        display: -ms-flexbox;
+                        display: flex;
+                        -webkit-box-orient: horizontal;
+                        -webkit-box-direction: normal;
+                        -ms-flex-direction: row;
+                        flex-direction: row;
+                        -ms-flex-wrap: nowrap;
+                        flex-wrap: nowrap;
+                        justify-content: center;
+                        -webkit-justify-content: center;
+                        align-items: center;
+                        -webkit-align-items: center;
+                        column-gap: 2px;
+                        -webkit-column-gap: 2px;
+                        -moz-column-gap: 2px;
                         font-size: 16px;
                         margin: 0;
+                        text-transform: uppercase;
                     }
                 }
             }

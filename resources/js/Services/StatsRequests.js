@@ -92,8 +92,7 @@ export const getOfferStats = (packets) => {
 
             return {
                 success : true,
-                creatorOfferData: returnData["creatorOfferData"],
-                publisherOfferData: returnData["publisherOfferData"],
+                offerData: returnData["offerData"],
                 totals: returnData["totals"]
             }
         },

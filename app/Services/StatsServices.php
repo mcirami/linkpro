@@ -140,8 +140,8 @@ class StatsServices {
         }
 
         return [
-            'creatorOfferData'      => $offerData['offerArray'],
-            'totals'                => $offerData['totals']
+            'offerData'      => $offerData['offerArray'],
+            'totals'         => $offerData['totals']
         ];
     }
 }
