@@ -16072,6 +16072,9 @@ a.delete svg {
 #stats_page .stats_wrap .table tr.totals td {
   padding: 20px 0 10px;
 }
+#stats_page .stats_wrap .table td {
+  padding: 1.5rem 0.5rem;
+}
 #stats_page .stats_wrap .table td:last-child p {
   font-family: "opensansbold", sans-serif;
 }

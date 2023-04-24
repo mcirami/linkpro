@@ -8,7 +8,7 @@ import React, {
 import {getOfferStats} from '../../../Services/StatsRequests';
 import Filters from './Filters';
 import {isEmpty} from 'lodash';
-import Table from './Table/Table';
+import Table from './Table';
 
 const OfferStats = ({
                         offerStats,
@@ -37,7 +37,32 @@ const OfferStats = ({
             setAnimate(false);
         }
 
-    },[])
+    },[]);
+
+    const columns = useMemo(
+        () => [
+            {
+                Header: "Offer",
+                accessor: "icon",
+            },
+            {
+                Header: "Raw Clicks",
+                accessor: "rawClicks",
+            },
+            {
+                Header: "Unique Clicks",
+                accessor: "uniqueClicks",
+            },
+            {
+                Header: "Conversions",
+                accessor: "conversions",
+            },
+            {
+                Header: "Payout",
+                accessor: "payout",
+            },
+        ],[]
+    )
 
     const handleDateChange = (date, type) => {
 
@@ -132,6 +157,7 @@ const OfferStats = ({
                     animate={animate}
                     totals={totals}
                     data={offerStats}
+                    columns={columns}
                 />
             </div>
         </div>

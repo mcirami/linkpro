@@ -1,7 +1,8 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {getPageStats} from '../../../Services/StatsRequests';
 import Filters from './Filters';
 import {isEmpty} from 'lodash';
+import Table from './Table';
 
 const PageStats = ({
                        pageStats,
@@ -28,6 +29,23 @@ const PageStats = ({
         }
 
     },[])
+
+    const columns = useMemo(
+        () => [
+            {
+                Header: "Page Name",
+                accessor: "pageName",
+            },
+            {
+                Header: "Page Loads",
+                accessor: "visits",
+            },
+            {
+                Header: "Icon Clicks",
+                accessor: "linkVisits",
+            },
+        ],[]
+    )
 
     const handleDateChange = (date, type) => {
         let currentStartDate = null;
@@ -94,7 +112,6 @@ const PageStats = ({
         });
     }, [pageStatsDate])
 
-
     return (
         <div className="stats_wrap my_row">
             <div className="my_row filter">
@@ -110,53 +127,13 @@ const PageStats = ({
 
 
             <div className="table_wrap my_row table-responsive">
-                <table className="table table-borderless mb-0">
-                    <thead>
-                        <tr>
-                            <th scope="col">
-                                <h5>Page Name</h5>
-                            </th>
-                            <th scope="col">
-                                <h5>Page Loads</h5>
-                            </th>
-                            <th scope="col">
-                                <h5>Icon Clicks</h5>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {isLoading &&
-                        <tr id="loading_spinner" className="active">
-                            <td colSpan="5" >
-                                <img src={Vapor.asset('images/spinner.svg')} alt="" />
-                            </td>
-                        </tr>
-                    }
-                    {isEmpty(pageStats) ?
-                        <tr>
-                            <td className={ isLoading ? "hidden no_stats" : "no_stats"} colSpan="5"><h3>No Stats Available</h3></td>
-                        </tr>
-                        :
-                        pageStats.map((item) => {
-                            const {id, pageName, visits, linkVisits} = item;
-
-                            return (
-                                <tr key={id}>
-                                    <td>
-                                        <p>{pageName}</p>
-                                    </td>
-                                    <td>
-                                        <p className={`${animate ? "animate hide" : "animate"}`}>{visits}</p>
-                                    </td>
-                                    <td>
-                                        <p className={`${animate ? "animate hide" : "animate"}`}>{linkVisits}</p>
-                                    </td>
-                                </tr>
-                            )
-                        })
-                    }
-                    </tbody>
-                </table>
+                <Table
+                    isLoading={isLoading}
+                    animate={animate}
+                    /*totals={totals}*/
+                    data={pageStats}
+                    columns={columns}
+                />
             </div>
         </div>
     )

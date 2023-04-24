@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState, useMemo} from 'react';
 import {
     getFolderStats,
 } from '../../../Services/StatsRequests';
@@ -6,6 +6,7 @@ import {
 import "react-datepicker/dist/react-datepicker.css";
 import Filters from './Filters';
 import {isEmpty} from 'lodash';
+import Table from './Table';
 
 const FolderStats = ({
                          folderStats,
@@ -33,6 +34,22 @@ const FolderStats = ({
 
     },[])
 
+    const columns = useMemo(
+        () => [
+            {
+                Header: "Current Icons",
+                accessor: "icon",
+            },
+            {
+                Header: "Icon Name",
+                accessor: "iconName",
+            },
+            {
+                Header: "Icon Clicks",
+                accessor: "visits",
+            },
+        ],[]
+    )
     const handleDateChange = (date, type) => {
 
         let currentStartDate = null;
@@ -138,54 +155,15 @@ const FolderStats = ({
                             </div>
 
                             <div className="table_wrap my_row table-responsive mb-4">
-                                <table className="table table-borderless">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">
-                                            <h5>Current Icons</h5>
-                                        </th>
-                                        <th scope="col">
-                                            <h5>Icon Name</h5>
-                                        </th>
-                                        <th scope="col">
-                                            <h5>Icon Clicks</h5>
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                        {isEmpty(links) ?
-                                            <tr>
-                                                <td className={ isLoading ? "hidden no_stats" : "no_stats"} colSpan="5"><h3>No Stats Available</h3></td>
-                                            </tr>
-                                            :
-                                            links.map((link) => {
-
-                                                const {
-                                                    id,
-                                                    iconName,
-                                                    icon,
-                                                    visits
-                                                } = link;
-
-                                                return (
-
-                                                    <tr key={id}>
-                                                        <td>
-                                                            <img src={icon}/>
-                                                        </td>
-                                                        <td>
-                                                            <p>{iconName}</p>
-                                                        </td>
-                                                        <td>
-                                                            <p className={`${animate ? "animate hide" : "animate"}`}>{visits}</p>
-                                                        </td>
-                                                    </tr>
-
-                                                )
-                                            })
-                                        }
-                                    </tbody>
-                                </table>
+                                {links?.length > 0 &&
+                                    <Table
+                                        isLoading={isLoading}
+                                        animate={animate}
+                                        /*totals={totals}*/
+                                        data={links}
+                                        columns={columns}
+                                    />
+                                }
                             </div>
                         </div>
                     </div>

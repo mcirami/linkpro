@@ -5,38 +5,14 @@ import {FaSort, FaSortDown, FaSortUp} from 'react-icons/fa';
 import { useTable, useSortBy } from 'react-table';
 
 const Table = ({
-                   totals,
+                   totals = null,
                    isLoading,
                    animate,
                    data,
+                   columns
 }) => {
 
     const [openIndex, setOpenIndex] = useState([]);
-
-    const columns = useMemo(
-        () => [
-            {
-                Header: "Offer",
-                accessor: "icon",
-            },
-            {
-                Header: "Raw Clicks",
-                accessor: "rawClicks",
-            },
-            {
-                Header: "Unique Clicks",
-                accessor: "uniqueClicks",
-            },
-            {
-                Header: "Conversions",
-                accessor: "conversions",
-            },
-            {
-                Header: "Payout",
-                accessor: "payout",
-            },
-        ],[]
-    )
 
     const {
         getTableProps, // table props from react-table
@@ -106,11 +82,11 @@ const Table = ({
                         /**/
                         return (
                             <React.Fragment key={index}>
-                                <tr key={index} {...row.getRowProps()} className={row.original.userStats?.length > 0 && "no_border"}>
+                                <tr key={index} {...row.getRowProps()} className={row.original.userStats?.length > 0 ? "no_border" : ""}>
                                     {row.cells.map((cell) => {
                                         return (
                                             <td {...cell.getCellProps()}>
-                                                {cell.column.Header === "Offer" ?
+                                                { (cell.column.Header === "Offer" || cell.column.Header === "Current Icons") ?
                                                     <img src={cell.value} alt=""/>
                                                     :
                                                     <p className={`${animate ? "animate hide" : "animate"}`}>{cell.render("Cell")}</p>
@@ -119,7 +95,7 @@ const Table = ({
                                         )
                                     })}
                                 </tr>
-                                {row.original.userStats?.length > 0 > 0 &&
+                                {row.original.userStats?.length > 0 &&
                                     <tr>
                                         <td colSpan="5">
                                             <table className="table table-borderless user_stats">
@@ -175,13 +151,15 @@ const Table = ({
                         )
                     })}
 
-                    <tr className="totals">
-                        <td><h3>Totals</h3></td>
-                        <td><h3 className={`${animate ? "animate hide" : "animate"}`}>{totals["totalRaw"]}</h3></td>
-                        <td><h3 className={`${animate ? "animate hide" : "animate"}`}>{totals["totalUnique"]}</h3></td>
-                        <td><h3 className={`${animate ? "animate hide" : "animate"}`}>{totals["totalConversions"]}</h3></td>
-                        <td><h3 className={`${animate ? "animate hide" : "animate"}`}>${totals["totalPayout"]}</h3></td>
-                    </tr>
+                    {totals &&
+                        <tr className="totals">
+                            <td><h3>Totals</h3></td>
+                            <td><h3 className={`${animate ? "animate hide" : "animate"}`}>{totals["totalRaw"]}</h3></td>
+                            <td><h3 className={`${animate ? "animate hide" : "animate"}`}>{totals["totalUnique"]}</h3></td>
+                            <td><h3 className={`${animate ? "animate hide" : "animate"}`}>{totals["totalConversions"]}</h3></td>
+                            <td><h3 className={`${animate ? "animate hide" : "animate"}`}>${totals["totalPayout"]}</h3></td>
+                        </tr>
+                    }
                 </>
             }
             </tbody>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useEffect, useState, useCallback, useMemo} from 'react';
 import {
     getLinkStats, getOfferStats,
 } from '../../../Services/StatsRequests';
@@ -6,6 +6,7 @@ import {
 import "react-datepicker/dist/react-datepicker.css";
 import Filters from './Filters';
 import {isEmpty} from 'lodash';
+import Table from './Table';
 
 const LinkStats = ({
                        linkStats,
@@ -34,6 +35,40 @@ const LinkStats = ({
         }
 
     },[])
+
+    const columns = useMemo(
+        () => [
+            {
+                Header: "Current Icons",
+                accessor: "icon",
+            },
+            {
+                Header: "Icon Name",
+                accessor: "iconName",
+            },
+            {
+                Header: "Icon Clicks",
+                accessor: "visits",
+            },
+        ],[]
+    )
+
+    const deletedColumns = useMemo(
+        () => [
+            {
+                Header: "Past Icons",
+                accessor: "icon",
+            },
+            {
+                Header: "Icon Name",
+                accessor: "iconName",
+            },
+            {
+                Header: "Icon Clicks",
+                accessor: "visits",
+            },
+        ],[]
+    )
 
     const handleDateChange = (date, type) => {
 
@@ -120,105 +155,22 @@ const LinkStats = ({
                 />
             </div>
             <div className="table_wrap my_row table-responsive">
-                <table className="table table-borderless">
-                    <thead>
-                        <tr>
-                            <th scope="col">
-                                <h5>Current Icons</h5>
-                            </th>
-                            <th scope="col">
-                                <h5>Icon Name</h5>
-                            </th>
-                            <th scope="col">
-                                <h5>Icon Clicks</h5>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {isLoading &&
-                        <tr id="loading_spinner" className="active">
-                            <td colSpan="5" >
-                                <img src={Vapor.asset('images/spinner.svg')} alt="" />
-                            </td>
-                        </tr>
-                    }
-                    {isEmpty(linkStats) ?
-                        <tr>
-                            <td className={ isLoading ? "hidden no_stats" : "no_stats"} colSpan="5"><h3>No Stats Available</h3></td>
-                        </tr>
-                        :
-                        linkStats.map((item, index) => {
-                            const {iconName, icon, visits} = item;
-
-                            return (
-                                <tr key={index}>
-                                    <td>
-                                        <img src={icon} />
-                                    </td>
-                                    <td>
-                                        <p>{iconName}</p>
-                                    </td>
-                                    <td>
-                                        <p className={`${animate ? "animate hide" : "animate"}`}>{visits}</p>
-                                    </td>
-                                </tr>
-                            )
-                        })
-                    }
-                    </tbody>
-                </table>
+                <Table
+                    isLoading={isLoading}
+                    animate={animate}
+                    /*totals={totals}*/
+                    data={linkStats}
+                    columns={columns}
+                />
             </div>
             <div className="table_wrap my_row table-responsive">
-                <table className="table table-borderless mb-0">
-                    <thead>
-                    <tr>
-                        <th scope="col">
-                            <h5>Past Icons</h5>
-                        </th>
-                        <th scope="col">
-                            <h5>Icon Name</h5>
-                        </th>
-                        <th scope="col">
-                            <h5>Icon Clicks</h5>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {isLoading &&
-                        <tr id="loading_spinner" className="active">
-                            <td colSpan="5" >
-                                <img src={Vapor.asset('images/spinner.svg')} alt="" />
-                            </td>
-                        </tr>
-                    }
-                    {isEmpty(deletedStats) ?
-                        <tr>
-                            <td className={ isLoading ? "hidden no_stats" : "no_stats"} colSpan="5"><h3>No Stats Available</h3></td>
-                        </tr>
-                        :
-                        !isEmpty(deletedStats) &&
-                        <>
-                            {deletedStats.map((item) => {
-                                const {id, iconName, icon, visits} = item;
-
-                                return (
-                                    <tr key={id}>
-                                        <td>
-                                            <img src={icon}/>
-                                        </td>
-                                        <td>
-                                            <p>{iconName}</p>
-                                        </td>
-                                        <td>
-                                            <p className="animate">{visits}</p>
-                                        </td>
-                                    </tr>
-                                )
-                            })}
-                        </>
-                    }
-                    </tbody>
-                </table>
+                <Table
+                    isLoading={isLoading}
+                    animate={animate}
+                    /*totals={totals}*/
+                    data={deletedStats}
+                    columns={deletedColumns}
+                />
             </div>
         </div>
     )
