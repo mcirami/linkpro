@@ -110,4 +110,33 @@ export const getOfferStats = (packets) => {
     });
 }
 
+export const getAffiliateStats = (packets) => {
+
+    return axios.post('/stats/get/affiliate', packets).then(
+        (response) => {
+            //console.log(JSON.stringify(response.data));
+            const returnData = response.data.data;
+            //EventBus.dispatch("success", { message: returnMessage });
+
+            return {
+                success : true,
+                affiliateData: returnData["affiliateData"],
+                totals: returnData["totals"]
+            }
+        },
+
+    ).catch(error => {
+        if (error.response) {
+            console.error(error.response);
+        } else {
+            console.error("ERROR:: ", error);
+        }
+
+        return {
+            success : false
+        }
+    });
+}
+
 export default getPageStats;
+

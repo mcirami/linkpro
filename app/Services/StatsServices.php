@@ -91,11 +91,11 @@ class StatsServices {
     public function getAllFolderStats($request) {
 
         if ($request->currentDay) {
-        $startDate = Carbon::now()->startOfDay();
-        $endDate = Carbon::now()->endOfDay();
+            $startDate = Carbon::now()->startOfDay();
+            $endDate = Carbon::now()->endOfDay();
 
-        $currentData = $this->getFolderStats($startDate, $endDate);
-        //$pastData = $this->getDeletedLinksStats($startDate, $endDate);
+            $currentData = $this->getFolderStats($startDate, $endDate);
+            //$pastData = $this->getDeletedLinksStats($startDate, $endDate);
 
         } else if ($request->dateValue) {
             $data = $this->getDateRange($request->dateValue);
@@ -142,6 +142,34 @@ class StatsServices {
         return [
             'offerData'      => $offerData['offerArray'],
             'totals'         => $offerData['totals']
+        ];
+    }
+
+    public function getAllAffiliateStats($request) {
+
+        if ($request->currentDay) {
+            $startDate = Carbon::now()->startOfDay();
+            $endDate = Carbon::now()->endOfDay();
+
+            $affiliateData = $this->getAffiliateStats($startDate, $endDate);
+
+        } else if ($request->dateValue) {
+
+            $data = $this->getDateRange($request->dateValue);
+
+            $affiliateData = $this->getAffiliateStats($data['startDate'], $data['endDate']);
+
+        } else {
+
+            $startDate = Carbon::createFromTimestamp($request->startDate)->startOfDay();
+            $endDate = Carbon::createFromTimestamp($request->endDate)->endOfDay();
+
+            $affiliateData = $this->getAffiliateStats($startDate, $endDate);
+        }
+
+        return [
+            'affiliateData' => $affiliateData['userStats'],
+            'totals'        => $affiliateData['totals']
         ];
     }
 }

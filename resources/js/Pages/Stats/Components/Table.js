@@ -86,7 +86,7 @@ const Table = ({
                                     {row.cells.map((cell) => {
                                         return (
                                             <td {...cell.getCellProps()}>
-                                                { (cell.column.Header === "Offer" || cell.column.Header === "Current Icons") ?
+                                                { (cell.column.Header === "Offer" || cell.column.Header === "Current Icons" || cell.column.Header === "Past Icons") ?
                                                     <img src={cell.value} alt=""/>
                                                     :
                                                     <p className={`${animate ? "animate hide" : "animate"}`}>{cell.render("Cell")}</p>
@@ -112,33 +112,28 @@ const Table = ({
                                                 </thead>
                                                 <tbody className={openIndex.includes(index) ? "open" : ""}>
 
-                                                {row.original.userStats.map((username, index) => {
+                                                {row.original.userStats.map((user, index) => {
+
+                                                    const {name, rawCount, uniqueCount, conversionCount, total} = user;
+
                                                     return (
+
                                                         <tr key={index}>
-                                                            {Object.keys(username).map((user, i) => {
-
-                                                                const {rawCount, uniqueCount, conversionCount, total} = row.original.userStats[index][user];
-
-                                                                return (
-                                                                    <React.Fragment key={i}>
-                                                                        <td>
-                                                                            <p className={`${animate ? "animate hide" : "animate"}`}>{user}</p>
-                                                                        </td>
-                                                                        <td>
-                                                                            <p className={`${animate ? "animate hide" : "animate"}`}>{rawCount}</p>
-                                                                        </td>
-                                                                        <td>
-                                                                            <p className={`${animate ? "animate hide" : "animate"}`}>{uniqueCount}</p>
-                                                                        </td>
-                                                                        <td>
-                                                                            <p className={`${animate ? "animate hide" : "animate"}`}>{conversionCount}</p>
-                                                                        </td>
-                                                                        <td>
-                                                                            <p className={`${animate ? "animate hide" : "animate"}`}>{"$"}{total}</p>
-                                                                        </td>
-                                                                    </React.Fragment>
-                                                                )
-                                                            })}
+                                                            <td>
+                                                                <p className={`${animate ? "animate hide" : "animate"}`}>{name}</p>
+                                                            </td>
+                                                            <td>
+                                                                <p className={`${animate ? "animate hide" : "animate"}`}>{rawCount}</p>
+                                                            </td>
+                                                            <td>
+                                                                <p className={`${animate ? "animate hide" : "animate"}`}>{uniqueCount}</p>
+                                                            </td>
+                                                            <td>
+                                                                <p className={`${animate ? "animate hide" : "animate"}`}>{conversionCount}</p>
+                                                            </td>
+                                                            <td>
+                                                                <p className={`${animate ? "animate hide" : "animate"}`}>{"$"}{total}</p>
+                                                            </td>
                                                         </tr>
                                                     )
                                                 })}

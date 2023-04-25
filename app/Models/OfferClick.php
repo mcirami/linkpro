@@ -28,4 +28,8 @@ class OfferClick extends Model
     public function purchases() {
         return $this->hasOne(Purchase::class);
     }
+
+    public function users() {
+        return $this->hasOne(User::class, 'referral_id');
+    }
 }

@@ -7,7 +7,10 @@ use App\Models\FolderClick;
 use App\Models\Link;
 use App\Models\LinkVisit;
 use App\Models\Offer;
+use App\Models\OfferClick;
+use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -224,6 +227,22 @@ trait StatsTrait {
         ];
     }
 
+    public function getAffiliateStats($startDate, $endDate) {
+
+        $clicks = OfferClick::whereBetween('offer_clicks.created_at', [ $startDate, $endDate ])
+                               ->leftJoin('users', 'users.id', '=', 'offer_clicks.referral_id')
+                               ->leftJoin('offers', 'offers.id', '=', 'offer_clicks.offer_id')
+                               ->leftJoin('purchases', 'purchases.offer_click_id', '=', 'offer_clicks.id')
+                               ->select('users.username', 'offer_clicks.is_unique', 'offers.user_id', 'offer_clicks.referral_id', 'purchases.purchase_amount')
+                               ->get();
+
+        $userStats = $this->getUserOfferStats($clicks);
+        return [
+            'userStats'    => $userStats,
+            'totals'        => null
+        ];
+    }
+
     private function getCreatorOfferStats($authUserID, $startDate, $endDate, $offer) {
         $payout = 0.00;
 
@@ -325,13 +344,7 @@ trait StatsTrait {
         return number_format($payout, 2);
     }
 
-    private function countConversions($array) {
-        return count(array_filter($array, function ($var) {
-            return $var['purchase_amount'] != null;
-        }));
-    }
-
-    private function getUserOfferStats($offerClicks, $authUserID) {
+    private function getUserOfferStats($offerClicks, $authUserID = null) {
 
         $groups = $offerClicks->mapToGroups(function ($item, $key) {
             return [
@@ -339,6 +352,7 @@ trait StatsTrait {
                     'unique'        => $item['is_unique'],
                     'conversion'    => $item['purchase_amount'],
                     'referralId'    => $item['referral_id'],
+                    'userId'        => $item['user_id'] || null
                 ]
             ];
         });
@@ -365,7 +379,7 @@ trait StatsTrait {
 
                 if($innerValue['conversion'] != null) {
                     ++$conversionCount;
-                    if ( $innerValue["referralId"] == $authUserID ) {
+                    if ( $innerValue["referralId"] == $authUserID || $innerValue["userId"]) {
                         $conversionTotal += $innerValue["conversion"] * .80;
                     } else {
                         $conversionTotal += $innerValue["conversion"] * .40;
@@ -373,8 +387,9 @@ trait StatsTrait {
                 }
             }
 
-            $object = new \stdClass();
-            $object->$key = [
+            //$object = new \stdClass();
+            $object = [
+                'name'              => $key,
                 'rawCount'          => $rawCount,
                 'uniqueCount'       => $uniqueCount,
                 'conversionCount'   => $conversionCount,
@@ -385,6 +400,11 @@ trait StatsTrait {
         }
 
         return $array;
+    }
 
+    private function countConversions($array) {
+        return count(array_filter($array, function ($var) {
+            return $var['purchase_amount'] != null;
+        }));
     }
 }

@@ -157,6 +157,7 @@ Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated', 'lp.user']], funct
     Route::post('/stats/folder', [StatsController::class, 'getFolderStats']);
     Route::get('/stats/get/deleted', [StatsController::class, 'getDeletedStats']);
     Route::post('/stats/get/offer', [StatsController::class, 'getOfferStats']);
+    Route::post('/stats/get/affiliate', [AffiliateStatsController::class, 'getAffiliateStats']);
     Route::get('/stats', [StatsController::class, 'show'])->name('stats');
 
 });

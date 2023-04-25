@@ -105,6 +105,10 @@ class User extends VoyagerUser
         return $this->hasMany(Offer::class);
     }
 
+    public function OfferClicks() {
+        return $this->hasMany(OfferClick::class, 'referral_id');
+    }
+
     public function Purchases() {
         return $this->hasMany(Purchase::class);
     }
