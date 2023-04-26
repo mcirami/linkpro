@@ -44,7 +44,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/pages', [App\Http\Controllers\VoyagerFilterController::class, 'index']);
     Route::post('/links', [App\Http\Controllers\VoyagerFilterController::class, 'index']);
     Route::post('/referrals', [App\Http\Controllers\VoyagerFilterController::class, 'index']);
-    Route::post('/purchases', [App\Http\Controllers\VoyagerFilterController::class, 'index']);*/
+    Route::post('/purchases', [App\Http\Controllers\VoyagerFilterController::class, 'index']);
+    Route::post('/offers', [App\Http\Controllers\VoyagerFilterController::class, 'index']);*/
 });
 
 Auth::routes();

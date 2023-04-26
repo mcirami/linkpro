@@ -7,7 +7,7 @@ function App() {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [pathName, setPathName] = useState(window.location.pathname);
-    const [dropdownValue, setDropdownValue] = useState("custom");
+    const [dropdownValue, setDropdownValue] = useState(1);
 
     useEffect(() => {
 
@@ -31,6 +31,13 @@ function App() {
             setDropdownValue(queryDateValue);
         } else if (clearAll) {
             setDropdownValue("custom");
+        } else {
+
+            if (window.location.pathname.includes("users")) {
+                setDropdownValue("custom");
+            } else {
+                setDropdownValue(1);
+            }
         }
 
     },[]);

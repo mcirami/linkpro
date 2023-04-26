@@ -114,7 +114,7 @@ const Table = ({
 
                                                 {row.original.userStats.map((user, index) => {
 
-                                                    const {name, rawCount, uniqueCount, conversionCount, total} = user;
+                                                    const {name, rawCount, uniqueCount, conversionCount, payout} = user;
 
                                                     return (
 
@@ -132,7 +132,7 @@ const Table = ({
                                                                 <p className={`${animate ? "animate hide" : "animate"}`}>{conversionCount}</p>
                                                             </td>
                                                             <td>
-                                                                <p className={`${animate ? "animate hide" : "animate"}`}>{"$"}{total}</p>
+                                                                <p className={`${animate ? "animate hide" : "animate"}`}>{"$"}{payout}</p>
                                                             </td>
                                                         </tr>
                                                     )

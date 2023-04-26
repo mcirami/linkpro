@@ -8,11 +8,10 @@ use App\Models\Link;
 use App\Models\LinkVisit;
 use App\Models\Offer;
 use App\Models\OfferClick;
-use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use function PHPUnit\Framework\isEmpty;
 
 trait StatsTrait {
 
@@ -210,13 +209,13 @@ trait StatsTrait {
             if ($offer->user_id != $authUserID) {
 
                 $object = $this->getPublisherOfferStats($authUserID, $startDate, $endDate, $offer);
-                $totalsArray = $this->sumTotals($totalsArray, $object);
+                $totalsArray = $this->sumTotals($totalsArray, $object, null);
                 array_push( $offerArray, $object );
 
             } else {
 
                 $object = $this->getCreatorOfferStats($authUserID, $startDate, $endDate, $offer);
-                $totalsArray = $this->sumTotals($totalsArray, $object);
+                $totalsArray = $this->sumTotals($totalsArray, $object, null);
                 array_push($offerArray, $object );
             }
         }
@@ -229,6 +228,8 @@ trait StatsTrait {
 
     public function getAffiliateStats($startDate, $endDate) {
 
+        $totalsArray = array();
+        $userStats = array();
         $clicks = OfferClick::whereBetween('offer_clicks.created_at', [ $startDate, $endDate ])
                                ->leftJoin('users', 'users.id', '=', 'offer_clicks.referral_id')
                                ->leftJoin('offers', 'offers.id', '=', 'offer_clicks.offer_id')
@@ -236,16 +237,20 @@ trait StatsTrait {
                                ->select('users.username', 'offer_clicks.is_unique', 'offers.user_id', 'offer_clicks.referral_id', 'purchases.purchase_amount')
                                ->get();
 
-        $userStats = $this->getUserOfferStats($clicks);
+        if (count($clicks) > 0) {
+            $userStats   = $this->getUserOfferStats( $clicks );
+            $totalsArray = $this->sumTotals( $totalsArray, null, $userStats );
+        }
+
         return [
             'userStats'    => $userStats,
-            'totals'        => null
+            'totals'       => $totalsArray
         ];
     }
 
     private function getCreatorOfferStats($authUserID, $startDate, $endDate, $offer) {
         $payout = 0.00;
-
+        $conversionCount = 0;
         $offerClicks = $offer
             ->OfferClicks()
             ->whereBetween('offer_clicks.created_at', [ $startDate, $endDate ])
@@ -266,18 +271,18 @@ trait StatsTrait {
         })->toArray();
 
         return [
-            'icon'          => $offer->icon,
-            'rawClicks'     => array_key_exists(0, $count) ? $count[0] : 0,
-            'uniqueClicks'  => array_key_exists(1, $count) ? $count[1] : 0,
-            'conversions'   => $conversionCount,
-            'payout'        => $payout,
-            'userStats'     => $userStats,
+            'icon'              => $offer->icon,
+            'rawCount'          => array_key_exists(0, $count) ? $count[0] : 0,
+            'uniqueCount'       => array_key_exists(1, $count) ? $count[1] : 0,
+            'conversionCount'   => $conversionCount,
+            'payout'            => $payout,
+            'userStats'         => $userStats,
         ];
     }
     private function getPublisherOfferStats($authUserID, $startDate, $endDate, $offer) {
 
         $payout = 0.00;
-
+        $conversionCount = 0;
         $offerClicks = $offer
             ->OfferClicks()
             ->where( 'referral_id', '=', $authUserID )
@@ -297,34 +302,64 @@ trait StatsTrait {
         })->toArray();
 
         return [
-            'icon'          => $offer->icon,
-            'rawClicks'     => array_key_exists(0, $count) ? $count[0] : 0,
-            'uniqueClicks'  => array_key_exists(1, $count) ? $count[1] : 0,
-            'conversions'   => $conversionCount,
-            'payout'        => $payout,
+            'icon'              => $offer->icon,
+            'rawCount'          => array_key_exists(0, $count) ? $count[0] : 0,
+            'uniqueCount'       => array_key_exists(1, $count) ? $count[1] : 0,
+            'conversionCount'   => $conversionCount,
+            'payout'            => $payout,
         ];
     }
 
-    private function sumTotals($totalsArray, $object) {
+    private function sumTotals($totalsArray, $object, $userStats) {
 
-        return [
-            'totalRaw'      =>
-                array_key_exists( 'totalRaw',$totalsArray) ?
-                    $totalsArray['totalRaw'] += $object['rawClicks'] :
-                    $object['rawClicks'],
-            'totalUnique'   =>
-                array_key_exists( 'totalUnique',$totalsArray) ?
-                    $totalsArray['totalUnique'] += $object['uniqueClicks'] :
-                    $object['uniqueClicks'],
-            'totalConversions'   =>
-                array_key_exists( 'totalConversions',$totalsArray) ?
-                    $totalsArray['totalConversions'] += $object['conversions'] :
-                    $object['conversions'],
-            'totalPayout'        =>
-                array_key_exists( 'totalPayout',$totalsArray) ?
-                    number_format($totalsArray['totalPayout'] += $object['payout'],2) :
-                    number_format($object['payout'], 2)
-        ];
+
+        if ($userStats) {
+
+            foreach($userStats as $stat) {
+
+                array_key_exists( 'totalRaw', $totalsArray ) ?
+                    $totalsArray['totalRaw'] += $stat['rawCount'] :
+                    $totalsArray['totalRaw'] = $stat['rawCount'];
+
+                array_key_exists( 'totalUnique', $totalsArray ) ?
+                    $totalsArray['totalUnique'] += $stat['uniqueCount'] :
+                    $totalsArray['totalUnique'] = $stat['uniqueCount'];
+
+                array_key_exists( 'totalConversions', $totalsArray ) ?
+                    $totalsArray['totalConversions'] += $stat['conversionCount'] :
+                    $totalsArray['totalConversions'] = $stat['conversionCount'];
+
+                array_key_exists( 'totalPayout', $totalsArray ) ?
+                    number_format( $totalsArray['totalPayout'] += $stat['payout'], 2 ) :
+                    $totalsArray['totalPayout'] = number_format( $stat['payout'], 2 );
+
+            }
+
+            return $totalsArray;
+
+        } else {
+
+            return [
+                'totalRaw'         =>
+                    array_key_exists( 'totalRaw', $totalsArray ) ?
+                        $totalsArray['totalRaw'] += $object['rawCount'] :
+                        $object['rawCount'],
+                'totalUnique'      =>
+                    array_key_exists( 'totalUnique', $totalsArray ) ?
+                        $totalsArray['totalUnique'] += $object['uniqueCount'] :
+                        $object['uniqueCount'],
+                'totalConversions' =>
+                    array_key_exists( 'totalConversions', $totalsArray ) ?
+                        $totalsArray['totalConversions'] += $object['conversionCount'] :
+                        $object['conversionCount'],
+                'totalPayout'      =>
+                    array_key_exists( 'totalPayout', $totalsArray ) ?
+                        number_format( $totalsArray['totalPayout'] += $object['payout'], 2 ) :
+                        number_format( $object['payout'], 2 )
+            ];
+
+
+        }
     }
 
     private function calculatePayout($clicks, $price,  $userId = null) {
@@ -387,13 +422,12 @@ trait StatsTrait {
                 }
             }
 
-            //$object = new \stdClass();
             $object = [
                 'name'              => $key,
                 'rawCount'          => $rawCount,
                 'uniqueCount'       => $uniqueCount,
                 'conversionCount'   => $conversionCount,
-                'total'             => number_format($conversionTotal,2)
+                'payout'             => number_format($conversionTotal,2)
             ];
 
             array_push($array, $object);

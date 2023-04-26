@@ -47,15 +47,15 @@ const OfferStats = ({
             },
             {
                 Header: "Raw Clicks",
-                accessor: "rawClicks",
+                accessor: "rawCount",
             },
             {
                 Header: "Unique Clicks",
-                accessor: "uniqueClicks",
+                accessor: "uniqueCount",
             },
             {
                 Header: "Conversions",
-                accessor: "conversions",
+                accessor: "conversionCount",
             },
             {
                 Header: "Payout",

@@ -1,5 +1,4 @@
 import {useCallback, useEffect, useMemo, useState} from 'react';
-import {isEmpty} from 'lodash';
 import {getAffiliateStats} from '../../Services/StatsRequests';
 import Table from './Table';
 
@@ -24,13 +23,10 @@ function App() {
         const queryDateValue = urlParams.get('dateValue');
         const clearAll = urlParams.get('clear');
 
-        console.log("Start Date: ",queryStartDate)
-        console.log("End Date: ",queryEndDate)
-
         if (queryStartDate && queryEndDate ) {
 
-            const startDate = new Date(queryStartDate * 1000)
-            const endDate = new Date(queryEndDate * 1000)
+            /*const startDate = new Date(queryStartDate * 1000)
+            const endDate = new Date(queryEndDate * 1000)*/
 
             setStatsDate(() => ({
                 startDate: queryStartDate,
@@ -80,7 +76,7 @@ function App() {
             },
             {
                 Header: "Payout",
-                accessor: "total",
+                accessor: "payout",
             },
         ],[]
     )
