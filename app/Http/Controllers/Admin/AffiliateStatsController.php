@@ -13,9 +13,9 @@ class AffiliateStatsController extends Controller
         return view('stats.admin.affiliate-stats');
     }
 
-    public function getAffiliateStats(Request $request, StatsServices $statsServices) {
+    public function getPublisherStats(Request $request, StatsServices $statsServices) {
 
-        $data = $statsServices->getAllAffiliateStats($request);
+        $data = $statsServices->getAllPublisherStats($request);
 
         return response()->json(['data' => $data]);
     }

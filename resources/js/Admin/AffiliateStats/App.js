@@ -84,7 +84,7 @@ function App() {
     const affiliateStatsCall = useCallback((packets) => {
         setAnimate(true)
 
-        getAffiliateStats(packets)
+        getAffiliateStats('/stats/get/publisher', packets)
         .then((data) => {
             if (data["success"]) {
                 setTimeout(() => {

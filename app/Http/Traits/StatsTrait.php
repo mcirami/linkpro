@@ -229,7 +229,7 @@ trait StatsTrait {
     public function getAffiliateStats($startDate, $endDate) {
 
         $totalsArray = array();
-        $userStats = array();
+        $publisherStats = array();
         $clicks = OfferClick::whereBetween('offer_clicks.created_at', [ $startDate, $endDate ])
                                ->leftJoin('users', 'users.id', '=', 'offer_clicks.referral_id')
                                ->leftJoin('offers', 'offers.id', '=', 'offer_clicks.offer_id')
@@ -238,12 +238,12 @@ trait StatsTrait {
                                ->get();
 
         if (count($clicks) > 0) {
-            $userStats   = $this->getUserOfferStats( $clicks );
-            $totalsArray = $this->sumTotals( $totalsArray, null, $userStats );
+            $publisherStats   = $this->getUserOfferStats( $clicks );
+            $totalsArray = $this->sumTotals( $totalsArray, null, $publisherStats );
         }
 
         return [
-            'userStats'    => $userStats,
+            'publisherStats'    => $publisherStats,
             'totals'       => $totalsArray
         ];
     }

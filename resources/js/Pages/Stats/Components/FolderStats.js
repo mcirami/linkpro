@@ -15,7 +15,8 @@ const FolderStats = ({
                          setFolderStatsDate,
                          folderDropdownValue,
                          setFolderDropdownValue,
-                     }) => {
+                         tab
+}) => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [animate, setAnimate] = useState(true);
@@ -121,16 +122,14 @@ const FolderStats = ({
 
     return (
         <div className="stats_wrap my_row position-relative">
-
-            <div className="my_row filter">
-                <Filters handleDateChange={handleDateChange}
-                         startDate={folderStatsDate.startDate}
-                         endDate={folderStatsDate.endDate}
-                         handleDropdownChange={handleDropdownChange}
-                         dropdownValue={folderDropdownValue}
-                         getStats={folderStatsCall}
-                />
-            </div>
+            <Filters handleDateChange={handleDateChange}
+                     startDate={folderStatsDate.startDate}
+                     endDate={folderStatsDate.endDate}
+                     handleDropdownChange={handleDropdownChange}
+                     dropdownValue={folderDropdownValue}
+                     getStats={folderStatsCall}
+                     tab={tab}
+            />
             {isLoading &&
                 <div className="my_row">
                     <div id="loading_spinner" className="active">

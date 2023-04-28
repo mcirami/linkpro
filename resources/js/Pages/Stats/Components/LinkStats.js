@@ -17,6 +17,7 @@ const LinkStats = ({
                        setLinkStatsDate,
                        linkDropdownValue,
                        setLinkDropdownValue,
+                       tab
 }) => {
 
     const [isLoading, setIsLoading] = useState(true);
@@ -144,16 +145,15 @@ const LinkStats = ({
 
     return (
         <div className="stats_wrap my_row">
-            <div className="my_row filter">
-                <Filters
-                    handleDateChange={handleDateChange}
-                    startDate={linkStatsDate.startDate}
-                    endDate={linkStatsDate.endDate}
-                    handleDropdownChange={handleDropdownChange}
-                    dropdownValue={linkDropdownValue}
-                    getStats={linkStatsCall}
-                />
-            </div>
+            <Filters
+                handleDateChange={handleDateChange}
+                startDate={linkStatsDate.startDate}
+                endDate={linkStatsDate.endDate}
+                handleDropdownChange={handleDropdownChange}
+                dropdownValue={linkDropdownValue}
+                getStats={linkStatsCall}
+                tab={tab}
+            />
             <div className="table_wrap my_row table-responsive">
                 <Table
                     isLoading={isLoading}

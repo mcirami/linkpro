@@ -140,36 +140,36 @@ class StatsServices {
         }
 
         return [
-            'offerData'      => $offerData['offerArray'],
+            'affiliateData'      => $offerData['offerArray'],
             'totals'         => $offerData['totals']
         ];
     }
 
-    public function getAllAffiliateStats($request) {
+    public function getAllPublisherStats($request) {
 
         if ($request->currentDay) {
             $startDate = Carbon::now()->startOfDay();
             $endDate = Carbon::now()->endOfDay();
 
-            $affiliateData = $this->getAffiliateStats($startDate, $endDate);
+            $publisherData = $this->getAffiliateStats($startDate, $endDate);
 
         } else if ($request->dateValue) {
 
             $data = $this->getDateRange($request->dateValue);
 
-            $affiliateData = $this->getAffiliateStats($data['startDate'], $data['endDate']);
+            $publisherData = $this->getAffiliateStats($data['startDate'], $data['endDate']);
 
         } else {
 
             $startDate = Carbon::createFromTimestamp($request->startDate)->startOfDay();
             $endDate = Carbon::createFromTimestamp($request->endDate)->endOfDay();
 
-            $affiliateData = $this->getAffiliateStats($startDate, $endDate);
+            $publisherData = $this->getAffiliateStats($startDate, $endDate);
         }
 
         return [
-            'affiliateData' => $affiliateData['userStats'],
-            'totals'        => $affiliateData['totals']
+            'affiliateData' => $publisherData['publisherStats'],
+            'totals'        => $publisherData['totals']
         ];
     }
 }

@@ -144,6 +144,26 @@
                 grid-template-columns: 1fr;
             }
 
+            &.affiliate_tab {
+                grid-template-columns: 4fr 5fr 5fr;
+            }
+
+            &.filter_by {
+                display: flex;
+
+                .column:first-child {
+                    width: 28%;
+
+                    @include query(mobile) {
+                        width: 100%;
+                    }
+                }
+
+                .refresh_button {
+                    position: relative;
+                }
+            }
+
             .column {
 
                 @media all and (max-width: 768px) {

@@ -82,7 +82,7 @@ export const getFolderStats = (packets) => {
     });
 }
 
-export const getOfferStats = (packets) => {
+/*export const getOfferStats = (packets) => {
 
     return axios.post('/stats/get/offer', packets).then(
         (response) => {
@@ -108,11 +108,11 @@ export const getOfferStats = (packets) => {
             success : false
         }
     });
-}
+}*/
 
-export const getAffiliateStats = (packets) => {
+export const getAffiliateStats = (url, packets) => {
 
-    return axios.post('/stats/get/affiliate', packets).then(
+    return axios.post(url, packets).then(
         (response) => {
             //console.log(JSON.stringify(response.data));
             const returnData = response.data.data;
@@ -138,5 +138,5 @@ export const getAffiliateStats = (packets) => {
     });
 }
 
-export default getPageStats;
+//export default getPageStats;
 

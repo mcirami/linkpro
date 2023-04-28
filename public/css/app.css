@@ -15985,6 +15985,23 @@ a.delete svg {
     grid-template-columns: 1fr;
   }
 }
+#stats_page .stats_wrap .my_row.filter.affiliate_tab {
+  grid-template-columns: 4fr 5fr 5fr;
+}
+#stats_page .stats_wrap .my_row.filter.filter_by {
+  display: flex;
+}
+#stats_page .stats_wrap .my_row.filter.filter_by .column:first-child {
+  width: 28%;
+}
+@media (max-width: 768px) {
+  #stats_page .stats_wrap .my_row.filter.filter_by .column:first-child {
+    width: 100%;
+  }
+}
+#stats_page .stats_wrap .my_row.filter.filter_by .refresh_button {
+  position: relative;
+}
 @media all and (max-width: 768px) {
   #stats_page .stats_wrap .my_row.filter .column {
     width: 100%;

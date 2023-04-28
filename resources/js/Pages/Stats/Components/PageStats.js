@@ -11,6 +11,7 @@ const PageStats = ({
                        setPageStatsDate,
                        pageDropdownValue,
                        setPageDropdownValue,
+                       tab
 }) => {
 
     const [isLoading, setIsLoading] = useState(true);
@@ -114,18 +115,15 @@ const PageStats = ({
 
     return (
         <div className="stats_wrap my_row">
-            <div className="my_row filter">
-                <Filters
-                    handleDateChange={handleDateChange}
-                    startDate={pageStatsDate.startDate}
-                    endDate={pageStatsDate.endDate}
-                    handleDropdownChange={handleDropdownChange}
-                    dropdownValue={pageDropdownValue}
-                    getStats={pageStatsCall}
-                />
-            </div>
-
-
+            <Filters
+                handleDateChange={handleDateChange}
+                startDate={pageStatsDate.startDate}
+                endDate={pageStatsDate.endDate}
+                handleDropdownChange={handleDropdownChange}
+                dropdownValue={pageDropdownValue}
+                getStats={pageStatsCall}
+                tab={tab}
+            />
             <div className="table_wrap my_row table-responsive">
                 <Table
                     isLoading={isLoading}

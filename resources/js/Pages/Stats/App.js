@@ -1,9 +1,9 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 
 import PageStats from './Components/PageStats';
 import LinkStats from './Components/LinkStats';
 import FolderStats from './Components/FolderStats';
-import OfferStats from './Components/OfferStats';
+import AffiliateStats from './Components/AffiliateStats';
 
 function App() {
 
@@ -13,8 +13,8 @@ function App() {
     const [linkStats, setLinkStats] = useState([])
     const [deletedStats, setDeletedStats] = useState([]);
     const [folderStats, setFolderStats] = useState([])
-    const [offerStats, setOfferStats] = useState([]);
-    const [offerTotals, setOfferTotals] = useState([]);
+    const [affiliateStats, setAffiliateStats] = useState([]);
+    const [affiliateTotals, setAffiliateTotals] = useState([]);
 
     const [linkStatsDate, setLinkStatsDate] = useState({
         startDate: null,
@@ -28,7 +28,7 @@ function App() {
         startDate: null,
         endDate: null
     });
-    const [offerStatsDate, setOfferStatsDate] = useState({
+    const [affiliateStatsDate, setAffiliateStatsDate] = useState({
         startDate: null,
         endDate: null
     });
@@ -36,7 +36,7 @@ function App() {
     const [pageDropdownValue, setPageDropdownValue] = useState(1);
     const [linkDropdownValue, setLinkDropdownValue] = useState(1);
     const [folderDropdownValue, setFolderDropdownValue] = useState(1);
-    const [offerDropdownValue, setOfferDropdownValue] = useState(1);
+    const [affiliateDropdownValue, setAffiliateDropdownValue] = useState(1);
 
     const handleClick = e => {
         e.preventDefault();
@@ -56,8 +56,8 @@ function App() {
                 <a href="#" className={`tab_link ${tab === "folder" ? "active" : "" }` } data-tab="folder" onClick={(e) => { handleClick(e) } }>
                     Folder Stats
                 </a>
-                <a href="#" className={`tab_link ${tab === "offer" ? "active" : "" }` } data-tab="offer" onClick={(e) => { handleClick(e) } }>
-                    Offer Stats
+                <a href="#" className={`tab_link ${tab === "affiliate" ? "active" : "" }` } data-tab="affiliate" onClick={(e) => { handleClick(e) } }>
+                    Affiliate Stats
                 </a>
             </div>
 
@@ -98,17 +98,17 @@ function App() {
                 />
             }
 
-            {tab === "offer" &&
-                <OfferStats
+            {tab === "affiliate" &&
+                <AffiliateStats
+                    affiliateStats={affiliateStats}
+                    setAffiliateStats={setAffiliateStats}
+                    totals={affiliateTotals}
+                    setTotals={setAffiliateTotals}
+                    statsDate={affiliateStatsDate}
+                    setStatsDate={setAffiliateStatsDate}
+                    dropdownValue={affiliateDropdownValue}
+                    setDropdownValue={setAffiliateDropdownValue}
                     tab={tab}
-                    offerStats={offerStats}
-                    setOfferStats={setOfferStats}
-                    totals={offerTotals}
-                    setTotals={setOfferTotals}
-                    statsDate={offerStatsDate}
-                    setStatsDate={setOfferStatsDate}
-                    dropdownValue={offerDropdownValue}
-                    setDropdownValue={setOfferDropdownValue}
                 />
             }
 
