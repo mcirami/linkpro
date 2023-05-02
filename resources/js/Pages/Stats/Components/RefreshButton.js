@@ -8,6 +8,7 @@ const RefreshButton = ({
                            endDate,
                            dropdownValue,
                            getStats,
+                           filterByValue = null,
 }) => {
 
     const handleClick = (e) => {
@@ -26,97 +27,17 @@ const RefreshButton = ({
             }
         }
 
-        getStats(packets);
-        /*switch (tab) {
-
-            case "page":
-
-                getPageStats(packets)
-                .then((data) => {
-                    if (data["success"]) {
-                        setTimeout(() => {
-                            setStatsFunc(data["data"]);
-                            animatedElements.forEach((element) => {
-                                element.classList.remove('hide');
-                            })
-
-                        }, 500)
-                    } else {
-                        animatedElements.forEach((element) => {
-                            element.classList.remove('hide');
-                        })
-                    }
-
-                });
-                break;
-
-            case "icon":
-
-                getLinkStats(packets)
-                .then((data) => {
-                    if (data["success"]) {
-                        setTimeout(() => {
-                            setStatsFunc(data["currentData"]);
-                            setDeletedFunc(data["pastData"]);
-                            animatedElements.forEach((element) => {
-                                element.classList.remove('hide');
-                            })
-
-                        }, 500)
-                    } else {
-                        animatedElements.forEach((element) => {
-                            element.classList.remove('hide');
-                        })
-                    }
-                });
-                break;
-
-            case "folder":
-                getFolderStats(packets)
-                .then((data) => {
-
-                    if (data["success"]) {
-                        setTimeout(() => {
-                            setStatsFunc(data["currentData"]);
-                            //setDeletedStats(data["pastData"]);
-                            animatedElements.forEach((element) => {
-                                element.classList.remove('hide');
-                            })
-
-                        }, 500)
-                    } else {
-                        animatedElements.forEach((element) => {
-                            element.classList.remove('hide');
-                        })
-                    }
-                });
-                break;
-
-            case "offer":
-                getOfferStats(packets)
-                .then((data) => {
-
-                    if (data["success"]) {
-                        setTimeout(() => {
-                            setStatsFunc(data["currentData"]);
-                            //setDeletedStats(data["pastData"]);
-                            animatedElements.forEach((element) => {
-                                element.classList.remove('hide');
-                            })
-
-                        }, 500)
-                    } else {
-                        animatedElements.forEach((element) => {
-                            element.classList.remove('hide');
-                        })
-                    }
-                });
-                break;
-            default:
-                break;
-
-        }*/
-
+        if (filterByValue) {
+            let url = "";
+            if (filterByValue === "offer") {
+                url = '/stats/get/offer'
+            } else if (filterByValue === "publisher") {
+                url = '/stats/get/publisher'
+            }
+            getStats(packets, url);
+        } else {
+            getStats(packets);
+        }
     }
 
     return (

@@ -58,6 +58,7 @@ export const Filters = ({
                             endDate={endDate}
                             dropdownValue={dropdownValue}
                             getStats={getStats}
+                            filterByValue={filterByValue}
                         />
                     </div>
                 </div>

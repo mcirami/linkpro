@@ -8,6 +8,7 @@ use App\Models\Link;
 use App\Models\LinkVisit;
 use App\Models\Offer;
 use App\Models\OfferClick;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +25,9 @@ trait StatsTrait {
 
         foreach($pages as $page) {
             $visitCount = count($page->pageVisits()->whereBetween('created_at', [ $startDate, $endDate ])->get());
-            $linkVisitCount = count(LinkVisit::whereBetween('created_at', [ $startDate, $endDate ])->where('page_id', $page->id)->get());
+            $linkVisitCount = count(
+                LinkVisit::whereBetween('created_at', [ $startDate, $endDate ])->where('page_id', $page->id)->get()
+            );
             $object = [
                 "id"            => $page->id,
                 "pageName"      => $page->name,
@@ -46,7 +49,9 @@ trait StatsTrait {
         foreach($links as $link) {
 
             if ($link->name && $link->icon) {
-                $visitCount = count( $link->linkVisits()->whereBetween('created_at', [ $startDate, $endDate ])->get() );
+                $visitCount = count(
+                    $link->linkVisits()->whereBetween('created_at', [ $startDate, $endDate ])->get()
+                );
                 $object     = [
                     "id"        => $link->id,
                     "iconName"  => $link->name,
@@ -65,7 +70,9 @@ trait StatsTrait {
 
         $deletedLinks = DB::table('deleted_links')->where('user_id', '=', Auth::id())->get();
         foreach ($deletedLinks as $deletedLink) {
-            $visitCount = count(LinkVisit::whereBetween('created_at', [ $startDate, $endDate ])->where('link_id', $deletedLink->link_id)->get());
+            $visitCount = count(
+                LinkVisit::whereBetween('created_at', [ $startDate, $endDate ])->where('link_id', $deletedLink->link_id)->get()
+            );
             $object     = [
                 "id"        => $deletedLink->id,
                 "iconName"  => $deletedLink->name,
@@ -84,7 +91,9 @@ trait StatsTrait {
         $folders = Folder::where('user_id', '=', Auth::id())->get();
 
         foreach ($folders as $folder) {
-            $folderClickCount = count(FolderClick::whereBetween('created_at', [ $startDate, $endDate ])->where('folder_uuid', $folder->uuid)->get());
+            $folderClickCount = count(
+                FolderClick::whereBetween('created_at', [ $startDate, $endDate ])->where('folder_uuid', $folder->uuid)->get()
+            );
 
             $folderLinkIDs = json_decode($folder->link_ids);
 
@@ -95,8 +104,9 @@ trait StatsTrait {
                 foreach ( $folderLinkIDs as $linkID ) {
 
                     $link       = Link::where( 'id', $linkID )->get();
-                    $visitCount = count( LinkVisit::whereBetween( 'created_at',
-                        [ $startDate, $endDate ] )->where( 'link_id', $linkID )->get() );
+                    $visitCount = count(
+                        LinkVisit::whereBetween( 'created_at', [ $startDate, $endDate ] )->where( 'link_id', $linkID )->get()
+                    );
 
                     $linkObject = [
                         "id"       => $link[0]->id,
@@ -228,8 +238,11 @@ trait StatsTrait {
 
     public function getAffiliateStats($startDate, $endDate) {
 
+        $authUserID = Auth::user()->id;
         $totalsArray = array();
         $publisherStats = array();
+        $publisherStats2 = array();
+        /*TODO: add check if admin grab all
         $clicks = OfferClick::whereBetween('offer_clicks.created_at', [ $startDate, $endDate ])
                                ->leftJoin('users', 'users.id', '=', 'offer_clicks.referral_id')
                                ->leftJoin('offers', 'offers.id', '=', 'offer_clicks.offer_id')
@@ -237,14 +250,48 @@ trait StatsTrait {
                                ->select('users.username', 'offer_clicks.is_unique', 'offers.user_id', 'offer_clicks.referral_id', 'purchases.purchase_amount')
                                ->get();
 
+        */
+
+
+        $clicks = OfferClick::whereBetween('offer_clicks.created_at', [ $startDate, $endDate ])
+                            ->where('offer_clicks.referral_id', '=', $authUserID)
+                            ->orWhere(function ($query) use($authUserID) {
+                                $query->join('offers','offer_clicks.offer_id', '=', 'offers.id')
+                                      ->where('offers.user_id', '=', $authUserID);
+                            })
+                            ->leftJoin('offers', 'offer_clicks.offer_id', '=', 'offers.id')
+                            ->leftJoin('users', 'users.id', '=', 'offer_clicks.referral_id')
+                            ->leftJoin('purchases', 'purchases.offer_click_id', '=', 'offer_clicks.id')
+                            ->select('users.username', 'offer_clicks.is_unique', 'offers.user_id', 'offer_clicks.referral_id', 'purchases.purchase_amount')
+                            ->get();
+
+        /*$clicks2 = OfferClick::whereBetween('offer_clicks.created_at', [ $startDate, $endDate ])
+                            ->where('offer_clicks.referral_id', '!=', $authUserID)
+                            ->join('offers',function($join) use ($authUserID) {
+                                $join->on('offer_clicks.offer_id', '=', 'offers.id')
+                                     ->where('offers.user_id', '=', $authUserID);
+                            })
+                            ->leftJoin('users', 'users.id', '=', 'offer_clicks.referral_id')
+                            ->leftJoin('purchases', 'purchases.offer_click_id', '=', 'offer_clicks.id')
+                            ->select('users.username', 'offer_clicks.is_unique', 'offers.user_id', 'offer_clicks.referral_id', 'purchases.purchase_amount')
+                            ->get();*/
+
+
         if (count($clicks) > 0) {
-            $publisherStats   = $this->getUserOfferStats( $clicks );
-            $totalsArray = $this->sumTotals( $totalsArray, null, $publisherStats );
+            $publisherStats = $this->getUserOfferStats( $clicks );
+            $totalsArray    = $this->sumTotals( $totalsArray, null, $publisherStats );
         }
+
+        /*if (count($clicks2) > 0) {
+            $publisherStats2 = $this->getUserOfferStats( $clicks2 );
+            $totalsArray    = $this->sumTotals( $totalsArray, null, $publisherStats2 );
+        }*/
+
+        //$mergedStats = array_merge($publisherStats, $publisherStats2);
 
         return [
             'publisherStats'    => $publisherStats,
-            'totals'       => $totalsArray
+            'totals'            => $totalsArray
         ];
     }
 

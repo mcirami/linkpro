@@ -82,41 +82,11 @@ export const getFolderStats = (packets) => {
     });
 }
 
-/*export const getOfferStats = (packets) => {
-
-    return axios.post('/stats/get/offer', packets).then(
-        (response) => {
-            //console.log(JSON.stringify(response.data));
-            const returnData = response.data.data;
-            //EventBus.dispatch("success", { message: returnMessage });
-
-            return {
-                success : true,
-                offerData: returnData["offerData"],
-                totals: returnData["totals"]
-            }
-        },
-
-    ).catch(error => {
-        if (error.response) {
-            console.error(error.response);
-        } else {
-            console.error("ERROR:: ", error);
-        }
-
-        return {
-            success : false
-        }
-    });
-}*/
-
 export const getAffiliateStats = (url, packets) => {
 
     return axios.post(url, packets).then(
         (response) => {
-            //console.log(JSON.stringify(response.data));
             const returnData = response.data.data;
-            //EventBus.dispatch("success", { message: returnMessage });
 
             return {
                 success : true,

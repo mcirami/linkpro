@@ -7,7 +7,6 @@ import React, {
 } from 'react';
 import {
     getAffiliateStats,
-    getOfferStats,
 } from '../../../Services/StatsRequests';
 import Filters from './Filters';
 import {isEmpty} from 'lodash';
@@ -163,10 +162,6 @@ const AffiliateStats = ({
     const getStatsCall = useCallback((packets, url) => {
         setAnimate(true)
 
-        console.log("filterValue: ", filterByValue);
-
-        console.log("URL: ", url);
-
         getAffiliateStats(url, packets).then((data) => {
             if (data["success"]) {
                 setTimeout(() => {
@@ -183,29 +178,6 @@ const AffiliateStats = ({
         });
 
     },[statsDate]);
-
-    console.log("stats: ", affiliateStats);
-
-    /*const affiliateStatsCall = useCallback((packets) => {
-        setAnimate(true)
-
-        getAffiliateStats(packets)
-        .then((data) => {
-            if (data["success"]) {
-                setTimeout(() => {
-                    setAffiliateStats(data["offerData"])
-                    setTotals(data["totals"]);
-                    setAnimate(false)
-                    setIsLoading(false);
-
-                }, 500)
-            } else {
-                setAnimate(false)
-                setIsLoading(false);
-            }
-        });
-
-    }, [statsDate])*/
 
     return (
 

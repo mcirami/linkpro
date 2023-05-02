@@ -89,7 +89,7 @@ const Table = ({
                                                 { (cell.column.Header === "Offer" || cell.column.Header === "Current Icons" || cell.column.Header === "Past Icons") ?
                                                     <img src={cell.value} alt=""/>
                                                     :
-                                                    <p className={`${animate ? "animate hide" : "animate"}`}>{cell.render("Cell")}</p>
+                                                    <p className={`${animate ? "animate hide" : "animate"}`}>{cell.column.Header === "Payout" && "$"}{cell.render("Cell")}</p>
                                                 }
                                             </td>
                                         )
@@ -102,7 +102,7 @@ const Table = ({
                                                 <thead>
                                                 <tr onClick={(e) => handleRowClick(index)}>
                                                     <th scope="col">
-                                                        <h5>Stats By User</h5>
+                                                        <h5>Stats By Publisher</h5>
                                                     </th>
                                                     <th scope="col"></th>
                                                     <th scope="col"></th>
