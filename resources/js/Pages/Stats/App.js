@@ -37,6 +37,7 @@ function App() {
     const [linkDropdownValue, setLinkDropdownValue] = useState(1);
     const [folderDropdownValue, setFolderDropdownValue] = useState(1);
     const [affiliateDropdownValue, setAffiliateDropdownValue] = useState(1);
+    const [filterByValue, setFilterByValue] = useState("offer");
 
     const handleClick = e => {
         e.preventDefault();
@@ -108,6 +109,8 @@ function App() {
                     setStatsDate={setAffiliateStatsDate}
                     dropdownValue={affiliateDropdownValue}
                     setDropdownValue={setAffiliateDropdownValue}
+                    filterByValue={filterByValue}
+                    setFilterByValue={setFilterByValue}
                     tab={tab}
                 />
             }

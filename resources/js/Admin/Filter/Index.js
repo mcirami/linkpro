@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import Filter from './App';
 
 if (document.getElementById('admin_filters')) {
 
     ReactDOM.render(
         <React.StrictMode>
-            <App />
+            <Filter />
         </React.StrictMode>,
         document.getElementById('admin_filters'));
 }

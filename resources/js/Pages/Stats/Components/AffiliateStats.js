@@ -21,13 +21,13 @@ const AffiliateStats = ({
                             setStatsDate,
                             dropdownValue,
                             setDropdownValue,
+                            filterByValue,
+                            setFilterByValue,
                             tab
 }) => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [animate, setAnimate] = useState(true);
-
-    const [filterByValue, setFilterByValue] = useState("offer");
 
     useEffect(() => {
 

@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use TCG\Voyager\Facades\Voyager;
 use Illuminate\Http\Request;
-use App\Http\Traits\StatsTrait;
+use App\Http\Traits\DateTrait;
 
 class VoyagerFilterController extends \TCG\Voyager\Http\Controllers\VoyagerBaseController
 {
-    use StatsTrait;
+    use DateTrait;
 
     //***************************************
     //               ____

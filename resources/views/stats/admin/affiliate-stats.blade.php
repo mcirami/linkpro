@@ -6,7 +6,6 @@
 @section('content')
     <div class="page-content browse container-fluid">
         <!-- MY CUSTOM CODE -->
-            <div id="admin_filters"></div>
             <div id="admin_affiliate_stats"></div>
         <!-------END CUSTOM CODE--------->
 

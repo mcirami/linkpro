@@ -23,7 +23,7 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\CourseRegisterController;
 use App\Http\Controllers\Auth\CoursePasswordController;
-use App\Http\Controllers\Admin\AffiliateStatsController;
+use App\Http\Controllers\Admin\AdminStatsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +38,9 @@ use App\Http\Controllers\Admin\AffiliateStatsController;
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
-    Route::get('/affiliate-stats', [AffiliateStatsController::class, 'show']);
+    Route::get('/affiliate-stats', [AdminStatsController::class, 'show'])->name('adminAffStats');
+    Route::post('/stats/get/offer', [AdminStatsController::class, 'getOfferStats']);
+    Route::post('/stats/get/publisher', [AdminStatsController::class, 'getPublisherStats']);
     /*Route::post('/subscriptions', [App\Http\Controllers\VoyagerFilterController::class, 'index']);
     Route::post('/users', [App\Http\Controllers\VoyagerFilterController::class, 'index']);
     Route::post('/pages', [App\Http\Controllers\VoyagerFilterController::class, 'index']);
@@ -156,9 +158,9 @@ Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated', 'lp.user']], funct
     Route::post('/stats/link', [StatsController::class, 'getLinkStats']);
     Route::post('/stats/page', [StatsController::class, 'getPageStats']);
     Route::post('/stats/folder', [StatsController::class, 'getFolderStats']);
-    Route::get('/stats/get/deleted', [StatsController::class, 'getDeletedStats']);
+   //Route::get('/stats/get/deleted', [StatsController::class, 'getDeletedStats']);
     Route::post('/stats/get/offer', [StatsController::class, 'getOfferStats']);
-    Route::post('/stats/get/publisher', [AffiliateStatsController::class, 'getPublisherStats']);
+    Route::post('/stats/get/publisher', [StatsController::class, 'getPublisherStats']);
     Route::get('/stats', [StatsController::class, 'show'])->name('stats');
 
 });

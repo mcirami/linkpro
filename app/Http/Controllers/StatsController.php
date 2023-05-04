@@ -50,14 +50,14 @@ class StatsController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getDeletedStats(StatsServices $statsServices) {
+    /*public function getDeletedStats(StatsServices $statsServices) {
 
         $data = $statsServices->getTodaysDeletedStats();
 
         return response()->json([
             'deletedStats' => $data,
         ]);
-    }
+    }*/
 
     public function getFolderStats(Request $request, StatsServices $statsServices) {
 
@@ -69,6 +69,13 @@ class StatsController extends Controller
     public function getOfferStats(Request $request, StatsServices $statsServices) {
 
         $data = $statsServices->getAllOfferStats($request);
+
+        return response()->json(['data' => $data]);
+    }
+
+    public function getPublisherStats(Request $request, StatsServices $statsServices) {
+
+        $data = $statsServices->getAllPublisherStats($request);
 
         return response()->json(['data' => $data]);
     }

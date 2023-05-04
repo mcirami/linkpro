@@ -3,7 +3,12 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import {postDate, clearFilters} from '../Services/Admin';
 
-function App() {
+function Filter({
+                    getStatsCall = null,
+                    filterByValue = null,
+                    setFilterByValue = null,
+}) {
+
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [pathName, setPathName] = useState(window.location.pathname);
@@ -67,7 +72,9 @@ function App() {
             const startDate = Math.round(new Date(currentStartDate) / 1000);
             const endDate = Math.round(new Date(currentEndDate) /1000);
 
-            const url = pathName + '?startDate=' + startDate + "&endDate=" + endDate
+            const filterValue = filterByValue ? "&filterBy=" + filterByValue : "";
+
+            const url = pathName + '?startDate=' + startDate + "&endDate=" + endDate + filterValue;
 
             postDate(url);
         }
@@ -79,7 +86,8 @@ function App() {
             setDropdownValue(e.target.value);
         if (e.target.value !== "custom") {
 
-            const url = pathName + "?dateValue=" + e.target.value;
+            const filterValue = filterByValue ? "&filterBy=" + filterByValue : "";
+            const url = pathName + "?dateValue=" + e.target.value + filterValue;
             postDate(url);
         }
     }
@@ -87,13 +95,44 @@ function App() {
     const handleOnClick = (e) => {
         e.preventDefault();
 
-        const url = pathName + "?clear=all";
+        const filterValue = filterByValue ? "&filterBy=" + filterByValue : "";
+        const url = pathName + "?clear=all" + filterValue;
         clearFilters(url);
+    }
+
+    const handleFilterByChange = (e) => {
+        const value = e.target.value;
+        setFilterByValue(value);
+
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const filterBy = urlParams?.get('filterBy');
+
+        if (filterBy) {
+            urlParams.set('filterBy', value);
+            window.location.search = urlParams.toString();
+        }
+
+        if (value === "publisher") {
+            getStatsCall('/admin/stats/get/publisher')
+        } else {
+            getStatsCall('/admin/stats/get/offer');
+        }
+
     }
 
     return (
         <div className="my_row">
-            <h5>Filter by Date</h5>
+            {pathName.includes("affiliate-stats") &&
+                <div className="column_wrap filter_by">
+                    <div className="column">
+                        <select onChange={(e) => handleFilterByChange(e)} value={filterByValue}>
+                            <option value="publisher">Stats By Publisher</option>
+                            <option value="offer">Stats By Offer</option>
+                        </select>
+                    </div>
+                </div>
+            }
             <div className="column_wrap">
                 <div className="column">
                     <select onChange={(e) => handleDropdownChange(e)} value={dropdownValue}>
@@ -130,7 +169,7 @@ function App() {
                         placeholderText='End Date'
                     />
                 </div>
-                <div className="column">
+                <div className="column clear">
                     <a className="button blue"
                        onClick={(e) => handleOnClick(e)}
                        href="#">Clear Filters</a>
@@ -140,4 +179,4 @@ function App() {
     )
 }
 
-export default App;
+export default Filter;

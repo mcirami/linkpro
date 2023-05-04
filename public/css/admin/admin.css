@@ -120,6 +120,9 @@
     -ms-flex-wrap: wrap;
   }
 }
+#admin_filters .column_wrap.filter_by {
+  margin-bottom: 20px;
+}
 #admin_filters .column_wrap .column {
   width: 140px;
   margin-right: 1%;
@@ -134,7 +137,7 @@
     margin-bottom: 10px;
   }
 }
-#admin_filters .column_wrap .column:last-child {
+#admin_filters .column_wrap .column.clear {
   margin-left: auto;
 }
 #admin_filters .button {
