@@ -5,40 +5,48 @@ import {MdDeleteForever} from 'react-icons/md';
 const FormBreadcrumbs = ({
                              folderID,
                              editID,
-                             setEditID = false,
-                             setEditFolderID = false,
+                             setEditID,
+                             setEditFolderID,
                              iconSelected,
                              setShowConfirmPopup,
-                             setShowLinkForm = false,
-                             setIntegrationType = false,
-                             setInputType = false,
+                             setAccordionValue,
+                             showLinkForm,
+                             setShowLinkForm,
+                             setIntegrationType,
+                             setInputType
 }) => {
 
-    const handleDeleteClick = e => {
+    /*const handleDeleteClick = e => {
         e.preventDefault();
         setShowConfirmPopup(true);
-    }
+    }*/
 
     return (
-        <div className="breadcrumb_links">
+        <>
             {folderID  ?
                 <>
-                    <a className="back" href="#"
-                       onClick={(e) => {
-                           e.preventDefault();
-                           {setShowLinkForm && setShowLinkForm(false)}
-                           {setEditID && setEditID(null)}
-                       }}
-                    >
-                        <BiChevronLeft />
-                        Folder
-                    </a>
+                    {editID || showLinkForm ?
+                        <a className="back" href="#"
+                           onClick={(e) => {
+                               e.preventDefault();
+                               setShowLinkForm(false)
+                               setEditID(null)
+                               setAccordionValue(null);
+                           }}
+                        >
+                            <BiChevronLeft />
+                            Folder
+                        </a>
+                        :
+                        ""
+                    }
                     <a className="back" href="#"
                        onClick={(e) => {
                            e.preventDefault();
                            setEditFolderID(false);
-                           {setShowLinkForm && setShowLinkForm(false)}
-                           {setEditID && setEditID(null)}
+                           setShowLinkForm(false);
+                           setEditID(null);
+                           setAccordionValue(null);
                        }}
                     >
                         <BiChevronsLeft />
@@ -49,18 +57,19 @@ const FormBreadcrumbs = ({
                 <a className="back" href="#"
                    onClick={(e) => {
                        e.preventDefault();
-                       {setShowLinkForm && setShowLinkForm(false)}
-                       {setEditID && setEditID(null)}
-                       {setEditFolderID && setEditFolderID(false)}
-                       {setIntegrationType && setIntegrationType(null)}
-                       {setInputType && setInputType(null)}
+                       setShowLinkForm(false)
+                       setEditID(null)
+                       setEditFolderID(false)
+                       setIntegrationType(null)
+                       setInputType(null)
+                       setAccordionValue(null);
                    }}
                 >
                     <BiChevronLeft />
                     Back To Icons
                 </a>
             }
-            { (!iconSelected && editID) &&
+            {/*{ (!iconSelected && editID) &&
                 <div className="delete_icon">
                     <a className="delete" href="resources/js/Pages/Dashboard/Components/Link/Forms/FormBreadcrumbs#"
                        onClick={handleDeleteClick}>
@@ -68,9 +77,9 @@ const FormBreadcrumbs = ({
                     </a>
                     <div className="hover_text delete_folder"><p>Delete Icon</p></div>
                 </div>
-            }
+            }*/}
 
-        </div>
+        </>
     );
 };
 

@@ -9,22 +9,10 @@ const InputComponent = ({
                             setCurrentLink,
                             inputType,
                             setInputType,
-                            lists,
-                            setLists,
-                            shopifyStores,
-                            setShowAddStore,
-                            allProducts,
-                            setAllProducts,
-                            selectedProducts,
-                            setSelectedProducts,
-                            displayAllProducts,
-                            setDisplayAllProducts,
-                            integrationType,
-                            setIntegrationType,
                             setShowLoader
 }) => {
 
-    const {url, email, phone, mailchimp_list_id, shopify_products} = currentLink;
+    const {url, email, phone} = currentLink;
 
     const [inputValues, setInputValues] = useState({
         name: null,
@@ -38,20 +26,12 @@ const InputComponent = ({
 
         let currentInputType;
 
-        if (integrationType === "mailchimp") {
-            currentInputType ="mailchimp";
-        } else if (integrationType === "shopify") {
-            currentInputType = "shopify";
-        } else if(url) {
+        if(url) {
             currentInputType = "url";
         } else if(email) {
             currentInputType = "email";
         } else if(phone) {
             currentInputType = "phone";
-        } else if(mailchimp_list_id) {
-            currentInputType = "mailchimp";
-        } else if(shopify_products) {
-            inputType = "shopify";
         } else {
             currentInputType = "url";
         }
@@ -95,22 +75,6 @@ const InputComponent = ({
                     key: "phone"
                 })
                 break;
-            case 'mailchimp':
-                setInputValues({
-                    name: "mailchimp_list_id",
-                    placeholder: "Select Your Mailchimp List",
-                    value: "",
-                    key: "mailchimp_list_id"
-                })
-                break;
-            case 'shopify':
-                setInputValues({
-                    name: "shopify_products",
-                    placeholder: "Select Your Products",
-                    value: "",
-                    key: "shopify_products"
-                })
-                break;
             default:
                 setInputValues({
                     name: "url",
@@ -129,8 +93,8 @@ const InputComponent = ({
 
         let key2;
         let key3;
-        let key4;
-        let key5;
+        /*let key4;
+        let key5;*/
         let iconType;
 
         //based on what is being submitted, set the key for current link, all other keys need to be null.
@@ -139,32 +103,20 @@ const InputComponent = ({
         if (key === "phone") {
             key2 = "email"
             key3 = "url"
-            key4 = "mailchimp_list_id"
-            key5 = "shopify_products"
+            /*key4 = "mailchimp_list_id"
+            key5 = "shopify_products"*/
             iconType = "standard"
         } else if (key.includes("email")) {
             key2 = "phone"
             key3 = "url"
-            key4 = "mailchimp_list_id"
-            key5 = "shopify_products"
+            /*key4 = "mailchimp_list_id"
+            key5 = "shopify_products"*/
             iconType = "standard"
-        } else if (key === "mailchimp_list_id") {
-            key2 = "email"
-            key3 = "url"
-            key4 = "phone"
-            key5 = "shopify_products"
-            iconType = "mailchimp"
-        } else if (key === "shopify_products") {
-            key2 = "email"
-            key3 = "url"
-            key4 = "phone"
-            key5 = "mailchimp_list_id"
-            iconType = "shopify"
         } else {
             key2 = "phone"
             key3 = "email"
-            key4 = "mailchimp_list_id"
-            key5 = "shopify_products"
+            /*key4 = "mailchimp_list_id"
+            key5 = "shopify_products"*/
             iconType = "standard"
         }
 
@@ -173,8 +125,8 @@ const InputComponent = ({
             [`${key}`]: e.target?.value || e,
             [`${key2}`]: null,
             [`${key3}`]: null,
-            [`${key4}`]: null,
-            [`${key5}`]: null,
+            /*[`${key4}`]: null,
+            [`${key5}`]: null,*/
             type: iconType
         })
     }
@@ -184,76 +136,13 @@ const InputComponent = ({
     return (
 
         <div className="my_row">
-            {(() => {
-
-                switch (inputType) {
-
-                    case "mailchimp":
-
-                        return (
-                            <MailchimpLists
-                                handleChange={handleChange}
-                                lists={lists}
-                                setLists={setLists}
-                                currentLink={currentLink}
-                                setCurrentLink={setCurrentLink}
-                                inputKey={key}
-                                setInputType={setInputType}
-                                setIntegrationType={setIntegrationType}
-                            />
-                        )
-
-                    case "shopify":
-
-                        return (
-                            <div className="my_row products_wrap">
-                                {displayAllProducts ?
-                                        <AllProducts
-                                            selectedProducts={selectedProducts}
-                                            setSelectedProducts={setSelectedProducts}
-                                            allProducts={allProducts}
-                                            setDisplayAllProducts={setDisplayAllProducts}
-                                            handleChange={handleChange}
-                                            setCurrentLink={setCurrentLink}
-                                            inputKey={key}
-                                            name={name}
-                                        />
-
-                                        :
-                                    <>
-                                        <StoreDropdown
-                                            currentLink={currentLink}
-                                            setCurrentLink={setCurrentLink}
-                                            setSelectedProducts={setSelectedProducts}
-                                            setShowAddStore={setShowAddStore}
-                                            shopifyStores={shopifyStores}
-
-                                        />
-                                        <SelectedProducts
-                                            currentLink={currentLink}
-                                            setDisplayAllProducts={setDisplayAllProducts}
-                                            setAllProducts={setAllProducts}
-                                            setShowLoader={setShowLoader}
-                                        />
-                                    </>
-                                }
-                            </div>
-                        )
-                    default:
-
-                        return (
-
-                            <input
-                                name={name}
-                                type={type}
-                                defaultValue={value || ""}
-                                placeholder={placeholder}
-                                onChange={(e) => handleChange(e, key)}
-                            />
-                        )
-                }
-
-            })()}
+            <input
+                name={name}
+                type={type}
+                defaultValue={value || ""}
+                placeholder={placeholder}
+                onChange={(e) => handleChange(e, key)}
+            />
         </div>
 
     )

@@ -1,10 +1,8 @@
-import React, {useContext, useState, useEffect, useRef} from 'react';
-import axios from "axios";
+import React, {useContext, useState, useEffect} from 'react';
 import {PageContext} from '../../App';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
-import {BiHelpCircle} from 'react-icons/bi';
 import {pageBio} from '../../../../Services/PageRequests';
-import ToolTipIcon from './ToolTipIcon';
+import ToolTipIcon from '../../../../Utils/ToolTips/ToolTipIcon';
 
 const PageBio = () => {
 
@@ -43,32 +41,34 @@ const PageBio = () => {
     return (
 
         <div className="edit_form">
-            <form onSubmit={handleSubmit} className="bio">
-                <textarea maxLength="65" name="bio" id="" rows="5"
-                          placeholder="Add Bio or Slogan (Optional)"
-                          defaultValue={pageSettings["bio"] || ""}
-                          onChange={(e) => handleChange(e) }
-                          onKeyDown={ event => {
-                                  if(event.key === 'Enter') {
-                                      handleSubmit(event);
+            <form onSubmit={handleSubmit}>
+                <div className="form_content">
+                    <textarea maxLength="65" name="bio" id="" rows="5"
+                              placeholder="Add Bio or Slogan (Optional)"
+                              defaultValue={pageSettings["bio"] || ""}
+                              onChange={(e) => handleChange(e) }
+                              onKeyDown={ event => {
+                                      if(event.key === 'Enter') {
+                                          handleSubmit(event);
+                                      }
                                   }
                               }
-                          }
-                          onBlur={(e) => handleSubmit(e)}
-                >
-                </textarea>
-                {charactersLeft < 62  ?
-                    <a className="submit_circle" href="#"
-                       onClick={(e) => handleSubmit(e)}
+                              onBlur={(e) => handleSubmit(e)}
                     >
-                        <FiThumbsUp />
-                        <div className="hover_text submit_button"><p>Submit Bio Text</p></div>
-                    </a>
-                    :
-                    <span className="cancel_icon">
-                        <FiThumbsDown />
-                    </span>
-                }
+                    </textarea>
+                    {charactersLeft < 62  ?
+                        <a className="submit_circle textarea" href="#"
+                           onClick={(e) => handleSubmit(e)}
+                        >
+                            <FiThumbsUp />
+                            <div className="hover_text submit_button"><p>Submit Bio Text</p></div>
+                        </a>
+                        :
+                        <span className="cancel_icon textarea">
+                            <FiThumbsDown />
+                        </span>
+                    }
+                </div>
                 <div className="my_row info_text">
                     <p className="char_max">Max 65 Characters</p>
                     <p className="char_count">

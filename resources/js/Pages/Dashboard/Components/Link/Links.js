@@ -56,8 +56,8 @@ const Links = ({
                    setOptionText,
                    subStatus,
                    iconsWrapRef,
-                   setInputType
-               }) => {
+                   setAccordionValue
+}) => {
 
     const { userLinks, dispatch } = useContext(UserLinksContext);
     const { originalArray, dispatchOrig } = useContext(OriginalArrayContext);
@@ -278,6 +278,19 @@ const Links = ({
     const handleOnClick = (linkID) => {
 
         setEditID(linkID);
+        const currentLink = userLinks.find(function(e) {
+            return e.id === linkID
+        });
+
+        if(currentLink.type === "shopify" || currentLink.type === "mailchimp") {
+            setAccordionValue("integration")
+        } else if(currentLink.icon.includes("offer-images")) {
+            setAccordionValue("offer")
+        } else if (currentLink.icon.includes("custom-icons")){
+            setAccordionValue("custom")
+        } else {
+            setAccordionValue("standard")
+        }
 
         setTimeout(function(){
             document.querySelector('#scrollTo').scrollIntoView({

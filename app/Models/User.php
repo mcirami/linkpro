@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use App\Models\Link as Link;
 use App\Models\Page as Page;
 use App\Models\Referral as Referral;
+use Spatie\Permission\Traits\HasRoles;
 use function Illuminate\Events\queueable;
 use TCG\Voyager\Models\User as VoyagerUser;
 
@@ -16,7 +17,7 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends VoyagerUser
 {
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasRoles, HasFactory, Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -33,7 +34,8 @@ class User extends VoyagerUser
         'email_subscription',
         'mailchimp_server',
         'mailchimp_token',
-        'mailchimp_lists'
+        'mailchimp_lists',
+        'role_id'
     ];
 
     /**
@@ -85,5 +87,29 @@ class User extends VoyagerUser
 
     public function ShopifyStores() {
         return $this->hasMany(ShopifyStore::class);
+    }
+
+    public function LandingPages() {
+        return $this->hasOne(LandingPage::class);
+    }
+
+    public function LandingPageSections() {
+        return $this->hasMany(LandingPageSection::class);
+    }
+
+    public function Courses() {
+        return $this->hasMany(Course::class);
+    }
+
+    public function Offers() {
+        return $this->hasMany(Offer::class);
+    }
+
+    public function OfferClicks() {
+        return $this->hasMany(OfferClick::class, 'referral_id');
+    }
+
+    public function Purchases() {
+        return $this->hasMany(Purchase::class);
     }
 }

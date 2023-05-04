@@ -6,6 +6,7 @@ use App\Services\SubscriptionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\SubscriptionTrait;
+use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
 
 class SubscriptionController extends Controller
 {
@@ -19,6 +20,10 @@ class SubscriptionController extends Controller
     public function purchase(SubscriptionService $subscriptionService) {
 
         $data = $subscriptionService->showPurchasePage();
+
+        Javascript::put([
+            'user_info' => Auth::user(),
+        ]);
 
         return view('subscription.index', [ 'plan' => $data['plan'],
                                             'token' => $data['token'],
@@ -95,6 +100,10 @@ class SubscriptionController extends Controller
         $path = $request->session()->get('_previous');
 
         $subscription = $subscriptionService->showPlansPage();
+
+        Javascript::put([
+            'user_info' => Auth::user(),
+        ]);
 
         return view('subscription.plans', ['subscription' => $subscription, 'path' => $path["url"]]);
     }

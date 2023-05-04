@@ -26,7 +26,7 @@
                             {!! $page->bio ? "<p>" . $page->bio . "</p>" : "" !!}
                         </div>
                     </div>
-                    @if ( $page->is_protected && $authorized || !$page->is_protected )
+                    {{--@if ( $page->is_protected && $authorized || !$page->is_protected )--}}
                         <div class="icons_wrap main">
                             @php
                                 $count = 0;
@@ -218,7 +218,7 @@
                                 @endif
                             @endforeach
                         </div><!-- icons_wrap -->
-                    @elseif ($page->is_protected && !$authorized)
+                    {{--@elseif ($page->is_protected && !$authorized)
                         <form method="post" action="{{ url('/check-page-auth/' . $page->id)  }}" >
                             @csrf
                             <h2>Page Secure</h2>
@@ -229,7 +229,7 @@
                             <input name="pin" type="text">
                             <button type="submit" class="button blue">Enter</button>
                         </form>
-                    @endif
+                    @endif--}}
                 </div>
             </div>
         </div>

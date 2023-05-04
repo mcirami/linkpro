@@ -15,6 +15,7 @@ import Folder from './Folder';
 import FormIcon from './FormIcon';
 import SubscribeForm from './SubscribeForm';
 import StoreProducts from './StoreProducts';
+import {PreviewHeight} from '../../../../Services/PreviewHooks';
 
 const Preview = ({
                      setRef,
@@ -29,8 +30,6 @@ const Preview = ({
                      setValue,
                      subStatus,
                      pageHeaderRef,
-                     infoIndex,
-                     setInfoIndex,
                      setShowPreview
 }) => {
 
@@ -40,8 +39,8 @@ const Preview = ({
     const [clickType, setClickType] = useState(null);
 
     const ClosePreview = () => {
-        setShowPreview(false);
         document.querySelector('body').classList.remove('fixed');
+        setShowPreview(false);
     }
 
     useEffect(() => {
@@ -75,42 +74,14 @@ const Preview = ({
 
     useLayoutEffect(() => {
 
-        function handleResize() {
-            const windowWidth = window.outerWidth;
-
-            const box = document.querySelector('.inner_content_wrap');
-            const innerContent = document.getElementById('preview_wrap');
-
-            let pixelsToMinus;
-            if (windowWidth > 551) {
-                pixelsToMinus = 35;
-            } else {
-                pixelsToMinus = 25;
-            }
-
-            box.style.maxHeight = innerContent.offsetHeight - pixelsToMinus + "px";
-        }
-
-        window.addEventListener('resize', handleResize);
-
-        handleResize()
+        window.addEventListener('resize', PreviewHeight);
         return () => {
-            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('resize', PreviewHeight);
         }
     }, []);
 
     useLayoutEffect(() => {
-        const box = document.querySelector('.inner_content_wrap');
-        const innerContent = document.getElementById('preview_wrap');
-
-        let pixelsToMinus = 0;
-        if (window.outerWidth > 550) {
-            pixelsToMinus = 35;
-        } else {
-            pixelsToMinus = 25;
-        }
-
-        box.style.maxHeight = innerContent.offsetHeight - pixelsToMinus + "px";
+        PreviewHeight()
     }, []);
 
     const accordionLinks = value !== null ? userLinks[value].links : null;
@@ -169,7 +140,7 @@ const Preview = ({
                                 const dataRow = Math.ceil((index + 1) / 4);
 
                                 let displayIcon = null;
-                                if(type === "standard" || type === "mailchimp" || type === "shopify") {
+                                if(type !== "folder") {
                                     displayIcon = checkIcon(icon, "preview");
                                 }
 
@@ -182,53 +153,60 @@ const Preview = ({
 
                                 return (
                                     <React.Fragment key={index}>
-
-                                        {{
-                                            "folder":
-                                                active_status && subStatus ?
-                                                    <Folder
-                                                        colClasses={colClasses}
-                                                        mainIndex={index}
-                                                        links={links}
-                                                        setRow={setRow}
-                                                        value={value}
-                                                        setValue={setValue}
-                                                        dataRow={dataRow}
-                                                        name={name}
-                                                        clickType={clickType}
-                                                        setClickType={setClickType}
-                                                    />
-                                                    :
-                                                    subStatus && <div className={ ` ${colClasses} `}>
-                                                    </div>,
-
-                                            "standard":
-
-                                                <div className={ ` ${colClasses} `}>
-                                                    {active_status ?
-                                                        <>
-                                                            <a className={!url ||
-                                                            !displayIcon ?
-                                                                "default" :
-                                                                ""} target="_blank" href={url ||
-                                                            "#"}>
-                                                                <img src={displayIcon} alt=""/>
-                                                            </a>
-                                                            <p>
-                                                                {name?.length >
-                                                                11 ?
-                                                                    name.substring(0,
-                                                                        11) + "..."
-                                                                    :
-                                                                    name || "Link Name"
-                                                                }
-                                                            </p>
-                                                        </>
+                                        {(() => {
+                                            switch (type) {
+                                                case "folder":
+                                                    return ( active_status && subStatus ?
+                                                        <Folder
+                                                            colClasses={colClasses}
+                                                            mainIndex={index}
+                                                            links={links}
+                                                            setRow={setRow}
+                                                            value={value}
+                                                            setValue={setValue}
+                                                            dataRow={dataRow}
+                                                            name={name}
+                                                            clickType={clickType}
+                                                            setClickType={setClickType}
+                                                        />
                                                         :
-                                                        ""
-                                                    }
-                                                </div>
-                                        }[type]}
+                                                        subStatus &&
+                                                        <div className={` ${colClasses} `}>
+                                                        </div>
+                                                    )
+                                                case "standard":
+                                                case "offer":
+                                                    return (
+                                                        <div className={` ${colClasses} `}>
+                                                            {active_status ?
+                                                                <>
+                                                                    <a className={!url ||
+                                                                    !displayIcon ?
+                                                                        "default" :
+                                                                        ""} target="_blank" href={url ||
+                                                                        "#"}>
+                                                                        <img src={displayIcon} alt=""/>
+                                                                    </a>
+                                                                    <p>
+                                                                        {name?.length >
+                                                                        11 ?
+                                                                            name.substring(
+                                                                                0,
+                                                                                11) +
+                                                                            "..."
+                                                                            :
+                                                                            name ||
+                                                                            "Link Name"
+                                                                        }
+                                                                    </p>
+                                                                </>
+                                                                :
+                                                                ""
+                                                            }
+                                                        </div>
+                                                    )
+                                            }
+                                        })()}
 
                                         { (type === "mailchimp" || type === "shopify") &&
 

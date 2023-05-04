@@ -1,7 +1,7 @@
 import React, {useContext, useRef, useState} from 'react';
 import {updateProfileLayout} from '../../../../Services/PageRequests';
 import {PageContext} from '../../App';
-import ToolTipIcon from './ToolTipIcon';
+import ToolTipIcon from '../../../../Utils/ToolTips/ToolTipIcon';
 
 function PageHeaderLayout({pageHeaderRef}) {
 

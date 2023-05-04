@@ -21,7 +21,8 @@
 </head>
 <body>
 <div id="app" class="my_row">
-    <main class="py-4">
+    <main class="@php if(!Route::is('live.landing.page') && !Route::is('live.course.page')) { echo "py-4"; } else { echo "pt-0"; } @endphp">
+
         @yield('content')
 
         <div class="my_row user_page_footer">
@@ -33,6 +34,7 @@
             </div>
         </div>
     </main>
+
 </div>
 </body>
 </html>

@@ -236,7 +236,7 @@ export const updateContentHeight = (iconsWrapRef, folder = null) => {
                 const columns = folder ? 3 : 4;
                 const colHeight = icons[0].clientHeight;
                 const rowCount = Math.ceil(icons.length / columns);
-                const divHeight = rowCount * colHeight - 40;
+                const divHeight = rowCount * colHeight - (rowCount * 15);
                 iconsWrapRef.current.style.minHeight = divHeight + "px";
             }, 600);
         } else {

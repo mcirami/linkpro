@@ -21,8 +21,8 @@ export const ConfirmPopup = ({
                                  folderID,
                                  iconsWrapRef,
                                  setInputType,
-                                 setIntegrationType
-
+                                 setIntegrationType,
+                                 setAccordionValue
                              }) => {
 
     const { userLinks, dispatch  } = useContext(UserLinksContext);
@@ -98,6 +98,7 @@ export const ConfirmPopup = ({
                     dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINKS_POSITIONS, payload: {links: newArray, folderActive: folderActive, folderID: folderID} })
                     dispatch({ type: LINKS_ACTIONS.UPDATE_LINKS_POSITIONS, payload: {links: newArray, folderActive: folderActive, folderID: folderID} })
 
+
                 } else {
                     dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS, payload: {links: data.links}})
                     dispatch({ type: LINKS_ACTIONS.SET_LINKS, payload: {links: data.links} })
@@ -107,7 +108,8 @@ export const ConfirmPopup = ({
                 updateContentHeight(iconsWrapRef, folderID && true);
                 setShowConfirmPopup(false)
                 setIntegrationType(null);
-                setInputType(null)
+                setInputType(null);
+                setAccordionValue(null);
             }
         })
     }

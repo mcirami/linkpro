@@ -1,7 +1,9 @@
 @extends('layouts.guest.header')
 
 @section('content')
+
 <div class="container">
+
     <div class="my_row form_page">
         <div class="card guest">
             <div class="mb-4">
@@ -15,11 +17,41 @@
                     <div class="form-group row">
 
                         <div class="col-md-8 mx-auto">
-                            <input placeholder="Username or Email" id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="identity" value="{{ old('username') }}" required autofocus>
+                            <input placeholder="Username or Email"
+                                   id="identity"
+                                   type="text"
+                                   class="form-control
+                                   @error('username')
+                                        is-invalid
+                                   @enderror
+                                   @error('email')
+                                        is-invalid
+                                   @enderror
+                                   @error('identity')
+                                        is-invalid
+                                   @enderror
+                                   "
+                                   name="identity"
+                                   value="{{ old('identity') }}"
+                                   required
+                                   autofocus
+                            >
+
+                            @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('email') }}</strong>
+                                </span>
+                            @enderror
+
+                            @error('username')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('username') }}</strong>
+                                </span>
+                            @enderror
 
                             @error('identity')
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong>{{ $errors->first('identity') }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -28,11 +60,18 @@
                     <div class="form-group row">
 
                         <div class="col-md-8 mx-auto">
-                            <input placeholder="Password" id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                            <input placeholder="Password"
+                                   id="password"
+                                   type="password"
+                                   class="form-control @error('password') is-invalid @enderror"
+                                   name="password"
+                                   required
+                                   autocomplete="current-password"
+                            >
 
                             @error('password')
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong>{{ $errors->first('password') }}</strong>
                                 </span>
                             @enderror
                         </div>

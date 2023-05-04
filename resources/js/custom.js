@@ -187,24 +187,7 @@ jQuery(document).ready(function($) {
         })
     }
 
-    /*$('.mobile_menu_icon').click(function(e){
-        //e.preventDefault();
-        $(this).toggleClass('open');
-        $('.nav_links_wrap').toggleClass('open');
-
-        setTimeout(function() {
-            $('.nav_row').toggleClass('fixed');
-        }, 500);
-    });*/
-
     $(window).on('resize', function() {
-
-        /*const mobileMenuIcon = $('.mobile_menu_icon');
-        if ( mobileMenuIcon.hasClass('open') && window.outerWidth > 768) {
-            mobileMenuIcon.removeClass('open');
-            $('.nav_links_wrap').removeClass('open');
-            $('.nav_row').removeClass('fixed');
-        }*/
 
         if (window.outerWidth < 769) {
             const videoWrap = document.querySelectorAll('#desktop_video .video_wrap');
@@ -339,15 +322,16 @@ jQuery(document).ready(function($) {
 
     const linkTrackers = document.querySelectorAll('.link_tracker');
 
-    if (linkTrackers.length > 0) {
+    if (linkTrackers) {
 
         linkTrackers.forEach((link) => {
             link.addEventListener('click', function(e) {
+
                 const linkID = this.dataset.id;
 
-                axios.post('/link-click/' + linkID, ).then(
+                axios.post('/link-click/' + linkID).then(
                     (response) => {
-                        console.log(JSON.stringify(response.data.message));
+                        console.log("click tracked");
                     },
 
                 ).catch(error => {
@@ -418,6 +402,174 @@ jQuery(document).ready(function($) {
             });
 
         })
+    }
+
+    async function registerUser()  {
+
+        const username = document.querySelector('#username').value;
+        const email = document.querySelector('#email').value;
+        const password = document.querySelector('#password').value;
+        const passwordConfirm = document.querySelector('#password-confirm').value;
+        const creator = document.querySelector('#course_creator').value;
+        const courseTitle = document.querySelector('#course_title').value;
+
+        const packets = {
+            username: username,
+            email: email,
+            password: password,
+            password_confirmation: passwordConfirm,
+            course_creator: creator,
+            course_title: courseTitle
+        }
+
+        //let data = {};
+
+        return await axios.post("/course-register", packets)
+        .then(
+            (response) => {
+                console.log(response);
+                if(response.data.success) {
+                    document.querySelector('#user').value = JSON.stringify(response.data.user);
+
+                    return {
+                        success: true
+                    };
+
+                } else {
+                    return {
+                        success: false,
+                        errors: response.data.errors
+                    }
+                }
+            }
+        ).catch((error) => {
+            console.log("ERROR: ",error);
+
+            return {
+                success: false,
+                errors: error
+            };
+
+        });
+
+    }
+
+    const braintreeDropin = document.querySelector('#bt-dropin');
+    if (braintreeDropin) {
+        let spinner = document.querySelector('#loading_spinner');
+        var form = document.querySelector('#payment-form');
+        var client_token = document.querySelector('#client_nonce').value; //"{{ $token }}";
+        const amount = document.querySelector('#offer_price').value;//"{{ $offer->price }}";
+        spinner.classList.remove('active');
+        braintree.dropin.create({
+            authorization: client_token,
+            selector: '#bt-dropin',
+            paypal: {
+                flow: 'vault'
+            },
+            googlePay: {
+                googlePayVersion: 2,
+                merchantId: '0764-6991-5982',
+                transactionInfo: {
+                    totalPriceStatus: 'FINAL',
+                    totalPrice: amount,
+                    currencyCode: 'USD'
+                },
+            },
+            venmo: {
+                allowDesktop: true,
+                paymentMethodUsage: 'multi_use',
+            },
+            applePay: {
+                displayName: 'LinkPro',
+                paymentRequest: {
+                    total: {
+                        label: 'LinkPro',
+                        amount: amount
+                    },
+                    // We recommend collecting billing address information, at minimum
+                    // billing postal code, and passing that billing postal code with all
+                    // Apple Pay transactions as a best practice.
+                    requiredBillingContactFields: ["postalAddress"]
+                }
+            }
+        }, function(createErr, instance) {
+
+            if (createErr) {
+                console.log('Create Error', createErr);
+                return;
+            }
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const userGuest = document.querySelector('#user_guest').value.trim();
+
+                if (userGuest === "true") {
+
+                    registerUser().then((response) => {
+
+                        if (response.success) {
+
+                            purchaseCourse(form, instance, spinner);
+
+                        } else {
+
+                            if (response.errors.username) {
+                                const usernameError = document.querySelector(
+                                    '#username_error');
+                                usernameError.classList.add('active');
+                                usernameError.innerHTML = response.errors.username[0]
+                            }
+
+                            if (response.errors.email) {
+                                const emailError = document.querySelector(
+                                    '#email_error');
+                                emailError.classList.add('active');
+                                emailError.innerHTML = response.errors.email[0];
+                            }
+
+                            if (response.errors.password) {
+                                const passwordError = document.querySelector(
+                                    '#password_error');
+                                passwordError.classList.add('active');
+                                passwordError.innerHTML = response.errors.password[0];
+                            }
+                        }
+                    });
+                } else {
+                    purchaseCourse(form, instance, spinner);
+                }
+
+            });
+        });
+
+        function purchaseCourse(form, instance, spinner) {
+            spinner.classList.add('active');
+            const code = document.querySelector(
+                '#form_discount_code').value;
+
+            if (code.toLowerCase() === "freepremier" ||
+                code.toLowerCase() === "freepro") {
+                form.submit();
+            } else {
+                instance.requestPaymentMethod(
+                    function(err, payload) {
+                        if (err) {
+                            console.log(
+                                'Request Payment Method Error',
+                                err);
+                            document.querySelector(
+                                '#account_register').remove();
+                            return;
+                        }
+                        // Add the nonce to the form and submit
+                        document.querySelector(
+                            '#nonce').value = payload.nonce;
+                        form.submit();
+                    });
+            }
+        }
     }
 
 });

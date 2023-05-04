@@ -12,7 +12,7 @@ import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
 import {headerImage} from '../../../../Services/PageRequests';
 import {completedImageCrop} from '../../../../Services/ImageService';
-import ToolTipIcon from './ToolTipIcon';
+import ToolTipIcon from '../../../../Utils/ToolTips/ToolTipIcon';
 
 export const RefContext = createContext();
 export const cropStatus = createContext();
@@ -35,8 +35,6 @@ const PageHeader = ({
     const imgRef = useRef();
     const previewCanvasRef = setRef;
     const [crop, setCrop] = useState({ unit: "%", width: 30, aspect: 16 / 9 });
-
-    const infoDiv = useRef();
 
     const onSelectFile = (e) => {
         let files = e.target.files || e.dataTransfer.files;
@@ -77,7 +75,7 @@ const PageHeader = ({
             return;
         }
 
-        completedImageCrop(completedCrop, imgRef, previewCanvasRef);
+        completedImageCrop(completedCrop, imgRef, previewCanvasRef.current);
     }, [completedCrop]);
 
     const handleSubmit = (e) => {

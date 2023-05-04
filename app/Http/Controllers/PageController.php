@@ -92,11 +92,7 @@ class PageController extends Controller
 
         $user = Auth::user();
 
-        if ($page->user_id != $user["id"]) {
-            return abort(404);
-        }
-
-        if ( $page->disabled ) {
+        if ($page->user_id != $user->id || $page->disabled) {
             return abort(404);
         }
 
@@ -181,6 +177,12 @@ class PageController extends Controller
         $user = Auth::user();
         $page = $user->pages()->where('user_id', $user["id"])->where('default', true)->get();
 
-        return redirect('/dashboard/pages/' . $page[0]->id . "?redirected=" . $param);
+        if ($param) {
+            $url = '/dashboard/pages/' . $page[0]->id . "?redirected=" . $param;
+        } else {
+            $url = '/dashboard/pages/' . $page[0]->id;
+        }
+
+        return redirect($url);
     }
 }

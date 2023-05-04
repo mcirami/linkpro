@@ -84,6 +84,8 @@ class PageService {
                 'userID'  => $this->user->id,
             ]);
 
+            $this->user->assignRole('lp.user');
+
             $this->user->notify(new WelcomeNotification($userData));
         }
 
@@ -120,17 +122,6 @@ class PageService {
 
         $userPages = $this->getUserPages($this->user);
 
-        $userIcons = [];
-
-        if (Storage::disk('s3')->exists("custom-icons/" . $page->user_id . "/")) {
-            $imageNames = Storage::disk('s3')->allFiles("custom-icons/" . $page->user_id);
-
-            foreach($imageNames as $name) {
-                $path = Storage::disk('s3')->url($name);
-                array_push($userIcons, $path);
-            }
-        }
-
         $standardIcons = [];
         $iconNames = Storage::disk('s3')->allFiles("icons/");
         foreach($iconNames as $icon) {
@@ -155,7 +146,6 @@ class PageService {
             'icons' => $standardIcons,
             'page' => $page,
             'user_pages' => $userPages,
-            'userIcons' => $userIcons,
             'allPageNames' => $pageNames,
             'userSub'   => $userSubscription,
         ]);
@@ -182,7 +172,7 @@ class PageService {
      */
     public function updateHeaderImage($request, $userID, $page) {
 
-        $imgName = $userID . '-' . time() . '.' . $request->ext;
+        $imgName = $userID . '-header_img' . '.' . $request->ext; //time() . '.' . $request->ext;
         $path = 'page-images/' . $userID . '/' . $imgName;
 
         Storage::disk('s3')->delete($path);
@@ -204,7 +194,7 @@ class PageService {
      */
     public function updateProfileImage($request, $userID, $page) {
 
-        $imgName = $userID . '-' . time() . '.' . $request->ext;
+        $imgName = $userID . '-profile_img' . '.' . $request->ext; //. time() . '.' . $request->ext;
         $path = 'page-images/' . $userID . '/' . $imgName;
 
         Storage::disk('s3')->delete($path);

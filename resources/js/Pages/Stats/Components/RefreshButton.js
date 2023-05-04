@@ -7,23 +7,12 @@ const RefreshButton = ({
                            startDate,
                            endDate,
                            dropdownValue,
-                           tab,
-                           setStatsFunc,
-                           setDeletedFunc,
+                           getStats,
+                           filterByValue = null,
 }) => {
-
-    let animatedElements;
-
-    useEffect(() => {
-        animatedElements = document.querySelectorAll('p.animate');
-    })
 
     const handleClick = (e) => {
         e.preventDefault();
-
-        animatedElements.forEach((element) => {
-            element.classList.add('hide');
-        })
 
         let packets;
 
@@ -38,76 +27,17 @@ const RefreshButton = ({
             }
         }
 
-        switch (tab) {
-
-            case "link":
-
-                getPageStats(packets)
-                .then((data) => {
-                    if (data["success"]) {
-                        setTimeout(() => {
-                            setStatsFunc(data["data"]);
-                            animatedElements.forEach((element) => {
-                                element.classList.remove('hide');
-                            })
-
-                        }, 500)
-                    } else {
-                        animatedElements.forEach((element) => {
-                            element.classList.remove('hide');
-                        })
-                    }
-
-                });
-                break;
-
-            case "icon":
-
-                getLinkStats(packets)
-                .then((data) => {
-                    if (data["success"]) {
-                        setTimeout(() => {
-                            setStatsFunc(data["currentData"]);
-                            setDeletedFunc(data["pastData"]);
-                            animatedElements.forEach((element) => {
-                                element.classList.remove('hide');
-                            })
-
-                        }, 500)
-                    } else {
-                        animatedElements.forEach((element) => {
-                            element.classList.remove('hide');
-                        })
-                    }
-                });
-                break;
-
-            case "folder":
-                getFolderStats(packets)
-                .then((data) => {
-
-                    if (data["success"]) {
-                        setTimeout(() => {
-                            setStatsFunc(data["currentData"]);
-                            //setDeletedStats(data["pastData"]);
-                            animatedElements.forEach((element) => {
-                                element.classList.remove('hide');
-                            })
-
-                        }, 500)
-                    } else {
-                        animatedElements.forEach((element) => {
-                            element.classList.remove('hide');
-                        })
-                    }
-                });
-                break;
-
-            default:
-                break;
-
+        if (filterByValue) {
+            let url = "";
+            if (filterByValue === "offer") {
+                url = '/stats/get/offer'
+            } else if (filterByValue === "publisher") {
+                url = '/stats/get/publisher'
+            }
+            getStats(packets, url);
+        } else {
+            getStats(packets);
         }
-
     }
 
     return (

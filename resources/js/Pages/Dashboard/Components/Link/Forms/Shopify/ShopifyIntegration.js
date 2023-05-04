@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 const ShopifyIntegration = ({
                                 connectionError,
-                                inputType,
+                                integrationType,
                                 editID,
                                 showAddStore,
                                 setShowAddStore
@@ -22,7 +22,7 @@ const ShopifyIntegration = ({
                 localStorage.setItem('showLinkForm', true);
             }
 
-            localStorage.setItem('inputType', inputType);
+            localStorage.setItem('integrationType', integrationType);
 
             window.location.href = url;
         }

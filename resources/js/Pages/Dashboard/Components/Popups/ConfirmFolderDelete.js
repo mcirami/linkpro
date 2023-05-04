@@ -13,7 +13,8 @@ export const ConfirmFolderDelete = ({
                                         showConfirmFolderDelete,
                                         setShowConfirmFolderDelete,
                                         folderID,
-                                        setEditFolderID
+                                        setEditFolderID,
+                                        setAccordionValue
                              }) => {
 
     const { userLinks, dispatch  } = useContext(UserLinksContext);
@@ -48,6 +49,7 @@ export const ConfirmFolderDelete = ({
                 setEditFolderID(null);
                 updateContentHeight();
                 setShowConfirmFolderDelete(false);
+                setAccordionValue(null);
             }
         })
     }

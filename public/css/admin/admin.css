@@ -1,4 +1,4 @@
-input[type=text], select {
+#admin_filters input[type=text], #admin_filters select {
   border: 1px solid #d4d2d2;
   border-top-right-radius: 8px;
   -webkit-border-top-right-radius: 8px;
@@ -120,6 +120,9 @@ input[type=text], select {
     -ms-flex-wrap: wrap;
   }
 }
+#admin_filters .column_wrap.filter_by {
+  margin-bottom: 20px;
+}
 #admin_filters .column_wrap .column {
   width: 140px;
   margin-right: 1%;
@@ -134,7 +137,7 @@ input[type=text], select {
     margin-bottom: 10px;
   }
 }
-#admin_filters .column_wrap .column:last-child {
+#admin_filters .column_wrap .column.clear {
   margin-left: auto;
 }
 #admin_filters .button {

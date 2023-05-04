@@ -18,11 +18,9 @@ import PageBio from './Components/Page/PageBio';
 import AddLink from './Components/Link/AddLink';
 import PreviewButton from './Components/Preview/PreviewButton';
 import { Flash } from '../../Utils/Flash';
-import EditForm from './Components/Link/Forms/EditForm';
 import { UpgradePopup } from './Components/Popups/UpgradePopup';
 import { ConfirmPopup } from './Components/Popups/ConfirmPopup';
 import { Loader } from '../../Utils/Loader';
-import NewForm from './Components/Link/Forms/NewForm';
 import AddFolder from './Components/Folder/AddFolder';
 import FolderLinks from './Components/Folder/FolderLinks';
 import { ConfirmFolderDelete } from './Components/Popups/ConfirmFolderDelete';
@@ -44,21 +42,27 @@ import {
 import PageHeaderLayout from './Components/Page/PageHeaderLayout';
 import LivePageButton from './Components/LivePageButton';
 import EventBus from '../../Utils/Bus';
-import FolderHeading from './Components/Folder/FolderHeading';
-import InfoText from './Components/Page/InfoText';
+import InfoText from '../../Utils/ToolTips/InfoText';
 import {MessageAlertPopup} from './Components/Popups/MessageAlertPopup';
-import LinkForm from './Components/Link/Forms/LinkForm';
+import StandardForm from './Components/Link/Forms/StandardForm';
+import FormBreadcrumbs from './Components/Link/Forms/FormBreadcrumbs';
+import DeleteIcon from './Components/Link/Forms/DeleteIcon';
+import FolderNameInput from './Components/Folder/FolderNameInput';
+import AccordionLink from './Components/Link/Forms/AccordionLink';
+import CustomForm from './Components/Link/Forms/CustomForm';
+import IntegrationForm from './Components/Link/Forms/IntegrationForm';
 
 const page = user.page;
 const userPages = user.user_pages;
 const userSub = user.userSub;
-const customIcons = user.userIcons;
 
 export const UserLinksContext = createContext();
 export const OriginalArrayContext = createContext();
 export const FolderLinksContext = createContext();
 export const OriginalFolderLinksContext = createContext()
 export const PageContext = createContext();
+//export const ToolTipContext = createContext();
+import { ToolTipContextProvider } from '../../Utils/ToolTips/ToolTipContext';
 
 function App() {
 
@@ -82,7 +86,7 @@ function App() {
     const [editID, setEditID] = useState(null);
     const [showLinkForm, setShowLinkForm] = useState(false);
 
-    const [radioValue, setRadioValue] = useState("standard");
+    const [accordionValue, setAccordionValue] = useState(null);
     const [inputType, setInputType] = useState(null);
     const [integrationType, setIntegrationType] = useState(null);
     //const [storeID, setStoreID] = useState(null);
@@ -93,7 +97,6 @@ function App() {
     const [showMessageAlertPopup, setShowMessageAlertPopup] = useState(false);
     const [showConfirmFolderDelete, setShowConfirmFolderDelete] = useState(false);
     const [optionText, setOptionText] = useState("");
-    const [customIconArray, setCustomIconArray] = useState(customIcons);
 
     const headerRef = createRef(null);
     const [completedCrop, setCompletedCrop] = useState(null);
@@ -123,8 +126,6 @@ function App() {
     const [row, setRow] = useState(null);
     const [value, setValue] = useState(null);
 
-    const [infoIndex, setInfoIndex] = useState(null);
-
     const [showPreviewButton, setShowPreviewButton] = useState(false);
     const [showPreview, setShowPreview] = useState(false);
 
@@ -148,15 +149,15 @@ function App() {
 
     }, []);
 
-    function setPreviewButton() {
-        previewButtonRequest(setShowPreviewButton);
-    }
-
     useEffect(() => {
-        setPreviewButton();
+        previewButtonRequest(setShowPreviewButton);
     }, [])
 
     useEffect(() => {
+
+        function setPreviewButton() {
+            previewButtonRequest(setShowPreviewButton);
+        }
 
         window.addEventListener('resize', setPreviewButton);
 
@@ -178,9 +179,9 @@ function App() {
 
         if (redirected && redirected !== "") {
             setInputType(localStorage.getItem('inputType') || null)
-            setRadioValue("integration");
+            setAccordionValue("integration");
             setRedirectedType(redirected);
-            setIntegrationType(redirected);
+            setIntegrationType(localStorage.getItem('integrationType') || null);
             setEditID(JSON.parse(localStorage.getItem('editID')) || null)
             setShowLinkForm(JSON.parse(localStorage.getItem('showLinkForm')) || false)
             if(storeID) {
@@ -243,6 +244,24 @@ function App() {
         setFlash({show, type, msg})
     }
 
+    const handleDisabledClick = (e) => {
+        const type = e.target.dataset.type;
+        if (!subStatus) {
+
+            let text;
+            if (type === "custom" ) {
+                text = "add custom icons"
+            } else if (type === "integration") {
+                text = "add an integration"
+            } else if (type === "offer") {
+                text = "earn money from an affiliate offer"
+            }
+
+            setShowUpgradePopup(true);
+            setOptionText(text);
+        }
+    }
+
     return (
         <div className="my_row page_wrap">
 
@@ -293,6 +312,7 @@ function App() {
                                     iconsWrapRef={iconsWrapRef}
                                     setInputType={setInputType}
                                     setIntegrationType={setIntegrationType}
+                                    setAccordionValue={setAccordionValue}
                                 />
                             }
 
@@ -302,121 +322,127 @@ function App() {
                                     setShowConfirmFolderDelete={setShowConfirmFolderDelete}
                                     folderID={editFolderID}
                                     setEditFolderID={setEditFolderID}
+                                    setAccordionValue={setAccordionValue}
                                 />
                             }
 
                             <PageContext.Provider value={{
                                 pageSettings,
-                                setPageSettings,
-                                infoText,
-                                setInfoText,
-                                infoTextOpen,
-                                setInfoTextOpen,
-                                infoLocation,
-                                setInfoLocation,
-                                infoClicked,
-                                setInfoClicked
+                                setPageSettings
                             }}>
-                                <div className="left_column">
-                                    <PageNav
-                                        allUserPages={allUserPages}
-                                        setAllUserPages={setAllUserPages}
-                                        userSub={userSub}
-                                        subStatus={subStatus}
-                                        setShowUpgradePopup={setShowUpgradePopup}
-                                        setOptionText={setOptionText}
-                                    />
+                                <ToolTipContextProvider value={{
+                                    infoText,
+                                    setInfoText,
+                                    infoTextOpen,
+                                    setInfoTextOpen,
+                                    infoLocation,
+                                    setInfoLocation,
+                                    infoClicked,
+                                    setInfoClicked
+                                }}>
 
-                                    <div ref={leftColWrap} className="content_wrap my_row" id="left_col_wrap">
-                                        <div className="top_section">
-                                            <PageName />
+                                    <div className="left_column">
+                                        <PageNav
+                                            allUserPages={allUserPages}
+                                            setAllUserPages={setAllUserPages}
+                                            userSub={userSub}
+                                            subStatus={subStatus}
+                                            setShowUpgradePopup={setShowUpgradePopup}
+                                            setOptionText={setOptionText}
+                                        />
 
-                                            <PageHeader
-                                                setRef={headerRef}
-                                                completedCrop={completedCrop}
-                                                setCompletedCrop={setCompletedCrop}
-                                                fileName={fileName}
-                                                setFileName={setFileName}
-                                                setShowLoader={setShowLoader}
-                                            />
+                                        <div ref={leftColWrap} className="content_wrap my_row" id="left_col_wrap">
+                                            <div className="top_section">
+                                                <PageName />
 
-                                            <PageProfile
-                                                profileRef={profileRef}
-                                                completedProfileCrop={completedProfileCrop}
-                                                setCompletedProfileCrop={setCompletedProfileCrop}
-                                                profileFileName={profileFileName}
-                                                setProfileFileName={setProfileFileName}
-                                                setShowLoader={setShowLoader}
-                                            />
+                                                <PageHeader
+                                                    setRef={headerRef}
+                                                    completedCrop={completedCrop}
+                                                    setCompletedCrop={setCompletedCrop}
+                                                    fileName={fileName}
+                                                    setFileName={setFileName}
+                                                    setShowLoader={setShowLoader}
+                                                />
 
-                                            <PageTitle />
-                                            <PageBio />
+                                                <PageProfile
+                                                    profileRef={profileRef}
+                                                    completedProfileCrop={completedProfileCrop}
+                                                    setCompletedProfileCrop={setCompletedProfileCrop}
+                                                    profileFileName={profileFileName}
+                                                    setProfileFileName={setProfileFileName}
+                                                    setShowLoader={setShowLoader}
+                                                />
 
-                                            <PageHeaderLayout
-                                                pageHeaderRef={pageHeaderRef} />
+                                                <PageTitle />
+                                                <PageBio />
 
-                                            <InfoText
-                                                leftColWrap={leftColWrap}
-                                            />
+                                                <PageHeaderLayout
+                                                    pageHeaderRef={pageHeaderRef} />
 
-                                            {showPreviewButton &&
-                                                <PreviewButton setShowPreview={setShowPreview}/>
+                                                <InfoText
+                                                    divRef={leftColWrap}
+                                                />
+
+                                                {showPreviewButton &&
+                                                    <PreviewButton setShowPreview={setShowPreview}/>
+                                                }
+
+                                                { (userSub && !subStatus) &&
+                                                    <DowngradeAlert/>
+                                                }
+                                            </div>
+
+                                            <div className="my_row view_live_link link_row">
+                                                <LivePageButton pageName={pageSettings['name']}/>
+                                            </div>
+
+                                            {editID || showLinkForm || editFolderID ?
+                                                <div className="my_row icon_breadcrumb" id="scrollTo">
+                                                    <p className="form_title">
+                                                        {editID || (editFolderID && !showLinkForm) ? "Editing " : "" }
+                                                        {showLinkForm ? "Adding " : "" }
+                                                        {(editFolderID && !editID && !showLinkForm) ? "Folder" : "Icon"}
+                                                    </p>
+                                                    <div className="breadcrumb_links">
+                                                        <FormBreadcrumbs
+                                                            setEditFolderID={setEditFolderID}
+                                                            setShowLinkForm={setShowLinkForm}
+                                                            folderID={editFolderID}
+                                                            setAccordionValue={setAccordionValue}
+                                                            editID={editID}
+                                                            setEditID={setEditID}
+                                                            setShowConfirmPopup={setShowConfirmPopup}
+                                                            setIntegrationType={setIntegrationType}
+                                                            setInputType={setInputType}
+                                                            showLinkForm={showLinkForm}
+                                                        />
+                                                        { (editID || editFolderID && !showLinkForm) &&
+                                                            <div className="delete_icon">
+                                                                <DeleteIcon
+                                                                    setShowConfirmFolderDelete={setShowConfirmFolderDelete}
+                                                                    setShowConfirmPopup={setShowConfirmPopup}
+                                                                    editFolderID={editFolderID}
+                                                                    editID={editID}
+                                                                    setAccordionValue={setAccordionValue}
+                                                                />
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                    {editFolderID && !editID ?
+                                                        <div className="folder_name my_row">
+                                                            <FolderNameInput
+                                                                folderID={editFolderID}
+                                                            />
+                                                        </div>
+                                                        :
+                                                        ""
+                                                    }
+                                                </div>
+                                                :
+                                                ""
                                             }
 
-                                            { (userSub && !subStatus) &&
-                                                <DowngradeAlert/>
-                                            }
-                                        </div>
-
-                                        <div className="my_row view_live_link link_row">
-                                            <LivePageButton pageName={pageSettings['name']}/>
-                                        </div>
-
-                                        { (editFolderID && !showLinkForm && !editID) &&
-
-                                            <FolderHeading
-                                                subStatus={subStatus}
-                                                setShowUpgradePopup={setShowUpgradePopup}
-                                                setOptionText={setOptionText}
-                                                setEditFolderID={setEditFolderID}
-                                                setShowLinkForm={setShowLinkForm}
-                                                setShowConfirmFolderDelete={setShowConfirmFolderDelete}
-                                                editFolderID={editFolderID}
-                                                setRadioValue={setRadioValue}
-                                            />
-                                        }
-
-                                        {(showLinkForm || editID) &&
-                                            <LinkForm
-                                                setShowLinkForm={setShowLinkForm}
-                                                folderID={editFolderID}
-                                                setEditFolderID={setEditFolderID}
-                                                editID={editID}
-                                                setEditID={setEditID}
-                                                setShowUpgradePopup={setShowUpgradePopup}
-                                                setShowConfirmPopup={setShowConfirmPopup}
-                                                setShowMessageAlertPopup={setShowMessageAlertPopup}
-                                                setOptionText={setOptionText}
-                                                customIconArray={customIconArray}
-                                                setCustomIconArray={setCustomIconArray}
-                                                subStatus={subStatus}
-                                                radioValue={radioValue}
-                                                setRadioValue={setRadioValue}
-                                                redirectedType={redirectedType}
-                                                connectionError={connectionError}
-                                                showLoader={showLoader}
-                                                setShowLoader={setShowLoader}
-                                                inputType={inputType}
-                                                setInputType={setInputType}
-                                                integrationType={integrationType}
-                                                setIntegrationType={setIntegrationType}
-                                                shopifyStores={shopifyStores}
-                                                setShopifyStores={setShopifyStores}
-                                            />
-                                        }
-
-                                         { (!editID && !showLinkForm && !editFolderID) &&
-                                            <>
+                                            {!editID && !editFolderID && !showLinkForm ?
                                                 <div className="my_row link_row">
                                                     <div className="add_more_link">
                                                         <AddLink
@@ -424,81 +450,224 @@ function App() {
                                                             subStatus={subStatus}
                                                             setShowUpgradePopup={setShowUpgradePopup}
                                                             setOptionText={setOptionText}
-                                                            setRadioValue={setRadioValue}
                                                         />
                                                     </div>
-
-                                                    {!editFolderID &&
+                                                    <div className="add_more_link">
+                                                        <AddFolder
+                                                            subStatus={subStatus}
+                                                            setShowUpgradePopup={setShowUpgradePopup}
+                                                            setOptionText={setOptionText}
+                                                            setEditFolderID={setEditFolderID}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                :
+                                                editFolderID && !editID && !showLinkForm ?
+                                                    <div className="my_row link_row">
                                                         <div className="add_more_link">
-                                                            <AddFolder
+                                                            <AddLink
+                                                                setShowLinkForm={setShowLinkForm}
                                                                 subStatus={subStatus}
                                                                 setShowUpgradePopup={setShowUpgradePopup}
                                                                 setOptionText={setOptionText}
-                                                                setEditFolderID={setEditFolderID}
                                                             />
                                                         </div>
-                                                    }
+                                                    </div>
+                                                    :
+                                                    ""
+                                            }
+
+                                            {(showLinkForm || editID) &&
+                                                <div className="edit_form link my_row">
+                                                    <div className={"my_row tab_content_wrap"}>
+                                                        <div className={`accordion_row`}>
+                                                            <AccordionLink
+                                                                subStatus={subStatus}
+                                                                accordionValue={accordionValue}
+                                                                setAccordionValue={setAccordionValue}
+                                                                linkText="Standard Icon"
+                                                                type="standard"
+                                                            />
+                                                            {accordionValue === "standard" &&
+                                                                <div className={`inner_wrap ${accordionValue ===
+                                                                "standard" && "open"}`}>
+
+                                                                    <StandardForm
+                                                                        setAccordionValue={setAccordionValue}
+                                                                        accordionValue={accordionValue}
+                                                                        inputType={inputType}
+                                                                        setInputType={setInputType}
+                                                                        editID={editID}
+                                                                        subStatus={subStatus}
+                                                                        setShowLinkForm={setShowLinkForm}
+                                                                        setEditID={setEditID}
+                                                                        setShowUpgradePopup={setShowUpgradePopup}
+                                                                        setOptionText={setOptionText}
+                                                                        folderID={editFolderID}
+                                                                    />
+
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                        <div data-type="custom"
+                                                             className={`accordion_row ${!subStatus ? "disabled" : ""}`}
+                                                             onClick={(e) => handleDisabledClick(e)}
+                                                        >
+                                                            <AccordionLink
+                                                                accordionValue={accordionValue}
+                                                                setAccordionValue={setAccordionValue}
+                                                                linkText="Custom Icon"
+                                                                type="custom"
+                                                            />
+                                                            {accordionValue === "custom" &&
+                                                                <div className={`inner_wrap ${accordionValue ===
+                                                                "custom" && "open"}`}>
+
+                                                                    <CustomForm
+                                                                        accordionValue={accordionValue}
+                                                                        setAccordionValue={setAccordionValue}
+                                                                        inputType={inputType}
+                                                                        setInputType={setInputType}
+                                                                        editID={editID}
+                                                                        setShowLinkForm={setShowLinkForm}
+                                                                        setEditID={setEditID}
+                                                                        setShowLoader={setShowLoader}
+                                                                        folderID={editFolderID}
+                                                                    />
+
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                        {!editFolderID &&
+                                                            <div data-type="integration"
+                                                                 className={`accordion_row ${!subStatus ? "disabled" : ""}`}
+                                                                 onClick={(e) => handleDisabledClick(e)}
+                                                            >
+                                                                <AccordionLink
+                                                                    accordionValue={accordionValue}
+                                                                    setAccordionValue={setAccordionValue}
+                                                                    linkText="Integrations"
+                                                                    type="integration"
+                                                                />
+                                                                {accordionValue ===
+                                                                    "integration" &&
+                                                                    <div className={`inner_wrap ${accordionValue ===
+                                                                    "integration" &&
+                                                                    "open"}`}>
+
+                                                                        <IntegrationForm
+                                                                            accordionValue={accordionValue}
+                                                                            setAccordionValue={setAccordionValue}
+                                                                            editID={editID}
+                                                                            setShowLinkForm={setShowLinkForm}
+                                                                            setEditID={setEditID}
+                                                                            setShowMessageAlertPopup={setShowMessageAlertPopup}
+                                                                            setOptionText={setOptionText}
+                                                                            setShowLoader={setShowLoader}
+                                                                            setIntegrationType={setIntegrationType}
+                                                                            integrationType={integrationType}
+                                                                            connectionError={connectionError}
+                                                                            shopifyStores={shopifyStores}
+                                                                            setShopifyStores={setShopifyStores}
+                                                                            redirectedType={redirectedType}
+                                                                        />
+
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                        }
+                                                        <div data-type="offer"
+                                                             className={`accordion_row ${!subStatus ? "disabled" : ""}`}
+                                                             onClick={(e) => handleDisabledClick(e)}
+                                                        >
+                                                            <AccordionLink
+                                                                accordionValue={accordionValue}
+                                                                setAccordionValue={setAccordionValue}
+                                                                linkText="Affiliate Offers"
+                                                                type="offer"
+                                                            />
+                                                            {accordionValue === "offer" &&
+                                                                <div className={`inner_wrap ${accordionValue ===
+                                                                "offer" && "open"}`}>
+
+                                                                    <StandardForm
+                                                                        accordionValue={accordionValue}
+                                                                        setAccordionValue={setAccordionValue}
+                                                                        inputType={inputType}
+                                                                        setInputType={setInputType}
+                                                                        editID={editID}
+                                                                        subStatus={subStatus}
+                                                                        setShowLinkForm={setShowLinkForm}
+                                                                        setEditID={setEditID}
+                                                                        setShowUpgradePopup={setShowUpgradePopup}
+                                                                        setOptionText={setOptionText}
+                                                                        folderID={editFolderID}
+                                                                    />
+
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </>
-                                        }
+                                            }
 
+                                            { (editFolderID && !editID && !showLinkForm) ?
+                                                <div ref={iconsWrapRef} className='icons_wrap add_icons icons folder'>
+                                                    <ErrorBoundary FallbackComponent={errorFallback} onError={myErrorHandler}>
+                                                        <FolderLinks
+                                                            folderID={editFolderID}
+                                                            subStatus={subStatus}
+                                                            setShowUpgradePopup={setShowUpgradePopup}
+                                                            setOptionText={setOptionText}
+                                                            setEditFolderID={setEditFolderID}
+                                                            setEditID={setEditID}
+                                                            setShowConfirmFolderDelete={setShowConfirmFolderDelete}
+                                                            iconsWrapRef={iconsWrapRef}
+                                                            setAccordionValue={setAccordionValue}
+                                                        />
+                                                    </ErrorBoundary>
+                                                </div>
 
-                                        { (editFolderID && !editID && !showLinkForm) ?
-                                            <div ref={iconsWrapRef} className='icons_wrap add_icons icons folder'>
-                                                <ErrorBoundary FallbackComponent={errorFallback} onError={myErrorHandler}>
-                                                    <FolderLinks
-                                                        folderID={editFolderID}
-                                                        subStatus={subStatus}
-                                                        setShowUpgradePopup={setShowUpgradePopup}
-                                                        setOptionText={setOptionText}
-                                                        setEditFolderID={setEditFolderID}
-                                                        setEditID={setEditID}
-                                                        setShowConfirmFolderDelete={setShowConfirmFolderDelete}
-                                                        iconsWrapRef={iconsWrapRef}
-                                                    />
-                                                </ErrorBoundary>
-                                            </div>
+                                                :
 
-                                            :
+                                                (!showLinkForm && !editID && !editFolderID) &&
+                                                    <div ref={iconsWrapRef} className='icons_wrap add_icons icons'>
+                                                        <ErrorBoundary FallbackComponent={errorFallback} onError={myErrorHandler}>
+                                                            <Links
+                                                                setEditID={setEditID}
+                                                                setEditFolderID={setEditFolderID}
+                                                                subStatus={subStatus}
+                                                                setRow={setRow}
+                                                                setValue={setValue}
+                                                                setShowUpgradePopup={setShowUpgradePopup}
+                                                                setOptionText={setOptionText}
+                                                                iconsWrapRef={iconsWrapRef}
+                                                                setAccordionValue={setAccordionValue}
+                                                            />
+                                                        </ErrorBoundary>
+                                                    </div>
+                                            }
 
-                                            (!showLinkForm && !editID && !editFolderID) &&
-                                            <div ref={iconsWrapRef} className='icons_wrap add_icons icons'>
-                                                <ErrorBoundary FallbackComponent={errorFallback} onError={myErrorHandler}>
-                                                    <Links
-                                                        setEditID={setEditID}
-                                                        setEditFolderID={setEditFolderID}
-                                                        subStatus={subStatus}
-                                                        setRow={setRow}
-                                                        setValue={setValue}
-                                                        setShowUpgradePopup={setShowUpgradePopup}
-                                                        setOptionText={setOptionText}
-                                                        iconsWrapRef={iconsWrapRef}
-                                                    />
-                                                </ErrorBoundary>
-                                            </div>
-                                        }
-
+                                        </div>
                                     </div>
-                                </div>
-                                <div className={`right_column links_col preview ${showPreview ? "show" : ""}`}>
-                                    <Preview
-                                        setRef={headerRef}
-                                        profileRef={profileRef}
-                                        completedCrop={completedCrop}
-                                        completedProfileCrop={completedProfileCrop}
-                                        fileName={fileName}
-                                        profileFileName={profileFileName}
-                                        row={row}
-                                        setRow={setRow}
-                                        value={value}
-                                        setValue={setValue}
-                                        subStatus={subStatus}
-                                        pageHeaderRef={pageHeaderRef}
-                                        infoIndex={infoIndex}
-                                        setInfoIndex={setInfoIndex}
-                                        setShowPreview={setShowPreview}
-                                    />
-                                </div>
+                                    <div className={`right_column links_col preview ${showPreview ? "show" : ""}`}>
+                                        <Preview
+                                            setRef={headerRef}
+                                            profileRef={profileRef}
+                                            completedCrop={completedCrop}
+                                            completedProfileCrop={completedProfileCrop}
+                                            fileName={fileName}
+                                            profileFileName={profileFileName}
+                                            row={row}
+                                            setRow={setRow}
+                                            value={value}
+                                            setValue={setValue}
+                                            subStatus={subStatus}
+                                            pageHeaderRef={pageHeaderRef}
+                                            setShowPreview={setShowPreview}
+                                        />
+                                    </div>
+                                </ToolTipContextProvider>
                             </PageContext.Provider>
                         </OriginalFolderLinksContext.Provider>
                     </FolderLinksContext.Provider>

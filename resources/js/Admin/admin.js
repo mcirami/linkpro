@@ -1,5 +1,9 @@
 require('./custom');
 
 if (document.getElementById('admin_filters')) {
-    require('./Index');
+    require('./Filter');
+}
+
+if (document.getElementById('admin_affiliate_stats')) {
+    require('./AffiliateStats');
 }

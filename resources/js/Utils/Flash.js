@@ -2,9 +2,9 @@ import React, {useEffect, useContext} from 'react';
 import {MdCheckCircle, MdCancel} from 'react-icons/md';
 import {UserLinksContext} from '../Pages/Dashboard/App';
 
-export const Flash = ({msg, type, removeFlash, pageSettings}) => {
+export const Flash = ({msg, type, removeFlash}) => {
 
-    const { userLinks } = useContext(UserLinksContext);
+   //const { userLinks } = useContext(UserLinksContext);
 
     useEffect(() => {
 
@@ -13,7 +13,7 @@ export const Flash = ({msg, type, removeFlash, pageSettings}) => {
         }, 4000);
 
         return () => clearTimeout(timeout);
-    }, [userLinks, pageSettings])
+    }, [])
 
     return (
 

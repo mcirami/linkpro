@@ -34,8 +34,25 @@ if (document.getElementById('contact_form')) {
     require('./Pages/Contact/Index');
 }
 
+if (document.getElementById('creator')) {
+    require('./Pages/LPCreator/Index');
+}
 if (document.getElementById('off_canvas_menu')) {
     require('./Menu/Index');
 }
 
+if (document.getElementById('edit_course')) {
+    require('./Pages/CourseCreator/Index');
+}
 
+if (document.getElementById('live_landing_page')) {
+    require('./Pages/LiveLP/Index');
+}
+
+if (document.getElementById('single_course')) {
+    require('./Pages/SingleCourse');
+}
+
+if (document.getElementById('manager_table')) {
+    require('./Pages/CourseManager');
+}

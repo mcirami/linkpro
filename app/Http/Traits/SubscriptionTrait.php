@@ -3,6 +3,8 @@
 namespace App\Http\Traits;
 use App\Models\Referral;
 use Braintree\Gateway;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 trait SubscriptionTrait {
 
@@ -45,6 +47,19 @@ trait SubscriptionTrait {
         }
 
         return $match;
+    }
+
+    public function saveErrors($result) {
+        //$errorString = "";
+
+        foreach ($result->errors->deepAll() as $error) {
+            //$errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
+            DB::table('transaction_errors')->insert([
+                'code'          => $error->code,
+                'message'       => $error->message,
+                'attribute'     => $error->attribute,
+            ]);
+        }
     }
 
    /* public function addReferralSubID($user, $subscriptionID, $planID) {

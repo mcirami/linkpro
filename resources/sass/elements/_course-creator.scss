@@ -1,0 +1,76 @@
+.creator.course_creator {
+
+    #links_page {
+
+        .creator_wrap {
+
+            .left_column {
+
+                .button{
+                    display: block;
+                }
+
+                .edit_form form {
+                        .submit_circle.textarea, .cancel_icon.textarea {
+                            bottom: 15px;
+                            right: 10px;
+                    }
+                }
+            }
+
+            .preview {
+
+                .header {
+                    min-height: unset;
+                }
+
+                .top_section {
+                    border-bottom: 2px solid $black;
+                }
+
+                .logo {
+                    padding: 20px 0;
+                }
+
+                .intro_text {
+                    padding: 20px;
+
+                    p {
+                        margin: 0;
+                    }
+                }
+
+                .sections {
+
+                    section {
+
+                        p {
+                            margin: 0;
+                            text-align: left;
+                        }
+
+                        &.video {
+                            padding: 0;
+
+                            .text_wrap {
+                                padding: 15px;
+                            }
+
+                            p {
+                                margin-top: 10px;
+                            }
+                        }
+
+                        &.text {
+                            padding: 15px;
+
+                            p {
+                                text-align: center;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

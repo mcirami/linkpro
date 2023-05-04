@@ -1,16 +1,17 @@
-
-input[type="text"], select {
-    border: 1px solid $gray;
-    border-top-right-radius: 8px;
-    -webkit-border-top-right-radius: 8px;
-    -moz-border-radius-topright: 8px;
-    border-top-left-radius: 8px;
-    -webkit-border-top-left-radius: 8px;
-    -moz-border-radius-topleft: 8px;
-    height: 40px;
-    padding: 10px;
-    background-color: $white;
-    width: 100%;
+#admin_filters {
+    input[type="text"], select {
+        border: 1px solid $gray;
+        border-top-right-radius: 8px;
+        -webkit-border-top-right-radius: 8px;
+        -moz-border-radius-topright: 8px;
+        border-top-left-radius: 8px;
+        -webkit-border-top-left-radius: 8px;
+        -moz-border-radius-topleft: 8px;
+        height: 40px;
+        padding: 10px;
+        background-color: $white;
+        width: 100%;
+    }
 }
 
 .app-container.expanded .content-container .side-menu .navbar-header .navbar-brand .title {
@@ -133,6 +134,10 @@ input[type="text"], select {
             -ms-flex-wrap: wrap;
         }
 
+        &.filter_by {
+            margin-bottom: 20px;
+        }
+
         .column {
             width: 140px;
             margin-right: 1%;
@@ -145,7 +150,7 @@ input[type="text"], select {
                 margin-bottom: 10px;
             }
 
-            &:last-child {
+            &.clear {
                 margin-left: auto;
             }
         }

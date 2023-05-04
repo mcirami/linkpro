@@ -11,7 +11,7 @@ import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
 import {profileImage} from '../../../../Services/PageRequests';
 import {completedImageCrop} from '../../../../Services/ImageService';
-import ToolTipIcon from './ToolTipIcon';
+import ToolTipIcon from '../../../../Utils/ToolTips/ToolTipIcon';
 
 const PageProfile = ({
                          profileRef,
@@ -29,8 +29,6 @@ const PageProfile = ({
     const imgRef = useRef(null);
     const previewCanvasRef = profileRef;
     const [crop, setCrop] = useState({ unit: '%', width: 30, aspect: 1 });
-
-    const infoDiv = useRef();
 
     const onSelectFile = e => {
         let files = e.target.files || e.dataTransfer.files;
@@ -68,7 +66,7 @@ const PageProfile = ({
             return;
         }
 
-        completedImageCrop(completedProfileCrop, imgRef, previewCanvasRef);
+        completedImageCrop(completedProfileCrop, imgRef, previewCanvasRef.current);
 
     }, [completedProfileCrop]);
 

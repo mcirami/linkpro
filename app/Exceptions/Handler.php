@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Session;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -34,6 +35,18 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
+
+        $this->renderable(function (\Exception $e) {
+            if ($e->getPrevious() instanceof \Illuminate\Session\TokenMismatchException) {
+                if(isset($_GET['creator']) || !empty(Session::get('creator'))) {
+                    $creator = isset($_GET['creator']) ? $_GET['creator'] : Session::get('creator');
+                    return redirect( '/' . $creator . '/course/login' );
+                } else {
+                    return redirect()->route('login');
+                }
+            };
+        });
+
         $this->reportable(function (Throwable $e) {
             //
         });

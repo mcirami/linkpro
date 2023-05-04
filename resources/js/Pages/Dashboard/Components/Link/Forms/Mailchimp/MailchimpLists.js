@@ -5,15 +5,20 @@ import {
 import {isEmpty} from 'lodash';
 
 const MailchimpLists = ({
-                            handleChange,
                             currentLink,
                             setCurrentLink,
                             lists,
                             setLists,
-                            inputKey,
                             name,
-                            setInputType,
 }) => {
+
+    const handleChange = (e) => {
+
+        setCurrentLink({
+            ...currentLink,
+            mailchimp_list_id: e.target.value,
+        })
+    }
 
     const handleClick = (e) => {
         e.preventDefault();
@@ -26,7 +31,6 @@ const MailchimpLists = ({
                         ...currentLink,
                         active_status: 0,
                     })
-                    setInputType(null)
                 }
             }
         )
@@ -37,7 +41,7 @@ const MailchimpLists = ({
             <label htmlFor="mailchimp_list_id">Mailchimp List</label>
             <select
                 name={name}
-                onChange={(e) => handleChange(e, inputKey)}
+                onChange={(e) => handleChange(e)}
                 required
                 value={currentLink.mailchimp_list_id ||
                     undefined}

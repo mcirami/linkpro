@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Listeners\UpdateTransactionStatus;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -9,6 +10,7 @@ use SocialiteProviders\Manager\SocialiteWasCalled;
 use SocialiteProviders\MailChimp\MailChimpExtendSocialite;
 use SocialiteProviders\Shopify\ShopifyExtendSocialite;
 use Illuminate\Support\Facades\Event;
+use App\Events\PurchasedItem;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -24,6 +26,9 @@ class EventServiceProvider extends ServiceProvider
         SocialiteWasCalled::class => [
             ShopifyExtendSocialite::class.'@handle',
             MailChimpExtendSocialite::class.'@handle',
+        ],
+        PurchasedItem::class => [
+            UpdateTransactionStatus::class,
         ],
     ];
 

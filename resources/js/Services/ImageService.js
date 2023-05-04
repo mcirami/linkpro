@@ -19,7 +19,7 @@ const socialArray = [
 export const completedImageCrop = (completedCrop, imgRef, previewCanvasRef) => {
 
     const image = imgRef.current;
-    const canvas = previewCanvasRef.current;
+    const canvas = previewCanvasRef;
     const crop = completedCrop;
 
     const scaleX = image.naturalWidth / image.width;
@@ -45,6 +45,20 @@ export const completedImageCrop = (completedCrop, imgRef, previewCanvasRef) => {
         crop.height
     );
 }
+
+export const createImage = (file, setUpImg, setPageSettings = null, pageSettings = null) => {
+    let reader = new FileReader();
+    reader.onload = (e) => {
+        if (setPageSettings && pageSettings) {
+            setPageSettings({
+                ...pageSettings,
+                header_img: e.target.result,
+            });
+        }
+        setUpImg(e.target.result);
+    };
+    reader.readAsDataURL(file);
+};
 
 export const getIconPaths = (iconPaths) => {
 

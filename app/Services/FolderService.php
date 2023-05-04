@@ -84,6 +84,7 @@ class FolderService {
                 $newLink = $link->replicate([
                     'mailchimp_list_id',
                     'shopify_products',
+                    'shopify_id',
                     'type',
                 ]);
                 $newLink->setTable( 'deleted_links' );

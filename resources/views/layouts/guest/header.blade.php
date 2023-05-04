@@ -11,7 +11,10 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-
+     @if(Route::current()->getName() == 'course.checkout')
+        <script src="https://js.braintreegateway.com/web/3.82.0/js/client.min.js"></script>
+        <script src="https://js.braintreegateway.com/web/dropin/1.32.0/js/dropin.min.js"></script>
+    @endif
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -20,7 +23,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="guest">
-<div id="app">
+<div id="app" class="my_row">
     <header class="guest_header">
         <div class="column left">
             <h1><a href="/"><img src="{{ asset('images/logo.png') }}" alt="Link Pro"></a></h1>

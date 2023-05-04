@@ -67,5 +67,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'CORS' => \App\Http\Middleware\CORSMiddleware::class,
         'EnsureLinkIsCreated' => \App\Http\Middleware\EnsureLinkIsCreated::class,
+        'lp.user' => \App\Http\Middleware\LPUser::class,
+        'course.user' => \App\Http\Middleware\CourseUser::class,
     ];
 }

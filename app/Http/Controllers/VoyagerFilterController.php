@@ -1,18 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Subscription;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use TCG\Voyager\Facades\Voyager;
 use Illuminate\Http\Request;
-use App\Http\Traits\TrackingTrait;
+use App\Http\Traits\DateTrait;
 
 class VoyagerFilterController extends \TCG\Voyager\Http\Controllers\VoyagerBaseController
 {
-    use TrackingTrait;
+    use DateTrait;
 
     //***************************************
     //               ____
@@ -85,9 +84,12 @@ class VoyagerFilterController extends \TCG\Voyager\Http\Controllers\VoyagerBaseC
             } else if (isset($_GET['clear'])) {
                 $query = $model::select($dataType->name.'.*');
             } else {
+                //$query = $model::select($dataType->name.'.*');
                 $getData = $this->getDateRange(1);
                 if ($dataType->name == 'referrals') {
                     $query = $model::select($dataType->name.'.*')->whereBetween('updated_at', [ $getData['startDate'], $getData['endDate'] ]);
+                } else if($dataType->name == 'users') {
+                    $query = $model::select($dataType->name.'.*');
                 } else {
                     $query = $model::select($dataType->name.'.*')->whereBetween('created_at', [ $getData['startDate'], $getData['endDate'] ]);
                 }

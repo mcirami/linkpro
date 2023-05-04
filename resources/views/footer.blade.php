@@ -3,9 +3,10 @@
 @if(Route::is('create.page'))
     <footer>
         <ul>
-            <li><a class="open_popup" href="{{ route('how-it-works') }}">How It Works</a></li>
-            <li><a class="open_popup" href="/login">Login</a></li>
-            <li><a class="open_popup" href="/register">Sign Up</a></li>
+            <li><a href="{{ route('how-it-works') }}">How It Works</a></li>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/register">Sign Up</a></li>
+            <li><a href="{{ route('contact') }}">Contact Us</a></li>
         </ul>
         <small>&copy; Copyright LinkPro LLC | All Rights Reserved</small>
     </footer>

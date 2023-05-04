@@ -149,6 +149,56 @@
         }
     }
 
+    &.help {
+        padding: 10px;
+        right: -3px;
+        align-items: flex-start;
+        -webkit-align-items: flex-start;
+        z-index: -999;
+        background: $lightGrayAlt;
+        position: fixed;
+        max-width: 600px;
+
+        @media screen and (max-width: 768px) {
+            max-width: 80%;
+        }
+
+        &:after {
+            content: '';
+            position: absolute;
+            display: inline-block;
+            bottom: -10px;
+            right: 5px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 10px 8px 0 8px;
+            border-color: $lightGrayAlt transparent transparent transparent;
+
+        }
+
+        &.open {
+            opacity: 1;
+            z-index: 999 !important;
+        }
+
+        p, h3 {
+            font-size: 14px;
+            padding: 0;
+
+            @media screen and (max-width: 768px) {
+                font-size: 12px;
+            }
+        }
+
+        h5 {
+            margin: 5px 0;
+
+            @media all and (max-width: 768px) {
+                font-size: 14px;
+            }
+        }
+    }
 }
 
 .form_page.terms {
@@ -524,5 +574,62 @@
                 }
             }
         }
+    }
+}
+
+.delete_icon {
+    position: relative;
+    width: 50%;
+
+    .hover_text {
+        justify-content: flex-end;
+        -webkit-justify-content: flex-end;
+        top: -30px;
+        right: 0;
+
+        p {
+            @include osregular;
+            color: $black;
+            font-size: 12px;
+            margin-left: auto;
+            border: none;
+        }
+    }
+
+    &:hover {
+        .hover_text {
+            opacity: 1;
+        }
+    }
+}
+
+a.delete {
+    display: block;
+    color: $red;
+    width: 30px;
+    height: 30px;
+    float: right;
+
+    &:hover {
+        color: $darkGray;
+    }
+
+    svg {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.video_wrapper {
+    padding-bottom: 56.25%;
+    height: 0;
+    position: relative;
+
+    iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
     }
 }

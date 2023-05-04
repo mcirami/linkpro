@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const getPageStats = (packets) => {
 
-    return axios.post('/stats/page/range', packets).then(
+    return axios.post('/stats/page', packets).then(
         (response) => {
             //console.log(JSON.stringify(response.data));
             const returnData = response.data;
@@ -28,7 +28,7 @@ export const getPageStats = (packets) => {
 
 export const getLinkStats = (packets) => {
 
-    return axios.post('/stats/link/range', packets).then(
+    return axios.post('/stats/link', packets).then(
         (response) => {
             //console.log(JSON.stringify(response.data));
             const returnData = response.data.data;
@@ -36,8 +36,8 @@ export const getLinkStats = (packets) => {
 
             return {
                 success : true,
-                currentData: returnData["currentData"],
-                pastData: returnData["pastData"]
+                linkStats: returnData["currentData"],
+                deletedStats: returnData["pastData"]
             }
         },
 
@@ -56,7 +56,7 @@ export const getLinkStats = (packets) => {
 
 export const getFolderStats = (packets) => {
 
-    return axios.post('/stats/folder/range', packets).then(
+    return axios.post('/stats/folder', packets).then(
         (response) => {
             //console.log(JSON.stringify(response.data));
             const returnData = response.data.data;
@@ -82,4 +82,31 @@ export const getFolderStats = (packets) => {
     });
 }
 
-export default getPageStats;
+export const getAffiliateStats = (url, packets) => {
+
+    return axios.post(url, packets).then(
+        (response) => {
+            const returnData = response.data.data;
+            console.log(returnData);
+            return {
+                success : true,
+                affiliateData: returnData["affiliateData"],
+                totals: returnData["totals"]
+            }
+        },
+
+    ).catch(error => {
+        if (error.response) {
+            console.error(error.response);
+        } else {
+            console.error("ERROR:: ", error);
+        }
+
+        return {
+            success : false
+        }
+    });
+}
+
+//export default getPageStats;
+

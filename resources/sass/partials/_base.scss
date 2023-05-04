@@ -9,14 +9,20 @@ body.fixed {
     overflow: hidden;
 }
 
-.container {
-    max-width: 1600px !important;
-    padding-left: 100px;
+#app {
+    &.member {
+        .container {
+            max-width: 1600px !important;
+            padding-left: 100px;
 
-    @media screen and (max-width: 768px) {
-        padding-left: calc(var(--bs-gutter-x) * 0.5);
+            @media screen and (max-width: 768px) {
+                padding-left: calc(var(--bs-gutter-x) * 0.5);
+            }
+        }
     }
 }
+
+
 
 img {
     width: 100%;
@@ -33,7 +39,7 @@ main {
     padding: 50px 0 100px;
 
     @media all and (max-width: 768px) {
-        padding: 20px 0 40px;
+        padding: 100px 0 40px;
     }
 }
 
@@ -370,6 +376,7 @@ button {
 
     &.disabled {
         background: $gray;
+        box-shadow: unset;
 
         &:hover {
             background: $gray !important;
