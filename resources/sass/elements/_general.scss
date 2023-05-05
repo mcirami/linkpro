@@ -579,13 +579,13 @@
 
 .delete_icon {
     position: relative;
-    width: 50%;
 
     .hover_text {
         justify-content: flex-end;
         -webkit-justify-content: flex-end;
         top: -30px;
         right: 0;
+        width: 200px;
 
         p {
             @include osregular;
@@ -597,6 +597,12 @@
     }
 
     &:hover {
+        .hover_text {
+            opacity: 1;
+        }
+    }
+
+    a.delete:hover {
         .hover_text {
             opacity: 1;
         }

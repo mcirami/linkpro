@@ -20,13 +20,11 @@ import PreviewButton from '../Dashboard/Components/Preview/PreviewButton';
 import {previewButtonRequest} from '../../Services/PageRequests';
 import PublishButton from './Components/PublishButton';
 import InfoText from './Components/InfoText';
+import {MdKeyboardArrowDown} from 'react-icons/md';
 
 function App() {
 
-    //const [completedLogoCrop, setCompletedLogoCrop] = useState(null);
-    //const [fileNameLogo, setFileNameLogo] = useState(null);
-    //const [completedHeaderCrop, setCompletedHeaderCrop] = useState(null);
-    //const [fileNameHeader, setFileNameHeader] = useState(null);
+    const [openIndex, setOpenIndex] = useState([0]);
 
     const [pageData, dispatch] = useReducer(reducer, landingPageArray);
     const [sections, setSections] = useState(pageData["sections"]);
@@ -88,10 +86,17 @@ function App() {
 
     }, []);
 
-    /*console.log("completedCrop: ", completedCrop);
-    console.log("nodedRef: ", nodesRef);
-    console.log("colors: ", colors)*/
-   /* console.log("filenames: " , fileNames)*/
+    const handleSectionOpen = (rowIndex) => {
+        if(openIndex.includes(rowIndex)) {
+            const newArrayIndex = openIndex.filter(element => element !== rowIndex)
+            setOpenIndex(newArrayIndex)
+        } else {
+            const newArrayIndex = openIndex.concat(rowIndex);
+            setOpenIndex(newArrayIndex);
+        }
+    }
+
+    console.log(openIndex)
 
     const url = window.location.protocol + "//" + window.location.host + "/" + username;
 
@@ -250,7 +255,7 @@ function App() {
                         const {id, type, text, button_position, button, button_link} = section;
 
                         return (
-                            <section className="my_row" key={id}>
+                            <section className="my_row page_sections" key={id}>
                                 <div className="section_title">
                                     <h4>Section {index + 1}</h4>
                                     <DeleteSection
@@ -258,8 +263,11 @@ function App() {
                                         sections={sections}
                                         setSections={setSections}
                                     />
+                                    <div className={`icon_wrap ${openIndex.includes(index) ? "open" : ""}`} onClick={(e) => handleSectionOpen(index)}>
+                                        <MdKeyboardArrowDown />
+                                    </div>
                                 </div>
-                                <div className="section_content my_row">
+                                <div className={`section_content my_row ${openIndex.includes(index) ? "open" : ""}`}>
                                     {type === "text" &&
                                         <>
                                             <InputComponent

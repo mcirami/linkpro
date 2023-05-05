@@ -24,8 +24,8 @@ const DeleteSection = ({id, sections, setSections}) => {
             <a className="delete" href="#"
                onClick={(e) => handleDeleteClick(e)}>
                 <MdDeleteForever />
+                <div className="hover_text delete_folder"><p>Delete Section</p></div>
             </a>
-            <div className="hover_text delete_folder"><p>Delete Section</p></div>
         </div>
     );
 };

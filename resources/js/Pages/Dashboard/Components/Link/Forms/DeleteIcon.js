@@ -18,13 +18,11 @@ const DeleteIcon = ({
     }
 
     return (
-        <>
-            <a className="delete" href="#"
-               onClick={handleDeleteClick}>
-                <MdDeleteForever />
-            </a>
+        <a className="delete" href="#"
+           onClick={handleDeleteClick}>
+            <MdDeleteForever />
             <div className="hover_text delete_folder"><p>Delete {editID ? "Icon" : "Folder"}</p></div>
-        </>
+        </a>
     );
 };
 
