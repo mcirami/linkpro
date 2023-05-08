@@ -123,7 +123,7 @@ function App() {
             <div className="left_column">
                 <h3 className="mb-4 card_title">Create Your Course</h3>
                 <div className="content_wrap my_row creator" id="left_col_wrap">
-                    <section className="my_row section">
+                    <section className="my_row section_row">
                         <div className="section_title">
                             <h4>Title</h4>
                         </div>
@@ -146,7 +146,7 @@ function App() {
                             }
                         </div>
                     </section>
-                    <section className="my_row">
+                    <section className="my_row section_row">
                         <div className="section_title">
                             <h4>Buttons</h4>
                         </div>
@@ -175,7 +175,7 @@ function App() {
                             />
                         </div>
                     </section>
-                    <section className="my_row section">
+                    <section className="my_row section_row">
                         <div className="section_title">
                             <h4>Intro Video</h4>
                         </div>
@@ -191,7 +191,7 @@ function App() {
                             />
                         </div>
                     </section>
-                    <section className="my_row section">
+                    <section className="my_row section_row">
                         <div className="section_title">
                             <h4>Intro Text</h4>
                         </div>
@@ -214,112 +214,119 @@ function App() {
                         </div>
                     </section>
 
-                    {!isEmpty(sections) && sections.map((section, index) => {
+                    {!isEmpty(sections) &&
 
-                        const {id, type, text, video_title, video_link, button_position, button} = section;
+                        <section className="sections_wrap my_row">
+                            {sections.map((section, index) => {
 
-                        {type === "video" ? ++videoCount : ++textCount}
-                        return (
-                            <section className="my_row" key={id}>
-                                <div className="section_title">
-                                    <h4>{type} {type === "video" ? videoCount : textCount}</h4>
-                                    <DeleteSection
-                                        id={id}
-                                        sections={sections}
-                                        setSections={setSections}
-                                    />
-                                </div>
-                                <div className="section_content my_row">
-                                    {type === "text" ?
-                                        <>
-                                            <InputComponent
-                                                placeholder="Add Text"
-                                                type="textarea"
-                                                hoverText="Add Text to Section"
-                                                elementName={`section_${index + 1}_text`}
-                                                value={text}
-                                                currentSection={section}
-                                                sections={sections}
-                                                setSections={setSections}
-                                            />
-                                            <ColorPicker
-                                                label="Background Color"
-                                                currentSection={section}
-                                                sections={sections}
-                                                setSections={setSections}
-                                                elementName={`section_${index + 1}_background_color`}
-                                            />
-                                            <ColorPicker
-                                                label="Text Color"
-                                                currentSection={section}
-                                                sections={sections}
-                                                setSections={setSections}
-                                                elementName={`section_${index + 1}_text_color`}
-                                            />
-                                            <div className="my_row button_options">
-                                                <SectionButtonOptions
-                                                    position={index + 1}
-                                                    buttonPosition={button_position}
-                                                    includeButton={button}
+                                const {id, type, text, video_title, video_link, button_position, button} = section;
+
+                                {type === "video" ? ++videoCount : ++textCount}
+                                return (
+                                    <div className="row_wrap">
+                                        <div className="section_row" key={id}>
+                                            <div className="section_title">
+                                                <h4>{type} {type === "video" ? videoCount : textCount}</h4>
+                                                <DeleteSection
+                                                    id={id}
                                                     sections={sections}
                                                     setSections={setSections}
-                                                    id={id}
                                                 />
                                             </div>
-                                        </>
-                                        :
-                                        <>
-                                            <InputComponent
-                                                placeholder="Video Title"
-                                                type="text"
-                                                maxChar={65}
-                                                hoverText="Add Video Title"
-                                                elementName={`video_${index + 1}_title`}
-                                                value={video_title || ""}
-                                                currentSection={section}
-                                                sections={sections}
-                                                setSections={setSections}
-                                            />
-                                            <InputComponent
-                                                placeholder="YouTube or Vimeo Link"
-                                                type="url"
-                                                hoverText="Add Embed Link"
-                                                elementName={`video_${index + 1}_link`}
-                                                value={video_link || ""}
-                                                currentSection={section}
-                                                sections={sections}
-                                                setSections={setSections}
-                                            />
-                                            <InputComponent
-                                                placeholder="Video Text Blurb (optional)"
-                                                type="textarea"
-                                                hoverText={`Submit Text Blurb`}
-                                                elementName={`section_${index + 1}_text`}
-                                                value={text || ""}
-                                                currentSection={section}
-                                                sections={sections}
-                                                setSections={setSections}
-                                            />
-                                            <ColorPicker
-                                                label="Background Color"
-                                                currentSection={section}
-                                                sections={sections}
-                                                setSections={setSections}
-                                                elementName={`section_${index + 1}_background_color`}
-                                            />
-                                            <ColorPicker
-                                                label="Text Color"
-                                                currentSection={section}
-                                                sections={sections}
-                                                setSections={setSections}
-                                                elementName={`section_${index + 1}_text_color`}
-                                            />
-                                        </>
-                                    }
-                                </div>
-                            </section>
-                        )
-                    })}
+                                            <div className="section_content my_row">
+                                                {type === "text" ?
+                                                    <>
+                                                        <InputComponent
+                                                            placeholder="Add Text"
+                                                            type="textarea"
+                                                            hoverText="Add Text to Section"
+                                                            elementName={`section_${index + 1}_text`}
+                                                            value={text}
+                                                            currentSection={section}
+                                                            sections={sections}
+                                                            setSections={setSections}
+                                                        />
+                                                        <ColorPicker
+                                                            label="Background Color"
+                                                            currentSection={section}
+                                                            sections={sections}
+                                                            setSections={setSections}
+                                                            elementName={`section_${index + 1}_background_color`}
+                                                        />
+                                                        <ColorPicker
+                                                            label="Text Color"
+                                                            currentSection={section}
+                                                            sections={sections}
+                                                            setSections={setSections}
+                                                            elementName={`section_${index + 1}_text_color`}
+                                                        />
+                                                        <div className="my_row button_options">
+                                                            <SectionButtonOptions
+                                                                position={index + 1}
+                                                                buttonPosition={button_position}
+                                                                includeButton={button}
+                                                                sections={sections}
+                                                                setSections={setSections}
+                                                                id={id}
+                                                            />
+                                                        </div>
+                                                    </>
+                                                    :
+                                                    <>
+                                                        <InputComponent
+                                                            placeholder="Video Title"
+                                                            type="text"
+                                                            maxChar={65}
+                                                            hoverText="Add Video Title"
+                                                            elementName={`video_${index + 1}_title`}
+                                                            value={video_title || ""}
+                                                            currentSection={section}
+                                                            sections={sections}
+                                                            setSections={setSections}
+                                                        />
+                                                        <InputComponent
+                                                            placeholder="YouTube or Vimeo Link"
+                                                            type="url"
+                                                            hoverText="Add Embed Link"
+                                                            elementName={`video_${index + 1}_link`}
+                                                            value={video_link || ""}
+                                                            currentSection={section}
+                                                            sections={sections}
+                                                            setSections={setSections}
+                                                        />
+                                                        <InputComponent
+                                                            placeholder="Video Text Blurb (optional)"
+                                                            type="textarea"
+                                                            hoverText={`Submit Text Blurb`}
+                                                            elementName={`section_${index + 1}_text`}
+                                                            value={text || ""}
+                                                            currentSection={section}
+                                                            sections={sections}
+                                                            setSections={setSections}
+                                                        />
+                                                        <ColorPicker
+                                                            label="Background Color"
+                                                            currentSection={section}
+                                                            sections={sections}
+                                                            setSections={setSections}
+                                                            elementName={`section_${index + 1}_background_color`}
+                                                        />
+                                                        <ColorPicker
+                                                            label="Text Color"
+                                                            currentSection={section}
+                                                            sections={sections}
+                                                            setSections={setSections}
+                                                            elementName={`section_${index + 1}_text_color`}
+                                                        />
+                                                    </>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </section>
+                    }
 
                     <div className="link_row mb-5">
                         <AddTextSection
@@ -334,7 +341,7 @@ function App() {
                         />
                     </div>
 
-                    <section className="my_row">
+                    <section className="my_row section_row">
                         <div className="section_title">
                             <h4>Nitty Gritty</h4>
                         </div>

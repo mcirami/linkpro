@@ -141,7 +141,6 @@ const ImageComponent = ({
                 updateSectionImage(packets, currentSection.id)
                 .then((data) => {
                     if (data.success) {
-                        console.log(data.imagePath);
                         setSections(sections.map((section) => {
                             if (section.id === currentSection.id) {
                                 return {

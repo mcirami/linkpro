@@ -87,7 +87,6 @@ export const addSection = (packets, id, elementName) => {
             //const returnMessage = JSON.stringify(response.data.message);
             //EventBus.dispatch("success", { message: returnMessage.replace("_", " ") });
 
-            console.log(response.data.section);
             return {
                 success : true,
                 section: response.data.section

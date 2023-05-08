@@ -2,7 +2,12 @@ import React from 'react';
 import { ImPlus } from "react-icons/im";
 import {addSection} from '../../../Services/LandingPageRequests';
 
-const AddImageSection = ({sections, setSections, pageID}) => {
+const AddImageSection = ({
+                             sections,
+                             setSections,
+                             pageID,
+                             setOpenIndex
+}) => {
 
     const handleOnClick = (e) => {
         e.preventDefault();
@@ -18,6 +23,19 @@ const AddImageSection = ({sections, setSections, pageID}) => {
                     ...sections,
                     response.section
                 ])
+                const newIndex = sections.length;
+                setOpenIndex(prev => ([
+                    ...prev,
+                    newIndex
+                ]))
+                setTimeout(function(){
+                    document.querySelector('.my_row.page_sections:last-child').scrollIntoView({
+                        behavior: 'smooth',
+                        block: "start",
+                        inline: "nearest"
+                    });
+
+                }, 800)
             }
         })
     }

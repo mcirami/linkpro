@@ -96,8 +96,6 @@ function App() {
         }
     }
 
-    console.log(openIndex)
-
     const url = window.location.protocol + "//" + window.location.host + "/" + username;
 
     return (
@@ -125,7 +123,7 @@ function App() {
             <div className="left_column">
                 <h3 className="mb-4 card_title">Create Your Landing Page</h3>
                 <div className="content_wrap my_row creator" id="left_col_wrap">
-                    <section className="my_row">
+                    <section className="my_row section_row">
                         <div className="section_title">
                             <h4>Title</h4>
                         </div>
@@ -148,7 +146,7 @@ function App() {
                             }
                         </div>
                     </section>
-                    <section className="my_row section">
+                    <section className="my_row section section_row">
                         <div className="section_title">
                             <h4>Header</h4>
                         </div>
@@ -220,7 +218,7 @@ function App() {
                         </div>
                     </section>
 
-                    <section className="my_row">
+                    <section className="my_row section_row">
                         <div className="section_title">
                             <h4>Buttons</h4>
                         </div>
@@ -250,104 +248,116 @@ function App() {
                         </div>
                     </section>
 
-                    {!isEmpty(sections) && sections.map((section, index) => {
+                    {!isEmpty(sections) &&
 
-                        const {id, type, text, button_position, button, button_link} = section;
+                        <section className="sections_wrap my_row">
 
-                        return (
-                            <section className="my_row page_sections" key={id}>
-                                <div className="section_title">
-                                    <h4>Section {index + 1}</h4>
-                                    <DeleteSection
-                                        id={id}
-                                        sections={sections}
-                                        setSections={setSections}
-                                    />
-                                    <div className={`icon_wrap ${openIndex.includes(index) ? "open" : ""}`} onClick={(e) => handleSectionOpen(index)}>
-                                        <MdKeyboardArrowDown />
-                                    </div>
-                                </div>
-                                <div className={`section_content my_row ${openIndex.includes(index) ? "open" : ""}`}>
-                                    {type === "text" &&
-                                        <>
-                                            <InputComponent
-                                                placeholder="Add Text"
-                                                type="textarea"
-                                                hoverText={`Add Text to Section ${index +
-                                                1}`}
-                                                elementName={`section_${index +
-                                                1}_text`}
-                                                value={text}
-                                                currentSection={section}
+                            {sections.map((section, index) => {
+
+                                const {id, type, text, button_position, button, button_link} = section;
+
+                                return (
+                                    <div className="row_wrap">
+                                        <div className="section_row" key={id}>
+                                            <div className="section_title" onClick={(e) => handleSectionOpen(index)}>
+                                                <h4>Section {index + 1}</h4>
+                                                <div className={`icon_wrap ${openIndex.includes(index) ? "open" : ""}`}>
+                                                    <MdKeyboardArrowDown />
+                                                </div>
+                                            </div>
+                                            <div className={`section_content my_row ${openIndex.includes(index) ? "open" : ""}`}>
+                                                {type === "text" &&
+                                                    <>
+                                                        <InputComponent
+                                                            placeholder="Add Text"
+                                                            type="textarea"
+                                                            hoverText={`Add Text to Section ${index +
+                                                            1}`}
+                                                            elementName={`section_${index +
+                                                            1}_text`}
+                                                            value={text}
+                                                            currentSection={section}
+                                                            sections={sections}
+                                                            setSections={setSections}
+                                                        />
+                                                        <ColorPicker
+                                                            label="Background Color"
+                                                            currentSection={section}
+                                                            sections={sections}
+                                                            setSections={setSections}
+                                                            elementName={`section_${index +
+                                                            1}_bg_color`}
+                                                        />
+                                                        {/* <ColorPicker
+                                                            label="Text Color"
+                                                            currentSection={section}
+                                                            sections={sections}
+                                                            setSections={setSections}
+                                                            elementName={`section_${index + 1}_text_color`}
+                                                        />*/}
+                                                    </>
+                                                }
+                                                {type === "image" &&
+                                                    <ImageComponent
+                                                        nodesRef={nodesRef}
+                                                        completedCrop={completedCrop}
+                                                        setCompletedCrop={setCompletedCrop}
+                                                        fileNames={fileNames}
+                                                        setFileNames={setFileNames}
+                                                        setShowLoader={setShowLoader}
+                                                        currentSection={section}
+                                                        sections={sections}
+                                                        setSections={setSections}
+                                                        elementName={`section_${index + 1}_image`}
+                                                        cropArray={{
+                                                            unit: "%",
+                                                            width: 30,
+                                                            x: 25,
+                                                            y: 25,
+                                                            aspect: 16 / 8
+                                                        }}
+                                                    />
+                                                }
+                                                <div className="my_row">
+                                                    <SectionButtonOptions
+                                                        position={index + 1}
+                                                        buttonPosition={button_position}
+                                                        includeButton={button}
+                                                        sections={sections}
+                                                        setSections={setSections}
+                                                        button_link={button_link}
+                                                        courses={courses}
+                                                        id={id}
+                                                        url={url}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="sidebar">
+                                            <DeleteSection
+                                                id={id}
                                                 sections={sections}
                                                 setSections={setSections}
                                             />
-                                            <ColorPicker
-                                                label="Background Color"
-                                                currentSection={section}
-                                                sections={sections}
-                                                setSections={setSections}
-                                                elementName={`section_${index +
-                                                1}_bg_color`}
-                                            />
-                                            {/* <ColorPicker
-                                                label="Text Color"
-                                                currentSection={section}
-                                                sections={sections}
-                                                setSections={setSections}
-                                                elementName={`section_${index + 1}_text_color`}
-                                            />*/}
-                                        </>
-                                    }
-                                    {type === "image" &&
-                                        <ImageComponent
-                                            nodesRef={nodesRef}
-                                            completedCrop={completedCrop}
-                                            setCompletedCrop={setCompletedCrop}
-                                            fileNames={fileNames}
-                                            setFileNames={setFileNames}
-                                            setShowLoader={setShowLoader}
-                                            currentSection={section}
-                                            sections={sections}
-                                            setSections={setSections}
-                                            elementName={`section_${index + 1}_image`}
-                                            cropArray={{
-                                                unit: "%",
-                                                width: 30,
-                                                x: 25,
-                                                y: 25,
-                                                aspect: 16 / 8
-                                            }}
-                                        />
-                                    }
-                                    <div className="my_row">
-                                        <SectionButtonOptions
-                                            position={index + 1}
-                                            buttonPosition={button_position}
-                                            includeButton={button}
-                                            sections={sections}
-                                            setSections={setSections}
-                                            button_link={button_link}
-                                            courses={courses}
-                                            id={id}
-                                            url={url}
-                                        />
+                                        </div>
                                     </div>
-                                </div>
-                            </section>
-                        )
-                    })}
+                                )
+                            })}
+                        </section>
+                    }
 
                     <div className="link_row">
                         <AddTextSection
                             sections={sections}
                             setSections={setSections}
                             pageID={pageData["id"]}
+                            setOpenIndex={setOpenIndex}
                         />
                         <AddImageSection
                             sections={sections}
                             setSections={setSections}
                             pageID={pageData["id"]}
+                            setOpenIndex={setOpenIndex}
                         />
                     </div>
 
