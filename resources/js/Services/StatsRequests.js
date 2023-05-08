@@ -87,7 +87,6 @@ export const getAffiliateStats = (url, packets) => {
     return axios.post(url, packets).then(
         (response) => {
             const returnData = response.data.data;
-            console.log(returnData);
             return {
                 success : true,
                 affiliateData: returnData["affiliateData"],

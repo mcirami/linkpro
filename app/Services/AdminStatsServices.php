@@ -28,6 +28,7 @@ class AdminStatsServices {
     }
 
     public function getAllOfferStats($request) {
+
         $dates = $this->getDateValues($request);
 
         $offerData = $this->getOfferStatsByDate($dates["startDate"], $dates["endDate"]);
@@ -91,25 +92,26 @@ class AdminStatsServices {
                 ->select('offer_clicks.is_unique', 'offer_clicks.referral_id', 'purchases.purchase_amount', 'courses.title')
                 ->get();
 
-            if ($offerClicks) {
+            if (count($offerClicks) > 0) {
                 $payout = $this->calculatePayout($offerClicks, $offer->price, $offer->user_id);
                 $conversionCount = $this->countConversions($offerClicks->toArray());
-            }
 
-            $count = $offerClicks->countBy(function ($click) {
-                return $click['is_unique'];
-            })->toArray();
+                $count = $offerClicks->countBy(function ($click) {
+                    return $click['is_unique'];
+                })->toArray();
 
-            $object = [
-                'name'              => $offerClicks[0]->title,
-                'rawCount'          => array_key_exists(0, $count) ? $count[0] : 0,
-                'uniqueCount'       => array_key_exists(1, $count) ? $count[1] : 0,
-                'conversionCount'   => $conversionCount,
-                'payout'            => $payout,
-            ];
+                $object = [
+                    'name'              => $offerClicks[0]->title,
+                    'rawCount'          => array_key_exists(0, $count) ? $count[0] : 0,
+                    'uniqueCount'       => array_key_exists(1, $count) ? $count[1] : 0,
+                    'conversionCount'   => $conversionCount,
+                    'payout'            => $payout,
+                    'offerclicks'       => $offerClicks
+                ];
+
                 $totalsArray = $this->sumTotals($totalsArray, $object, null);
                 array_push( $offerArray, $object );
-
+            }
         }
 
         return [

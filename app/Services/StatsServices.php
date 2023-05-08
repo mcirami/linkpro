@@ -104,14 +104,20 @@ class StatsServices {
             if ($offer->user_id != $authUserID) {
 
                 $object = $this->getPublisherOfferStats($authUserID, $startDate, $endDate, $offer);
-                $totalsArray = $this->sumTotals($totalsArray, $object, null);
-                array_push( $offerArray, $object );
+
+                if (!empty($object)) {
+                    $totalsArray = $this->sumTotals( $totalsArray, $object, null );
+                    array_push( $offerArray, $object );
+                }
 
             } else {
 
                 $object = $this->getCreatorOfferStats($authUserID, $startDate, $endDate, $offer);
-                $totalsArray = $this->sumTotals($totalsArray, $object, null);
-                array_push($offerArray, $object );
+
+                if (!empty($object)) {
+                    $totalsArray = $this->sumTotals( $totalsArray, $object, null );
+                    array_push($offerArray, $object );
+                }
             }
         }
 
@@ -122,8 +128,9 @@ class StatsServices {
     }
 
     private function getCreatorOfferStats($authUserID, $startDate, $endDate, $offer) {
-        $payout = 0.00;
-        $conversionCount = 0;
+
+        $object = [];
+
         $offerClicks = $offer
             ->OfferClicks()
             ->whereBetween('offer_clicks.created_at', [ $startDate, $endDate ])
@@ -132,30 +139,33 @@ class StatsServices {
             ->select('users.username', 'offer_clicks.is_unique', 'offer_clicks.referral_id', 'purchases.purchase_amount')
             ->get();
 
-        if ($offerClicks) {
+        if (count($offerClicks) > 0) {
+
             $payout = $this->calculatePayout($offerClicks, $offer->price, $authUserID);
             $conversionCount = $this->countConversions($offerClicks->toArray());
+
+            $userStats = $this->groupStatsByUser($offerClicks, $authUserID);
+
+            $count = $offerClicks->countBy(function ($click) {
+                return $click['is_unique'];
+            })->toArray();
+
+            $object = [
+                'icon'              => $offer->icon,
+                'rawCount'          => array_key_exists(0, $count) ? $count[0] : 0,
+                'uniqueCount'       => array_key_exists(1, $count) ? $count[1] : 0,
+                'conversionCount'   => $conversionCount,
+                'payout'            => $payout,
+                'userStats'         => $userStats,
+            ];
         }
 
-        $userStats = $this->groupStatsByUser($offerClicks, $authUserID);
-
-        $count = $offerClicks->countBy(function ($click) {
-            return $click['is_unique'];
-        })->toArray();
-
-        return [
-            'icon'              => $offer->icon,
-            'rawCount'          => array_key_exists(0, $count) ? $count[0] : 0,
-            'uniqueCount'       => array_key_exists(1, $count) ? $count[1] : 0,
-            'conversionCount'   => $conversionCount,
-            'payout'            => $payout,
-            'userStats'         => $userStats,
-        ];
+        return $object;
     }
     private function getPublisherOfferStats($authUserID, $startDate, $endDate, $offer) {
 
-        $payout = 0.00;
-        $conversionCount = 0;
+
+        $object = [];
         $offerClicks = $offer
             ->OfferClicks()
             ->where( 'referral_id', '=', $authUserID )
@@ -165,22 +175,24 @@ class StatsServices {
             ->select('users.username', 'offer_clicks.is_unique', 'offer_clicks.referral_id', 'purchases.purchase_amount')
             ->get();
 
-        if ($offerClicks) {
+        if (count($offerClicks) > 0) {
             $payout = $this->calculatePayout($offerClicks, $offer->price, $offer->user_id);
             $conversionCount = $this->countConversions($offerClicks->toArray());
+
+            $count = $offerClicks->countBy(function ($click) {
+                return $click['is_unique'];
+            })->toArray();
+
+            $object = [
+                'icon'              => $offer->icon,
+                'rawCount'          => array_key_exists(0, $count) ? $count[0] : 0,
+                'uniqueCount'       => array_key_exists(1, $count) ? $count[1] : 0,
+                'conversionCount'   => $conversionCount,
+                'payout'            => $payout,
+            ];
         }
 
-        $count = $offerClicks->countBy(function ($click) {
-            return $click['is_unique'];
-        })->toArray();
-
-        return [
-            'icon'              => $offer->icon,
-            'rawCount'          => array_key_exists(0, $count) ? $count[0] : 0,
-            'uniqueCount'       => array_key_exists(1, $count) ? $count[1] : 0,
-            'conversionCount'   => $conversionCount,
-            'payout'            => $payout,
-        ];
+        return $object;
     }
 
     public function getAllPublisherStats($request) {
