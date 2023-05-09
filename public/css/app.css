@@ -17087,18 +17087,10 @@ a.delete svg {
 #links_page .creator_wrap .content_wrap .section_row .radios_wrap .radios input {
   margin-right: 3px;
 }
-#links_page .creator_wrap .content_wrap .row_wrap {
+#links_page .creator_wrap .content_wrap .sections_wrap .section_row {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: nowrap;
-  column-gap: 10px;
-  -moz-column-gap: 10px;
-  -webkit-column-gap: 10px;
-}
-#links_page .creator_wrap .content_wrap .row_wrap .sidebar {
-  padding-top: 15px;
-}
-#links_page .creator_wrap .content_wrap .row_wrap .section_row {
   width: 100%;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -17110,30 +17102,46 @@ a.delete svg {
   -moz-transition: padding-top 1s ease, padding-bottom 1s ease;
 }
 @media (max-width: 768px) {
-  #links_page .creator_wrap .content_wrap .row_wrap .section_row {
+  #links_page .creator_wrap .content_wrap .sections_wrap .section_row {
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 20px;
     padding-right: 20px;
   }
 }
-#links_page .creator_wrap .content_wrap .row_wrap .section_row .section_title {
+#links_page .creator_wrap .content_wrap .sections_wrap .section_row .section_title {
   margin-bottom: 0;
 }
-#links_page .creator_wrap .content_wrap .row_wrap .section_row .section_title:hover {
+#links_page .creator_wrap .content_wrap .sections_wrap .section_row .section_title .left_column {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  align-items: center;
+  -webkit-align-items: center;
+  column-gap: 10px;
+  -webkit-column-gap: 10px;
+  -moz-column-gap: 10px;
+}
+#links_page .creator_wrap .content_wrap .sections_wrap .section_row .section_title .left_column a.delete {
+  width: 25px;
+  height: 25px;
+}
+#links_page .creator_wrap .content_wrap .sections_wrap .section_row .section_title:hover {
   cursor: pointer;
 }
-#links_page .creator_wrap .content_wrap .row_wrap .section_row .section_title svg {
+#links_page .creator_wrap .content_wrap .sections_wrap .section_row .section_title svg {
   transition: all linear 0.5s;
   -webkit-transition: all linear 0.5s;
   -ms-transition: all linear 0.5s;
   -moz-transition: all linear 0.5s;
 }
-#links_page .creator_wrap .content_wrap .row_wrap .section_row .section_title .icon_wrap.open svg {
+#links_page .creator_wrap .content_wrap .sections_wrap .section_row .section_title .icon_wrap.open svg {
   transform: rotateZ(-180deg);
   -ms-transform: rotateZ(-180deg);
 }
-#links_page .creator_wrap .content_wrap .row_wrap .section_row:has(.section_content.open) {
+#links_page .creator_wrap .content_wrap .sections_wrap .section_row:has(.section_content.open) {
   padding-top: 15px;
   padding-bottom: 30px;
   padding-left: 30px;
@@ -17144,17 +17152,17 @@ a.delete svg {
   -moz-transition: padding-top 1s ease, padding-bottom 1s ease;
 }
 @media (max-width: 768px) {
-  #links_page .creator_wrap .content_wrap .row_wrap .section_row:has(.section_content.open) {
+  #links_page .creator_wrap .content_wrap .sections_wrap .section_row:has(.section_content.open) {
     padding-top: 15px;
     padding-bottom: 20px;
     padding-left: 20px;
     padding-right: 20px;
   }
 }
-#links_page .creator_wrap .content_wrap .row_wrap .section_row:has(.section_content.open) .delete_icon {
+#links_page .creator_wrap .content_wrap .sections_wrap .section_row:has(.section_content.open) .delete_icon {
   z-index: 0;
 }
-#links_page .creator_wrap .content_wrap .row_wrap .section_row .section_content {
+#links_page .creator_wrap .content_wrap .sections_wrap .section_row .section_content {
   max-height: 0;
   opacity: 0;
   margin-top: 0;
@@ -17164,7 +17172,7 @@ a.delete svg {
   -moz-transition: opacity 1s ease, max-height 0.5s ease, margin-top 1s ease, padding-top 1s ease, padding-bottom 1s ease;
   overflow: hidden;
 }
-#links_page .creator_wrap .content_wrap .row_wrap .section_row .section_content.open {
+#links_page .creator_wrap .content_wrap .sections_wrap .section_row .section_content.open {
   height: auto;
   max-height: 1000px;
   opacity: 1;

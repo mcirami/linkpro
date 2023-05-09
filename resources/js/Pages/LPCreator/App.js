@@ -257,88 +257,87 @@ function App() {
                                 const {id, type, text, button_position, button, button_link} = section;
 
                                 return (
-                                    <div className="row_wrap">
-                                        <div className="section_row" key={id}>
-                                            <div className="section_title" onClick={(e) => handleSectionOpen(index)}>
+
+                                    <div className="section_row" key={id}>
+                                        <div className="section_title" onClick={(e) => handleSectionOpen(index)}>
+                                            <div className="left_column">
                                                 <h4>Section {index + 1}</h4>
-                                                <div className={`icon_wrap ${openIndex.includes(index) ? "open" : ""}`}>
-                                                    <MdKeyboardArrowDown />
-                                                </div>
+                                                <DeleteSection
+                                                    id={id}
+                                                    sections={sections}
+                                                    setSections={setSections}
+                                                />
                                             </div>
-                                            <div className={`section_content my_row ${openIndex.includes(index) ? "open" : ""}`}>
-                                                {type === "text" &&
-                                                    <>
-                                                        <InputComponent
-                                                            placeholder="Add Text"
-                                                            type="textarea"
-                                                            hoverText={`Add Text to Section ${index +
-                                                            1}`}
-                                                            elementName={`section_${index +
-                                                            1}_text`}
-                                                            value={text}
-                                                            currentSection={section}
-                                                            sections={sections}
-                                                            setSections={setSections}
-                                                        />
-                                                        <ColorPicker
-                                                            label="Background Color"
-                                                            currentSection={section}
-                                                            sections={sections}
-                                                            setSections={setSections}
-                                                            elementName={`section_${index +
-                                                            1}_bg_color`}
-                                                        />
-                                                        {/* <ColorPicker
-                                                            label="Text Color"
-                                                            currentSection={section}
-                                                            sections={sections}
-                                                            setSections={setSections}
-                                                            elementName={`section_${index + 1}_text_color`}
-                                                        />*/}
-                                                    </>
-                                                }
-                                                {type === "image" &&
-                                                    <ImageComponent
-                                                        nodesRef={nodesRef}
-                                                        completedCrop={completedCrop}
-                                                        setCompletedCrop={setCompletedCrop}
-                                                        fileNames={fileNames}
-                                                        setFileNames={setFileNames}
-                                                        setShowLoader={setShowLoader}
+                                            <div className={`icon_wrap ${openIndex.includes(index) ? "open" : ""}`}>
+                                                <MdKeyboardArrowDown />
+                                            </div>
+                                        </div>
+                                        <div className={`section_content my_row ${openIndex.includes(index) ? "open" : ""}`}>
+                                            {type === "text" &&
+                                                <>
+                                                    <InputComponent
+                                                        placeholder="Add Text"
+                                                        type="textarea"
+                                                        hoverText={`Add Text to Section ${index +
+                                                        1}`}
+                                                        elementName={`section_${index +
+                                                        1}_text`}
+                                                        value={text}
                                                         currentSection={section}
                                                         sections={sections}
                                                         setSections={setSections}
-                                                        elementName={`section_${index + 1}_image`}
-                                                        cropArray={{
-                                                            unit: "%",
-                                                            width: 30,
-                                                            x: 25,
-                                                            y: 25,
-                                                            aspect: 16 / 8
-                                                        }}
                                                     />
-                                                }
-                                                <div className="my_row">
-                                                    <SectionButtonOptions
-                                                        position={index + 1}
-                                                        buttonPosition={button_position}
-                                                        includeButton={button}
+                                                    <ColorPicker
+                                                        label="Background Color"
+                                                        currentSection={section}
                                                         sections={sections}
                                                         setSections={setSections}
-                                                        button_link={button_link}
-                                                        courses={courses}
-                                                        id={id}
-                                                        url={url}
+                                                        elementName={`section_${index +
+                                                        1}_bg_color`}
                                                     />
-                                                </div>
+                                                    {/* <ColorPicker
+                                                        label="Text Color"
+                                                        currentSection={section}
+                                                        sections={sections}
+                                                        setSections={setSections}
+                                                        elementName={`section_${index + 1}_text_color`}
+                                                    />*/}
+                                                </>
+                                            }
+                                            {type === "image" &&
+                                                <ImageComponent
+                                                    nodesRef={nodesRef}
+                                                    completedCrop={completedCrop}
+                                                    setCompletedCrop={setCompletedCrop}
+                                                    fileNames={fileNames}
+                                                    setFileNames={setFileNames}
+                                                    setShowLoader={setShowLoader}
+                                                    currentSection={section}
+                                                    sections={sections}
+                                                    setSections={setSections}
+                                                    elementName={`section_${index + 1}_image`}
+                                                    cropArray={{
+                                                        unit: "%",
+                                                        width: 30,
+                                                        x: 25,
+                                                        y: 25,
+                                                        aspect: 16 / 8
+                                                    }}
+                                                />
+                                            }
+                                            <div className="my_row">
+                                                <SectionButtonOptions
+                                                    position={index + 1}
+                                                    buttonPosition={button_position}
+                                                    includeButton={button}
+                                                    sections={sections}
+                                                    setSections={setSections}
+                                                    button_link={button_link}
+                                                    courses={courses}
+                                                    id={id}
+                                                    url={url}
+                                                />
                                             </div>
-                                        </div>
-                                        <div className="sidebar">
-                                            <DeleteSection
-                                                id={id}
-                                                sections={sections}
-                                                setSections={setSections}
-                                            />
                                         </div>
                                     </div>
                                 )
