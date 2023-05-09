@@ -15943,6 +15943,8 @@ a.delete svg {
   display: inline-block;
   padding: 10px;
   color: #000;
+  z-index: 1;
+  position: relative;
 }
 #stats_page .tabs_wrap a.active {
   background: #ffffff;

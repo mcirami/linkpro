@@ -120,6 +120,8 @@ const FolderStats = ({
 
     }, [folderStatsDate])
 
+    console.log(folderStats);
+
     return (
         <div className="stats_wrap my_row position-relative">
             <Filters handleDateChange={handleDateChange}
@@ -137,37 +139,49 @@ const FolderStats = ({
                     </div>
                 </div>
             }
-            {folderStats.map((item) => {
-
-                const {id, name, clickCount, links } = item;
-
-                return (
-                    <div className="my_row" key={id}>
-                        <div className="my_row labels">
-                            <h5>Folder Name</h5>
-                            <h5>Folder Clicks</h5>
-                        </div>
-                        <div className="content_wrap">
-                            <div className="my_row title">
-                                <p> {name} </p>
-                                <p className="animate">{clickCount}</p>
-                            </div>
-
-                            <div className="table_wrap my_row table-responsive mb-4">
-                                {links?.length > 0 &&
-                                    <Table
-                                        isLoading={isLoading}
-                                        animate={animate}
-                                        /*totals={totals}*/
-                                        data={links}
-                                        columns={columns}
-                                    />
-                                }
-                            </div>
-                        </div>
+            {folderStats.length < 1 ?
+                <div className="my_row">
+                    <div className="my_row labels">
+                        <h5>Folder Name</h5>
+                        <h5>Folder Clicks</h5>
                     </div>
-                )
-            })}
+                    <div className="content_wrap">
+                        <h3>No Stats Available</h3>
+                    </div>
+                </div>
+                :
+                folderStats.map((item) => {
+
+                    const {id, name, clickCount, links } = item;
+
+                    return (
+                        <div className="my_row" key={id}>
+                            <div className="my_row labels">
+                                <h5>Folder Name</h5>
+                                <h5>Folder Clicks</h5>
+                            </div>
+                            <div className="content_wrap">
+                                <div className="my_row title">
+                                    <p> {name} </p>
+                                    <p className="animate">{clickCount}</p>
+                                </div>
+
+                                <div className="table_wrap my_row table-responsive mb-4">
+                                    {links?.length > 0 &&
+                                        <Table
+                                            isLoading={isLoading}
+                                            animate={animate}
+                                            /*totals={totals}*/
+                                            data={links}
+                                            columns={columns}
+                                        />
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    )
+                })
+            }
         </div>
     )
 }

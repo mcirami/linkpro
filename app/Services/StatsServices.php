@@ -10,7 +10,6 @@ use App\Models\Link;
 use App\Models\LinkVisit;
 use App\Models\Offer;
 use App\Models\OfferClick;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -52,19 +51,6 @@ class StatsServices {
             'pastData' => $pastData
         ];
     }
-
-    /**
-     * Get Deleted link stats for Current day
-     *
-     * @return array
-     */
-    /*public function getTodaysDeletedStats() {
-        $startDate = Carbon::now()->startOfDay();
-        $endDate = Carbon::now()->endOfDay();
-
-        return $this->getDeletedLinksStats($startDate, $endDate);
-
-    }*/
 
     public function getAllFolderStats($request) {
 
@@ -243,20 +229,25 @@ class StatsServices {
         $user = Auth::user();
 
         $pages = $user->pages()->get();
-        $pageArray = [];
+        $pageArray = array();
 
         foreach($pages as $page) {
+
             $visitCount = count($page->pageVisits()->whereBetween('created_at', [ $startDate, $endDate ])->get());
             $linkVisitCount = count(
                 LinkVisit::whereBetween('created_at', [ $startDate, $endDate ])->where('page_id', $page->id)->get()
             );
-            $object = [
-                "id"            => $page->id,
-                "pageName"      => $page->name,
-                "visits"        => $visitCount,
-                "linkVisits"    => $linkVisitCount
-            ];
-            array_push($pageArray, $object);
+
+            if($visitCount > 0 || $linkVisitCount > 0) {
+                $object = [
+                    "id"            => $page->id,
+                    "pageName"      => $page->name,
+                    "visits"        => $visitCount,
+                    "linkVisits"    => $linkVisitCount
+                ];
+                array_push($pageArray, $object);
+            }
+
         }
 
         return $pageArray;
@@ -266,7 +257,7 @@ class StatsServices {
         $user = Auth::user();
 
         $links = $user->links()->where('folder_id', null)->get();
-        $linksArray = [];
+        $linksArray = array();
 
         foreach($links as $link) {
 
@@ -274,13 +265,16 @@ class StatsServices {
                 $visitCount = count(
                     $link->linkVisits()->whereBetween('created_at', [ $startDate, $endDate ])->get()
                 );
-                $object     = [
-                    "id"        => $link->id,
-                    "iconName"  => $link->name,
-                    "icon"      => $link->icon,
-                    "visits"    => $visitCount
-                ];
-                array_push( $linksArray, $object );
+
+                if ($visitCount > 0) {
+                    $object = [
+                        "id"       => $link->id,
+                        "iconName" => $link->name,
+                        "icon"     => $link->icon,
+                        "visits"   => $visitCount
+                    ];
+                    array_push( $linksArray, $object );
+                }
             };
         }
 
@@ -288,27 +282,30 @@ class StatsServices {
     }
 
     private function getDeletedLinksStats($startDate, $endDate) {
-        $deletedArray = [];
+        $deletedArray = array();
 
         $deletedLinks = DB::table('deleted_links')->where('user_id', '=', Auth::id())->get();
         foreach ($deletedLinks as $deletedLink) {
             $visitCount = count(
                 LinkVisit::whereBetween('created_at', [ $startDate, $endDate ])->where('link_id', $deletedLink->link_id)->get()
             );
-            $object     = [
-                "id"        => $deletedLink->id,
-                "iconName"  => $deletedLink->name,
-                "icon"      => $deletedLink->icon,
-                "visits"    => $visitCount
-            ];
-            array_push( $deletedArray, $object );
+
+            if ($visitCount > 0) {
+                $object = [
+                    "id"       => $deletedLink->id,
+                    "iconName" => $deletedLink->name,
+                    "icon"     => $deletedLink->icon,
+                    "visits"   => $visitCount
+                ];
+                array_push( $deletedArray, $object );
+            }
         }
 
         return $deletedArray;
     }
     private function getFolderStats($startDate, $endDate) {
 
-        $folderArray = [];
+        $folderArray = array();
 
         $folders = Folder::where('user_id', '=', Auth::id())->get();
 
@@ -317,38 +314,42 @@ class StatsServices {
                 FolderClick::whereBetween('created_at', [ $startDate, $endDate ])->where('folder_uuid', $folder->uuid)->get()
             );
 
-            $folderLinkIDs = json_decode($folder->link_ids);
+            if ($folderClickCount > 0) {
 
-            $linksArray = [];
+                $folderLinkIDs = json_decode( $folder->link_ids );
 
-            if ($folderLinkIDs) {
+                $linksArray = [];
 
-                foreach ( $folderLinkIDs as $linkID ) {
+                if ( $folderLinkIDs ) {
 
-                    $link       = Link::where( 'id', $linkID )->get();
-                    $visitCount = count(
-                        LinkVisit::whereBetween( 'created_at', [ $startDate, $endDate ] )->where( 'link_id', $linkID )->get()
-                    );
+                    foreach ( $folderLinkIDs as $linkID ) {
 
-                    $linkObject = [
-                        "id"       => $link[0]->id,
-                        "iconName" => $link[0]->name,
-                        "icon"     => $link[0]->icon,
-                        "visits"   => $visitCount
-                    ];
+                        $link       = Link::where( 'id', $linkID )->get();
+                        $visitCount = count(
+                            LinkVisit::whereBetween( 'created_at', [ $startDate, $endDate ] )->where( 'link_id',
+                                $linkID )->get()
+                        );
 
-                    array_push( $linksArray, $linkObject );
+                        $linkObject = [
+                            "id"       => $link[0]->id,
+                            "iconName" => $link[0]->name,
+                            "icon"     => $link[0]->icon,
+                            "visits"   => $visitCount
+                        ];
+
+                        array_push( $linksArray, $linkObject );
+                    }
                 }
+
+                $object = [
+                    "id"         => $folder->uuid,
+                    "name"       => $folder->folder_name ?: "N/A",
+                    "clickCount" => $folderClickCount,
+                    "links"      => $linksArray
+                ];
+
+                array_push( $folderArray, $object );
             }
-
-            $object     = [
-                "id"            => $folder->uuid,
-                "name"          => $folder->folder_name ? : "N/A",
-                "clickCount"    => $folderClickCount,
-                "links"         => $linksArray
-            ];
-
-            array_push( $folderArray, $object );
         }
 
         return $folderArray;
