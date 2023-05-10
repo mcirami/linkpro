@@ -165,7 +165,7 @@ Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated', 'lp.user']], funct
 
 });
 
-Route::group(['middleware' => ['course.user']], function() {
+Route::group(['middleware' => ['course.user:course']], function() {
     Route::get('/{user:username}/password/reset/', [CoursePasswordController::class, 'showPasswordUpdate'])->name('show.password.update');
     Route::get('/{user:username}/course/login', [LoginController::class, 'courseLogin'])->name('course.login');
     Route::get('/{user:username}/course/reset-password', [CoursePasswordController::class, 'showResetPassword'])->name('show.reset.password');

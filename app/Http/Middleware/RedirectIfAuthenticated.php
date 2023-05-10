@@ -24,8 +24,8 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                if ($guard == "course") {
-                    $creator = Session::get('creator');
+                $creator = Session::get('creator');
+                if ($creator) {
                     return redirect('/' . $creator . "/courses");
                 }
                 return redirect(RouteServiceProvider::HOME);

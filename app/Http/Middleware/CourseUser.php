@@ -51,11 +51,12 @@ class CourseUser
 
             if ($user->id == $courseCreator->id) {
                 $this->setCreatorSession($courseCreator->username);
-                return $next($request);
             }
 
             return redirect()->route('dashboard');
         }
+
+        return $next($request);
     }
 
     /**

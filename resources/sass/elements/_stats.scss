@@ -69,12 +69,12 @@
 
             &:hover {
                 box-shadow: 0 0 10px 3px rgba(0, 0, 0, .2);
-                width: 42px;
-                height: 42px;
+                -moz-box-shadow:  0 0 10px 3px rgba(0, 0, 0, .2);
+                -webkit-box-shadow:  0 0 10px 3px rgba(0, 0, 0, .2);
+                -o-box-shadow:  0 0 10px 3px rgba(0, 0, 0, .2);
 
                 @media screen and (max-width: 768px) {
                     width: 100%;
-                    height: 40px;
                 }
             }
 

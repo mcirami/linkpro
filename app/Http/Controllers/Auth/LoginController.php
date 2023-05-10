@@ -170,12 +170,14 @@ class LoginController extends Controller
 
             $previousURL = Session::get('url.intended');
             if ($previousURL) {
-                return Redirect::intended();
+                return Redirect($previousURL);
             } else {
                 Session::put('creator', $creator);
                 return redirect('/' . $creator . '/courses');
             }
 
         }
+
+        return 0;
     }
 }

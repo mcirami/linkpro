@@ -46,6 +46,10 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+        'course' => [
+            'driver' => 'course.user',
+            'provider' => 'users',
+        ],
     ],
 
     /*

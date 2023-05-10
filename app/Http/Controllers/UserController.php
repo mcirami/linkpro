@@ -123,7 +123,7 @@ class UserController extends Controller
         );
     }
 
-    public function logout() {
+    public function logout(Request $request) {
         Auth::logout();
 
         if (Session::get( 'creator' )) {
@@ -132,7 +132,7 @@ class UserController extends Controller
             $path = "/login";
         }
 
-        Session::flush();
+        $request->session()->flush();
 
         return response()->json(['path' => $path]);
     }
