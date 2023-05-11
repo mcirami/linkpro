@@ -202,6 +202,7 @@ form .bottom_row a {
         .submit_circle.textarea, .cancel_icon.textarea {
             top: auto;
             bottom: 15px;
+            z-index: 1;
         }
 
         &.wysiwig {

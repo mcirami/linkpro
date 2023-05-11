@@ -33,7 +33,7 @@ function App() {
                 {sections?.map(( (section, index) => {
 
                     return (
-                        <SectionComponent page={page} section={section} key={index}/>
+                        <SectionComponent section={section} key={index}/>
                     )
                 }))}
 
