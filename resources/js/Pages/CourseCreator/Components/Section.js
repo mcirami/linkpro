@@ -13,7 +13,8 @@ const Section = ({
                      openIndex,
                      setOpenIndex,
                      videoCount,
-                     textCount
+                     textCount,
+                     setHoverSection
 
 }) => {
 
@@ -35,7 +36,11 @@ const Section = ({
     }
 
     return (
-        <div className="section_row" key={id}>
+        <div id={`section_${index + 1}`}
+             className="section_row"
+             onMouseEnter={(e) =>
+                 setHoverSection(e.target.id)
+             }>
             <div className="section_title" onClick={(e) => handleSectionOpen(index)}>
                 <div className="left_column">
                     <h4>{type} {type === "video" ? videoCount : textCount}</h4>

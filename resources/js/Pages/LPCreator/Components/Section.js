@@ -20,7 +20,8 @@ const Section = ({
                      url,
                      openIndex,
                      setOpenIndex,
-                     setShowLoader
+                     setShowLoader,
+                     handleMouseEnter
 }) => {
 
     const {id, type, text, button_position, button, button_link, button_size} = section;
@@ -37,7 +38,7 @@ const Section = ({
 
 
     return (
-        <div className="section_row">
+        <div className="section_row" id={`section_${index + 1}`} onMouseEnter={(e) => handleMouseEnter(e)}>
             <div className="section_title" onClick={(e) => handleSectionOpen(index)}>
                 <div className="left_column">
                     <h4>Section {index + 1}</h4>

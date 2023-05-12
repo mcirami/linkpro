@@ -27,7 +27,7 @@ import Section from './Components/Section';
 function App() {
 
     const [openIndex, setOpenIndex] = useState([0]);
-
+    const [hoverSection, setHoverSection] = useState(null);
     const [courseData, dispatch] = useReducer(reducer, courseArray);
     const [sections, setSections] = useState(courseArray["sections"]);
     const [offerData, dispatchOfferData] = useReducer(offerDataReducer, offerArray);
@@ -89,6 +89,10 @@ function App() {
 
     }, []);
 
+    const handleMouseHover = (e) => {
+        setHoverSection(e.target.id)
+    }
+
     const url = window.location.protocol + "//" + window.location.host + "/" + username + "/course/" + courseData["slug"];
     let videoCount = 0;
     let textCount = 0;
@@ -117,7 +121,11 @@ function App() {
             <div className="left_column">
                 <h3 className="mb-4 card_title">Create Your Course</h3>
                 <div className="content_wrap my_row creator" id="left_col_wrap">
-                    <section className="my_row section_row">
+                    <section id="title_section"
+                             className="my_row section_row"
+                             onMouseEnter={(e) =>
+                                 handleMouseHover(e)
+                            }>
                         <div className="section_title">
                             <h4>Title</h4>
                         </div>
@@ -140,36 +148,11 @@ function App() {
                             }
                         </div>
                     </section>
-                    {/*<section className="my_row section_row">
-                        <div className="section_title">
-                            <h4>Buttons</h4>
-                        </div>
-                        <div className="section_content my_row">
-                            <ColorPicker
-                                label="Button Color"
-                                courseData={courseData}
-                                dispatch={dispatch}
-                                elementName="button_color"
-                            />
-                            <ColorPicker
-                                label="Button Text Color"
-                                courseData={courseData}
-                                dispatch={dispatch}
-                                elementName="button_text_color"
-                            />
-                            <InputComponent
-                                placeholder="Update Button Text (optional)"
-                                type="text"
-                                maxChar={10}
-                                hoverText="Submit Button Text"
-                                elementName="button_text"
-                                courseData={courseData}
-                                value={courseData["button_text"]}
-                                dispatch={dispatch}
-                            />
-                        </div>
-                    </section>*/}
-                    <section className="my_row section_row">
+                    <section id="intro_video_section"
+                             className="my_row section_row"
+                             onMouseEnter={(e) =>
+                                 setHoverSection(e.target.id)
+                             }>
                         <div className="section_title">
                             <h4>Intro Video</h4>
                         </div>
@@ -185,7 +168,11 @@ function App() {
                             />
                         </div>
                     </section>
-                    <section className="my_row section_row">
+                    <section id="intro_text_section"
+                             className="my_row section_row"
+                             onMouseEnter={(e) =>
+                                 setHoverSection(e.target.id)
+                             }>
                         <div className="section_title">
                             <h4>Intro Text</h4>
                         </div>
@@ -227,6 +214,7 @@ function App() {
                                         setOpenIndex={setOpenIndex}
                                         videoCount={videoCount}
                                         textCount={textCount}
+                                        setHoverSection={setHoverSection}
                                     />
 
                                 )
@@ -304,6 +292,7 @@ function App() {
                     courseData={courseData}
                     setShowPreview={setShowPreview}
                     url={url}
+                    hoverSection={hoverSection}
                 />
             </div>
 

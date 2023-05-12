@@ -47,7 +47,11 @@ const PreviewSection = ({
     }
 
     return (
-        <section className={type} style={{ background: background_color || 'rgba(255,255,255,1)'}}>
+        <section
+            id={`preview_section_${index + 1}`}
+            className={type}
+            style={{ background: background_color || 'rgba(255,255,255,1)'}}
+        >
             {( !!button && button_position === "above") &&
                 <Button
                     buttonText={button_text}

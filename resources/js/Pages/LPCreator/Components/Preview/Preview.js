@@ -15,14 +15,24 @@ const Preview = ({
                      setFileNames,
                      pageData,
                      sections,
-                     setShowPreview
+                     setShowPreview,
+                     hoverSection
 }) => {
 
+    useEffect(() => {
 
-/*    const innerContentRef = createRef();
-    const previewWrapRef = createRef();
+        if (hoverSection) {
 
-    console.log("innerContentRef: ", innerContentRef.current)*/
+            const target = document.getElementById('preview_' + hoverSection);
+            if (hoverSection.includes("header")) {
+                target.parentNode.scrollTop = target.offsetTop;
+            } else {
+                target.parentNode.parentNode.scrollTop = target.offsetTop + 100;
+            }
+        }
+
+    },[hoverSection])
+
     useLayoutEffect(() => {
 
         PreviewHeight()
@@ -49,7 +59,7 @@ const Preview = ({
             <div className="links_wrap preview">
                 <div className="inner_content" id="preview_wrap" >
                     <div className="inner_content_wrap" >
-                        <section className="header">
+                        <section className="header" id="preview_header_section">
                             <TopBar
                                 nodesRef={nodesRef}
                                 completedCrop={completedCrop}
@@ -76,7 +86,6 @@ const Preview = ({
                                         completedCrop={completedCrop}
                                         fileNames={fileNames}
                                         setFileNames={setFileNames}
-                                        pageData={pageData}
                                         position={index + 1}
                                     />
                                 )

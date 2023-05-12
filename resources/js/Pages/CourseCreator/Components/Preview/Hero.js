@@ -30,15 +30,17 @@ const Hero = ({ courseData }) => {
     return (
         <div className="hero_section">
             {courseData['intro_video'] &&
-                <div className="video_wrapper">
+                <div className="video_wrapper" id="preview_intro_video_section">
                     <iframe src={courseData['intro_video']} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture;" allowFullScreen></iframe>
                 </div>
             }
             {courseData["intro_text"] &&
-                <article className="intro_text my_row" style={{
-                    background: courseData["intro_background_color"] ||
-                        'rgba(255,255,255,1)'
-                }}>
+                <article id="preview_intro_text_section"
+                         className="intro_text my_row"
+                         style={{
+                             background: courseData["intro_background_color"] || 'rgba(255,255,255,1)'
+                        }}
+                >
                     <div dangerouslySetInnerHTML={createMarkup(textValue)}></div>
                 </article>
             }

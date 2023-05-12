@@ -23,6 +23,8 @@ function App() {
 
     const [openIndex, setOpenIndex] = useState([0]);
 
+    const [hoverSection, setHoverSection] = useState(null);
+
     const [pageData, dispatch] = useReducer(reducer, landingPageArray);
     const [sections, setSections] = useState(pageData["sections"]);
     const [showPreviewButton, setShowPreviewButton] = useState(false);
@@ -83,6 +85,10 @@ function App() {
 
     }, []);
 
+    const handleMouseEnter = (e) => {
+        setHoverSection(e.target.id)
+    }
+
     const url = window.location.protocol + "//" + window.location.host + "/" + username;
 
     return (
@@ -133,7 +139,11 @@ function App() {
                             }
                         </div>
                     </section>
-                    <section className="my_row section section_row">
+                    <section id="header_section"
+                             className="my_row section section_row"
+                             onMouseEnter={(e) =>
+                                 handleMouseEnter(e)
+                            }>
                         <div className="section_title">
                             <h4>Header</h4>
                         </div>
@@ -228,6 +238,7 @@ function App() {
                                         openIndex={openIndex}
                                         setOpenIndex={setOpenIndex}
                                         setShowLoader={setShowLoader}
+                                        handleMouseEnter={handleMouseEnter}
                                     />
                                 )
                             })}
@@ -268,6 +279,7 @@ function App() {
                     sections={sections}
                     pageData={pageData}
                     setShowPreview={setShowPreview}
+                    hoverSection={hoverSection}
                 />
             </div>
 

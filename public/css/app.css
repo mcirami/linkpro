@@ -13125,6 +13125,7 @@ header.guest_header .column.right {
   -moz-border-radius: 28px;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none;
+  scroll-behavior: smooth;
 }
 #links_page .links_col .links_wrap.preview .inner_content .inner_content_wrap::-webkit-scrollbar {
   display: none;

@@ -396,6 +396,7 @@
                     -moz-border-radius: 28px;
                     -ms-overflow-style: none;  /* IE and Edge */
                     scrollbar-width: none;
+                    scroll-behavior: smooth;
 
                     &::-webkit-scrollbar {
                         display:none;

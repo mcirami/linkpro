@@ -12,14 +12,27 @@ const Preview = ({
                      courseData,
                      sections,
                      setShowPreview,
-                     url
+                     url,
+                     hoverSection
 }) => {
 
 
-/*    const innerContentRef = createRef();
-    const previewWrapRef = createRef();
 
-    console.log("innerContentRef: ", innerContentRef.current)*/
+    useEffect(() => {
+
+        if (hoverSection) {
+            const target = document.getElementById('preview_' + hoverSection);
+            if (hoverSection.includes("title")) {
+                target.parentNode.scrollTop = target.offsetTop;
+            } else if (hoverSection.includes("intro")) {
+                target.parentNode.parentNode.parentNode.scrollTop = target.offsetTop - 100;
+            } else {
+                target.parentNode.parentNode.scrollTop = target.offsetTop + 450;
+            }
+        }
+
+    },[hoverSection])
+
     useLayoutEffect(() => {
 
         PreviewHeight()
@@ -44,9 +57,9 @@ const Preview = ({
             </div>
 
             <div className="links_wrap preview">
-                <div className="inner_content" id="preview_wrap" >
+                <div className="inner_content" id="preview_wrap">
                     <div className="inner_content_wrap" >
-                        <section className="header">
+                        <section className="header" id="preview_title_section">
                             <TopBar />
                             {courseData['title'] &&
                                 <h2 className="title">{courseData['title']}</h2>

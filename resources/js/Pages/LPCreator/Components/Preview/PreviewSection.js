@@ -9,7 +9,6 @@ const PreviewSection = ({
                             completedCrop,
                             fileNames,
                             position,
-                            pageData
 }) => {
 
     const {
@@ -71,7 +70,7 @@ const PreviewSection = ({
     }
 
     return (
-        <section>
+        <section id={`preview_section_${position}`}>
             <div className={type} style={{ background: bg_color || 'rgba(255,255,255,1)'}}>
                 {( !!button && button_position === "above") &&
                     <Button
