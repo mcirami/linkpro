@@ -2,14 +2,25 @@ import React, {useEffect, useState} from 'react';
 import draftToHtml from 'draftjs-to-html';
 import DOMPurify from 'dompurify';
 
-const SectionComponent = ({page, section}) => {
+const SectionComponent = ({section}) => {
 
     //const bgImage = section.type === "image" && section.image ? section.image : Vapor.asset('images/image-placeholder.jpg');
 
     const [bgStyle, setBgStyle] = useState(null);
 
-    const {type, image, bg_color, button, button_position, button_link, text} = section;
-    const {button_color, button_text_color, button_text} = page;
+    const {
+        type,
+        image,
+        bg_color,
+        button,
+        button_position,
+        button_link,
+        button_color,
+        button_text_color,
+        button_text,
+        button_size,
+        text
+    } = section;
 
     const createMarkup = (text) => {
 
@@ -49,7 +60,8 @@ const SectionComponent = ({page, section}) => {
                             <a className={`button ${button_position}`}
                                style={{
                                    background: button_color,
-                                   color: button_text_color
+                                   color: button_text_color,
+                                   width: button_size + "%"
                                }}
                                href={button_link}
                             >
@@ -66,7 +78,8 @@ const SectionComponent = ({page, section}) => {
                             <a className={`button ${button_position}`}
                                style={{
                                    background: button_color,
-                                   color: button_text_color
+                                   color: button_text_color,
+                                   width: button_size + "%",
                                }}
                                href={button_link}
                             >

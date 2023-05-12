@@ -68,13 +68,7 @@ class LandingPageService {
        return $landingPage->LandingPageSections()->create([
            'user_id' => $userID,
            'type'  => $request->type,
-           'text' => null,
-           'bg_color' => null,
-           'text_color' => null,
-           'button' => false,
-           'button_position' => "above",
-           'image' => null,
-       ]);
+       ])->fresh();
     }
 
     public function saveLPSection($section, $request) {

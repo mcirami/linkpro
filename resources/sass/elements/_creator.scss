@@ -6,8 +6,17 @@
             padding-right: 0;
         }
 
-        .page_settings:last-child, .edit_form:last-child {
-            margin-bottom: 0;
+        .page_settings {
+            justify-content: space-between;
+            -webkit-justify-content: space-between;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            .edit_form:last-child {
+                margin-bottom: 0;
+            }
         }
 
         .content_wrap {
@@ -118,11 +127,6 @@
                 }
 
                 .section_content {
-                    /*border: 1px solid $borderGray;
-                    padding: 35px;
-                    border-radius: 20px;
-                    -webkit-border-radius: 20px;
-                    -moz-border-radius: 20px;*/
 
                     .url_wrap {
 
@@ -284,27 +288,77 @@
                 }
 
                 .button_options {
-                    padding-top: 20px;
                     border-top: 1px ridge;
                     border-color: rgba(155, 155, 155, .2);
+                    max-height: 0;
+                    opacity: 0;
+                    margin-top: 0;
+                    padding-top: 0;
+                    transition: opacity 1s ease, max-height .5s ease, margin-top .5s ease, padding-top .5s ease;
+                    -webkit-transition: opacity 1s ease, max-height .5s ease, margin-top .5s ease, padding-top .5s ease;
+                    -ms-transition: opacity 1s ease, max-height .5s ease, margin-top .5s ease, padding-top .5s ease;
+                    -moz-transition: opacity 1s ease, max-height .5s ease, margin-top .5s ease, padding-top .5s ease;
+                    overflow: hidden;
+
+                    &.open {
+                        height: auto;
+                        max-height: 1000px;
+                        opacity: 1;
+                        overflow: unset;
+                        margin-top: 20px;
+                        padding-top: 20px;
+                    }
                 }
 
                 .switch_wrap {
                     justify-content: space-between;
                     -webkit-justify-content: space-between;
-                    margin-bottom: 20px;
+                    margin-bottom: 0;
+                }
+
+                .slider_wrap {
+                    width: 100%;
+                    max-width: 165px;
                 }
 
                 h3 {
-                    font-size: 1.2em;
+                    font-size: 1rem;
                     margin: 0;
                 }
 
                 .radios_wrap {
-                    justify-content: space-between;
-                    -webkit-justify-content: space-between;
+                    width: 100%;
 
-                    .radios {
+                    .css-vqmohf-MuiButtonBase-root-MuiRadio-root.Mui-checked {
+                        color: $blue;
+                    }
+
+                    .css-ahj2mt-MuiTypography-root {
+                        @include osregular;
+                        font-size: .9rem;
+                    }
+
+                    .css-1nrlq1o-MuiFormControl-root {
+                        display: -webkit-box;
+                        display: -ms-flexbox;
+                        display: flex;
+                        -webkit-box-orient: horizontal;
+                        -webkit-box-direction: normal;
+                        -ms-flex-direction: row;
+                        flex-direction: row;
+                        -ms-flex-wrap: nowrap;
+                        flex-wrap: nowrap;
+                        justify-content: space-between;
+                        -webkit-justify-content: space-between;
+                        align-items: center;
+                        -webkit-align-items: center;
+
+                        .css-vqmohf-MuiButtonBase-root-MuiRadio-root {
+                            padding: 0 5px;
+                        }
+                    }
+
+                    /*.radios {
                         display: -webkit-box;
                         display: -ms-flexbox;
                         display: flex;
@@ -322,7 +376,7 @@
                         input {
                             margin-right: 3px;
                         }
-                    }
+                    }*/
                 }
             }
 
@@ -374,6 +428,10 @@
                             column-gap: 10px;
                             -webkit-column-gap: 10px;
                             -moz-column-gap: 10px;
+
+                            h4 {
+                                min-width: 70px;
+                            }
 
                             a.delete {
                                 width: 25px;

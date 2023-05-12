@@ -30,7 +30,7 @@ const AddTextSection = ({
                 ]))
 
                 setTimeout(function(){
-                    document.querySelector('.my_row.page_sections:last-child').scrollIntoView({
+                    document.querySelector('.sections_wrap .section_row:last-child').scrollIntoView({
                         behavior: 'smooth',
                         block: "start",
                         inline: "nearest"

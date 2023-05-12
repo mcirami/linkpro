@@ -24,10 +24,11 @@ const InputComponent = ({
 
     const [charactersLeft, setCharactersLeft] = useState(maxChar);
     const [isValid, setIsValid] = useState(false)
+    const [textInputValue, setTextInputValue] = useState(value);
 
     useEffect(() => {
-        if(value) {
-            setCharactersLeft(maxChar - value.length);
+        if(textInputValue) {
+            setCharactersLeft(maxChar - textInputValue.length);
             setIsValid(true);
         } else {
             setCharactersLeft(maxChar);
@@ -36,6 +37,7 @@ const InputComponent = ({
 
     const handleChange = (e) => {
         const value = e.target.value;
+        setTextInputValue(value);
         let check;
 
         if(maxChar) {
@@ -81,20 +83,19 @@ const InputComponent = ({
             element = element[2].replace('_', '');
 
             const packets = {
-                [`${element}`]: e.target.value,
+                [`${element}`]: textInputValue,
             };
 
             updateSectionData(packets, currentSection.id);
 
         } else {
-            const value = data[elementName];
             const packets = {
-                [`${elementName}`]: value,
+                [`${elementName}`]: textInputValue,
             };
 
             updateData(packets, data["id"], elementName)
             .then((response) => {
-                if (response.success) {
+                if (response.success  && response.slug) {
                     dispatch({
                         type: LP_ACTIONS.UPDATE_PAGE_DATA,
                         payload: {
@@ -132,48 +133,37 @@ const InputComponent = ({
 
         <div className="edit_form">
             <form onSubmit={handleSubmit}>
-                {{"text" :
-                    <input maxLength={maxChar}
-                           name={elementName}
-                           type="text"
-                           placeholder={placeholder}
-                           defaultValue={value || ""}
-                           onChange={(e) => handleChange(e)}
-                           onKeyDown={event => {
-                               if (event.key === 'Enter') {
-                                   handleSubmit(event);
-                               }
-                           }}
-                           onBlur={(e) => handleSubmit(e)}
-                    />,
+                {{
+                    "text" :
+                        <input maxLength={maxChar}
+                               name={elementName}
+                               type="text"
+                               placeholder={placeholder}
+                               defaultValue={textInputValue || ""}
+                               onChange={(e) => handleChange(e)}
+                               onKeyDown={event => {
+                                   if (event.key === 'Enter') {
+                                       handleSubmit(event);
+                                   }
+                               }}
+                               onBlur={(e) => handleSubmit(e)}
+                        />,
                     "textarea" :
-                        /*<textarea
-                            name={elementName}
-                            placeholder={placeholder}
-                            defaultValue={value || ""}
-                            rows={5}
-                            onChange={(e) => handleChange(e)}
-                            onKeyDown={event => {
-                                if (event.key === 'Enter') {
-                                    handleSubmit(event);
-                                }
-                            }}
-                            onBlur={(e) => handleSubmit(e)}
-                        ></textarea>*/
-                    <EditorComponent
-                        dispatch={dispatch}
-                        sections={sections}
-                        setSections={setSections}
-                        currentSection={currentSection}
-                        elementName={elementName}
-                        data={data}
-                        isValid={isValid}
-                        setIsValid={setIsValid}
-                    />
+                        <EditorComponent
+                            dispatch={dispatch}
+                            sections={sections}
+                            setSections={setSections}
+                            currentSection={currentSection}
+                            elementName={elementName}
+                            data={data}
+                            isValid={isValid}
+                            setIsValid={setIsValid}
+                        />
 
                 }[type]}
                 {isValid ?
-                    <a className={ `submit_circle ${type === "textarea" ? "textarea" : ""}`} href="#"
+                    <a className={ `submit_circle ${type === "textarea" ? "textarea" : ""}`}
+                       href="#"
                        onClick={(e) => handleSubmit(e)}
                     >
                         <FiThumbsUp />

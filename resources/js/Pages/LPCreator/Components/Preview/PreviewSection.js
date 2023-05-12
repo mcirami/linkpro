@@ -12,7 +12,20 @@ const PreviewSection = ({
                             pageData
 }) => {
 
-    const {type, bg_color, text_color, text, image, button, button_position, button_link} = currentSection;
+    const {
+        type,
+        bg_color,
+        text,
+        image,
+        button,
+        button_position,
+        button_link,
+        button_size,
+        button_text,
+        button_text_color,
+        button_color
+    } = currentSection;
+
     const [buttonStyle, setButtonStyle] = useState(null);
     const [textValue, setTextValue] = useState(text)
 
@@ -20,11 +33,12 @@ const PreviewSection = ({
 
     useEffect(() => {
         setButtonStyle ({
-            background: pageData["button_color"],
-            color: pageData["button_text_color"]
+            background: button_color,
+            color: button_text_color,
+            width: button_size + "%",
         })
 
-    },[pageData["button_color"], pageData["button_text"], pageData["button_text_color"]])
+    },[button_text_color, button_color, button_size])
 
     useEffect(() => {
 
@@ -46,7 +60,7 @@ const PreviewSection = ({
 
     const Button = ({buttonText}) => {
         return (
-            <div className={`button_wrap ${button_position ? button_position : "above"}`}>
+            <div className={`button_wrap my_row ${button_position ? button_position : "above"}`}>
                 <a href={button_link}
                    target="_blank"
                    className="button"
@@ -61,7 +75,7 @@ const PreviewSection = ({
             <div className={type} style={{ background: bg_color || 'rgba(255,255,255,1)'}}>
                 {( !!button && button_position === "above") &&
                     <Button
-                        buttonText={pageData["button_text"]}
+                        buttonText={button_text}
                     />
                 }
                 {{
@@ -80,7 +94,7 @@ const PreviewSection = ({
                 }[type]}
                 {( !!button && button_position === "below") &&
                     <Button
-                        buttonText={pageData["button_text"]}
+                        buttonText={button_text}
                     />
                 }
             </div>

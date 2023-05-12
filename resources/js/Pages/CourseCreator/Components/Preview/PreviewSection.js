@@ -3,27 +3,40 @@ import SectionVideo from './SectionVideo';
 
 const PreviewSection = ({
                             currentSection,
-                            position,
-                            courseData,
                             index,
                             url
 }) => {
 
 
-    const {type, background_color, text_color, text, video_title, video_link, button, button_position} = currentSection;
+    const {
+        type,
+        background_color,
+        text_color,
+        text,
+        video_title,
+        video_link,
+        button,
+        button_position,
+        button_color,
+        button_text_color,
+        button_text,
+        button_size
+    } = currentSection;
+
     const [buttonStyle, setButtonStyle] = useState(null);
 
     useEffect(() => {
         setButtonStyle ({
-            background: courseData["button_color"],
-            color: courseData["button_text_color"]
+            background: button_color,
+            color: button_text_color,
+            width: button_size + "%"
         })
 
-    },[courseData["button_color"], courseData["button_text"]])
+    },[button_color, button_text_color, button_size])
 
     const Button = ({buttonText}) => {
         return (
-            <div className={`button_wrap ${button_position ? button_position : "above"}`}>
+            <div className={`button_wrap my_row ${button_position ? button_position : "above"}`}>
                 <a href={`${url}/checkout`}
                    target="_blank"
                    className="button"
@@ -37,7 +50,7 @@ const PreviewSection = ({
         <section className={type} style={{ background: background_color || 'rgba(255,255,255,1)'}}>
             {( !!button && button_position === "above") &&
                 <Button
-                    buttonText={courseData["button_text"]}
+                    buttonText={button_text}
                 />
             }
             {{
@@ -58,7 +71,7 @@ const PreviewSection = ({
             }[type]}
             {( !!button && button_position === "below") &&
                 <Button
-                    buttonText={courseData["button_text"]}
+                    buttonText={button_text}
                 />
             }
         </section>
