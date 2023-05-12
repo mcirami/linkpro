@@ -68,10 +68,7 @@ class CourseService {
         return $course->CourseSections()->create([
            'user_id' => $userID,
            'type' => $request->type,
-           'text' => null,
-           'video_title' => null,
-           'video_link' => null,
-        ]);
+        ])->fresh();
     }
 
     public function saveSectionData($section, $request) {

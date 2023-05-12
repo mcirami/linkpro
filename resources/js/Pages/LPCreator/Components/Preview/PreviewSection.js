@@ -60,7 +60,7 @@ const PreviewSection = ({
 
     const Button = ({buttonText}) => {
         return (
-            <div className={`button_wrap ${button_position ? button_position : "above"}`}>
+            <div className={`button_wrap my_row ${button_position ? button_position : "above"}`}>
                 <a href={button_link}
                    target="_blank"
                    className="button"

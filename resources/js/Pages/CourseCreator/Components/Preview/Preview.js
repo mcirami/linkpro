@@ -62,9 +62,7 @@ const Preview = ({
                                     <PreviewSection
                                         key={section.id}
                                         currentSection={section}
-                                        position={index + 1}
                                         index={index}
-                                        courseData={courseData}
                                         url={url}
                                     />
                                 )

@@ -429,6 +429,10 @@
                             -webkit-column-gap: 10px;
                             -moz-column-gap: 10px;
 
+                            h4 {
+                                min-width: 70px;
+                            }
+
                             a.delete {
                                 width: 25px;
                                 height: 25px;

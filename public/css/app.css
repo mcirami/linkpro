@@ -17172,6 +17172,9 @@ a.delete svg {
   -webkit-column-gap: 10px;
   -moz-column-gap: 10px;
 }
+#links_page .creator_wrap .content_wrap .sections_wrap .section_row .section_title .left_column h4, #links_page .creator_wrap .content_wrap .sections_wrap .section_row .section_title .left_column .h4 {
+  min-width: 70px;
+}
 #links_page .creator_wrap .content_wrap .sections_wrap .section_row .section_title .left_column a.delete {
   width: 25px;
   height: 25px;

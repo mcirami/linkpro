@@ -19,10 +19,10 @@ const SectionButtonOptions = ({
                                   setSections,
                                   currentSection,
                                   id,
-                                  courses,
-                                  button_link,
+                                  courses = null,
+                                  button_link = null,
                                   buttonSize,
-                                  url
+                                  url = null
 }) => {
 
     const [includeButtonValue, setIncludeButtonValue] = useState(false);
