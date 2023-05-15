@@ -10,7 +10,11 @@ class CourseService {
 
     public function getCourses($user) {
 
-        return $user->Courses()->get()->toArray();
+        return $user->Offers()
+                    ->where('published', '=', true)
+                    ->leftJoin("courses", "offers.course_id", "=", "courses.id")
+                    ->select('courses.title', 'courses.slug')
+                    ->get()->toArray();
     }
 
     public function getCourseData($course) {

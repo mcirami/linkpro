@@ -6,7 +6,7 @@ import React, {
     useContext,
 } from 'react';
 import {MdDragHandle} from 'react-icons/md';
-import Switch from "react-switch";
+import Switch from '@mui/material/Switch'
 import {
     UserLinksContext,
     OriginalArrayContext,
@@ -237,7 +237,7 @@ const Links = ({
     }, [state.isPressed]);
 
     const handleChange = (currentItem, hasLinks, type) => {
-
+        console.log(currentItem);
         if(hasLinks) {
 
             if ((currentItem.type && currentItem.type === "folder") && !subStatus) {
@@ -437,14 +437,14 @@ const Links = ({
                                     <div className="my_row">
                                         <div className="switch_wrap">
                                             <Switch
-                                                onChange={(e) => handleChange(originalArray[key], hasLinks, type)}
-                                                height={20}
+                                                onChange={() => handleChange(originalArray[key], hasLinks, type)}
                                                 checked={Boolean(originalArray[key].active_status)}
-                                                onColor="#424fcf"
-                                                uncheckedIcon={false}
-                                                checkedIcon={false}
                                             />
-                                            <div className="hover_text switch"><p>{Boolean(originalArray[key].active_status) ? "Disable" : "Enable"} {type ? "Folder" : "Icon"}</p></div>
+                                            <div className="hover_text switch">
+                                                <p>
+                                                    {Boolean(originalArray[key].active_status) ? "Disable" : "Enable"} {type === "folder" ? "Folder" : "Icon"}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

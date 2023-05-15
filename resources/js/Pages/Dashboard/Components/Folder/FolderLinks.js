@@ -7,7 +7,7 @@ import React, {
     useContext,
 } from 'react';
 import {MdDragHandle} from 'react-icons/md';
-import Switch from "react-switch";
+import Switch from '@mui/material/Switch'
 import {
     UserLinksContext,
     OriginalArrayContext,
@@ -353,11 +353,7 @@ const FolderLinks = ({
                                         <div className="switch_wrap">
                                             <Switch
                                                 onChange={(e) => handleChange(originalFolderLinks[key])}
-                                                height={20}
                                                 checked={Boolean(originalFolderLinks[key].active_status)}
-                                                onColor="#424fcf"
-                                                uncheckedIcon={false}
-                                                checkedIcon={false}
                                             />
                                             <div className="hover_text switch"><p>{Boolean(originalFolderLinks[key].active_status) ? "Deactivate" : "Active"} Icon</p></div>
                                         </div>

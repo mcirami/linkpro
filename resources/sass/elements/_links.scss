@@ -232,7 +232,7 @@
                 border: 1px solid $gray;
             }
 
-            span {
+            .drag_handle {
                 background: $white;
                 border-bottom: 2px solid $lightGray;
                 border-top-right-radius: 20px;
@@ -253,23 +253,20 @@
                     }
                 }
 
-                &.drag_handle {
-                    &:hover {
-                        cursor: grab;
+                &:hover {
+                    cursor: grab;
 
-                        .hover_text {
-                            @media all and (min-width: 769px) {
-                                opacity: 1;
-                            }
+                    .hover_text {
+                        @media all and (min-width: 769px) {
+                            opacity: 1;
                         }
-
                     }
 
-                    &:active {
-                        cursor: grabbing;
-                    }
                 }
 
+                &:active {
+                    cursor: grabbing;
+                }
             }
 
             .column_content {
@@ -920,6 +917,7 @@
 
 .switch_wrap {
     position: relative;
+    margin-top: 5px;
 
     .hover_text {
         @media all and (max-width: 768px) {
@@ -936,17 +934,68 @@
         }
     }
 
-    .react-switch-bg {
-        @media screen and (max-width: 350px) {
-            height: 16px !important;
-            width: 52px !important;
+    .css-julti5-MuiSwitch-root {
+        padding: 0;
+        width: 58px;
+        height: 24px;
+
+        @include query(mobile) {
+            width: 54px;
+            height: 20px;
+        }
+
+        &.MuiSwitch-switchBase {
+            padding: 0;
+            margin: 2px;
+            transition-duration: 800ms;
+
+            &.Mui-checked {
+                transform: translateX(34px);
+                color: #fff;
+                padding: 2px;
+
+                + .MuiSwitch-track {
+                    background-color: #424fcf;
+                    opacity: 1;
+                    border: 0;
+                }
+
+                &.Mui-disabled + .MuiSwitch-track {
+                    opacity: 0.5;
+                }
+            }
+        }
+
+        .css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase {
+            padding: 2px;
+
+            &.Mui-checked {
+                transform: translateX(34px);
+                padding: 2px;
+                color: $white;
+
+                +.MuiSwitch-track {
+                    background-color: $blue;
+                    opacity: 1;
+                    border-radius: 50px;
+                }
+            }
+        }
+
+        .MuiSwitch-thumb {
+            color: #ffffff;
+            box-sizing: border-box;
+            width: 20px;
+            height: 20px;
+
+            @include query(mobile) {
+                width: 16px;
+                height: 16px;
+            }
         }
     }
 
-    .react-switch-handle {
-        @media screen and (max-width: 350px) {
-            height: 13px !important;
-            width: 13px !important;
-        }
+    .css-1yjjitx-MuiSwitch-track {
+        border-radius: 50px;
     }
 }
