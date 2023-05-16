@@ -2,6 +2,7 @@ import React, {useEffect, useState, useRef} from 'react';
 import SectionImage from './SectionImage';
 import DOMPurify from 'dompurify';
 import draftToHtml from 'draftjs-to-html';
+import {round} from 'lodash/math';
 
 const PreviewSection = ({
                             currentSection,
@@ -9,6 +10,7 @@ const PreviewSection = ({
                             completedCrop,
                             fileNames,
                             position,
+                            hoverSection
 }) => {
 
     const {
@@ -70,7 +72,7 @@ const PreviewSection = ({
     }
 
     return (
-        <section id={`preview_section_${position}`}>
+        <section id={`preview_section_${position}`} className={hoverSection === 'section_'+ position ? "active" : ""}>
             <div className={type} style={{ background: bg_color || 'rgba(255,255,255,1)'}}>
                 {( !!button && button_position === "above") &&
                     <Button

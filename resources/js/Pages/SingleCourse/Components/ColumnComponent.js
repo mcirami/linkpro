@@ -14,8 +14,22 @@ const ColumnComponent = ({
                              setPurchasePopup
 }) => {
 
-    const {id, type, text, text_color, video_title, video_link, background_color, button, button_position} = section;
-    const {button_color, button_text_color, button_text, slug} = course;
+    const {
+        type,
+        text,
+        text_color,
+        video_title,
+        video_link,
+        background_color,
+        button,
+        button_position,
+        button_text,
+        button_text_color,
+        button_color,
+        button_size
+    } = section;
+
+    const {slug} = course;
 
     let additionalVars = "";
     if (affRef && clickId) {
@@ -27,11 +41,8 @@ const ColumnComponent = ({
     const [mobileVideo, setMobileVideo] = useState(null);
     const [buttonStyle, setButtonStyle] = useState(null);
 
-    console.log("affRef: ", affRef);
-    console.log("clickId: ", clickId);
-
     useEffect(() => {
-        if (type === "video") {
+        if (type === "video" && video_link) {
             let split;
             if (video_link.includes('youtube')) {
                 split = video_link.split("/embed/");
@@ -67,8 +78,9 @@ const ColumnComponent = ({
 
         if(button) {
             setButtonStyle({
-                background: button_color || '#000000',
-                color: button_text_color || '#ffffff'
+                background: button_color,
+                color: button_text_color,
+                width: button_size + "%"
             })
         }
 
@@ -105,9 +117,9 @@ const ColumnComponent = ({
     const handleOverlayClick = () => {
         setPurchasePopup({
             show: true,
-            button_color: button_color || "#000000",
-            button_text_color: button_text_color || '#ffffff',
-            button_text: button_text || 'Buy Course',
+            button_color: button_color,
+            button_text_color: button_text_color,
+            button_text: button_text,
             button_link: buttonUrl
         })
     }

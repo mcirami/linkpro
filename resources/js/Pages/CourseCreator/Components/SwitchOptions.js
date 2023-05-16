@@ -79,25 +79,23 @@ const SwitchOptions = ({offerData, dispatchOffer}) => {
 
     return (
         <>
-            <div className="my_row">
-                <div className="switch_wrap page_settings border_wrap">
-                    <h3>Public</h3>
-                    <IOSSwitch
-                        onChange={() => handleChange('public')}
-                        checked={Boolean(offerData["public"])}
-                        disabled={!Boolean(offerData["published"])}
-                    />
-                </div>
+            <div className="switch_wrap page_settings border_wrap">
+                <h3>Public</h3>
+                <IOSSwitch
+                    onChange={() => handleChange('public')}
+                    checked={Boolean(offerData["public"])}
+                    disabled={!Boolean(offerData["published"])}
+                />
             </div>
-            <div className="my_row">
-                <div className="switch_wrap page_settings border_wrap">
-                    <h3>Active</h3>
-                    <IOSSwitch
-                        onChange={() => handleChange('active')}
-                        checked={Boolean(offerData["active"])}
-                        disabled={!Boolean(offerData["published"])}
-                    />
-                </div>
+
+
+            <div className="switch_wrap page_settings border_wrap">
+                <h3>Active</h3>
+                <IOSSwitch
+                    onChange={() => handleChange('active')}
+                    checked={Boolean(offerData["active"])}
+                    disabled={!Boolean(offerData["published"])}
+                />
             </div>
         </>
     );

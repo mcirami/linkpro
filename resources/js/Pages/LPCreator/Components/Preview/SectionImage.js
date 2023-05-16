@@ -41,7 +41,7 @@ const SectionImage = ({
     },[completedCrop[elementName], fileNames])
 
     return (
-        <div style={sectionImageStyle}>
+        <div className="image_bg" style={sectionImageStyle}>
             {checkFound() ?
                 <canvas
                     className={`${elementName}_bg_image`}

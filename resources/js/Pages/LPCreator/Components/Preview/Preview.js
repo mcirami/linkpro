@@ -25,8 +25,10 @@ const Preview = ({
 
             const target = document.getElementById('preview_' + hoverSection);
             if (hoverSection.includes("header")) {
+                console.log("if: ", target)
                 target.parentNode.scrollTop = target.offsetTop;
             } else {
+                console.log("else: ", target)
                 target.parentNode.parentNode.scrollTop = target.offsetTop + 100;
             }
         }
@@ -59,7 +61,7 @@ const Preview = ({
             <div className="links_wrap preview">
                 <div className="inner_content" id="preview_wrap" >
                     <div className="inner_content_wrap" >
-                        <section className="header" id="preview_header_section">
+                        <section className={`header ${hoverSection === 'header_section' ? "active" : ""}`} id="preview_header_section">
                             <TopBar
                                 nodesRef={nodesRef}
                                 completedCrop={completedCrop}
@@ -85,8 +87,8 @@ const Preview = ({
                                         nodesRef={nodesRef}
                                         completedCrop={completedCrop}
                                         fileNames={fileNames}
-                                        setFileNames={setFileNames}
                                         position={index + 1}
+                                        hoverSection={hoverSection}
                                     />
                                 )
                             })}
