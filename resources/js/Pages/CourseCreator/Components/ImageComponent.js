@@ -216,12 +216,13 @@ const ImageComponent = ({
                                     </span>
                                 </label>
                                 <input
-                                    className="custom"
+                                    className={`custom ${offerData["icon"] ? "active" : "" }`}
                                     id={`${elementName}_file_upload`}
                                     type="file"
                                     accept="image/png, image/jpeg, image/jpg, image/gif"
                                     onChange={onSelectFile}
                                 />
+                                <label>{placeholder}</label>
                             </div>
                             <div className="my_row info_text file_types">
                                 <p className="m-0 char_count w-100 ">

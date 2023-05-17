@@ -191,7 +191,7 @@ const InputComponent = ({
                 return false;
             }
         } else if (checkType === "maxChar") {
-            if ( (maxChar - value.length) >= 0) {
+            if ( (maxChar - value.length) >= 0 && value.length > 0) {
                 setIsValid(true);
                 return true;
             } else {
@@ -223,37 +223,41 @@ const InputComponent = ({
         switch(type) {
             case 'text' || 'url' :
                 return (
-                    <input maxLength={maxChar}
-                           name={elementName}
-                           type={type}
-                           placeholder={placeholder}
-                           defaultValue={value || ""}
-                           onChange={(e) => handleChange(e)}
-                           onKeyDown={event => {
-                               if (event.key === 'Enter') {
-                                   handleSubmit(event);
-                               }
-                           }}
-                           onBlur={(e) => handleSubmit(e)}
-                           onPaste={(e) => handleChange(e)}
-                    />
+                    <>
+                        <input maxLength={maxChar}
+                               name={elementName}
+                               type={type}
+                               defaultValue={value || ""}
+                               onChange={(e) => handleChange(e)}
+                               onKeyDown={event => {
+                                   if (event.key === 'Enter') {
+                                       handleSubmit(event);
+                                   }
+                               }}
+                               onBlur={(e) => handleSubmit(e)}
+                               onPaste={(e) => handleChange(e)}
+                        />
+                        <label htmlFor={elementName}>{placeholder}</label>
+                    </>
                 )
             case 'textarea':
                 return (
-                    <textarea
-                        name={elementName}
-                        placeholder={placeholder}
-                        defaultValue={value || ""}
-                        rows={5}
-                        onChange={(e) => handleChange(e)}
-                        onKeyDown={event => {
-                            if (event.key === 'Enter') {
-                                handleSubmit(event);
-                            }
-                        }}
-                        onBlur={(e) => handleSubmit(e)}
-                        onPaste={(e) => handleChange(e)}
-                    ></textarea>
+                    <>
+                        <textarea
+                            name={elementName}
+                            defaultValue={value || ""}
+                            rows={5}
+                            onChange={(e) => handleChange(e)}
+                            onKeyDown={event => {
+                                if (event.key === 'Enter') {
+                                    handleSubmit(event);
+                                }
+                            }}
+                            onBlur={(e) => handleSubmit(e)}
+                            onPaste={(e) => handleChange(e)}
+                        ></textarea>
+                        <label htmlFor={elementName}>{placeholder}</label>
+                    </>
                 )
             case 'wysiwyg':
                 return (
@@ -271,40 +275,43 @@ const InputComponent = ({
             case 'currency' :
 
                 return (
-                    <NumberFormat
-                        thousandSeparator={true}
-                        prefix={'$'}
-                        className="some"
-                        inputMode="numeric"
-                        value={offerData[elementName] || ""}
-                        placeholder={placeholder}
-                        decimalScale={2}
-                        fixedDecimalScale={true}
-                        allowNegative={false}
-                        onValueChange={(e) => handleChange(e)}
-                        onKeyDown={event => {
-                            if (event.key === 'Enter') {
-                                handleSubmit(event);
-                            }
-                        }}
-                        onBlur={(e) => handleSubmit(e)}
-                    />
+                    <>
+                        <NumberFormat
+                            thousandSeparator={true}
+                            prefix={'$'}
+                            inputMode="numeric"
+                            value={offerData[elementName] || ""}
+                            decimalScale={2}
+                            fixedDecimalScale={true}
+                            allowNegative={false}
+                            onValueChange={(e) => handleChange(e)}
+                            onKeyDown={event => {
+                                if (event.key === 'Enter') {
+                                    handleSubmit(event);
+                                }
+                            }}
+                            onBlur={(e) => handleSubmit(e)}
+                        />
+                        <label>{placeholder}</label>
+                    </>
                 )
             default:
                 return (
-                    <input maxLength={maxChar}
-                           name={elementName}
-                           type={type}
-                           placeholder={placeholder}
-                           defaultValue={value || ""}
-                           onChange={(e) => handleChange(e)}
-                           onKeyDown={event => {
-                               if (event.key === 'Enter') {
-                                   handleSubmit(event);
-                               }
-                           }}
-                           onBlur={(e) => handleSubmit(e)}
-                    />
+                    <>
+                        <input maxLength={maxChar}
+                               name={elementName}
+                               type={type}
+                               defaultValue={value || ""}
+                               onChange={(e) => handleChange(e)}
+                               onKeyDown={event => {
+                                   if (event.key === 'Enter') {
+                                       handleSubmit(event);
+                                   }
+                               }}
+                               onBlur={(e) => handleSubmit(e)}
+                        />
+                        <label htmlFor={elementName}>{placeholder}</label>
+                    </>
                 )
         }
     }

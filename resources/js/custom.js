@@ -572,4 +572,48 @@ jQuery(document).ready(function($) {
         }
     }
 
+    const inputs = document.querySelectorAll('input');
+
+    if (inputs.length > 0) {
+        inputs.forEach((inputEl) => {
+            if (document.activeElement === inputEl) {
+                inputEl.classList.add('active')
+            }
+            inputEl.addEventListener('focus', () => {
+                inputEl.classList.add('active')
+            })
+            inputEl.addEventListener('blur', () => {
+                if (inputEl.value === "") {
+                    inputEl.classList.remove('active')
+                }
+
+            })
+
+            if (inputEl.value !== "") {
+                inputEl.classList.add('active')
+            }
+        });
+    }
+
+    const textArea = document.querySelectorAll('textarea');
+    if (textArea.length > 0) {
+        textArea.forEach((inputEl) => {
+            if (document.activeElement === inputEl) {
+                inputEl.classList.add('active')
+            }
+            inputEl.addEventListener('focus', () => {
+                inputEl.classList.add('active')
+            })
+            inputEl.addEventListener('blur', () => {
+                if (inputEl.value === "") {
+                    inputEl.classList.remove('active')
+                }
+
+            })
+
+            if (inputEl.value !== "") {
+                inputEl.classList.add('active')
+            }
+        });
+    }
 });

@@ -77,34 +77,38 @@ const InputComponent = ({
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (sections) {
+        if(isValid) {
 
-            let element = elementName.split(/(\d+)/);
-            element = element[2].replace('_', '');
+            if (sections) {
 
-            const packets = {
-                [`${element}`]: textInputValue,
-            };
+                let element = elementName.split(/(\d+)/);
+                element = element[2].replace('_', '');
 
-            updateSectionData(packets, currentSection.id);
+                const packets = {
+                    [`${element}`]: textInputValue,
+                };
 
-        } else {
-            const packets = {
-                [`${elementName}`]: textInputValue,
-            };
+                updateSectionData(packets, currentSection.id);
 
-            updateData(packets, data["id"], elementName)
-            .then((response) => {
-                if (response.success  && response.slug) {
-                    dispatch({
-                        type: LP_ACTIONS.UPDATE_PAGE_DATA,
-                        payload: {
-                            value: response.slug,
-                            name: 'slug'
+            } else {
+
+                const packets = {
+                    [`${elementName}`]: textInputValue,
+                };
+
+                updateData(packets, data["id"], elementName).
+                    then((response) => {
+                        if (response.success && response.slug) {
+                            dispatch({
+                                type: LP_ACTIONS.UPDATE_PAGE_DATA,
+                                payload: {
+                                    value: response.slug,
+                                    name: 'slug'
+                                }
+                            })
                         }
                     })
-                }
-            })
+            }
         }
     }
 
@@ -119,7 +123,7 @@ const InputComponent = ({
                 return false;
             }
         } else if (checkType === "maxChar") {
-            if ( (maxChar - value.length) >= 0) {
+            if ( (maxChar - value.length) >= 0 && value.length > 0) {
                 setIsValid(true);
                 return true;
             } else {
@@ -135,19 +139,21 @@ const InputComponent = ({
             <form onSubmit={handleSubmit}>
                 {{
                     "text" :
-                        <input maxLength={maxChar}
-                               name={elementName}
-                               type="text"
-                               placeholder={placeholder}
-                               defaultValue={textInputValue || ""}
-                               onChange={(e) => handleChange(e)}
-                               onKeyDown={event => {
-                                   if (event.key === 'Enter') {
-                                       handleSubmit(event);
-                                   }
-                               }}
-                               onBlur={(e) => handleSubmit(e)}
-                        />,
+                        <div>
+                            <input maxLength={maxChar}
+                                   name={elementName}
+                                   type="text"
+                                   defaultValue={textInputValue || ""}
+                                   onChange={(e) => handleChange(e)}
+                                   onKeyDown={event => {
+                                       if (event.key === 'Enter') {
+                                           handleSubmit(event);
+                                       }
+                                   }}
+                                   onBlur={(e) => handleSubmit(e)}
+                            />
+                            <label>{placeholder}</label>
+                        </div>,
                     "textarea" :
                         <EditorComponent
                             dispatch={dispatch}

@@ -16,9 +16,8 @@
 
                     <div class="form-group row">
 
-                        <div class="col-md-8 mx-auto">
-                            <input placeholder="Username or Email"
-                                   id="identity"
+                        <div class="col-md-8 mx-auto position-relative">
+                            <input id="identity"
                                    type="text"
                                    class="form-control
                                    @error('username')
@@ -36,7 +35,7 @@
                                    required
                                    autofocus
                             >
-
+                            <label for="identity">E-mail or UserName</label>
                             @error('email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $errors->first('email') }}</strong>
@@ -59,15 +58,15 @@
 
                     <div class="form-group row">
 
-                        <div class="col-md-8 mx-auto">
-                            <input placeholder="Password"
-                                   id="password"
+                        <div class="col-md-8 mx-auto position-relative">
+                            <input id="password"
                                    type="password"
                                    class="form-control @error('password') is-invalid @enderror"
                                    name="password"
                                    required
                                    autocomplete="current-password"
                             >
+                            <label for="password">Password</label>
 
                             @error('password')
                                 <span class="invalid-feedback" role="alert">

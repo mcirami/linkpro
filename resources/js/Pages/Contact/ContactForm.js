@@ -64,54 +64,54 @@ const ContactForm = () => {
                 </div>
                 <form id="contact_form" onSubmit={handleSubmit}>
                     <div className="form-group row">
-                        <div className="col-sm-10 mx-auto">
+                        <div className="col-sm-10 mx-auto position-relative">
                             <input
                                 className="form-control"
                                 type="text"
                                 name="name"
-                                placeholder="Name"
                                 defaultValue={values.name}
                                 onChange={(e) => handleChange(e, "name")}
                             />
+                            <label htmlFor="name">Name</label>
                         </div>
                     </div>
                     <div className="form-group row">
-                        <div className="col-sm-10 mx-auto">
+                        <div className="col-sm-10 mx-auto position-relative">
                             <input
                                 className="form-control"
                                 type="email"
                                 name="email"
-                                placeholder="E-mail Address"
                                 defaultValue={values.email}
                                 onChange={(e) => handleChange(e, "email")}
                             />
+                            <label htmlFor="email">E-mail Address</label>
                         </div>
                     </div>
                     <div className="form-group row">
-                        <div className="col-sm-10 mx-auto">
+                        <div className="col-sm-10 mx-auto position-relative">
                             <select
                                 name="reason"
                                 id="reason"
                                 onChange={(e) => handleChange(e, "reason")}
+                                defaultValue="general"
                             >
-                                <option value="">Reason For Contact</option>
                                 <option value="general">General</option>
                                 <option value="support">Account Support</option>
                                 <option value="business">Business Inquiries</option>
                             </select>
+                            <label htmlFor="reason">Reason For Contact</label>
                         </div>
                     </div>
                     <div className="form-group row">
-                        <div className="col-sm-10 mx-auto">
-                <textarea
-                    name="message"
-                    rows="10"
-                    placeholder="Message"
-                    defaultValue={values.message}
-                    onChange={(e) => handleChange(e, "message")}
-                >
-
-                </textarea>
+                        <div className="col-sm-10 mx-auto position-relative">
+                            <textarea
+                                name="message"
+                                rows="10"
+                                defaultValue={values.message}
+                                onChange={(e) => handleChange(e, "message")}
+                            >
+                            </textarea>
+                            <label htmlFor="message">Message</label>
                         </div>
                     </div>
 

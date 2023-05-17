@@ -13560,17 +13560,40 @@ header.guest_header .column.right {
   z-index: 999;
 }
 
-input[type=text], input[type=tel], #card-element, input[type=email], input[type=password], input[type=url], textarea, #card-number, #expiration-date, #cvv, #postal-code, select {
+input[type=text], input[type=tel], #card-element, input[type=email], input[type=password], input[type=url], input[type=file], textarea, #card-number, #expiration-date, #cvv, #postal-code, select {
   border: 1px solid rgba(155, 155, 155, 0.2);
-  border-top-right-radius: 8px;
-  -webkit-border-top-right-radius: 8px;
-  -moz-border-radius-topright: 8px;
-  border-top-left-radius: 8px;
-  -webkit-border-top-left-radius: 8px;
-  -moz-border-radius-topleft: 8px;
-  height: 40px;
-  padding: 10px;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  height: 55px;
+  padding: 15px;
   background-color: #ffffff;
+  position: relative;
+}
+input[type=text]:focus, input[type=tel]:focus, #card-element:focus, input[type=email]:focus, input[type=password]:focus, input[type=url]:focus, input[type=file]:focus, textarea:focus, #card-number:focus, #expiration-date:focus, #cvv:focus, #postal-code:focus, select:focus {
+  border: 1px solid;
+  border-color: rgba(66, 79, 207, 0.4);
+  outline: 0;
+  box-shadow: none;
+}
+input[type=text] + label, input[type=tel] + label, #card-element + label, input[type=email] + label, input[type=password] + label, input[type=url] + label, input[type=file] + label, textarea + label, #card-number + label, #expiration-date + label, #cvv + label, #postal-code + label, select + label {
+  color: rgba(155, 155, 155, 0.6);
+  background: #ffffff;
+  position: absolute;
+  font-size: 16px;
+  top: 15px;
+  left: 15px;
+  transition: top 500ms ease-in-out, font-size 500ms ease-in-out, color 500ms ease-in-out;
+}
+input[type=text].active + label, input[type=tel].active + label, #card-element.active + label, input[type=email].active + label, input[type=password].active + label, input[type=url].active + label, input[type=file].active + label, textarea.active + label, #card-number.active + label, #expiration-date.active + label, #cvv.active + label, #postal-code.active + label, select.active + label {
+  line-height: 1;
+  color: rgba(66, 79, 207, 0.5);
+  top: -6px;
+  left: 20px;
+  font-size: 12px;
+}
+input[type=text].active:not(:focus) + label, input[type=tel].active:not(:focus) + label, #card-element.active:not(:focus) + label, input[type=email].active:not(:focus) + label, input[type=password].active:not(:focus) + label, input[type=url].active:not(:focus) + label, input[type=file].active:not(:focus) + label, textarea.active:not(:focus) + label, #card-number.active:not(:focus) + label, #expiration-date.active:not(:focus) + label, #cvv.active:not(:focus) + label, #postal-code.active:not(:focus) + label, select.active:not(:focus) + label {
+  color: rgba(155, 155, 155, 0.4);
 }
 
 input[type=text].disabled {
@@ -13581,6 +13604,11 @@ select {
   width: 100%;
   color: rgba(33, 37, 41, 0.7);
   padding: 5px 10px;
+}
+select + label {
+  top: -10px;
+  left: 20px;
+  font-size: 12px;
 }
 
 textarea {
@@ -13616,7 +13644,7 @@ label.custom {
   font-family: "opensansbold", sans-serif;
   width: 100%;
   margin: 0;
-  padding: 7px 10px;
+  padding: 15px 10px;
   border-radius: 8px;
   font-size: 16px;
   display: flex;
@@ -13662,7 +13690,7 @@ form .bottom_row a {
   position: relative;
 }
 .edit_form label {
-  margin: 5px 0 5px 5px;
+  margin: 0;
   align-self: flex-start;
   -webkit-align-self: flex-start;
   text-transform: capitalize;
@@ -13676,7 +13704,7 @@ form .bottom_row a {
 .edit_form form .cancel_icon, .edit_form form .submit_circle {
   position: absolute;
   right: 12px;
-  top: 4px;
+  top: 10px;
 }
 .edit_form form ::-moz-placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
   font-family: "opensanssemibold", sans-serif;

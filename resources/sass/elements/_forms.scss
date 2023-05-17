@@ -33,17 +33,50 @@
 }
 
 
-input[type="text"], input[type="tel"], #card-element, input[type="email"], input[type="password"], input[type="url"], textarea, #card-number, #expiration-date, #cvv, #postal-code, select {
+input[type="text"], input[type="tel"], #card-element, input[type="email"], input[type="password"], input[type="url"], input[type="file"], textarea, #card-number, #expiration-date, #cvv, #postal-code, select {
     border: 1px solid $borderGray;
-    border-top-right-radius: 8px;
-    -webkit-border-top-right-radius: 8px;
-    -moz-border-radius-topright: 8px;
-    border-top-left-radius: 8px;
-    -webkit-border-top-left-radius: 8px;
-    -moz-border-radius-topleft: 8px;
-    height: 40px;
-    padding: 10px;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    height: 55px;
+    padding: 15px;
     background-color: $white;
+    position: relative;
+
+    &:focus {
+        border: 1px solid;
+        border-color: rgba(66, 79, 207, .4);
+        outline: 0;
+        box-shadow: none;
+    }
+
+    + label {
+        color: rgba(155, 155, 155, 0.6);
+        background: $white;
+        position: absolute;
+        font-size: 16px;
+        top: 15px;
+        left: 15px;
+        transition: top 500ms ease-in-out, font-size 500ms ease-in-out, color 500ms ease-in-out;
+    }
+
+    &.active {
+
+        + label {
+            line-height: 1;
+            color: rgba(66, 79, 207, .5);
+            top: -6px;
+            left: 20px;
+            font-size: 12px;
+        }
+
+        &:not(:focus) {
+
+            + label {
+                color: rgba(155, 155, 155, 0.4);
+            }
+        }
+    }
 }
 
 input[type="text"].disabled {
@@ -54,6 +87,12 @@ select {
     width: 100%;
     color: rgba(33,37,41, .7);
     padding: 5px 10px;
+
+    + label {
+        top: -10px;
+        left: 20px;
+        font-size: 12px;
+    }
 }
 
 textarea {
@@ -87,7 +126,7 @@ label.custom {
     @include osbold;
     width: 100%;
     margin: 0;
-    padding: 7px 10px;
+    padding: 15px 10px;
     border-radius: 8px;
     font-size: 16px;
     display: -webkit-box;
@@ -148,7 +187,7 @@ form .bottom_row a {
     position: relative;
 
     label {
-        margin: 5px 0 5px 5px;
+        margin: 0;
         align-self: flex-start;
         -webkit-align-self: flex-start;
         text-transform: capitalize;
@@ -164,7 +203,7 @@ form .bottom_row a {
         .cancel_icon, .submit_circle {
             position: absolute;
             right: 12px;
-            top: 4px;
+            top: 10px;
         }
 
         ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
