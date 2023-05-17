@@ -42,11 +42,6 @@ const Section = ({
             <div className="section_title" onClick={(e) => handleSectionOpen(index)}>
                 <div className="left_column">
                     <h4>Section {index + 1}</h4>
-                    <DeleteSection
-                        id={id}
-                        sections={sections}
-                        setSections={setSections}
-                    />
                 </div>
                 <div className={`icon_wrap ${openIndex.includes(index) ? "open" : ""}`}>
                     <MdKeyboardArrowDown />
@@ -117,6 +112,11 @@ const Section = ({
                         url={url}
                     />
                 </div>
+                <DeleteSection
+                    id={id}
+                    sections={sections}
+                    setSections={setSections}
+                />
             </div>
         </div>
     );

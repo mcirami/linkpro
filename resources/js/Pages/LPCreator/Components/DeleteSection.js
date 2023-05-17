@@ -20,13 +20,10 @@ const DeleteSection = ({id, sections, setSections}) => {
     }
 
     return (
-        <div className="delete_icon">
-            <a className="delete" href="#"
-               onClick={(e) => handleDeleteClick(e)}>
-                <MdDeleteForever />
-                <div className="hover_text delete_folder"><p>Delete Section</p></div>
-            </a>
-        </div>
+        <a className="button red float-end" href="#"
+           onClick={(e) => handleDeleteClick(e)}>
+            Delete Section
+        </a>
     );
 };
 

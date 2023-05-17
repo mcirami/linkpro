@@ -17289,7 +17289,7 @@ a.delete svg {
 }
 #links_page .creator_wrap .content_wrap .sections_wrap .section_row .section_content.open {
   height: auto;
-  max-height: 1000px;
+  max-height: 2000px;
   opacity: 1;
   margin-top: 20px;
   overflow: unset;

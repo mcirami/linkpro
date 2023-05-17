@@ -161,7 +161,7 @@ const SectionButtonOptions = ({
 
     return (
         <>
-            <div className="switch_wrap page_settings border_wrap">
+            <div className={`switch_wrap page_settings border_wrap ${!button ? "mb-4" : "" }`}>
                 <h3>Include Button</h3>
                 <IOSSwitch
                     onChange={handleSwitchChange}

@@ -44,11 +44,6 @@ const Section = ({
             <div className="section_title" onClick={(e) => handleSectionOpen(index)}>
                 <div className="left_column">
                     <h4>{type} {type === "video" ? videoCount : textCount}</h4>
-                    <DeleteSection
-                        id={id}
-                        sections={sections}
-                        setSections={setSections}
-                    />
                 </div>
                 <div className={`icon_wrap ${openIndex.includes(index) ? "open" : ""}`}>
                     <MdKeyboardArrowDown />
@@ -140,6 +135,11 @@ const Section = ({
                         />
                     </>
                 }
+                <DeleteSection
+                    id={id}
+                    sections={sections}
+                    setSections={setSections}
+                />
             </div>
         </div>
     );

@@ -161,14 +161,14 @@ const SectionButtonOptions = ({
 
     return (
         <>
-            <div className="switch_wrap page_settings border_wrap">
+            <div className={`switch_wrap page_settings border_wrap`}>
                 <h3>Include Button</h3>
                 <IOSSwitch
                     onChange={handleSwitchChange}
                     checked={Boolean(includeButtonValue)}
                 />
             </div>
-            <div className={`button_options ${includeButtonValue ? "open" : ""}`}>
+            <div className={`button_options mb-4 ${includeButtonValue ? "open" : ""}`}>
                 <article className="page_settings border_wrap">
                     <div className="radios_wrap">
                         <FormControl>
