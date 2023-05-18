@@ -15,7 +15,7 @@
 
                     <div class="form-group row">
 
-                        <div class="col-sm-10 mx-auto position-relative">
+                        <div class="col-sm-10 mx-auto position-relative p-0">
                             <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
                             <label for="email">E-mail Address</label>
                             @error('email')
@@ -29,7 +29,7 @@
                     <div class="form-group row">
                         {{--<label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>--}}
 
-                        <div class="col-sm-10 mx-auto position-relative">
+                        <div class="col-sm-10 mx-auto position-relative p-0">
                             <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
                             <label for="password">Password</label>
                             @error('password')
@@ -43,7 +43,7 @@
                     <div class="form-group row">
                         {{--<label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
 --}}
-                        <div class="col-sm-10 mx-auto position-relative">
+                        <div class="col-sm-10 mx-auto position-relative p-0">
                             <input placeholder="Confirm Password" id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             <label for="password-confirm">Confirm Password</label>
                         </div>

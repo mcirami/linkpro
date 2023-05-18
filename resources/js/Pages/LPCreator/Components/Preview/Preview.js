@@ -24,12 +24,15 @@ const Preview = ({
         if (hoverSection) {
 
             const target = document.getElementById('preview_' + hoverSection);
-            if (hoverSection.includes("header")) {
-                console.log("if: ", target)
-                target.parentNode.scrollTop = target.offsetTop;
-            } else {
-                console.log("else: ", target)
-                target.parentNode.parentNode.scrollTop = target.offsetTop + 100;
+            if(target) {
+                if (hoverSection.includes("header")) {
+                    console.log("if: ", target)
+                    target.parentNode.scrollTop = target.offsetTop;
+                } else {
+                    console.log("else: ", target)
+                    target.parentNode.parentNode.scrollTop = target.offsetTop +
+                        100;
+                }
             }
         }
 

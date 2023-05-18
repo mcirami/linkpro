@@ -64,7 +64,7 @@ const ContactForm = () => {
                 </div>
                 <form id="contact_form" onSubmit={handleSubmit}>
                     <div className="form-group row">
-                        <div className="col-sm-10 mx-auto position-relative">
+                        <div className="col-sm-10 mx-auto position-relative p-0">
                             <input
                                 className="form-control"
                                 type="text"
@@ -76,7 +76,7 @@ const ContactForm = () => {
                         </div>
                     </div>
                     <div className="form-group row">
-                        <div className="col-sm-10 mx-auto position-relative">
+                        <div className="col-sm-10 mx-auto position-relative p-0">
                             <input
                                 className="form-control"
                                 type="email"
@@ -88,7 +88,7 @@ const ContactForm = () => {
                         </div>
                     </div>
                     <div className="form-group row">
-                        <div className="col-sm-10 mx-auto position-relative">
+                        <div className="col-sm-10 mx-auto position-relative p-0">
                             <select
                                 name="reason"
                                 id="reason"
@@ -103,7 +103,7 @@ const ContactForm = () => {
                         </div>
                     </div>
                     <div className="form-group row">
-                        <div className="col-sm-10 mx-auto position-relative">
+                        <div className="col-sm-10 mx-auto position-relative p-0">
                             <textarea
                                 name="message"
                                 rows="10"

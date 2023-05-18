@@ -1,5 +1,6 @@
 import React from 'react';
 import {updateSectionData} from '../../../Services/LandingPageRequests';
+import {MdKeyboardArrowDown} from 'react-icons/md';
 
 const DropdownComponent = ({
                                courses,
@@ -36,12 +37,15 @@ const DropdownComponent = ({
     }
 
     return (
-        <select name="courses" id="courses" onChange={(e) => handleChange(e)} value={button_link || ""}>
-            <option value="">Select Course</option>
-            {courses?.map((course, index) => {
-                return <option key={index} value={`${url}/course/${course.slug}`} >{course.title}</option>
-            })}
-        </select>
+        <div className="position-relative">
+            <select name="courses" id="courses" onChange={(e) => handleChange(e)} value={button_link || ""}>
+                <option>Select Course</option>
+                {courses?.map((course, index) => {
+                    return <option key={index} value={`${url}/course/${course.slug}`} >{course.title}</option>
+                })}
+            </select>
+            <label>Select Course</label>
+        </div>
     );
 };
 

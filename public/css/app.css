@@ -13589,7 +13589,7 @@ input[type=text].active + label, input[type=tel].active + label, #card-element.a
   line-height: 1;
   color: rgba(66, 79, 207, 0.5);
   top: -6px;
-  left: 20px;
+  left: 15px;
   font-size: 12px;
 }
 input[type=text].active:not(:focus) + label, input[type=tel].active:not(:focus) + label, #card-element.active:not(:focus) + label, input[type=email].active:not(:focus) + label, input[type=password].active:not(:focus) + label, input[type=url].active:not(:focus) + label, input[type=file].active:not(:focus) + label, textarea.active:not(:focus) + label, #card-number.active:not(:focus) + label, #expiration-date.active:not(:focus) + label, #cvv.active:not(:focus) + label, #postal-code.active:not(:focus) + label, select.active:not(:focus) + label {
@@ -13604,6 +13604,14 @@ select {
   width: 100%;
   color: rgba(33, 37, 41, 0.7);
   padding: 5px 10px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: transparent;
+  background-image: url('data:image/svg+xml;utf8,<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>');
+  background-repeat: no-repeat;
+  background-position-x: 100%;
+  background-position-y: 4px;
+  background-size: 40px;
 }
 select + label {
   top: -10px;
@@ -17017,7 +17025,7 @@ a.delete svg {
   color: #000;
   opacity: 1; /* Firefox */
   font-size: 16px;
-  padding: 5px;
+  padding: 15px;
 }
 #links_page .creator_wrap .content_wrap .section_row .section_content .url_wrap p {
   font-family: "opensanssemibold", sans-serif;

@@ -595,9 +595,9 @@ jQuery(document).ready(function($) {
         });
     }
 
-    const textArea = document.querySelectorAll('textarea');
-    if (textArea.length > 0) {
-        textArea.forEach((inputEl) => {
+    const textAreas = document.querySelectorAll('textarea');
+    if (textAreas.length > 0) {
+        textAreas.forEach((inputEl) => {
             if (document.activeElement === inputEl) {
                 inputEl.classList.add('active')
             }

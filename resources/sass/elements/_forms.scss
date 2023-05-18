@@ -66,7 +66,7 @@ input[type="text"], input[type="tel"], #card-element, input[type="email"], input
             line-height: 1;
             color: rgba(66, 79, 207, .5);
             top: -6px;
-            left: 20px;
+            left: 15px;
             font-size: 12px;
         }
 
@@ -87,6 +87,14 @@ select {
     width: 100%;
     color: rgba(33,37,41, .7);
     padding: 5px 10px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: transparent;
+    background-image: url('data:image/svg+xml;utf8,<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>');
+    background-repeat: no-repeat;
+    background-position-x: 100%;
+    background-position-y: 4px;
+    background-size: 40px;
 
     + label {
         top: -10px;

@@ -16,7 +16,7 @@
 
                     <div class="form-group row">
 
-                        <div class="col-md-8 mx-auto position-relative">
+                        <div class="col-md-8 mx-auto position-relative p-0">
                             <input id="identity"
                                    type="text"
                                    class="form-control
@@ -58,7 +58,7 @@
 
                     <div class="form-group row">
 
-                        <div class="col-md-8 mx-auto position-relative">
+                        <div class="col-md-8 mx-auto position-relative p-0">
                             <input id="password"
                                    type="password"
                                    class="form-control @error('password') is-invalid @enderror"
