@@ -1,10 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
-import { Editor } from "react-draft-wysiwyg";
-import { EditorState } from 'draft-js';
 import NumberFormat from 'react-currency-format';
 import validator from 'validator/es';
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import {
     updateData,
     updateSectionData,
@@ -160,9 +157,6 @@ const InputComponent = ({
                 const packets = {
                     [`${elementName}`]: courseData[elementName],
                 };
-
-                console.log("element name:", elementName);
-                console.log("value: ", courseData[elementName])
 
                 updateData(packets, courseData["id"], elementName)
                 .then((response) => {

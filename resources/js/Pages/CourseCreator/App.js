@@ -3,26 +3,24 @@ import React, {useState, useRef, useReducer, useEffect} from 'react';
 const courseArray = user.course;
 const offerArray = user.offerData;
 const username = user.username;
+
 import {Loader} from '../../Utils/Loader';
 import {Flash} from '../../Utils/Flash';
 import InputComponent from './Components/InputComponent';
 import ColorPicker from './Components/ColorPicker';
 import Preview from './Components/Preview/Preview';
-import VideoComponent from './Components/VideoComponent';
 import AddTextSection from './Components/AddTextSection';
 import AddVideoSection from './Components/AddVideoSection';
 import ImageComponent from './Components/ImageComponent';
-import SectionButtonOptions from './Components/SectionButtonOptions';
 import {offerDataReducer, reducer} from './Reducer';
 import EventBus from '../../Utils/Bus';
 import {isEmpty} from 'lodash';
-import DeleteSection from './Components/DeleteSection';
 import PreviewButton from '../Dashboard/Components/Preview/PreviewButton';
 import {previewButtonRequest} from '../../Services/PageRequests';
 import SwitchOptions from './Components/SwitchOptions';
 import PublishButton from './Components/PublishButton';
-import {MdKeyboardArrowDown} from 'react-icons/md';
 import Section from './Components/Section';
+import DropdownComponent from './Components/DropdownComponent';
 
 function App() {
 
@@ -127,7 +125,7 @@ function App() {
                                  handleMouseHover(e)
                             }>
                         <div className="section_title">
-                            <h4>Title</h4>
+                            <h4>General Info</h4>
                         </div>
                         <div className="section_content my_row">
                             <InputComponent
@@ -139,6 +137,11 @@ function App() {
                                 courseData={courseData}
                                 dispatch={dispatch}
                                 value={courseData["title"]}
+                            />
+                            <DropdownComponent
+                                id={courseData["id"]}
+                                dispatch={dispatch}
+                                value={courseData["category"] || ""}
                             />
                             {courseData["slug"] &&
                                 <div className="url_wrap">

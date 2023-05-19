@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Category;
 use App\Models\Course;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
@@ -20,6 +21,10 @@ class CourseService {
     public function getCourseData($course) {
         $courseData = $course->attributesToArray();
         $sections = $course->CourseSections()->get()->toArray();
+        $courseCategory = $course->categories()->orderBy('id', 'desc')->get();
+        if(count($courseCategory) > 0) {
+            $courseData["category"] = $courseCategory[0]["id"];
+        }
 
         $sectionArray = [];
         if (!empty($sections)) {
@@ -48,9 +53,13 @@ class CourseService {
         $keys = collect($request->all())->keys();
         $slug = null;
 
-        $course->update([
-            $keys[0] => $request[$keys[0]]
-        ]);
+        if($keys[0] == "category") {
+            $this->saveCourseCategory($course, $request[$keys[0]]);
+        } else {
+            $course->update([
+                $keys[0] => $request[$keys[0]]
+            ]);
+        }
 
         if ($keys[0] == "title") {
             $username = $course->user()->pluck('username')->first();
@@ -115,5 +124,17 @@ class CourseService {
         })->leftJoin('landing_pages', 'landing_pages.user_id', '=', 'courses.user_id')
           ->leftJoin('users', 'users.id', '=', 'courses.user_id')
           ->select('courses.*', 'landing_pages.slug as lp_slug', 'users.username')->get();
+    }
+
+    private function saveCourseCategory($course, $value) {
+
+        $categoryArray = [$value];
+        $category = Category::where('id', '=', $value)->pluck('parent_id');
+
+        if($category[0]) {
+            array_push($categoryArray,$category[0]);
+        }
+
+        $course->categories()->sync($categoryArray);
     }
 }

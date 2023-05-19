@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Course;
 use App\Models\CourseSection;
 use App\Models\User;
@@ -97,12 +98,14 @@ class CourseController extends Controller
         $courseData = $courseService->getCourseData($course);
         $landingPageData = $user->LandingPages()->select('logo','header_color')->get();
         $offerData = $courseService->getCourseOfferData($course);
+        $categories = Category::with('children')->whereNull('parent_id')->get();
 
         Javascript::put([
-            'course' => $courseData,
-            'LPData' => $landingPageData[0],
-            'offerData' => $offerData,
-            'username' => $user["username"]
+            'course'        => $courseData,
+            'LPData'        => $landingPageData[0],
+            'offerData'     => $offerData,
+            'username'      => $user["username"],
+            'categories'    => $categories
         ]);
 
         return view('courses.edit');

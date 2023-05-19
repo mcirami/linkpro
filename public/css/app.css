@@ -13603,7 +13603,7 @@ input[type=text].disabled {
 select {
   width: 100%;
   color: rgba(33, 37, 41, 0.7);
-  padding: 5px 10px;
+  padding: 5px 20px;
   -webkit-appearance: none;
   -moz-appearance: none;
   background: transparent;
@@ -17025,7 +17025,6 @@ a.delete svg {
   color: #000;
   opacity: 1; /* Firefox */
   font-size: 16px;
-  padding: 15px;
 }
 #links_page .creator_wrap .content_wrap .section_row .section_content .url_wrap p {
   font-family: "opensanssemibold", sans-serif;

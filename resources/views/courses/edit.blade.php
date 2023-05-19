@@ -3,7 +3,6 @@
 @section('content')
 
     <div class="container">
-
         <h2 class="page_title">Course Creator</h2>
         <section class="card edit_page creator course_creator">
             <div id="links_page">

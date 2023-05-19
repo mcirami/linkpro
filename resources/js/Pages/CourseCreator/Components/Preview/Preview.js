@@ -22,12 +22,16 @@ const Preview = ({
 
         if (hoverSection) {
             const target = document.getElementById('preview_' + hoverSection);
-            if (hoverSection.includes("title")) {
-                target.parentNode.scrollTop = target.offsetTop;
-            } else if (hoverSection.includes("intro")) {
-                target.parentNode.parentNode.parentNode.scrollTop = target.offsetTop - 100;
-            } else {
-                target.parentNode.parentNode.scrollTop = target.offsetTop + 450;
+            if (target) {
+                if (hoverSection.includes("title")) {
+                    target.parentNode.scrollTop = target.offsetTop;
+                } else if (hoverSection.includes("intro")) {
+                    target.parentNode.parentNode.parentNode.scrollTop = target.offsetTop -
+                        100;
+                } else {
+                    target.parentNode.parentNode.scrollTop = target.offsetTop +
+                        450;
+                }
             }
         }
 
