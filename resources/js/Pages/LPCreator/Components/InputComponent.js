@@ -141,6 +141,7 @@ const InputComponent = ({
                     "text" :
                         <div>
                             <input maxLength={maxChar}
+                                   className="animate"
                                    name={elementName}
                                    type="text"
                                    defaultValue={textInputValue || ""}

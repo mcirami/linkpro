@@ -66,7 +66,7 @@ const ContactForm = () => {
                     <div className="form-group row">
                         <div className="col-sm-10 mx-auto position-relative p-0">
                             <input
-                                className="form-control"
+                                className="form-control animate"
                                 type="text"
                                 name="name"
                                 defaultValue={values.name}
@@ -78,7 +78,7 @@ const ContactForm = () => {
                     <div className="form-group row">
                         <div className="col-sm-10 mx-auto position-relative p-0">
                             <input
-                                className="form-control"
+                                className="form-control animate"
                                 type="email"
                                 name="email"
                                 defaultValue={values.email}

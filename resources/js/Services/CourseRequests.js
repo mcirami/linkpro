@@ -215,3 +215,30 @@ export const deleteSection = (id) => {
 
     });
 }
+
+export const getCourseCategories = () => {
+    return axios.get('/get-course-categories')
+    .then(
+        (response) => {
+            const categories = response.data.categories;
+            //EventBus.dispatch("success", { message: returnMessage.replace("_", " ") });
+
+            return {
+                success : true,
+                categories: categories
+            }
+        }
+    )
+    .catch((error) => {
+        if (error.response !== undefined) {
+            console.error("ERROR:: ", error.response.data);
+        } else {
+            console.error("ERROR:: ", error);
+        }
+
+        return {
+            success : false,
+        }
+
+    });
+}

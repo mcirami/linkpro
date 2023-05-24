@@ -19,7 +19,7 @@
                         <div class="col-md-8 mx-auto position-relative p-0">
                             <input id="identity"
                                    type="text"
-                                   class="form-control
+                                   class="form-control animate
                                    @error('username')
                                         is-invalid
                                    @enderror
@@ -61,7 +61,7 @@
                         <div class="col-md-8 mx-auto position-relative p-0">
                             <input id="password"
                                    type="password"
-                                   class="form-control @error('password') is-invalid @enderror"
+                                   class="form-control animate @error('password') is-invalid @enderror"
                                    name="password"
                                    required
                                    autocomplete="current-password"

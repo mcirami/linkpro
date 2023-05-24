@@ -25,7 +25,7 @@ class Category extends Model
     protected $hidden = ['created_at', 'updated_at'];
 
     public function courses() {
-        return $this->belongsToMany(Course::class);
+        return $this->belongsToMany(Course::class, 'category_course', 'category_id', 'course_id');
     }
 
     public function children()

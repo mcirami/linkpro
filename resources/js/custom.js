@@ -572,7 +572,7 @@ jQuery(document).ready(function($) {
         }
     }
 
-    const inputs = document.querySelectorAll('input');
+    const inputs = document.querySelectorAll('input.animate');
 
     if (inputs.length > 0) {
         inputs.forEach((inputEl) => {
@@ -586,7 +586,6 @@ jQuery(document).ready(function($) {
                 if (inputEl.value === "") {
                     inputEl.classList.remove('active')
                 }
-
             })
 
             if (inputEl.value !== "") {

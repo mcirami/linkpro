@@ -216,4 +216,11 @@ class CourseController extends Controller
             'unPurchasedCourses'    => $unPurchasedCourses,
         ]);
     }
+
+    public function getCourseCategories() {
+
+        $categories = Category::with('children')->whereNull('parent_id')->get();
+
+        return response()->json(['categories' => $categories]);
+    }
 }

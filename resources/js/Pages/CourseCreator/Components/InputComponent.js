@@ -219,6 +219,7 @@ const InputComponent = ({
                 return (
                     <>
                         <input maxLength={maxChar}
+                               className="animate"
                                name={elementName}
                                type={type}
                                defaultValue={value || ""}
@@ -271,6 +272,7 @@ const InputComponent = ({
                 return (
                     <>
                         <NumberFormat
+                            className="animate"
                             thousandSeparator={true}
                             prefix={'$'}
                             inputMode="numeric"
@@ -293,6 +295,7 @@ const InputComponent = ({
                 return (
                     <>
                         <input maxLength={maxChar}
+                               className="animate"
                                name={elementName}
                                type={type}
                                defaultValue={value || ""}
