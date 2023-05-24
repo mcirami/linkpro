@@ -18,7 +18,6 @@ const AddTextSection = ({
 
         addSection(packets, courseID)
         .then((response) => {
-            console.log(response.section);
             if (response.success) {
                 setSections([
                     ...sections,

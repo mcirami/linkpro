@@ -18,7 +18,6 @@ const SectionImage = ({
         })
         return isFound || false;
     }
-    //console.log("check Found: ", checkFound());
 
     useEffect(() => {
         setSectionImageStyle (

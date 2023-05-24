@@ -594,7 +594,7 @@ jQuery(document).ready(function($) {
         });
     }
 
-    const textAreas = document.querySelectorAll('textarea');
+    const textAreas = document.querySelectorAll('textarea.animate');
     if (textAreas.length > 0) {
         textAreas.forEach((inputEl) => {
             if (document.activeElement === inputEl) {

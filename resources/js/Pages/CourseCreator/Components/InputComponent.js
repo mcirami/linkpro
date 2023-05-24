@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import NumberFormat from 'react-currency-format';
 import validator from 'validator/es';
@@ -28,6 +28,28 @@ const InputComponent = ({
 
     const [charactersLeft, setCharactersLeft] = useState(maxChar);
     const [isValid, setIsValid] = useState(false)
+
+    const myRef = useRef(null);
+
+    const handleFocus = (element) => {
+        return element.classList.add('active')
+    }
+
+    useEffect(() => {
+
+        const element = myRef.current;
+
+        if (element) {
+
+            if(element.value !== "") {
+                element.addEventListener('focus', handleFocus(element));
+            }
+
+            return () => {
+                element.removeEventListener('focus', handleFocus(element));
+            }
+        }
+    },[])
 
     useEffect(() => {
         if(maxChar) {
@@ -128,6 +150,10 @@ const InputComponent = ({
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        if (e.target.value === "") {
+            e.target.classList.remove('active');
+        }
+
         if (isValid) {
             if (sections) {
 
@@ -218,8 +244,8 @@ const InputComponent = ({
             case 'text' || 'url' :
                 return (
                     <>
-                        <input maxLength={maxChar}
-                               className="animate"
+                        <input ref={myRef}
+                               maxLength={maxChar}
                                name={elementName}
                                type={type}
                                defaultValue={value || ""}
@@ -230,6 +256,7 @@ const InputComponent = ({
                                    }
                                }}
                                onBlur={(e) => handleSubmit(e)}
+                               onFocus={(e) => handleFocus(e.target)}
                                onPaste={(e) => handleChange(e)}
                         />
                         <label htmlFor={elementName}>{placeholder}</label>
@@ -239,6 +266,7 @@ const InputComponent = ({
                 return (
                     <>
                         <textarea
+                            ref={myRef}
                             name={elementName}
                             defaultValue={value || ""}
                             rows={5}
@@ -249,6 +277,7 @@ const InputComponent = ({
                                 }
                             }}
                             onBlur={(e) => handleSubmit(e)}
+                            onFocus={(e) => handleFocus(e.target)}
                             onPaste={(e) => handleChange(e)}
                         ></textarea>
                         <label htmlFor={elementName}>{placeholder}</label>
@@ -287,6 +316,7 @@ const InputComponent = ({
                                 }
                             }}
                             onBlur={(e) => handleSubmit(e)}
+                            onFocus={(e) => handleFocus(e.target)}
                         />
                         <label>{placeholder}</label>
                     </>
@@ -294,8 +324,8 @@ const InputComponent = ({
             default:
                 return (
                     <>
-                        <input maxLength={maxChar}
-                               className="animate"
+                        <input ref={myRef}
+                               maxLength={maxChar}
                                name={elementName}
                                type={type}
                                defaultValue={value || ""}
@@ -306,17 +336,13 @@ const InputComponent = ({
                                    }
                                }}
                                onBlur={(e) => handleSubmit(e)}
+                               onFocus={(e) => handleFocus(e.target)}
                         />
                         <label htmlFor={elementName}>{placeholder}</label>
                     </>
                 )
         }
     }
-
-    /*const handleEditorChange = (contentState) => {
-
-        setContentState(contentState)
-    }*/
 
     return (
 

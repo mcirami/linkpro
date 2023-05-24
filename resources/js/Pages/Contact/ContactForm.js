@@ -105,6 +105,7 @@ const ContactForm = () => {
                     <div className="form-group row">
                         <div className="col-sm-10 mx-auto position-relative p-0">
                             <textarea
+                                className="animate"
                                 name="message"
                                 rows="10"
                                 defaultValue={values.message}

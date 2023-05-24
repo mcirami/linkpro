@@ -194,8 +194,6 @@ const IconList = ({
 
     },[iconList, searchInput])
 
-    console.log("filtered cat: ", filteredByCat)
-    console.log("filtered icons: ", filteredIcons)
     const switchIconsList = () => {
 
         switch(accordionValue) {

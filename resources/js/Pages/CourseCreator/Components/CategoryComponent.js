@@ -7,7 +7,6 @@ const categories = user.categories;
 //import Select from '@mui/material/Select';
 import { InputLabel, FormControl, Select } from '@mui/material';
 
-console.log(categories);
 const CategoryComponent = () => {
 
     const [selectedCategory, setSelectedCategory] = useState("")

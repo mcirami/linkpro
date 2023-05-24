@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {FiThumbsDown, FiThumbsUp} from 'react-icons/Fi';
 import {
     updateData,
@@ -25,6 +25,28 @@ const InputComponent = ({
     const [charactersLeft, setCharactersLeft] = useState(maxChar);
     const [isValid, setIsValid] = useState(false)
     const [textInputValue, setTextInputValue] = useState(value);
+
+    const myRef = useRef(null);
+
+    const handleFocus = (element) => {
+        return element.classList.add('active')
+    }
+
+    useEffect(() => {
+
+        const element = myRef.current;
+
+        if (element) {
+
+            if(element.value !== "") {
+                element.addEventListener('focus', handleFocus(element));
+            }
+
+            return () => {
+                element.removeEventListener('focus', handleFocus(element));
+            }
+        }
+    },[])
 
     useEffect(() => {
         if(textInputValue) {
@@ -76,6 +98,10 @@ const InputComponent = ({
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if (e.target.value === "") {
+            e.target.classList.remove('active');
+        }
 
         if(isValid) {
 
@@ -140,8 +166,8 @@ const InputComponent = ({
                 {{
                     "text" :
                         <div>
-                            <input maxLength={maxChar}
-                                   className="animate"
+                            <input ref={myRef}
+                                   maxLength={maxChar}
                                    name={elementName}
                                    type="text"
                                    defaultValue={textInputValue || ""}
@@ -152,6 +178,7 @@ const InputComponent = ({
                                        }
                                    }}
                                    onBlur={(e) => handleSubmit(e)}
+                                   onFocus={(e) => handleFocus(e.target)}
                             />
                             <label>{placeholder}</label>
                         </div>,
