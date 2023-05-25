@@ -33,7 +33,8 @@ const StandardForm = ({
                           setEditID,
                           setShowUpgradePopup,
                           setOptionText,
-                          folderID
+                          folderID,
+                          affStatus = null,
 
 }) => {
 
@@ -376,114 +377,129 @@ const StandardForm = ({
     }
 
     return (
-        <form onSubmit={handleSubmit} className="link_form">
-            <div className="row">
-                <div className="col-12">
+        <>
+        { accordionValue === "offer" && (affStatus !== "approved" || !affStatus) ?
 
-                    <div className="icon_row">
-                        <div className="icon_box">
-                            <IconList
-                                currentLink={currentLink}
-                                setCurrentLink={setCurrentLink}
-                                accordionValue={accordionValue}
-                                setCharactersLeft={setCharactersLeft}
+            <div className="info_message">
+                <p>Sign up now to become an affiliate and earn money selling courses!</p>
+                <a className="button blue" target="_blank" href="/affiliate-sign-up">Click Here To Get Approved</a>
+            </div>
+
+            :
+
+            <form onSubmit={handleSubmit} className="link_form">
+                <div className="row">
+                    <div className="col-12">
+
+                        <div className="icon_row">
+                            <div className="icon_box">
+                                <IconList
+                                    currentLink={currentLink}
+                                    setCurrentLink={setCurrentLink}
+                                    accordionValue={accordionValue}
+                                    setCharactersLeft={setCharactersLeft}
+                                    inputType={inputType}
+                                    setInputType={setInputType}
+                                    editID={editID}
+                                />
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col-12">
+                        <div className="input_wrap">
+                            <input
+                                name="name"
+                                type="text"
+                                value={currentLink.name ||
+                                    ""}
+                                placeholder="Link Name"
+                                onChange={(e) => handleLinkName(
+                                    e)}
+                                disabled={!subStatus}
+                                className={!subStatus ? "disabled" : ""}
+                            />
+                            {!subStatus &&
+                                <span className="disabled_wrap"
+                                      data-type="name"
+                                      onClick={(e) => handleOnClick(e)}>
+                            </span>
+                            }
+                        </div>
+                        <div className="my_row info_text title">
+                            <p className="char_max">Max 11 Characters Shown</p>
+                            <p className="char_count">
+                                {charactersLeft < 0 ?
+                                    <span className="over">Only 11 Characters Will Be Shown</span>
+                                    :
+                                    "Characters Left: " +
+                                    charactersLeft
+                                }
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                {accordionValue !== "offer" &&
+                    <div className="row mb-0">
+                        <div className="col-12">
+                            <InputTypeRadio
                                 inputType={inputType}
                                 setInputType={setInputType}
-                                editID={editID}
+                                currentLink={currentLink}
+                                setCurrentLink={setCurrentLink}
                             />
-
                         </div>
                     </div>
+                }
 
-                </div>
-            </div>
-
-            <div className="row">
-                <div className="col-12">
-                    <div className="input_wrap">
-                        <input
-                            name="name"
-                            type="text"
-                            value={currentLink.name ||
-                                ""}
-                            placeholder="Link Name"
-                            onChange={(e) => handleLinkName(
-                                e)}
-                            disabled={!subStatus}
-                            className={!subStatus ? "disabled" : ""}
-                        />
-                        {!subStatus &&
-                            <span className="disabled_wrap"
-                                  data-type="name"
-                                  onClick={(e) => handleOnClick(e)}>
-                            </span>
-                        }
-                    </div>
-                    <div className="my_row info_text title">
-                        <p className="char_max">Max 11 Characters Shown</p>
-                        <p className="char_count">
-                            {charactersLeft < 0 ?
-                                <span className="over">Only 11 Characters Will Be Shown</span>
-                                :
-                                "Characters Left: " +
-                                charactersLeft
-                            }
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            {accordionValue !== "offer" &&
-                <div className="row mb-0">
+                <div className="row">
                     <div className="col-12">
-                        <InputTypeRadio
-                            inputType={inputType}
-                            setInputType={setInputType}
-                            currentLink={currentLink}
-                            setCurrentLink={setCurrentLink}
-                        />
+
+                        {accordionValue === "offer" ?
+                            <div className="my_row external_link">
+                                <h3>Offer Landing Page:</h3>
+                                {currentLink.url ?
+                                    <a href={currentLink.url.split(
+                                        "?")[0]} target="_blank">{currentLink.url.split(
+                                        "?")[0]}</a>
+                                    :
+                                    <p>Select An Icon Above</p>
+                                }
+                            </div>
+                            :
+                            <InputComponent
+                                inputType={inputType}
+                                setInputType={setInputType}
+                                currentLink={currentLink}
+                                setCurrentLink={setCurrentLink}
+                            />
+                        }
+
+
                     </div>
                 </div>
-            }
 
-            <div className="row">
-                <div className="col-12">
-
-                    {accordionValue === "offer" ?
-                        <div className="my_row external_link">
-                            <h3>Offer Landing Page:</h3>
-                            {currentLink.url ?
-                                <a href={currentLink.url.split("?")[0]} target="_blank">{currentLink.url.split("?")[0]}</a>
-                                :
-                                <p>Select An Icon Above</p>
-                            }
-                        </div>
-                        :
-                        <InputComponent
-                            inputType={inputType}
-                            setInputType={setInputType}
-                            currentLink={currentLink}
-                            setCurrentLink={setCurrentLink}
-                        />
-                    }
-
-
+                <div className="row">
+                    <div className="col-12 button_row">
+                        <button className="button green" type="submit">
+                            Save
+                        </button>
+                        <a href="#" className="button transparent gray" onClick={(e) => handleCancel(
+                            e)}>
+                            Cancel
+                        </a>
+                        <a className="help_link" href="mailto:help@link.pro">Need Help?</a>
+                    </div>
                 </div>
-            </div>
 
-            <div className="row">
-                <div className="col-12 button_row">
-                    <button className="button green" type="submit">
-                        Save
-                    </button>
-                    <a href="#" className="button transparent gray" onClick={(e) => handleCancel(e)}>
-                        Cancel
-                    </a>
-                    <a className="help_link" href="mailto:help@link.pro">Need Help?</a>
-                </div>
-            </div>
-
-        </form>
+            </form>
+        }
+        </>
     );
 };
 

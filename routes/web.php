@@ -24,7 +24,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\CourseRegisterController;
 use App\Http\Controllers\Auth\CoursePasswordController;
 use App\Http\Controllers\Admin\AdminStatsController;
-
+use App\Http\Controllers\AffiliateController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -164,6 +164,8 @@ Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated', 'lp.user']], funct
     Route::post('/stats/get/publisher', [StatsController::class, 'getPublisherStats']);
     Route::get('/stats', [StatsController::class, 'show'])->name('stats');
 
+    Route::get('/affiliate-sign-up', [AffiliateController::class, 'show']);
+    Route::post('/store-affiliate', [AffiliateController::class, 'store'])->name('register.affiliate');
 });
 
 Route::group(['middleware' => ['course.user:course']], function() {

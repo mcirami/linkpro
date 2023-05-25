@@ -55,6 +55,7 @@ import IntegrationForm from './Components/Link/Forms/IntegrationForm';
 const page = user.page;
 const userPages = user.user_pages;
 const userSub = user.userSub;
+const affStatus = user.affStatus;
 
 export const UserLinksContext = createContext();
 export const OriginalArrayContext = createContext();
@@ -602,6 +603,7 @@ function App() {
                                                                         setShowUpgradePopup={setShowUpgradePopup}
                                                                         setOptionText={setOptionText}
                                                                         folderID={editFolderID}
+                                                                        affStatus={affStatus}
                                                                     />
 
                                                                 </div>

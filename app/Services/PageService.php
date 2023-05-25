@@ -6,10 +6,12 @@ use App\Models\Page;
 use App\Models\ShopifyStore;
 use App\Notifications\WelcomeNotification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
 use App\Http\Traits\UserTrait;
 use App\Http\Traits\LinkTrait;
+use function PHPUnit\Framework\isEmpty;
 
 class PageService {
 
@@ -118,7 +120,7 @@ class PageService {
      * @return void
      */
 
-    public function editPage($user, $page) {
+    public function editPage($page) {
 
         $userPages = $this->getUserPages($this->user);
 
@@ -139,15 +141,18 @@ class PageService {
 
         $pageNames = Page::all()->pluck('name')->toArray();
 
-        $userSubscription = $user->subscriptions()->first();
+        $userSubscription = $this->user->subscriptions()->first();
+
+		$affStatus = DB::table('affiliates')->where('user_id', $this->user->id)->pluck('status');
 
         Javascript::put([
-            'links' => $linksArray,
-            'icons' => $standardIcons,
-            'page' => $page,
-            'user_pages' => $userPages,
-            'allPageNames' => $pageNames,
-            'userSub'   => $userSubscription,
+            'links'         => $linksArray,
+            'icons'         => $standardIcons,
+            'page'          => $page,
+            'user_pages'    => $userPages,
+            'allPageNames'  => $pageNames,
+            'userSub'       => $userSubscription,
+	        'affStatus'     => count($affStatus) > 0 ? $affStatus[0] : null
         ]);
     }
 

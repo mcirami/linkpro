@@ -96,7 +96,7 @@ class PageController extends Controller
             return abort(404);
         }
 
-        $pageService->editPage($user, $page);
+        $pageService->editPage($page);
 
         return view('pages.edit');
     }
