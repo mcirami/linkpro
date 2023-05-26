@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {updateData} from '../../../Services/CourseRequests';
 import {LP_ACTIONS} from '../Reducer';
+import {HandleFocus, InputEventListener, HandleBlur} from '../../../Utils/InputAnimations';
 
 const categories = user.categories;
 
@@ -12,23 +13,12 @@ const DropdownComponent = ({
 
     const [selectedCategory, setSelectedCategory] = useState(value)
 
-    const handleFocus = (element) => {
-        return element.classList.add('active')
-    }
-
-    const handleBlur = (element) => {
-        if (element.value === "") {
-            return element.classList.remove('active');
-        }
-    }
 
     const myRef = useRef(null);
 
     useEffect(() => {
 
-        if (myRef.current.value !== "") {
-            myRef.current.classList.add('active');
-        }
+        InputEventListener(myRef.current);
 
     },[])
 
@@ -56,40 +46,13 @@ const DropdownComponent = ({
 
     return (
         <div className="edit_form">
-            {/*<div className="custom_select">
-                <label>Select Category</label>
-                <ul className="list-unstyled">
-                    {categories?.map((category) => {
-
-                        const {id, name, children, parent_id} = category;
-
-                        return (
-                            <React.Fragment key={id}>
-                                {!parent_id && <li value={id}>{name}</li>}
-                                {children.length > 0 &&
-
-                                    children.map((child) => {
-
-                                        const {id, name} = child;
-
-                                        return (
-                                            <li key={id} style={{ paddingLeft: '20px'}} value={id}>{name}</li>
-                                        )
-                                    })
-                                }
-                            </React.Fragment>
-                        )
-                    })}
-                </ul>
-            </div>*/}
-
             <select
                 ref={myRef}
                 id="category_select"
                 defaultValue={selectedCategory}
                 onChange={(e) => handleChange(e)}
-                onBlur={(e) => handleBlur(e.target)}
-                onFocus={(e) => handleFocus(e.target)}
+                onBlur={(e) => HandleBlur(e.target)}
+                onFocus={(e) => HandleFocus(e.target)}
             >
                 <option value=""></option>
                 {categories?.map((category) => {

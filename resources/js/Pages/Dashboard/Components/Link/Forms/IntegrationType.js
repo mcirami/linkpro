@@ -1,9 +1,14 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {
-    getAllProducts,
-    getMailchimpLists, getStores,
+    getMailchimpLists,
+    getStores,
 } from '../../../../../Services/UserService';
 import {isEmpty} from 'lodash';
+import {
+    HandleFocus,
+    HandleBlur,
+    InputEventListener,
+} from '../../../../../Utils/InputAnimations';
 
 const IntegrationType = ({
                              integrationType,
@@ -15,13 +20,15 @@ const IntegrationType = ({
                              setShopifyStores
 }) => {
 
+    const myRef = useRef(null);
+
     useEffect(() => {
 
-        if (currentLink.mailchimp_list_id) {
-            setIntegrationType("mailchimp");
+        if (integrationType === "mailchimp") {
+            //setIntegrationType("mailchimp");
             fetchLists()
-        } else if (currentLink.shopify_products){
-            setIntegrationType("shopify")
+        } else if (integrationType === "shopify") {
+            //setIntegrationType("shopify")
             fetchStores()
         }
 
@@ -31,7 +38,10 @@ const IntegrationType = ({
                 fetchStores()
         }
 
+    },[integrationType])
 
+    useEffect(() => {
+        InputEventListener(myRef.current);
     },[])
 
     const handleChange = (e) => {
@@ -78,13 +88,16 @@ const IntegrationType = ({
 
     return (
         <div className="integration_dropdown_wrap">
-            <label htmlFor="mailchimp_list_id">Select Integration Type</label>
             <select
+                className=""
+                ref={myRef}
                 name="integration_type"
                 onChange={(e) => handleChange(e)}
+                onFocus={(e) => HandleFocus(e.target)}
+                onBlur={(e) => HandleBlur(e.target)}
                 value={integrationType || undefined}
             >
-                <option>Select Integration</option>
+                <option value=""></option>
                 <option
                     value="mailchimp">
                     MailChimp
@@ -94,6 +107,7 @@ const IntegrationType = ({
                     Shopify
                 </option>
             </select>
+            <label htmlFor="mailchimp_list_id">Select Integration Type</label>
         </div>
     );
 };

@@ -30,6 +30,7 @@ import {
 } from '../../../../../Services/Reducer';
 import EventBus from '../../../../../Utils/Bus';
 import ReactCrop from 'react-image-crop';
+import {HandleFocus, HandleBlur, InputEventListener} from '../../../../../Utils/InputAnimations';
 
 const CustomForm = ({
                         accordionValue,
@@ -83,6 +84,12 @@ const CustomForm = ({
             type: null,
         }
     );
+
+    const myRef = useRef(null);
+
+    useEffect(() => {
+        InputEventListener(myRef.current)
+    },[])
 
     useEffect(() => {
         if(currentLink.name) {
@@ -763,14 +770,16 @@ const CustomForm = ({
                 <div className="col-12">
                     <div className="input_wrap">
                         <input
+                            ref={myRef}
                             name="name"
                             type="text"
                             value={currentLink.name ||
                                 ""}
-                            placeholder="Link Name"
-                            onChange={(e) => handleLinkName(
-                                e)}
+                            onChange={(e) => handleLinkName(e)}
+                            onFocus={(e) => HandleFocus(e.target)}
+                            onBlur={(e) => HandleBlur(e.target)}
                         />
+                        <label>Link Name</label>
                     </div>
                     <div className="my_row info_text title">
                         <p className="char_max">Max 11 Characters Shown</p>

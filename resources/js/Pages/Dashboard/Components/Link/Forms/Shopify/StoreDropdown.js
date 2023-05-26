@@ -1,6 +1,11 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {isEmpty} from 'lodash';
 import {ImPlus} from 'react-icons/im';
+import {
+    HandleBlur,
+    HandleFocus,
+    InputEventListener,
+} from '../../../../../../Utils/InputAnimations';
 
 const StoreDropdown = ({
                            currentLink,
@@ -9,6 +14,14 @@ const StoreDropdown = ({
                            setShowAddStore,
                            shopifyStores,
 }) => {
+
+    const myRef = useRef(null);
+
+    useEffect(() => {
+
+        InputEventListener(myRef.current);
+
+    },[])
 
     const handleStoreChange = (e) => {
         e.preventDefault();
@@ -27,14 +40,16 @@ const StoreDropdown = ({
     }
 
     return (
-        <div>
-            <label htmlFor="shopify_store">Shopify Stores</label>
+        <div className="my_row position-relative">
             <select
+                ref={myRef}
                 name="shopify_store"
                 onChange={(e) => handleStoreChange(e)}
+                onBlur={(e) => HandleBlur(e.target)}
+                onFocus={(e) => HandleFocus(e.target)}
                 value={currentLink.shopify_id || undefined}
             >
-                <option>Select Store</option>
+                <option value=""></option>
                 {!isEmpty(shopifyStores) && shopifyStores?.map((store) => {
                     return (
                         <option
@@ -44,6 +59,7 @@ const StoreDropdown = ({
                     )
                 })}
             </select>
+            <label htmlFor="shopify_store">Shopify Stores</label>
             <div className="my_row add_more_link mb-4 mt-3">
                 <a className="icon_wrap" href="#" onClick={(e) => handleAddStore(e)}>
                     <ImPlus />

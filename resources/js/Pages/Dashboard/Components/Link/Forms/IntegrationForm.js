@@ -25,6 +25,7 @@ import MailchimpLists from './Mailchimp/MailchimpLists';
 import AllProducts from './Shopify/AllProducts';
 import StoreDropdown from './Shopify/StoreDropdown';
 import SelectedProducts from './Shopify/SelectedProducts';
+import {HandleBlur, HandleFocus, InputEventListener} from '../../../../../Utils/InputAnimations';
 
 const IntegrationForm = ({
                              setAccordionValue,
@@ -87,10 +88,20 @@ const IntegrationForm = ({
         }
     );
 
+    const myRef = useRef(null);
+
+    useEffect(() => {
+        InputEventListener(myRef.current)
+    },[])
+
     useEffect(() => {
         if(currentLink.shopify_products && currentLink.shopify_id) {
             setSelectedProducts(currentLink.shopify_products)
-            //setStoreID(currentLink.shopify_id)
+            setIntegrationType("shopify")
+        }
+
+        if (currentLink.mailchimp_list_id) {
+            setIntegrationType("mailchimp")
         }
     },[])
 
@@ -587,14 +598,16 @@ const IntegrationForm = ({
                             <div className="col-12">
                                 <div className="input_wrap">
                                     <input
-                                        /*maxLength="13"*/
+                                        ref={myRef}
                                         name="name"
                                         type="text"
                                         value={currentLink.name ||
                                             ""}
-                                        placeholder="Link Name"
                                         onChange={(e) => handleLinkName(e)}
+                                        onFocus={(e) => HandleFocus(e.target)}
+                                        onBlur={(e) => HandleBlur(e.target)}
                                     />
+                                    <label>Link Name</label>
                                 </div>
                                 <div className="my_row info_text title">
                                     <p className="char_max">Max 11 Characters Shown</p>

@@ -1,15 +1,11 @@
-import React, {useState, useEffect} from 'react';
-import AllProducts from './Shopify/AllProducts';
-import MailchimpLists from './Mailchimp/MailchimpLists';
-import StoreDropdown from './Shopify/StoreDropdown';
-import SelectedProducts from './Shopify/SelectedProducts';
+import React, {useState, useEffect, useRef} from 'react';
+import {HandleBlur, HandleFocus, InputEventListener} from '../../../../../Utils/InputAnimations';
 
 const InputComponent = ({
                             currentLink,
                             setCurrentLink,
                             inputType,
                             setInputType,
-                            setShowLoader
 }) => {
 
     const {url, email, phone} = currentLink;
@@ -21,6 +17,12 @@ const InputComponent = ({
         placeholder: null,
         key: null
     })
+
+    const myRef = useRef(null);
+
+    useEffect(() => {
+        InputEventListener(myRef.current)
+    },[])
 
     useEffect(() => {
 
@@ -135,14 +137,17 @@ const InputComponent = ({
 
     return (
 
-        <div className="my_row">
+        <div className="my_row position-relative mt-2">
             <input
+                ref={myRef}
                 name={name}
                 type={type}
                 defaultValue={value || ""}
-                placeholder={placeholder}
                 onChange={(e) => handleChange(e, key)}
+                onFocus={(e) => HandleFocus(e.target)}
+                onBlur={(e) => HandleBlur(e.target)}
             />
+            <label className="text-lowercase">{placeholder}</label>
         </div>
 
     )

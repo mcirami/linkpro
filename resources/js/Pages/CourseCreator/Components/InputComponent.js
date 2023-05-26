@@ -9,6 +9,7 @@ import {
 import {LP_ACTIONS, OFFER_ACTIONS} from '../Reducer';
 import {updateOfferData} from '../../../Services/OfferRequests';
 import EditorComponent from '../../LPCreator/Components/EditorComponent';
+import {HandleFocus, InputEventListener} from '../../../Utils/InputAnimations';
 
 const InputComponent = ({
                             placeholder,
@@ -31,24 +32,10 @@ const InputComponent = ({
 
     const myRef = useRef(null);
 
-    const handleFocus = (element) => {
-        return element.classList.add('active')
-    }
-
     useEffect(() => {
 
-        const element = myRef.current;
+        InputEventListener(myRef.current);
 
-        if (element) {
-
-            if(element.value !== "") {
-                element.addEventListener('focus', handleFocus(element));
-            }
-
-            return () => {
-                element.removeEventListener('focus', handleFocus(element));
-            }
-        }
     },[])
 
     useEffect(() => {
@@ -68,6 +55,7 @@ const InputComponent = ({
         if ( ( (type === "url" && checkValidity(value, "url") ) || type === "textarea") && value ) {
             setIsValid(true);
         }
+        console.log("triggered");
     },[])
 
     useEffect(() => {
@@ -106,7 +94,13 @@ const InputComponent = ({
         }
 
         if (check || type === "textarea" || type === "text") {
-            setIsValid(true)
+
+            if (elementName === "title" && value === "") {
+                setIsValid(false)
+            } else {
+                setIsValid(true);
+            }
+
             if (sections) {
 
                 let element = elementName.split(/(\d+)/);
@@ -256,7 +250,7 @@ const InputComponent = ({
                                    }
                                }}
                                onBlur={(e) => handleSubmit(e)}
-                               onFocus={(e) => handleFocus(e.target)}
+                               onFocus={(e) => HandleFocus(e.target)}
                                onPaste={(e) => handleChange(e)}
                         />
                         <label htmlFor={elementName}>{placeholder}</label>
@@ -277,7 +271,7 @@ const InputComponent = ({
                                 }
                             }}
                             onBlur={(e) => handleSubmit(e)}
-                            onFocus={(e) => handleFocus(e.target)}
+                            onFocus={(e) => HandleFocus(e.target)}
                             onPaste={(e) => handleChange(e)}
                         ></textarea>
                         <label htmlFor={elementName}>{placeholder}</label>
@@ -316,7 +310,7 @@ const InputComponent = ({
                                 }
                             }}
                             onBlur={(e) => handleSubmit(e)}
-                            onFocus={(e) => handleFocus(e.target)}
+                            onFocus={(e) => HandleFocus(e.target)}
                         />
                         <label>{placeholder}</label>
                     </>
@@ -336,7 +330,7 @@ const InputComponent = ({
                                    }
                                }}
                                onBlur={(e) => handleSubmit(e)}
-                               onFocus={(e) => handleFocus(e.target)}
+                               onFocus={(e) => HandleFocus(e.target)}
                         />
                         <label htmlFor={elementName}>{placeholder}</label>
                     </>

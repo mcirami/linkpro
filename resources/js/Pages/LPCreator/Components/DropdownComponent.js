@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {updateSectionData} from '../../../Services/LandingPageRequests';
+import {HandleFocus, InputEventListener} from '../../../Utils/InputAnimations';
 
 const DropdownComponent = ({
                                courses,
@@ -10,7 +11,19 @@ const DropdownComponent = ({
                                url
 }) => {
 
+    const myRef = useRef(null);
+
+    useEffect(() => {
+
+        InputEventListener(myRef.current);
+
+    },[])
+
     const handleChange = (e) => {
+
+        if (e.target.value === "") {
+            e.target.classList.remove('active');
+        }
 
         const value = e.target.value;
         const packets = {
@@ -37,7 +50,12 @@ const DropdownComponent = ({
 
     return (
         <div className="position-relative">
-            <select name="courses" id="courses" onChange={(e) => handleChange(e)} value={button_link || ""}>
+            <select ref={myRef}
+                    name="courses"
+                    id="courses"
+                    onChange={(e) => handleChange(e)} value={button_link || ""}
+                    onFocus={(e) => HandleFocus(e.target)}
+            >
                 <option></option>
                 {courses?.map((course, index) => {
                     return <option key={index} value={`${url}/course/${course.slug}`} >{course.title}</option>

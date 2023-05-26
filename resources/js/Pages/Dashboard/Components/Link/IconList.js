@@ -6,6 +6,7 @@ import {
 import {getIconPaths} from '../../../../Services/ImageService';
 import {getCourseCategories} from '../../../../Services/CourseRequests';
 import DropdownComponent from './Forms/DropdownComponent';
+import {HandleFocus, HandleBlur} from '../../../../Utils/InputAnimations';
 
 const IconList = ({
                       currentLink,
@@ -348,7 +349,14 @@ const IconList = ({
                     />
                 }
                 <div className="w-100 position-relative mt-3">
-                    <input className="animate" name="search" type="text" onChange={(e) => handleChange(e)} value={searchInput}/>
+                    <input
+                        className="animate"
+                        name="search"
+                        type="text"
+                        onChange={(e) => handleChange(e)}
+                        onFocus={(e) => HandleFocus(e.target)}
+                        onBlur={(e) => HandleBlur(e.target)}
+                        value={searchInput}/>
                     <label htmlFor="search">Search {accordionValue === "standard" ? "Icons" : "By Category"}</label>
                 </div>
                 {accordionValue === "standard" &&

@@ -588,7 +588,7 @@ function App() {
                                                                 type="offer"
                                                             />
                                                             {accordionValue === "offer" &&
-                                                                <div className={`inner_wrap ${accordionValue ===
+                                                                <div className={`inner_wrap ${accordionValue} ${accordionValue ===
                                                                 "offer" && "open"}`}>
 
                                                                     <StandardForm
