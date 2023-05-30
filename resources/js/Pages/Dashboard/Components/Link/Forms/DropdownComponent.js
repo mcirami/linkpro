@@ -1,5 +1,4 @@
 import React from 'react';
-import {FormControl, InputLabel, Select} from '@mui/material';
 
 const DropdownComponent = ({
                                data,
@@ -28,13 +27,11 @@ const DropdownComponent = ({
     }
 
     return (
-        <FormControl fullWidth>
-            <InputLabel id="category_select_label">Filter By Category</InputLabel>
-            <Select
-                native
-                labelId="category_select_label"
+
+        <div className="my_row position-relative">
+            <select
+                className="active"
                 id="category_select"
-                label="Select Category"
                 defaultValue="all"
                 onChange={(e) => handleChange(e)}
             >
@@ -60,8 +57,9 @@ const DropdownComponent = ({
                             <option key={id} value={id}>{name}</option>
                     )
                 })}
-            </Select>
-        </FormControl>
+            </select>
+            <label htmlFor="category_select" id="category_select_label">Filter By Category</label>
+        </div>
     );
 };
 

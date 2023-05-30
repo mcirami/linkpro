@@ -72,6 +72,7 @@ const StandardForm = ({
             mailchimp_list_id: null,
             shopify_products: null,
             shopify_id: null,
+            course_id: null,
             type: null,
         }
     );
@@ -179,6 +180,7 @@ const StandardForm = ({
                         icon: currentLink.icon,
                         url: URL,
                         page_id: pageSettings["id"],
+                        course_id: currentLink.course_id,
                         folder_id: folderID,
                         type: "offer",
                     };
@@ -251,6 +253,7 @@ const StandardForm = ({
                                 phone: currentLink.phone,
                                 type: currentLink.type,
                                 icon: currentLink.icon,
+                                course_id: currentLink.course_id,
                                 position: data.position,
                                 active_status: true
                             }
@@ -338,6 +341,7 @@ const StandardForm = ({
                                 phone: currentLink.phone,
                                 type: currentLink.type,
                                 icon: currentLink.icon,
+                                course_id: currentLink.course_id,
                                 position: data.position,
                                 active_status: true
                             }
@@ -372,6 +376,7 @@ const StandardForm = ({
                         mailchimp_list_id: null,
                         shopify_products: null,
                         shopify_id: null,
+                        course_id: null,
                         type: null
                     })
                 }

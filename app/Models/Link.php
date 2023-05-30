@@ -10,26 +10,14 @@ class Link extends Model
     use HasFactory;
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that are not mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'user_id',
-        'page_id',
-        'folder_id',
-        'name',
-        'url',
-        'email',
-        'phone',
-        'icon',
-        'position',
-        'active_status',
-        'embed_code',
-        'type',
-        'mailchimp_list_id',
-        'shopify_products',
-        'shopify_id'
+    protected $guarded = [
+        'id',
+        'created_at',
+        'updated_at'
     ];
 
     /**

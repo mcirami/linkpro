@@ -77,7 +77,7 @@ const PageName = () => {
     }
 
     return (
-        <div className="edit_form">
+        <div className="edit_form page_name">
             {!regexMatch &&
                 <p className="status not_available char_message">Only letters, numbers, dashes, underscores, periods allowed</p>
             }

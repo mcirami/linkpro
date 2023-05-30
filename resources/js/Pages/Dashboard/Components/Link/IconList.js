@@ -159,7 +159,8 @@ const IconList = ({
                 name: name,
                 icon: source,
                 url: url,
-                type: iconType
+                type: iconType,
+                course_id: el.dataset.course || ""
             }))
 
         } else {
@@ -292,7 +293,7 @@ const IconList = ({
                                     data-name={icon.name}
                                     data-creator={icon.creator || ""}
                                     data-slug={icon.slug || ""}
-                                    data-offer={icon.offer_id || ""}
+                                    data-course={icon.course_id || ""}
                                     data-icontype={accordionValue}
                                     alt=""
                                 />
@@ -316,9 +317,9 @@ const IconList = ({
                                         selectIcon(e, icon.path)
                                     }}
                                     data-name={icon.name}
-                                    data-creator={icon.creator}
-                                    data-slug={icon.slug}
-                                    data-offer={icon.offer_id}
+                                    data-creator={icon.creator || ""}
+                                    data-slug={icon.slug || ""}
+                                    data-course={icon.course_id || ""}
                                     data-icontype={accordionValue}
                                     alt=""
                                 />
@@ -334,6 +335,7 @@ const IconList = ({
         }
     }
 
+    console.log(iconList);
     return (
 
         <>
@@ -348,7 +350,7 @@ const IconList = ({
                         setFilteredByCat={setFilteredByCat}
                     />
                 }
-                <div className="w-100 position-relative mt-3">
+                <div className="position-relative my-3 my_row">
                     <input
                         className="animate"
                         name="search"
@@ -357,7 +359,7 @@ const IconList = ({
                         onFocus={(e) => HandleFocus(e.target)}
                         onBlur={(e) => HandleBlur(e.target)}
                         value={searchInput}/>
-                    <label htmlFor="search">Search {accordionValue === "standard" ? "Icons" : "By Category"}</label>
+                    <label htmlFor="search">Search {accordionValue === "standard" ? "Icons" : "Offers"}</label>
                 </div>
                 {accordionValue === "standard" &&
                     <div className="my_row info_text file_types text-center mb-2 text-center">

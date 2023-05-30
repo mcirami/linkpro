@@ -180,23 +180,14 @@ const Preview = ({
                                                         <div className={` ${colClasses} `}>
                                                             {active_status ?
                                                                 <>
-                                                                    <a className={!url ||
-                                                                    !displayIcon ?
-                                                                        "default" :
-                                                                        ""} target="_blank" href={url ||
-                                                                        "#"}>
+                                                                    <a className={!url || !displayIcon ? "default" : ""}
+                                                                       target="_blank"
+                                                                       href={url || "#"}>
                                                                         <img src={displayIcon} alt=""/>
                                                                     </a>
                                                                     <p>
-                                                                        {name?.length >
-                                                                        11 ?
-                                                                            name.substring(
-                                                                                0,
-                                                                                11) +
-                                                                            "..."
-                                                                            :
-                                                                            name ||
-                                                                            "Link Name"
+                                                                        {name?.length > 11 ? name.substring(0, 11) + "..."
+                                                                            : name || "Link Name"
                                                                         }
                                                                     </p>
                                                                 </>

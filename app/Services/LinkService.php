@@ -81,18 +81,19 @@ class LinkService {
             }
 
             $link = Auth::user()->links()->create([
-                'name' => $request->name,
-                'url' => $request->url ? : null,
-                'email' => $request->email ? : null,
-                'phone' => $request->phone ? : null,
+                'name'              => $request->name,
+                'url'               => $request->url ? : null,
+                'email'             => $request->email ? : null,
+                'phone'             => $request->phone ? : null,
                 'mailchimp_list_id' => null,
-                'shopify_products' => null,
-                'shopify_id' => null,
-                'icon' => $iconPath,
-                'page_id' => $request->page_id,
-                'position' => $position,
-                'folder_id' => $request->folder_id,
-                'type' => $request->type
+                'shopify_products'  => null,
+                'shopify_id'        => null,
+                'course_id'         => $request->course_id ? : null,
+                'icon'              => $iconPath,
+                'page_id'           => $request->page_id,
+                'position'          => $position,
+                'folder_id'         => $request->folder_id,
+                'type'              => $request->type
             ]);
 
             array_push($linkIDs, $link->id);
@@ -122,17 +123,18 @@ class LinkService {
             }
 
             $link = Auth::user()->links()->create([
-                'name' => $request->name,
-                'url' => $request->url ? : null,
-                'email' => $request->email ? : null,
-                'phone' => $request->phone ? : null,
+                'name'              => $request->name,
+                'url'               => $request->url ? : null,
+                'email'             => $request->email ? : null,
+                'phone'             => $request->phone ? : null,
                 'mailchimp_list_id' => $request->mailchimp_list_id ? : null,
-                'shopify_products' => $request->shopify_products ? $productIDs : null,
-                'shopify_id' => $request->shopify_id ? : null,
-                'icon' => $iconPath,
-                'page_id' => $request->page_id,
-                'position' => $position,
-                'type' =>  $request->type
+                'shopify_products'  => $request->shopify_products ? $productIDs : null,
+                'shopify_id'        => $request->shopify_id ? : null,
+                'course_id'         => $request->course_id ? : null,
+                'icon'              => $iconPath,
+                'page_id'           => $request->page_id,
+                'position'          => $position,
+                'type'              => $request->type
             ]);
         }
 
@@ -170,15 +172,16 @@ class LinkService {
         }
 
         $link->update([
-            'name' => $request->name,
-            'url' => $request->url ? : null,
-            'email' => $request->email ? : null,
-            'phone' => $request->phone ? : null,
+            'name'              => $request->name,
+            'url'               => $request->url ? : null,
+            'email'             => $request->email ? : null,
+            'phone'             => $request->phone ? : null,
             'mailchimp_list_id' => $request->mailchimp_list_id ? : null,
-            'shopify_products' => $request->shopify_products ? $productIDs : null,
-            'shopify_id' => $request->shopify_id ? : null,
-            'icon' => $iconPath,
-            'type' => $request->type,
+            'shopify_products'  => $request->shopify_products ? $productIDs : null,
+            'shopify_id'        => $request->shopify_id ? : null,
+            'course_id'         => $request->course_id ? : null,
+            'icon'              => $iconPath,
+            'type'              => $request->type,
         ]);
 
         return $iconPath;

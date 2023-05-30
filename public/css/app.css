@@ -13452,8 +13452,8 @@ input[type=text].disabled {
 }
 
 select {
+  font-family: "opensansbold", sans-serif;
   width: 100%;
-  color: rgba(33, 37, 41, 0.7);
   padding: 5px 20px;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -13548,6 +13548,11 @@ form .bottom_row a {
   align-self: flex-start;
   -webkit-align-self: flex-start;
   text-transform: capitalize;
+}
+.edit_form.page_name label {
+  align-self: center;
+  -webkit-align-self: center;
+  padding-bottom: 20px;
 }
 .edit_form form {
   width: 100%;

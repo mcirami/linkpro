@@ -88,7 +88,6 @@ class CourseController extends Controller
     }
 
     public function edit(Course $course, CourseService $courseService) {
-
         $user = Auth::user();
 
         if ($course->user_id != $user["id"]) {
