@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 
-if (document.getElementById('manager_table')) {
+if (document.getElementById('creator_table')) {
 
     ReactDOM.render(
         <React.StrictMode>
             <App />
         </React.StrictMode>,
-        document.getElementById('manager_table'));
+        document.getElementById('creator_table'));
 
 }

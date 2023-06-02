@@ -83,7 +83,7 @@ const SwitchOptions = ({offer}) => {
         <tr key={id}>
             <td>
                 {title}
-                <a href={`/course-manager/course/${course_id}`}> Edit</a>
+                <a href={`/creator-center/course/${course_id}`}> Edit</a>
             </td>
             <td>
                 <IOSSwitch
