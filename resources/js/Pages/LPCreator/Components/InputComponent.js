@@ -7,7 +7,7 @@ import {
 import {LP_ACTIONS} from '../Reducer';
 import EditorComponent from './EditorComponent';
 import validator from 'validator/es';
-import {HandleFocus, InputEventListener} from '../../../Utils/InputAnimations';
+import {HandleFocus} from '../../../Utils/InputAnimations';
 
 const InputComponent = ({
                             placeholder,
@@ -26,14 +26,6 @@ const InputComponent = ({
     const [charactersLeft, setCharactersLeft] = useState(maxChar);
     const [isValid, setIsValid] = useState(false)
     const [textInputValue, setTextInputValue] = useState(value);
-
-    const myRef = useRef(null);
-
-    useEffect(() => {
-
-        InputEventListener(myRef.current);
-
-    },[])
 
     useEffect(() => {
         if(textInputValue) {
@@ -153,7 +145,7 @@ const InputComponent = ({
                 {{
                     "text" :
                         <div>
-                            <input ref={myRef}
+                            <input className={textInputValue ? "active" : ""}
                                    maxLength={maxChar}
                                    name={elementName}
                                    type="text"

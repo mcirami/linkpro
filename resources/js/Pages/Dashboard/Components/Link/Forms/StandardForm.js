@@ -27,7 +27,7 @@ import {
     PageContext,
     UserLinksContext,
 } from '../../../App';
-import {HandleFocus, HandleBlur, InputEventListener} from '../../../../../Utils/InputAnimations';
+import {HandleFocus, HandleBlur} from '../../../../../Utils/InputAnimations';
 
 const StandardForm = ({
                           accordionValue,
@@ -50,12 +50,6 @@ const StandardForm = ({
     const { folderLinks, dispatchFolderLinks } = useContext(FolderLinksContext);
     const { originalFolderLinks, dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);
     const  { pageSettings } = useContext(PageContext);
-
-    const myRef = useRef(null);
-
-    useEffect(() => {
-        InputEventListener(myRef.current)
-    },[])
 
     const [currentLink, setCurrentLink] = useState(
         userLinks.find(function(e) {
@@ -431,7 +425,7 @@ const StandardForm = ({
                     <div className="col-12">
                         <div className="input_wrap">
                             <input
-                                ref={myRef}
+                                className={`${!subStatus ? "disabled " : ""} ${currentLink.name ? "active" : ""}`}
                                 name="name"
                                 type="text"
                                 value={currentLink.name || ""}
@@ -439,7 +433,6 @@ const StandardForm = ({
                                 onFocus={(e) => HandleFocus(e.target)}
                                 onBlur={(e) => HandleBlur(e.target)}
                                 disabled={!subStatus}
-                                className={!subStatus ? "disabled" : ""}
                             />
                             <label>Link Name</label>
                             {!subStatus &&

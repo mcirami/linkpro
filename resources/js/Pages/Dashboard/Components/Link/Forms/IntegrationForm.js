@@ -25,7 +25,7 @@ import MailchimpLists from './Mailchimp/MailchimpLists';
 import AllProducts from './Shopify/AllProducts';
 import StoreDropdown from './Shopify/StoreDropdown';
 import SelectedProducts from './Shopify/SelectedProducts';
-import {HandleBlur, HandleFocus, InputEventListener} from '../../../../../Utils/InputAnimations';
+import {HandleBlur, HandleFocus} from '../../../../../Utils/InputAnimations';
 
 const IntegrationForm = ({
                              setAccordionValue,
@@ -87,12 +87,6 @@ const IntegrationForm = ({
             type: null,
         }
     );
-
-    const myRef = useRef(null);
-
-    useEffect(() => {
-        InputEventListener(myRef.current)
-    },[])
 
     useEffect(() => {
         if(currentLink.shopify_products && currentLink.shopify_id) {
@@ -498,7 +492,6 @@ const IntegrationForm = ({
                 setShowLoader={setShowLoader}
                 setLists={setLists}
                 setShopifyStores={setShopifyStores}
-                currentLink={currentLink}
                 redirectedType={redirectedType}
                 setShowAddStore={setShowAddStore}
             />
@@ -598,7 +591,7 @@ const IntegrationForm = ({
                             <div className="col-12">
                                 <div className="input_wrap">
                                     <input
-                                        ref={myRef}
+                                        className={currentLink.name !== "" ? "active" : ""}
                                         name="name"
                                         type="text"
                                         value={currentLink.name ||

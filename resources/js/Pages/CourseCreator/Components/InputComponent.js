@@ -9,7 +9,7 @@ import {
 import {LP_ACTIONS, OFFER_ACTIONS} from '../Reducer';
 import {updateOfferData} from '../../../Services/OfferRequests';
 import EditorComponent from '../../LPCreator/Components/EditorComponent';
-import {HandleFocus, InputEventListener} from '../../../Utils/InputAnimations';
+import {HandleFocus} from '../../../Utils/InputAnimations';
 
 const InputComponent = ({
                             placeholder,
@@ -30,14 +30,6 @@ const InputComponent = ({
     const [charactersLeft, setCharactersLeft] = useState(maxChar);
     const [isValid, setIsValid] = useState(false)
 
-    const myRef = useRef(null);
-
-    useEffect(() => {
-
-        InputEventListener(myRef.current);
-
-    },[])
-
     useEffect(() => {
         if(maxChar) {
             if (value) {
@@ -55,7 +47,6 @@ const InputComponent = ({
         if ( ( (type === "url" && checkValidity(value, "url") ) || type === "textarea") && value ) {
             setIsValid(true);
         }
-        console.log("triggered");
     },[])
 
     useEffect(() => {
@@ -238,7 +229,7 @@ const InputComponent = ({
             case 'text' || 'url' :
                 return (
                     <>
-                        <input ref={myRef}
+                        <input className={ value !== "" ? "active" : ""}
                                maxLength={maxChar}
                                name={elementName}
                                type={type}
@@ -260,7 +251,7 @@ const InputComponent = ({
                 return (
                     <>
                         <textarea
-                            ref={myRef}
+                            className={value !== "" ? "active" : ""}
                             name={elementName}
                             defaultValue={value || ""}
                             rows={5}
@@ -318,7 +309,7 @@ const InputComponent = ({
             default:
                 return (
                     <>
-                        <input ref={myRef}
+                        <input className={value !== "" ? "active" : ""}
                                maxLength={maxChar}
                                name={elementName}
                                type={type}

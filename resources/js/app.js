@@ -53,6 +53,6 @@ if (document.getElementById('single_course')) {
     require('./Pages/SingleCourse');
 }
 
-if (document.getElementById('manager_table')) {
-    require('./Pages/CourseManager');
+if (document.getElementById('creator_center')) {
+    require('./Pages/CreatorCenter');
 }

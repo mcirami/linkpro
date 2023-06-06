@@ -7,7 +7,6 @@ import {isEmpty} from 'lodash';
 import {
     HandleFocus,
     HandleBlur,
-    InputEventListener,
 } from '../../../../../Utils/InputAnimations';
 
 const IntegrationType = ({
@@ -15,12 +14,9 @@ const IntegrationType = ({
                              setIntegrationType,
                              setShowLoader,
                              setLists,
-                             currentLink,
                              redirectedType,
                              setShopifyStores
 }) => {
-
-    const myRef = useRef(null);
 
     useEffect(() => {
 
@@ -39,10 +35,6 @@ const IntegrationType = ({
         }
 
     },[integrationType])
-
-    useEffect(() => {
-        InputEventListener(myRef.current);
-    },[])
 
     const handleChange = (e) => {
         const value = e.target.value;
@@ -89,8 +81,7 @@ const IntegrationType = ({
     return (
         <div className="integration_dropdown_wrap">
             <select
-                className=""
-                ref={myRef}
+                className={integrationType !== "" ? "active" : ""}
                 name="integration_type"
                 onChange={(e) => handleChange(e)}
                 onFocus={(e) => HandleFocus(e.target)}

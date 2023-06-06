@@ -237,7 +237,7 @@ const Links = ({
     }, [state.isPressed]);
 
     const handleChange = (currentItem, hasLinks, type) => {
-        console.log(currentItem);
+
         if(hasLinks) {
 
             if ((currentItem.type && currentItem.type === "folder") && !subStatus) {

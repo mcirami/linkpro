@@ -7,7 +7,7 @@ import EventBus from '../Utils/Bus';
  */
 export const updateIcon = (packets, id) => {
 
-    return axios.post('/course-manager/offer/update-icon/' + id, packets)
+    return axios.post('/creator-center/offer/update-icon/' + id, packets)
     .then(
         (response) => {
             const returnMessage = JSON.stringify(response.data.message);
@@ -41,7 +41,7 @@ export const updateIcon = (packets, id) => {
  */
 export const updateOfferData = (packets, id) => {
 
-    return axios.post('/course-manager/offer/update-data/' + id, packets)
+    return axios.post('/creator-center/offer/update-data/' + id, packets)
     .then(
         (response) => {
             const returnMessage = JSON.stringify(response.data.message);
@@ -74,7 +74,7 @@ export const updateOfferData = (packets, id) => {
  */
 export const publishOffer = (packets, id) => {
 
-    return axios.post('/course-manager/offer/publish/' + id, packets)
+    return axios.post('/creator-center/offer/publish/' + id, packets)
     .then(
         (response) => {
             const returnMessage = JSON.stringify(response.data.message);

@@ -69,7 +69,7 @@ const hoverText = [
         ]
     },
     {
-        section: 'manager_active',
+        section: 'creator_active',
         text: [
             {
                 description: 'Active course to make it available to be promoted across LinkPro pages.',
@@ -79,7 +79,7 @@ const hoverText = [
         ]
     },
     {
-        section: 'manager_public',
+        section: 'creator_public',
         text: [
             {
                 description: 'Making course public makes it available to any LinkPro user to add the course icon to their page and sell it as an affiliate.',
@@ -89,7 +89,7 @@ const hoverText = [
         ]
     },
     {
-        section: 'manager_prp',
+        section: 'creator_prp',
         text: [
             {
                 title: 'Personal Referral Payout',
@@ -98,11 +98,31 @@ const hoverText = [
         ]
     },
     {
-        section: 'manager_arp',
+        section: 'creator_arp',
         text: [
             {
                 title: 'Affiliate Referral Payout',
                 description: 'Your payout will be 40% of the price you set when someone adds your course to their Link Pro page.',
+            }
+        ]
+    },
+    {
+        section: 'creator_lp',
+        text: [
+            {
+                description: 'A Landing Page is your exclusive page and link you build to help market the Courses you create below. You can add all of the Courses you create to this page!',
+                subTitle: 'Note:',
+                tip: 'A Landing Page is not required, but may be used to market multiple Courses in one place.'
+            }
+        ]
+    },
+    {
+        section: 'creator_course',
+        text: [
+            {
+                description: 'Create an unlimited number of Courses to add in different Sections of your Landing Page. Each Course will also have its own Course Page for your customers to preview before a purchase or to market any of your Courses individually.',
+                subTitle: 'Note:',
+                tip: 'All Courses are NOT required to be included on your Landing Page.'
             }
         ]
     }

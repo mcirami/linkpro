@@ -27,9 +27,9 @@ class LandingPageController extends Controller
      */
     public function show(User $user, LandingPage $landingPage) {
 
-        if (!$landingPage->published) {
+        /*if (!$landingPage->published) {
             return abort(404);
-        }
+        }*/
 
         $sections = $landingPage->LandingPageSections()->get();
 
@@ -48,12 +48,12 @@ class LandingPageController extends Controller
         $user = Auth::user();
 
         if ($user->LandingPages()->exists()) {
-            return redirect()->route('course.manager');
+            return redirect()->route('creator.center');
         } else {
             $landingPage = $user->LandingPages()->create([]);
         }
 
-        return redirect('/course-manager/landing-page/' . $landingPage->id);
+        return redirect('/creator-center/landing-page/' . $landingPage->id);
     }
 
     /**
@@ -230,6 +230,29 @@ class LandingPageController extends Controller
             );
             return response()->json($returnData, 400);
         }
+
+    }
+    /**
+     * @param LandingPage $landingPage
+     * @param LandingPageService $landingPageService
+     *
+     * @return JsonResponse|never
+     */
+    public function activateLandingPage(LandingPage $landingPage, LandingPageService $landingPageService) {
+        $userID = Auth::id();
+
+        if ($landingPage->user_id != $userID) {
+            return abort(404);
+        }
+
+        $landingPageService->activatePage($landingPage);
+
+        $returnData = array(
+            'success' => true,
+            'message' => 'Page Activated'
+        );
+
+        return response()->json($returnData);
 
     }
 }

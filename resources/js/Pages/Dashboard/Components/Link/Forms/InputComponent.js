@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {HandleBlur, HandleFocus, InputEventListener} from '../../../../../Utils/InputAnimations';
+import {HandleBlur, HandleFocus} from '../../../../../Utils/InputAnimations';
 
 const InputComponent = ({
                             currentLink,
@@ -17,12 +17,6 @@ const InputComponent = ({
         placeholder: null,
         key: null
     })
-
-    const myRef = useRef(null);
-
-    useEffect(() => {
-        InputEventListener(myRef.current)
-    },[])
 
     useEffect(() => {
 
@@ -139,7 +133,7 @@ const InputComponent = ({
 
         <div className="my_row position-relative mt-2">
             <input
-                ref={myRef}
+                className={value !== "" ? "active" : ""}
                 name={name}
                 type={type}
                 defaultValue={value || ""}

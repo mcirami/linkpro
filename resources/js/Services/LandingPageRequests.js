@@ -7,7 +7,7 @@ import EventBus from '../Utils/Bus';
  */
 export const updateImage = (packets, id) => {
 
-    return axios.post('/course-manager/landing-page/save-image/' + id, packets)
+    return axios.post('/creator-center/landing-page/save-image/' + id, packets)
     .then(
         (response) => {
             const returnMessage = JSON.stringify(response.data.message);
@@ -41,7 +41,7 @@ export const updateImage = (packets, id) => {
  */
 export const updateData = (packets, id, elementName) => {
 
-    return axios.post('/course-manager/landing-page/save-data/' + id, packets)
+    return axios.post('/creator-center/landing-page/save-data/' + id, packets)
     .then(
         (response) => {
             const returnMessage = JSON.stringify(response.data.message);
@@ -81,7 +81,7 @@ export const updateData = (packets, id, elementName) => {
  */
 export const addSection = (packets, id, elementName) => {
 
-    return axios.post('/course-manager/landing-page/add-section/' + id, packets)
+    return axios.post('/creator-center/landing-page/add-section/' + id, packets)
     .then(
         (response) => {
             //const returnMessage = JSON.stringify(response.data.message);
@@ -117,7 +117,7 @@ export const addSection = (packets, id, elementName) => {
  */
 export const updateSectionData = (packets, id, elementName) => {
 
-    return axios.post('/course-manager/landing-page/update-section-data/' + id, packets)
+    return axios.post('/creator-center/landing-page/update-section-data/' + id, packets)
     .then(
         (response) => {
             const returnMessage = JSON.stringify(response.data.message);
@@ -155,7 +155,7 @@ export const updateSectionData = (packets, id, elementName) => {
  */
 export const updateSectionImage = (packets, id) => {
 
-    return axios.post('/course-manager/landing-page/update-section-image/' + id, packets)
+    return axios.post('/creator-center/landing-page/update-section-image/' + id, packets)
     .then(
         (response) => {
             const returnMessage = JSON.stringify(response.data.message);
@@ -190,7 +190,7 @@ export const updateSectionImage = (packets, id) => {
  */
 export const deleteSection = (id) => {
 
-    return axios.post('/course-manager/landing-page/delete-section/' + id)
+    return axios.post('/creator-center/landing-page/delete-section/' + id)
     .then(
         (response) => {
             const returnMessage = JSON.stringify(response.data.message);
@@ -225,7 +225,47 @@ export const deleteSection = (id) => {
  */
 export const publishPage = (packets, id) => {
 
-    return axios.post('/course-manager/landing-page/publish/' + id, packets)
+    return axios.post('/creator-center/landing-page/publish/' + id, packets)
+    .then(
+        (response) => {
+            const returnMessage = JSON.stringify(response.data.message);
+            const status = JSON.stringify(response.data.success);
+
+            EventBus.dispatch("success", { message: returnMessage.replace("_", " ") });
+
+            return {
+                success : status,
+            }
+
+        }
+    )
+    .catch((error) => {
+        if (error.response !== undefined) {
+            if (error.response.data.code == 400) {
+                EventBus.dispatch("error",
+                    {message: error.response.data.message});
+            } else {
+                EventBus.dispatch("error",
+                    {message: "There was an error saving page data."});
+            }
+
+            console.error("ERROR:: ", error.response.data);
+        } else {
+            console.error("ERROR:: ", error);
+        }
+
+        return {
+            success : false,
+        }
+
+    });
+}/**
+ * Submit a request to update page active status
+ * return object
+ */
+export const activatePage = (id) => {
+
+    return axios.post('/creator-center/landing-page/activate/' + id)
     .then(
         (response) => {
             const returnMessage = JSON.stringify(response.data.message);

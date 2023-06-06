@@ -19,7 +19,7 @@ const Hero = ({
 
     useEffect(() => {
 
-        const background = pageData["hero"] ? "url(" + pageData["hero"] + ") center 25% no-repeat" : "url(" + Vapor.asset("images/image-placeholder.jpg") + ") top no-repeat #f4f4f4";
+        const background = pageData["hero"] ? "url(" + pageData["hero"] + ") center 25% no-repeat" : "url(" + Vapor.asset("images/image-placeholder.jpg") + ") center no-repeat #f4f4f4";
 
         setHeaderImageStyle (
             checkFound() ?

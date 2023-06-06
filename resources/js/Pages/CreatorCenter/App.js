@@ -1,14 +1,13 @@
-import React, {
-    useState,
-    useRef,
-} from 'react';
-import SwitchOptions from './Components/SwitchOptions';
-import ToolTipIcon from '../../Utils/ToolTips/ToolTipIcon';
-
-const offers = user.offers;
+import React, {useRef, useState} from 'react';
 import { ToolTipContextProvider } from '../../Utils/ToolTips/ToolTipContext';
-import InfoText from '../../Utils/ToolTips/InfoText';
-
+import TableComponent from './Components/TableComponent';
+import {FaPlus} from 'react-icons/fa';
+import ToolTipIcon from '../../Utils/ToolTips/ToolTipIcon';
+import IOSSwitch from '../../Utils/IOSSwitch';
+import {activatePage} from '../../Services/LandingPageRequests';
+import {LP_ACTIONS} from '../LPCreator/Reducer';
+const offers = user.offers;
+const landingPage = user.landingPage;
 function App() {
 
     const [infoText, setInfoText] = useState({section:'', text:[]});
@@ -16,7 +15,17 @@ function App() {
     const [infoLocation, setInfoLocation] = useState({})
     const [infoClicked, setInfoClicked] = useState(null);
 
-    const table_wrap = useRef(null);
+    const [lpActive, setLpActive] = useState(landingPage['active']);
+
+    const handleChange = () => {
+
+        activatePage(landingPage["id"])
+        .then((response) => {
+            if (response.success) {
+                setLpActive(!lpActive);
+            }
+        });
+    }
 
     return (
         <ToolTipContextProvider value={{
@@ -29,49 +38,94 @@ function App() {
             infoClicked,
             setInfoClicked
         }}>
-            <div className="table_wrap" ref={table_wrap}>
-                <table className="table table-borderless">
-                    <thead>
-                        <tr>
-                            <th scope="col">Courses</th>
-                            <th scope="col">
-                                <span>
-                                    Active
-                                </span>
-                                <ToolTipIcon section="manager_active" />
-                            </th>
-                            <th scope="col">
-                                <span>
-                                    Public
-                                </span>
-                                <ToolTipIcon section="manager_public" />
-                            </th>
-                            <th scope="col">Price</th>
-                            <th scope="col">
-                                <span>PRP</span>
-                                <ToolTipIcon section="manager_prp" />
-                            </th>
-                            <th scope="col">
-                                <span>ARP</span>
-                                <ToolTipIcon section="manager_arp" />
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {offers.map((offer) => {
-                            return (
-                                <SwitchOptions
-                                    key={offer.id}
-                                    offer={offer}
+            {offers.length === 0 ?
+                <>
+                    <h3>Become a LinkPro Course Creator to generate revenue from your social following and beyond!</h3>
+                    <ul>
+                        <li>
+                            <span className="number">1</span>
+                            <div className="text_wrap">
+                                <h4>Add A Course</h4>
+                                <p>Create and upload your proprietary Course videos and charge for customers to access your content.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span className="number">2</span>
+                            <div className="text_wrap">
+                                <h4>Create A Landing Page</h4>
+                                <p>A Landing Page is your exclusive page and link you build to help market the Courses you create.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span className="number">3</span>
+                            <div className="text_wrap">
+                                <h4>Promote your Course link and get paid!</h4>
+                                <p>Publish and market your Course to generate income. Recruit others to sell your Course to earn shared profits!</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <a className="button blue full" href="/add-course">
+                        Get Started!
+                    </a>
+                </>
+                :
+                <div className="grid_columns">
+                    <div className="column">
+                        <div className="column_title">
+                            <h3>
+                                <span>Landing Page</span>
+                                <ToolTipIcon section="creator_lp" />
+                            </h3>
+                        </div>
+                        {landingPage ?
+                            <div className="inner_content">
+                                <div className="inner_content_wrap">
+                                    <iframe src="" ></iframe>
+                                </div>
+                            </div>
+                            :
+                            <div className="image_wrap">
+                                <img src={Vapor.asset('images/blank-lp.png')} alt=""/>
+                            </div>
+                        }
+                        <div className="buttons_wrap my_row">
+                            <div className="button_wrap">
+                                <a className="button blue"
+                                   href={landingPage ? `/creator-center/landing-page/${landingPage["id"]}` : '/creator-center/add-landing-page'}>
+                                    {landingPage ? "Edit" : "Create"}
+                                </a>
+                            </div>
+                           <div className="switch_wrap">
+                               <h5>Active</h5>
+                               <IOSSwitch
+                                   onChange={handleChange}
+                                   disabled={landingPage && landingPage['published'] ? Boolean(0) : Boolean(1)}
+                                   checked={lpActive}
                                 />
-                            )
-                        })}
-                    </tbody>
-                </table>
-                <InfoText
-                    divRef={table_wrap}
-                />
-            </div>
+                           </div>
+                        </div>
+
+                    </div>
+                    <div className="column">
+                        <div className="column_title">
+                            <h3>
+                                Courses
+                                <ToolTipIcon section="creator_course" />
+                            </h3>
+                        </div>
+
+                        <TableComponent offers={offers}/>
+
+                        <div className="link_wrap my_row">
+                            <a className="blue" href="/add-course">
+                                <FaPlus />
+                                Add New Course
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+
         </ToolTipContextProvider>
     )
 }

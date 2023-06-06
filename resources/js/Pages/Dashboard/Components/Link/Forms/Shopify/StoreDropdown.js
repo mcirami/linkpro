@@ -4,7 +4,6 @@ import {ImPlus} from 'react-icons/im';
 import {
     HandleBlur,
     HandleFocus,
-    InputEventListener,
 } from '../../../../../../Utils/InputAnimations';
 
 const StoreDropdown = ({
@@ -14,14 +13,6 @@ const StoreDropdown = ({
                            setShowAddStore,
                            shopifyStores,
 }) => {
-
-    const myRef = useRef(null);
-
-    useEffect(() => {
-
-        InputEventListener(myRef.current);
-
-    },[])
 
     const handleStoreChange = (e) => {
         e.preventDefault();
@@ -42,7 +33,7 @@ const StoreDropdown = ({
     return (
         <div className="my_row position-relative">
             <select
-                ref={myRef}
+                className={currentLink.shopify_id ? "active" : ""}
                 name="shopify_store"
                 onChange={(e) => handleStoreChange(e)}
                 onBlur={(e) => HandleBlur(e.target)}

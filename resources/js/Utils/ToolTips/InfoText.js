@@ -25,7 +25,7 @@ const InfoText = ({divRef}) => {
             infoBox.style.top = `${vert}px`;
         })
 
-        if (infoText.section.includes('manager')) {
+        if (infoText?.section.includes('creator')) {
             infoBox.style.maxWidth = `${divRef.current.offsetWidth * .62}px`
         } else {
             infoBox.style.maxWidth = `${divRef.current.offsetWidth * .92}px`
@@ -38,7 +38,7 @@ const InfoText = ({divRef}) => {
             const infoBox = infoDiv.current;
             const {center, top} = infoLocation;
             let wrapWidth;
-            if (infoText.section.includes('manager')) {
+            if (infoText.section.includes('creator')) {
                 wrapWidth = divRef.current.offsetWidth * .62;
             } else {
                 wrapWidth = divRef.current.offsetWidth * .92;

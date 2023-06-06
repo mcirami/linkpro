@@ -134,23 +134,22 @@ function App() {
                             }
                         </li>
                     }
-                    {userPermissions.includes('view course manager') &&
+                    {userPermissions.includes('view creator center') &&
                         <li>
                             <a style={ landingPageData && { color: landingPageData["header_text_color"] }}
-                               id="course_manager"
+                               id="creator_center_link"
                                className="menu-item"
-                               href="/course-manager"
-                               onMouseOver={() => handleMouseOver(
-                                   "course manager")}
+                               href="/creator-center"
+                               onMouseOver={() => handleMouseOver("creator center")}
                                onMouseOut={handleMouseOut}>
                             <span className="menu_icon" style={ landingPageData && { color: landingPageData["header_text_color"] }}>
                                 <MdOutlineDashboard />
                             </span>
-                                Course Manager
+                                Creator Center
                             </a>
                             {!isOpen && isHovering.status &&
-                            isHovering.section === "course manager" ?
-                                <HoverText text="course manager"/>
+                            isHovering.section === "creator center" ?
+                                <HoverText text="creator center"/>
                                 :
                                 ""
                             }
@@ -159,7 +158,7 @@ function App() {
                     {userPermissions.includes("view courses") &&
                         <li>
                             <a style={{ color: landingPageData && landingPageData["header_text_color"] }}
-                               id="course_manager"
+                               id="courses"
                                className="menu-item"
                                href={creator ? `/${creator}/courses` : '/courses'}
                                onMouseOver={() => handleMouseOver("courses")}

@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {updateData} from '../../../Services/CourseRequests';
 import {LP_ACTIONS} from '../Reducer';
-import {HandleFocus, InputEventListener, HandleBlur} from '../../../Utils/InputAnimations';
+import {HandleFocus, HandleBlur} from '../../../Utils/InputAnimations';
 
 const categories = user.categories;
 
@@ -12,15 +12,6 @@ const DropdownComponent = ({
 }) => {
 
     const [selectedCategory, setSelectedCategory] = useState(value)
-
-
-    const myRef = useRef(null);
-
-    useEffect(() => {
-
-        InputEventListener(myRef.current);
-
-    },[])
 
     const handleChange = (e) => {
 
@@ -47,7 +38,7 @@ const DropdownComponent = ({
     return (
         <div className="edit_form">
             <select
-                ref={myRef}
+                className={selectedCategory !== "" ? "active" : ""}
                 id="category_select"
                 defaultValue={selectedCategory}
                 onChange={(e) => handleChange(e)}

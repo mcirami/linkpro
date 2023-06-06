@@ -204,9 +204,8 @@ const ImageComponent = ({
                                     {offerData["icon"] ?
                                         <img src={offerData["icon"]} alt=""/>
                                         :
-                                        placeholder
+                                        ""
                                     }
-                                    {/*{placeholder}*/}
 
                                     <span className="edit_icon">
                                         <MdEdit />

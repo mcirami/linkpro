@@ -70,7 +70,7 @@ class CourseController extends Controller
         return view( 'courses.show' )->with( [ 'landingPageData' => $landingPageData ] );
     }
 
-    public function showCourseManager(OfferService $offerService) {
+    public function showCreatorCenter(OfferService $offerService) {
 
         $user = Auth::user();
 
@@ -79,12 +79,10 @@ class CourseController extends Controller
         $offers = $offerService->getOffers($user);
 
         Javascript::put([
-            'offers' => $offers
+            'offers'        => $offers,
+            'landingPage'   => $landingPage
         ]);
-        return view('courses.manager')->with([
-            'landingPage' => $landingPage,
-            'offers' => $offers
-        ]);
+        return view('courses.creator');
     }
 
     public function edit(Course $course, CourseService $courseService) {
@@ -95,13 +93,13 @@ class CourseController extends Controller
         }
 
         $courseData = $courseService->getCourseData($course);
-        $landingPageData = $user->LandingPages()->select('logo','header_color')->get();
+        //$landingPageData = $user->LandingPages()->select('logo','header_color')->get();
         $offerData = $courseService->getCourseOfferData($course);
         $categories = Category::with('children')->whereNull('parent_id')->get();
 
         Javascript::put([
             'course'        => $courseData,
-            'LPData'        => $landingPageData[0],
+            //'LPData'        => $landingPageData[0],
             'offerData'     => $offerData,
             'username'      => $user["username"],
             'categories'    => $categories
@@ -114,16 +112,13 @@ class CourseController extends Controller
     public function store() {
         $user = Auth::user();
 
-        $landingPageID = $user->LandingPages()->pluck('id')->first();
-        $course = $user->Courses()->create([
-            'landing_page_id' => $landingPageID
-        ]);
+        $course = $user->Courses()->create();
 
         $user->Offers()->create([
             'course_id' => $course->id,
         ]);
 
-        return redirect('/course-manager/course/' . $course->id);
+        return redirect('/creator-center/course/' . $course->id);
 
     }
 

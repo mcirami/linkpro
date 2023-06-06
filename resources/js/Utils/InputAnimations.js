@@ -10,16 +10,3 @@ export const HandleBlur = (element) => {
         return element.classList.remove('active');
     }
 }
-
-export const InputEventListener = (element) => {
-
-    if (element) {
-        if(toString(element.value) !== "") {
-            element.addEventListener('focus', HandleFocus(element));
-        }
-
-        return () => {
-            element.removeEventListener('focus', HandleFocus(element));
-        }
-    }
-}

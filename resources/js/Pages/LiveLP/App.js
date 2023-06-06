@@ -8,12 +8,12 @@ function App() {
 
     return (
 
-        <div>
+        <>
             <section className="header">
                 <div className="top_section" style={{ background: page.header_color }}>
                     <div className="container">
                         <div className="logo">
-                            <img src={ page.logo } alt="" />
+                            <img src={ page.logo || Vapor.asset('images/logo.png') } alt="" />
                         </div>
                         <div className="text_wrap">
                             <p style={{ color: page.header_text_color }}>{page.slogan}</p>
@@ -26,9 +26,9 @@ function App() {
                      backgroundPosition: "center",
                      backgroundSize: "cover"
                  }}
-            >
-            </div>
-        </section>
+                >
+                </div>
+            </section>
             <div className="sections">
                 {sections?.map(( (section, index) => {
 
@@ -38,7 +38,7 @@ function App() {
                 }))}
 
             </div>
-        </div>
+        </>
 
     )
 }

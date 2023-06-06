@@ -107,7 +107,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('/folder/update-name/{folder}', [FolderController::class, 'updateName']);
     });
 
-    Route::group(['prefix' => 'course-manager'], function() {
+    Route::group(['prefix' => 'creator-center'], function() {
         Route::get('/add-landing-page', [LandingPageController::class, 'store'])->name('add.landing.page');
         Route::get('/add-course', [CourseController::class, 'store'])->name('add.course');
 
@@ -119,6 +119,7 @@ Route::group(['middleware' => 'auth'], function() {
             Route::post('/update-section-data/{landing_page_section}', [LandingPageController::class, 'updateSectionData'])->name('update.section.data');
             Route::post('/update-section-image/{landing_page_section}', [LandingPageController::class, 'updateSectionImage'])->name('update.section.image');
             Route::post('/publish/{landing_page}', [LandingPageController::class, 'publishLandingPage'])->name('publish.landing_page');
+            Route::post('/activate/{landing_page}', [LandingPageController::class, 'activateLandingPage'])->name('activate.landing_page');
         });
 
         Route::group(['prefix' => 'course'], function() {
@@ -150,9 +151,9 @@ Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated', 'lp.user']], funct
         Route::get('/', [PageController::class, 'redirect'])->name('dashboard');
     });
 
-    Route::get('/course-manager', [CourseController::class, 'showCourseManager'])->name('course.manager');
-    Route::get('/course-manager/landing-page/{landing_page}', [LandingPageController::class, 'edit'])->name('edit.landing.page');
-    Route::get('/course-manager/course/{course}', [CourseController::class, 'edit'])->name('edit.course');
+    Route::get('/creator-center', [CourseController::class, 'showCreatorCenter'])->name('creator.center');
+    Route::get('/creator-center/landing-page/{landing_page}', [LandingPageController::class, 'edit'])->name('edit.landing.page');
+    Route::get('/creator-center/course/{course}', [CourseController::class, 'edit'])->name('edit.course');
     Route::get('/plans', [SubscriptionController::class, 'plans'])->name('plans.get');
     Route::get('/subscribe', [SubscriptionController::class, 'purchase'])->name('subscribe.get');
 
@@ -163,7 +164,6 @@ Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated', 'lp.user']], funct
     Route::post('/stats/get/offer', [StatsController::class, 'getOfferStats']);
     Route::post('/stats/get/publisher', [StatsController::class, 'getPublisherStats']);
     Route::get('/stats', [StatsController::class, 'show'])->name('stats');
-
     Route::get('/affiliate-sign-up', [AffiliateController::class, 'show']);
     Route::post('/store-affiliate', [AffiliateController::class, 'store'])->name('register.affiliate');
 });
@@ -176,8 +176,9 @@ Route::group(['middleware' => ['course.user:course']], function() {
     Route::get('/{user:username}/course/{course:slug}', [CourseController::class, 'show'])->name('live.course.page');
     Route::get('/{user:username}/course-page/{course:slug}', [CourseController::class, 'showCourseLander'])->name('live.course.lander');
     Route::get('/{user:username}/course/{course:slug}/checkout', [PurchaseController::class, 'show'])->name('course.checkout');
-    Route::get('/{user:username}/{landing_page:slug}', [LandingPageController::class, 'show'])->name('live.landing.page');
 });
+
+Route::get('/{user:username}/{landing_page:slug}', [LandingPageController::class, 'show'])->name('live.landing.page');
 
 Route::post('/send-reset-course-password', [CoursePasswordController::class, 'sendResetCoursePassword'])->name('send.reset.course.password');
 Route::post('/reset-course-password', [CoursePasswordController::class, 'resetCoursePassword'])->name('reset.course.password');

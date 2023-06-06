@@ -110,4 +110,10 @@ class LandingPageService {
             return false;
         }
     }
+
+    public function activatePage($page) {
+        $page->update([
+            "active" => !$page->active,
+        ]);
+    }
 }

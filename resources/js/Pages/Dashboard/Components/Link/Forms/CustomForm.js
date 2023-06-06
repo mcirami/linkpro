@@ -30,7 +30,7 @@ import {
 } from '../../../../../Services/Reducer';
 import EventBus from '../../../../../Utils/Bus';
 import ReactCrop from 'react-image-crop';
-import {HandleFocus, HandleBlur, InputEventListener} from '../../../../../Utils/InputAnimations';
+import {HandleFocus, HandleBlur} from '../../../../../Utils/InputAnimations';
 
 const CustomForm = ({
                         accordionValue,
@@ -84,12 +84,6 @@ const CustomForm = ({
             type: null,
         }
     );
-
-    const myRef = useRef(null);
-
-    useEffect(() => {
-        InputEventListener(myRef.current)
-    },[])
 
     useEffect(() => {
         if(currentLink.name) {
@@ -770,7 +764,7 @@ const CustomForm = ({
                 <div className="col-12">
                     <div className="input_wrap">
                         <input
-                            ref={myRef}
+                            className={currentLink.name !== "" ? "active" : ""}
                             name="name"
                             type="text"
                             value={currentLink.name ||

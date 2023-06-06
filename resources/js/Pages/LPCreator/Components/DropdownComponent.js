@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {updateSectionData} from '../../../Services/LandingPageRequests';
-import {HandleFocus, InputEventListener} from '../../../Utils/InputAnimations';
+import {HandleFocus} from '../../../Utils/InputAnimations';
 
 const DropdownComponent = ({
                                courses,
@@ -10,14 +10,6 @@ const DropdownComponent = ({
                                id,
                                url
 }) => {
-
-    const myRef = useRef(null);
-
-    useEffect(() => {
-
-        InputEventListener(myRef.current);
-
-    },[])
 
     const handleChange = (e) => {
 
@@ -50,10 +42,11 @@ const DropdownComponent = ({
 
     return (
         <div className="position-relative">
-            <select ref={myRef}
+            <select className={button_link ? "active" : ""}
                     name="courses"
                     id="courses"
-                    onChange={(e) => handleChange(e)} value={button_link || ""}
+                    onChange={(e) => handleChange(e)}
+                    value={button_link || ""}
                     onFocus={(e) => HandleFocus(e.target)}
             >
                 <option></option>
