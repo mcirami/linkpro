@@ -23,7 +23,6 @@ const Preview = ({landingPage}) => {
         <div className="links_wrap preview">
             <div className="inner_content" id="preview_wrap">
                 <div className="inner_content_wrap">
-                    {/*<iframe src={landingPage["url"]} ></iframe>*/}
                     <section className="header" id="preview_header_section">
                         <div className="top_section" style={{
                             background: header_color || '#ffffff'
@@ -41,17 +40,19 @@ const Preview = ({landingPage}) => {
                             </div>
                         }
                     </section>
-                    <div className="sections">
-                        {!isEmpty(sections) && sections.map((section, index) => {
+                    {!isEmpty(sections) &&
+                        <div className="sections">
+                            {sections.map((section, index) => {
 
-                            return (
-                                <PreviewSection
-                                    key={section["id"]}
-                                    section={section}
-                                />
-                            )
-                        })}
-                    </div>
+                                return (
+                                    <PreviewSection
+                                        key={section["id"]}
+                                        section={section}
+                                    />
+                                )
+                            })}
+                        </div>
+                    }
                 </div>
             </div>
         </div>

@@ -84,8 +84,6 @@ class CourseController extends Controller
 
         $offers = $offerService->getOffers($user);
 
-        $landingPageData['url'] = URL::to('/') . "/" . $user->username . "/" . $landingPageData["slug"];
-
         Javascript::put([
             'offers'        => $offers,
             'landingPage'   => $landingPageData

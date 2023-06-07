@@ -16,19 +16,19 @@ function App() {
     const [infoLocation, setInfoLocation] = useState({})
     const [infoClicked, setInfoClicked] = useState(null);
 
-    const [lpActive, setLpActive] = useState(landingPage['active']);
+    const [lpActive, setLpActive] = useState(landingPage ? landingPage['active'] : null);
 
     const handleChange = () => {
 
         activatePage(landingPage["id"])
         .then((response) => {
             if (response.success) {
-                setLpActive(!lpActive);
+                //setLpActive(!lpActive);
             }
         });
     }
 
-    console.log(landingPage);
+
 
     return (
         <ToolTipContextProvider value={{
@@ -67,7 +67,7 @@ function App() {
                             </div>
                         </li>
                     </ul>
-                    <a className="button blue full" href="/add-course">
+                    <a className="button blue full" href="/creator-center/add-course">
                         Get Started!
                     </a>
                 </>
@@ -118,7 +118,7 @@ function App() {
                         <TableComponent offers={offers}/>
 
                         <div className="link_wrap my_row">
-                            <a className="blue" href="/add-course">
+                            <a className="blue" href="/creator-center/add-course">
                                 <FaPlus />
                                 Add New Course
                             </a>
