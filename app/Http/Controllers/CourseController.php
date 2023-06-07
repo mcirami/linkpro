@@ -7,10 +7,12 @@ use App\Models\Course;
 use App\Models\CourseSection;
 use App\Models\User;
 use App\Services\CourseService;
+use App\Services\LandingPageService;
 use App\Services\OfferService;
 use App\Services\TrackingServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
 use App\Http\Traits\PermissionTrait;
 
@@ -70,17 +72,23 @@ class CourseController extends Controller
         return view( 'courses.show' )->with( [ 'landingPageData' => $landingPageData ] );
     }
 
-    public function showCreatorCenter(OfferService $offerService) {
+    public function showCreatorCenter(OfferService $offerService, LandingPageService $landingPageService) {
 
         $user = Auth::user();
 
+        $landingPageData = null;
         $landingPage = $user->LandingPages()->first();
+        if ($landingPage) {
+            $landingPageData = $landingPageService->getLPData($landingPage);
+        }
 
         $offers = $offerService->getOffers($user);
 
+        $landingPageData['url'] = URL::to('/') . "/" . $user->username . "/" . $landingPageData["slug"];
+
         Javascript::put([
             'offers'        => $offers,
-            'landingPage'   => $landingPage
+            'landingPage'   => $landingPageData
         ]);
         return view('courses.creator');
     }

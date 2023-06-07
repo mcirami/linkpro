@@ -5,7 +5,8 @@ import {FaPlus} from 'react-icons/fa';
 import ToolTipIcon from '../../Utils/ToolTips/ToolTipIcon';
 import IOSSwitch from '../../Utils/IOSSwitch';
 import {activatePage} from '../../Services/LandingPageRequests';
-import {LP_ACTIONS} from '../LPCreator/Reducer';
+import Preview from './Components/Preview';
+
 const offers = user.offers;
 const landingPage = user.landingPage;
 function App() {
@@ -26,6 +27,8 @@ function App() {
             }
         });
     }
+
+    console.log(landingPage);
 
     return (
         <ToolTipContextProvider value={{
@@ -78,11 +81,9 @@ function App() {
                             </h3>
                         </div>
                         {landingPage ?
-                            <div className="inner_content">
-                                <div className="inner_content_wrap">
-                                    <iframe src="" ></iframe>
-                                </div>
-                            </div>
+                            <Preview
+                                landingPage={landingPage}
+                            />
                             :
                             <div className="image_wrap">
                                 <img src={Vapor.asset('images/blank-lp.png')} alt=""/>

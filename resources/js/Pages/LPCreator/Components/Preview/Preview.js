@@ -12,7 +12,6 @@ const Preview = ({
                      completedCrop,
                      nodesRef,
                      fileNames,
-                     setFileNames,
                      pageData,
                      sections,
                      setShowPreview,
@@ -26,12 +25,9 @@ const Preview = ({
             const target = document.getElementById('preview_' + hoverSection);
             if(target) {
                 if (hoverSection.includes("header")) {
-                    console.log("if: ", target)
                     target.parentNode.scrollTop = target.offsetTop;
                 } else {
-                    console.log("else: ", target)
-                    target.parentNode.parentNode.scrollTop = target.offsetTop +
-                        100;
+                    target.parentNode.parentNode.scrollTop = target.offsetTop + 100;
                 }
             }
         }
