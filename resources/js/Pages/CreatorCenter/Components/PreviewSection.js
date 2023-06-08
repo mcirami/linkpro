@@ -1,9 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import DOMPurify from 'dompurify';
 import SectionImage from '../../LPCreator/Components/Preview/SectionImage';
+import draftToHtml from 'draftjs-to-html';
 
 const PreviewSection = ({section}) => {
 
+    const firstUpdate = useRef(true);
     const [buttonStyle, setButtonStyle] = useState(null);
     const {
         type,
@@ -18,6 +20,7 @@ const PreviewSection = ({section}) => {
         button_text_color,
         button_color
     } = section;
+    const [textValue, setTextValue] = useState(text)
 
     useEffect(() => {
         setButtonStyle ({
@@ -27,6 +30,17 @@ const PreviewSection = ({section}) => {
         })
 
     },[])
+
+    useEffect(() => {
+
+        if (firstUpdate.current) {
+            setTextValue(draftToHtml(JSON.parse(text)));
+            firstUpdate.current = false;
+        } else {
+            setTextValue(text)
+        }
+
+    },[text])
 
     const createMarkup = (text) => {
         return {
@@ -56,14 +70,14 @@ const PreviewSection = ({section}) => {
                 }
                 {{
                     "text":
-                        <div dangerouslySetInnerHTML={createMarkup(text)}>
+                        <div dangerouslySetInnerHTML={createMarkup(textValue)}>
                         </div>,
                     "image":
                         <div className="image_bg"
                              style={{
                                  background: "url(" + image + ") center no-repeat",
                                  backgroundSize: 'cover',
-                                 minHeight: '130px'
+                                 minHeight: '95px'
                              }}>
                         </div>,
                 }[type]}

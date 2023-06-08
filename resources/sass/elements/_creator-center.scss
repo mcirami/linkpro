@@ -241,7 +241,7 @@
         }
     }
 
-    .links_wrap.preview {
+    .links_wrap.preview.lp_creator {
         margin-bottom: 20px;
 
         @include query(tablet) {
@@ -251,11 +251,10 @@
         .inner_content {
             position: relative;
             min-height: 355px;
-            max-width: 180px;
+            max-width: 184px;
             padding: 7px 14px !important;
 
             .header {
-                min-height: 290px;
                 position: relative;
 
                 .top_section {
@@ -269,11 +268,72 @@
                     }
 
                     .text_wrap {
-                        text-align: center;
 
                         p {
-                            font-size: 12px;
+                            font-size: .7rem;
                         }
+                    }
+                }
+            }
+
+            .inner_content_wrap {
+                border-radius: 18px;
+                -webkit-border-radius: 18px;
+                -moz-border-radius: 18px;
+
+                .sections {
+
+                    section .text {
+                        padding: 10px;
+                    }
+
+                    h1 {
+                        font-size: 1.4rem;
+                    }
+
+                    h2 {
+                        font-size: 1.2rem;
+
+                        &.title {
+                            text-transform: uppercase;
+                            font-size: 1.7rem;
+                            text-align: center;
+                            margin: 20px 0;
+                            padding: 0 20px;
+                        }
+                    }
+
+                    h3 {
+                        font-size: 1.1rem;
+                    }
+
+                    h4 {
+                        font-size: 1rem;
+                    }
+
+                    h5 {
+                        font-size: .9rem;
+                    }
+
+                    h6 {
+                        font-size: .8rem;
+                    }
+
+                    p {
+                        font-size: .8rem;
+                    }
+
+                    .button_wrap {
+                        &.below {
+                            margin-top: 10px;
+                        }
+                        &.above {
+                            margin-bottom: 10px;
+                        }
+                    }
+
+                    a.button {
+                        font-size: .7rem;
                     }
                 }
             }

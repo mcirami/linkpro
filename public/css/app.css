@@ -17012,7 +17012,8 @@ a.delete svg {
   margin-top: 20px;
   overflow: unset;
 }
-#links_page .creator_wrap .preview .inner_content_wrap {
+
+.preview.lp_creator .inner_content_wrap {
   border-bottom-right-radius: 0 !important;
   -webkit-border-bottom-right-radius: 0 !important;
   -moz-border-radius-bottomright: 0 !important;
@@ -17020,66 +17021,65 @@ a.delete svg {
   -webkit-border-bottom-left-radius: 0 !important;
   -moz-border-radius-bottomleft: 0 !important;
 }
-#links_page .creator_wrap .preview h1, #links_page .creator_wrap .preview .h1 {
+.preview.lp_creator h1, .preview.lp_creator .h1 {
   font-size: 1.75rem;
 }
-#links_page .creator_wrap .preview h2, #links_page .creator_wrap .preview .h2 {
+.preview.lp_creator h2, .preview.lp_creator .h2 {
   font-size: 1.5rem;
 }
-#links_page .creator_wrap .preview h2.title, #links_page .creator_wrap .preview .title.h2 {
+.preview.lp_creator h2.title, .preview.lp_creator .title.h2 {
   text-transform: uppercase;
   font-size: 1.7rem;
   text-align: center;
   margin: 20px 0;
   padding: 0 20px;
 }
-#links_page .creator_wrap .preview h3, #links_page .creator_wrap .preview .h3 {
+.preview.lp_creator h3, .preview.lp_creator .h3 {
   font-size: 1.3rem;
 }
-#links_page .creator_wrap .preview h4, #links_page .creator_wrap .preview .h4 {
+.preview.lp_creator h4, .preview.lp_creator .h4 {
   font-size: 1.2rem;
 }
-#links_page .creator_wrap .preview h5, #links_page .creator_wrap .preview .h5 {
+.preview.lp_creator h5, .preview.lp_creator .h5 {
   font-size: 1rem;
 }
-#links_page .creator_wrap .preview h6, #links_page .creator_wrap .preview .h6 {
+.preview.lp_creator h6, .preview.lp_creator .h6 {
   font-size: 0.9rem;
 }
-#links_page .creator_wrap .preview p {
+.preview.lp_creator p {
   font-size: 1rem;
 }
 @media (max-width: 550px) {
-  #links_page .creator_wrap .preview p {
+  .preview.lp_creator p {
     font-size: 0.8rem;
   }
 }
-#links_page .creator_wrap .preview .header {
-  min-height: 290px;
+.preview.lp_creator .header {
   position: relative;
 }
-#links_page .creator_wrap .preview .header .header_image {
+.preview.lp_creator .header .header_image {
   position: relative;
 }
-#links_page .creator_wrap .preview .header .top_section {
+.preview.lp_creator .header .top_section {
   padding-top: 35px;
   position: relative;
 }
-#links_page .creator_wrap .preview .header .logo {
+.preview.lp_creator .header .logo {
   position: relative;
   text-align: center;
   max-width: 175px;
   margin: 0 auto;
 }
-#links_page .creator_wrap .preview .header .text_wrap {
+.preview.lp_creator .header .text_wrap {
   text-align: center;
   margin-top: 5px;
   padding-bottom: 10px;
   border-bottom: 1px solid rgba(155, 155, 155, 0.2);
 }
-#links_page .creator_wrap .preview .header .text_wrap p {
+.preview.lp_creator .header .text_wrap p {
   margin: 0;
 }
-#links_page .creator_wrap .preview .sections {
+.preview.lp_creator .sections {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -17090,47 +17090,48 @@ a.delete svg {
   -webkit-align-items: stretch;
   width: 100%;
 }
-#links_page .creator_wrap .preview .sections section {
+.preview.lp_creator .sections section {
   position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
 }
-#links_page .creator_wrap .preview .sections section .button_wrap {
+.preview.lp_creator .sections section .button_wrap {
   text-align: center;
 }
-#links_page .creator_wrap .preview .sections section .button_wrap.above {
+.preview.lp_creator .sections section .button_wrap.above {
   margin-bottom: 20px;
 }
-#links_page .creator_wrap .preview .sections section .button_wrap.below {
+.preview.lp_creator .sections section .button_wrap.below {
   margin-top: 20px;
 }
-#links_page .creator_wrap .preview .sections section .button_wrap a {
+.preview.lp_creator .sections section .button_wrap a {
   display: inline-block;
 }
-#links_page .creator_wrap .preview .sections section .text {
+.preview.lp_creator .sections section .text {
   padding: 20px;
 }
-#links_page .creator_wrap .preview .sections section .text p {
+.preview.lp_creator .sections section .text p {
   margin: 0;
 }
-#links_page .creator_wrap .preview .sections section .image {
+.preview.lp_creator .sections section .image {
   position: relative;
 }
-#links_page .creator_wrap .preview .sections section .image .button_wrap {
+.preview.lp_creator .sections section .image .button_wrap {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   padding: 0 20px;
 }
-#links_page .creator_wrap .preview .sections section .image .button_wrap.above {
+.preview.lp_creator .sections section .image .button_wrap.above {
   top: 20px;
 }
-#links_page .creator_wrap .preview .sections section .image .button_wrap.below {
+.preview.lp_creator .sections section .image .button_wrap.below {
   bottom: 20px;
 }
-#links_page .creator_wrap .preview_button_wrap {
+
+.preview_button_wrap {
   position: fixed;
   bottom: 20px;
   right: -34px;
@@ -17138,11 +17139,11 @@ a.delete svg {
   z-index: 999;
 }
 @media screen and (max-width: 768px) {
-  #links_page .creator_wrap .preview_button_wrap {
+  .preview_button_wrap {
     width: 102px;
   }
 }
-#links_page .creator_wrap .preview_button_wrap a {
+.preview_button_wrap a {
   font-size: 12px;
   padding-right: 40px;
 }
@@ -17336,38 +17337,79 @@ a.delete svg {
 #creator_center .grid_columns .link_wrap a:hover svg {
   fill: #2b37ab;
 }
-#creator_center .links_wrap.preview {
+#creator_center .links_wrap.preview.lp_creator {
   margin-bottom: 20px;
 }
 @media (max-width: 992px) {
-  #creator_center .links_wrap.preview {
+  #creator_center .links_wrap.preview.lp_creator {
     display: none;
   }
 }
-#creator_center .links_wrap.preview .inner_content {
+#creator_center .links_wrap.preview.lp_creator .inner_content {
   position: relative;
   min-height: 355px;
-  max-width: 180px;
+  max-width: 184px;
   padding: 7px 14px !important;
 }
-#creator_center .links_wrap.preview .inner_content .header {
-  min-height: 290px;
+#creator_center .links_wrap.preview.lp_creator .inner_content .header {
   position: relative;
 }
-#creator_center .links_wrap.preview .inner_content .header .top_section {
+#creator_center .links_wrap.preview.lp_creator .inner_content .header .top_section {
   padding-top: 15px;
   position: relative;
 }
-#creator_center .links_wrap.preview .inner_content .header .top_section .logo {
+#creator_center .links_wrap.preview.lp_creator .inner_content .header .top_section .logo {
   max-width: 100px;
   text-align: center;
   margin: 0 auto;
 }
-#creator_center .links_wrap.preview .inner_content .header .top_section .text_wrap {
-  text-align: center;
+#creator_center .links_wrap.preview.lp_creator .inner_content .header .top_section .text_wrap p {
+  font-size: 0.7rem;
 }
-#creator_center .links_wrap.preview .inner_content .header .top_section .text_wrap p {
-  font-size: 12px;
+#creator_center .links_wrap.preview.lp_creator .inner_content .inner_content_wrap {
+  border-radius: 18px;
+  -webkit-border-radius: 18px;
+  -moz-border-radius: 18px;
+}
+#creator_center .links_wrap.preview.lp_creator .inner_content .inner_content_wrap .sections section .text {
+  padding: 10px;
+}
+#creator_center .links_wrap.preview.lp_creator .inner_content .inner_content_wrap .sections h1, #creator_center .links_wrap.preview.lp_creator .inner_content .inner_content_wrap .sections .h1 {
+  font-size: 1.4rem;
+}
+#creator_center .links_wrap.preview.lp_creator .inner_content .inner_content_wrap .sections h2, #creator_center .links_wrap.preview.lp_creator .inner_content .inner_content_wrap .sections .h2 {
+  font-size: 1.2rem;
+}
+#creator_center .links_wrap.preview.lp_creator .inner_content .inner_content_wrap .sections h2.title, #creator_center .links_wrap.preview.lp_creator .inner_content .inner_content_wrap .sections .title.h2 {
+  text-transform: uppercase;
+  font-size: 1.7rem;
+  text-align: center;
+  margin: 20px 0;
+  padding: 0 20px;
+}
+#creator_center .links_wrap.preview.lp_creator .inner_content .inner_content_wrap .sections h3, #creator_center .links_wrap.preview.lp_creator .inner_content .inner_content_wrap .sections .h3 {
+  font-size: 1.1rem;
+}
+#creator_center .links_wrap.preview.lp_creator .inner_content .inner_content_wrap .sections h4, #creator_center .links_wrap.preview.lp_creator .inner_content .inner_content_wrap .sections .h4 {
+  font-size: 1rem;
+}
+#creator_center .links_wrap.preview.lp_creator .inner_content .inner_content_wrap .sections h5, #creator_center .links_wrap.preview.lp_creator .inner_content .inner_content_wrap .sections .h5 {
+  font-size: 0.9rem;
+}
+#creator_center .links_wrap.preview.lp_creator .inner_content .inner_content_wrap .sections h6, #creator_center .links_wrap.preview.lp_creator .inner_content .inner_content_wrap .sections .h6 {
+  font-size: 0.8rem;
+}
+#creator_center .links_wrap.preview.lp_creator .inner_content .inner_content_wrap .sections p {
+  font-size: 0.8rem;
+}
+#creator_center .links_wrap.preview.lp_creator .inner_content .inner_content_wrap .sections .button_wrap.below {
+  margin-top: 10px;
+}
+#creator_center .links_wrap.preview.lp_creator .inner_content .inner_content_wrap .sections .button_wrap.above {
+  margin-bottom: 10px;
+}
+#creator_center .links_wrap.preview.lp_creator .inner_content .inner_content_wrap .sections a.button {
+  font-size: 0.7rem;
 }
 #creator_center .text_wrap.flex {
   display: flex;

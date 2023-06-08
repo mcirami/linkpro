@@ -1,29 +1,20 @@
 import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {isEmpty} from 'lodash';
 import PreviewSection from './PreviewSection';
-import {PreviewHeight} from '../../../Services/PreviewHooks';
+import {UseLoadPreviewHeight, UseResizePreviewHeight} from '../../../Services/PreviewHooks';
 
 const Preview = ({landingPage}) => {
 
     const {header_color, header_text_color, hero, logo, sections, slogan} = landingPage;
 
-    useLayoutEffect(() => {
-
-        window.addEventListener('resize', PreviewHeight);
-        return () => {
-            window.removeEventListener('resize', PreviewHeight);
-        }
-    }, []);
-
-    useLayoutEffect(() => {
-        PreviewHeight()
-    }, []);
+    const loadPreviewHeight = UseLoadPreviewHeight(20);
+    const resizePreviewHeight = UseResizePreviewHeight(20);
 
     return (
-        <div className="links_wrap preview">
+        <div className="links_wrap preview lp_creator">
             <div className="inner_content" id="preview_wrap">
-                <div className="inner_content_wrap">
-                    <section className="header" id="preview_header_section">
+                <div className="inner_content_wrap" style={{ maxHeight: resizePreviewHeight ? resizePreviewHeight + "px" : loadPreviewHeight + "px"}}>
+                    <section className="header my_row" id="preview_header_section">
                         <div className="top_section" style={{
                             background: header_color || '#ffffff'
                         }}>
@@ -36,7 +27,10 @@ const Preview = ({landingPage}) => {
                         </div>
                         {hero &&
                             <div className="header_image my_row"
-                                 style={{ background: "url(" + hero + ") center 25% no-repeat" }}>
+                                 style={{
+                                     background: "url(" + hero + ") center 25% / cover no-repeat",
+                                     minHeight: '75px',
+                                 }}>
                             </div>
                         }
                     </section>

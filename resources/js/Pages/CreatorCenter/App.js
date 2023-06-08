@@ -16,19 +16,17 @@ function App() {
     const [infoLocation, setInfoLocation] = useState({})
     const [infoClicked, setInfoClicked] = useState(null);
 
-    const [lpActive, setLpActive] = useState(landingPage ? landingPage['active'] : null);
+    const [lpActive, setLpActive] = useState(landingPage ? Boolean(landingPage['active']) : Boolean(0));
 
     const handleChange = () => {
 
         activatePage(landingPage["id"])
         .then((response) => {
             if (response.success) {
-                //setLpActive(!lpActive);
+                setLpActive(!lpActive);
             }
         });
     }
-
-
 
     return (
         <ToolTipContextProvider value={{

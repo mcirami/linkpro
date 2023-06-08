@@ -2,7 +2,6 @@ import React, {
     useContext,
     useState,
     useEffect,
-    useLayoutEffect,
 } from 'react';
 import {PageContext, UserLinksContext} from '../../App';
 import {IoIosCloseCircleOutline} from 'react-icons/io';
@@ -15,7 +14,7 @@ import Folder from './Folder';
 import FormIcon from './FormIcon';
 import SubscribeForm from './SubscribeForm';
 import StoreProducts from './StoreProducts';
-import {PreviewHeight} from '../../../../Services/PreviewHooks';
+import {UseLoadPreviewHeight, UseResizePreviewHeight} from '../../../../Services/PreviewHooks';
 
 const Preview = ({
                      setRef,
@@ -37,6 +36,9 @@ const Preview = ({
     const [iconCount, setIconCount] = useState(null);
     const {pageSettings} = useContext(PageContext);
     const [clickType, setClickType] = useState(null);
+
+    const loadPreviewHeight = UseLoadPreviewHeight();
+    const resizePreviewHeight = UseResizePreviewHeight();
 
     const ClosePreview = () => {
         document.querySelector('body').classList.remove('fixed');
@@ -72,18 +74,6 @@ const Preview = ({
         }
     }, []);
 
-    useLayoutEffect(() => {
-
-        window.addEventListener('resize', PreviewHeight);
-        return () => {
-            window.removeEventListener('resize', PreviewHeight);
-        }
-    }, []);
-
-    useLayoutEffect(() => {
-        PreviewHeight()
-    }, []);
-
     const accordionLinks = value !== null ? userLinks[value].links : null;
     const mailchimpListId = value !== null ? userLinks[value].mailchimp_list_id : null;
     const storeProducts = value !== null ? userLinks[value].shopify_products : null;
@@ -97,7 +87,7 @@ const Preview = ({
 
             <div className="links_wrap preview">
                 <div className="inner_content" id="preview_wrap">
-                    <div className="inner_content_wrap">
+                    <div className="inner_content_wrap" style={{ maxHeight: resizePreviewHeight ? resizePreviewHeight + "px" : loadPreviewHeight + "px"}}>
                         <Header
                             setRef={setRef}
                             completedCrop={completedCrop}

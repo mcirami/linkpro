@@ -3,7 +3,8 @@ import TopBar from './TopBar';
 import PreviewSection from './PreviewSection';
 import Hero from './Hero';
 import {
-    PreviewHeight,
+    UseLoadPreviewHeight,
+    UseResizePreviewHeight
 } from '../../../../Services/PreviewHooks';
 import {isEmpty} from 'lodash';
 import {IoIosCloseCircleOutline} from 'react-icons/io';
@@ -17,6 +18,9 @@ const Preview = ({
                      setShowPreview,
                      hoverSection
 }) => {
+
+    const loadPreviewHeight = UseLoadPreviewHeight();
+    const resizePreviewHeight = UseResizePreviewHeight();
 
     useEffect(() => {
 
@@ -34,17 +38,6 @@ const Preview = ({
 
     },[hoverSection])
 
-    useLayoutEffect(() => {
-
-        PreviewHeight()
-
-        window.addEventListener('resize', PreviewHeight);
-
-        return () => {
-            window.removeEventListener('resize', PreviewHeight);
-        }
-    }, []);
-
     const ClosePreview = () => {
         document.querySelector('body').classList.remove('fixed');
         setShowPreview(false);
@@ -57,10 +50,10 @@ const Preview = ({
                 <IoIosCloseCircleOutline />
             </div>
 
-            <div className="links_wrap preview">
+            <div className="links_wrap preview lp_creator">
                 <div className="inner_content" id="preview_wrap" >
-                    <div className="inner_content_wrap" >
-                        <section className={`header ${hoverSection === 'header_section' ? "active" : ""}`} id="preview_header_section">
+                    <div className="inner_content_wrap" style={{ maxHeight: resizePreviewHeight ? resizePreviewHeight + "px" : loadPreviewHeight + "px"}}>
+                        <section className={`my_row header ${hoverSection === 'header_section' ? "active" : ""}`} id="preview_header_section">
                             <TopBar
                                 nodesRef={nodesRef}
                                 completedCrop={completedCrop}
