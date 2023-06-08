@@ -335,7 +335,6 @@ const IconList = ({
         }
     }
 
-    console.log(iconList);
     return (
 
         <>

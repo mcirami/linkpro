@@ -106,7 +106,7 @@ const PageProfile = ({
 
     const fileUpload = (image) => {
 
-        setShowLoader(true);
+        setShowLoader({show: true, icon: "upload", position: "fixed"})
         window.Vapor.store(
             image,
             {
@@ -126,13 +126,11 @@ const PageProfile = ({
 
             profileImage(packets, pageSettings["id"], pageSettings["default"])
             .then((data) => {
-                setShowLoader(false);
+                setShowLoader({show: false, icon: null, position: ""})
                 if (data.success) {
                     setProfileFileName("")
                     setUpImg("")
-                    document.querySelector('form.profile_img_form .bottom_section').
-                        classList.
-                        add('hidden');
+                    document.querySelector('form.profile_img_form .bottom_section').classList.add('hidden');
                 }
             })
         }).catch(error => {

@@ -78,6 +78,8 @@ const Preview = ({
     const mailchimpListId = value !== null ? userLinks[value].mailchimp_list_id : null;
     const storeProducts = value !== null ? userLinks[value].shopify_products : null;
 
+    console.log(userLinks);
+
     return (
 
         <>
@@ -166,6 +168,9 @@ const Preview = ({
                                                     )
                                                 case "standard":
                                                 case "offer":
+                                                case "url":
+                                                case "email":
+                                                case "phone":
                                                     return (
                                                         <div className={` ${colClasses} `}>
                                                             {active_status ?

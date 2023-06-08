@@ -176,7 +176,7 @@ const CustomForm = ({
                             icon: currentLink.icon,
                             page_id: pageSettings["id"],
                             folder_id: folderID,
-                            type: "standard",
+                            type: currentLink.type,
                         };
                         break;
                     case "email":
@@ -186,7 +186,7 @@ const CustomForm = ({
                             icon: currentLink.icon,
                             page_id: pageSettings["id"],
                             folder_id: folderID,
-                            type: "standard",
+                            type: currentLink.type,
                         };
                         break;
                     case "phone":
@@ -196,7 +196,7 @@ const CustomForm = ({
                             icon: currentLink.icon,
                             page_id: pageSettings["id"],
                             folder_id: folderID,
-                            type: "standard",
+                            type: currentLink.type,
                         };
                         break;
                     default:
@@ -454,7 +454,7 @@ const CustomForm = ({
                             page_id: pageSettings["id"],
                             ext: response.extension,
                             folder_id: folderID,
-                            type: "standard",
+                            type: currentLink.type,
                         };
                         break;
                     case "email":
@@ -465,7 +465,7 @@ const CustomForm = ({
                             page_id: pageSettings["id"],
                             ext: response.extension,
                             folder_id: folderID,
-                            type: "standard",
+                            type: currentLink.type,
                         };
                         break;
                     case "phone":
@@ -476,7 +476,7 @@ const CustomForm = ({
                             page_id: pageSettings["id"],
                             ext: response.extension,
                             folder_id: folderID,
-                            type: "standard",
+                            type: currentLink.type,
                         };
                         break;
                     default:
@@ -689,6 +689,8 @@ const CustomForm = ({
             name: value
         }))
     });
+
+    console.log("current Link: ", currentLink);
 
     return (
         <form onSubmit={handleSubmit} className="link_form">

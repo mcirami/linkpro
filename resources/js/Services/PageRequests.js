@@ -104,7 +104,7 @@ export const profileImage = (packets, pageID, pageDefault) => {
             if(pageDefault){
 
                 document.querySelector('#user_image').src = imgPath;
-                document.querySelector('#mobile_user_image').src = imgPath;
+                //document.querySelector('#mobile_user_image').src = imgPath;
             }
 
             return {

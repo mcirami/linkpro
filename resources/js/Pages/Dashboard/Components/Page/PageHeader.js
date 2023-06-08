@@ -112,7 +112,7 @@ const PageHeader = ({
     };
 
     const fileUpload = (image) => {
-        setShowLoader(true);
+        setShowLoader({show: true, icon: "upload", position: "fixed"})
         window.Vapor.store(
             image,
             {
@@ -131,17 +131,13 @@ const PageHeader = ({
                 };
 
                 headerImage(packets, pageSettings["id"]).then((data) => {
-                    setShowLoader(false);
+                    setShowLoader({show: false, icon: null, position: ""})
 
                     if (data.success) {
                         setFileName(null);
                         setUpImg(null);
                         setCompletedCrop(false);
-                        document
-                            .querySelector(
-                                "form.header_img_form .bottom_section"
-                            )
-                            .classList.add("hidden");
+                        document.querySelector("form.header_img_form .bottom_section").classList.add("hidden");
                     }
                 });
             })

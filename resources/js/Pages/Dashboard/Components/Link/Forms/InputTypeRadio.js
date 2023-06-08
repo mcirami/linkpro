@@ -16,7 +16,7 @@ const InputTypeRadio = ({inputType, setInputType, currentLink, setCurrentLink}) 
          setInputType(e.target.value)
          setCurrentLink(prevState => ({
              ...prevState,
-             type: "standard"
+             type: e.target.value
          }))
      }
 
@@ -24,7 +24,10 @@ const InputTypeRadio = ({inputType, setInputType, currentLink, setCurrentLink}) 
         <div className="my_row radios_wrap input_types">
             <div className={inputType === "url" || !inputType ? "radio_wrap active" : "radio_wrap" }>
                 <label htmlFor="url">
-                    <input id="url" type="radio" value="url" name="input_type"
+                    <input id="url"
+                           type="radio"
+                           value="url"
+                           name="input_type"
                            checked={inputType === "url" || !inputType}
                            onChange={(e) => {handleOnChange(e) }}/>
                     URL
@@ -32,7 +35,10 @@ const InputTypeRadio = ({inputType, setInputType, currentLink, setCurrentLink}) 
             </div>
             <div className={inputType === "email" ? "radio_wrap active" : "radio_wrap" }>
                 <label htmlFor="email">
-                    <input id="email" type="radio" value="email" name="input_type"
+                    <input id="email"
+                           type="radio"
+                           value="email"
+                           name="input_type"
                            onChange={(e) => { handleOnChange(e) }}
                            checked={inputType === "email"}
                     />
@@ -41,7 +47,10 @@ const InputTypeRadio = ({inputType, setInputType, currentLink, setCurrentLink}) 
             </div>
             <div className={inputType === "phone" ? "radio_wrap active" : "radio_wrap" }>
                 <label htmlFor="phone">
-                    <input id="phone" type="radio" value="phone" name="input_type"
+                    <input id="phone"
+                           type="radio"
+                           value="phone"
+                           name="input_type"
                            onChange={(e) => { handleOnChange(e) }}
                            checked={inputType === "phone"}
                     />
