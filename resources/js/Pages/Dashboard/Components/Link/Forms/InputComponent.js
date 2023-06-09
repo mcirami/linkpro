@@ -101,19 +101,19 @@ const InputComponent = ({
             key3 = "url"
             /*key4 = "mailchimp_list_id"
             key5 = "shopify_products"*/
-            iconType = "standard"
+            iconType = "phone"
         } else if (key.includes("email")) {
             key2 = "phone"
             key3 = "url"
             /*key4 = "mailchimp_list_id"
             key5 = "shopify_products"*/
-            iconType = "standard"
+            iconType = "email"
         } else {
             key2 = "phone"
             key3 = "email"
             /*key4 = "mailchimp_list_id"
             key5 = "shopify_products"*/
-            iconType = "standard"
+            iconType = "url"
         }
 
         setCurrentLink({

@@ -690,8 +690,6 @@ const CustomForm = ({
         }))
     });
 
-    console.log("current Link: ", currentLink);
-
     return (
         <form onSubmit={handleSubmit} className="link_form">
             <div className="row">
