@@ -18,7 +18,6 @@ const SectionImage = ({
         })
         return isFound || false;
     }
-    //console.log("check Found: ", checkFound());
 
     useEffect(() => {
 
@@ -59,9 +58,6 @@ const SectionImage = ({
                 />
                 :
                 ""
-                /*<div className={type} >
-                    <img src={imgUrl} alt=""/>
-                </div>*/
             }
         </div>
     );

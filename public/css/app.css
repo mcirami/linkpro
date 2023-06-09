@@ -13502,7 +13502,7 @@ label.custom {
   font-family: "opensansbold", sans-serif;
   width: 100%;
   margin: 0;
-  padding: 15px 10px;
+  padding: 15px;
   border-radius: 8px;
   font-size: 16px;
   display: flex;
@@ -16663,7 +16663,7 @@ a.delete svg {
   border-radius: 8px;
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
-  padding: 10px;
+  padding: 15px;
 }
 #links_page .creator_wrap .content_wrap.creator .button_wrap .button {
   display: block;
@@ -17494,9 +17494,16 @@ a.delete svg {
 }
 .creator.course_creator #links_page .creator_wrap .preview .top_section {
   border-bottom: 2px solid #000;
+  padding: 35px 20px 20px;
 }
 .creator.course_creator #links_page .creator_wrap .preview .logo {
-  padding: 20px 0;
+  max-width: 175px;
+  margin: 0 auto;
+}
+.creator.course_creator #links_page .creator_wrap .preview .title {
+  padding: 20px;
+  margin: 0;
+  text-align: center;
 }
 .creator.course_creator #links_page .creator_wrap .preview .intro_text {
   padding: 20px;
@@ -17523,34 +17530,35 @@ a.delete svg {
 .creator.course_creator #links_page .creator_wrap .preview .sections section.text p {
   text-align: center;
 }
+.creator.course_creator #links_page .creator_wrap .preview .sections section .button_wrap.above {
+  margin-bottom: 20px;
+}
+.creator.course_creator #links_page .creator_wrap .preview .sections section .button_wrap.below {
+  margin-top: 20px;
+}
+.creator.course_creator #links_page .creator_wrap .preview .sections section .button_wrap .button {
+  display: block;
+  margin: 0 auto;
+}
 
 #links_page.live_page .creator_wrap {
-  width: 100%;
-  float: left;
+  margin: 20px auto;
+  max-width: 475px;
+}
+@media (max-width: 550px) {
+  #links_page.live_page .creator_wrap {
+    margin: 20px;
+  }
+}
+#links_page.live_page .creator_wrap #live_landing_page {
   box-shadow: 0px 0px 35px 5px rgba(170, 170, 170, 0.18);
-  border-bottom-right-radius: 10px;
-  -webkit-border-bottom-right-radius: 10px;
-  -moz-border-radius-bottomright: 10px;
-  border-bottom-left-radius: 10px;
-  -webkit-border-bottom-left-radius: 10px;
-  -moz-border-radius-bottomleft: 10px;
+  display: inline-block;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
 }
 #links_page.live_page .button {
-  font-size: 1.2em;
   display: inline-block;
-}
-@media screen and (min-width: 550px) {
-  #links_page.live_page .button {
-    width: 250px !important;
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
-  }
-}
-@media screen and (min-width: 768px) {
-  #links_page.live_page .button {
-    font-size: 1.4em;
-    width: 300px !important;
-  }
 }
 #links_page.live_page .header {
   float: left;
@@ -17559,15 +17567,16 @@ a.delete svg {
 #links_page.live_page .header .top_section {
   text-align: center;
   padding: 20px 0;
+  border-top-right-radius: 20px;
+  -webkit-border-top-right-radius: 20px;
+  -moz-border-radius-topright: 20px;
+  border-top-left-radius: 20px;
+  -webkit-border-top-left-radius: 20px;
+  -moz-border-radius-topleft: 20px;
 }
 #links_page.live_page .header .logo {
   max-width: 300px;
   margin: 0 auto;
-}
-@media screen and (max-width: 768px) {
-  #links_page.live_page .header .logo {
-    max-width: 150px;
-  }
 }
 #links_page.live_page .header .text_wrap {
   padding: 0;
@@ -17577,18 +17586,8 @@ a.delete svg {
   font-size: 1.3rem;
   margin: 0;
 }
-@media screen and (max-width: 768px) {
-  #links_page.live_page .header .text_wrap p {
-    font-size: 0.9rem;
-  }
-}
 #links_page.live_page .header .header_image {
-  min-height: 30vw;
-}
-@media screen and (max-width: 992px) {
-  #links_page.live_page .header .header_image {
-    min-height: 46vw;
-  }
+  min-height: 240px;
 }
 #links_page.live_page .intro_text p {
   font-size: 1rem;
@@ -17601,9 +17600,15 @@ a.delete svg {
 #links_page.live_page .sections {
   width: 100%;
   float: left;
+  border-bottom-right-radius: 20px;
+  -webkit-border-bottom-right-radius: 20px;
+  -moz-border-radius-bottomright: 20px;
+  border-bottom-left-radius: 20px;
+  -webkit-border-bottom-left-radius: 20px;
+  -moz-border-radius-bottomleft: 20px;
 }
-#links_page.live_page .sections section {
-  padding: 60px 0;
+#links_page.live_page .sections .section_content {
+  padding: 30px;
 }
 #links_page.live_page .sections .button_wrap {
   width: 100%;
@@ -17611,7 +17616,7 @@ a.delete svg {
 }
 #links_page.live_page .sections .image {
   position: relative;
-  min-height: 25vw;
+  min-height: 195px;
 }
 @media screen and (max-width: 992px) {
   #links_page.live_page .sections .image {
@@ -17622,7 +17627,7 @@ a.delete svg {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  padding: 0 10px;
+  padding: 0 30px;
 }
 #links_page.live_page .sections .image .button_wrap.below {
   bottom: 20px;
@@ -17630,31 +17635,10 @@ a.delete svg {
 #links_page.live_page .sections .image .button_wrap.above {
   top: 20px;
 }
-#links_page.live_page .sections .text h2, #links_page.live_page .sections .text .h2 {
-  font-size: 3em !important;
-}
-@media screen and (max-width: 992px) {
-  #links_page.live_page .sections .text h2, #links_page.live_page .sections .text .h2 {
-    font-size: 2.4em !important;
-  }
-}
-@media screen and (max-width: 768px) {
-  #links_page.live_page .sections .text h2, #links_page.live_page .sections .text .h2 {
-    font-size: 2em !important;
-  }
-}
 #links_page.live_page .sections .text p {
-  font-size: 1.2rem;
-  margin: 0;
+  margin-bottom: 0.5rem;
   text-align: center;
-}
-#links_page.live_page .sections .text p span {
-  font-size: 1.2rem;
-}
-@media screen and (max-width: 992px) {
-  #links_page.live_page .sections .text p span {
-    font-size: 1rem;
-  }
+  line-height: 1.2;
 }
 #links_page.live_page .sections .text .button_wrap.below {
   margin-top: 20px;
@@ -17662,24 +17646,25 @@ a.delete svg {
 #links_page.live_page .sections .text .button_wrap.above {
   margin-bottom: 20px;
 }
-#links_page.live_page .sections section:last-child .text, #links_page.live_page .sections section:last-child .image {
-  border-bottom-right-radius: 10px;
-  -webkit-border-bottom-right-radius: 10px;
-  -moz-border-radius-bottomright: 10px;
-  border-bottom-left-radius: 10px;
-  -webkit-border-bottom-left-radius: 10px;
-  -moz-border-radius-bottomleft: 10px;
+#links_page.live_page .sections section:last-child.text, #links_page.live_page .sections section:last-child.image {
+  border-bottom-right-radius: 20px;
+  -webkit-border-bottom-right-radius: 20px;
+  -moz-border-radius-bottomright: 20px;
+  border-bottom-left-radius: 20px;
+  -webkit-border-bottom-left-radius: 20px;
+  -moz-border-radius-bottomleft: 20px;
 }
 
-.course_page header .logo h1, .course_page header .logo .h1 {
+.course_page header {
   text-align: center;
 }
-.course_page header .logo h1 img, .course_page header .logo .h1 img {
-  max-width: 300px;
+.course_page header .logo {
+  max-width: 200px;
+  display: inline-block;
   margin: 0 auto;
 }
 @media (max-width: 768px) {
-  .course_page header .logo h1 img, .course_page header .logo .h1 img {
+  .course_page header .logo {
     max-width: 150px;
   }
 }
@@ -17687,6 +17672,7 @@ a.delete svg {
   box-shadow: none;
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
+  max-width: unset;
 }
 
 .courses_grid {

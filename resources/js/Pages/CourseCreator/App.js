@@ -125,7 +125,7 @@ function App() {
                                  handleMouseHover(e)
                             }>
                         <div className="section_title">
-                            <h4>General Info</h4>
+                            <h4>Header</h4>
                         </div>
                         <div className="section_content my_row">
                             <InputComponent
@@ -137,6 +137,31 @@ function App() {
                                 courseData={courseData}
                                 dispatch={dispatch}
                                 value={courseData["title"]}
+                            />
+                            <ImageComponent
+                                nodesRef={nodesRef}
+                                completedCrop={completedCrop}
+                                setCompletedCrop={setCompletedCrop}
+                                fileNames={fileNames}
+                                setFileNames={setFileNames}
+                                setShowLoader={setShowLoader}
+                                data={courseData}
+                                dispatch={dispatch}
+                                elementName="logo"
+                                placeholder="Logo"
+                                cropArray={{
+                                    unit: "%",
+                                    width: 60,
+                                    height: 30,
+                                    x: 25,
+                                    y: 25,
+                                }}
+                            />
+                            <ColorPicker
+                                label="Header Color"
+                                courseData={courseData}
+                                dispatch={dispatch}
+                                elementName="header_color"
                             />
                             <DropdownComponent
                                 id={courseData["id"]}
@@ -255,7 +280,7 @@ function App() {
                                 setShowLoader={setShowLoader}
                                 elementName={`icon`}
                                 dispatch={dispatchOfferData}
-                                offerData={offerData}
+                                data={offerData}
                                 cropArray={{
                                     unit: '%',
                                     width: 30,
@@ -296,6 +321,9 @@ function App() {
                     setShowPreview={setShowPreview}
                     url={url}
                     hoverSection={hoverSection}
+                    nodesRef={nodesRef}
+                    completedCrop={completedCrop}
+                    fileNames={fileNames}
                 />
             </div>
 

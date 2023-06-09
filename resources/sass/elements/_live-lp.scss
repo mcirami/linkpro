@@ -1,31 +1,24 @@
 #links_page.live_page {
 
     .creator_wrap {
-        width: 100%;
-        float: left;
-        @include boxShadow;
-        border-bottom-right-radius: 10px;
-        -webkit-border-bottom-right-radius: 10px;
-        -moz-border-radius-bottomright: 10px;
-        border-bottom-left-radius: 10px;
-        -webkit-border-bottom-left-radius: 10px;
-        -moz-border-radius-bottomleft: 10px;
+        margin: 20px auto;
+        max-width: 475px;
+
+        @include query(smallMobile) {
+            margin: 20px;
+        }
+
+        #live_landing_page {
+            @include boxShadow;
+            display: inline-block;
+            border-radius: 10px;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+        }
     }
 
     .button {
-        font-size: 1.2em;
         display: inline-block;
-
-        @media screen and (min-width: 550px) {
-            width: 250px !important;
-            padding-top: 10px !important;
-            padding-bottom: 10px !important;
-        }
-
-        @media screen and (min-width: 768px) {
-            font-size: 1.4em;
-            width: 300px !important;
-        }
     }
 
     .header {
@@ -35,15 +28,17 @@
         .top_section {
             text-align: center;
             padding: 20px 0;
+            border-top-right-radius: 20px;
+            -webkit-border-top-right-radius: 20px;
+            -moz-border-radius-topright: 20px;
+            border-top-left-radius: 20px;
+            -webkit-border-top-left-radius: 20px;
+            -moz-border-radius-topleft: 20px;
         }
 
         .logo {
             max-width: 300px;
             margin: 0 auto;
-
-            @media screen and (max-width: 768px) {
-                max-width: 150px;
-            }
         }
 
         .text_wrap {
@@ -53,19 +48,11 @@
             p {
                 font-size: 1.3rem;
                 margin: 0;
-
-                @media screen and (max-width: 768px) {
-                    font-size: .9rem;
-                }
             }
         }
 
         .header_image {
-            min-height: 30vw;
-
-            @media screen and (max-width: 992px) {
-                min-height: 46vw;
-            }
+            min-height: 240px;
         }
     }
 
@@ -82,9 +69,15 @@
     .sections {
         width: 100%;
         float: left;
+        border-bottom-right-radius: 20px;
+        -webkit-border-bottom-right-radius: 20px;
+        -moz-border-radius-bottomright: 20px;
+        border-bottom-left-radius: 20px;
+        -webkit-border-bottom-left-radius: 20px;
+        -moz-border-radius-bottomleft: 20px;
 
-        section {
-            padding: 60px 0;
+        .section_content {
+            padding: 30px;
         }
 
         .button_wrap {
@@ -94,7 +87,7 @@
 
         .image {
             position: relative;
-            min-height: 25vw;
+            min-height: 195px;
 
             @media screen and (max-width: 992px) {
                 min-height: 40vw;
@@ -104,7 +97,7 @@
                 position: absolute;
                 left: 50%;
                 transform: translateX(-50%);
-                padding: 0 10px;
+                padding: 0 30px;
 
                 &.below {
                     bottom: 20px;
@@ -118,30 +111,10 @@
 
         .text {
 
-            h2 {
-                font-size: 3em !important;
-
-                @media screen and (max-width: 992px) {
-                    font-size: 2.4em !important;
-                }
-
-                @media screen and (max-width: 768px) {
-                    font-size: 2em !important;
-                }
-            }
-
             p {
-                font-size: 1.2rem;
-                margin: 0;
+                margin-bottom: .5rem;
                 text-align: center;
-
-                span {
-                    font-size: 1.2rem;
-
-                    @media screen and (max-width: 992px) {
-                        font-size: 1rem;
-                    }
-                }
+                line-height: 1.2;
             }
 
             .button_wrap {
@@ -157,13 +130,13 @@
         }
 
         section:last-child {
-            .text, .image {
-                border-bottom-right-radius: 10px;
-                -webkit-border-bottom-right-radius: 10px;
-                -moz-border-radius-bottomright: 10px;
-                border-bottom-left-radius: 10px;
-                -webkit-border-bottom-left-radius: 10px;
-                -moz-border-radius-bottomleft: 10px;
+            &.text, &.image {
+                border-bottom-right-radius: 20px;
+                -webkit-border-bottom-right-radius: 20px;
+                -moz-border-radius-bottomright: 20px;
+                border-bottom-left-radius: 20px;
+                -webkit-border-bottom-left-radius: 20px;
+                -moz-border-radius-bottomleft: 20px;
             }
         }
     }

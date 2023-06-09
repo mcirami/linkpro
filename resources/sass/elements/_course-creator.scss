@@ -26,10 +26,18 @@
 
                 .top_section {
                     border-bottom: 2px solid $black;
+                    padding: 35px 20px 20px;
                 }
 
                 .logo {
-                    padding: 20px 0;
+                    max-width: 175px;
+                    margin: 0 auto;
+                }
+
+                .title {
+                    padding: 20px;
+                    margin: 0;
+                    text-align: center;
                 }
 
                 .intro_text {
@@ -66,6 +74,21 @@
 
                             p {
                                 text-align: center;
+                            }
+                        }
+
+                        .button_wrap {
+                            &.above {
+                                margin-bottom: 20px;
+                            }
+
+                            &.below {
+                                margin-top: 20px;
+                            }
+
+                            .button {
+                                display: block;
+                                margin: 0 auto;
                             }
                         }
                     }

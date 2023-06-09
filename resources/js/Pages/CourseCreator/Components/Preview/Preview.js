@@ -14,7 +14,10 @@ const Preview = ({
                      sections,
                      setShowPreview,
                      url,
-                     hoverSection
+                     hoverSection,
+                     nodesRef,
+                     completedCrop,
+                     fileNames
 }) => {
 
 
@@ -25,6 +28,7 @@ const Preview = ({
 
         if (hoverSection) {
             const target = document.getElementById('preview_' + hoverSection);
+            console.log(target);
             if (target) {
                 if (hoverSection.includes("title")) {
                     target.parentNode.scrollTop = target.offsetTop;
@@ -56,7 +60,12 @@ const Preview = ({
                 <div className="inner_content" id="preview_wrap">
                     <div className="inner_content_wrap" style={{ maxHeight: resizePreviewHeight ? resizePreviewHeight + "px" : loadPreviewHeight + "px"}}>
                         <section className="header" id="preview_title_section">
-                            <TopBar />
+                            <TopBar
+                                courseData={courseData}
+                                nodesRef={nodesRef}
+                                completedCrop={completedCrop}
+                                fileNames={fileNames}
+                            />
                             {courseData['title'] &&
                                 <h2 className="title">{courseData['title']}</h2>
                             }

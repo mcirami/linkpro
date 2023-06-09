@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Course;
 use App\Models\Link;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class CourseService {
@@ -78,6 +79,24 @@ class CourseService {
             "key" => $keys[0],
             "slug" => $slug
         ];
+    }
+
+    public function saveCourseImage($userID, $request, $key, $course) {
+        $imgName = $userID . '-' . $course->id . '-' . $key . '.' . $request->ext;
+        $path = 'courses/' . $userID . '/' . $imgName;
+
+        Storage::disk('s3')->delete($path);
+        Storage::disk('s3')->copy(
+            $request->$key,
+            str_replace($request->$key, $path, $request->$key)
+        );
+
+        $imagePath = Storage::disk('s3')->url($path);
+
+        $course->update([$key => $imagePath]);
+
+        return $imagePath;
+
     }
 
     public function addCourseSection($course, $userID, $request) {

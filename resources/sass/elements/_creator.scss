@@ -22,7 +22,6 @@
         .content_wrap {
 
             &.creator {
-                //@include boxShadowRight;
                 box-shadow: none;
                 -webkit-box-shadow: none;
                 -moz-box-shadow: none;
@@ -42,7 +41,7 @@
                     border-radius: 8px;
                     -webkit-border-radius: 8px;
                     -moz-border-radius: 8px;
-                    padding: 10px;
+                    padding: 15px;
                 }
 
                 .button_wrap {

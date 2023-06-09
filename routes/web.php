@@ -124,8 +124,9 @@ Route::group(['middleware' => 'auth'], function() {
 
         Route::group(['prefix' => 'course'], function() {
             Route::post('/save-data/{course}', [CourseController::class, 'saveCourseData'])->name('course.save.data');
+            Route::post('/save-image/{course}', [CourseController::class, 'saveImage'])->name('course.save.image');
             Route::post('/add-section/{course}', [CourseController::class, 'addSection'])->name('course.add.section');
-            Route::post('/update-section-image/{course}', [CourseController::class, 'addSection'])->name('update.course.section.image');
+            Route::post('/update-section-image/{course}', [CourseController::class, ''])->name('course.section.image');
             Route::post('/delete-section/{course_section}', [CourseController::class, 'deleteSection'])->name('delete.course.section');
             Route::post('/update-section-data/{course_section}', [CourseController::class, 'updateSectionData'])->name('update.course.section.data');
         });

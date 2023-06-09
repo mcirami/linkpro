@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ $landingPageData->title ?? config('app.name', 'Laravel') }}</title>
+    <title>{{ $course->title ?? config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('/js/app.js') }}" defer></script>
@@ -28,11 +28,11 @@
     @include('layouts.menu')
 @endauth
 <div id="app" class="my_row @auth member @endauth course_page">
-    <header class="my_row nav_row" style="background: {{ $landingPageData->header_color ?: "rgba(255,255,255,1)"}}">
+    <header class="my_row nav_row" style="background: {{ $course->header_color }}">
         <nav>
             <div class="container">
                 <a class="logo" href="{{ Request::url() }}">
-                    <h1><img src="{{ $landingPageData->logo }}" alt="{{ $landingPageData->title ?? ''}}"></h1>
+                    <h1><img src="{{ $course->logo }}" alt="{{ $course->title ?? ''}}"></h1>
                 </a>
             </div>
         </nav>

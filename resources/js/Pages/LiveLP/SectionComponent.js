@@ -79,7 +79,7 @@ const SectionComponent = ({section}) => {
     return (
         <section className={type} style={ type === "text" ? { background: bg_color } : bgStyle }>
             {type === "text" &&
-                <div className="container">
+                <article className="section_content">
                     { (button && button_position === "above") ?
                         <Button buttonText={button_text} />
                         :
@@ -92,7 +92,7 @@ const SectionComponent = ({section}) => {
                         :
                         ""
                     }
-                </div>
+                </article>
             }
             {type === "image" &&
                 button ?

@@ -16,7 +16,7 @@ const TopBar = ({
 
     return (
         <div className="top_section" style={{
-            background: pageData["header_color"] || '#ffffff'
+            background: pageData["header_color"]
         }}>
             <div className="logo">
                 {checkFound() ?
@@ -38,7 +38,7 @@ const TopBar = ({
                 }
             </div>
             <div className="text_wrap">
-                <p style={{color: pageData["header_text_color"] || '#ffffff'}}>{pageData["slogan"]}</p>
+                <p style={{color: pageData["header_text_color"]}}>{pageData["slogan"]}</p>
             </div>
         </div>
 

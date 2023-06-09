@@ -1,17 +1,15 @@
 .course_page {
 
-    header .logo {
+    header {
+        text-align: center;
 
-        h1 {
-            text-align: center;
+        .logo {
+            max-width: 200px;
+            display: inline-block;
+            margin: 0 auto;
 
-            img {
-                max-width: 300px;
-                margin: 0 auto;
-
-                @include query(mobile) {
-                    max-width: 150px;
-                }
+            @include query(mobile) {
+                max-width: 150px;
             }
         }
     }
@@ -24,6 +22,7 @@
                 box-shadow: none;
                 -moz-box-shadow: none;
                 -webkit-box-shadow: none;
+                max-width: unset;
             }
         }
     }

@@ -3,7 +3,8 @@ import {MdEdit} from 'react-icons/md';
 import ReactCrop from 'react-image-crop';
 import {completedImageCrop, createImage} from '../../../Services/ImageService';
 import { updateIcon} from '../../../Services/OfferRequests';
-import {OFFER_ACTIONS} from '../Reducer';
+import { updateImage} from '../../../Services/CourseRequests';
+import {OFFER_ACTIONS, LP_ACTIONS} from '../Reducer';
 
 const ImageComponent = ({
                             placeholder,
@@ -15,7 +16,7 @@ const ImageComponent = ({
                             setShowLoader,
                             elementName,
                             cropArray,
-                            offerData = null,
+                            data,
                             dispatch = null,
 }) => {
 
@@ -68,16 +69,16 @@ const ImageComponent = ({
     }, []);
 
     useEffect(() => {
-        if (!completedCrop[elementName]?.isCompleted || !previewCanvasRef.current || !imgRef.current) {
+        if (!completedCrop[elementName]?.isCompleted || !previewCanvasRef.current[elementName] || !imgRef.current) {
             return;
         }
 
-        completedImageCrop(completedCrop[elementName].isCompleted, imgRef, previewCanvasRef.current);
+        completedImageCrop(completedCrop[elementName].isCompleted, imgRef, previewCanvasRef.current[elementName]);
     }, [completedCrop[elementName]]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        previewCanvasRef.current.toBlob(
+        previewCanvasRef.current[elementName].toBlob(
             (blob) => {
                 const reader = new FileReader();
                 reader.readAsDataURL(blob);
@@ -131,41 +132,73 @@ const ImageComponent = ({
                 ext: response.extension,
             };
 
-            updateIcon(packets, offerData["id"]).
-                then((data) => {
-                    if (data.success) {
-                        dispatch({
-                            type: OFFER_ACTIONS.UPDATE_OFFER_DATA,
-                            payload: {
-                                value: data.imagePath,
-                                name: elementName
-                            }
-                        })
-                        setShowLoader({
-                            show: false,
-                            icon: '',
-                            position: ''
-                        });
+            if(data["icon"]) {
+                updateIcon(packets, data["id"]).
+                    then((data) => {
+                        if (data.success) {
+                            dispatch({
+                                type: OFFER_ACTIONS.UPDATE_OFFER_DATA,
+                                payload: {
+                                    value: data.imagePath,
+                                    name: elementName
+                                }
+                            })
+                            setShowLoader({
+                                show: false,
+                                icon: '',
+                                position: ''
+                            });
 
-                        setFileNames(fileNames.filter(element => {
-                            return element.name !== elementName
-                        }));
-                        setUpImg(null);
-                        delete completedCrop[elementName];
-                        setCompletedCrop(completedCrop);
-                        document.querySelector(
-                            "." + CSS.escape(elementName) +
-                            "_form .bottom_section").
-                            classList.
-                            add("hidden");
-                    } else {
-                        setShowLoader({
-                            show: false,
-                            icon: '',
-                            position: ''
-                        });
-                    }
-                })
+                            setFileNames(fileNames.filter(element => {
+                                return element.name !== elementName
+                            }));
+                            setUpImg(null);
+                            delete completedCrop[elementName];
+                            setCompletedCrop(completedCrop);
+                            document.querySelector("." + CSS.escape(elementName) +
+                                "_form .bottom_section").classList.add("hidden");
+                        } else {
+                            setShowLoader({
+                                show: false,
+                                icon: '',
+                                position: ''
+                            });
+                        }
+                    })
+            } else {
+                updateImage(packets, data["id"])
+                .then((data) => {
+                        if (data.success) {
+                            dispatch({
+                                type: LP_ACTIONS.UPDATE_PAGE_DATA,
+                                payload: {
+                                    value: data.imagePath,
+                                    name: elementName
+                                }
+                            })
+                            setShowLoader({
+                                show: false,
+                                icon: '',
+                                position: ''
+                            });
+
+                            setFileNames(fileNames.filter(element => {
+                                return element.name !== elementName
+                            }));
+                            setUpImg(null);
+                            delete completedCrop[elementName];
+                            setCompletedCrop(completedCrop);
+                            document.querySelector("." + CSS.escape(elementName) +
+                                "_form .bottom_section").classList.add("hidden");
+                        } else {
+                            setShowLoader({
+                                show: false,
+                                icon: '',
+                                position: ''
+                            });
+                        }
+                    })
+            }
 
         }).catch((error) => {
             console.error(error);
@@ -184,10 +217,6 @@ const ImageComponent = ({
         delete completedCrop[elementName];
         setCompletedCrop(completedCrop);
         document.querySelector("." + CSS.escape(elementName) + "_form .bottom_section").classList.add("hidden");
-        /*setPageSettings({
-            ...pageSettings,
-            header_img: previousImage,
-        });*/
     };
 
     return (
@@ -201,12 +230,14 @@ const ImageComponent = ({
                                     htmlFor={`${elementName}_file_upload`}
                                     className="custom"
                                 >
-                                    {offerData["icon"] ?
-                                        <img src={offerData["icon"]} alt=""/>
+                                    {data["icon"] ?
+                                        <img src={data["icon"]} alt=""/>
                                         :
                                         ""
                                     }
-
+                                    {!data["icon"] &&
+                                        placeholder
+                                    }
                                     <span className="edit_icon">
                                         <MdEdit />
                                         <div className="hover_text edit_image">
@@ -215,13 +246,15 @@ const ImageComponent = ({
                                     </span>
                                 </label>
                                 <input
-                                    className={`custom ${offerData["icon"] ? "active" : "" }`}
+                                    className={`custom ${data["icon"] ? "active" : "" }`}
                                     id={`${elementName}_file_upload`}
                                     type="file"
                                     accept="image/png, image/jpeg, image/jpg, image/gif"
                                     onChange={onSelectFile}
                                 />
-                                <label>{placeholder}</label>
+                                {data["icon"] &&
+                                    <label>{placeholder}</label>
+                                }
                             </div>
                             <div className="my_row info_text file_types">
                                 <p className="m-0 char_count w-100 ">
@@ -245,15 +278,14 @@ const ImageComponent = ({
                                     }
                                 })}
                             />
-
-                            {fileNames.length > 0 &&
+                            {(data["icon"] && fileNames.length > 0) &&
                                 <div className="icon_col">
                                     <p>Icon Preview</p>
                                     <canvas
-                                        ref={nodesRef}
+                                        ref={ref => nodesRef.current["icon"] = ref}
                                         // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
                                         style={{
-                                            backgroundImage: nodesRef,
+                                            backgroundImage: nodesRef.current["icon"],
                                             backgroundSize: `cover`,
                                             backgroundRepeat: `no-repeat`,
                                             width: completedCrop[elementName]?.isCompleted ?
@@ -267,6 +299,7 @@ const ImageComponent = ({
 
                                     />
                                 </div>
+
                             }
                         </div>
                         <div className="bottom_row">

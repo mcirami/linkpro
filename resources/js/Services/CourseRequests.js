@@ -151,7 +151,7 @@ export const updateSectionData = (packets, id, elementName) => {
  * Submit a request to update landing page section image
  * return object
  */
-export const updateSectionImage = (packets, id) => {
+/*export const updateSectionImage = (packets, id) => {
 
     return axios.post('/creator-center/course/update-section-image/' + id, packets)
     .then(
@@ -180,7 +180,7 @@ export const updateSectionImage = (packets, id) => {
         }
 
     });
-}
+}*/
 
 /**
  * Submit a request to update landing page section image

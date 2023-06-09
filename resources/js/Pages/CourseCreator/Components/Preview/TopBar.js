@@ -1,14 +1,41 @@
 import React, {useEffect, useState} from 'react';
-//const lpData = user.LPData;
 
-const TopBar = () => {
+const TopBar = ({
+                    courseData,
+                    nodesRef,
+                    completedCrop,
+                    fileNames
+}) => {
+
+    const checkFound = () => {
+        const isFound = fileNames?.find(el => {
+            return el?.name === "logo";
+        })
+        return isFound || false;
+    }
 
     return (
         <div className="top_section" style={{
-            background: '#fff'
+            background: courseData['header_color']
         }}>
             <div className="logo">
-                <img src={Vapor.asset("images/logo.png") } alt=""/>
+                {checkFound() ?
+                    <canvas
+                        ref={ref => nodesRef.current["logo"] = ref }
+                        // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
+                        style={{
+                            backgroundImage: nodesRef.current["logo"],
+                            /*width: Math.round(completedCrop?.width ?? 0),
+                            height: Math.round(completedCrop?.height ?? 0)*/
+                            width: completedCrop.logo?.isCompleted ? `100%` : 0,
+                            height: completedCrop.logo?.isCompleted ? `100%` : 0,
+                            backgroundSize: `cover`,
+                            backgroundRepeat: `no-repeat`,
+                        }}
+                    />
+                    :
+                    <img src={courseData["logo"] || Vapor.asset("images/logo.png") } alt=""/>
+                }
             </div>
         </div>
 

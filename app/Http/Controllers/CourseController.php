@@ -41,7 +41,7 @@ class CourseController extends Controller
             'hasCourseAccess'   => $hasCourseAccess,
         ] );
 
-        return view( 'courses.show' )->with( [ 'landingPageData' => $landingPageData ] );
+        return view( 'courses.show' )->with( [ 'course' => $course ] );
     }
 
     public function showCourseLander(Request $request, User $user, Course $course, TrackingServices $trackingServices) {
@@ -69,7 +69,7 @@ class CourseController extends Controller
             'clickId'           => $responseData['clickId']
         ] );
 
-        return view( 'courses.show' )->with( [ 'landingPageData' => $landingPageData ] );
+        return view( 'courses.show' )->with( [ 'course' => $course ] );
     }
 
     public function showCreatorCenter(OfferService $offerService, LandingPageService $landingPageService) {
@@ -99,13 +99,13 @@ class CourseController extends Controller
         }
 
         $courseData = $courseService->getCourseData($course);
-        //$landingPageData = $user->LandingPages()->select('logo','header_color')->get();
+        $landingPageData = $user->LandingPages()->select('logo','header_color')->get();
         $offerData = $courseService->getCourseOfferData($course);
         $categories = Category::with('children')->whereNull('parent_id')->get();
 
         Javascript::put([
             'course'        => $courseData,
-            //'LPData'        => $landingPageData[0],
+            'LPData'        => $landingPageData[0],
             'offerData'     => $offerData,
             'username'      => $user["username"],
             'categories'    => $categories
@@ -138,6 +138,18 @@ class CourseController extends Controller
         $key = $courseService->saveCourseData($course, $request);
 
         return response()->json(['message' => $key["key"] .  " Updated", 'slug' => $key["slug"]]);
+    }
+
+    public function saveImage(Request $request, Course $course, CourseService $courseService) {
+        $userID = Auth::id();
+
+        if ($course->user_id != $userID) {
+            return abort(404);
+        }
+        $keys = collect($request->all())->keys();
+        $imagePath = $courseService->saveCourseImage($userID, $request, $keys[0], $course);
+
+        return response()->json(['message' => $keys[0] . ' Updated', 'imagePath' => $imagePath]);
     }
 
     public function addSection(Request $request, Course $course, CourseService $service) {
