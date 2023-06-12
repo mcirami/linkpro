@@ -37,6 +37,11 @@ const TopBar = ({
                     <img src={courseData["logo"] || Vapor.asset("images/logo.png") } alt=""/>
                 }
             </div>
+            {courseData['title'] &&
+                <h2 id="preview_title_section" className="title" style={{
+                    color: courseData['header_text_color']
+                }}>{courseData['title']}</h2>
+            }
         </div>
 
     );

@@ -28,9 +28,8 @@ const Preview = ({
 
         if (hoverSection) {
             const target = document.getElementById('preview_' + hoverSection);
-            console.log(target);
             if (target) {
-                if (hoverSection.includes("title")) {
+                if (hoverSection.includes("title") || hoverSection.includes("header")) {
                     target.parentNode.scrollTop = target.offsetTop;
                 } else if (hoverSection.includes("intro")) {
                     target.parentNode.parentNode.parentNode.scrollTop = target.offsetTop -
@@ -59,16 +58,15 @@ const Preview = ({
             <div className="links_wrap preview">
                 <div className="inner_content" id="preview_wrap">
                     <div className="inner_content_wrap" style={{ maxHeight: resizePreviewHeight ? resizePreviewHeight + "px" : loadPreviewHeight + "px"}}>
-                        <section className="header" id="preview_title_section">
+                        <section className="header" id="preview_header_section">
                             <TopBar
                                 courseData={courseData}
                                 nodesRef={nodesRef}
                                 completedCrop={completedCrop}
                                 fileNames={fileNames}
                             />
-                            {courseData['title'] &&
-                                <h2 className="title">{courseData['title']}</h2>
-                            }
+                        </section>
+                        <section>
                             <Hero
                                 courseData={courseData}
                             />

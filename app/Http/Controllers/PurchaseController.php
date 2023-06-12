@@ -22,19 +22,13 @@ class PurchaseController extends Controller
         Session::put('creator', $user->username);
         $token = $purchaseService->getToken();
         $offer = $course->Offer()->first();
-        $landingPageData = $user->LandingPages()->first();
         $affRef = $request->get('a') ? $request->get('a') : null;
         $clickId = $request->get('cid') ? $request->get('cid') : null;
-
-        Javascript::put([
-            'landingPageData' => $landingPageData
-        ]);
 
         return view('purchase.show')->with([
             'token'             => $token,
             'offer'             => $offer,
-            'courseTitle'       => $course->title,
-            'landingPageData'   => $landingPageData,
+            'course'            => $course,
             'creator'           => $user->username,
             'affRef'            => $affRef,
             'clickId'           => $clickId

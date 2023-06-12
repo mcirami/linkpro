@@ -18,7 +18,7 @@
                 <div class="card-body">
                     <form method="post" class="my_row" id="payment-form" action="{{ route('course.purchase') }}">
                         <div class="text_wrap text-center">
-                            <h3>You are purchasing {{$courseTitle}} course for ${{number_format($offer->price, 2, ".", ",")}}</h3>
+                            <h3>You are purchasing {{$course->title}} course for ${{number_format($offer->price, 2, ".", ",")}}</h3>
                         </div>
                         @csrf
                         <input id="nonce" name="payment_method_nonce" type="hidden" />
@@ -29,7 +29,7 @@
                         <input type="hidden" id="bypass" value=null>
                         <input id="user" type="hidden" name="user">
                         <input type="hidden" id="course_creator" name="course_creator" value="{{$creator}}">
-                        <input type="hidden" id="course_title" name="course_title" value="{{$courseTitle}}">
+                        <input type="hidden" id="course_title" name="course_title" value="{{$course->title}}">
                         <input type="hidden" name="affRef" value="{{$affRef}}">
                         <input type="hidden" name="clickId" value="{{$clickId}}">
                         <input type="hidden" id="user_guest" name="user_guest" value="@guest true @else false @endguest">

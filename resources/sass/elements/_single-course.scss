@@ -6,10 +6,18 @@
         .logo {
             max-width: 200px;
             display: inline-block;
-            margin: 0 auto;
+            margin: 0 auto 20px;
 
             @include query(mobile) {
-                max-width: 150px;
+                max-width: 175px;
+            }
+        }
+
+        h2 {
+            font-size: 2.5rem;
+
+            @include query(tablet) {
+                font-size: calc(1.8rem + 0.66vw);
             }
         }
     }
@@ -232,3 +240,63 @@
 }
 
 
+.course_page:not(.member) {
+    text-align: center;
+
+    .container {
+        padding: 0;
+    }
+
+    .page_content {
+        @include boxShadow;
+        max-width: 475px;
+        margin: 20px auto;
+        float: none;
+        display: inline-block;
+        text-align: initial;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+
+        .nav_row {
+            @include query(mobile) {
+                position: relative;
+            }
+        }
+
+        header {
+            border-top-right-radius: 10px;
+            -webkit-border-top-right-radius: 10px;
+            -moz-border-radius-topright: 10px;
+            border-top-left-radius: 10px;
+            -webkit-border-top-left-radius: 10px;
+            -moz-border-radius-topleft: 10px;
+            padding: 10px 20px;
+
+            h2 {
+                font-size: 2rem;
+                margin: 0;
+            }
+        }
+
+        main {
+            padding: 2rem;
+
+            .creator_wrap {
+                margin: 0 !important;
+            }
+
+            .courses_grid {
+
+                .sections {
+                    padding: 40px 0 0;
+                }
+
+                h2.title {
+                    font-size: 2.2rem;
+                    margin-bottom: 20px;
+                }
+            }
+        }
+    }
+}

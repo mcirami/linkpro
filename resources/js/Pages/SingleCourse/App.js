@@ -1,6 +1,6 @@
 import ColumnComponent from './Components/ColumnComponent';
 import VideoComponent from './Components/VideoComponent';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useState} from 'react';
 import draftToHtml from 'draftjs-to-html';
 import DOMPurify from 'dompurify';
 import PurchaseCoursePopup from '../../Utils/PurchaseCoursePopup';
@@ -38,7 +38,6 @@ function App() {
             }
             <div className="container">
                 <div className="creator_wrap my_row courses_grid">
-                    <h2 className="title" style={{color: '#000000'}}>{title}</h2>
                     {indexValue &&
                         <VideoComponent
                             indexValue={indexValue}

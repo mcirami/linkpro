@@ -1,6 +1,6 @@
 import React, {useState, useRef, useReducer, useEffect} from 'react';
 
-const courseArray = user.course;
+const courseArray = user.courseData;
 const offerArray = user.offerData;
 const username = user.username;
 
@@ -21,6 +21,7 @@ import SwitchOptions from './Components/SwitchOptions';
 import PublishButton from './Components/PublishButton';
 import Section from './Components/Section';
 import DropdownComponent from './Components/DropdownComponent';
+import InfoText from './Components/InfoText';
 
 function App() {
 
@@ -35,6 +36,8 @@ function App() {
     const [completedCrop, setCompletedCrop] = useState([])
     const nodesRef = useRef([]);
     const [fileNames, setFileNames] = useState([]);
+
+    const divRef = useRef(null);
 
     const [showLoader, setShowLoader] = useState({
         show: false,
@@ -123,9 +126,9 @@ function App() {
                              className="my_row section_row"
                              onMouseEnter={(e) =>
                                  handleMouseHover(e)
-                            }>
+                             }>
                         <div className="section_title">
-                            <h4>Header</h4>
+                            <h4>Title</h4>
                         </div>
                         <div className="section_content my_row">
                             <InputComponent
@@ -138,6 +141,23 @@ function App() {
                                 dispatch={dispatch}
                                 value={courseData["title"]}
                             />
+                            {courseData["slug"] &&
+                                <div className="url_wrap">
+                                    <p>Course URL:</p>
+                                    <a target="_blank" href={url}>{url}</a>
+                                </div>
+                            }
+                        </div>
+                    </section>
+                    <section id="header_section"
+                             className="my_row section_row"
+                             onMouseEnter={(e) =>
+                                 handleMouseHover(e)
+                            }>
+                        <div className="section_title">
+                            <h4>Header</h4>
+                        </div>
+                        <div className="section_content my_row" ref={divRef}>
                             <ImageComponent
                                 nodesRef={nodesRef}
                                 completedCrop={completedCrop}
@@ -158,23 +178,29 @@ function App() {
                                     y: 25,
                                 }}
                             />
-                            <ColorPicker
-                                label="Header Color"
-                                courseData={courseData}
-                                dispatch={dispatch}
-                                elementName="header_color"
-                            />
+                            <div className="picker_wrap">
+                                <ColorPicker
+                                    label="Header/Menu Color"
+                                    courseData={courseData}
+                                    dispatch={dispatch}
+                                    elementName="header_color"
+                                />
+                                <InfoText section="header_color" />
+                            </div>
+                            <div className="picker_wrap">
+                                <ColorPicker
+                                    label="Header/Menu Text Color"
+                                    courseData={courseData}
+                                    dispatch={dispatch}
+                                    elementName="header_text_color"
+                                />
+                                <InfoText section="header_text_color"/>
+                            </div>
                             <DropdownComponent
                                 id={courseData["id"]}
                                 dispatch={dispatch}
                                 value={courseData["category"] || ""}
                             />
-                            {courseData["slug"] &&
-                                <div className="url_wrap">
-                                    <p>Course URL:</p>
-                                    <a target="_blank" href={url}>{url}</a>
-                                </div>
-                            }
                         </div>
                     </section>
                     <section id="intro_video_section"

@@ -29,14 +29,11 @@ class CourseController extends Controller
         }
 
         $hasCourseAccess = $this->checkCoursePermission($course);
-
-        $landingPageData = $user->LandingPages()->first();
         $sections        = $course->CourseSections()->get();
 
         Javascript::put( [
             'course'            => $course,
             'sections'          => $sections,
-            'landingPageData'   => $landingPageData,
             'creator'           => $user->username,
             'hasCourseAccess'   => $hasCourseAccess,
         ] );
@@ -56,13 +53,11 @@ class CourseController extends Controller
 
         $hasCourseAccess = $this->checkCoursePermission($course);
 
-        $landingPageData = $user->LandingPages()->first();
         $sections        = $course->CourseSections()->get();
 
         Javascript::put( [
             'course'            => $course,
             'sections'          => $sections,
-            'landingPageData'   => $landingPageData,
             'creator'           => $user->username,
             'hasCourseAccess'   => $hasCourseAccess,
             'affRef'            => $responseData['affRef'],
@@ -104,7 +99,7 @@ class CourseController extends Controller
         $categories = Category::with('children')->whereNull('parent_id')->get();
 
         Javascript::put([
-            'course'        => $courseData,
+            'courseData'        => $courseData,
             'LPData'        => $landingPageData[0],
             'offerData'     => $offerData,
             'username'      => $user["username"],
