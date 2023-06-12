@@ -643,12 +643,12 @@ a.delete {
     }
 }
 
-.css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase .MuiSwitch-input {
+.MuiSwitch-input {
     right: 0;
     left: 0 !important;
 }
 
-.css-xmbxvv-MuiSwitch-root .MuiSwitch-switchBase.Mui-checked .MuiSwitch-input {
+.MuiSwitch-switchBase.Mui-checked .MuiSwitch-input {
     left: auto !important;
 }
 

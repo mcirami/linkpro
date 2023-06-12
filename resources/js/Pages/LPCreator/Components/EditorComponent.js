@@ -31,16 +31,14 @@ const EditorComponent = ({
         if (currentSection) {
             setEditorState(
                 currentSection["text"] && isJSON(currentSection["text"]) ?
-                    EditorState.createWithContent(
-                        convertFromRaw(JSON.parse(currentSection["text"])))
+                    EditorState.createWithContent(convertFromRaw(JSON.parse(currentSection["text"])))
                     :
                     EditorState.createEmpty()
             )
         } else {
             setEditorState(
                 data["intro_text"] && isJSON(data["intro_text"]) ?
-                    EditorState.createWithContent(
-                        convertFromRaw(JSON.parse(data["intro_text"])))
+                    EditorState.createWithContent(convertFromRaw(JSON.parse(data["intro_text"])))
                     :
                     EditorState.createEmpty()
             )
@@ -49,17 +47,13 @@ const EditorComponent = ({
 
     useEffect(() => {
         if (currentSection) {
-            if (currentSection["text"] &&
-                isJSON(currentSection["text"]) &&
-                JSON.parse(currentSection["text"])["blocks"][0]["text"] !==
-                "") {
+            if (currentSection["text"] && isJSON(currentSection["text"]) &&
+                JSON.parse(currentSection["text"])["blocks"][0]["text"] !== "") {
                 setIsValid(true)
             }
         } else {
-            if (data["intro_text"] &&
-                isJSON(data["intro_text"]) &&
-                JSON.parse(data["intro_text"])["blocks"][0]["text"] !==
-                "") {
+            if (data["intro_text"] && isJSON(data["intro_text"]) &&
+                JSON.parse(data["intro_text"])["blocks"][0]["text"] !== "") {
                 setIsValid(true)
             }
         }
@@ -72,34 +66,35 @@ const EditorComponent = ({
 
         if (rawValue["blocks"][0]["text"] !== "") {
             setIsValid(true);
+
+            if (sections) {
+
+                let element = elementName.split(/(\d+)/);
+                element = element[2].replace('_', '');
+
+                setSections(sections.map((section) => {
+                    if (section.id === currentSection.id) {
+                        return {
+                            ...section,
+                            [`${element}`]: draftToHtml(
+                                convertToRaw(editorState.getCurrentContent())),
+                        }
+                    }
+                    return section;
+                }))
+
+            } else {
+                dispatch({
+                    type: LP_ACTIONS.UPDATE_PAGE_DATA,
+                    payload: {
+                        value: draftToHtml(
+                            convertToRaw(editorState.getCurrentContent())),
+                        name: elementName
+                    }
+                })
+            }
         } else {
             setIsValid(false);
-        }
-
-        if(sections) {
-
-            let element = elementName.split(/(\d+)/);
-            element = element[2].replace('_', '');
-
-            setSections(sections.map((section) => {
-                if (section.id === currentSection.id) {
-                    return {
-                        ...section,
-                        [`${element}`]: draftToHtml( convertToRaw(editorState.getCurrentContent())),
-                    }
-                }
-                return section;
-            }))
-
-
-        } else {
-            dispatch({
-                type: LP_ACTIONS.UPDATE_PAGE_DATA,
-                payload: {
-                    value:  draftToHtml( convertToRaw(editorState.getCurrentContent())),
-                    name: elementName
-                }
-            })
         }
     }
 

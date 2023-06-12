@@ -18,6 +18,7 @@ const ImageComponent = ({
                             cropArray,
                             data,
                             dispatch = null,
+                            type
 }) => {
 
     const [elementLabel, setElementLabel] = useState(elementName);
@@ -132,7 +133,7 @@ const ImageComponent = ({
                 ext: response.extension,
             };
 
-            if(data["icon"]) {
+            if(elementName.includes('icon')) {
                 updateIcon(packets, data["id"]).
                     then((data) => {
                         if (data.success) {
@@ -235,7 +236,7 @@ const ImageComponent = ({
                                         :
                                         ""
                                     }
-                                    {!data["icon"] &&
+                                    {type === "extPreview" &&
                                         placeholder
                                     }
                                     <span className="edit_icon">
@@ -252,7 +253,7 @@ const ImageComponent = ({
                                     accept="image/png, image/jpeg, image/jpg, image/gif"
                                     onChange={onSelectFile}
                                 />
-                                {data["icon"] &&
+                                {type === "inlinePreview" &&
                                     <label>{placeholder}</label>
                                 }
                             </div>
@@ -278,7 +279,7 @@ const ImageComponent = ({
                                     }
                                 })}
                             />
-                            {(data["icon"] && fileNames.length > 0) &&
+                            {(type === "inlinePreview" && fileNames.length > 0) &&
                                 <div className="icon_col">
                                     <p>Icon Preview</p>
                                     <canvas

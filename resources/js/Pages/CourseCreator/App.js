@@ -149,6 +149,7 @@ function App() {
                                 dispatch={dispatch}
                                 elementName="logo"
                                 placeholder="Logo"
+                                type="extPreview"
                                 cropArray={{
                                     unit: "%",
                                     width: 60,
@@ -281,6 +282,7 @@ function App() {
                                 elementName={`icon`}
                                 dispatch={dispatchOfferData}
                                 data={offerData}
+                                type={"inlinePreview"}
                                 cropArray={{
                                     unit: '%',
                                     width: 30,

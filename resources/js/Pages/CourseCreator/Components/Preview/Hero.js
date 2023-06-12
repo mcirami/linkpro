@@ -10,7 +10,7 @@ const Hero = ({ courseData }) => {
 
     useEffect(() => {
 
-        if (courseData["intro_text"]) {
+        if (courseData["intro_text"] !== "") {
             if (firstUpdate.current) {
                 setTextValue(draftToHtml(JSON.parse(courseData["intro_text"])));
                 firstUpdate.current = false;
