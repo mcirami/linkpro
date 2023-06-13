@@ -29,7 +29,7 @@ const Preview = ({
         if (hoverSection) {
             const target = document.getElementById('preview_' + hoverSection);
             if (target) {
-                if (hoverSection.includes("title") || hoverSection.includes("header")) {
+                if (hoverSection.includes("header")) {
                     target.parentNode.scrollTop = target.offsetTop;
                 } else if (hoverSection.includes("intro")) {
                     target.parentNode.parentNode.parentNode.scrollTop = target.offsetTop -

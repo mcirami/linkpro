@@ -94,13 +94,11 @@ class CourseController extends Controller
         }
 
         $courseData = $courseService->getCourseData($course);
-        $landingPageData = $user->LandingPages()->select('logo','header_color')->get();
         $offerData = $courseService->getCourseOfferData($course);
         $categories = Category::with('children')->whereNull('parent_id')->get();
 
         Javascript::put([
             'courseData'        => $courseData,
-            'LPData'        => $landingPageData[0],
             'offerData'     => $offerData,
             'username'      => $user["username"],
             'categories'    => $categories

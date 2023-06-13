@@ -122,15 +122,15 @@ function App() {
             <div className="left_column">
                 <h3 className="mb-4 card_title">Create Your Course</h3>
                 <div className="content_wrap my_row creator" id="left_col_wrap">
-                    <section id="title_section"
+                    <section id="header_section"
                              className="my_row section_row"
                              onMouseEnter={(e) =>
                                  handleMouseHover(e)
-                             }>
+                            }>
                         <div className="section_title">
-                            <h4>Title</h4>
+                            <h4>Header</h4>
                         </div>
-                        <div className="section_content my_row">
+                        <div className="section_content my_row" ref={divRef}>
                             <InputComponent
                                 placeholder="Course Title"
                                 type="text"
@@ -141,23 +141,6 @@ function App() {
                                 dispatch={dispatch}
                                 value={courseData["title"]}
                             />
-                            {courseData["slug"] &&
-                                <div className="url_wrap">
-                                    <p>Course URL:</p>
-                                    <a target="_blank" href={url}>{url}</a>
-                                </div>
-                            }
-                        </div>
-                    </section>
-                    <section id="header_section"
-                             className="my_row section_row"
-                             onMouseEnter={(e) =>
-                                 handleMouseHover(e)
-                            }>
-                        <div className="section_title">
-                            <h4>Header</h4>
-                        </div>
-                        <div className="section_content my_row" ref={divRef}>
                             <ImageComponent
                                 nodesRef={nodesRef}
                                 completedCrop={completedCrop}
@@ -180,7 +163,7 @@ function App() {
                             />
                             <div className="picker_wrap">
                                 <ColorPicker
-                                    label="Header/Menu Color"
+                                    label="Header Background Color"
                                     courseData={courseData}
                                     dispatch={dispatch}
                                     elementName="header_color"
@@ -189,7 +172,7 @@ function App() {
                             </div>
                             <div className="picker_wrap">
                                 <ColorPicker
-                                    label="Header/Menu Text Color"
+                                    label="Course Title Color"
                                     courseData={courseData}
                                     dispatch={dispatch}
                                     elementName="header_text_color"
@@ -201,6 +184,14 @@ function App() {
                                 dispatch={dispatch}
                                 value={courseData["category"] || ""}
                             />
+                            {courseData["slug"] && offerData["published"] ?
+                                <div className="url_wrap">
+                                    <p>Course URL:</p>
+                                    <a target="_blank" href={url}>{url}</a>
+                                </div>
+                                :
+                                ""
+                            }
                         </div>
                     </section>
                     <section id="intro_video_section"
