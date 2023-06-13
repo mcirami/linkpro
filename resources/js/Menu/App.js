@@ -113,27 +113,6 @@ function App() {
                             }
                         </li>
                     }
-                    {userPermissions.includes('view stats') &&
-                        <li>
-                            <a style={ courseData && { color: '#000'}}
-                               id="stats"
-                               className="menu-item"
-                               href="/stats/"
-                               onMouseOver={() => handleMouseOver("stats")}
-                               onMouseOut={handleMouseOut}>
-                            <span className="menu_icon" style={ courseData && { color: '#000' }}>
-                                <RiBarChart2Line/>
-                            </span>
-                                Stats
-                            </a>
-                            {!isOpen && isHovering.status &&
-                            isHovering.section === "stats" ?
-                                <HoverText text="stats"/>
-                                :
-                                ""
-                            }
-                        </li>
-                    }
                     {userPermissions.includes('view creator center') &&
                         <li>
                             <a style={ courseData && { color:  '#000'}}
@@ -150,6 +129,27 @@ function App() {
                             {!isOpen && isHovering.status &&
                             isHovering.section === "creator center" ?
                                 <HoverText text="creator center"/>
+                                :
+                                ""
+                            }
+                        </li>
+                    }
+                    {userPermissions.includes('view stats') &&
+                        <li>
+                            <a style={ courseData && { color: '#000'}}
+                               id="stats"
+                               className="menu-item"
+                               href="/stats/"
+                               onMouseOver={() => handleMouseOver("stats")}
+                               onMouseOut={handleMouseOut}>
+                            <span className="menu_icon" style={ courseData && { color: '#000' }}>
+                                <RiBarChart2Line/>
+                            </span>
+                                Stats
+                            </a>
+                            {!isOpen && isHovering.status &&
+                            isHovering.section === "stats" ?
+                                <HoverText text="stats"/>
                                 :
                                 ""
                             }

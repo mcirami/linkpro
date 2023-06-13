@@ -7,7 +7,7 @@
         <div class="my_row form_page mt-5">
             <div class="card guest">
                 <div class="mb-4">
-                    <h3> Log In to {{ $landingPageData["title"] }}</h3>
+                    <h3> Log in to access {{ $username }}'s courses</h3>
                 </div>
 
                 <div class="card-body">
@@ -92,8 +92,8 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-2">
                                 <button type="submit" class="button text-uppercase" style="
-                                    background: {{ $landingPageData["button_color"] }};
-                                    color: {{ $landingPageData["button_text_color"] }};
+                                    background: {{ $course["header_color"] }};
+                                    color: {{ $course["header_text_color"] }};
                                 ">
                                     {{ __('Sign In') }}
                                 </button>

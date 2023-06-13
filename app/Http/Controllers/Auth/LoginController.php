@@ -65,11 +65,10 @@ class LoginController extends Controller
 
     public function courseLogin(User $user) {
 
-        $landingPageData = $user->LandingPages()->first();
+        $course = $user->Courses()->first();
 
-        return view('auth.course-login', ['url' => 'course'])->with(['landingPageData' => $landingPageData, 'username' => $user->username]);
+        return view('auth.course-login', ['url' => 'course'])->with(['course' => $course, 'username' => $user->username]);
     }
-
 
     /**
      * Validate the user login request.

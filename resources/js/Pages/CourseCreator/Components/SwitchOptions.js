@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 import {updateSectionData} from '../../../Services/LandingPageRequests';
 import {updateOfferData} from '../../../Services/OfferRequests';
 import {OFFER_ACTIONS} from '../Reducer';
+import InfoText from './InfoText';
 
 const SwitchOptions = ({offerData, dispatchOffer}) => {
 
@@ -79,23 +80,29 @@ const SwitchOptions = ({offerData, dispatchOffer}) => {
 
     return (
         <>
-            <div className="switch_wrap page_settings border_wrap">
-                <h3>Public</h3>
-                <IOSSwitch
-                    onChange={() => handleChange('public')}
-                    checked={Boolean(offerData["public"])}
-                    disabled={!Boolean(offerData["published"])}
-                />
+            <div className="switch_wrap d-flex">
+                <div className="page_settings border_wrap my_row">
+                    <h3>Public</h3>
+                    <IOSSwitch
+                        onChange={() => handleChange('public')}
+                        checked={Boolean(offerData["public"])}
+                        disabled={!Boolean(offerData["published"])}
+                    />
+                </div>
+                <InfoText section="active_course" />
             </div>
 
 
-            <div className="switch_wrap page_settings border_wrap">
-                <h3>Active</h3>
-                <IOSSwitch
-                    onChange={() => handleChange('active')}
-                    checked={Boolean(offerData["active"])}
-                    disabled={!Boolean(offerData["published"])}
-                />
+            <div className="switch_wrap d-flex">
+                <div className="page_settings border_wrap my_row">
+                    <h3>Active</h3>
+                    <IOSSwitch
+                        onChange={() => handleChange('active')}
+                        checked={Boolean(offerData["active"])}
+                        disabled={!Boolean(offerData["published"])}
+                    />
+                </div>
+                <InfoText section="public_course" />
             </div>
         </>
     );

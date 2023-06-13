@@ -12371,7 +12371,7 @@ header.guest_header .column.right {
 }
 .my_row.radios_wrap label {
   padding: 0;
-  font-size: 14px;
+  font-size: 0.9rem;
 }
 .my_row.radios_wrap label input {
   width: 15px;
@@ -13452,7 +13452,7 @@ input[type=text].active:not(:focus) + label, input[type=tel].active:not(:focus) 
 }
 
 input[type=text].disabled {
-  background: #f4f4f4;
+  background: rgba(215, 215, 215, 0.4);
 }
 
 select {
@@ -13661,7 +13661,7 @@ form .bottom_row a {
   width: 100%;
   height: 100%;
   position: absolute;
-  z-index: 1;
+  z-index: 5;
   top: 0;
   left: 0;
   right: 0;
@@ -13857,7 +13857,7 @@ form .bottom_row a {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(215, 215, 215, 0.4);
 }
 #links_page .edit_form.popup .tab_content_wrap .accordion_row.disabled a, #links_page .edit_form.link .tab_content_wrap .accordion_row.disabled a {
   color: #d4d2d2;
@@ -13905,6 +13905,13 @@ form .bottom_row a {
 }
 #links_page .edit_form.popup .link_form label[for=mailchimp_list_id], #links_page .edit_form.popup .link_form label[for=domain], #links_page .edit_form.link .link_form label[for=mailchimp_list_id], #links_page .edit_form.link .link_form label[for=domain] {
   margin-bottom: 5px;
+}
+#links_page .edit_form.popup .link_form .upgrade_text, #links_page .edit_form.link .link_form .upgrade_text {
+  font-style: italic;
+  display: inline-block;
+  font-size: 0.9rem;
+  margin-left: 5px;
+  margin-bottom: 10px;
 }
 #links_page .edit_form.popup .link_form .remove_link, #links_page .edit_form.link .link_form .remove_link {
   text-align: right;

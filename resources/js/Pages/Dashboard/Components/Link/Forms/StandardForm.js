@@ -423,6 +423,7 @@ const StandardForm = ({
 
                 <div className="row">
                     <div className="col-12">
+                        <p className="upgrade_text"><sup>*</sup>Upgrade to customize</p>
                         <div className="input_wrap">
                             <input
                                 className={`${!subStatus ? "disabled " : ""} ${currentLink.name ? "active" : ""}`}
@@ -434,12 +435,12 @@ const StandardForm = ({
                                 onBlur={(e) => HandleBlur(e.target)}
                                 disabled={!subStatus}
                             />
-                            <label>Link Name</label>
+                            <label>Icon Name</label>
                             {!subStatus &&
                                 <span className="disabled_wrap"
                                       data-type="name"
                                       onClick={(e) => handleOnClick(e)}>
-                            </span>
+                                </span>
                             }
                         </div>
                         <div className="my_row info_text title">
