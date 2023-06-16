@@ -1,9 +1,9 @@
-@extends('layouts.course.header')
+@extends(Auth::user() ? 'layouts.app' : 'layouts.guest.header')
 
 @section('content')
 
     <div class="container">
-        <div class="my_row form_page checkout course_purchase mt-5">
+        <div class="my_row form_page checkout course_purchase">
             <h2 class="page_title text-center">Checkout Now</h2>
             @if (count($errors) > 0)
                 <div class="alert alert-danger">
@@ -16,6 +16,11 @@
             @endif
             <div class="card guest">
                 <div class="card-body">
+                    <div class="course_banner" style="background: {{ $course->header_color }}">
+                        <div class="image_wrap w-50 mx-auto">
+                            <img src="{{ $course->logo }}" alt="">
+                        </div>
+                    </div>
                     <form method="post" class="my_row" id="payment-form" action="{{ route('course.purchase') }}">
                         <div class="text_wrap text-center">
                             <h3>You are purchasing {{$course->title}} course for ${{number_format($offer->price, 2, ".", ",")}}</h3>
@@ -35,12 +40,12 @@
                         <input type="hidden" id="user_guest" name="user_guest" value="@guest true @else false @endguest">
                         <div class="column_wrap row">
                             @guest
-                                <section id="account_register" class="col-6">
+                                <section id="account_register" class="col-12 col-md-6">
                                     <h4>Register for an account</h4>
-                                    <div class="form-group row">
-                                        <div class="col-12">
-                                            <input placeholder="Username" id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username">
-
+                                    <div class="form-group row g-0">
+                                        <div class="col-12 position-relative">
+                                            <input id="username" type="text" class="animate form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username">
+                                            <label for="username">Username</label>
                                             @error('username')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $errors->first('username') }}</strong>
@@ -49,11 +54,10 @@
                                             <span id="username_error" class="invalid-feedback" role="alert"></span>
                                         </div>
                                     </div>
-                                    <div class="form-group row">
-
-                                        <div class="col-12">
-                                            <input placeholder="E-mail Address" id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-
+                                    <div class="form-group row g-0">
+                                        <div class="col-12 position-relative">
+                                            <input id="email" type="email" class="animate form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                                            <label for="email">E-mail Address</label>
                                             @error('email')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $errors->first('email') }}</strong>
@@ -62,10 +66,10 @@
                                             <span id="email_error" class="invalid-feedback" role="alert"></span>
                                         </div>
                                     </div>
-                                    <div class="form-group row">
-                                        <div class="col-12">
-                                            <input placeholder="Password" id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
+                                    <div class="form-group row g-0">
+                                        <div class="col-12 position-relative">
+                                            <input id="password" type="password" class="animate form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                                            <label for="password">Password</label>
                                             @error('password')
                                             <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $errors->first('password') }}</strong>
@@ -74,14 +78,15 @@
                                             <span id="password_error" class="invalid-feedback" role="alert"></span>
                                         </div>
                                     </div>
-                                    <div class="form-group row">
-                                        <div class="col-12">
-                                            <input placeholder="Confirm Password" id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                    <div class="form-group row g-0">
+                                        <div class="col-12 position-relative">
+                                            <input id="password-confirm" type="password" class="animate form-control" name="password_confirmation" required autocomplete="new-password">
+                                            <label for="password-confirm">Confirm Password</label>
                                         </div>
                                     </div>
                                 </section>
                             @endguest
-                            <section class="@guest col-6 @else col-12 @endguest">
+                            <section class="@guest col-12 col-md-6 @else col-12 @endguest">
                                 <div class="drop_in_wrap">
                                     <div class="bt-drop-in-wrapper">
                                         <div id="bt-dropin"></div>

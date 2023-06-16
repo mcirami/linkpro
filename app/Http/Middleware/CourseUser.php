@@ -24,34 +24,29 @@ class CourseUser
      */
     public function handle(Request $request, Closure $next)
     {
-        $courseCreator = $request->route('user');
         if (!Auth::check()) {
             $name = $request->route()->getName();
+            //dd($name);
             session()->put('url.intended', $request->url());
-            if ($courseCreator && $name != 'all.courses' && $name != 'live.course.page') {
-                $this->setCreatorSession($courseCreator->username);
+            if ($name == 'live.course.lander' || $name == 'course.checkout') {
                 return $next($request);
             }
-            return redirect('/' . $courseCreator->username . '/course/login');
+
+            $reqUrl = $request->url();
+            if (str_contains($reqUrl, "course/")) {
+                $data = explode("course/", $reqUrl);
+                $path = "/" . $data[1] . '/login';
+            } else {
+                $path = '/login';
+            }
+
+            return redirect($path);
         }
 
         $user = Auth::user();
         $this->checkPermissions();
 
-        if ($user->hasAnyRole(['admin', 'course.user'])) {
-
-            if($user->hasRole('course.user')) {
-                $this->setCreatorSession($courseCreator->username);
-            }
-
-            return $next($request);
-        }
-
         if ($user->hasRole('lp.user')) {
-
-            if ($user->id == $courseCreator->id) {
-                $this->setCreatorSession($courseCreator->username);
-            }
 
             return redirect()->route('dashboard');
         }

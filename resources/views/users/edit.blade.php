@@ -1,5 +1,5 @@
-@extends(Auth::user()->cannot('view subscription details') ? 'layouts.course.header' : 'layouts.app')
-
+{{--@extends(Auth::user()->cannot('view subscription details') ? 'layouts.course.header' : 'layouts.app')--}}
+@extends('layouts.app')
 @section('content')
 
         <div class="container">
@@ -27,12 +27,13 @@
                                             <div class="form-group row user_account">
 
                                                 <div class="col-12">
-                                                    <div class="my_row label_row">
-                                                        <label for="email">Email</label>
-                                                        <p>(update current email here)</p>
+                                                    <div class="my_row label_row mb-3">
+                                                        <label for="email">Update Email</label>
                                                     </div>
-                                                    <input placeholder="E-mail Address" id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user->email }}" required autocomplete="email">
-
+                                                   <div class="input_wrap my_row position-relative bg-white">
+                                                       <input id="email" type="email" class="form-control animate @error('email') is-invalid @enderror" name="email" value="{{ $user->email }}" required autocomplete="email">
+                                                       <label>E-Mail Address</label>
+                                                   </div>
                                                     @if ($errors->has('email'))
                                                         <span class="invalid-feedback" role="alert">
                                                             <strong>{{ $errors->first('email')  }}</strong>
@@ -43,10 +44,13 @@
                                             <div class="form-group row user_account">
 
                                                 <div class="col-12">
-                                                    <div class="my_row label_row">
+                                                    <div class="my_row label_row mb-2">
                                                         <label for="password">Change Password</label>
                                                     </div>
-                                                    <input placeholder="New Password" id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="new-password">
+                                                    <div class="input_wrap my_row position-relative bg-white">
+                                                        <input id="password" type="password" class="animate form-control @error('password') is-invalid @enderror" name="password" autocomplete="new-password">
+                                                        <label>New Password</label>
+                                                    </div>
                                                     @error($errors->has('password'))
                                                         <span class="invalid-feedback" role="alert">
                                                             <strong>{{ $errors->first('password')  }}</strong>
@@ -57,7 +61,10 @@
 
                                             <div class="form-group row">
                                                 <div class="col-12">
-                                                    <input placeholder="Confirm New Password" id="password-confirm" type="password" class="form-control" name="password_confirmation" autocomplete="new-password">
+                                                    <div class="input_wrap my_row position-relative bg-white">
+                                                        <input id="password-confirm" type="password" class="animate form-control" name="password_confirmation" autocomplete="new-password">
+                                                        <label for="password-confirm">Confirm New Password</label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

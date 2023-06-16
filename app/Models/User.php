@@ -2,15 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Link as Link;
 use App\Models\Page as Page;
 use App\Models\Referral as Referral;
 use Spatie\Permission\Traits\HasRoles;
-use function Illuminate\Events\queueable;
 use TCG\Voyager\Models\User as VoyagerUser;
 
 use Laravel\Passport\HasApiTokens;
@@ -111,5 +108,14 @@ class User extends VoyagerUser
 
     public function Purchases() {
         return $this->hasMany(Purchase::class);
+    }
+
+    public function getRedirectRoute()
+    {
+        return match((int)$this->role_id) {
+            1 => 'admin',
+            2 => 'dashboard',
+            3 => 'all.courses',
+        };
     }
 }

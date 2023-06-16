@@ -23,6 +23,12 @@
 </head>
 <body>
 @include('layouts.menu')
+    @php
+        $user = \Illuminate\Support\Facades\Auth::user();
+        $userSub = $user->subscriptions()->first();
+        $roles = $user->getRoleNames();
+    @endphp
+
     <div id="app" class="my_row @auth member @endauth">
         <header class="my_row nav_row">
             <nav>
@@ -34,7 +40,6 @@
                             </a>
                         </div>
                         <div class="right_column">
-                            @php $userSub = Auth::user()->subscriptions()->first(); @endphp
 
                             <div class="nav_links_wrap" >
 
@@ -54,17 +59,28 @@
                                             </li>
                                         @endif
                                     @else
-                                        @if( empty($userSub) || ($userSub->name != "premier" && !$userSub->ends_at) || ($userSub->ends_at && $userSub->ends_at < \Carbon\Carbon::now()) )
-                                            <li class="upgrade_link">
-                                                <a class="button blue" href="{{route('plans.get')}}">Upgrade</a>
-                                            </li>
+                                        @php
+                                            $page = $user->pages()->where('user_id', $user->id)->where('default', true)->first();
+											$image = null;
+                                        @endphp
+
+                                        @if($roles->contains('admin') || $roles->contains('lp.user'))
+                                            @php $image = $page->profile_img; @endphp
+                                            @if( empty($userSub) || ($userSub->name != "premier" && !$userSub->ends_at) || ($userSub->ends_at && $userSub->ends_at < \Carbon\Carbon::now()) )
+                                                <li class="upgrade_link">
+                                                    <a class="button blue" href="{{route('plans.get')}}">Upgrade</a>
+                                                </li>
+                                            @endif
                                         @endif
-                                        <li class="nav-item">
-                                            @php $page = Auth::user()->pages()->where('user_id', Auth::user()->id)->where('default', true)->get(); $image = $page[0]->profile_img;  @endphp
-                                            <a class="nav-link" href="{{ route('user.edit') }}" role="button" >
-                                                <img id="user_image" src="{{ $image ? : asset('images/profile-placeholder-img.png') }}" alt="User Profile"><span id="username">{{ Auth::user()->username }}</span>
-                                            </a>
-                                        </li>
+
+                                            <li class="nav-item">
+
+                                                <a class="nav-link" href="{{ route('user.edit') }}" role="button" >
+                                                    <img id="user_image" src="{{ $image ? : asset('images/profile-placeholder-img.png') }}" alt="User Profile">
+                                                    <span id="username">{{ Auth::user()->username }}</span>
+                                                </a>
+                                            </li>
+
                                     @endguest
                                 </ul>
                             </div>
@@ -77,7 +93,11 @@
             @yield('content')
         </main>
 
-        @include('footer')
+        @if($roles->contains('admin') || $roles->contains('lp.user'))
+            @include('footer')
+        @else
+            @include('layouts.course.footer')
+        @endif
 
     </div>
 </body>

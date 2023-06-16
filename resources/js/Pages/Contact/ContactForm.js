@@ -90,6 +90,7 @@ const ContactForm = () => {
                     <div className="form-group row">
                         <div className="col-sm-10 mx-auto position-relative p-0">
                             <select
+                                className="active"
                                 name="reason"
                                 id="reason"
                                 onChange={(e) => handleChange(e, "reason")}

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Carbon\Carbon;
@@ -49,6 +50,16 @@ class LoginController extends Controller
     }
 
     /**
+     * Write code on Method
+     *
+     *
+     */
+    public function customLogin(Request $request, Course $course = null)
+    {
+        return view("auth.login", ['url' => 'course'])->with(['course' => $course]);
+    }
+
+    /**
      * Get the login username to be used by the controller.
      *
      * @return string
@@ -61,13 +72,6 @@ class LoginController extends Controller
         request()->merge([$field => $login]);
 
         return $field;
-    }
-
-    public function courseLogin(User $user) {
-
-        $course = $user->Courses()->first();
-
-        return view('auth.course-login', ['url' => 'course'])->with(['course' => $course, 'username' => $user->username]);
     }
 
     /**
@@ -106,12 +110,14 @@ class LoginController extends Controller
         $loginURL = url()->previous();
         $roles = $user->getRoleNames();
         $permissions = $user->getPermissionsViaRoles()->pluck('name');
-        $creator = isset($_GET['creator']) ? $_GET['creator'] : "";
+        $courseID = isset($_GET['course']) ? $_GET['course'] : null;
+        $course = null;
+        if ($courseID) {
+            $course = Course::findOrFail($courseID);
+            $creator = User::where('id', '=', $course->user_id)->get()->pluck('username');
+        }
 
         Session::put('permissions', $permissions);
-        /*foreach ($permissions as $permission) {
-            Session::push('permissions', $permission);
-        }*/
 
         if ($roles->contains('admin')) {
 
@@ -120,9 +126,8 @@ class LoginController extends Controller
             if ( $previousURL ) {
                 return Redirect::intended();
             } else {
-                if (str_contains($loginURL, "course")) {
-                    Session::put('creator', $creator);
-                    return redirect('/' . $creator . '/courses');
+                if ($course) {
+                    return redirect('/' . $creator[0] . '/course/' . $course->slug);
                 } else if (str_contains($loginURL, "admin")) {
                     return redirect( '/admin' );
                 } else {
@@ -132,21 +137,16 @@ class LoginController extends Controller
 
         } else if ($roles->contains("course.user") && $roles->contains('lp.user')) {
 
-            if (str_contains($loginURL, "course")) {
-                Session::put('creator', $creator);
-                return redirect('/' . $creator . '/courses');
-            } else {
-                $userPages = $user->pages()->get();
+            $userPages = $user->pages()->get();
 
-                if ( $userPages->isEmpty() ) {
-                    return redirect()->route( 'create.page' );
+            if ( $userPages->isEmpty() ) {
+                return redirect()->route( 'create.page' );
+            } else {
+                $previousURL = Session::get( 'url.intended' );
+                if ( $previousURL ) {
+                    return Redirect::intended();
                 } else {
-                    $previousURL = Session::get( 'url.intended' );
-                    if ( $previousURL ) {
-                        return Redirect::intended();
-                    } else {
-                        return redirect( '/dashboard' );
-                    }
+                    return redirect( '/dashboard' );
                 }
             }
 
@@ -170,9 +170,10 @@ class LoginController extends Controller
             $previousURL = Session::get('url.intended');
             if ($previousURL) {
                 return Redirect($previousURL);
+            } else if ($course) {
+                return redirect('/' . $creator[0] . '/course/' . $course->slug);
             } else {
-                Session::put('creator', $creator);
-                return redirect('/' . $creator . '/courses');
+                return redirect('/courses');
             }
 
         }

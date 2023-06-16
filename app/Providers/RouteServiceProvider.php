@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use App\Models\Page;
-
+use App\Models\Course;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -59,6 +59,14 @@ class RouteServiceProvider extends ServiceProvider
                }
             })->firstOrFail();
 
+        });
+
+        Route::bind('course', function($value) {
+            return Course::where('slug', $value)->orWhere(function ($query) use ($value) {
+                if (is_numeric($value)) {
+                    $query->where('id', $value);
+                }
+            })->first();
         });
     }
 

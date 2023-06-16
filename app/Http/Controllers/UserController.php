@@ -40,11 +40,6 @@ class UserController extends Controller
 
         $landingPageData = null;
 
-        if (Session::get('creator')) {
-            $creatorUsername = Session::get('creator');
-            $landingPageData = DB::table('users')->where('username', $creatorUsername)->leftJoin('landing_pages', 'user_id', '=', 'users.id')->first();
-        }
-
         $data = $userService->getUserInfo();
 
         Javascript::put([
@@ -125,9 +120,11 @@ class UserController extends Controller
 
     public function logout(Request $request) {
         Auth::logout();
+        $previousURL = url()->previous();
 
-        if (Session::get( 'creator' )) {
-            $path = "/". Session::get( 'creator' ) . "/course/login";
+        if (str_contains($previousURL, "/course/")) {
+            $slug = explode("course/", $previousURL);
+            $path = "/". $slug[1] . "/login";
         } else {
             $path = "/login";
         }

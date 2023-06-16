@@ -10894,7 +10894,7 @@ a {
 main {
   width: 100%;
   float: left;
-  padding: 50px 0 100px;
+  padding: 50px 0;
 }
 @media all and (max-width: 768px) {
   main {
@@ -10907,6 +10907,14 @@ main {
 }
 @media screen and (max-width: 550px) {
   .guest main {
+    padding: 25px 0 50px;
+  }
+}
+.guest main.checkout {
+  padding: 50px 0 100px;
+}
+@media (max-width: 992px) {
+  .guest main.checkout {
     padding: 25px 0 50px;
   }
 }
@@ -11284,7 +11292,7 @@ button {
 }
 .nav_row ul li img {
   width: 40px;
-  padding-right: 5px;
+  margin-right: 5px;
   border-radius: 100%;
   -webkit-border-radius: 100%;
   -moz-border-radius: 100%;
@@ -13253,6 +13261,47 @@ header.guest_header .column.right {
 .form_page .card.guest .card-body {
   padding: 0;
 }
+.form_page .card.guest.login_form h3, .form_page .card.guest.login_form .h3 {
+  margin: 0;
+}
+.form_page .card.guest.login_form > p {
+  font-family: "opensanssemibold", sans-serif;
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 5px;
+}
+@media (max-width: 992px) {
+  .form_page .card.guest.login_form > p {
+    font-size: 1rem;
+  }
+}
+.form_page .card.guest.login_form .standard_heading {
+  margin-bottom: 20px;
+}
+.form_page .card.guest.login_form .course_heading {
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+}
+.form_page .card.guest.login_form .course_heading h3, .form_page .card.guest.login_form .course_heading .h3 {
+  font-size: 1.6rem;
+}
+@media (max-width: 992px) {
+  .form_page .card.guest.login_form .course_heading h3, .form_page .card.guest.login_form .course_heading .h3 {
+    font-size: 1.2rem;
+  }
+}
+.form_page .card.guest.login_form .course_heading img {
+  max-width: 200px;
+}
+@media (max-width: 992px) {
+  .form_page .card.guest.login_form .course_heading img {
+    max-width: 150px;
+  }
+}
 .form_page .card h3, .form_page .card .h3 {
   text-align: center;
   font-size: 30px;
@@ -13456,12 +13505,11 @@ input[type=text].disabled {
 }
 
 select {
-  font-family: "opensansbold", sans-serif;
+  font-family: "opensansregular", sans-serif;
   width: 100%;
   padding: 5px 20px;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background: transparent;
   background-image: url('data:image/svg+xml;utf8,<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>');
   background-repeat: no-repeat;
   background-position-x: 100%;
@@ -14217,17 +14265,25 @@ form .bottom_row a {
   margin-bottom: 20px;
 }
 .form_page.checkout .braintree-options-list {
-  box-shadow: 0px 0px 35px 5px rgba(170, 170, 170, 0.18);
   padding-bottom: 0;
 }
 .form_page.checkout .braintree-option {
   background: #ffffff;
-  border: none;
-  margin-bottom: 10px;
+  border: 1px solid rgba(155, 155, 155, 0.2);
+  margin-bottom: 22px;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+}
+.form_page.checkout .braintree-upper-container:before {
+  background-color: transparent;
 }
 .form_page.checkout .braintree-sheet {
   box-shadow: 0px 0px 35px 5px rgba(170, 170, 170, 0.18);
   border: none;
+}
+.form_page.checkout.course_purchase .card {
+  padding: 0;
 }
 .form_page.checkout.course_purchase .card h4, .form_page.checkout.course_purchase .card .h4 {
   color: #000;
@@ -14237,6 +14293,31 @@ form .bottom_row a {
   width: 150px;
   float: right;
 }
+.form_page.checkout.course_purchase form {
+  padding: 20px;
+}
+@media (max-width: 992px) {
+  .form_page.checkout.course_purchase form#payment-form {
+    margin-bottom: 0;
+  }
+}
+.form_page.checkout.course_purchase .course_banner {
+  padding: 10px;
+  border-top-right-radius: 20px;
+  -webkit-border-top-right-radius: 20px;
+  -moz-border-radius-topright: 20px;
+  border-top-left-radius: 20px;
+  -webkit-border-top-left-radius: 20px;
+  -moz-border-radius-topleft: 20px;
+}
+.form_page.checkout.course_purchase .course_banner .image_wrap {
+  max-width: 250px;
+}
+@media (max-width: 768px) {
+  .form_page.checkout.course_purchase .course_banner .image_wrap {
+    max-width: 175px;
+  }
+}
 .form_page.checkout.course_purchase .column_wrap {
   min-height: 300px;
 }
@@ -14245,6 +14326,12 @@ form .bottom_row a {
 }
 .form_page.checkout.course_purchase .column_wrap section:first-child {
   border-right: 1px solid rgba(155, 155, 155, 0.2);
+}
+@media (max-width: 768px) {
+  .form_page.checkout.course_purchase .column_wrap section:first-child {
+    border-right: none;
+    border-bottom: 1px solid rgba(155, 155, 155, 0.2);
+  }
 }
 .form_page.checkout.course_purchase .invalid-feedback {
   color: #f24d1d;

@@ -5,18 +5,27 @@
 <div class="container">
 
     <div class="my_row form_page">
-        <div class="card guest">
-            <div class="mb-4">
+        <div class="card guest login_form">
+            <div class="standard_heading @isset($course) mb-0 @endisset">
                 <h3>{{ __('Log in to LinkPro') }}</h3>
             </div>
+            @isset($course)
+                <p>to Access</p>
+                <div class="row">
+                    <div class="course_heading col-10 mx-auto" style="background: {{ $course->header_color }}">
+                        <img src="{{ $course->logo }}" alt="{{ $course->title }}">
+                        <h3  style="color: {{ $course->header_text_color }}">{{ $course->title }}</h3>
+                    </div>
+                </div>
+            @endisset
 
             <div class="card-body">
-                <form method="POST" action="{{ route('login') }}">
+                <form method="POST" action="{{ route('login') }}@isset($course)?course={{$course->id}}@endisset">
                     @csrf
 
                     <div class="form-group row">
 
-                        <div class="col-md-8 mx-auto position-relative p-0">
+                        <div class="col-10 mx-auto position-relative p-0">
                             <input id="identity"
                                    type="text"
                                    class="form-control animate
@@ -58,7 +67,7 @@
 
                     <div class="form-group row">
 
-                        <div class="col-md-8 mx-auto position-relative p-0">
+                        <div class="col-10 mx-auto position-relative p-0">
                             <input id="password"
                                    type="password"
                                    class="form-control animate @error('password') is-invalid @enderror"
@@ -77,7 +86,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <div class="col-md-8 offset-md-2">
+                        <div class="col-10 mx-auto p-0">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
@@ -89,7 +98,7 @@
                     </div>
 
                     <div class="form-group row mb-0">
-                        <div class="col-md-8 offset-md-2">
+                        <div class="col-10 mx-auto p-0">
                             <button type="submit" class="button blue text-uppercase">
                                 {{ __('Sign In') }}
                             </button>

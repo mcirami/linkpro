@@ -138,7 +138,6 @@ Route::group(['middleware' => 'auth'], function() {
         });
     });
 
-    Route::get('/courses', [CourseController::class, 'showCoursesLpUser'])->name('all.courses.lpuser');
     Route::get('/get-course-categories', [CourseController::class, 'getCourseCategories']);
 
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
@@ -171,13 +170,13 @@ Route::group(['middleware' => ['auth', 'EnsureLinkIsCreated', 'lp.user']], funct
 
 Route::group(['middleware' => ['course.user:course']], function() {
     Route::get('/{user:username}/password/reset/', [CoursePasswordController::class, 'showPasswordUpdate'])->name('show.password.update');
-    Route::get('/{user:username}/course/login', [LoginController::class, 'courseLogin'])->name('course.login');
     Route::get('/{user:username}/course/reset-password', [CoursePasswordController::class, 'showResetPassword'])->name('show.reset.password');
-    Route::get('/{user:username}/courses', [CourseController::class, 'showAllCourses'])->name('all.courses');
+    Route::get('/courses', [CourseController::class, 'showAllCourses'])->name('all.courses');
     Route::get('/{user:username}/course/{course:slug}', [CourseController::class, 'show'])->name('live.course.page');
     Route::get('/{user:username}/course-page/{course:slug}', [CourseController::class, 'showCourseLander'])->name('live.course.lander');
     Route::get('/{user:username}/course/{course:slug}/checkout', [PurchaseController::class, 'show'])->name('course.checkout');
 });
+Route::get('/{course:slug?}/login', [LoginController::class, 'customLogin'])->name('customLogin');
 
 Route::get('/{user:username}/{landing_page:slug}', [LandingPageController::class, 'show'])->name('live.landing.page');
 

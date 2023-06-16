@@ -87,12 +87,11 @@ input[type="text"].disabled {
 }
 
 select {
-    @include osbold;
+    @include osregular;
     width: 100%;
     padding: 5px 20px;
     -webkit-appearance: none;
     -moz-appearance: none;
-    background: transparent;
     background-image: url('data:image/svg+xml;utf8,<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>');
     background-repeat: no-repeat;
     background-position-x: 100%;
@@ -998,14 +997,20 @@ form .bottom_row a {
     }
 
     .braintree-options-list {
-        @include boxShadow;
         padding-bottom: 0;
     }
 
     .braintree-option {
         background: $white;
-        border: none;
-        margin-bottom: 10px;
+        border: 1px solid $borderGray;
+        margin-bottom: 22px;
+        border-radius: 6px;
+        -webkit-border-radius: 6px;
+        -moz-border-radius: 6px;
+    }
+
+    .braintree-upper-container:before {
+        background-color: transparent;
     }
 
     .braintree-sheet {
@@ -1016,6 +1021,7 @@ form .bottom_row a {
     &.course_purchase {
 
         .card {
+            padding: 0;
 
             h4 {
                 color: $black;
@@ -1028,6 +1034,34 @@ form .bottom_row a {
             }
         }
 
+        form {
+            padding: 20px;
+
+            &#payment-form {
+                @include query(tablet) {
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+        .course_banner {
+            padding: 10px;
+            border-top-right-radius: 20px;
+            -webkit-border-top-right-radius: 20px;
+            -moz-border-radius-topright: 20px;
+            border-top-left-radius: 20px;
+            -webkit-border-top-left-radius: 20px;
+            -moz-border-radius-topleft: 20px;
+
+            .image_wrap {
+                max-width: 250px;
+
+                @include query(mobile) {
+                    max-width: 175px;
+                }
+            }
+        }
+
         .column_wrap {
             min-height: 300px;
 
@@ -1037,6 +1071,11 @@ form .bottom_row a {
 
             section:first-child {
                 border-right: 1px solid $borderGray;
+
+                @include query(mobile) {
+                    border-right: none;
+                    border-bottom: 1px solid $borderGray;
+                }
             }
         }
 

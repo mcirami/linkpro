@@ -116,19 +116,21 @@ class CourseService {
         return $keys[0];
     }
 
-    public function getPurchasedCreatorCourses($user, $authUserID) {
-        return Course::where('user_id', $user->id)->whereHas('purchases', function (Builder $query) use($authUserID) {
-            $query->where('user_id', 'like', $authUserID);
+   /* public function getPurchasedCourses($authUserID) {
+        return Course::whereHas('purchases', function (Builder $query) use($authUserID) {
+            $query->where('user_id', '=', $authUserID);
         })->get();
-    }
+    }*/
 
-    public function getUnpurchasedCreatorCourses($user, $authUserID) {
-        return Course::where('user_id', $user->id)->whereDoesntHave('purchases',
+    public function getUnpurchasedCourses($authUserID) {
+        return Course::whereDoesntHave('purchases',
             function (Builder $query)  use($authUserID) {
-            $query->where('user_id', 'like', $authUserID);
+            $query->where('user_id', '=', $authUserID);
         })->whereHas('offer', function($query) {
-            $query->where('active', true)->where('public', true);
-        })->get();
+            $query->where('active', true)->where('public', true)->where('published', true);
+        })->leftJoin('users', 'users.id', '=', 'courses.user_id')
+          ->select('courses.*', 'users.username')
+          ->get();
     }
 
     public function getUserPurchasedCourses($userID) {

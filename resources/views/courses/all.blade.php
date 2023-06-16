@@ -1,4 +1,4 @@
-@extends('layouts.course.header')
+@extends('layouts.app')
 
 @section('content')
 
@@ -6,7 +6,7 @@
 
     <div class="creator course_creator">
         <div id="links_page" class="live_page course">
-            <div class="creator_wrap my_row courses_grid all_courses">
+            <div class="my_row courses_grid all_courses">
                 <div class="container">
                     @if (!$purchasedCourses->isEmpty())
                         <section class="section_wrap my_row">
@@ -31,12 +31,12 @@
 
                                     <div class="column">
                                         <div class="column_image">
-                                            <a href="/{{$creator}}/course/{{$course->slug}}">
+                                            <a href="/{{$course->username}}/course/{{$course->slug}}">
                                                 <img src="{{ $imageUrl }}" alt="">
                                             </a>
                                         </div>
                                         <div class="column_title">
-                                            <a href="/{{$creator}}/course/{{$course->slug}}">
+                                            <a href="/{{$course->username}}/course/{{$course->slug}}">
                                                 <h3>{{$course->title}}</h3>
                                             </a>
                                         </div>
@@ -46,7 +46,7 @@
                         </section>
                     @endif
                     <section class="section_wrap my_row">
-                        <h2 class="page_title">Other Courses Created By <span>{{$creator}}</span></h2>
+                        <h2 class="page_title">Available Courses</h2>
                         <div class="sections">
                             @foreach($unPurchasedCourses as $course)
                                 @php
@@ -65,12 +65,12 @@
                                 @endphp
                                 <div class="column">
                                     <div class="column_image">
-                                        <a href="/{{$creator}}/course/{{$course->slug}}">
+                                        <a href="/{{$course->username}}/course-page/{{$course->slug}}">
                                             <img src="{{ $imageUrl }}" alt="">
                                         </a>
                                     </div>
                                     <div class="column_title">
-                                        <a href="/{{$creator}}/course/{{$course->slug}}">
+                                        <a href="/{{$course->username}}/course-page/{{$course->slug}}">
                                             <h3>{{$course->title}}</h3>
                                         </a>
                                     </div>

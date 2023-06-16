@@ -10,6 +10,7 @@ use App\Services\CourseService;
 use App\Services\LandingPageService;
 use App\Services\OfferService;
 use App\Services\TrackingServices;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
@@ -169,6 +170,11 @@ class CourseController extends Controller
         return response()->json(['message' => $key .  " Updated"]);
     }
 
+    /**
+     * @param CourseSection $courseSection
+     *
+     * @return JsonResponse|never
+     */
     public function deleteSection(CourseSection $courseSection) {
         $userID = Auth::id();
 
@@ -181,42 +187,16 @@ class CourseController extends Controller
         return response()->json(['message' => "Section Deleted"]);
     }
 
-    public function showAllCourses(User $user, CourseService $courseService) {
-
-        $creator = $user->username;
+    public function showAllCourses(CourseService $courseService) {
 
         $authUserID = Auth::user()->id;
-        $landingPageData = $user->LandingPages()->first();
 
-
-        $purchasedCourses = $courseService->getPurchasedCreatorCourses($user, $authUserID);
-
-        $unPurchasedCourses = $courseService->getUnpurchasedCreatorCourses($user, $authUserID);
-
-        Javascript::put([
-            'landingPageData'       => $landingPageData,
-            'creator'               => $creator
-        ]);
-
-        return view('courses.all')->with([
-            'landingPageData'       => $landingPageData,
-            'purchasedCourses'      => $purchasedCourses,
-            'unPurchasedCourses'    => $unPurchasedCourses,
-            'creator'               => $creator
-        ]);
-    }
-
-    public function showCoursesLpUser(CourseService $courseService) {
-
-        $userID = Auth::id();
-
-        $purchasedCourses = $courseService->getUserPurchasedCourses($userID);
-
-        $unPurchasedCourses = $courseService->getUserUnpurchasedCourses($userID);
+        $purchasedCourses = $courseService->getUserPurchasedCourses($authUserID);
+        $unPurchasedCourses = $courseService->getUnpurchasedCourses($authUserID);
 
         Javascript::put([]);
 
-        return view('courses.showAll')->with([
+        return view('courses.all')->with([
             'purchasedCourses'      => $purchasedCourses,
             'unPurchasedCourses'    => $unPurchasedCourses,
         ]);

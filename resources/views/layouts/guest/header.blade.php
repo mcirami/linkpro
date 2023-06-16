@@ -35,7 +35,7 @@
         </div>
     </header>
 
-    <main class="@if(Route::is('guest-home')) guest_home @endif">
+    <main class="@if(Route::is('guest-home')) guest_home @endif @if(Route::is('course.checkout')) checkout @endif">
         @yield('content')
     </main>
 

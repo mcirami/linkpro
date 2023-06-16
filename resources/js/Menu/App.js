@@ -4,21 +4,23 @@ import {MdOutlineSchool, MdOutlineDashboard} from 'react-icons/md'
 import HoverText from '../Utils/HoverText';
 
 const courseData = user?.course;
+const creator = user?.creator;
 
 function App() {
 
+    console.log(courseData);
     const [isHovering, setIsHovering] = useState({
         status: false,
         section: null
     });
     const [isOpen, setIsOpen] = useState(false);
 
-    const [creator, setCreator] = useState(null);
+    /*const [creator, setCreator] = useState(null);*/
     const [userPermissions, setPermissions] = useState("");
 
-    useEffect(() => {
+    /*useEffect(() => {
         setCreator(window.creator)
-    },[])
+    },[])*/
 
     useEffect(() => {
 
@@ -71,7 +73,7 @@ function App() {
             <div className="menu_top" style={ courseData && { borderColor: '#000'  }}>
                 <div className="logo">
                     {courseData ?
-                        <img src={courseData["logo"]} alt=""/>
+                        <img src={courseData["logo"] || Vapor.asset('images/logo.png')} alt=""/>
                         :
                         <img src={Vapor.asset('images/logo-white.png')} alt=""/>
                     }
@@ -160,7 +162,7 @@ function App() {
                             <a style={{ color: courseData &&  '#000' }}
                                id="courses"
                                className="menu-item"
-                               href={creator ? `/${creator}/courses` : '/courses'}
+                               href='/courses'
                                onMouseOver={() => handleMouseOver("courses")}
                                onMouseOut={handleMouseOut}>
                                 <span className="menu_icon" style={ courseData && { color: '#000'}
@@ -195,28 +197,28 @@ function App() {
                             ""
                         }
                     </li>
-                    {!creator &&
-                        <li>
-                            <a id="contact"
-                               className="menu-item"
-                               href="/contact"
-                               onMouseOver={() => handleMouseOver("contact us")}
-                               onMouseOut={handleMouseOut}
-                               style={{ color: courseData && '#000' }}
-                            >
-                                <span className="menu_icon" style={{ color: courseData && '#000' }}>
-                                    <RiMailLine/>
-                                </span>
-                                Contact Us
-                            </a>
-                            {!isOpen && isHovering.status &&
-                            isHovering.section === "contact us" ?
-                                <HoverText text="contact us"/>
-                                :
-                                ""
-                            }
-                        </li>
-                    }
+
+                    <li>
+                        <a id="contact"
+                           className="menu-item"
+                           href="/contact"
+                           onMouseOver={() => handleMouseOver("contact us")}
+                           onMouseOut={handleMouseOut}
+                           style={{ color: courseData && '#000' }}
+                        >
+                            <span className="menu_icon" style={{ color: courseData && '#000' }}>
+                                <RiMailLine/>
+                            </span>
+                            Contact Us
+                        </a>
+                        {!isOpen && isHovering.status &&
+                        isHovering.section === "contact us" ?
+                            <HoverText text="contact us"/>
+                            :
+                            ""
+                        }
+                    </li>
+
                     <li>
                         <a style={{ color: courseData && '#000' }}
                            id="logout"
