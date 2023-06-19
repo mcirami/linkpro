@@ -25,6 +25,10 @@ class PurchaseController extends Controller
         $affRef = $request->get('a') ? $request->get('a') : null;
         $clickId = $request->get('cid') ? $request->get('cid') : null;
 
+        Javascript::put([
+            'course'        => $course,
+        ]);
+
         return view('purchase.show')->with([
             'token'             => $token,
             'offer'             => $offer,

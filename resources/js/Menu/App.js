@@ -56,7 +56,10 @@ function App() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const res = await axios.post('/logout', {
+
+        const url = courseData ? '/logout?course=' + courseData["slug"] : '/logout';
+
+        const res = await axios.post(url, {
             headers: {
                 // 'application/json' is the modern content-type for JSON, but some
                 // older servers may use 'text/json'.

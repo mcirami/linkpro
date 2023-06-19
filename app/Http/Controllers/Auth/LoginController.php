@@ -8,12 +8,10 @@ use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\URL;
 
 class LoginController extends Controller
 {
@@ -44,8 +42,6 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-
-        //Session::put('previous_url', ($this->redirectPath()));
         $this->middleware('guest')->except('logout');
     }
 
@@ -54,9 +50,25 @@ class LoginController extends Controller
      *
      *
      */
-    public function customLogin(Request $request, Course $course = null)
+    public function customLogin(Course $course = null)
     {
         return view("auth.login", ['url' => 'course'])->with(['course' => $course]);
+    }
+
+    public function customLoginPost(Request $request) {
+
+        $credentials = $request->except(['_token']);
+        $login = request()->input('identity');
+        $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        request()->merge([$field => $login]);
+        unset($credentials["identity"]);
+        $credentials[$field] = $login;
+
+        if (auth()->attempt($credentials)) {
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['error' => "These credentials do not match our records."]);
     }
 
     /**

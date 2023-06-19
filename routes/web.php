@@ -177,6 +177,7 @@ Route::group(['middleware' => ['course.user:course']], function() {
     Route::get('/{user:username}/course/{course:slug}/checkout', [PurchaseController::class, 'show'])->name('course.checkout');
 });
 Route::get('/{course:slug?}/login', [LoginController::class, 'customLogin'])->name('customLogin');
+Route::post('/custom-login', [LoginController::class, 'customLoginPost'])->name('customLoginPost');
 
 Route::get('/{user:username}/{landing_page:slug}', [LandingPageController::class, 'show'])->name('live.landing.page');
 

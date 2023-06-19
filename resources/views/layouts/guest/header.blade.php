@@ -29,7 +29,8 @@
             <h1><a href="/"><img src="{{ asset('images/logo.png') }}" alt="Link Pro"></a></h1>
         </div>
         <div class="column right">
-            <a href="/login">Log In</a>
+
+            <a href="@isset($course)/{{$course->slug}}@endisset/login">Log In</a>
             <a href="{{route('contact')}}">Contact Us</a>
             <a class="button transparent" href="/register">Sign Up</a>
         </div>
@@ -39,6 +40,7 @@
         @yield('content')
     </main>
 
+    @include('partials.login')
     @include ('layouts.guest.footer')
 </div>
 </body>

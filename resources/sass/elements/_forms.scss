@@ -935,6 +935,10 @@ form .bottom_row a {
             margin-bottom: 40px;
         }
 
+        a {
+            color: $blue;
+        }
+
         .braintree-sheet__content--form .braintree-form__field-group label {
             width: 100%;
         }

@@ -84,6 +84,11 @@
                                             <label for="password-confirm">Confirm Password</label>
                                         </div>
                                     </div>
+                                    <p>Already have an account?<br/>
+                                        <a style="cursor: pointer"
+                                           data-bs-toggle="modal"
+                                           data-bs-target="#loginModal">Click Here To Login</a>
+                                    </p>
                                 </section>
                             @endguest
                             <section class="@guest col-12 col-md-6 @else col-12 @endguest">

@@ -454,6 +454,34 @@ jQuery(document).ready(function($) {
 
     }
 
+    const loginForm = document.querySelector('#custom_login_form');
+
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                type: "POST",
+                dataType: 'json',
+                success: function(data) {
+
+                    if(data.success) {
+                        window.location.reload();
+                        //console.log("success: ", data)
+                    } else {
+                        const invalidDiv = document.querySelector('#custom_login_form .invalid-feedback');
+                        invalidDiv.innerHTML = data.error;
+                        invalidDiv.classList.add('d-block');
+                        console.log("errors: ", data.error);
+                    }
+
+                }
+            })
+        });
+    }
+
     const braintreeDropin = document.querySelector('#bt-dropin');
     if (braintreeDropin) {
         let spinner = document.querySelector('#loading_spinner');

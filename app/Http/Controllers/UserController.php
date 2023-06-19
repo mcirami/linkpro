@@ -120,17 +120,16 @@ class UserController extends Controller
 
     public function logout(Request $request) {
         Auth::logout();
-        $previousURL = url()->previous();
 
-        if (str_contains($previousURL, "/course/")) {
-            $slug = explode("course/", $previousURL);
-            $path = "/". $slug[1] . "/login";
+        $course = $request->get('course');
+        if (isset($course)) {
+            $path = "/". $course . "/login";
         } else {
             $path = "/login";
         }
 
-        $request->session()->flush();
+        //$request->session()->flush();
 
-        return response()->json(['path' => $path]);
+        return response()->json(['path' => $path, 'course' => $course]);
     }
 }
