@@ -8,7 +8,7 @@ class TrackingServices {
 
     public function storeOfferClick($offer, $request, $user) {
 
-        $affRef = $request->get('a') ? $request->get('a') : $user->id;
+        $affRef    = $request->get('a') ? $request->get('a') : $user->id;
         $ip        = $request->ip();
         $userClick = $offer->OfferClicks()->where( 'offer_id', $offer->id )->where( 'ip_address', $ip )->first();
 

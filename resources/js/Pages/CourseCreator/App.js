@@ -94,7 +94,7 @@ function App() {
         setHoverSection(e.target.id)
     }
 
-    const url = window.location.protocol + "//" + window.location.host + "/" + username + "/course/" + courseData["slug"];
+    const url = window.location.protocol + "//" + window.location.host + "/" + username + "/course-page/" + courseData["slug"];
     let videoCount = 0;
     let textCount = 0;
 

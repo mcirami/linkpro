@@ -50,7 +50,7 @@ class CourseController extends Controller
             return abort(404);
         }
 
-        $responseData = $trackingServices->storeOfferClick($offer, $request, $user);
+        $responseData = $trackingServices->storeOfferClick( $offer, $request, $user );
 
         $hasCourseAccess = $this->checkCoursePermission($course);
 

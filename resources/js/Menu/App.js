@@ -1,14 +1,14 @@
 import {useEffect, useState} from 'react';
-import {RiPagesLine, RiBarChart2Line, RiUserSettingsLine, RiMailLine, RiLogoutBoxRLine, RiInstagramLine} from 'react-icons/ri';
-import {MdOutlineSchool, MdOutlineDashboard} from 'react-icons/md'
+import {RiLogoutBoxRLine, RiInstagramLine} from 'react-icons/ri';
 import HoverText from '../Utils/HoverText';
-
+import MenuData from './MenuData';
+import {toUpper} from 'lodash';
+import MenuItem from './MenuItem';
 const courseData = user?.course;
 const creator = user?.creator;
 
 function App() {
 
-    console.log(courseData);
     const [isHovering, setIsHovering] = useState({
         status: false,
         section: null
@@ -53,6 +53,7 @@ function App() {
             section: null
         });
     }
+    console.log(isHovering);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -73,7 +74,7 @@ function App() {
 
     return (
         <div className="menu_wrap" style={ courseData && { background: courseData["header_color"] }}>
-            <div className="menu_top" style={ courseData && { borderColor: '#000'  }}>
+            <div className="menu_top" style={ courseData && { borderColor: courseData["header_text_color"]  }}>
                 <div className="logo">
                     {courseData ?
                         <img src={courseData["logo"] || Vapor.asset('images/logo.png')} alt=""/>
@@ -85,154 +86,46 @@ function App() {
                    href="#"
                    onClick={(e) => handleOnClick(e)}>
                     <span
-                        style={ courseData && { background: '#000' /*courseData["header_text_color"]*/ }}
+                        style={ courseData && { background: courseData["header_text_color"] }}
                     ></span>
                     <span
-                        style={ courseData && { background: '#000' }}
+                        style={ courseData && { background: courseData["header_text_color"] }}
                     ></span>
                     <span
-                        style={ courseData && { background: '#000' }}
+                        style={ courseData && { background: courseData["header_text_color"] }}
                     ></span>
                 </a>
             </div>
             <div className="menu">
                 <ul>
-                    {userPermissions.includes('view dashboard') &&
-                        <li>
-                            <a style={ courseData && { color: '#000' }}
-                               id="pages"
-                               className="menu-item"
-                               href="/dashboard/pages/"
-                               onMouseOver={() => handleMouseOver("pages")}
-                               onMouseOut={handleMouseOut}>
-                                <span className="menu_icon" style={ courseData && { color:'#000' }}>
-                                    <RiPagesLine/>
-                                </span>
-                                Pages
-                            </a>
-                            {!isOpen && isHovering.status &&
-                            isHovering.section === "pages" ?
-                                <HoverText text="pages"/>
-                                :
-                                ""
-                            }
-                        </li>
-                    }
-                    {userPermissions.includes('view creator center') &&
-                        <li>
-                            <a style={ courseData && { color:  '#000'}}
-                               id="creator_center_link"
-                               className="menu-item"
-                               href="/creator-center"
-                               onMouseOver={() => handleMouseOver("creator center")}
-                               onMouseOut={handleMouseOut}>
-                            <span className="menu_icon" style={ courseData && { color:  '#000' }}>
-                                <MdOutlineDashboard />
-                            </span>
-                                Creator Center
-                            </a>
-                            {!isOpen && isHovering.status &&
-                            isHovering.section === "creator center" ?
-                                <HoverText text="creator center"/>
-                                :
-                                ""
-                            }
-                        </li>
-                    }
-                    {userPermissions.includes('view stats') &&
-                        <li>
-                            <a style={ courseData && { color: '#000'}}
-                               id="stats"
-                               className="menu-item"
-                               href="/stats/"
-                               onMouseOver={() => handleMouseOver("stats")}
-                               onMouseOut={handleMouseOut}>
-                            <span className="menu_icon" style={ courseData && { color: '#000' }}>
-                                <RiBarChart2Line/>
-                            </span>
-                                Stats
-                            </a>
-                            {!isOpen && isHovering.status &&
-                            isHovering.section === "stats" ?
-                                <HoverText text="stats"/>
-                                :
-                                ""
-                            }
-                        </li>
-                    }
-                    {userPermissions.includes("view courses") &&
-                        <li>
-                            <a style={{ color: courseData &&  '#000' }}
-                               id="courses"
-                               className="menu-item"
-                               href='/courses'
-                               onMouseOver={() => handleMouseOver("courses")}
-                               onMouseOut={handleMouseOut}>
-                                <span className="menu_icon" style={ courseData && { color: '#000'}
-                                }>
-                                    <MdOutlineSchool/>
-                                </span>
-                                Courses
-                            </a>
-                            {!isOpen && isHovering.status &&
-                            isHovering.section === "courses" ?
-                                <HoverText text="courses"/>
-                                :
-                                ""
-                            }
-                        </li>
-                    }
-                    <li>
-                        <a style={{ color: courseData && '#000'  }}
-                           id="settings"
-                           className="menu-item"
-                           href="/edit-account"
-                           onMouseOver={() => handleMouseOver("settings")}
-                           onMouseOut={handleMouseOut}>
-                            <span className="menu_icon" style={ courseData && { color: '#000'}}>
-                                <RiUserSettingsLine />
-                            </span>
-                            Settings
-                        </a>
-                        {!isOpen && isHovering.status && isHovering.section === "settings" ?
-                            <HoverText text="settings"/>
-                            :
-                            ""
-                        }
-                    </li>
+                    {MenuData.map((item, index) => {
+
+                        return (
+
+                            <MenuItem
+                                key={item["id"]}
+                                item={item}
+                                userPermissions={userPermissions}
+                                isHovering={isHovering}
+                                isOpen={isOpen}
+                                handleMouseOver={handleMouseOver}
+                                handleMouseOut={handleMouseOut}
+                                courseData={courseData}
+                            />
+                        )
+                    })}
 
                     <li>
-                        <a id="contact"
-                           className="menu-item"
-                           href="/contact"
-                           onMouseOver={() => handleMouseOver("contact us")}
-                           onMouseOut={handleMouseOut}
-                           style={{ color: courseData && '#000' }}
-                        >
-                            <span className="menu_icon" style={{ color: courseData && '#000' }}>
-                                <RiMailLine/>
-                            </span>
-                            Contact Us
-                        </a>
-                        {!isOpen && isHovering.status &&
-                        isHovering.section === "contact us" ?
-                            <HoverText text="contact us"/>
-                            :
-                            ""
-                        }
-                    </li>
-
-                    <li>
-                        <a style={{ color: courseData && '#000' }}
+                        <a style={{ color: courseData && courseData["header_text_color"] }}
                            id="logout"
                            href="#"
                            onClick={(e) => handleSubmit(e)}
                            onMouseOver={() => handleMouseOver("logout")}
                            onMouseOut={handleMouseOut}>
-                            <span className="menu_icon" style={ courseData && { color: '#000' }}>
+                            <span className="menu_icon" style={ courseData && { color: courseData["header_text_color"]}}>
                                 <RiLogoutBoxRLine />
                             </span>
-                            Logout
+                            LOGOUT
                         </a>
                         {!isOpen && isHovering.status && isHovering.section === "logout" ?
                             <HoverText text="logout"/>
@@ -248,12 +141,11 @@ function App() {
                         {creator ?
                             <li>
                                 <a href={`${window.location.origin}/${creator}`}
-                                   style={ courseData && {color: '#000'  }}
+                                   style={ courseData && {color: courseData["header_text_color"] }}
                                    target="_blank"
-                                   onMouseOver={() => handleMouseOver(
-                                       "contact " + creator)}
+                                   onMouseOver={() => handleMouseOver("contact " + creator)}
                                    onMouseOut={handleMouseOut}>
-                                    <span className="menu_icon" style={ courseData && {color: '#000'  }}>
+                                    <span className="menu_icon" style={ courseData && {color: courseData["header_text_color"] }}>
                                         <svg viewBox="0 0 15.82 15.82" xmlns="http://www.w3.org/2000/svg" >
                                             <g fill="currentColor" transform="translate(-.1 -.12)">
                                                 <path d="m8 15.94a7.91 7.91 0 1 1 7.92-7.94 7.92 7.92 0 0 1 -7.92 7.94zm0-14.11a6.2 6.2 0 1 0 6.21 6.17 6.21 6.21 0 0 0 -6.21-6.17z"/>
@@ -261,7 +153,7 @@ function App() {
                                             </g>
                                         </svg>
                                     </span>
-                                    Contact <span>{creator}</span>
+                                    CONTACT <span>{toUpper(creator)}</span>
                                 </a>
                                 {!isOpen && isHovering.status &&
                                 isHovering.section === "follow us" ?
@@ -277,10 +169,10 @@ function App() {
                                    onMouseOver={() => handleMouseOver(
                                        "follow us")}
                                    onMouseOut={handleMouseOut}>
-                                    <span className="menu_icon" style={ courseData && {color: '#000'  }}>
+                                    <span className="menu_icon" style={ courseData && {color: courseData["header_text_color"] }}>
                                         <RiInstagramLine/>
                                     </span>
-                                    Follow Us
+                                    FOLLOW US
                                 </a>
                                 {!isOpen && isHovering.status &&
                                 isHovering.section === "follow us" ?
