@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
 use App\Models\User;
 //use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Notifications\WelcomeCourseNotification;
@@ -84,15 +85,12 @@ class CourseRegisterController extends Controller
         $permissions = $user->getPermissionsViaRoles()->pluck('name');
         Session::put('permissions', $permissions);
 
-        $creator = $request->input('course_creator');
-        $courseTitle = $request->input('course_title');
-        $landingPageData = User::where('username', $creator)->first()->LandingPages()->first();
+        $course = Course::where('id', $data['course_id'])->select('title', 'slug', 'logo', 'header_color', 'header_text_color')->first();
 
         $userData = [
-            'username' => $user->username,
-            'creator' => $creator,
-            'landingPageData' => $landingPageData,
-            'courseTitle' => $courseTitle
+            'username'  => $user->username,
+            'creator'   => $data['course_creator'],
+            'course'    => $course
         ];
 
         $user->notify(new WelcomeCourseNotification($userData));

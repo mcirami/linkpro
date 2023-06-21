@@ -411,7 +411,7 @@ jQuery(document).ready(function($) {
         const password = document.querySelector('#password').value;
         const passwordConfirm = document.querySelector('#password-confirm').value;
         const creator = document.querySelector('#course_creator').value;
-        const courseTitle = document.querySelector('#course_title').value;
+        const courseID = document.querySelector('#course_id').value;
 
         const packets = {
             username: username,
@@ -419,7 +419,7 @@ jQuery(document).ready(function($) {
             password: password,
             password_confirmation: passwordConfirm,
             course_creator: creator,
-            course_title: courseTitle
+            course_id: courseID
         }
 
         //let data = {};
@@ -452,34 +452,6 @@ jQuery(document).ready(function($) {
 
         });
 
-    }
-
-    const loginForm = document.querySelector('#custom_login_form');
-
-    if (loginForm) {
-        loginForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            $.ajax({
-                url: $(this).attr('action'),
-                data: $(this).serialize(),
-                type: "POST",
-                dataType: 'json',
-                success: function(data) {
-
-                    if(data.success) {
-                        window.location.reload();
-                        //console.log("success: ", data)
-                    } else {
-                        const invalidDiv = document.querySelector('#custom_login_form .invalid-feedback');
-                        invalidDiv.innerHTML = data.error;
-                        invalidDiv.classList.add('d-block');
-                        console.log("errors: ", data.error);
-                    }
-
-                }
-            })
-        });
     }
 
     const braintreeDropin = document.querySelector('#bt-dropin');
@@ -544,8 +516,7 @@ jQuery(document).ready(function($) {
                         } else {
 
                             if (response.errors.username) {
-                                const usernameError = document.querySelector(
-                                    '#username_error');
+                                const usernameError = document.querySelector('#username_error');
                                 usernameError.classList.add('active');
                                 usernameError.innerHTML = response.errors.username[0]
                             }
@@ -574,8 +545,7 @@ jQuery(document).ready(function($) {
 
         function purchaseCourse(form, instance, spinner) {
             spinner.classList.add('active');
-            const code = document.querySelector(
-                '#form_discount_code').value;
+            const code = document.querySelector('#form_discount_code').value;
 
             if (code.toLowerCase() === "freepremier" ||
                 code.toLowerCase() === "freepro") {
@@ -584,16 +554,12 @@ jQuery(document).ready(function($) {
                 instance.requestPaymentMethod(
                     function(err, payload) {
                         if (err) {
-                            console.log(
-                                'Request Payment Method Error',
-                                err);
-                            document.querySelector(
-                                '#account_register').remove();
+                            console.log('Request Payment Method Error', err);
+                            document.querySelector('#account_register').remove();
                             return;
                         }
                         // Add the nonce to the form and submit
-                        document.querySelector(
-                            '#nonce').value = payload.nonce;
+                        document.querySelector('#nonce').value = payload.nonce;
                         form.submit();
                     });
             }
@@ -641,6 +607,34 @@ jQuery(document).ready(function($) {
             if (inputEl.value !== "") {
                 inputEl.classList.add('active')
             }
+        });
+    }
+
+    const loginForm = document.querySelector('#custom_login_form');
+
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                type: "POST",
+                dataType: 'json',
+                success: function(data) {
+
+                    if(data.success) {
+                        window.location.reload();
+                        //console.log("success: ", data)
+                    } else {
+                        const invalidDiv = document.querySelector('#custom_login_form .invalid-feedback');
+                        invalidDiv.innerHTML = data.error;
+                        invalidDiv.classList.add('d-block');
+                        console.log("errors: ", data.error);
+                    }
+
+                }
+            })
         });
     }
 });

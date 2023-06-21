@@ -43,7 +43,7 @@ class WelcomeCourseNotification extends Notification
     {
         return (new MailMessage)
             ->from($this->userData["creator"]."@link.pro",$this->userData["creator"])
-            ->subject('Thanks for registering for the' . $this->userData["courseTitle"] . 'course')
+            ->subject('Thanks for registering for ' . $this->userData["course"]["course_title"] . ' course')
             ->markdown('emails.welcome-course', ['data' => $this->userData]);
     }
 

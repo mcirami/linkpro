@@ -5,6 +5,10 @@
         &.guest {
             max-width: 800px;
 
+            &.login_form {
+                max-width: 600px;
+            }
+
             @media screen and (max-width: 992px) {
                 max-width: 90%;
             }

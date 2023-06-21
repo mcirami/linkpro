@@ -1,7 +1,7 @@
 @component('mail::layout')
 {{-- Header --}}
 @slot('header')
-@component('mail::header-course', ['loginLink' => $loginLink, 'landingPageData' => $landingPageData ])
+@component('mail::header-course', ['loginLink' => $loginLink, 'course' => $course ])
 {{--{{ config('app.name') }}--}}
 @endcomponent
 @endslot

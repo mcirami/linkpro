@@ -53,7 +53,6 @@ function App() {
             section: null
         });
     }
-    console.log(isHovering);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

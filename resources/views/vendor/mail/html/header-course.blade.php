@@ -1,7 +1,7 @@
 <tr>
-<td class="header" style="background: {{$landingPageData["header_color"]}}">
+<td class="header" style="background: {{$course["header_color"]}}">
 <a href="{{ $loginLink }}" style="display: inline-block;">
-<img src="{{ $landingPageData["logo"] }}" class="logo" alt="Logo" style="max-width: 300px">
+<img src="{{ $course["logo"] }}" class="logo" alt="Logo" style="max-width: 300px">
 {{ $slot }}
 </a>
 </td>

@@ -14,7 +14,7 @@
                     </ul>
                 </div>
             @endif
-            <div class="card guest">
+            <div class="card @guest guest @endguest">
                 <div class="card-body">
                     <div class="course_banner" style="background: {{ $course->header_color }}">
                         <div class="image_wrap w-50 mx-auto">
@@ -34,7 +34,7 @@
                         <input type="hidden" id="bypass" value=null>
                         <input id="user" type="hidden" name="user">
                         <input type="hidden" id="course_creator" name="course_creator" value="{{$creator}}">
-                        <input type="hidden" id="course_title" name="course_title" value="{{$course->title}}">
+                        <input type="hidden" id="course_id" name="course_id" value="{{$course->id}}">
                         <input type="hidden" name="affRef" value="{{$affRef}}">
                         <input type="hidden" name="clickId" value="{{$clickId}}">
                         <input type="hidden" id="user_guest" name="user_guest" value="@guest true @else false @endguest">

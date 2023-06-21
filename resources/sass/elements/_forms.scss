@@ -907,6 +907,7 @@ form .bottom_row a {
         overflow: hidden;
         min-height: 42vh;
         position: relative;
+        padding: 0;
     }
 
     #course_register {
@@ -964,12 +965,14 @@ form .bottom_row a {
         }
     }
     .card {
-        max-width: 1200px;
+        max-width: 800px;
 
-        @media all and (max-width: 768px) {
-            padding: 40px 20px;
+        &.guest {
+            max-width: 1200px;
         }
     }
+
+
 
     ul {
         list-style: none;
@@ -1073,7 +1076,7 @@ form .bottom_row a {
                 padding: 20px;
             }
 
-            section:first-child {
+            section#account_register {
                 border-right: 1px solid $borderGray;
 
                 @include query(mobile) {

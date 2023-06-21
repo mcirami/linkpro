@@ -13253,6 +13253,9 @@ header.guest_header .column.right {
 .form_page .card.guest {
   max-width: 800px;
 }
+.form_page .card.guest.login_form {
+  max-width: 600px;
+}
 @media screen and (max-width: 992px) {
   .form_page .card.guest {
     max-width: 90%;
@@ -14220,6 +14223,7 @@ form .bottom_row a {
   overflow: hidden;
   min-height: 42vh;
   position: relative;
+  padding: 0;
 }
 .form_page.checkout #course_register {
   transition: 0.5s all ease-in-out;
@@ -14271,12 +14275,10 @@ form .bottom_row a {
   }
 }
 .form_page.checkout .card {
-  max-width: 1200px;
+  max-width: 800px;
 }
-@media all and (max-width: 768px) {
-  .form_page.checkout .card {
-    padding: 40px 20px;
-  }
+.form_page.checkout .card.guest {
+  max-width: 1200px;
 }
 .form_page.checkout ul {
   list-style: none;
@@ -14363,11 +14365,11 @@ form .bottom_row a {
 .form_page.checkout.course_purchase .column_wrap section {
   padding: 20px;
 }
-.form_page.checkout.course_purchase .column_wrap section:first-child {
+.form_page.checkout.course_purchase .column_wrap section#account_register {
   border-right: 1px solid rgba(155, 155, 155, 0.2);
 }
 @media (max-width: 768px) {
-  .form_page.checkout.course_purchase .column_wrap section:first-child {
+  .form_page.checkout.course_purchase .column_wrap section#account_register {
     border-right: none;
     border-bottom: 1px solid rgba(155, 155, 155, 0.2);
   }

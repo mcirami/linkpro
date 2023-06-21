@@ -19,7 +19,7 @@ class PurchaseController extends Controller
 
     public function show(Request $request, User $user, Course $course, PurchaseService $purchaseService) {
 
-        Session::put('creator', $user->username);
+        //Session::put('creator', $user->username);
         $token = $purchaseService->getToken();
         $offer = $course->Offer()->first();
         $affRef = $request->get('a') ? $request->get('a') : null;
