@@ -270,6 +270,7 @@ function App() {
                     fileNames={fileNames}
                     setFileNames={setFileNames}
                     sections={sections}
+                    url={url}
                     pageData={pageData}
                     setShowPreview={setShowPreview}
                     hoverSection={hoverSection}

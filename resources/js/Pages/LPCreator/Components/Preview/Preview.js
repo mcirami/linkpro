@@ -16,7 +16,8 @@ const Preview = ({
                      pageData,
                      sections,
                      setShowPreview,
-                     hoverSection
+                     hoverSection,
+                     url
 }) => {
 
     const loadPreviewHeight = UseLoadPreviewHeight();
@@ -81,6 +82,7 @@ const Preview = ({
                                         fileNames={fileNames}
                                         position={index + 1}
                                         hoverSection={hoverSection}
+                                        url={url}
                                     />
                                 )
                             })}

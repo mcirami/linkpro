@@ -10,7 +10,8 @@ const PreviewSection = ({
                             completedCrop,
                             fileNames,
                             position,
-                            hoverSection
+                            hoverSection,
+                            url
 }) => {
 
     const {
@@ -20,11 +21,11 @@ const PreviewSection = ({
         image,
         button,
         button_position,
-        button_link,
         button_size,
         button_text,
         button_text_color,
-        button_color
+        button_color,
+        slug
     } = currentSection;
 
     const [buttonStyle, setButtonStyle] = useState(null);
@@ -62,7 +63,7 @@ const PreviewSection = ({
     const Button = ({buttonText}) => {
         return (
             <div className={`button_wrap my_row ${button_position ? button_position : "above"}`}>
-                <a href={button_link}
+                <a href={url + '/course-page/' + slug}
                    target="_blank"
                    className="button"
                    style={buttonStyle}

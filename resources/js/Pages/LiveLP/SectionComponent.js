@@ -17,12 +17,13 @@ const SectionComponent = ({section}) => {
         bg_color,
         button,
         button_position,
-        button_link,
         button_color,
         button_text_color,
         button_text,
         button_size,
-        text
+        text,
+        slug,
+        username
     } = section;
 
 
@@ -64,10 +65,12 @@ const SectionComponent = ({section}) => {
 
     },[])
 
+    const url = window.location.protocol + "//" + window.location.host + "/" + username + "/course-page/" + slug;
+
     const Button = ({buttonText}) => {
         return (
             <div id={id} className={`button_wrap ${button_position ? button_position : "above"}`}>
-                <a href={button_link}
+                <a href={url}
                    target="_blank"
                    className="button"
                    style={buttonStyle}

@@ -21,7 +21,7 @@ const SectionButtonOptions = ({
                                   currentSection,
                                   id,
                                   courses = null,
-                                  button_link = null,
+                                  buttonCourseId = null,
                                   buttonSize,
                                   url = null
 }) => {
@@ -253,11 +253,10 @@ const SectionButtonOptions = ({
                 />
                 <DropdownComponent
                     courses={courses}
-                    button_link={button_link}
+                    buttonCourseId={buttonCourseId}
                     sections={sections}
                     setSections={setSections}
                     id={id}
-                    url={url}
                 />
             </div>
         </>

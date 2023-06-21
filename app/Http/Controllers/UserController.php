@@ -120,7 +120,7 @@ class UserController extends Controller
 
     public function logout(Request $request) {
         Auth::logout();
-
+        Session::forget('url.intended');
         $course = $request->get('course');
         if (isset($course)) {
             $path = "/". $course . "/login";

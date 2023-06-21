@@ -31,7 +31,11 @@ class LandingPageController extends Controller
             return abort(404);
         }*/
 
-        $sections = $landingPage->LandingPageSections()->get();
+        $sections = $landingPage->LandingPageSections()
+                                ->leftJoin('users', 'landing_page_sections.user_id', '=', 'users.id')
+                                ->leftJoin('courses', 'landing_page_sections.button_course_id', '=', 'courses.id')
+                                ->select('landing_page_sections.*', 'users.username', 'courses.slug')
+                                ->get();
 
         Javascript::put([
             'livePage' => $landingPage,

@@ -4,11 +4,10 @@ import {HandleFocus} from '../../../Utils/InputAnimations';
 
 const DropdownComponent = ({
                                courses,
-                               button_link,
+                               buttonCourseId,
                                sections,
                                setSections,
                                id,
-                               url
 }) => {
 
     const handleChange = (e) => {
@@ -17,9 +16,10 @@ const DropdownComponent = ({
             e.target.classList.remove('active');
         }
 
+        const slug = e.target.options[e.target.selectedIndex].dataset.slug;
         const value = e.target.value;
         const packets = {
-            button_link: value
+            button_course_id: value
         }
 
         updateSectionData(packets, id)
@@ -29,7 +29,8 @@ const DropdownComponent = ({
                 setSections(
                     sections.map((section) => {
                         if(section.id === id) {
-                            section.button_link =  value;
+                            section.button_course_id = value;
+                            section.slug = slug;
                             return section;
                         }
 
@@ -42,16 +43,16 @@ const DropdownComponent = ({
 
     return (
         <div className="position-relative">
-            <select className={button_link ? "active" : ""}
+            <select className={buttonCourseId ? "active" : ""}
                     name="courses"
                     id="courses"
                     onChange={(e) => handleChange(e)}
-                    value={button_link || ""}
+                    value={buttonCourseId || ""}
                     onFocus={(e) => HandleFocus(e.target)}
             >
                 <option></option>
                 {courses?.map((course, index) => {
-                    return <option key={index} value={`${url}/course/${course.slug}`} >{course.title}</option>
+                    return <option key={index} value={course.id} data-slug={course.slug}>{course.title}</option>
                 })}
             </select>
             <label>Select Course</label>

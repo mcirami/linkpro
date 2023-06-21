@@ -9,7 +9,11 @@ class LandingPageService {
     public function getLPData($landingPage) {
 
         $landingPageData = $landingPage->attributesToArray();
-        $sections = $landingPage->LandingPageSections()->get()->toArray();
+        $sections = $landingPage->LandingPageSections()
+                                ->leftJoin('courses', 'landing_page_sections.button_course_id', '=', 'courses.id')
+                                ->select('landing_page_sections.*', 'courses.slug')
+                                ->get()
+                                ->toArray();
 
         $sectionArray = [];
         foreach ($sections as $index => $section) {

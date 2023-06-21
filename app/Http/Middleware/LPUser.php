@@ -21,6 +21,7 @@ class LPUser
     public function handle(Request $request, Closure $next)
     {
         if (!Auth::check()) {
+            session()->put('url.intended', $request->url());
             return redirect()->route('login');
         }
 

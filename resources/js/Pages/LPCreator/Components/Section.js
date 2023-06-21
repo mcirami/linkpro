@@ -17,14 +17,13 @@ const Section = ({
                      setFileNames,
                      sections,
                      setSections,
-                     url,
                      openIndex,
                      setOpenIndex,
                      setShowLoader,
                      handleMouseEnter
 }) => {
 
-    const {id, type, text, button_position, button, button_link, button_size} = section;
+    const {id, type, text, button_position, button, button_course_id, button_size} = section;
 
     const handleSectionOpen = (rowIndex) => {
         if(openIndex.includes(rowIndex)) {
@@ -105,11 +104,10 @@ const Section = ({
                         sections={sections}
                         setSections={setSections}
                         currentSection={section}
-                        button_link={button_link}
+                        buttonCourseId={button_course_id}
                         buttonSize={button_size}
                         courses={courses}
                         id={id}
-                        url={url}
                     />
                 </div>
                 <DeleteSection

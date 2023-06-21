@@ -16,7 +16,7 @@ class CourseService {
         return $user->Offers()
                     ->where('published', '=', true)
                     ->leftJoin("courses", "offers.course_id", "=", "courses.id")
-                    ->select('courses.title', 'courses.slug')
+                    ->select('courses.id', 'courses.title', 'courses.slug')
                     ->get()->toArray();
     }
 
@@ -64,12 +64,11 @@ class CourseService {
         }
 
         if ($keys[0] == "title") {
-            $username = $course->user()->pluck('username')->first();
+            /*$username = $course->user()->pluck('username')->first();*/
             $slug = Str::slug($request[$keys[0]], '-');
-            $purchaseURL = $request->getScheme() . "://" . $request->getHost() . "/" . $username . "/course/" . $slug . "/" . "checkout";
+            //$purchaseURL = $request->getScheme() . "://" . $request->getHost() . "/" . $username . "/course/" . $slug . "/" . "checkout";
             $course->update([
                 'slug' => $slug,
-                'purchase_link' => $purchaseURL
             ]);
 
             $this->updateCourseLinks($course, $request[$keys[0]], $slug);
@@ -140,7 +139,7 @@ class CourseService {
           ->select('courses.*', 'users.username')->get();
     }
 
-    public function getUserUnpurchasedCourses($userID) {
+    /*public function getUserUnpurchasedCourses($userID) {
         return Course::whereDoesntHave('purchases', function (Builder $query) use($userID) {
             $query->where('user_id', 'like', $userID);
         })->whereHas('offer', function($query) {
@@ -148,7 +147,7 @@ class CourseService {
         })->leftJoin('landing_pages', 'landing_pages.user_id', '=', 'courses.user_id')
           ->leftJoin('users', 'users.id', '=', 'courses.user_id')
           ->select('courses.*', 'landing_pages.slug as lp_slug', 'users.username')->get();
-    }
+    }*/
 
     private function saveCourseCategory($course, $value) {
 
