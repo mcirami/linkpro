@@ -35,6 +35,9 @@ function App() {
         const pageWrapper = document.getElementById("off_canvas_menu");
         if (!!isOpen) {
             pageWrapper.classList.remove("open");
+            setTimeout(() => {
+
+            },800)
         } else {
             pageWrapper.classList.add("open");
         }
@@ -124,7 +127,7 @@ function App() {
                             <span className="menu_icon" style={ courseData && { color: courseData["header_text_color"]}}>
                                 <RiLogoutBoxRLine />
                             </span>
-                            LOGOUT
+                            <span className="text">LOGOUT</span>
                         </a>
                         {!isOpen && isHovering.status && isHovering.section === "logout" ?
                             <HoverText text="logout"/>
@@ -152,7 +155,7 @@ function App() {
                                             </g>
                                         </svg>
                                     </span>
-                                    CONTACT <span>{toUpper(creator)}</span>
+                                    <span className="text">CONTACT {toUpper(creator)}</span>
                                 </a>
                                 {!isOpen && isHovering.status &&
                                 isHovering.section === "follow us" ?
@@ -171,7 +174,7 @@ function App() {
                                     <span className="menu_icon" style={ courseData && {color: courseData["header_text_color"] }}>
                                         <RiInstagramLine/>
                                     </span>
-                                    FOLLOW US
+                                    <span className="text">FOLLOW US</span>
                                 </a>
                                 {!isOpen && isHovering.status &&
                                 isHovering.section === "follow us" ?

@@ -27,7 +27,7 @@ const MenuItem = ({
                         {color: courseData["header_text_color"]}}>
                         {icon}
                     </span>
-                    {toUpper(name)}
+                    <span className="text">{toUpper(name)}</span>
                 </a>
                 {(!isOpen && isHovering.status && isHovering.section === name) ?
                     <HoverText text={name}/>
