@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {BiLock} from 'react-icons/bi';
 const hasCourseAccess = user.hasCourseAccess;
 const creator = user.creator;
 const affRef = user.affRef;
@@ -26,7 +27,8 @@ const ColumnComponent = ({
         button_text,
         button_text_color,
         button_color,
-        button_size
+        button_size,
+        lock_video,
     } = section;
 
     const {slug} = course;
@@ -90,7 +92,7 @@ const ColumnComponent = ({
         e.preventDefault();
 
 
-        if(hasCourseAccess) {
+        if(!lock_video) {
             const clickedDiv = e.currentTarget.parentNode
 
             if (window.innerWidth < 551) {
@@ -154,10 +156,16 @@ const ColumnComponent = ({
                        data-video={video_link}
                        data-index={index}
                        data-row={dataRow}
-                       onClick={(e) => handleOnClick(
-                           e)}>
+                       onClick={(e) => handleOnClick(e)}>
                          <span className="image_wrap my_row">
-                            <img src={imagePlaceholder} alt=""/>
+                            <img className={`${lock_video ? "locked" : "" }`} src={imagePlaceholder} alt=""/>
+                             { (!hasCourseAccess && type === "video" && lock_video) ?
+                                    <div className="icon_wrap">
+                                        <BiLock />
+                                    </div>
+                                 :
+                                 ""
+                             }
                          </span>
                     </a>
 
@@ -183,11 +191,6 @@ const ColumnComponent = ({
                         ""
                 }
             </div>
-            { (!hasCourseAccess && type === "video") ?
-                <span className="overlay" onClick={handleOverlayClick}></span>
-                :
-                ""
-            }
         </div>
 
 

@@ -32,6 +32,14 @@ const hoverText = [
             }
         ]
     },
+    {
+        section: 'lock_video',
+        text: [
+            {
+                description: 'You can choose to unlock a video to give users access to watch a video before purchasing the full course.'
+            }
+        ]
+    },
 ];
 
 export default hoverText;

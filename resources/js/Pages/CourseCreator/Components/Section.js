@@ -1,9 +1,13 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import DeleteSection from './DeleteSection';
 import {MdKeyboardArrowDown} from 'react-icons/md';
 import InputComponent from './InputComponent';
 import ColorPicker from './ColorPicker';
 import SectionButtonOptions from './SectionButtonOptions';
+import IOSSwitch from '../../../Utils/IOSSwitch';
+import InfoText from './InfoText';
+import {updateSectionData} from '../../../Services/CourseRequests';
+import {LP_ACTIONS} from '../Reducer';
 
 const Section = ({
                      section,
@@ -18,13 +22,22 @@ const Section = ({
 
 }) => {
 
+    const [lockVideo, setLockVideo] = useState(true);
+
     const {
         id,
         type,
         text,
         video_title,
-        video_link
+        video_link,
+        lock_video,
     } = section;
+
+
+    useEffect(() => {
+        setLockVideo(lock_video ? lock_video : true)
+    },[])
+
     const handleSectionOpen = (rowIndex) => {
         if(openIndex.includes(rowIndex)) {
             const newArrayIndex = openIndex.filter(element => element !== rowIndex)
@@ -33,6 +46,29 @@ const Section = ({
             const newArrayIndex = openIndex.concat(rowIndex);
             setOpenIndex(newArrayIndex);
         }
+    }
+
+    const handleChange = () => {
+        const newLockVideoValue = !lockVideo;
+        setLockVideo(newLockVideoValue);
+
+        const packets = {
+            lock_video: newLockVideoValue,
+        };
+
+        updateSectionData(packets, section.id)
+        .then((response) => {
+            if(response.success) {
+                setSections(
+                    sections.map((section) => {
+                        if(section.id === id) {
+                            section.lock_video = newLockVideoValue;
+                        }
+                        return section;
+                    })
+                )
+            }
+        });
     }
 
     return (
@@ -133,6 +169,16 @@ const Section = ({
                             setSections={setSections}
                             elementName={`section_${index + 1}_text_color`}
                         />
+                        <div className="switch_wrap two_columns">
+                            <div className={`page_settings border_wrap`}>
+                                <h3>Lock Video</h3>
+                                <IOSSwitch
+                                    onChange={handleChange}
+                                    checked={lockVideo !== null ? Boolean(lockVideo) : true}
+                                />
+                            </div>
+                            <InfoText section="lock_video"/>
+                        </div>
                     </>
                 }
                 <DeleteSection

@@ -64,9 +64,7 @@ class CourseService {
         }
 
         if ($keys[0] == "title") {
-            /*$username = $course->user()->pluck('username')->first();*/
             $slug = Str::slug($request[$keys[0]], '-');
-            //$purchaseURL = $request->getScheme() . "://" . $request->getHost() . "/" . $username . "/course/" . $slug . "/" . "checkout";
             $course->update([
                 'slug' => $slug,
             ]);
@@ -100,8 +98,9 @@ class CourseService {
 
     public function addCourseSection($course, $userID, $request) {
         return $course->CourseSections()->create([
-           'user_id' => $userID,
-           'type' => $request->type,
+           'user_id'    => $userID,
+           'type'       => $request->type,
+           'lock_video' => true
         ])->fresh();
     }
 

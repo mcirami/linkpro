@@ -766,6 +766,23 @@
         }
     }
 
+    &.two_columns {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+        width: 100%;
+
+        .page_settings {
+            width: 100%;
+        }
+    }
+
     .css-julti5-MuiSwitch-root {
         padding: 0;
         width: 58px;

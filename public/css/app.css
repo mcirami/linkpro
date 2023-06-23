@@ -12618,6 +12618,15 @@ header.guest_header .column.right {
     opacity: 1;
   }
 }
+.switch_wrap.two_columns {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+.switch_wrap.two_columns .page_settings {
+  width: 100%;
+}
 .switch_wrap .css-julti5-MuiSwitch-root {
   padding: 0;
   width: 58px;
@@ -17020,6 +17029,7 @@ a.delete svg {
   overflow: unset;
   margin-top: 20px;
   padding-top: 20px;
+  margin-bottom: 20px;
 }
 #links_page .creator_wrap .content_wrap .section_row .slider_wrap {
   width: 100%;
@@ -17079,9 +17089,6 @@ a.delete svg {
     padding-left: 20px;
     padding-right: 20px;
   }
-}
-#links_page .creator_wrap .content_wrap .sections_wrap .section_row .switch_wrap {
-  margin-bottom: 0;
 }
 #links_page .creator_wrap .content_wrap .sections_wrap .section_row .section_title {
   margin-bottom: 0;
@@ -17936,6 +17943,22 @@ a.delete svg {
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   z-index: 1;
+  /* .overlay {
+       position: absolute;
+       width: 100%;
+       height: 100%;
+       background: rgba(128, 128, 128, 0.6);
+       z-index: 2;
+       left: 0;
+       top: 0;
+       border-radius: 6px;
+       -webkit-border-radius: 6px;
+       -moz-border-radius: 6px;
+
+       &:hover {
+           cursor: pointer;
+       }
+   }*/
 }
 .courses_grid .sections .column.text {
   grid-column: 1/-1;
@@ -17945,21 +17968,6 @@ a.delete svg {
 }
 .courses_grid .sections .column .text_wrap p {
   margin: 0;
-}
-.courses_grid .sections .column .overlay {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(128, 128, 128, 0.6);
-  z-index: 2;
-  left: 0;
-  top: 0;
-  border-radius: 6px;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-}
-.courses_grid .sections .column .overlay:hover {
-  cursor: pointer;
 }
 .courses_grid .sections .column .column_title a {
   display: inline-block;
@@ -17975,6 +17983,7 @@ a.delete svg {
   display: flex;
   max-height: 265px;
   overflow: hidden;
+  position: relative;
 }
 .courses_grid .sections .column.video .image_wrap img {
   -o-object-fit: cover;
@@ -17987,6 +17996,26 @@ a.delete svg {
   border-top-left-radius: 8px;
   -webkit-border-top-left-radius: 8px;
   -moz-border-radius-topleft: 8px;
+}
+.courses_grid .sections .column.video .image_wrap img.locked {
+  filter: blur(25px);
+}
+.courses_grid .sections .column.video .image_wrap .icon_wrap {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  -webkit-justify-content: center;
+  align-items: center;
+  -webkit-align-items: center;
+}
+.courses_grid .sections .column.video .image_wrap .icon_wrap svg {
+  width: 35px;
+  height: 35px;
+  color: #ffffff;
 }
 
 #links_page .content_wrap {

@@ -9,8 +9,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import Slider from '@mui/material/Slider';
-import Switch from '@mui/material/Switch'
-import { styled } from '@mui/material/styles';
+import IOSSwitch from '../../../Utils/IOSSwitch';
 
 const SectionButtonOptions = ({
                                   position,
@@ -23,7 +22,6 @@ const SectionButtonOptions = ({
                                   courses = null,
                                   buttonCourseId = null,
                                   buttonSize,
-                                  url = null
 }) => {
 
     const [includeButtonValue, setIncludeButtonValue] = useState(false);
@@ -110,55 +108,6 @@ const SectionButtonOptions = ({
         return value + "%";
     }
 
-    const IOSSwitch = styled((props) => (
-        <Switch {...props} />
-    ))(({ theme }) => ({
-        width: 62,
-        height: 26,
-        padding: 0,
-        '& .MuiSwitch-switchBase': {
-            padding: 0,
-            margin: 2,
-            transitionDuration: '800ms',
-            '&.Mui-checked': {
-                transform: 'translateX(35px)',
-                color: '#fff',
-                '& + .MuiSwitch-track': {
-                    backgroundColor: '#424fcf',
-                    opacity: 1,
-                    border: 0,
-                },
-                '&.Mui-disabled + .MuiSwitch-track': {
-                    opacity: 0.5,
-                },
-            },
-            '&.Mui-focusVisible .MuiSwitch-thumb': {
-                color: '#ffffff',
-                border: '6px solid #ffffff',
-            },
-            '&.Mui-disabled .MuiSwitch-thumb': {
-                color: '#ffffff',
-            },
-            '&.Mui-disabled + .MuiSwitch-track': {
-                opacity: theme.palette.mode === 'light' ? 0.7 : 0.3,
-            },
-        },
-        '& .MuiSwitch-thumb': {
-            color: '#ffffff',
-            boxSizing: 'border-box',
-            width: 22,
-            height: 22,
-        },
-        '& .MuiSwitch-track': {
-            borderRadius: 26 / 2,
-            backgroundColor: theme.palette.mode === 'light' ? 'rgb(136, 136, 136)' : '#39393D',
-            opacity: 1,
-            transition: theme.transitions.create(['background-color'], {
-                duration: 500,
-            }),
-        },
-    }));
-
     return (
         <>
             <div className={`switch_wrap page_settings border_wrap`}>
@@ -168,7 +117,7 @@ const SectionButtonOptions = ({
                     checked={Boolean(includeButtonValue)}
                 />
             </div>
-            <div className={`button_options mb-4 ${includeButtonValue ? "open" : ""}`}>
+            <div className={`button_options ${includeButtonValue ? "open" : ""}`}>
                 <article className="page_settings border_wrap">
                     <div className="radios_wrap">
                         <FormControl>
