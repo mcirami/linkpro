@@ -17827,7 +17827,7 @@ a.delete svg {
   max-width: 200px;
   display: inline-block;
   margin: 0 auto 20px;
-  transition: max-width 500ms linear;
+  transition: margin-bottom 500ms linear;
 }
 @media (max-width: 768px) {
   .course_page header .logo {
@@ -18095,7 +18095,14 @@ a.delete svg {
 }
 .course_page:not(.member) .page_content header h2, .course_page:not(.member) .page_content header .h2 {
   font-size: 2rem;
-  margin: 0;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+@media (max-width: 768px) {
+  .course_page:not(.member) .page_content header h2, .course_page:not(.member) .page_content header .h2 {
+    font-size: 1.4rem;
+  }
 }
 .course_page:not(.member) .page_content main {
   padding: 2rem;

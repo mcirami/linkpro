@@ -19,7 +19,7 @@
             max-width: 200px;
             display: inline-block;
             margin: 0 auto 20px;
-            transition: max-width 500ms linear;
+            transition: margin-bottom 500ms linear;
 
             @include query(mobile) {
                 max-width: 175px;
@@ -349,7 +349,13 @@
 
             h2 {
                 font-size: 2rem;
-                margin: 0;
+                width: 100%;
+                margin: 0 auto;
+                text-align: center;
+
+                @include query(mobile) {
+                    font-size: 1.4rem;
+                }
             }
         }
 
