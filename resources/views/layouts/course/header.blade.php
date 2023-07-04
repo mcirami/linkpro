@@ -35,7 +35,7 @@
                     <a class="logo" href="{{ Request::url() }}">
                         <h1><img src="{{ $course->logo ?: asset('images/logo.png') }}" alt="{{ $course->title ?? ''}}"></h1>
                     </a>
-                    <h2 class="title" style="color: {{ $course->header_text_color }}">{{ $course->title }}</h2>
+                    <h2 id="course_title" class="title" style="color: {{ $course->header_text_color }}">{{ $course->title }}</h2>
                 </div>
             </nav>
         </header>

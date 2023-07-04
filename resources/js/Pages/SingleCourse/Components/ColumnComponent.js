@@ -12,7 +12,6 @@ const ColumnComponent = ({
                              setIndexValue,
                              index,
                              course,
-                             setPurchasePopup
 }) => {
 
     const {
@@ -31,7 +30,7 @@ const ColumnComponent = ({
         lock_video,
     } = section;
 
-    const {slug} = course;
+    const {slug, header_color, header_text_color} = course;
 
     let additionalVars = "";
     if (affRef && clickId) {
@@ -92,7 +91,7 @@ const ColumnComponent = ({
         e.preventDefault();
 
 
-        if(!lock_video) {
+        if(hasCourseAccess || !lock_video) {
             const clickedDiv = e.currentTarget.parentNode
 
             if (window.innerWidth < 551) {
@@ -111,19 +110,7 @@ const ColumnComponent = ({
                     }, 600)
                 }
             }
-        } else {
-            handleOverlayClick()
         }
-    }
-
-    const handleOverlayClick = () => {
-        setPurchasePopup({
-            show: true,
-            button_color: button_color,
-            button_text_color: button_text_color,
-            button_text: button_text,
-            button_link: buttonUrl
-        })
     }
 
     const Button = () => {
@@ -152,22 +139,28 @@ const ColumnComponent = ({
                         </div>
                     </div>
                     :
-                    <a className="my_row" href="#"
-                       data-video={video_link}
-                       data-index={index}
-                       data-row={dataRow}
-                       onClick={(e) => handleOnClick(e)}>
-                         <span className="image_wrap my_row">
-                            <img className={`${lock_video ? "locked" : "" }`} src={imagePlaceholder} alt=""/>
-                             { (!hasCourseAccess && type === "video" && lock_video) ?
-                                    <div className="icon_wrap">
-                                        <BiLock />
-                                    </div>
-                                 :
-                                 ""
-                             }
+                    hasCourseAccess || !lock_video ?
+                        <a className="my_row" href="#"
+                           data-video={video_link}
+                           data-index={index}
+                           data-row={dataRow}
+                           onClick={(e) => handleOnClick(e)}>
+                             <span className="image_wrap my_row">
+                                <img src={imagePlaceholder} alt=""/>
+                             </span>
+                        </a>
+                        :
+                        <span className="image_wrap my_row">
+                            <img className="locked" src={imagePlaceholder} alt=""/>
+                            <div className="text-center locked_content" style={{ color: 'rgb(255,255,255)' }}>
+                                <BiLock />
+                                <p>Unlock this video<br/>
+                                    by purchasing this course</p>
+                                <a className="button" href={buttonUrl} style={{ background: header_color, color: header_text_color }}>
+                                    Purchase Now
+                                </a>
+                            </div>
                          </span>
-                    </a>
 
                 :
                 ""

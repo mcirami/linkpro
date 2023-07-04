@@ -100,7 +100,7 @@ class CourseService {
         return $course->CourseSections()->create([
            'user_id'    => $userID,
            'type'       => $request->type,
-           'lock_video' => true
+           'lock_video' => $request->type === "video" ? true : null
         ])->fresh();
     }
 

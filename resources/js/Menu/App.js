@@ -35,9 +35,6 @@ function App() {
         const pageWrapper = document.getElementById("off_canvas_menu");
         if (!!isOpen) {
             pageWrapper.classList.remove("open");
-            setTimeout(() => {
-
-            },800)
         } else {
             pageWrapper.classList.add("open");
         }

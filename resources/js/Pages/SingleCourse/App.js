@@ -1,9 +1,8 @@
 import ColumnComponent from './Components/ColumnComponent';
 import VideoComponent from './Components/VideoComponent';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import draftToHtml from 'draftjs-to-html';
 import DOMPurify from 'dompurify';
-import PurchaseCoursePopup from '../../Utils/PurchaseCoursePopup';
 
 const course = user.course;
 const sections = user.sections;
@@ -12,13 +11,34 @@ function App() {
 
     const {intro_video, intro_text, intro_background_color, title} = course;
     const [indexValue, setIndexValue] = useState(null);
-    const [purchasePopup, setPurchasePopup] = useState({
-        show: false,
-        button_color: "",
-        button_text_color: "",
-        button_text: "",
-        button_link: ""
-    });
+
+    useEffect(() => {
+        const handleScroll = (e) => {
+            const divClass = document.querySelector('.member.course_page');
+
+            if(divClass) {
+                if (window.innerWidth < 768) {
+                    const scrollPosition = window.scrollY;
+                    const divTop = document.getElementById(
+                        'course_title').offsetTop;
+
+                    if (scrollPosition > divTop - 22) {
+                        divClass.classList.add('scroll_start');
+                    } else {
+                        divClass.classList.remove('scroll_start');
+                    }
+
+                }
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.addEventListener('scroll', handleScroll)
+        }
+
+    }, []);
 
     const createMarkup = (text) => {
 
@@ -30,14 +50,8 @@ function App() {
 
     return (
         <div className="single_course_content my_row">
-            {purchasePopup.show &&
-                <PurchaseCoursePopup
-                    purchasePopup={purchasePopup}
-                    setPurchasePopup={setPurchasePopup}
-                />
-            }
             <div className="container">
-                <div className="creator_wrap my_row courses_grid">
+                <div className="my_row courses_grid">
                     {indexValue &&
                         <VideoComponent
                             indexValue={indexValue}
@@ -71,7 +85,6 @@ function App() {
                                             setIndexValue={setIndexValue}
                                             index={index}
                                             course={course}
-                                            setPurchasePopup={setPurchasePopup}
                                         />
                                     </React.Fragment>
                                 )
