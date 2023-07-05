@@ -14,8 +14,10 @@ const MenuItem = ({
 
     const {id, name, url, icon, permission} = item;
 
+    console.log(userPermissions);
     return (
-        (userPermissions.includes(permission) || permission === "all") &&
+        ( (userPermissions.includes(permission) || permission === "all") && id !== "pre_register") ||
+        (id === "pre_register" && !userPermissions.includes("view dashboard") ) ?
             <li>
                 <a id={id}
                    style={courseData && {color: courseData["header_text_color"]}}
@@ -35,6 +37,8 @@ const MenuItem = ({
                     ""
                 }
             </li>
+            :
+            ""
     );
 };
 

@@ -175,6 +175,7 @@ Route::group(['middleware' => ['course.user:course']], function() {
     Route::get('/{user:username}/course/{course:slug}', [CourseController::class, 'show'])->name('live.course.page');
     Route::get('/{user:username}/course-page/{course:slug}', [CourseController::class, 'showCourseLander'])->name('live.course.lander');
     Route::get('/{user:username}/course/{course:slug}/checkout', [PurchaseController::class, 'show'])->name('course.checkout');
+    Route::get('/pre-register-link-pro', [PageController::class, 'showPreRegister'])->name('pre.register');
 });
 Route::get('/{course:slug?}/login', [LoginController::class, 'customLogin'])->name('customLogin');
 Route::post('/custom-login', [LoginController::class, 'customLoginPost'])->name('customLoginPost');

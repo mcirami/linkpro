@@ -121,6 +121,7 @@ class UserController extends Controller
     public function logout(Request $request) {
         Auth::logout();
         Session::forget('url.intended');
+        Session::forget('permissions');
         $course = $request->get('course');
         if (isset($course)) {
             $path = "/". $course . "/login";
@@ -128,7 +129,7 @@ class UserController extends Controller
             $path = "/login";
         }
 
-        //$request->session()->flush();
+        $request->session()->flush();
 
         return response()->json(['path' => $path, 'course' => $course]);
     }

@@ -149,17 +149,11 @@ class LoginController extends Controller
 
         } else if ($roles->contains("course.user") && $roles->contains('lp.user')) {
 
-            $userPages = $user->pages()->get();
-
-            if ( $userPages->isEmpty() ) {
-                return redirect()->route( 'create.page' );
+            $previousURL = Session::get( 'url.intended' );
+            if ( $previousURL ) {
+                return Redirect::intended();
             } else {
-                $previousURL = Session::get( 'url.intended' );
-                if ( $previousURL ) {
-                    return Redirect::intended();
-                } else {
-                    return redirect( '/dashboard' );
-                }
+                return redirect( '/dashboard' );
             }
 
         } else if ($roles->contains('lp.user')) {
@@ -187,7 +181,12 @@ class LoginController extends Controller
             } else {
                 return redirect('/courses');
             }
+        } else {
+            $userPages = $user->pages()->get();
 
+            if ( $userPages->isEmpty() ) {
+                return redirect()->route( 'create.page' );
+            }
         }
 
         return 0;

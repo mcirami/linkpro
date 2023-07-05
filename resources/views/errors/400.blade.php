@@ -1,3 +1,7 @@
+@php
+    \Laracasts\Utilities\JavaScript\JavaScriptFacade::put([]);
+@endphp
+
 @extends(Auth::check() ? 'layouts.app' : 'layouts.guest.header')
 
 @section('content')

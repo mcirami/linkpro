@@ -89,7 +89,7 @@ const SwitchOptions = ({offerData, dispatchOffer}) => {
                         disabled={!Boolean(offerData["published"])}
                     />
                 </div>
-                <InfoText section="active_course" />
+                <InfoText section="public_course" />
             </div>
 
 
@@ -102,7 +102,7 @@ const SwitchOptions = ({offerData, dispatchOffer}) => {
                         disabled={!Boolean(offerData["published"])}
                     />
                 </div>
-                <InfoText section="public_course" />
+                <InfoText section="active_course" />
             </div>
         </>
     );

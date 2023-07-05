@@ -53,11 +53,11 @@ const CreatePageForm = () => {
                 {!regexMatch &&
                     <p className="status not_available char_message register_page">Only letters, numbers, dashes, underscores, periods allowed</p>
                 }
-                <label className="pt-1">Link.pro/</label>
-                <div className="input_wrap">
-                    <input name="name"
+                <span className="pt-1 label">Link.pro/</span>
+                <div className="input_wrap position-relative">
+                    <input className="animate"
+                           name="name"
                            type="text"
-                           placeholder="Link Name"
                            onChange={ checkPageName }
                            onKeyDown={ event => {
                                if(event.key === 'Enter') {
@@ -66,6 +66,7 @@ const CreatePageForm = () => {
                            }}
                            required
                     />
+                    <label>Link Name</label>
                     {available ?
                         <a className="submit_circle" href="resources/js/Pages/Register/Components/CreatePageForm#"
                            onClick={(e) => handleSubmit(e)}
@@ -74,13 +75,14 @@ const CreatePageForm = () => {
                         </a>
                         :
                         <span className="cancel_icon">
-                 <FiThumbsDown/>
-            </span>
+                             <FiThumbsDown/>
+                        </span>
 
                     }
                     <p className="status">{available ?
                         "Available" :
-                        <span className="status not_available">Not Available</span>}</p>
+                        <span className="status not_available">Not Available</span>}
+                    </p>
                 </div>
             </div>
             <div className="my_row button_row">

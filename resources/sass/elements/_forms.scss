@@ -162,10 +162,11 @@ label.custom {
 }
 
 form .link_name {
-    label {
+    label, .label {
         @include ossemibold;
         font-size: 20px;
         padding-right: 5px;
+        line-height: 1;
     }
 }
 
@@ -1396,8 +1397,8 @@ form .bottom_row a {
 }
 
 .edit_form.register {
-    label {
-        margin-top: 0;
+    .label {
+        margin-top: 10px;
     }
 
     .button_row {

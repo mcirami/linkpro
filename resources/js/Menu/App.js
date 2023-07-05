@@ -13,14 +13,9 @@ function App() {
         status: false,
         section: null
     });
+
     const [isOpen, setIsOpen] = useState(false);
-
-    /*const [creator, setCreator] = useState(null);*/
     const [userPermissions, setPermissions] = useState("");
-
-    /*useEffect(() => {
-        setCreator(window.creator)
-    },[])*/
 
     useEffect(() => {
 

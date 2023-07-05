@@ -6,6 +6,7 @@ use App\Mail\ContactMail;
 use Illuminate\Http\Request;
 use App\Http\Requests\ContactRequest;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
 
 class ContactMailController extends Controller

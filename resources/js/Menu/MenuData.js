@@ -36,6 +36,13 @@ const MenuData = [
         permission: 'view courses'
     },
     {
+        id: 'pre_register',
+        name: 'pages',
+        url: '/pre-register-link-pro',
+        icon: <RiPagesLine/>,
+        permission: 'view courses'
+    },
+    {
         id: 'settings',
         name: 'settings',
         url: '/edit-account',

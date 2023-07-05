@@ -20,6 +20,11 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="guest">
+
+@if(in_array("course.user", $userRoles) && !in_array("lp.user", $userRoles) )
+	@include('layouts.menu')
+@endif
+
 <div id="app">
     <header class="guest_header">
         <div class="column left">

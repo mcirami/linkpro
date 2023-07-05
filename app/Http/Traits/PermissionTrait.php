@@ -9,11 +9,9 @@ trait PermissionTrait {
 
     public function checkPermissions() {
 
-        if (!Session::has('permissions')) {
-            $user = Auth::user();
-            $permissions = $user->getPermissionsViaRoles()->pluck('name');
-            Session::put('permissions', $permissions);
-        }
+        $user = Auth::user();
+        $permissions = $user->getPermissionsViaRoles()->pluck('name');
+        Session::put('permissions', $permissions);
 
     }
 

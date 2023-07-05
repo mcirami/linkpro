@@ -46,7 +46,7 @@ class CourseController extends Controller
 
         $offer = $course->Offer()->first();
 
-        if (!$offer->published) {
+        if (!$offer->published || !$offer->active) {
             return abort(404);
         }
 

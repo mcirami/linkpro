@@ -423,7 +423,9 @@ const StandardForm = ({
 
                 <div className="row">
                     <div className="col-12">
-                        <p className="upgrade_text"><sup>*</sup>Upgrade to customize</p>
+                        {!subStatus &&
+                            <p className="upgrade_text"><sup>*</sup>Upgrade to customize</p>
+                        }
                         <div className="input_wrap">
                             <input
                                 className={`${!subStatus ? "disabled " : ""} ${currentLink.name ? "active" : ""}`}

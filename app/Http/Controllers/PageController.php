@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\UserTrait;
 use Illuminate\Support\Facades\Cookie;
+use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
 
 class PageController extends Controller
 {
@@ -184,5 +185,12 @@ class PageController extends Controller
         }
 
         return redirect($url);
+    }
+
+    public function showPreRegister() {
+
+        Javascript::put([]);
+
+        return view('pages.pre-register');
     }
 }
