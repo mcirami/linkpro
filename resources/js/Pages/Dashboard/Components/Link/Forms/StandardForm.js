@@ -124,7 +124,7 @@ const StandardForm = ({
         let data;
 
         if (URL && currentLink.name) {
-            data = checkURL(URL, currentLink.name, null, !subStatus);
+            data = checkURL(URL, currentLink.name, null, subStatus);
         } else {
             data = {
                 success: true,

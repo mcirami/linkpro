@@ -14,7 +14,6 @@ const MenuItem = ({
 
     const {id, name, url, icon, permission} = item;
 
-    console.log(userPermissions);
     return (
         ( (userPermissions.includes(permission) || permission === "all") && id !== "pre_register") ||
         (id === "pre_register" && !userPermissions.includes("view dashboard") ) ?

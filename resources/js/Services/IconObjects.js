@@ -264,7 +264,8 @@ export const icons = [
     },
     {
         "name" : "Telegram",
-        "required_in_url": "telegram",
+        "required_in_url": "t.me",
+        "prefix" : "https://t.me/"
     },
     {
         "name" : "TikTok",
