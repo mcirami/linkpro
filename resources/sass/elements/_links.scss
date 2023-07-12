@@ -13,10 +13,6 @@
         float: left;
         padding-right: 3rem;
 
-        /*@media all and (max-width: 1199px) {
-            width: 60%;
-        }*/
-
         @media all and (max-width: 992px) {
             width: 100%;
             padding-right: 0;
@@ -31,8 +27,8 @@
         top: 8%;
 
         @media screen and (max-width: 992px) {
-            position: relative;
-            top: unset;
+            position: fixed;
+            top: 0;
             width: 100%;
             display: flex;
             justify-content: center;

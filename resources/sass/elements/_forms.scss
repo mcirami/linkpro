@@ -364,6 +364,10 @@ form .bottom_row a {
                 -webkit-border-radius: 10px;
                 -moz-border-radius: 10px;
                 padding: 10px;
+                transition: height ease-in-out .5s;
+                -moz-transition: height ease-in-out .5s;
+                -webkit-transition: height ease-in-out .5s;
+                -ms-transition: height ease-in-out .5s;
 
                 .icon_col {
                     width: 17.9%;
@@ -482,6 +486,18 @@ form .bottom_row a {
                     -moz-border-radius: 0;
                     border: none;
                     padding: 0;
+                }
+
+                &.active {
+                    height: 125px;
+
+                    @include query(mobile) {
+                        height: 100px;
+                    }
+
+                    @include query(550) {
+                        height:90px;
+                    }
                 }
             }
 

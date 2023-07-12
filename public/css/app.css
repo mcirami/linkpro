@@ -12016,8 +12016,8 @@ header.guest_header .column.right {
 }
 @media screen and (max-width: 992px) {
   #links_page .right_column {
-    position: relative;
-    top: unset;
+    position: fixed;
+    top: 0;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -13793,6 +13793,10 @@ form .bottom_row a {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   padding: 10px;
+  transition: height ease-in-out 0.5s;
+  -moz-transition: height ease-in-out 0.5s;
+  -webkit-transition: height ease-in-out 0.5s;
+  -ms-transition: height ease-in-out 0.5s;
 }
 #links_page .edit_form.popup .icons_wrap .icon_col, #links_page .edit_form.link .icons_wrap .icon_col {
   width: 17.9%;
@@ -13912,6 +13916,14 @@ form .bottom_row a {
   -moz-border-radius: 0;
   border: none;
   padding: 0;
+}
+#links_page .edit_form.popup .icons_wrap.active, #links_page .edit_form.link .icons_wrap.active {
+  height: 125px;
+}
+@media (max-width: 768px) {
+  #links_page .edit_form.popup .icons_wrap.active, #links_page .edit_form.link .icons_wrap.active {
+    height: 100px;
+  }
 }
 #links_page .edit_form.popup .my_row.top, #links_page .edit_form.link .my_row.top {
   margin-bottom: 20px;
