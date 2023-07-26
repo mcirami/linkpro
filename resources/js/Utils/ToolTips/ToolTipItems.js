@@ -7,7 +7,8 @@ export const displayInfoBox = (
     setInfoTextOpen,
     setInfoLocation,
     setInfoClicked,
-    infoClicked = false
+    infoClicked = false,
+    triangleRef = null,
 ) => {
 
     if (infoClicked === null) {
@@ -16,7 +17,7 @@ export const displayInfoBox = (
         setInfoClicked(null)
         setInfoTextOpen(false);
 
-        return;
+        //return;
     }
 
     const name = e.target.dataset.section;

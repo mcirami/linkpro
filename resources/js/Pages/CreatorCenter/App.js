@@ -15,6 +15,7 @@ function App() {
     const [infoTextOpen, setInfoTextOpen] = useState(false)
     const [infoLocation, setInfoLocation] = useState({})
     const [infoClicked, setInfoClicked] = useState(null);
+    const [triangleRef, setTriangleRef] = useState(null);
 
     const [lpActive, setLpActive] = useState(landingPage ? Boolean(landingPage['active']) : Boolean(0));
 
@@ -37,7 +38,9 @@ function App() {
             infoLocation,
             setInfoLocation,
             infoClicked,
-            setInfoClicked
+            setInfoClicked,
+            setTriangleRef,
+            triangleRef
         }}>
             {offers.length === 0 ?
                 <>

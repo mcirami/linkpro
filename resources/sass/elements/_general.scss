@@ -163,18 +163,19 @@
             max-width: 80%;
         }
 
-        &:after {
-            content: '';
-            position: absolute;
-            display: inline-block;
-            bottom: -10px;
-            right: 5px;
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-width: 10px 8px 0 8px;
-            border-color: $lightGrayAlt transparent transparent transparent;
-
+        &.course_creator {
+            &:after {
+                content: '';
+                position: absolute;
+                display: inline-block;
+                bottom: -10px;
+                right: 5px;
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: 10px 8px 0 8px;
+                border-color: $lightGrayAlt transparent transparent transparent;
+            }
         }
 
         &.open {

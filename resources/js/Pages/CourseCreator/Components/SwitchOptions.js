@@ -80,7 +80,7 @@ const SwitchOptions = ({offerData, dispatchOffer}) => {
 
     return (
         <>
-            <div className="switch_wrap d-flex">
+            <div className="switch_wrap two_columns">
                 <div className="page_settings border_wrap my_row">
                     <h3>Public</h3>
                     <IOSSwitch
@@ -93,7 +93,7 @@ const SwitchOptions = ({offerData, dispatchOffer}) => {
             </div>
 
 
-            <div className="switch_wrap d-flex">
+            <div className="switch_wrap two_columns">
                 <div className="page_settings border_wrap my_row">
                     <h3>Active</h3>
                     <IOSSwitch

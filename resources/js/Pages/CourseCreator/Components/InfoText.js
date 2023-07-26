@@ -29,7 +29,7 @@ const InfoText = ({section}) => {
     return (
         <>
             <div style={styles} ref={infoTextRef} className={`
-            hover_text help
+            hover_text help course_creator
             ${(isHovering.status && isHovering.section === section) || (isClicked.status && isClicked.section === section) ? "open" : ""}
             `}>
                 <p>{infoText}</p>

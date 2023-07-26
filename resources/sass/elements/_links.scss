@@ -747,9 +747,11 @@
     position: relative;
     margin-top: 5px;
 
-    .hover_text {
-        @media all and (max-width: 768px) {
-            display: none;
+    &:not(.two_columns) {
+        .hover_text {
+           @media all and (max-width: 768px) {
+               display: none;
+           }
         }
     }
 

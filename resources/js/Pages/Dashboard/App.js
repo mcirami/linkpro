@@ -80,6 +80,7 @@ function App() {
     const [infoTextOpen, setInfoTextOpen] = useState(false)
     const [infoLocation, setInfoLocation] = useState({})
     const [infoClicked, setInfoClicked] = useState(null);
+    const [triangleRef, setTriangleRef] = useState(null);
 
     const [allUserPages, setAllUserPages] = useState(userPages);
     const [editFolderID, setEditFolderID] = useState(null);
@@ -339,7 +340,9 @@ function App() {
                                     infoLocation,
                                     setInfoLocation,
                                     infoClicked,
-                                    setInfoClicked
+                                    setInfoClicked,
+                                    setTriangleRef,
+                                    triangleRef
                                 }}>
 
                                     <div className="left_column">

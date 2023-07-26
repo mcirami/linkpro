@@ -11193,6 +11193,17 @@ button {
   cursor: unset;
 }
 
+.info_text_triangle {
+  position: fixed;
+  width: 25px;
+  height: 25px;
+}
+.info_text_triangle svg {
+  color: #eaeaea;
+  width: 100%;
+  height: 100%;
+}
+
 .nav_row {
   box-shadow: 0px 0px 35px 5px rgba(170, 170, 170, 0.18);
   padding: 10px 0;
@@ -11998,9 +12009,6 @@ header.guest_header .column.right {
   width: 55%;
   float: left;
   padding-right: 3rem;
-  /*@media all and (max-width: 1199px) {
-      width: 60%;
-  }*/
 }
 @media all and (max-width: 992px) {
   #links_page .left_column {
@@ -12609,7 +12617,7 @@ header.guest_header .column.right {
   margin-top: 5px;
 }
 @media all and (max-width: 768px) {
-  .switch_wrap .hover_text {
+  .switch_wrap:not(.two_columns) .hover_text {
     display: none;
   }
 }
@@ -13518,24 +13526,60 @@ header.guest_header .column.right {
   z-index: 999;
 }
 
-input[type=text], input[type=tel], #card-element, input[type=email], input[type=password], input[type=url], input[type=file], textarea, #card-number, #expiration-date, #cvv, #postal-code, select {
+input[type=text],
+input[type=tel],
+#card-element,
+input[type=email],
+input[type=password],
+input[type=url],
+input[type=file],
+textarea,
+#card-number,
+#expiration-date,
+#cvv,
+#postal-code,
+select {
   border: 1px solid rgba(155, 155, 155, 0.2);
   border-radius: 8px;
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   height: 55px;
-  padding: 15px;
+  padding: 15px 40px 15px 15px;
   background-color: transparent;
   position: relative;
   z-index: 2;
 }
-input[type=text]:focus, input[type=tel]:focus, #card-element:focus, input[type=email]:focus, input[type=password]:focus, input[type=url]:focus, input[type=file]:focus, textarea:focus, #card-number:focus, #expiration-date:focus, #cvv:focus, #postal-code:focus, select:focus {
+input[type=text]:focus,
+input[type=tel]:focus,
+#card-element:focus,
+input[type=email]:focus,
+input[type=password]:focus,
+input[type=url]:focus,
+input[type=file]:focus,
+textarea:focus,
+#card-number:focus,
+#expiration-date:focus,
+#cvv:focus,
+#postal-code:focus,
+select:focus {
   border: 1px solid;
   border-color: rgba(66, 79, 207, 0.4);
   outline: 0;
   box-shadow: none;
 }
-input[type=text] + label, input[type=tel] + label, #card-element + label, input[type=email] + label, input[type=password] + label, input[type=url] + label, input[type=file] + label, textarea + label, #card-number + label, #expiration-date + label, #cvv + label, #postal-code + label, select + label {
+input[type=text] + label,
+input[type=tel] + label,
+#card-element + label,
+input[type=email] + label,
+input[type=password] + label,
+input[type=url] + label,
+input[type=file] + label,
+textarea + label,
+#card-number + label,
+#expiration-date + label,
+#cvv + label,
+#postal-code + label,
+select + label {
   color: rgba(155, 155, 155, 0.6);
   background: #ffffff;
   position: absolute;
@@ -13545,7 +13589,19 @@ input[type=text] + label, input[type=tel] + label, #card-element + label, input[
   transition: top 500ms ease-in-out, font-size 500ms ease-in-out, color 500ms ease-in-out;
   z-index: 1;
 }
-input[type=text].active + label, input[type=tel].active + label, #card-element.active + label, input[type=email].active + label, input[type=password].active + label, input[type=url].active + label, input[type=file].active + label, textarea.active + label, #card-number.active + label, #expiration-date.active + label, #cvv.active + label, #postal-code.active + label, select.active + label {
+input[type=text].active + label,
+input[type=tel].active + label,
+#card-element.active + label,
+input[type=email].active + label,
+input[type=password].active + label,
+input[type=url].active + label,
+input[type=file].active + label,
+textarea.active + label,
+#card-number.active + label,
+#expiration-date.active + label,
+#cvv.active + label,
+#postal-code.active + label,
+select.active + label {
   line-height: 1;
   color: rgba(66, 79, 207, 0.5);
   top: -6px;
@@ -13553,7 +13609,19 @@ input[type=text].active + label, input[type=tel].active + label, #card-element.a
   font-size: 12px;
   z-index: 3;
 }
-input[type=text].active:not(:focus) + label, input[type=tel].active:not(:focus) + label, #card-element.active:not(:focus) + label, input[type=email].active:not(:focus) + label, input[type=password].active:not(:focus) + label, input[type=url].active:not(:focus) + label, input[type=file].active:not(:focus) + label, textarea.active:not(:focus) + label, #card-number.active:not(:focus) + label, #expiration-date.active:not(:focus) + label, #cvv.active:not(:focus) + label, #postal-code.active:not(:focus) + label, select.active:not(:focus) + label {
+input[type=text].active:not(:focus) + label,
+input[type=tel].active:not(:focus) + label,
+#card-element.active:not(:focus) + label,
+input[type=email].active:not(:focus) + label,
+input[type=password].active:not(:focus) + label,
+input[type=url].active:not(:focus) + label,
+input[type=file].active:not(:focus) + label,
+textarea.active:not(:focus) + label,
+#card-number.active:not(:focus) + label,
+#expiration-date.active:not(:focus) + label,
+#cvv.active:not(:focus) + label,
+#postal-code.active:not(:focus) + label,
+select.active:not(:focus) + label {
   color: rgba(155, 155, 155, 0.4);
 }
 
@@ -13674,6 +13742,7 @@ form .bottom_row a {
   position: absolute;
   right: 12px;
   top: 10px;
+  z-index: 3;
 }
 .edit_form form ::-moz-placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
   font-family: "opensanssemibold", sans-serif;
@@ -13709,7 +13778,7 @@ form .bottom_row a {
 .edit_form form .submit_circle.textarea, .edit_form form .cancel_icon.textarea {
   top: auto;
   bottom: 15px;
-  z-index: 1;
+  z-index: 3;
 }
 .edit_form form.wysiwig {
   right: 10px;
@@ -13721,6 +13790,7 @@ form .bottom_row a {
 .edit_form.new_page .submit_circle, .edit_form.new_page .cancel_icon {
   top: 0;
   right: 5px;
+  z-index: 3;
 }
 .edit_form.new_page p {
   margin: 0;
@@ -15531,7 +15601,7 @@ form .bottom_row a {
     max-width: 80%;
   }
 }
-.hover_text.help:after {
+.hover_text.help.course_creator:after {
   content: "";
   position: absolute;
   display: inline-block;
@@ -17470,6 +17540,23 @@ a.delete svg {
 #creator_center .grid_columns .column:last-child table td, #pre_register .grid_columns .column:last-child table td {
   font-family: "opensansregular", sans-serif;
 }
+#creator_center .grid_columns .column:last-child table tbody td:first-child, #pre_register .grid_columns .column:last-child table tbody td:first-child {
+  text-align: left;
+  padding-left: 8%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  align-items: center;
+}
+#creator_center .grid_columns .column:last-child table tbody td:first-child p, #pre_register .grid_columns .column:last-child table tbody td:first-child p {
+  margin: 0;
+  padding: 0;
+}
+#creator_center .grid_columns .column:last-child table tbody td:first-child a, #pre_register .grid_columns .column:last-child table tbody td:first-child a {
+  margin-right: 8%;
+}
 #creator_center .grid_columns .column .form-switch .form-check-input, #pre_register .grid_columns .column .form-switch .form-check-input {
   width: 2.5em;
   height: 1.2em;
@@ -17652,6 +17739,7 @@ a.delete svg {
 .creator.course_creator #links_page .creator_wrap .left_column .edit_form form .submit_circle.textarea, .creator.course_creator #links_page .creator_wrap .left_column .edit_form form .cancel_icon.textarea {
   bottom: 15px;
   right: 10px;
+  z-index: 3;
 }
 .creator.course_creator #links_page .creator_wrap .preview .header {
   min-height: unset;

@@ -33,13 +33,25 @@
 }
 
 
-input[type="text"], input[type="tel"], #card-element, input[type="email"], input[type="password"], input[type="url"], input[type="file"], textarea, #card-number, #expiration-date, #cvv, #postal-code, select {
+input[type="text"],
+input[type="tel"],
+#card-element,
+input[type="email"],
+input[type="password"],
+input[type="url"],
+input[type="file"],
+textarea,
+#card-number,
+#expiration-date,
+#cvv,
+#postal-code,
+select {
     border: 1px solid $borderGray;
     border-radius: 8px;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     height: 55px;
-    padding: 15px;
+    padding: 15px 40px 15px 15px;
     background-color: transparent;
     position: relative;
     z-index: 2;
@@ -217,6 +229,7 @@ form .bottom_row a {
             position: absolute;
             right: 12px;
             top: 10px;
+            z-index: 3;
         }
 
         ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -254,7 +267,7 @@ form .bottom_row a {
         .submit_circle.textarea, .cancel_icon.textarea {
             top: auto;
             bottom: 15px;
-            z-index: 1;
+            z-index: 3;
         }
 
         &.wysiwig {
@@ -269,6 +282,7 @@ form .bottom_row a {
         .submit_circle, .cancel_icon {
             top: 0;
             right: 5px;
+            z-index: 3;
         }
 
         p {

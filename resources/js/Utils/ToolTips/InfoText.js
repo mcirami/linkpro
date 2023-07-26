@@ -1,6 +1,6 @@
-import React, {useContext, useEffect, useRef} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import ToolTipContext from './ToolTipContext'
-
+import {VscTriangleDown} from 'react-icons/vsc'
 
 const InfoText = ({divRef}) => {
 
@@ -10,23 +10,38 @@ const InfoText = ({divRef}) => {
         infoText,
         infoLocation,
         infoTextOpen,
+        setTriangleRef
     } = useContext(ToolTipContext);
 
     useEffect(() => {
 
         const infoBox = infoDiv.current;
+        const windowWidth = window.innerWidth
 
         setTimeout(() => {
             const {center, top} = infoLocation;
             const vert =  (top - infoBox.offsetHeight) - 10;
-            const horz = (center - infoBox.offsetWidth) + 15;
+            let horz = (center - infoBox.offsetWidth) + 15;
+
+            if (horz < 80 && windowWidth > 768) {
+                horz = 80;
+            }
+
+            if (horz < 0 && windowWidth < 769) {
+                horz = 20;
+            }
 
             infoBox.style.left = ` ${horz}px`;
             infoBox.style.top = `${vert}px`;
         })
 
         if (infoText?.section.includes('creator')) {
-            infoBox.style.maxWidth = `${divRef.current.offsetWidth * .62}px`
+            if (windowWidth < 600) {
+                infoBox.style.maxWidth = '80%';
+            } else {
+                infoBox.style.maxWidth = `${divRef.current.offsetWidth * .62}px`
+            }
+
         } else {
             infoBox.style.maxWidth = `${divRef.current.offsetWidth * .92}px`
         }
@@ -37,9 +52,15 @@ const InfoText = ({divRef}) => {
         function handleResize() {
             const infoBox = infoDiv.current;
             const {center, top} = infoLocation;
+            const windowWidth = window.innerWidth
+
             let wrapWidth;
             if (infoText.section.includes('creator')) {
-                wrapWidth = divRef.current.offsetWidth * .62;
+                if (windowWidth < 600) {
+                    infoBox.style.maxWidth = '80%';
+                } else {
+                    wrapWidth = divRef.current.offsetWidth * .62;
+                }
             } else {
                 wrapWidth = divRef.current.offsetWidth * .92;
             }
@@ -47,9 +68,17 @@ const InfoText = ({divRef}) => {
             //const wrapWidth = divRef.current.offsetWidth * .92;
 
             const vert =  (top - infoDiv.current.offsetHeight) - 10;
-            const horz = (center - infoDiv.current.offsetWidth) + 15;
+            let horz = (center - infoDiv.current.offsetWidth) + 15;
 
-            infoBox.style.left = ` ${horz}px`;
+            if (horz < 80 && windowWidth > 768) {
+                horz = 80;
+            }
+
+            if (horz < 0 && windowWidth < 769) {
+                horz = 20;
+            }
+
+            infoBox.style.left = `${horz}px`;
             infoBox.style.top = `${vert}px`;
             infoBox.style.maxWidth = `${wrapWidth}px`;
         }
@@ -85,7 +114,9 @@ const InfoText = ({divRef}) => {
                     )
                 })}
 
-
+            <div ref={newRef => setTriangleRef(newRef)} className="info_text_triangle">
+                <VscTriangleDown />
+            </div>
         </div>
 
     );
