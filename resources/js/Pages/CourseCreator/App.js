@@ -4,6 +4,7 @@ const courseArray = user.courseData;
 const offerArray = user.offerData;
 const username = user.username;
 
+import { ToolTipContextProvider } from '../../Utils/ToolTips/ToolTipContext';
 import {Loader} from '../../Utils/Loader';
 import {Flash} from '../../Utils/Flash';
 import InputComponent from './Components/InputComponent';
@@ -21,7 +22,8 @@ import SwitchOptions from './Components/SwitchOptions';
 import PublishButton from './Components/PublishButton';
 import Section from './Components/Section';
 import DropdownComponent from './Components/DropdownComponent';
-import InfoText from './Components/InfoText';
+import InfoText from '../../Utils/ToolTips/InfoText';
+import ToolTipIcon from '../../Utils/ToolTips/ToolTipIcon';
 
 function App() {
 
@@ -33,11 +35,19 @@ function App() {
     const [showPreviewButton, setShowPreviewButton] = useState(false);
     const [showPreview, setShowPreview] = useState(false);
 
+    const [infoText, setInfoText] = useState({section:'', text:[]});
+    const [infoTextOpen, setInfoTextOpen] = useState(false)
+    const [infoLocation, setInfoLocation] = useState({})
+    const [infoClicked, setInfoClicked] = useState(null);
+    const [triangleRef, setTriangleRef] = useState(null);
+
+
     const [completedCrop, setCompletedCrop] = useState([])
     const nodesRef = useRef([]);
     const [fileNames, setFileNames] = useState([]);
 
     const divRef = useRef(null);
+    const columnRef = useRef(null);
 
     const [showLoader, setShowLoader] = useState({
         show: false,
@@ -99,254 +109,270 @@ function App() {
     let textCount = 0;
 
     return (
-        <div className="my_row page_wrap">
+        <ToolTipContextProvider value={{
+            infoText,
+            setInfoText,
+            infoTextOpen,
+            setInfoTextOpen,
+            infoLocation,
+            setInfoLocation,
+            infoClicked,
+            setInfoClicked,
+            setTriangleRef,
+            triangleRef
+        }}>
+            <div className="my_row page_wrap">
 
-            {showLoader.show &&
-                <Loader
-                    showLoader={showLoader}
-                />
-            }
+                {showLoader.show &&
+                    <Loader
+                        showLoader={showLoader}
+                    />
+                }
 
-            {flash.show &&
-                <Flash
-                    {...flash}
-                    setFlash={setFlash}
-                    removeFlash={showFlash}
-                />
-            }
+                {flash.show &&
+                    <Flash
+                        {...flash}
+                        setFlash={setFlash}
+                        removeFlash={showFlash}
+                    />
+                }
 
-            {showPreviewButton &&
-                <PreviewButton setShowPreview={setShowPreview}/>
-            }
+                {showPreviewButton &&
+                    <PreviewButton setShowPreview={setShowPreview}/>
+                }
 
-            <div className="left_column">
-                <h3 className="mb-4 card_title">Create Your Course</h3>
-                <div className="content_wrap my_row creator" id="left_col_wrap">
-                    <section id="header_section"
-                             className="my_row section_row"
-                             onMouseEnter={(e) =>
-                                 handleMouseHover(e)
-                            }>
-                        <div className="section_title">
-                            <h4>Header</h4>
-                        </div>
-                        <div className="section_content my_row" ref={divRef}>
-                            <InputComponent
-                                placeholder="Course Title"
-                                type="text"
-                                maxChar={60}
-                                hoverText="Submit Course Title"
-                                elementName="title"
-                                courseData={courseData}
-                                dispatch={dispatch}
-                                value={courseData["title"]}
-                            />
-                            <ImageComponent
-                                nodesRef={nodesRef}
-                                completedCrop={completedCrop}
-                                setCompletedCrop={setCompletedCrop}
-                                fileNames={fileNames}
-                                setFileNames={setFileNames}
-                                setShowLoader={setShowLoader}
-                                data={courseData}
-                                dispatch={dispatch}
-                                elementName="logo"
-                                placeholder="Logo"
-                                type="extPreview"
-                                cropArray={{
-                                    unit: "%",
-                                    width: 60,
-                                    height: 30,
-                                    x: 25,
-                                    y: 25,
-                                }}
-                            />
-                            <div className="picker_wrap">
-                                <ColorPicker
-                                    label="Header Background Color"
+                <div className="left_column" ref={columnRef}>
+                    <h3 className="mb-4 card_title">Create Your Course</h3>
+                    <div className="content_wrap my_row creator" id="left_col_wrap">
+                        <section id="header_section"
+                                 className="my_row section_row"
+                                 onMouseEnter={(e) =>
+                                     handleMouseHover(e)
+                                }>
+                            <div className="section_title">
+                                <h4>Header</h4>
+                            </div>
+                            <div className="section_content my_row" ref={divRef}>
+                                <InputComponent
+                                    placeholder="Course Title"
+                                    type="text"
+                                    maxChar={60}
+                                    hoverText="Submit Course Title"
+                                    elementName="title"
                                     courseData={courseData}
                                     dispatch={dispatch}
-                                    elementName="header_color"
+                                    value={courseData["title"]}
                                 />
-                                <InfoText section="header_color" />
-                            </div>
-                            <div className="picker_wrap">
-                                <ColorPicker
-                                    label="Course Title Color"
-                                    courseData={courseData}
+                                <ImageComponent
+                                    nodesRef={nodesRef}
+                                    completedCrop={completedCrop}
+                                    setCompletedCrop={setCompletedCrop}
+                                    fileNames={fileNames}
+                                    setFileNames={setFileNames}
+                                    setShowLoader={setShowLoader}
+                                    data={courseData}
                                     dispatch={dispatch}
-                                    elementName="header_text_color"
+                                    elementName="logo"
+                                    placeholder="Logo"
+                                    type="extPreview"
+                                    cropArray={{
+                                        unit: "%",
+                                        width: 60,
+                                        height: 30,
+                                        x: 25,
+                                        y: 25,
+                                    }}
                                 />
-                                <InfoText section="header_text_color"/>
-                            </div>
-                            <DropdownComponent
-                                id={courseData["id"]}
-                                dispatch={dispatch}
-                                value={courseData["category"] || ""}
-                            />
-                            {courseData["slug"] && offerData["published"] ?
-                                <div className="url_wrap">
-                                    <p>Course URL:</p>
-                                    <a target="_blank" href={url}>{url}</a>
-                                </div>
-                                :
-                                ""
-                            }
-                        </div>
-                    </section>
-                    <section id="intro_video_section"
-                             className="my_row section_row"
-                             onMouseEnter={(e) =>
-                                 setHoverSection(e.target.id)
-                             }>
-                        <div className="section_title">
-                            <h4>Intro Video</h4>
-                        </div>
-                        <div className="section_content my_row">
-                            <InputComponent
-                                placeholder="YouTube or Vimeo Link"
-                                type="url"
-                                hoverText="Add Embed Link"
-                                elementName="intro_video"
-                                value={courseData["intro_video"] || ""}
-                                courseData={courseData}
-                                dispatch={dispatch}
-                            />
-                        </div>
-                    </section>
-                    <section id="intro_text_section"
-                             className="my_row section_row"
-                             onMouseEnter={(e) =>
-                                 setHoverSection(e.target.id)
-                             }>
-                        <div className="section_title">
-                            <h4>Intro Text</h4>
-                        </div>
-                        <div className="section_content my_row">
-                            <InputComponent
-                                placeholder="Intro Text"
-                                type="wysiwyg"
-                                hoverText="Submit Intro Text"
-                                elementName="intro_text"
-                                courseData={courseData}
-                                dispatch={dispatch}
-                                value={courseData["intro_text"]}
-                            />
-                            <ColorPicker
-                                label="Background Color"
-                                courseData={courseData}
-                                dispatch={dispatch}
-                                elementName="intro_background_color"
-                            />
-                        </div>
-                    </section>
-
-                    {!isEmpty(sections) &&
-
-                        <section className="sections_wrap my_row">
-                            {sections.map((section, index) => {
-
-                                {section.type === "video" ? ++videoCount : ++textCount}
-
-                                return (
-
-                                    <Section
-                                        key={section.id}
-                                        section={section}
-                                        index={index}
-                                        sections={sections}
-                                        setSections={setSections}
-                                        openIndex={openIndex}
-                                        setOpenIndex={setOpenIndex}
-                                        videoCount={videoCount}
-                                        textCount={textCount}
-                                        setHoverSection={setHoverSection}
+                                <div className="picker_wrap">
+                                    <ColorPicker
+                                        label="Header Background Color"
+                                        courseData={courseData}
+                                        dispatch={dispatch}
+                                        elementName="header_color"
                                     />
-
-                                )
-                            })}
+                                    <ToolTipIcon section="course_header_color" />
+                                </div>
+                                <div className="picker_wrap">
+                                    <ColorPicker
+                                        label="Course Title Color"
+                                        courseData={courseData}
+                                        dispatch={dispatch}
+                                        elementName="header_text_color"
+                                    />
+                                    <ToolTipIcon section="course_header_text_color" />
+                                </div>
+                                <DropdownComponent
+                                    id={courseData["id"]}
+                                    dispatch={dispatch}
+                                    value={courseData["category"] || ""}
+                                />
+                                {courseData["slug"] && offerData["published"] ?
+                                    <div className="url_wrap">
+                                        <p>Course URL:</p>
+                                        <a target="_blank" href={url}>{url}</a>
+                                    </div>
+                                    :
+                                    ""
+                                }
+                            </div>
                         </section>
-                    }
+                        <section id="intro_video_section"
+                                 className="my_row section_row"
+                                 onMouseEnter={(e) =>
+                                     setHoverSection(e.target.id)
+                                 }>
+                            <div className="section_title">
+                                <h4>Intro Video</h4>
+                            </div>
+                            <div className="section_content my_row">
+                                <InputComponent
+                                    placeholder="YouTube or Vimeo Link"
+                                    type="url"
+                                    hoverText="Add Embed Link"
+                                    elementName="intro_video"
+                                    value={courseData["intro_video"] || ""}
+                                    courseData={courseData}
+                                    dispatch={dispatch}
+                                />
+                            </div>
+                        </section>
+                        <section id="intro_text_section"
+                                 className="my_row section_row"
+                                 onMouseEnter={(e) =>
+                                     setHoverSection(e.target.id)
+                                 }>
+                            <div className="section_title">
+                                <h4>Intro Text</h4>
+                            </div>
+                            <div className="section_content my_row">
+                                <InputComponent
+                                    placeholder="Intro Text"
+                                    type="wysiwyg"
+                                    hoverText="Submit Intro Text"
+                                    elementName="intro_text"
+                                    courseData={courseData}
+                                    dispatch={dispatch}
+                                    value={courseData["intro_text"]}
+                                />
+                                <ColorPicker
+                                    label="Background Color"
+                                    courseData={courseData}
+                                    dispatch={dispatch}
+                                    elementName="intro_background_color"
+                                />
+                            </div>
+                        </section>
 
-                    <div className="link_row mb-5">
-                        <AddTextSection
-                            sections={sections}
-                            setSections={setSections}
-                            courseID={courseData["id"]}
-                            setOpenIndex={setOpenIndex}
-                        />
-                        <AddVideoSection
-                            sections={sections}
-                            setSections={setSections}
-                            courseID={courseData["id"]}
-                            setOpenIndex={setOpenIndex}
-                        />
+                        {!isEmpty(sections) &&
+
+                            <section className="sections_wrap my_row">
+                                {sections.map((section, index) => {
+
+                                    {section.type === "video" ? ++videoCount : ++textCount}
+
+                                    return (
+
+                                        <Section
+                                            key={section.id}
+                                            section={section}
+                                            index={index}
+                                            sections={sections}
+                                            setSections={setSections}
+                                            openIndex={openIndex}
+                                            setOpenIndex={setOpenIndex}
+                                            videoCount={videoCount}
+                                            textCount={textCount}
+                                            setHoverSection={setHoverSection}
+                                        />
+
+                                    )
+                                })}
+                            </section>
+                        }
+
+                        <div className="link_row mb-5">
+                            <AddTextSection
+                                sections={sections}
+                                setSections={setSections}
+                                courseID={courseData["id"]}
+                                setOpenIndex={setOpenIndex}
+                            />
+                            <AddVideoSection
+                                sections={sections}
+                                setSections={setSections}
+                                courseID={courseData["id"]}
+                                setOpenIndex={setOpenIndex}
+                            />
+                        </div>
+
+                        <section className="my_row section_row">
+                            <div className="section_title">
+                                <h4>Nitty Gritty</h4>
+                            </div>
+                            <div className="section_content my_row">
+                                <ImageComponent
+                                    placeholder="Course Icon"
+                                    nodesRef={nodesRef}
+                                    completedCrop={completedCrop}
+                                    setCompletedCrop={setCompletedCrop}
+                                    fileNames={fileNames}
+                                    setFileNames={setFileNames}
+                                    setShowLoader={setShowLoader}
+                                    elementName={`icon`}
+                                    dispatch={dispatchOfferData}
+                                    data={offerData}
+                                    type={"inlinePreview"}
+                                    cropArray={{
+                                        unit: '%',
+                                        width: 30,
+                                        aspect: 1
+                                    }}
+                                />
+                                <InputComponent
+                                    placeholder="$ Course price in USD"
+                                    type="currency"
+                                    hoverText="Submit Course Price"
+                                    elementName="price"
+                                    offerData={offerData}
+                                    dispatchOffer={dispatchOfferData}
+                                    value={offerData["price"]}
+                                />
+                                <SwitchOptions
+                                    dispatchOffer={dispatchOfferData}
+                                    offerData={offerData}
+                                />
+                            </div>
+                        </section>
+
+                        {!offerData["published"] &&
+
+                            <PublishButton
+                                offerData={offerData}
+                                dispatchOffer={dispatchOfferData}
+                                courseTitle={courseData["title"]}
+                            />
+                        }
                     </div>
-
-                    <section className="my_row section_row">
-                        <div className="section_title">
-                            <h4>Nitty Gritty</h4>
-                        </div>
-                        <div className="section_content my_row">
-                            <ImageComponent
-                                placeholder="Course Icon"
-                                nodesRef={nodesRef}
-                                completedCrop={completedCrop}
-                                setCompletedCrop={setCompletedCrop}
-                                fileNames={fileNames}
-                                setFileNames={setFileNames}
-                                setShowLoader={setShowLoader}
-                                elementName={`icon`}
-                                dispatch={dispatchOfferData}
-                                data={offerData}
-                                type={"inlinePreview"}
-                                cropArray={{
-                                    unit: '%',
-                                    width: 30,
-                                    aspect: 1
-                                }}
-                            />
-                            <InputComponent
-                                placeholder="$ Course price in USD"
-                                type="currency"
-                                hoverText="Submit Course Price"
-                                elementName="price"
-                                offerData={offerData}
-                                dispatchOffer={dispatchOfferData}
-                                value={offerData["price"]}
-                            />
-                            <SwitchOptions
-                                dispatchOffer={dispatchOfferData}
-                                offerData={offerData}
-                            />
-                        </div>
-                    </section>
-
-                    {!offerData["published"] &&
-
-                        <PublishButton
-                            offerData={offerData}
-                            dispatchOffer={dispatchOfferData}
-                            courseTitle={courseData["title"]}
-                        />
-                    }
+                    <InfoText
+                        divRef={columnRef}
+                    />
                 </div>
-            </div>
 
-            <div className={`right_column links_col preview${showPreview ? " show" : ""}`}>
-                <Preview
-                    sections={sections}
-                    courseData={courseData}
-                    setShowPreview={setShowPreview}
-                    url={url}
-                    hoverSection={hoverSection}
-                    nodesRef={nodesRef}
-                    completedCrop={completedCrop}
-                    fileNames={fileNames}
-                />
-            </div>
+                <div className={`right_column links_col preview${showPreview ? " show" : ""}`}>
+                    <Preview
+                        sections={sections}
+                        courseData={courseData}
+                        setShowPreview={setShowPreview}
+                        url={url}
+                        hoverSection={hoverSection}
+                        nodesRef={nodesRef}
+                        completedCrop={completedCrop}
+                        fileNames={fileNames}
+                    />
+                </div>
 
-        </div>
+            </div>
+        </ToolTipContextProvider>
     )
 }
 

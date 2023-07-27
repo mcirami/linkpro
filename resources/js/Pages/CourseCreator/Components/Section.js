@@ -5,9 +5,8 @@ import InputComponent from './InputComponent';
 import ColorPicker from './ColorPicker';
 import SectionButtonOptions from './SectionButtonOptions';
 import IOSSwitch from '../../../Utils/IOSSwitch';
-import InfoText from './InfoText';
 import {updateSectionData} from '../../../Services/CourseRequests';
-import {LP_ACTIONS} from '../Reducer';
+import ToolTipIcon from '../../../Utils/ToolTips/ToolTipIcon';
 
 const Section = ({
                      section,
@@ -177,7 +176,7 @@ const Section = ({
                                     checked={lockVideo !== null ? Boolean(lockVideo) : true}
                                 />
                             </div>
-                            <InfoText section="lock_video"/>
+                            <ToolTipIcon section="course_lock_video" />
                         </div>
                     </>
                 }

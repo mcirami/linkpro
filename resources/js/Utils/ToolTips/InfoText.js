@@ -35,7 +35,7 @@ const InfoText = ({divRef}) => {
             infoBox.style.top = `${vert}px`;
         })
 
-        if (infoText?.section.includes('creator')) {
+        if (infoText?.section.includes('creator') || infoText?.section.includes('course')) {
             if (windowWidth < 600) {
                 infoBox.style.maxWidth = '80%';
             } else {

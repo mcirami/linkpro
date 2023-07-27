@@ -63,10 +63,10 @@ const TableComponent = ({offers}) => {
                     })}
                     </tbody>
                 </table>
-                <InfoText
-                    divRef={table_wrap}
-                />
             </div>
+            <InfoText
+                divRef={table_wrap}
+            />
         </div>
     );
 };

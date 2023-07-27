@@ -31,10 +31,6 @@
         h3 {
             @include ossemibold;
             margin: 0;
-
-            @media screen and (max-width: 992px) {
-                font-size: 1.4em;
-            }
         }
 
         .column_title {
@@ -57,19 +53,12 @@
 
         .tooltip_icon {
             padding-left: 5px;
-            margin-top: -6px;
+            margin-top: -10px;
 
             .icon_wrap {
                 display: inline-flex;
                 display: -ms-inline-flexbox;
                 display: -webkit-inline-flex;
-            }
-
-            svg {
-                @include query(mobile) {
-                    width: 17px;
-                    height: 17px;
-                }
             }
         }
 
@@ -461,6 +450,16 @@
                     height: 40px;
                     color: $green;
                 }
+            }
+        }
+    }
+}
+
+#pre_register {
+    .grid_columns {
+        h3 {
+            @include query(tablet) {
+                font-size: 1.4em;
             }
         }
     }

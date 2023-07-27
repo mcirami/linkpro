@@ -1,9 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {
-    closeInfoBox,
-    displayInfoBox,
-    infoScrollPosition,
-} from './ToolTipItems';
+import React, {useContext, useEffect} from 'react';
 import {BiHelpCircle} from 'react-icons/bi';
 import ToolTipContext from './ToolTipContext'
 import data from './data';
@@ -22,7 +17,8 @@ const ToolTipIcon = ({section}) => {
     useEffect(() => {
 
         function handleScroll() {
-            infoScrollPosition(setInfoLocation, infoClicked);
+            setInfoTextOpen(false);
+            setInfoClicked(null)
         }
 
         window.addEventListener('scroll', handleScroll);
@@ -32,16 +28,21 @@ const ToolTipIcon = ({section}) => {
         }
     })
 
-    const handleMouseOver = (e) => {
+    useEffect(() => {
 
-        if (infoClicked === null) {
-            setInfoClicked(e.target);
-        } else if (infoClicked) {
-            setInfoClicked(null)
+        function handleResize() {
             setInfoTextOpen(false);
-
-            //return;
+            setInfoClicked(null)
         }
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        }
+    })
+
+    const handleMouseOver = (e) => {
 
         const name = e.target.dataset.section;
         const dataText = data.find((text) => text.section === name);
@@ -54,34 +55,56 @@ const ToolTipIcon = ({section}) => {
         setInfoLocation({center, top});
 
         const triangleTop = rect.top - 20;
-        const triangleLeft = rect.left - 3;
+        const triangleLeft = rect.left - 1;
         triangleRef.style.top = `${triangleTop}px`;
         triangleRef.style.bottom = `${rect.bottom}px`;
         triangleRef.style.left = `${triangleLeft}px`;
         triangleRef.style.right = `${rect.right}px`;
+    }
 
+    const handleClick = (e) => {
+
+        if (!infoClicked) {
+            setInfoClicked(e.target);
+        } else {
+            setInfoClicked(null)
+            setInfoTextOpen(false);
+            return;
+        }
+
+        const name = e.target.dataset.section;
+        const dataText = data.find((text) => text.section === name);
+        setInfoText(dataText);
+        setInfoTextOpen(true);
+
+        const rect = e.target.getBoundingClientRect();
+        const center = (rect.left + rect.right) / 2;
+        const top = rect.top - 2;
+        setInfoLocation({center, top});
 
         if (infoClicked === false) {
             setInfoClicked(null)
         }
     }
+
     const handleMouseLeave = () => {
-        setInfoTextOpen(false)
+        if (!infoClicked) {
+            setInfoTextOpen(false)
+        }
     }
 
     return (
         <div
             className="tooltip_icon"
-            onMouseLeave={() => {
-                handleMouseLeave()
-                //closeInfoBox(setInfoTextOpen, infoClicked)
-            }}
         >
             <div className="icon_wrap"
+                 onMouseLeave={() => {
+                     handleMouseLeave()
+                 }}
                  onClick={(e) => {
-                     displayInfoBox(e, setInfoText, setInfoTextOpen, setInfoLocation, setInfoClicked, infoClicked, triangleRef)}}
-                 //onMouseOver={(e) => displayInfoBox(e, setInfoText, setInfoTextOpen, setInfoLocation, setInfoClicked, triangleRef)}
-                 onMouseEnter={(e) => handleMouseOver(e)}
+                     handleClick(e)
+                     }}
+                 onMouseOver={(e) => handleMouseOver(e)}
                  data-section={section}
             >
                 <BiHelpCircle />

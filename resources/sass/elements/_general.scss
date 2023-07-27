@@ -202,6 +202,18 @@
     }
 }
 
+.info_text_triangle {
+    position: fixed;
+    width: 25px;
+    height: 25px;
+
+    svg {
+        color: $lightGrayAlt;
+        width: 100%;
+        height: 100%;
+    }
+}
+
 .form_page.terms {
 
     .card {

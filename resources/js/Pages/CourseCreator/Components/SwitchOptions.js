@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
 import Switch from '@mui/material/Switch'
 import { styled } from '@mui/material/styles';
-import {updateSectionData} from '../../../Services/LandingPageRequests';
 import {updateOfferData} from '../../../Services/OfferRequests';
 import {OFFER_ACTIONS} from '../Reducer';
-import InfoText from './InfoText';
+import ToolTipIcon from '../../../Utils/ToolTips/ToolTipIcon';
 
 const SwitchOptions = ({offerData, dispatchOffer}) => {
 
@@ -89,7 +88,7 @@ const SwitchOptions = ({offerData, dispatchOffer}) => {
                         disabled={!Boolean(offerData["published"])}
                     />
                 </div>
-                <InfoText section="public_course" />
+                <ToolTipIcon section="public_course" />
             </div>
 
 
@@ -102,7 +101,7 @@ const SwitchOptions = ({offerData, dispatchOffer}) => {
                         disabled={!Boolean(offerData["published"])}
                     />
                 </div>
-                <InfoText section="active_course" />
+                <ToolTipIcon section="active_course" />
             </div>
         </>
     );
