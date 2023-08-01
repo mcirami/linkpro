@@ -43,13 +43,12 @@ class CourseUser
             return redirect($path);
         }
 
-        $user = Auth::user();
         $this->checkPermissions();
 
-        if ($user->hasRole('lp.user')) {
+        /*if ($user->hasRole('lp.user')) {
 
             return redirect()->route('dashboard');
-        }
+        }*/
 
         return $next($request);
     }

@@ -54,6 +54,8 @@ class User extends VoyagerUser
         'email_verified_at' => 'datetime',
     ];
 
+    /** Relationships **/
+
     public function pages(){
         return $this->hasMany(Page::class);
     }
@@ -109,6 +111,12 @@ class User extends VoyagerUser
     public function Purchases() {
         return $this->hasMany(Purchase::class);
     }
+
+    public function Affiliates() {
+        return $this->hasOne(Affiliate::class);
+    }
+
+    /** Other Functions **/
 
     public function getRedirectRoute()
     {

@@ -19,13 +19,21 @@ function App() {
             if(divClass) {
                 if (window.innerWidth < 768) {
                     const scrollPosition = window.scrollY;
-                    const divTop = document.getElementById(
-                        'course_title').offsetTop;
+                    const divTop = document.getElementById('course_title').offsetTop;
+                    const header = document.querySelector('header');
+                    const mainDiv = document.querySelector('main');
 
                     if (scrollPosition > divTop - 22) {
-                        divClass.classList.add('scroll_start');
+                        const headerHeight = header.offsetHeight;
+                        const topPosition = headerHeight - 68;
+                        header.style.position = 'fixed';
+                        header.style.left = 0;
+                        header.style.top = "-" + topPosition + "px";
+                        mainDiv.style.paddingTop = headerHeight + 40 + "px";
                     } else {
-                        divClass.classList.remove('scroll_start');
+                        header.style.top = "auto";
+                        header.style.position = 'relative';
+                        mainDiv.style.paddingTop = 40 + "px";
                     }
 
                 }

@@ -3,7 +3,6 @@ import React, {
     useEffect,
     useState,
     useContext,
-    useRef,
 } from 'react';
 import IconList from '../IconList';
 import InputComponent from './InputComponent';
@@ -28,6 +27,7 @@ import {
     UserLinksContext,
 } from '../../../App';
 import {HandleFocus, HandleBlur} from '../../../../../Utils/InputAnimations';
+import {acceptTerms} from '../../../../../Services/UserService';
 
 const StandardForm = ({
                           accordionValue,
@@ -50,6 +50,8 @@ const StandardForm = ({
     const { folderLinks, dispatchFolderLinks } = useContext(FolderLinksContext);
     const { originalFolderLinks, dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);
     const  { pageSettings } = useContext(PageContext);
+    const [ showTerms, setShowTerms ] = useState(false);
+    const [affiliateStatus, setAffiliateStatus] = useState(affStatus);
 
     const [currentLink, setCurrentLink] = useState(
         userLinks.find(function(e) {
@@ -388,15 +390,57 @@ const StandardForm = ({
             'left_col_wrap').style.minHeight = "unset";
     }
 
+    const handleSubmitTerms = (e) => {
+        e.preventDefault()
+
+        acceptTerms().then((data) => {
+
+            if (data.success) {
+                setAffiliateStatus("approved");
+                setShowTerms(false);
+            }
+        });
+
+    }
+
     return (
         <>
-        { accordionValue === "offer" && (affStatus !== "approved" || !affStatus) ?
+        { accordionValue === "offer" && (affiliateStatus !== "approved" || !affiliateStatus) ?
 
-            <div className="info_message">
-                <p>Sign up now to become an affiliate and earn money selling courses!</p>
-                <a className="button blue" target="_blank" href="/affiliate-sign-up">Click Here To Get Approved</a>
-            </div>
-
+            showTerms ?
+                <div className="aff_terms">
+                    <h3>Terms and Conditions</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores, aspernatur dignissimos doloribus itaque quaerat rem repellendus vel voluptates. Aliquam doloribus eligendi iste, labore molestias nisi omnis saepe voluptatibus. Consequuntur, esse.</p>
+                    <form action="" onSubmit={handleSubmitTerms}>
+                        {/*<div className="checkbox_wrap">
+                            <input
+                                name="terms"
+                                type="checkbox"
+                                onChange={() => setTermsChecked(!termsChecked)}
+                            />
+                            <label htmlFor="terms">I Agree</label>
+                        </div>*/}
+                        <div className="buttons_wrap">
+                            <button type="submit" className="button green" >Accept</button>
+                            <a className="button transparent gray" href="#"
+                               onClick={(e) => {
+                                   e.preventDefault();
+                                   setShowTerms(false);
+                               }}
+                            >Cancel</a>
+                        </div>
+                    </form>
+                </div>
+                :
+                <div className="info_message">
+                    <p>Sign up now to become an affiliate and earn money selling courses!</p>
+                    <a className="button blue"
+                       href="#"
+                       onClick={(e) => {
+                           e.preventDefault();
+                           setShowTerms(true);
+                       }}>Click Here To Get Approved</a>
+                </div>
             :
 
             <form onSubmit={handleSubmit} className="link_form">

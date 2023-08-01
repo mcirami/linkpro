@@ -170,3 +170,32 @@ export const getStores = () => {
         }
     });
 }
+
+export const acceptTerms = () => {
+
+    return axios.post('/store-affiliate').then(
+        (response) => {
+            console.log(JSON.stringify(response.data.success));
+
+            return {
+                success : true,
+            }
+        },
+
+    ).catch(error => {
+        if (error.response) {
+            if(error.response.data.errors) {
+                EventBus.dispatch("error", { message: error.response.data.errors });
+            } else {
+                console.error(error.response);
+            }
+
+        } else {
+            console.error("ERROR:: ", error);
+        }
+
+        return {
+            success : false
+        }
+    });
+}

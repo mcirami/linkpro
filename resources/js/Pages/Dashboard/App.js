@@ -513,6 +513,37 @@ function App() {
                                                                 </div>
                                                             }
                                                         </div>
+                                                        <div data-type="offer"
+                                                             className={`accordion_row`}
+                                                        >
+                                                            <AccordionLink
+                                                                accordionValue={accordionValue}
+                                                                setAccordionValue={setAccordionValue}
+                                                                linkText="Affiliate Offers"
+                                                                type="offer"
+                                                            />
+                                                            {accordionValue === "offer" &&
+                                                                <div className={`inner_wrap ${accordionValue} ${accordionValue ===
+                                                                "offer" && "open"}`}>
+
+                                                                    <StandardForm
+                                                                        accordionValue={accordionValue}
+                                                                        setAccordionValue={setAccordionValue}
+                                                                        inputType={inputType}
+                                                                        setInputType={setInputType}
+                                                                        editID={editID}
+                                                                        subStatus={subStatus}
+                                                                        setShowLinkForm={setShowLinkForm}
+                                                                        setEditID={setEditID}
+                                                                        setShowUpgradePopup={setShowUpgradePopup}
+                                                                        setOptionText={setOptionText}
+                                                                        folderID={editFolderID}
+                                                                        affStatus={affStatus}
+                                                                    />
+
+                                                                </div>
+                                                            }
+                                                        </div>
                                                         <div data-type="custom"
                                                              className={`accordion_row ${!subStatus ? "disabled" : ""}`}
                                                              onClick={(e) => handleDisabledClick(e)}
@@ -580,38 +611,7 @@ function App() {
                                                                 }
                                                             </div>
                                                         }
-                                                        <div data-type="offer"
-                                                             className={`accordion_row ${!subStatus ? "disabled" : ""}`}
-                                                             onClick={(e) => handleDisabledClick(e)}
-                                                        >
-                                                            <AccordionLink
-                                                                accordionValue={accordionValue}
-                                                                setAccordionValue={setAccordionValue}
-                                                                linkText="Affiliate Offers"
-                                                                type="offer"
-                                                            />
-                                                            {accordionValue === "offer" &&
-                                                                <div className={`inner_wrap ${accordionValue} ${accordionValue ===
-                                                                "offer" && "open"}`}>
 
-                                                                    <StandardForm
-                                                                        accordionValue={accordionValue}
-                                                                        setAccordionValue={setAccordionValue}
-                                                                        inputType={inputType}
-                                                                        setInputType={setInputType}
-                                                                        editID={editID}
-                                                                        subStatus={subStatus}
-                                                                        setShowLinkForm={setShowLinkForm}
-                                                                        setEditID={setEditID}
-                                                                        setShowUpgradePopup={setShowUpgradePopup}
-                                                                        setOptionText={setOptionText}
-                                                                        folderID={editFolderID}
-                                                                        affStatus={affStatus}
-                                                                    />
-
-                                                                </div>
-                                                            }
-                                                        </div>
                                                     </div>
                                                 </div>
                                             }

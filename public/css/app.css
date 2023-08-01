@@ -14728,6 +14728,28 @@ form .bottom_row a {
   width: 50%;
 }
 
+.aff_terms {
+  padding: 20px;
+}
+.aff_terms h3, .aff_terms .h3 {
+  font-size: 1.2rem;
+  text-align: center;
+}
+.aff_terms p {
+  font-size: 0.9rem;
+}
+.aff_terms .buttons_wrap {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  margin-top: 20px;
+  column-gap: 20px;
+  -moz-column-gap: 20px;
+  -webkit-column-gap: 20px;
+}
+
 .form_page .pricing {
   margin: 30px 0;
   width: 100%;
@@ -17951,18 +17973,6 @@ a.delete svg {
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   max-width: unset;
-}
-@media (max-width: 768px) {
-  .course_page.scroll_start header {
-    position: fixed;
-    top: -115px;
-    left: 0;
-  }
-}
-@media (max-width: 768px) {
-  .course_page.scroll_start main {
-    padding-top: 220px;
-  }
 }
 
 .courses_grid {

@@ -78,10 +78,17 @@ const ColumnComponent = ({
     useEffect(() => {
 
         if(button) {
+
+            let maxWidth = 'auto';
+            if(window.innerWidth > 550) {
+                maxWidth = '250px';
+            }
+
             setButtonStyle({
                 background: button_color,
                 color: button_text_color,
-                width: button_size + "%"
+                width: button_size + "%",
+                maxWidth: maxWidth
             })
         }
 
