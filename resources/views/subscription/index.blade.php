@@ -6,7 +6,7 @@
         <div class="container">
             <h2 class="page_title mb-0 w-100">Upgrade to <span class="text-capitalize">{{$plan}}</span> For Only </h2>
             <div class="pricing m-0">
-                <h3><sup>$</sup>{{ $amount ?? '' }}<span>/ mo</span></h3>
+                <h3><sup>$</sup>{{ $price ?? '' }}<span>/ mo</span></h3>
             </div>
             <div class="card">
                 <div class="card-body">
@@ -165,7 +165,7 @@
                 merchantId: '0764-6991-5982',
                 transactionInfo: {
                     totalPriceStatus: 'FINAL',
-                    totalPrice: "{{ $amount }}",
+                    totalPrice: "{{ $price }}",
                     currencyCode: 'USD'
                 },
             },
@@ -178,7 +178,7 @@
                 paymentRequest: {
                     total: {
                         label: 'LinkPro',
-                        amount: '{{ $amount }}'
+                        amount: '{{ $price  }}'
                     },
                     // We recommend collecting billing address information, at minimum
                     // billing postal code, and passing that billing postal code with all

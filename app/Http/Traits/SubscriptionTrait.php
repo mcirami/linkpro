@@ -49,6 +49,19 @@ trait SubscriptionTrait {
         return $match;
     }
 
+    public function getPlanDetails($plan) {
+
+        if ($plan == 'pro') {
+            $price = '4.99';
+        }
+
+        if ($plan == 'premier') {
+            $price = '19.99';
+        }
+
+        return $price;
+    }
+
     public function saveErrors($result) {
         //$errorString = "";
 

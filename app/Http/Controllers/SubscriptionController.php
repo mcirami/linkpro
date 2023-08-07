@@ -27,7 +27,7 @@ class SubscriptionController extends Controller
 
         return view('subscription.index', [ 'plan' => $data['plan'],
                                             'token' => $data['token'],
-                                            'amount' => $data["amount"],
+                                            'price' => $data["price"],
                                             'existing' => $data["existing"],
                                             'bypass' => $data['bypass'] ]);
     }
