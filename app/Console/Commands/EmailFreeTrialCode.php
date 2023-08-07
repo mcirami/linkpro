@@ -49,25 +49,27 @@ class EmailFreeTrialCode extends Command
 
             foreach ( $users as $user ) {
 
-                $created = Carbon::parse( $user->created_at )->startOfDay();
-                $diff    = $created->diffInDays( $now );
+                if($user->getRoleNames()->contains('lp.user')) {
+                    $created = Carbon::parse( $user->created_at )->startOfDay();
+                    $diff    = $created->diffInDays( $now );
 
-                if ( $diff == 7 && !$user->subscription) {
+                    if ( $diff == 7 && ! $user->subscription ) {
 
-                    if ($user->email_subscription) {
-                        $userData = ( [
-                            'username' => $user->username,
-                            'userID'   => $user->id,
-                        ] );
+                        if ( $user->email_subscription ) {
+                            $userData = ( [
+                                'username' => $user->username,
+                                'userID'   => $user->id,
+                            ] );
 
-                        $details = ( [
-                            "data" => $userData,
-                            "userEmail" => $user->email
-                        ]);
+                            $details = ( [
+                                "data"      => $userData,
+                                "userEmail" => $user->email
+                            ] );
 
-                        retry(20, function() use ($details) {
-                            JobFreeTrialEmail::dispatch($details);
-                        }, 200);
+                            retry( 20, function () use ( $details ) {
+                                JobFreeTrialEmail::dispatch( $details );
+                            }, 200 );
+                        }
                     }
                 }
             }

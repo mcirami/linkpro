@@ -50,27 +50,29 @@ class EmailSocialShare extends Command
 
             foreach ( $users as $user ) {
 
-                $created = Carbon::parse( $user->created_at );
-                $diff    = $created->diffInDays( $now );
+                if($user->getRoleNames()->contains('lp.user')) {
+                    $created = Carbon::parse( $user->created_at );
+                    $diff    = $created->diffInDays( $now );
 
-                if ( $diff == 5 ) {
-                    $page = $user->pages()->where( 'default', true )->get();
+                    if ( $diff == 5 ) {
+                        $page = $user->pages()->where( 'default', true )->get();
 
-                    if ( $user->email_subscription ) {
-                        $userData = ( [
-                            'username' => $user->username,
-                            'link'     => $page[0]->name,
-                            'userID'   => $user->id,
-                        ] );
+                        if ( $user->email_subscription ) {
+                            $userData = ( [
+                                'username' => $user->username,
+                                'link'     => $page[0]->name,
+                                'userID'   => $user->id,
+                            ] );
 
-                        $details = ( [
-                            "data"      => $userData,
-                            "userEmail" => $user->email
-                        ] );
+                            $details = ( [
+                                "data"      => $userData,
+                                "userEmail" => $user->email
+                            ] );
 
-                        retry( 20, function () use ( $details ) {
-                            JobEmailSocialShare::dispatch( $details );
-                        }, 200 );
+                            retry( 20, function () use ( $details ) {
+                                JobEmailSocialShare::dispatch( $details );
+                            }, 200 );
+                        }
                     }
                 }
             }

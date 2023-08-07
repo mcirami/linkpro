@@ -46,32 +46,35 @@ class EmailInactiveUsers extends Command
         $now = Carbon::now()->endOfDay();
 
         if ($users->isNotEmpty()) {
-            
+
             foreach ( $users as $user ) {
-                $userLinks = $user->links()->get();
-                $linkCount = $userLinks->count();
-                $created   = Carbon::parse( $user->created_at );
-                $diff      = $created->diffInDays( $now );
-                $page      = $user->pages()->where( 'default', true )->get();
 
-                if ( $linkCount == 0 && count( $page ) > 0 && ( $diff == 3 || $diff == 7 || $diff == 30 ) ) {
+                if($user->getRoleNames()->contains('lp.user')) {
+                    $userLinks = $user->links()->get();
+                    $linkCount = $userLinks->count();
+                    $created   = Carbon::parse( $user->created_at );
+                    $diff      = $created->diffInDays( $now );
+                    $page      = $user->pages()->where( 'default', true )->get();
 
-                    if ( $user->email_subscription ) {
-                        $userData = ( [
-                            'username' => $user->username,
-                            'link'     => $page[0]->name,
-                            'userID'   => $user->id,
-                        ] );
+                    if ( $linkCount == 0 && count( $page ) > 0 && ( $diff == 3 || $diff == 7 || $diff == 30 ) ) {
 
-                        $details = ( [
-                            "data"      => $userData,
-                            "userEmail" => $user->email
-                        ] );
+                        if ( $user->email_subscription ) {
+                            $userData = ( [
+                                'username' => $user->username,
+                                'link'     => $page[0]->name,
+                                'userID'   => $user->id,
+                            ] );
 
-                        retry( 20, function () use ( $details ) {
-                            JobEmailInactiveUsers::dispatch( $details );
-                        }, 200 );
+                            $details = ( [
+                                "data"      => $userData,
+                                "userEmail" => $user->email
+                            ] );
 
+                            retry( 20, function () use ( $details ) {
+                                JobEmailInactiveUsers::dispatch( $details );
+                            }, 200 );
+
+                        }
                     }
                 }
             }
