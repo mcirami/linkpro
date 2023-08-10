@@ -289,9 +289,11 @@ export const getColHeight = () => {
     const iconCol = document.querySelectorAll('.icons_wrap.add_icons .icon_col');
     let colHeight;
 
+    //console.log("iconCol: ", iconCol)
+
     if (iconCol.length > 0) {
         const offsetHeight = iconCol[0].clientHeight;
-        colHeight = offsetHeight - 15;
+        colHeight = offsetHeight + 10;
     }
 
     return colHeight;

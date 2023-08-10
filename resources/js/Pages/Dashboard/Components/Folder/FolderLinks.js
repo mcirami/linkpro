@@ -30,6 +30,12 @@ import {
     FOLDER_LINKS_ACTIONS,
     ORIG_FOLDER_LINKS_ACTIONS
 } from '../../../../Services/Reducer';
+import {
+    GridContextProvider,
+    GridDropZone,
+    GridItem,
+    swap
+} from 'react-grid-dnd';
 
 const springSetting1 = { stiffness: 180, damping: 10 };
 const springSetting2 = { stiffness: 120, damping: 17 };
@@ -63,7 +69,7 @@ const FolderLinks = ({
     const initialRender = useRef(true);
     const targetRef = useRef(null);
 
-    const [size, setSize] = useState({
+    /*const [size, setSize] = useState({
         height: 0,
         width: 0
     });
@@ -223,7 +229,49 @@ const FolderLinks = ({
             }
             updateLinksPositions(packets);
         }
-    }, [state.isPressed]);
+    }, [state.isPressed]);*/
+
+    const [rowHeight, setRowHeight] = useState(240);
+
+    function handleResize() {
+
+        const areaWidth = targetRef.current.getBoundingClientRect().width;
+        const colWidth = (areaWidth/3 - 20.5);
+        let percentDiff = null;
+        let percentage = .2124;
+
+        if (window.innerWidth > 767 && areaWidth < 490) {
+            percentDiff = 490 - areaWidth;
+            percentage = percentage + ((percentDiff / 7) / 100)
+        }
+
+        if (window.innerWidth > 767 && areaWidth < 726) {
+            percentDiff = 726 - areaWidth;
+            percentage = percentage + ((percentDiff / 6.5) / 100)
+        }
+
+        if (window.innerWidth < 769 && areaWidth < 688) {
+            percentDiff = 688 - areaWidth;
+            percentage = percentage + ((percentDiff / 7) / 100)
+        }
+
+        const diff = colWidth * percentage;
+        const rowHeight = colWidth + diff + 10;
+        setRowHeight(rowHeight);
+    }
+
+    useLayoutEffect(() => {
+        handleResize()
+    },[])
+
+    useLayoutEffect(() => {
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        }
+    },[]);
 
     const handleChange = (currentItem) => {
         const newStatus = !currentItem.active_status;
@@ -274,98 +322,78 @@ const FolderLinks = ({
 
     }
 
-    const { lastPress, isPressed, mouseXY } = state;
+    const handleGridOnChange = (sourceId, sourceIndex, targetIndex) => {
+        const nextState = swap(folderLinks, sourceIndex, targetIndex);
+        dispatchFolderLinks({ type: FOLDER_LINKS_ACTIONS.SET_FOLDER_LINKS, payload: {links: nextState}})
+        dispatch({ type: LINKS_ACTIONS.SET_FOLDER_LINKS_ORDER, payload: {links: nextState, id: folderID}})
+
+        const packets = {
+            userLinks: nextState,
+        }
+        updateLinksPositions(packets);
+    }
 
     return (
 
-        <>
+        <div ref={targetRef} className='icons_wrap add_icons icons folder'>
+
             {folderLinks.length === 0 &&
                 <div className="info_message">
                     <p>You don't have any icons to display in this folder.</p>
                     <p>Click 'Add Icon' above to start adding links.</p>
                 </div>
             }
+            <GridContextProvider onChange={handleGridOnChange}>
+                <div className="my_row">
+                    <GridDropZone
+                        id="items"
+                        boxesPerRow={3}
+                        rowHeight={rowHeight}
+                        style={{ height: rowHeight * Math.ceil(folderLinks.length / 3)}}
+                    >
+                        {folderLinks.length > 0 && folderLinks.map((link, key) => {
 
-            {folderLinks.length > 0 && folderLinks.map((link, key) => {
-                let style;
-                let x;
-                let y;
+                            const linkID = folderLinks[key].id;
+                            let displayIcon;
+                            displayIcon = checkIcon(folderLinks[key].icon);
 
-                const visualPosition = folderLinks.findIndex((link) => link.position === key);
-                if (key === lastPress && isPressed) {
-                    [x, y] = mouseXY;
-                    style = {
-                        translateX: x,
-                        translateY: y,
-                        scale: spring(1.2, springSetting1),
-                        //boxShadow: spring((x - (3 * width - 50) / 2) / 15, springSetting1)
-                    };
-                } else {
-                    [x, y] = layout[visualPosition];
-                    style = {
-                        translateX: spring(x, springSetting2),
-                        translateY: spring(y, springSetting2),
-                        scale: spring(.85, springSetting1),
-                        //boxShadow: spring((x - (3 * width - 50) / 2) / 15, springSetting1)
-                    };
-                }
+                            return (
+                                <GridItem key={link.id} className="grid_item" style={{ padding: '10px'}}>
+                                    <div className="icon_col">
+                                        <span className="drag_handle">
+                                            <MdDragHandle/>
+                                            <div className="hover_text"><p>Move</p></div>
+                                        </span>
 
-                const linkID = originalFolderLinks[key].id;
-                let displayIcon;
-                displayIcon = checkIcon(originalFolderLinks[key].icon);
+                                        <div className="column_content">
 
+                                            <div className="icon_wrap" onClick={(e) => {
+                                                handleOnClick(linkID)
+                                            }}>
+                                                <div className="image_wrap">
+                                                    <img src={displayIcon} alt=""/>
+                                                </div>
+                                            </div>
 
-                return (
-                    <Motion key={key} style={style}>
-                        {({ translateX, translateY, scale }) => (
-                            <div
-                                ref={targetRef}
-                                className="icon_col"
-                                style={{
-                                    transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale})`,
-                                    zIndex: key === lastPress ? 2 : 1,
-                                    //boxShadow: `${boxShadow}px 5px 5px rgba(0,0,0,0.5)`,
-                                    userSelect: "none",
-                                    touchAction: "none",
-                                }}
-                            >
-                                <span className="drag_handle"
-                                      onMouseDown={handleMouseDown.bind(null,
-                                          key, [x, y])}
-                                      onTouchStart={handleTouchStart.bind(
-                                          null, key, [x, y])}
-                                >
-                                    <MdDragHandle/>
-                                    <div className="hover_text"><p>Move Icon</p></div>
-                                </span>
-
-                                <div className="column_content">
-
-                                    <div className="icon_wrap" onClick={(e) => {
-                                        handleOnClick(linkID)
-                                    }}>
-                                        <div className="image_wrap">
-                                            <img src={displayIcon} alt=""/>
+                                            <div className="my_row">
+                                                <div className="switch_wrap">
+                                                    <Switch
+                                                        onChange={(e) => handleChange(folderLinks[key])}
+                                                        checked={Boolean(folderLinks[key].active_status)}
+                                                    />
+                                                    <div className="hover_text switch"><p>{Boolean(folderLinks[key].active_status) ? "Deactivate" : "Active"} Icon</p></div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+                                </GridItem>
+                            )
+                        })}
+                    </GridDropZone>
+                </div>
+            </GridContextProvider>
 
-                                    <div className="my_row">
-                                        <div className="switch_wrap">
-                                            <Switch
-                                                onChange={(e) => handleChange(originalFolderLinks[key])}
-                                                checked={Boolean(originalFolderLinks[key].active_status)}
-                                            />
-                                            <div className="hover_text switch"><p>{Boolean(originalFolderLinks[key].active_status) ? "Deactivate" : "Active"} Icon</p></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                    </Motion>
-                )
-            })}
-
-        </>
+        </div>
     );
 };
 

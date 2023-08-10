@@ -12159,7 +12159,6 @@ header.guest_header .column.right {
   border-radius: 20px;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
-  position: absolute;
   /*position: relative;*/
   /*background: $white;*/
   width: 23%;
@@ -12307,7 +12306,6 @@ header.guest_header .column.right {
 }
 #links_page .icons_wrap.add_icons {
   padding: 0 3%;
-  min-height: 800px;
   transition: 800ms all ease-in-out;
   -webkit-transition: 800ms all ease-in-out;
   -moz-transition: 800ms all ease-in-out;
@@ -12327,6 +12325,9 @@ header.guest_header .column.right {
   #links_page .icons_wrap.add_icons {
     padding: 0 4%;
   }
+}
+#links_page .icons_wrap.add_icons .icon_col {
+  width: 100%;
 }
 #links_page .icons_wrap .edit_form {
   grid-column: span 3;
@@ -15541,7 +15542,8 @@ form .bottom_row a {
   opacity: 0;
   transition: 0.3s opacity linear;
   -webkit-transition: 0.3s opacity linear;
-  top: -20px;
+  top: -15px;
+  left: 0;
   width: 100%;
   border-radius: 2%;
   -webkit-border-radius: 2%;
@@ -15549,7 +15551,7 @@ form .bottom_row a {
 }
 .hover_text p {
   margin: 0;
-  font-size: 18px;
+  font-size: 0.5em;
   background: #eaeaea;
   padding: 2px 5px;
   border-radius: 5px;
@@ -16263,10 +16265,6 @@ a.delete svg {
   width: 100%;
   height: 100%;
   z-index: 1;
-}
-
-#links_page .icons_wrap.folder .icon_col {
-  width: 31%;
 }
 
 .folder_name {

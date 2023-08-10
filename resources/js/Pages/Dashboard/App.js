@@ -617,40 +617,38 @@ function App() {
                                             }
 
                                             { (editFolderID && !editID && !showLinkForm) ?
-                                                <div ref={iconsWrapRef} className='icons_wrap add_icons icons folder'>
-                                                    <ErrorBoundary FallbackComponent={errorFallback} onError={myErrorHandler}>
-                                                        <FolderLinks
-                                                            folderID={editFolderID}
-                                                            subStatus={subStatus}
-                                                            setShowUpgradePopup={setShowUpgradePopup}
-                                                            setOptionText={setOptionText}
-                                                            setEditFolderID={setEditFolderID}
-                                                            setEditID={setEditID}
-                                                            setShowConfirmFolderDelete={setShowConfirmFolderDelete}
-                                                            iconsWrapRef={iconsWrapRef}
-                                                            setAccordionValue={setAccordionValue}
-                                                        />
-                                                    </ErrorBoundary>
-                                                </div>
+
+                                                <ErrorBoundary FallbackComponent={errorFallback} onError={myErrorHandler}>
+                                                    <FolderLinks
+                                                        folderID={editFolderID}
+                                                        subStatus={subStatus}
+                                                        setShowUpgradePopup={setShowUpgradePopup}
+                                                        setOptionText={setOptionText}
+                                                        setEditFolderID={setEditFolderID}
+                                                        setEditID={setEditID}
+                                                        setShowConfirmFolderDelete={setShowConfirmFolderDelete}
+                                                        iconsWrapRef={iconsWrapRef}
+                                                        setAccordionValue={setAccordionValue}
+                                                    />
+                                                </ErrorBoundary>
 
                                                 :
 
                                                 (!showLinkForm && !editID && !editFolderID) &&
-                                                    <div ref={iconsWrapRef} className='icons_wrap add_icons icons'>
-                                                        <ErrorBoundary FallbackComponent={errorFallback} onError={myErrorHandler}>
-                                                            <Links
-                                                                setEditID={setEditID}
-                                                                setEditFolderID={setEditFolderID}
-                                                                subStatus={subStatus}
-                                                                setRow={setRow}
-                                                                setValue={setValue}
-                                                                setShowUpgradePopup={setShowUpgradePopup}
-                                                                setOptionText={setOptionText}
-                                                                iconsWrapRef={iconsWrapRef}
-                                                                setAccordionValue={setAccordionValue}
-                                                            />
-                                                        </ErrorBoundary>
-                                                    </div>
+
+                                                    <ErrorBoundary FallbackComponent={errorFallback} onError={myErrorHandler}>
+                                                        <Links
+                                                            setEditID={setEditID}
+                                                            setEditFolderID={setEditFolderID}
+                                                            subStatus={subStatus}
+                                                            setRow={setRow}
+                                                            setValue={setValue}
+                                                            setShowUpgradePopup={setShowUpgradePopup}
+                                                            setOptionText={setOptionText}
+                                                            iconsWrapRef={iconsWrapRef}
+                                                            setAccordionValue={setAccordionValue}
+                                                        />
+                                                    </ErrorBoundary>
                                             }
 
                                         </div>

@@ -86,7 +86,8 @@
     opacity: 0;
     transition: .3s opacity linear;
     -webkit-transition: .3s opacity linear;
-    top: -20px;
+    top: -15px;
+    left: 0;
     width: 100%;
     border-radius: 2%;
     -webkit-border-radius: 2%;
@@ -94,7 +95,7 @@
 
     p {
         margin: 0;
-        font-size: 18px;
+        font-size: .5em;
         background: $lightGrayAlt;
         padding: 2px 5px;
         border-radius: 5px;

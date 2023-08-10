@@ -201,7 +201,6 @@
             border-radius: 20px;
             -webkit-border-radius: 20px;
             -moz-border-radius: 20px;
-            position: absolute;
             /*position: relative;*/
             /*background: $white;*/
             width: 23%;
@@ -377,7 +376,6 @@
 
         &.add_icons {
             padding: 0 3%;
-            min-height: 800px;
             transition: 800ms all ease-in-out;
             -webkit-transition: 800ms all ease-in-out;
             -moz-transition: 800ms all ease-in-out;
@@ -393,6 +391,10 @@
 
             @media all and (max-width: 550px) {
                 padding: 0 4%;
+            }
+
+            .icon_col {
+                width: 100%;
             }
         }
 

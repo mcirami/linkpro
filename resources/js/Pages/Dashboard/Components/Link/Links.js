@@ -4,6 +4,8 @@ import React, {
     useEffect,
     useState,
     useContext,
+    useLayoutEffect,
+    createRef,
 } from 'react';
 import {MdDragHandle} from 'react-icons/md';
 import Switch from '@mui/material/Switch'
@@ -23,6 +25,13 @@ import {
 } from '../../../../Services/LinksRequest';
 import {checkIcon} from '../../../../Services/UserService';
 import EventBus from '../../../../Utils/Bus';
+
+import {
+    GridContextProvider,
+    GridDropZone,
+    GridItem,
+    swap
+} from 'react-grid-dnd';
 
 import {
     LINKS_ACTIONS,
@@ -64,45 +73,44 @@ const Links = ({
     const { dispatchFolderLinks } = useContext(FolderLinksContext);
     const { dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);
 
-    const initialRender = useRef(true);
     const targetRef = useRef(null);
 
-    const [size, setSize] = useState({
-        height: 0,
-        width: 0
-    });
+    const [rowHeight, setRowHeight] = useState(240);
 
-    useEffect(() => {
+    function handleResize() {
 
-        setTimeout(() => {
-            if (targetRef.current && userLinks.length > 0) {
-                setSize({
-                    height: getColHeight(),
-                    width: getColWidth('main'),
-                })
-            }
-        },500)
-    }, [])
+        const areaWidth = targetRef.current.getBoundingClientRect().width;
+        const colWidth = (areaWidth/4 - 30.5);
+        let percentage = .48;
+        let percentDiff;
 
-    const [state, setState] = useState(() => ({
-        mouseXY: [0,0],
-        mouseCircleDelta: [0,0], // difference between mouse and circle pos for x + y coords, for dragging
-        lastPress: null,
-        isPressed: false,
-    }));
-
-    useEffect(() => {
-
-        updateContentHeight(iconsWrapRef);
-
-    }, []);
-
-    useEffect(() => {
-
-        function handleResize() {
-
-            updateContentHeight(iconsWrapRef)
+        if (window.innerWidth > 767 && areaWidth < 490) {
+            percentDiff = 490 - areaWidth;
+            percentage = percentage + ((percentDiff / 4) / 100)
         }
+
+        if (window.innerWidth > 767 && areaWidth < 726) {
+            percentDiff = 726 - areaWidth;
+            percentage = percentage + ((percentDiff / 4) / 100)
+        }
+
+        if (window.innerWidth < 769 && areaWidth < 688) {
+            percentDiff = 688 - areaWidth;
+            percentage = percentage + ((percentDiff / 4) / 100)
+        }
+
+
+        const diff = colWidth * percentage;
+        const rowHeight = colWidth + diff + 15;
+        setRowHeight(rowHeight);
+    }
+
+    useEffect(() => {
+
+        handleResize()
+    },[])
+
+    useLayoutEffect(() => {
 
         window.addEventListener('resize', handleResize);
 
@@ -110,131 +118,6 @@ const Links = ({
             window.removeEventListener('resize', handleResize);
         }
     },[]);
-
-    let [width, height] = [size.width, size.height];
-
-    useEffect(() => {
-
-        function handleResize() {
-            setSize({
-                height: getColHeight(),
-                width: getColWidth('main'),
-            })
-        }
-
-        window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        }
-    }, []);
-
-    // indexed by visual position
-    const layout = userLinks.map((link, index) => {
-        const row = Math.floor(index / 4);
-        const col = index % 4;
-        return [width * col, height * row];
-    });
-
-    const handleMouseDown = useCallback (
-        (key, [pressX, pressY], { pageX, pageY }) => {
-            setState((state) => ({
-                ...state,
-                lastPress: key,
-                isPressed: true,
-                mouseCircleDelta: [pageX - pressX, pageY - pressY],
-                mouseXY: [pressX, pressY],
-            }));
-        },
-        []
-    );
-
-    const handleTouchStart = useCallback(
-
-        (key, pressLocation, e) => {
-            e.preventDefault();
-            handleMouseDown(key, pressLocation, e.touches[0]);
-        },
-        [handleMouseDown]
-    );
-
-    const handleMouseMove = useCallback(
-        ({ pageX, pageY }) => {
-            const {
-                lastPress,
-                isPressed,
-                mouseCircleDelta: [dx, dy],
-            } = state;
-
-            if (isPressed) {
-                const mouseXY = [pageX - dx, pageY - dy];
-                const col = clamp(Math.floor(mouseXY[0] / width), 0, 3);
-                const row = clamp(
-                    Math.floor(mouseXY[1] / height),
-                    0,
-                    Math.floor(userLinks.length / 4)
-                );
-                let index = row * 4 + col;
-
-                const newOrder = reinsert(
-                    userLinks,
-                    userLinks.findIndex((link) => link.position === lastPress),
-                    index,
-                );
-                setState((state) => ({ ...state, mouseXY }));
-                dispatch ({ type: LINKS_ACTIONS.SET_LINKS, payload: {links: newOrder}})
-            }
-        },
-        [state]
-    );
-
-
-
-    const handleTouchMove = useCallback((e) => {
-            e.preventDefault();
-            handleMouseMove(e.touches[0]);
-        },
-        [handleMouseMove]
-    );
-
-    const handleMouseUp = useCallback(() => {
-        setState((state) => ({
-            ...state,
-            isPressed: false,
-            mouseCircleDelta: [0, 0]
-        }));
-    }, []);
-
-    useEffect(() => {
-        window.addEventListener("touchmove", handleTouchMove);
-        window.addEventListener("touchend", handleMouseUp);
-        window.addEventListener("mousemove", handleMouseMove);
-        window.addEventListener("mouseup", handleMouseUp);
-
-        return () => {
-            window.removeEventListener("touchmove", handleTouchMove);
-            window.removeEventListener("touchend", handleMouseUp);
-            window.removeEventListener("mousemove", handleMouseMove);
-            window.removeEventListener("mouseup", handleMouseUp);
-        };
-    }, [handleTouchMove, handleMouseUp, handleMouseMove]);
-
-    useEffect(() => {
-
-        if (initialRender.current) {
-            initialRender.current = false;
-        } else if(!state.isPressed) {
-            const packets = {
-                userLinks: userLinks,
-            }
-            updateLinksPositions(packets);
-        }
-
-        if (state.isPressed) {
-            setRow(null)
-            setValue(null)
-        }
-
-    }, [state.isPressed]);
 
     const handleChange = (currentItem, hasLinks, type) => {
 
@@ -330,10 +213,20 @@ const Links = ({
 
     }
 
-    const {lastPress, isPressed, mouseXY } = state;
+    /*const {lastPress, isPressed, mouseXY } = state;*/
+
+    const handleGridOnChange = (sourceId, sourceIndex, targetIndex) => {
+        const nextState = swap(userLinks, sourceIndex, targetIndex);
+        dispatch ({ type: LINKS_ACTIONS.SET_LINKS, payload: {links: nextState}})
+        const packets = {
+            userLinks: nextState,
+        }
+        updateLinksPositions(packets);
+    }
 
     return (
-        <>
+        <div ref={targetRef} className='icons_wrap add_icons icons'>
+
             {userLinks.length === 0 &&
                 <div className="info_message">
                     <p>You don't have any icons to display.</p>
@@ -341,119 +234,101 @@ const Links = ({
                 </div>
             }
 
-            {userLinks?.map((link, key) => {
-                let style;
-                let x;
-                let y;
+            <GridContextProvider onChange={handleGridOnChange}>
+                <div className="my_row">
+                    <GridDropZone
+                        id="items"
+                        boxesPerRow={4}
+                        rowHeight={rowHeight}
+                        style={{ height: rowHeight * Math.ceil(userLinks.length / 4)}}
+                    >
 
-                const visualPosition = userLinks.findIndex((link) => link.position === key);
-                if (key === lastPress && isPressed) {
-                    [x, y] = mouseXY;
-                    style = {
-                        translateX: x,
-                        translateY: y,
-                        scale: spring(1.2, springSetting1),
-                        //boxShadow: spring((x - (3 * width - 50) / 2) / 15, springSetting1)
-                    };
-                } else {
-                    [x, y] = layout[visualPosition];
-                    style = {
-                        translateX: spring(x, springSetting2),
-                        translateY: spring(y, springSetting2),
-                        scale: spring(.85, springSetting1),
-                        //boxShadow: spring((x - (3 * width - 50) / 2) / 15, springSetting1)
-                    };
-                }
+                        {userLinks?.map((link, key) => {
+                            const type = userLinks[key].type || null;
+                            const linkID = userLinks[key].id;
+                            let hasLinks = true;
+                            let displayIcon;
+                            if (type === "folder") {
+                                hasLinks = userLinks[key].links.length > 0;
+                            } else {
+                                displayIcon = checkIcon(userLinks[key].icon);
+                            }
 
-                const type = originalArray[key].type || null;
-                const linkID = originalArray[key].id;
-                let hasLinks = true;
-                let displayIcon;
-                if (type === "folder") {
-                    hasLinks = originalArray[key].links.length > 0;
-                } else {
-                    displayIcon = checkIcon(originalArray[key].icon);
-                }
+                            return (
+                                <GridItem key={link.id} className="grid_item" style={{ padding: '10px'}}>
+                                    <div className="icon_col">
+                                        <span className="drag_handle">
+                                            <MdDragHandle/>
+                                            <div className="hover_text"><p>Move</p></div>
+                                        </span>
 
-                return (
-                    <Motion key={key} style={style}>
-                        {({ translateX, translateY, scale }) => (
-                            <div
-                                ref={targetRef}
-                                className="icon_col"
-                                style={{
-                                    transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale})`,
-                                    zIndex: key === lastPress ? 2 : 1,
-                                    //boxShadow: `${boxShadow}px 5px 5px rgba(0,0,0,0.5)`,
-                                    userSelect: "none",
-                                    touchAction: "none",
-                                }}
-                            >
-                                <span className="drag_handle"
-                                    onMouseDown={handleMouseDown.bind(null,
-                                        key, [x, y])}
-                                    onTouchStart={handleTouchStart.bind(
-                                        null, key, [x, y])}
-                                >
-                                    <MdDragHandle/>
-                                    <div className="hover_text"><p>Move</p></div>
-                                </span>
+                                        <div className="column_content">
+                                            {type === "folder" ?
+                                                <div className="icon_wrap folder">
+                                                    <div className="inner_icon_wrap" onClick={(e) => {
+                                                        fetchFolderLinks(linkID)
+                                                    }}>
+                                                        <img src={Vapor.asset(
+                                                            'images/blank-folder-square.jpg')} alt=""/>
+                                                        <div className={hasLinks ?
+                                                            "folder_icons main" :
+                                                            "folder_icons empty"}>
+                                                            {hasLinks && userLinks[key].links.slice(
+                                                                    0, 9).map((innerLink, index) => {
 
-                                <div className="column_content">
-                                    {type === "folder" ?
-                                        <div className="icon_wrap folder">
-                                            <div className="inner_icon_wrap" onClick={(e) => {fetchFolderLinks(linkID)} }>
-                                                <img src={ Vapor.asset('images/blank-folder-square.jpg')} alt=""/>
-                                                <div className={hasLinks ? "folder_icons main" : "folder_icons empty"}>
-                                                    {hasLinks &&
+                                                                        const {
+                                                                            id,
+                                                                            icon
+                                                                        } = innerLink;
 
-                                                        originalArray[key].links.slice(
-                                                            0, 9).
-                                                            map((innerLink, index) => {
+                                                                        return (
+                                                                            <div className="image_col" key={index}>
+                                                                                <img src={checkIcon(
+                                                                                    icon)} alt=""/>
+                                                                            </div>
+                                                                        )
+                                                                    })
+                                                            }
+                                                            {!hasLinks &&
+                                                                <p><span>+</span> <br/>Add<br/>Icons
+                                                                </p>}
+                                                        </div>
 
-                                                                const {id, icon} = innerLink;
-
-                                                                return (
-                                                                    <div className="image_col" key={index}>
-                                                                        <img src={checkIcon(icon)} alt=""/>
-                                                                    </div>
-                                                                )
-                                                            })
-                                                    }
-                                                    {!hasLinks && <p><span>+</span> <br />Add<br />Icons</p>}
+                                                    </div>
                                                 </div>
-
-                                            </div>
-                                        </div>
-                                        :
-                                        <div className="icon_wrap" onClick={(e) => {
-                                            handleOnClick(linkID)
-                                        }}>
-                                            <div className="image_wrap">
-                                                <img src={displayIcon} alt=""/>
-                                            </div>
-                                        </div>
-                                    }
-                                    <div className="my_row">
-                                        <div className="switch_wrap">
-                                            <Switch
-                                                onChange={() => handleChange(originalArray[key], hasLinks, type)}
-                                                checked={Boolean(originalArray[key].active_status)}
-                                            />
-                                            <div className="hover_text switch">
-                                                <p>
-                                                    {Boolean(originalArray[key].active_status) ? "Disable" : "Enable"} {type === "folder" ? "Folder" : "Icon"}
-                                                </p>
+                                                :
+                                                <div className="icon_wrap" onClick={(e) => {
+                                                    handleOnClick(linkID)
+                                                }}>
+                                                    <div className="image_wrap">
+                                                        <img src={displayIcon} alt=""/>
+                                                    </div>
+                                                </div>
+                                            }
+                                            <div className="my_row">
+                                                <div className="switch_wrap">
+                                                    <Switch
+                                                        onChange={() => handleChange(userLinks[key], hasLinks, type)}
+                                                        checked={Boolean(userLinks[key].active_status)}
+                                                    />
+                                                    <div className="hover_text switch">
+                                                        <p>
+                                                            {Boolean(userLinks[key].active_status) ? "Disable" : "Enable"}
+                                                            {type === "folder" ? "Folder" : "Icon"}
+                                                        </p>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        )}
-                    </Motion>
-                )
-            })}
-        </>
+                                </GridItem>
+                                )
+                            })}
+
+                    </GridDropZone>
+                </div>
+            </GridContextProvider>
+        </div>
     );
 };
 
