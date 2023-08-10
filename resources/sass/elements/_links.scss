@@ -239,6 +239,10 @@
                 font-size: 30px;
                 text-align:center;
 
+                .hover_text {
+                    left: 0;
+                }
+
                 svg {
                     color: $blue;
 

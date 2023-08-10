@@ -12191,6 +12191,9 @@ header.guest_header .column.right {
   font-size: 30px;
   text-align: center;
 }
+#links_page .icons_wrap .icon_col .drag_handle .hover_text {
+  left: 0;
+}
 #links_page .icons_wrap .icon_col .drag_handle svg {
   color: #424fcf;
 }
@@ -15543,7 +15546,6 @@ form .bottom_row a {
   transition: 0.3s opacity linear;
   -webkit-transition: 0.3s opacity linear;
   top: -15px;
-  left: 0;
   width: 100%;
   border-radius: 2%;
   -webkit-border-radius: 2%;

@@ -1,27 +1,19 @@
 import React, {
-    useCallback,
     useRef,
     useEffect,
     useState,
     useContext,
     useLayoutEffect,
-    createRef,
 } from 'react';
 import {MdDragHandle} from 'react-icons/md';
 import Switch from '@mui/material/Switch'
 import {
     UserLinksContext,
-    OriginalArrayContext,
     FolderLinksContext,
-    OriginalFolderLinksContext
 } from '../../App';
-import {Motion, spring} from 'react-motion';
 import {
     updateLinksPositions,
     updateLinkStatus,
-    getColHeight,
-    getColWidth,
-    updateContentHeight,
 } from '../../../../Services/LinksRequest';
 import {checkIcon} from '../../../../Services/UserService';
 import EventBus from '../../../../Utils/Bus';
@@ -35,26 +27,8 @@ import {
 
 import {
     LINKS_ACTIONS,
-    ORIGINAL_LINKS_ACTIONS,
     FOLDER_LINKS_ACTIONS,
-    ORIG_FOLDER_LINKS_ACTIONS
 } from '../../../../Services/Reducer';
-
-const springSetting1 = { stiffness: 180, damping: 10 };
-const springSetting2 = { stiffness: 120, damping: 17 };
-
-function reinsert(arr, from, to) {
-    const _arr = arr.slice(0);
-
-    const val = _arr[from];
-    _arr.splice(from, 1);
-    _arr.splice(to, 0, val);
-    return _arr;
-}
-
-function clamp(n, min, max) {
-    return Math.max(Math.min(n, max), min);
-}
 
 const Links = ({
                    setEditID,
@@ -64,14 +38,11 @@ const Links = ({
                    setShowUpgradePopup,
                    setOptionText,
                    subStatus,
-                   iconsWrapRef,
                    setAccordionValue
 }) => {
 
     const { userLinks, dispatch } = useContext(UserLinksContext);
-    const { originalArray, dispatchOrig } = useContext(OriginalArrayContext);
     const { dispatchFolderLinks } = useContext(FolderLinksContext);
-    const { dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);
 
     const targetRef = useRef(null);
 
@@ -146,10 +117,7 @@ const Links = ({
                 .then((data) => {
 
                     if (data.success) {
-
-                        dispatchOrig( { type: ORIGINAL_LINKS_ACTIONS.UPDATE_ORIGINAL_LINKS_STATUS, payload: {id: currentItem.id}} )
                         dispatch( { type: LINKS_ACTIONS.UPDATE_LINKS_STATUS, payload: {id: currentItem.id}} )
-
                     }
                 })
             }
@@ -193,7 +161,6 @@ const Links = ({
             const response = await fetch(url);
             const folderLinks = await response.json();
 
-            dispatchOrigFolderLinks({ type: ORIG_FOLDER_LINKS_ACTIONS.SET_ORIG_FOLDER_LINKS, payload: {links: folderLinks["links"]} })
             dispatchFolderLinks({ type: FOLDER_LINKS_ACTIONS.SET_FOLDER_LINKS, payload: {links: folderLinks["links"]} })
             setEditFolderID(linkID);
 
@@ -213,11 +180,11 @@ const Links = ({
 
     }
 
-    /*const {lastPress, isPressed, mouseXY } = state;*/
-
     const handleGridOnChange = (sourceId, sourceIndex, targetIndex) => {
         const nextState = swap(userLinks, sourceIndex, targetIndex);
         dispatch ({ type: LINKS_ACTIONS.SET_LINKS, payload: {links: nextState}})
+        setRow(null);
+        setValue(null);
         const packets = {
             userLinks: nextState,
         }

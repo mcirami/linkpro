@@ -1,11 +1,9 @@
 import React, {useContext} from 'react';
 import {MdCheckCircle} from 'react-icons/md';
 import {deleteFolder} from '../../../../Services/FolderRequests';
-import {updateContentHeight} from '../../../../Services/LinksRequest';
-import {UserLinksContext, OriginalArrayContext} from '../../App';
+import {UserLinksContext} from '../../App';
 import {
     LINKS_ACTIONS,
-    ORIGINAL_LINKS_ACTIONS,
 } from '../../../../Services/Reducer';
 
 
@@ -18,7 +16,7 @@ export const ConfirmFolderDelete = ({
                              }) => {
 
     const { userLinks, dispatch  } = useContext(UserLinksContext);
-    const { dispatchOrig } = useContext(OriginalArrayContext);
+    //const { dispatchOrig } = useContext(OriginalArrayContext);
 
     const deleteItem = (e) => {
         e.preventDefault();
@@ -43,11 +41,10 @@ export const ConfirmFolderDelete = ({
 
             if(data.success) {
 
-                dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS, payload: {links: data.links} })
+                //dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS, payload: {links: data.links} })
                 dispatch({ type: LINKS_ACTIONS.SET_LINKS, payload: {links: data.links} })
 
                 setEditFolderID(null);
-                updateContentHeight();
                 setShowConfirmFolderDelete(false);
                 setAccordionValue(null);
             }

@@ -2,15 +2,14 @@ import React, {useEffect, useState, useContext} from 'react';
 import {updateFolderName} from '../../../../Services/FolderRequests';
 import {
     LINKS_ACTIONS,
-    ORIGINAL_LINKS_ACTIONS,
 } from '../../../../Services/Reducer';
-import {OriginalArrayContext, UserLinksContext} from '../../App';
+import {UserLinksContext} from '../../App';
 
 const FolderNameInput = ({folderID}) => {
 
     const [charactersLeft, setCharactersLeft] = useState();
     const { userLinks, dispatch } = useContext(UserLinksContext);
-    const { dispatchOrig } = useContext(OriginalArrayContext);
+    //const { dispatchOrig } = useContext(OriginalArrayContext);
 
     const [ currentFolder, setCurrentFolder ] = useState(
         userLinks.find(function(e) {
@@ -37,7 +36,7 @@ const FolderNameInput = ({folderID}) => {
             if(data.success) {
 
                 dispatch({ type: LINKS_ACTIONS.UPDATE_FOLDER_NAME, payload: {folderID: folderID, name: currentFolder.name} })
-                dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.UPDATE_FOLDER_NAME, payload: {folderID: folderID, name: currentFolder.name} })
+                //dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.UPDATE_FOLDER_NAME, payload: {folderID: folderID, name: currentFolder.name} })
             }
         })
     }

@@ -16,13 +16,9 @@ import {
 import {
     FOLDER_LINKS_ACTIONS,
     LINKS_ACTIONS,
-    ORIG_FOLDER_LINKS_ACTIONS,
-    ORIGINAL_LINKS_ACTIONS,
 } from '../../../../../Services/Reducer';
 import {
     FolderLinksContext,
-    OriginalArrayContext,
-    OriginalFolderLinksContext,
     PageContext,
     UserLinksContext,
 } from '../../../App';
@@ -46,9 +42,7 @@ const StandardForm = ({
 }) => {
 
     const { userLinks, dispatch } = useContext(UserLinksContext);
-    const { originalArray, dispatchOrig } = useContext(OriginalArrayContext);
     const { folderLinks, dispatchFolderLinks } = useContext(FolderLinksContext);
-    const { originalFolderLinks, dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);
     const  { pageSettings } = useContext(PageContext);
     const [ showTerms, setShowTerms ] = useState(false);
     const [affiliateStatus, setAffiliateStatus] = useState(affStatus);
@@ -204,16 +198,6 @@ const StandardForm = ({
                                 }
                             })
 
-                            dispatchOrigFolderLinks({
-                                type: ORIG_FOLDER_LINKS_ACTIONS.UPDATE_FOLDER_LINKS,
-                                payload: {
-                                    editID: editID,
-                                    currentLink: currentLink,
-                                    url: URL,
-                                    iconPath: currentLink.icon
-                                }
-                            })
-
                             dispatch({
                                 type: LINKS_ACTIONS.UPDATE_LINK_IN_FOLDER,
                                 payload: {
@@ -225,20 +209,8 @@ const StandardForm = ({
                                 }
                             })
 
-                            dispatchOrig({
-                                type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK_IN_FOLDER,
-                                payload: {
-                                    folderID: folderID,
-                                    editID: editID,
-                                    currentLink: currentLink,
-                                    url: URL,
-                                    iconPath: currentLink.icon
-                                }
-                            })
-
                         } else {
                             let newFolderLinks = [...folderLinks];
-                            let newOriginalFolderLinks = [...originalFolderLinks];
 
                             const newLinkObject = {
                                 id: data.link_id,
@@ -257,13 +229,6 @@ const StandardForm = ({
                             newFolderLinks = newFolderLinks.concat(
                                 newLinkObject);
 
-                            dispatchOrigFolderLinks({
-                                type: ORIG_FOLDER_LINKS_ACTIONS.SET_ORIG_FOLDER_LINKS,
-                                payload: {
-                                    links: newOriginalFolderLinks.concat(
-                                        newLinkObject)
-                                }
-                            })
                             dispatchFolderLinks({
                                 type: FOLDER_LINKS_ACTIONS.SET_FOLDER_LINKS,
                                 payload: {
@@ -292,14 +257,6 @@ const StandardForm = ({
                                 }
                             })
 
-                            dispatchOrig({
-                                type: ORIGINAL_LINKS_ACTIONS.ADD_NEW_IN_FOLDER,
-                                payload: {
-                                    newLinkObject: newLinkObject,
-                                    folderActive: folderActive,
-                                    folderID: folderID
-                                }
-                            })
                         }
 
                     } else {
@@ -315,19 +272,8 @@ const StandardForm = ({
                                 }
                             })
 
-                            dispatchOrig({
-                                type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK,
-                                payload: {
-                                    editID: editID,
-                                    currentLink: currentLink,
-                                    url: URL,
-                                    iconPath: currentLink.icon
-                                }
-                            })
-
                         } else {
                             let newLinks = [...userLinks];
-                            let originalLinks = [...originalArray];
 
                             const newLinkObject = {
                                 id: data.link_id,
@@ -342,13 +288,6 @@ const StandardForm = ({
                                 active_status: true
                             }
 
-                            dispatchOrig({
-                                type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS,
-                                payload: {
-                                    links: originalLinks.concat(
-                                        newLinkObject)
-                                }
-                            })
                             dispatch({
                                 type: LINKS_ACTIONS.SET_LINKS,
                                 payload: {

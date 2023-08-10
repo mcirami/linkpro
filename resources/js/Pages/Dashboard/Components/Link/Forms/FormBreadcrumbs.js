@@ -7,19 +7,12 @@ const FormBreadcrumbs = ({
                              editID,
                              setEditID,
                              setEditFolderID,
-                             iconSelected,
-                             setShowConfirmPopup,
                              setAccordionValue,
                              showLinkForm,
                              setShowLinkForm,
                              setIntegrationType,
                              setInputType
 }) => {
-
-    /*const handleDeleteClick = e => {
-        e.preventDefault();
-        setShowConfirmPopup(true);
-    }*/
 
     return (
         <>
@@ -69,16 +62,6 @@ const FormBreadcrumbs = ({
                     Back To Icons
                 </a>
             }
-            {/*{ (!iconSelected && editID) &&
-                <div className="delete_icon">
-                    <a className="delete" href="resources/js/Pages/Dashboard/Components/Link/Forms/FormBreadcrumbs#"
-                       onClick={handleDeleteClick}>
-                        <MdDeleteForever />
-                    </a>
-                    <div className="hover_text delete_folder"><p>Delete Icon</p></div>
-                </div>
-            }*/}
-
         </>
     );
 };

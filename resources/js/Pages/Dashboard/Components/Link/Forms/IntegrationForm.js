@@ -6,7 +6,6 @@ import ShopifyIntegration from './Shopify/ShopifyIntegration';
 import ReactCrop from 'react-image-crop';
 import IconList from '../IconList';
 import {
-    OriginalArrayContext,
     PageContext,
     UserLinksContext,
 } from '../../../App';
@@ -18,7 +17,6 @@ import {
 } from '../../../../../Services/LinksRequest';
 import {
     LINKS_ACTIONS,
-    ORIGINAL_LINKS_ACTIONS,
 } from '../../../../../Services/Reducer';
 import EventBus from '../../../../../Utils/Bus';
 import MailchimpLists from './Mailchimp/MailchimpLists';
@@ -46,7 +44,6 @@ const IntegrationForm = ({
 
     const [customIconArray, setCustomIconArray] = useState([]);
     const { userLinks, dispatch } = useContext(UserLinksContext);
-    const { originalArray, dispatchOrig } = useContext(OriginalArrayContext);
     const  { pageSettings } = useContext(PageContext);
     const iconRef = createRef(null)
     const [completedIconCrop, setCompletedIconCrop] = useState(null);
@@ -227,19 +224,8 @@ const IntegrationForm = ({
                                     }
                                 })
 
-                                dispatchOrig({
-                                    type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK,
-                                    payload: {
-                                        editID: editID,
-                                        currentLink: currentLink,
-                                        url: URL,
-                                        iconPath: currentLink.icon
-                                    }
-                                })
-
                             } else {
                                 let newLinks = [...userLinks];
-                                let originalLinks = [...originalArray];
 
                                 const newLinkObject = {
                                     id: data.link_id,
@@ -256,13 +242,6 @@ const IntegrationForm = ({
                                     active_status: true
                                 }
 
-                                dispatchOrig({
-                                    type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS,
-                                    payload: {
-                                        links: originalLinks.concat(
-                                            newLinkObject)
-                                    }
-                                })
                                 dispatch({
                                     type: LINKS_ACTIONS.SET_LINKS,
                                     payload: {
@@ -381,17 +360,8 @@ const IntegrationForm = ({
                                     iconPath: data.iconPath
                                 }})
 
-                            dispatchOrig({
-                                type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINK,
-                                payload: {
-                                    editID: editID,
-                                    currentLink: currentLink,
-                                    url: URL,
-                                    iconPath: data.iconPath
-                                }})
                         } else {
                             let newLinks = [...userLinks];
-                            let originalLinks = [...originalArray];
 
                             const newLinkObject = {
                                 id: data.link_id,
@@ -408,11 +378,6 @@ const IntegrationForm = ({
                                 active_status: true
                             }
 
-                            dispatchOrig({
-                                type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS,
-                                payload: {
-                                    links: originalLinks.concat(newLinkObject)
-                                }})
                             dispatch({
                                 type: LINKS_ACTIONS.SET_LINKS,
                                 payload: {

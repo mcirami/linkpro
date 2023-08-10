@@ -5,16 +5,12 @@ import React, {useContext} from 'react';
 import {
     PageContext,
     UserLinksContext,
-    OriginalArrayContext,
     FolderLinksContext,
-    OriginalFolderLinksContext
 } from '../../App';
 
 import {
     LINKS_ACTIONS,
-    ORIGINAL_LINKS_ACTIONS,
     FOLDER_LINKS_ACTIONS,
-    ORIG_FOLDER_LINKS_ACTIONS
 } from '../../../../Services/Reducer';
 
 const AddFolder = ({
@@ -26,9 +22,9 @@ const AddFolder = ({
 
     const  { pageSettings } = useContext(PageContext);
     const { userLinks, dispatch } = useContext(UserLinksContext);
-    const { originalArray, dispatchOrig } = useContext(OriginalArrayContext);
+    //const { originalArray, dispatchOrig } = useContext(OriginalArrayContext);
     const { dispatchFolderLinks } = useContext(FolderLinksContext);
-    const { dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);
+    //const { dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);
 
     const handleClick = (e) => {
         e.preventDefault();
@@ -44,7 +40,7 @@ const AddFolder = ({
 
                 if (data.success) {
                     let newLinks = [...userLinks];
-                    let newOriginalArray = [...originalArray];
+                    //let newOriginalArray = [...originalArray];
                     const newFolderObject = {
                         id: data.id,
                         name: null,
@@ -53,7 +49,7 @@ const AddFolder = ({
                         links: []
                     }
 
-                    dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS, payload: {links: newOriginalArray.concat(newFolderObject) }})
+                    //dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS, payload: {links: newOriginalArray.concat(newFolderObject) }})
                     dispatch({ type: LINKS_ACTIONS.SET_LINKS, payload: {links: newLinks.concat(newFolderObject) }})
 
                     fetchFolderLinks(data.id);
@@ -71,7 +67,7 @@ const AddFolder = ({
         const response = await fetch(url);
         const folderLinks = await response.json();
 
-        dispatchOrigFolderLinks({ type: ORIG_FOLDER_LINKS_ACTIONS.SET_ORIG_FOLDER_LINKS, payload: {links: folderLinks["links"] }})
+        //dispatchOrigFolderLinks({ type: ORIG_FOLDER_LINKS_ACTIONS.SET_ORIG_FOLDER_LINKS, payload: {links: folderLinks["links"] }})
         dispatchFolderLinks({ type: FOLDER_LINKS_ACTIONS.SET_FOLDER_LINKS, payload: {links: folderLinks["links"] }});
 
         setEditFolderID(folderID);

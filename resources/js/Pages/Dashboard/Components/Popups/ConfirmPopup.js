@@ -2,15 +2,12 @@ import React, {useContext} from 'react';
 import {MdCheckCircle} from 'react-icons/md';
 import {
     deleteLink,
-    updateContentHeight,
     updateLinkStatus,
 } from '../../../../Services/LinksRequest';
-import {UserLinksContext, OriginalArrayContext, FolderLinksContext, OriginalFolderLinksContext} from '../../App';
+import {UserLinksContext, FolderLinksContext} from '../../App';
 import {
     LINKS_ACTIONS,
-    ORIGINAL_LINKS_ACTIONS,
     FOLDER_LINKS_ACTIONS,
-    ORIG_FOLDER_LINKS_ACTIONS
 } from '../../../../Services/Reducer';
 
 export const ConfirmPopup = ({
@@ -19,24 +16,19 @@ export const ConfirmPopup = ({
                                  showConfirmPopup,
                                  setShowConfirmPopup,
                                  folderID,
-                                 iconsWrapRef,
                                  setInputType,
                                  setIntegrationType,
                                  setAccordionValue
                              }) => {
 
     const { userLinks, dispatch  } = useContext(UserLinksContext);
-    const { originalArray, dispatchOrig } = useContext(OriginalArrayContext);
     const { folderLinks, dispatchFolderLinks } = useContext(FolderLinksContext);
-    const { dispatchOrigFolderLinks } = useContext(OriginalFolderLinksContext);
-
 
     const deleteItem = (e) => {
         e.preventDefault();
 
         let newFolderArray;
         let newArray;
-        let newOriginalArray;
 
         if (folderID) {
             newFolderArray = folderLinks.filter(element => element.id !== editID);
@@ -51,17 +43,6 @@ export const ConfirmPopup = ({
                 }
                 return item;
             });
-            /*newOriginalArray = originalArray.map((item) => {
-                if (item.id === folderID && item.type === "folder") {
-                    const itemLinks = item.links.filter(element => element.id !== editID)
-
-                    return {
-                        ...item,
-                        links: itemLinks
-                    }
-                }
-                return item;
-            });*/
         } else {
             newArray = userLinks.filter(element => element.id !== editID);
         }
@@ -79,8 +60,6 @@ export const ConfirmPopup = ({
                 if (folderID) {
 
                     const newFolderLinks = data.links.find(el => el.id === folderID);
-
-                    dispatchOrigFolderLinks({ type: ORIG_FOLDER_LINKS_ACTIONS.SET_ORIG_FOLDER_LINKS, payload: {links: newFolderLinks.links} })
                     dispatchFolderLinks({ type: FOLDER_LINKS_ACTIONS.SET_FOLDER_LINKS, payload: {links: newFolderLinks.links} })
 
                     let folderActive = null;
@@ -95,17 +74,13 @@ export const ConfirmPopup = ({
                         updateLinkStatus(packets, folderID, url);
                     }
 
-                    dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.UPDATE_LINKS_POSITIONS, payload: {links: newArray, folderActive: folderActive, folderID: folderID} })
                     dispatch({ type: LINKS_ACTIONS.UPDATE_LINKS_POSITIONS, payload: {links: newArray, folderActive: folderActive, folderID: folderID} })
 
-
                 } else {
-                    dispatchOrig({ type: ORIGINAL_LINKS_ACTIONS.SET_ORIGINAL_LINKS, payload: {links: data.links}})
                     dispatch({ type: LINKS_ACTIONS.SET_LINKS, payload: {links: data.links} })
                 }
 
                 setEditID(null)
-                updateContentHeight(iconsWrapRef, folderID && true);
                 setShowConfirmPopup(false)
                 setIntegrationType(null);
                 setInputType(null);
