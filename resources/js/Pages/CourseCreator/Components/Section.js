@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import DeleteSection from './DeleteSection';
-import {MdKeyboardArrowDown} from 'react-icons/md';
+import {MdDragHandle, MdKeyboardArrowDown} from 'react-icons/md';
 import InputComponent from './InputComponent';
 import ColorPicker from './ColorPicker';
 import SectionButtonOptions from './SectionButtonOptions';
 import IOSSwitch from '../../../Utils/IOSSwitch';
 import {updateSectionData} from '../../../Services/CourseRequests';
 import ToolTipIcon from '../../../Utils/ToolTips/ToolTipIcon';
+import {useSortable} from '@dnd-kit/sortable';
+import {CSS} from '@dnd-kit/utilities';
 
 const Section = ({
                      section,
@@ -17,7 +19,7 @@ const Section = ({
                      setOpenIndex,
                      videoCount,
                      textCount,
-                     setHoverSection
+                     setHoverSection,
 
 }) => {
 
@@ -32,6 +34,18 @@ const Section = ({
         lock_video,
     } = section;
 
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition,
+    } = useSortable({id: section.id});
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+    };
 
     useEffect(() => {
         setLockVideo(lock_video ? lock_video : true)
@@ -71,13 +85,23 @@ const Section = ({
     }
 
     return (
-        <div id={`section_${index + 1}`}
+        <div ref={setNodeRef}
+             id={`section_${index + 1}`}
+             style={style}
              className="section_row"
              onMouseEnter={(e) =>
                  setHoverSection(e.target.id)
-             }>
-            <div className="section_title" onClick={(e) => handleSectionOpen(index)}>
-                <div className="left_column">
+        }>
+            <div className="section_title"
+                 onClick={(e) => handleSectionOpen(index)}
+            >
+                <div className="drag_handle creator_section"
+                     {...attributes}
+                     {...listeners}
+                >
+                    <MdDragHandle/>
+                </div>
+                <div className="title_column">
                     <h4>{type} {type === "video" ? videoCount : textCount}</h4>
                 </div>
                 <div className={`icon_wrap ${openIndex.includes(index) ? "open" : ""}`}>

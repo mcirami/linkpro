@@ -300,3 +300,29 @@ export const activatePage = (id) => {
 
     });
 }
+
+export const updateSectionsPositions = (packets) => {
+    return axios.put('/creator-center/landing-page/update-sections-positions', packets)
+    .then(
+        (response) => {
+            const returnedResponse = response.data.message;
+            //EventBus.dispatch("success", { message: returnMessage.replace("_", " ") });
+            console.log(returnedResponse);
+            return {
+                success : true,
+            }
+        }
+    )
+    .catch((error) => {
+        if (error.response !== undefined) {
+            console.error("ERROR:: ", error.response.data);
+        } else {
+            console.error("ERROR:: ", error);
+        }
+
+        return {
+            success : false,
+        }
+
+    });
+}

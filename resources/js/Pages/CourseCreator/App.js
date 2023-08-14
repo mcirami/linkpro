@@ -25,6 +25,22 @@ import DropdownComponent from './Components/DropdownComponent';
 import InfoText from '../../Utils/ToolTips/InfoText';
 import ToolTipIcon from '../../Utils/ToolTips/ToolTipIcon';
 
+import {
+    DndContext,
+    closestCenter,
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors,
+} from '@dnd-kit/core';
+import {
+    arrayMove,
+    SortableContext,
+    sortableKeyboardCoordinates,
+    verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import {updateSectionsPositions} from '../../Services/CourseRequests';
+
 function App() {
 
     const [openIndex, setOpenIndex] = useState([0]);
@@ -41,6 +57,12 @@ function App() {
     const [infoClicked, setInfoClicked] = useState(null);
     const [triangleRef, setTriangleRef] = useState(null);
 
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
+    );
 
     const [completedCrop, setCompletedCrop] = useState([])
     const nodesRef = useRef([]);
@@ -107,6 +129,32 @@ function App() {
     const url = window.location.protocol + "//" + window.location.host + "/" + username + "/course-page/" + courseData["slug"];
     let videoCount = 0;
     let textCount = 0;
+
+    const handleDragEnd = (event) => {
+        const {active, over} = event;
+
+        if (active.id !== over.id) {
+
+            let newArray;
+
+           setSections((sections) => {
+                const oldIndex = sections.map(function (e) {
+                    return e.id;
+                }).indexOf(active.id);
+                const newIndex = sections.map(function (e) {
+                    return e.id;
+                }).indexOf(over.id);
+               newArray = arrayMove(sections, oldIndex, newIndex);
+               return newArray;
+            });
+
+            const packets = {
+                sections: newArray
+            }
+
+            updateSectionsPositions(packets);
+        }
+    }
 
     return (
         <ToolTipContextProvider value={{
@@ -265,29 +313,43 @@ function App() {
 
                         {!isEmpty(sections) &&
 
-                            <section className="sections_wrap my_row">
-                                {sections.map((section, index) => {
+                            <DndContext
+                                sensors={sensors}
+                                collisionDetection={closestCenter}
+                                onDragEnd={handleDragEnd}
+                            >
+                                <section className="sections_wrap my_row">
 
-                                    {section.type === "video" ? ++videoCount : ++textCount}
+                                    <SortableContext
+                                        items={sections}
+                                        strategy={verticalListSortingStrategy}
+                                    >
+                                        {sections.map((section, index) => {
 
-                                    return (
+                                            {section.type === "video" ? ++videoCount : ++textCount}
 
-                                        <Section
-                                            key={section.id}
-                                            section={section}
-                                            index={index}
-                                            sections={sections}
-                                            setSections={setSections}
-                                            openIndex={openIndex}
-                                            setOpenIndex={setOpenIndex}
-                                            videoCount={videoCount}
-                                            textCount={textCount}
-                                            setHoverSection={setHoverSection}
-                                        />
+                                            return (
 
-                                    )
-                                })}
-                            </section>
+                                                <Section
+                                                    key={section.id}
+                                                    section={section}
+                                                    index={index}
+                                                    sections={sections}
+                                                    setSections={setSections}
+                                                    openIndex={openIndex}
+                                                    setOpenIndex={setOpenIndex}
+                                                    videoCount={videoCount}
+                                                    textCount={textCount}
+                                                    setHoverSection={setHoverSection}
+                                                />
+
+                                            )
+                                        })}
+                                    </SortableContext>
+
+                                </section>
+                            </DndContext>
+
                         }
 
                         <div className="link_row mb-5">

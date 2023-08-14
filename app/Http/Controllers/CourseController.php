@@ -13,7 +13,6 @@ use App\Services\TrackingServices;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\URL;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
 use App\Http\Traits\PermissionTrait;
 
@@ -207,5 +206,12 @@ class CourseController extends Controller
         $categories = Category::with('children')->whereNull('parent_id')->get();
 
         return response()->json(['categories' => $categories]);
+    }
+
+    public function updateSectionsPositions(Request $request, CourseService $courseService) {
+
+        $courseService->updateAllSectionsPositions($request->all());
+
+        return response()->json(['message' => "Sections Positions Updated"]);
     }
 }

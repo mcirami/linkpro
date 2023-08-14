@@ -24,19 +24,19 @@ const Preview = ({
     const loadPreviewHeight = UseLoadPreviewHeight();
     const resizePreviewHeight = UseResizePreviewHeight();
 
+
     useEffect(() => {
 
         if (hoverSection) {
             const target = document.getElementById('preview_' + hoverSection);
+
             if (target) {
                 if (hoverSection.includes("header")) {
                     target.parentNode.scrollTop = target.offsetTop;
                 } else if (hoverSection.includes("intro")) {
-                    target.parentNode.parentNode.parentNode.scrollTop = target.offsetTop -
-                        100;
+                    target.parentNode.parentNode.parentNode.scrollTop = target.offsetTop - 100;
                 } else {
-                    target.parentNode.parentNode.scrollTop = target.offsetTop +
-                        450;
+                    target.parentNode.parentNode.scrollTop = target.offsetTop - 100;
                 }
             }
         }
@@ -71,7 +71,7 @@ const Preview = ({
                                 courseData={courseData}
                             />
                         </section>
-                        <div className="sections">
+                        <div className="sections my_row">
                             {!isEmpty(sections) && sections.map((section, index) => {
 
                                 return (

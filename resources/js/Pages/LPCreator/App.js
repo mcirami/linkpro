@@ -17,6 +17,21 @@ import PreviewButton from '../Dashboard/Components/Preview/PreviewButton';
 import {previewButtonRequest} from '../../Services/PageRequests';
 import PublishButton from './Components/PublishButton';
 import Section from './Components/Section';
+import {
+    DndContext,
+    closestCenter,
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors,
+} from '@dnd-kit/core';
+import {
+    arrayMove,
+    SortableContext,
+    sortableKeyboardCoordinates,
+    verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import {updateSectionsPositions} from '../../Services/LandingPageRequests';
 
 function App() {
 
@@ -43,6 +58,13 @@ function App() {
         type: '',
         msg: ''
     });
+
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
+    );
 
     useEffect(() => {
         previewButtonRequest(setShowPreviewButton);
@@ -86,6 +108,32 @@ function App() {
 
     const handleMouseEnter = (e) => {
         setHoverSection(e.target.id)
+    }
+
+    const handleDragEnd = (event) => {
+        const {active, over} = event;
+
+        if (active.id !== over.id) {
+
+            let newArray;
+
+            setSections((sections) => {
+                const oldIndex = sections.map(function (e) {
+                    return e.id;
+                }).indexOf(active.id);
+                const newIndex = sections.map(function (e) {
+                    return e.id;
+                }).indexOf(over.id);
+                newArray = arrayMove(sections, oldIndex, newIndex);
+                return newArray;
+            });
+
+            const packets = {
+                sections: newArray
+            }
+
+            updateSectionsPositions(packets);
+        }
     }
 
     const url = window.location.protocol + "//" + window.location.host + "/" + username;
@@ -210,32 +258,43 @@ function App() {
 
                     {!isEmpty(sections) &&
 
-                        <section className="sections_wrap my_row">
+                        <DndContext
+                            sensors={sensors}
+                            collisionDetection={closestCenter}
+                            onDragEnd={handleDragEnd}
+                        >
+                            <section className="sections_wrap my_row">
 
-                            {sections.map((section, index) => {
+                                <SortableContext
+                                    items={sections}
+                                    strategy={verticalListSortingStrategy}
+                                >
+                                    {sections.map((section, index) => {
 
-                                return (
+                                        return (
 
-                                    <Section
-                                        key={section.id}
-                                        section={section}
-                                        index={index}
-                                        completedCrop={completedCrop}
-                                        setCompletedCrop={setCompletedCrop}
-                                        nodesRef={nodesRef}
-                                        fileNames={fileNames}
-                                        setFileNames={setFileNames}
-                                        sections={sections}
-                                        setSections={setSections}
-                                        url={url}
-                                        openIndex={openIndex}
-                                        setOpenIndex={setOpenIndex}
-                                        setShowLoader={setShowLoader}
-                                        handleMouseEnter={handleMouseEnter}
-                                    />
-                                )
-                            })}
-                        </section>
+                                            <Section
+                                                key={section.id}
+                                                section={section}
+                                                index={index}
+                                                completedCrop={completedCrop}
+                                                setCompletedCrop={setCompletedCrop}
+                                                nodesRef={nodesRef}
+                                                fileNames={fileNames}
+                                                setFileNames={setFileNames}
+                                                sections={sections}
+                                                setSections={setSections}
+                                                url={url}
+                                                openIndex={openIndex}
+                                                setOpenIndex={setOpenIndex}
+                                                setShowLoader={setShowLoader}
+                                                handleMouseEnter={handleMouseEnter}
+                                            />
+                                        )
+                                    })}
+                                </SortableContext>
+                            </section>
+                        </DndContext>
                     }
 
                     <div className="link_row">

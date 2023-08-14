@@ -120,6 +120,7 @@ Route::group(['middleware' => 'auth'], function() {
             Route::post('/update-section-image/{landing_page_section}', [LandingPageController::class, 'updateSectionImage'])->name('update.section.image');
             Route::post('/publish/{landing_page}', [LandingPageController::class, 'publishLandingPage'])->name('publish.landing_page');
             Route::post('/activate/{landing_page}', [LandingPageController::class, 'activateLandingPage'])->name('activate.landing_page');
+            Route::put('/update-sections-positions', [LandingPageController::class, 'updateSectionsPositions']);
         });
 
         Route::group(['prefix' => 'course'], function() {
@@ -129,6 +130,7 @@ Route::group(['middleware' => 'auth'], function() {
             Route::post('/update-section-image/{course}', [CourseController::class, ''])->name('course.section.image');
             Route::post('/delete-section/{course_section}', [CourseController::class, 'deleteSection'])->name('delete.course.section');
             Route::post('/update-section-data/{course_section}', [CourseController::class, 'updateSectionData'])->name('update.course.section.data');
+            Route::put('/update-sections-positions', [CourseController::class, 'updateSectionsPositions']);
         });
 
         Route::group(['prefix' => 'offer'], function() {

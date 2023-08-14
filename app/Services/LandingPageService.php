@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services;
+use App\Models\LandingPageSection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -12,6 +13,7 @@ class LandingPageService {
         $sections = $landingPage->LandingPageSections()
                                 ->leftJoin('courses', 'landing_page_sections.button_course_id', '=', 'courses.id')
                                 ->select('landing_page_sections.*', 'courses.slug')
+                                ->orderBy('landing_page_sections.position', 'asc')
                                 ->get()
                                 ->toArray();
 
@@ -119,5 +121,17 @@ class LandingPageService {
         $page->update([
             "active" => !$page->active,
         ]);
+    }
+
+    public function updateAllSectionsPositions($request) {
+
+        foreach($request['sections'] as $index => $section) {
+            $currentSection = LandingPageSection::findOrFail( $section["id"] );
+            if ( $currentSection["position"] != $index ) {
+                $currentSection["position"] = $index;
+                $currentSection->save();
+            }
+        }
+
     }
 }

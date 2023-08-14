@@ -259,4 +259,11 @@ class LandingPageController extends Controller
         return response()->json($returnData);
 
     }
+
+    public function updateSectionsPositions(Request $request, LandingPageService $landingPageService) {
+
+        $landingPageService->updateAllSectionsPositions($request->all());
+
+        return response()->json(['message' => "Sections Positions Updated"]);
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\CourseSection;
 use App\Models\Link;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Storage;
@@ -22,7 +23,7 @@ class CourseService {
 
     public function getCourseData($course) {
         $courseData = $course->attributesToArray();
-        $sections = $course->CourseSections()->get()->toArray();
+        $sections = $course->CourseSections()->orderBy('position', 'asc')->get()->toArray();
         $courseCategory = $course->categories()->orderBy('id', 'desc')->get();
         if(count($courseCategory) > 0) {
             $courseData["category"] = $courseCategory[0]["id"];
@@ -138,15 +139,16 @@ class CourseService {
           ->select('courses.*', 'users.username')->get();
     }
 
-    /*public function getUserUnpurchasedCourses($userID) {
-        return Course::whereDoesntHave('purchases', function (Builder $query) use($userID) {
-            $query->where('user_id', 'like', $userID);
-        })->whereHas('offer', function($query) {
-            $query->where('active', true)->where('public', true);
-        })->leftJoin('landing_pages', 'landing_pages.user_id', '=', 'courses.user_id')
-          ->leftJoin('users', 'users.id', '=', 'courses.user_id')
-          ->select('courses.*', 'landing_pages.slug as lp_slug', 'users.username')->get();
-    }*/
+    public function updateAllSectionsPositions($request) {
+
+        foreach($request['sections'] as $index => $section) {
+            $currentSection = CourseSection::findOrFail( $section["id"] );
+            if ( $currentSection["position"] != $index ) {
+                $currentSection["position"] = $index;
+                $currentSection->save();
+            }
+        }
+    }
 
     private function saveCourseCategory($course, $value) {
 

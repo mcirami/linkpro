@@ -12179,41 +12179,6 @@ header.guest_header .column.right {
   -moz-border-radius: 20%;
   border: 1px solid #d4d2d2;
 }
-#links_page .icons_wrap .icon_col .drag_handle {
-  background: #ffffff;
-  border-bottom: 2px solid #f4f4f4;
-  border-top-right-radius: 20px;
-  -webkit-border-top-right-radius: 20px;
-  -moz-border-radius-topright: 20px;
-  border-top-left-radius: 20px;
-  -webkit-border-top-left-radius: 20px;
-  -moz-border-radius-topleft: 20px;
-  font-size: 30px;
-  text-align: center;
-}
-#links_page .icons_wrap .icon_col .drag_handle .hover_text {
-  left: 0;
-}
-#links_page .icons_wrap .icon_col .drag_handle svg {
-  color: #424fcf;
-}
-@media screen and (max-width: 768px) {
-  #links_page .icons_wrap .icon_col .drag_handle svg {
-    height: 35px;
-    width: 35px;
-  }
-}
-#links_page .icons_wrap .icon_col .drag_handle:hover {
-  cursor: grab;
-}
-@media all and (min-width: 769px) {
-  #links_page .icons_wrap .icon_col .drag_handle:hover .hover_text {
-    opacity: 1;
-  }
-}
-#links_page .icons_wrap .icon_col .drag_handle:active {
-  cursor: grabbing;
-}
 #links_page .icons_wrap .icon_col .column_content {
   padding: 20px 5%;
   border-radius: 20px;
@@ -16054,6 +16019,45 @@ a.delete svg {
   left: auto !important;
 }
 
+.drag_handle {
+  background: #ffffff;
+  border-bottom: 2px solid #f4f4f4;
+  border-top-right-radius: 20px;
+  -webkit-border-top-right-radius: 20px;
+  -moz-border-radius-topright: 20px;
+  border-top-left-radius: 20px;
+  -webkit-border-top-left-radius: 20px;
+  -moz-border-radius-topleft: 20px;
+  font-size: 30px;
+  text-align: center;
+}
+.drag_handle.creator_section {
+  border-bottom: none;
+}
+.drag_handle .hover_text {
+  left: 0;
+}
+.drag_handle svg {
+  color: #424fcf;
+}
+@media screen and (max-width: 768px) {
+  .drag_handle svg {
+    height: 35px;
+    width: 35px;
+  }
+}
+.drag_handle:hover {
+  cursor: grab;
+}
+@media all and (min-width: 769px) {
+  .drag_handle:hover .hover_text {
+    opacity: 1;
+  }
+}
+.drag_handle:active {
+  cursor: grabbing;
+}
+
 .my_row.form_page.stats .card {
   max-width: 1000px;
 }
@@ -17198,7 +17202,7 @@ a.delete svg {
 #links_page .creator_wrap .content_wrap .sections_wrap .section_row .section_title {
   margin-bottom: 0;
 }
-#links_page .creator_wrap .content_wrap .sections_wrap .section_row .section_title .left_column {
+#links_page .creator_wrap .content_wrap .sections_wrap .section_row .section_title .title_column {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -17210,10 +17214,10 @@ a.delete svg {
   -webkit-column-gap: 10px;
   -moz-column-gap: 10px;
 }
-#links_page .creator_wrap .content_wrap .sections_wrap .section_row .section_title .left_column h4, #links_page .creator_wrap .content_wrap .sections_wrap .section_row .section_title .left_column .h4 {
+#links_page .creator_wrap .content_wrap .sections_wrap .section_row .section_title .title_column h4, #links_page .creator_wrap .content_wrap .sections_wrap .section_row .section_title .title_column .h4 {
   min-width: 70px;
 }
-#links_page .creator_wrap .content_wrap .sections_wrap .section_row .section_title .left_column a.delete {
+#links_page .creator_wrap .content_wrap .sections_wrap .section_row .section_title .title_column a.delete {
   width: 25px;
   height: 25px;
 }

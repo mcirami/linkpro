@@ -1,11 +1,13 @@
 import React from 'react';
 import DeleteSection from './DeleteSection';
-import {MdKeyboardArrowDown} from 'react-icons/md';
+import {MdDragHandle, MdKeyboardArrowDown} from 'react-icons/md';
 import InputComponent from './InputComponent';
 import ColorPicker from './ColorPicker';
 import ImageComponent from './ImageComponent';
 import SectionButtonOptions from './SectionButtonOptions';
 const courses = user.courses;
+import {useSortable} from '@dnd-kit/sortable';
+import {CSS} from '@dnd-kit/utilities';
 
 const Section = ({
                      section,
@@ -23,7 +25,28 @@ const Section = ({
                      handleMouseEnter
 }) => {
 
-    const {id, type, text, button_position, button, button_course_id, button_size} = section;
+    const {
+        id,
+        type,
+        text,
+        button_position,
+        button,
+        button_course_id,
+        button_size
+    } = section;
+
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition,
+    } = useSortable({id: section.id});
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+    };
 
     const handleSectionOpen = (rowIndex) => {
         if(openIndex.includes(rowIndex)) {
@@ -37,9 +60,22 @@ const Section = ({
 
 
     return (
-        <div className="section_row" id={`section_${index + 1}`} onMouseEnter={(e) => handleMouseEnter(e)}>
-            <div className="section_title" onClick={(e) => handleSectionOpen(index)}>
-                <div className="left_column">
+        <div ref={setNodeRef}
+             className="section_row"
+             id={`section_${index + 1}`}
+             style={style}
+             onMouseEnter={(e) => handleMouseEnter(e)}
+        >
+            <div className="section_title"
+                 onClick={(e) => handleSectionOpen(index)}
+            >
+                <div className="drag_handle creator_section"
+                     {...attributes}
+                     {...listeners}
+                >
+                    <MdDragHandle/>
+                </div>
+                <div className="title_column">
                     <h4>Section {index + 1}</h4>
                 </div>
                 <div className={`icon_wrap ${openIndex.includes(index) ? "open" : ""}`}>
