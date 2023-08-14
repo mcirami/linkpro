@@ -12273,7 +12273,11 @@ header.guest_header .column.right {
   overflow: hidden;
 }
 #links_page .icons_wrap.add_icons {
-  padding: 0 3%;
+  display: grid;
+  --n:5;
+  grid-template-columns: repeat(auto-fill, minmax(max(50px, 100% / var(--n)), 1fr));
+  grid-gap: 20px;
+  padding: 0 5%;
   transition: 800ms all ease-in-out;
   -webkit-transition: 800ms all ease-in-out;
   -moz-transition: 800ms all ease-in-out;
@@ -12281,21 +12285,17 @@ header.guest_header .column.right {
 }
 @media all and (max-width: 1199px) {
   #links_page .icons_wrap.add_icons {
-    padding: 0 4%;
+    grid-gap: 15px;
   }
 }
-@media all and (max-width: 992px) {
+@media all and (max-width: 768px) {
   #links_page .icons_wrap.add_icons {
-    padding: 0 2.5%;
-  }
-}
-@media all and (max-width: 550px) {
-  #links_page .icons_wrap.add_icons {
-    padding: 0 4%;
+    grid-gap: 10px;
   }
 }
 #links_page .icons_wrap.add_icons .icon_col {
   width: 100%;
+  position: relative;
 }
 #links_page .icons_wrap .edit_form {
   grid-column: span 3;

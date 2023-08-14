@@ -1,12 +1,9 @@
 import React, {
     useRef,
-    useEffect,
     useState,
     useContext,
-    useLayoutEffect,
 } from 'react';
-import {MdDragHandle} from 'react-icons/md';
-import Switch from '@mui/material/Switch'
+import Link from './Link';
 import {
     UserLinksContext,
     FolderLinksContext,
@@ -15,15 +12,22 @@ import {
     updateLinksPositions,
     updateLinkStatus,
 } from '../../../../Services/LinksRequest';
-import {checkIcon} from '../../../../Services/UserService';
 import EventBus from '../../../../Utils/Bus';
 
 import {
-    GridContextProvider,
-    GridDropZone,
-    GridItem,
-    swap
-} from 'react-grid-dnd';
+    DndContext,
+    closestCenter,
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors,
+} from '@dnd-kit/core';
+import {
+    arrayMove,
+    SortableContext,
+    sortableKeyboardCoordinates,
+    rectSortingStrategy
+} from '@dnd-kit/sortable';
 
 import {
     LINKS_ACTIONS,
@@ -48,47 +52,12 @@ const Links = ({
 
     const [rowHeight, setRowHeight] = useState(240);
 
-    function handleResize() {
-
-        const areaWidth = targetRef.current.getBoundingClientRect().width;
-        const colWidth = (areaWidth/4 - 30.5);
-        let percentage = .48;
-        let percentDiff;
-
-        if (window.innerWidth > 767 && areaWidth < 490) {
-            percentDiff = 490 - areaWidth;
-            percentage = percentage + ((percentDiff / 4) / 100)
-        }
-
-        if (window.innerWidth > 767 && areaWidth < 726) {
-            percentDiff = 726 - areaWidth;
-            percentage = percentage + ((percentDiff / 4) / 100)
-        }
-
-        if (window.innerWidth < 769 && areaWidth < 688) {
-            percentDiff = 688 - areaWidth;
-            percentage = percentage + ((percentDiff / 4) / 100)
-        }
-
-
-        const diff = colWidth * percentage;
-        const rowHeight = colWidth + diff + 15;
-        setRowHeight(rowHeight);
-    }
-
-    useEffect(() => {
-
-        handleResize()
-    },[])
-
-    useLayoutEffect(() => {
-
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        }
-    },[]);
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
+    );
 
     const handleChange = (currentItem, hasLinks, type) => {
 
@@ -180,122 +149,67 @@ const Links = ({
 
     }
 
-    const handleGridOnChange = (sourceId, sourceIndex, targetIndex) => {
-        const nextState = swap(userLinks, sourceIndex, targetIndex);
-        dispatch ({ type: LINKS_ACTIONS.SET_LINKS, payload: {links: nextState}})
-        setRow(null);
-        setValue(null);
-        const packets = {
-            userLinks: nextState,
+    const handleGridOnChange = (event) => {
+        const {active, over} = event;
+
+        if (active.id !== over.id) {
+
+            setRow(null)
+            setValue(null)
+            const oldIndex = userLinks.map(function(e) {
+                return e.id;
+            }).indexOf(active.id);
+            const newIndex = userLinks.map(function(e) {
+                return e.id;
+            }).indexOf(over.id);
+            const newArray = arrayMove(userLinks, oldIndex, newIndex);
+
+            dispatch ({ type: LINKS_ACTIONS.SET_LINKS, payload: {links: newArray}})
+
+            const packets = {
+                userLinks: newArray,
+            }
+            updateLinksPositions(packets);
         }
-        updateLinksPositions(packets);
     }
 
     return (
-        <div ref={targetRef} className='icons_wrap add_icons icons'>
+        <section ref={targetRef} className='icons_wrap add_icons icons'>
 
-            {userLinks.length === 0 &&
+            {userLinks.length === 0 ?
                 <div className="info_message">
                     <p>You don't have any icons to display.</p>
                     <p>Click 'Add Icon' above to start adding links.</p>
                 </div>
-            }
-
-            <GridContextProvider onChange={handleGridOnChange}>
-                <div className="my_row">
-                    <GridDropZone
-                        id="items"
-                        boxesPerRow={4}
-                        rowHeight={rowHeight}
-                        style={{ height: rowHeight * Math.ceil(userLinks.length / 4)}}
+            :
+                <DndContext
+                    sensors={sensors}
+                    collisionDetection={closestCenter}
+                    onDragEnd={handleGridOnChange}
+                >
+                    <SortableContext
+                        id={'grid-sort-contextbasic'}
+                        items={userLinks.map((i) => i?.id)}
+                        strategy={rectSortingStrategy}
                     >
 
-                        {userLinks?.map((link, key) => {
-                            const type = userLinks[key].type || null;
-                            const linkID = userLinks[key].id;
-                            let hasLinks = true;
-                            let displayIcon;
-                            if (type === "folder") {
-                                hasLinks = userLinks[key].links.length > 0;
-                            } else {
-                                displayIcon = checkIcon(userLinks[key].icon);
-                            }
+                        {userLinks?.map(link => {
 
                             return (
-                                <GridItem key={link.id} className="grid_item" style={{ padding: '10px'}}>
-                                    <div className="icon_col">
-                                        <span className="drag_handle">
-                                            <MdDragHandle/>
-                                            <div className="hover_text"><p>Move</p></div>
-                                        </span>
+                                <Link
+                                    key={link.id}
+                                    link={link}
+                                    handleOnClick={handleOnClick}
+                                    fetchFolderLinks={fetchFolderLinks}
+                                    handleChange={handleChange}
+                                />
+                            )
+                        })}
 
-                                        <div className="column_content">
-                                            {type === "folder" ?
-                                                <div className="icon_wrap folder">
-                                                    <div className="inner_icon_wrap" onClick={(e) => {
-                                                        fetchFolderLinks(linkID)
-                                                    }}>
-                                                        <img src={Vapor.asset(
-                                                            'images/blank-folder-square.jpg')} alt=""/>
-                                                        <div className={hasLinks ?
-                                                            "folder_icons main" :
-                                                            "folder_icons empty"}>
-                                                            {hasLinks && userLinks[key].links.slice(
-                                                                    0, 9).map((innerLink, index) => {
-
-                                                                        const {
-                                                                            id,
-                                                                            icon
-                                                                        } = innerLink;
-
-                                                                        return (
-                                                                            <div className="image_col" key={index}>
-                                                                                <img src={checkIcon(
-                                                                                    icon)} alt=""/>
-                                                                            </div>
-                                                                        )
-                                                                    })
-                                                            }
-                                                            {!hasLinks &&
-                                                                <p><span>+</span> <br/>Add<br/>Icons
-                                                                </p>}
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                                :
-                                                <div className="icon_wrap" onClick={(e) => {
-                                                    handleOnClick(linkID)
-                                                }}>
-                                                    <div className="image_wrap">
-                                                        <img src={displayIcon} alt=""/>
-                                                    </div>
-                                                </div>
-                                            }
-                                            <div className="my_row">
-                                                <div className="switch_wrap">
-                                                    <Switch
-                                                        onChange={() => handleChange(userLinks[key], hasLinks, type)}
-                                                        checked={Boolean(userLinks[key].active_status)}
-                                                    />
-                                                    <div className="hover_text switch">
-                                                        <p>
-                                                            {Boolean(userLinks[key].active_status) ? "Disable" : "Enable"}
-                                                            {type === "folder" ? "Folder" : "Icon"}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </GridItem>
-                                )
-                            })}
-
-                    </GridDropZone>
-                </div>
-            </GridContextProvider>
-        </div>
+                    </SortableContext>
+                </DndContext>
+            }
+        </section>
     );
 };
 

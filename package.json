@@ -56,8 +56,6 @@
         "react-device-detect": "^2.1.2",
         "react-draft-wysiwyg": "^1.15.0",
         "react-error-boundary": "^3.1.4",
-        "react-gesture-responder": "^2.1.0",
-        "react-grid-dnd": "^2.1.2",
         "react-icons": "^4.2.0",
         "react-image-crop": "^9.0.2",
         "react-paginate": "^8.1.4",
