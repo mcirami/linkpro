@@ -25,7 +25,15 @@ const EditorComponent = ({
                              setIsValid
 }) => {
 
-    const [editorState, setEditorState] = useState(null);
+    const [editorState, setEditorState] = useState(EditorState.createEmpty());
+    const [isMounted, setIsMounted] = useState(false)
+
+    useEffect(() => {
+        setIsMounted(true)
+        return () => {
+            setIsMounted(false)
+        }
+    }, [])
 
     useEffect(() => {
         if (currentSection) {
@@ -139,26 +147,28 @@ const EditorComponent = ({
 
     return (
         <div className="page_settings border_wrap wysiwyg">
-            <Editor
-                /*defaultContentState={contentState}*/
-                editorState={editorState}
-                onEditorStateChange={handleEditorChange}
-                onKeyDown={event => {
-                    if (event.key === 'Enter') {
-                        handleSubmit(event);
-                    }
-                }}
-                onBlur={(e) => handleSubmit(e)}
-                toolbar={{
-                    options: ['inline', 'blockType', 'list', 'textAlign', 'colorPicker', 'link', 'emoji', 'history'],
-                    inline: {
-                        options: ['bold', 'italic', 'underline', 'strikethrough']
-                    },
-                    blockType: {
-                        options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6']
-                    }
-                }}
-            />
+            {isMounted && (
+                <Editor
+                    /*defaultContentState={contentState}*/
+                    editorState={editorState}
+                    onEditorStateChange={handleEditorChange}
+                    onKeyDown={event => {
+                        if (event.key === 'Enter') {
+                            handleSubmit(event);
+                        }
+                    }}
+                    onBlur={(e) => handleSubmit(e)}
+                    toolbar={{
+                        options: ['inline', 'blockType', 'list', 'textAlign', 'colorPicker', 'link', 'emoji', 'history'],
+                        inline: {
+                            options: ['bold', 'italic', 'underline', 'strikethrough']
+                        },
+                        blockType: {
+                            options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6']
+                        }
+                    }}
+                />
+            )}
         </div>
     );
 };

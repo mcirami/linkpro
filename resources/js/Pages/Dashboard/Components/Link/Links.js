@@ -50,8 +50,6 @@ const Links = ({
 
     const targetRef = useRef(null);
 
-    const [rowHeight, setRowHeight] = useState(240);
-
     const sensors = useSensors(
         useSensor(PointerSensor),
         useSensor(KeyboardSensor, {
