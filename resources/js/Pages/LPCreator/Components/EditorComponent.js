@@ -1,10 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {LP_ACTIONS} from '../Reducer';
-import { Editor } from "react-draft-wysiwyg";
-import { ContentState, EditorState, convertToRaw, convertFromRaw } from 'draft-js';
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { Editor } from '@tinymce/tinymce-react';
+import { ContentState, convertToRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
-import {SketchPicker} from 'react-color';
+import htmlToDraft from "html-to-draftjs";
 
 import {
     updateSectionData,
@@ -13,6 +12,7 @@ import {
     updateData as updateCourseData
 } from '../../../Services/CourseRequests';
 import isJSON from 'validator/es/lib/isJSON';
+import {toJSON} from 'lodash/seq';
 
 const EditorComponent = ({
                              dispatch,
@@ -25,22 +25,29 @@ const EditorComponent = ({
                              setIsValid
 }) => {
 
-    const [editorState, setEditorState] = useState(null);
+    const editorRef = useRef(null);
+
+    const [editorState, setEditorState] = useState("");
+    const [editorValue, setEditorValue] = useState("");
+
+
 
     useEffect(() => {
         if (currentSection) {
+
             setEditorState(
                 currentSection["text"] && isJSON(currentSection["text"]) ?
-                    EditorState.createWithContent(convertFromRaw(JSON.parse(currentSection["text"])))
+                    draftToHtml(JSON.parse(currentSection["text"]))
                     :
-                    EditorState.createEmpty()
+                    ""
             )
+
         } else {
             setEditorState(
                 data["intro_text"] && isJSON(data["intro_text"]) ?
-                    EditorState.createWithContent(convertFromRaw(JSON.parse(data["intro_text"])))
+                    draftToHtml(JSON.parse(data["intro_text"]))
                     :
-                    EditorState.createEmpty()
+                    ""
             )
         }
     },[])
@@ -59,12 +66,12 @@ const EditorComponent = ({
         }
     },[])
 
-    const handleEditorChange = (editorState) => {
+    const handleEditorChange = () => {
 
-        setEditorState(editorState);
-        const rawValue = convertToRaw(editorState.getCurrentContent())
+        const value = editorRef.current.getContent();
+        setEditorValue(value);
 
-        if (rawValue["blocks"][0]["text"] !== "") {
+        if (value !== "") {
             setIsValid(true);
 
             if (sections) {
@@ -76,8 +83,7 @@ const EditorComponent = ({
                     if (section.id === currentSection.id) {
                         return {
                             ...section,
-                            [`${element}`]: draftToHtml(
-                                convertToRaw(editorState.getCurrentContent())),
+                            [`${element}`]: value,
                         }
                     }
                     return section;
@@ -87,8 +93,7 @@ const EditorComponent = ({
                 dispatch({
                     type: LP_ACTIONS.UPDATE_PAGE_DATA,
                     payload: {
-                        value: draftToHtml(
-                            convertToRaw(editorState.getCurrentContent())),
+                        value: value,
                         name: elementName
                     }
                 })
@@ -102,15 +107,27 @@ const EditorComponent = ({
         e.preventDefault();
 
         if (isValid) {
-            const value = JSON.stringify(
-                convertToRaw(editorState.getCurrentContent()));
+
+            const blocksFromHTML = htmlToDraft(editorValue);
+
+            const { contentBlocks, entityMap } = blocksFromHTML;
+
+           /* const state = ContentState.createFromBlockArray(
+                blocksFromHTML.contentBlocks,
+                blocksFromHTML.entityMap,
+            );*/
+
+            const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+
+            const finalValue = convertToRaw(contentState);
+
             if (sections) {
 
                 let element = elementName.split(/(\d+)/);
                 element = element[2].replace('_', '');
 
                 const packets = {
-                    [`${element}`]: value,
+                    [`${element}`]: finalValue,
                 };
 
                 updateSectionData(packets, currentSection.id);
@@ -118,7 +135,7 @@ const EditorComponent = ({
             } else {
                 //const value = data[elementName];
                 const packets = {
-                    [`${elementName}`]: value,
+                    [`${elementName}`]: finalValue,
                 };
 
                 updateCourseData(packets, data["id"], elementName).
@@ -139,28 +156,57 @@ const EditorComponent = ({
 
     return (
         <div className="page_settings border_wrap wysiwyg">
+
             <Editor
-                /*defaultContentState={contentState}*/
-                editorState={editorState}
-                onEditorStateChange={handleEditorChange}
-                onKeyDown={event => {
-                    if (event.key === 'Enter') {
-                        handleSubmit(event);
-                    }
-                }}
+                apiKey='h3695sldkjcjhvyl34syvczmxxely99ind71gtafhpnxy8zj'
+                onInit={(evt, editor) => editorRef.current = editor}
+                initialValue={editorState}
+                value={editorValue}
+                onEditorChange={handleEditorChange}
                 onBlur={(e) => handleSubmit(e)}
-                toolbar={{
-                    options: ['inline', 'blockType', 'list', 'textAlign', 'colorPicker', 'link', 'emoji', 'history'],
-                    inline: {
-                        options: ['bold', 'italic', 'underline', 'strikethrough']
+                onSubmit={(e) => handleSubmit(e)}
+                init={{
+                    height: 500,
+                    width: 100 + '%',
+                    menubar: true,
+                    selector: 'textarea',
+                    newline_behavior: 'linebreak',
+                    menu: {
+                        edit: {
+                            title: 'Edit',
+                            items: 'undo redo | cut copy paste pastetext | selectall | searchreplace'
+                        },
+                        view: {
+                            title: 'View',
+                            items: 'code | visualaid visualchars visualblocks | spellchecker | preview fullscreen | showcomments'
+                        },
+                        insert: {
+                            title: 'Insert',
+                            items: 'link | emoticons hr | pagebreak '
+                        },
+                        format: {
+                            title: 'Format',
+                            items: 'bold italic underline strikethrough superscript subscript | styles blocks fontfamily fontsize align lineheight | forecolor backcolor | language | removeformat'
+                        },
+                        tools: {
+                            title: 'Tools',
+                            items: 'spellchecker spellcheckerlanguage | a11ycheck wordcount'
+                        },
                     },
-                    blockType: {
-                        options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6']
-                    }
+                    plugins: [
+                        'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                        'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen', 'wordcount'
+                    ],
+                    toolbar: 'undo redo | blocks | ' +
+                        'bold italic forecolor | alignleft aligncenter ' +
+                        'alignright alignjustify | bullist numlist outdent indent | ' +
+                        'removeformat | forecolor backcolor',
+                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                 }}
             />
         </div>
     );
 };
+
 
 export default EditorComponent;

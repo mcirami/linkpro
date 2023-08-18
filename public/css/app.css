@@ -16952,6 +16952,10 @@ a.delete svg {
 #links_page .creator_wrap .content_wrap.creator .wysiwyg .rdw-editor-main {
   min-height: 200px;
 }
+#links_page .creator_wrap .content_wrap.creator .wysiwyg + .submit_circle, #links_page .creator_wrap .content_wrap.creator .wysiwyg + .cancel_icon {
+  bottom: 50px !important;
+  right: 40px !important;
+}
 #links_page .creator_wrap .content_wrap .section_row {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);

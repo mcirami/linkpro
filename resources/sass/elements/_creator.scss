@@ -76,6 +76,12 @@
                     .rdw-editor-main {
                         min-height: 200px;
                     }
+
+                    + .submit_circle, + .cancel_icon {
+                        bottom: 50px !important;
+                        right: 40px !important;
+                    }
+
                 }
             }
 

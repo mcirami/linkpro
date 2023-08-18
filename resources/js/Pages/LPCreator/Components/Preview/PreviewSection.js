@@ -2,7 +2,6 @@ import React, {useEffect, useState, useRef} from 'react';
 import SectionImage from './SectionImage';
 import DOMPurify from 'dompurify';
 import draftToHtml from 'draftjs-to-html';
-import {round} from 'lodash/math';
 
 const PreviewSection = ({
                             currentSection,
@@ -43,12 +42,13 @@ const PreviewSection = ({
     },[button_text_color, button_color, button_size])
 
     useEffect(() => {
-
-        if (firstUpdate.current) {
-            setTextValue(draftToHtml(JSON.parse(text)));
-            firstUpdate.current = false;
-        } else {
-            setTextValue(text)
+        if(type === "text") {
+            if (firstUpdate.current) {
+                setTextValue(draftToHtml(JSON.parse(text)));
+                firstUpdate.current = false;
+            } else {
+                setTextValue(text)
+            }
         }
 
     },[text])

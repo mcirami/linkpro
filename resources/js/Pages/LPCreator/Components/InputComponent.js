@@ -141,7 +141,7 @@ const InputComponent = ({
     return (
 
         <div className="edit_form">
-            <form onSubmit={handleSubmit}>
+            <form>
                 {{
                     "text" :
                         <div>
@@ -177,7 +177,7 @@ const InputComponent = ({
                 {isValid ?
                     <a className={ `submit_circle ${type === "textarea" ? "textarea" : ""}`}
                        href="#"
-                       onClick={(e) => handleSubmit(e)}
+                       onClick={(e) => type !== "textarea" ? handleSubmit(e) : e.preventDefault()}
                     >
                         <FiThumbsUp />
                         <div className="hover_text submit_button"><p>{hoverText}</p></div>

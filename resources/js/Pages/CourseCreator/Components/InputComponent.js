@@ -332,7 +332,7 @@ const InputComponent = ({
     return (
 
         <div className="edit_form">
-            <form onSubmit={handleSubmit}>
+            <form>
                 {switchStatement()}
                 {isValid ?
                     <a className={`submit_circle ${type === "textarea" || type === "wysiwyg" ?

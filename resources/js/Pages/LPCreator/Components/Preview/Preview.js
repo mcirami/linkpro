@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useLayoutEffect, createRef} from 'react';
+import React, {useEffect} from 'react';
 import TopBar from './TopBar';
 import PreviewSection from './PreviewSection';
 import Hero from './Hero';
