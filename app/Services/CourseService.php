@@ -101,7 +101,7 @@ class CourseService {
 
         $sectionCount = $course->CourseSections()->count();
         if ($sectionCount > 0) {
-            $position = $sectionCount + 1;
+            $position = $sectionCount;
         } else {
             $position = 0;
         }
