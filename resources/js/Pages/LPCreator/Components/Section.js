@@ -8,6 +8,7 @@ import SectionButtonOptions from './SectionButtonOptions';
 const courses = user.courses;
 import {useSortable} from '@dnd-kit/sortable';
 import {CSS} from '@dnd-kit/utilities';
+import {setOpen} from 'browser-sync/dist/options';
 
 const Section = ({
                      section,
@@ -22,7 +23,9 @@ const Section = ({
                      openIndex,
                      setOpenIndex,
                      setShowLoader,
-                     handleMouseEnter
+                     handleMouseEnter,
+                     showTiny,
+                     setShowTiny
 }) => {
 
     const {
@@ -49,15 +52,22 @@ const Section = ({
     };
 
     const handleSectionOpen = (rowIndex) => {
-        if(openIndex.includes(rowIndex)) {
-            const newArrayIndex = openIndex.filter(element => element !== rowIndex)
-            setOpenIndex(newArrayIndex)
-        } else {
-            const newArrayIndex = openIndex.concat(rowIndex);
-            setOpenIndex(newArrayIndex);
+
+        if(openIndex) {
+            if (openIndex.includes(rowIndex)) {
+                const newArrayIndex = openIndex.filter(
+                    element => element !== rowIndex)
+                setOpenIndex(newArrayIndex)
+            } else {
+                const newArrayIndex = openIndex.concat(rowIndex);
+                setOpenIndex(newArrayIndex);
+            }
         }
     }
 
+    const handleMouseDown = () => {
+        setOpenIndex([])
+    }
 
     return (
         <div ref={setNodeRef}
@@ -70,6 +80,7 @@ const Section = ({
                  onClick={(e) => handleSectionOpen(index)}
             >
                 <div className="drag_handle creator_section"
+                     onMouseDown={handleMouseDown}
                      {...attributes}
                      {...listeners}
                 >
@@ -94,6 +105,8 @@ const Section = ({
                             currentSection={section}
                             sections={sections}
                             setSections={setSections}
+                            showTiny={showTiny}
+                            setShowTiny={setShowTiny}
                         />
                         <ColorPicker
                             label="Background Color"
@@ -150,6 +163,7 @@ const Section = ({
                     id={id}
                     sections={sections}
                     setSections={setSections}
+                    setOpenIndex={setOpenIndex}
                 />
             </div>
         </div>

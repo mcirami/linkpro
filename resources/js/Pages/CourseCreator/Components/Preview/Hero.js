@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import DOMPurify from 'dompurify';
 import draftToHtml from 'draftjs-to-html';
+import isJSON from 'validator/es/lib/isJSON';
 
 const Hero = ({ courseData }) => {
 
@@ -11,8 +12,18 @@ const Hero = ({ courseData }) => {
     useEffect(() => {
 
         if (courseData["intro_text"] !== "") {
-            if (firstUpdate.current) {
-                setTextValue(draftToHtml(JSON.parse(courseData["intro_text"])));
+            if (firstUpdate.current && courseData["intro_text"] && isJSON(courseData["intro_text"])) {
+
+                const allContent = JSON.parse(courseData["intro_text"]);
+                allContent["blocks"] = allContent["blocks"].map((block) => {
+                    if (!block.text) {
+                        block.text = ""
+                    }
+
+                    return block;
+                })
+
+                setTextValue(draftToHtml(allContent));
                 firstUpdate.current = false;
             } else {
                 setTextValue(courseData["intro_text"])

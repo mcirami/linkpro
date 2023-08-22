@@ -20,7 +20,9 @@ const InputComponent = ({
                             dispatch = null,
                             sections = null,
                             setSections = null,
-                            currentSection = null
+                            currentSection = null,
+                            showTiny = null,
+                            setShowTiny = null
 }) => {
 
     const [charactersLeft, setCharactersLeft] = useState(maxChar);
@@ -85,7 +87,7 @@ const InputComponent = ({
         if(isValid) {
 
             if (sections) {
-
+w
                 let element = elementName.split(/(\d+)/);
                 element = element[2].replace('_', '');
 
@@ -171,6 +173,8 @@ const InputComponent = ({
                             data={data}
                             isValid={isValid}
                             setIsValid={setIsValid}
+                            showTiny={showTiny}
+                            setShowTiny={setShowTiny}
                         />
 
                 }[type]}
@@ -183,7 +187,7 @@ const InputComponent = ({
                         <div className="hover_text submit_button"><p>{hoverText}</p></div>
                     </a>
                     :
-                    <span className={`cancel_icon ${type === "textarea" && "textarea"}`}>
+                    <span className={`cancel_icon ${type === "textarea" ? "textarea" : ""}`}>
                         <FiThumbsDown />
                     </span>
                 }

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import draftToHtml from 'draftjs-to-html';
 import DOMPurify from 'dompurify';
-import {round} from 'lodash/math';
+import isJSON from 'validator/es/lib/isJSON';
 
 const SectionComponent = ({section}) => {
 
@@ -26,6 +26,26 @@ const SectionComponent = ({section}) => {
         username
     } = section;
 
+    const [textValue, setTextValue] = useState(text)
+
+    useEffect(() => {
+        if(type === "text" ) {
+            if (text && isJSON(text)) {
+                const allContent = JSON.parse(text);
+                allContent["blocks"] = allContent["blocks"].map((block) => {
+                    if (!block.text) {
+                        block.text = ""
+                    }
+
+                    return block;
+                })
+
+                setTextValue(draftToHtml(allContent));
+            } else {
+                setTextValue(text)
+            }
+        }
+    },[])
 
     useEffect(() => {
         setButtonStyle ({
@@ -38,9 +58,8 @@ const SectionComponent = ({section}) => {
 
     const createMarkup = (text) => {
 
-        const html = draftToHtml(JSON.parse(text));
         return {
-            __html: DOMPurify.sanitize(html)
+            __html: DOMPurify.sanitize(text)
         }
     }
 
@@ -88,7 +107,7 @@ const SectionComponent = ({section}) => {
                         :
                         ""
                     }
-                    <div dangerouslySetInnerHTML={createMarkup(text)}>
+                    <div dangerouslySetInnerHTML={createMarkup(textValue)}>
                     </div>
                     { (button && button_position === "below") ?
                         <Button buttonText={button_text} />

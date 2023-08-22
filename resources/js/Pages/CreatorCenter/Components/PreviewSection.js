@@ -34,13 +34,20 @@ const PreviewSection = ({section}) => {
     useEffect(() => {
 
         if (firstUpdate.current && text) {
-            setTextValue(draftToHtml(JSON.parse(text)));
-            firstUpdate.current = false;
-        } else {
-            if(text) {
-                setTextValue(text)
-            }
 
+            const allContent = JSON.parse(text);
+            allContent["blocks"] = allContent["blocks"].map((block) => {
+                if (!block.text) {
+                    block.text = ""
+                }
+
+                return block;
+            })
+
+            setTextValue(draftToHtml(allContent));
+            firstUpdate.current = false;
+        } else if (text) {
+            setTextValue(text)
         }
 
     },[text])

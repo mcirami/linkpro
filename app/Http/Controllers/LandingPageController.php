@@ -35,6 +35,7 @@ class LandingPageController extends Controller
                                 ->leftJoin('users', 'landing_page_sections.user_id', '=', 'users.id')
                                 ->leftJoin('courses', 'landing_page_sections.button_course_id', '=', 'courses.id')
                                 ->select('landing_page_sections.*', 'users.username', 'courses.slug')
+                                ->orderBy('position')
                                 ->get();
 
         Javascript::put([
@@ -192,7 +193,7 @@ class LandingPageController extends Controller
      *
      * @return JsonResponse|never
      */
-    public function deleteSection(LandingPageSection $landingPageSection) {
+    public function deleteSection(Request $request, LandingPageSection $landingPageSection, LandingPageService $landingPageService) {
         $userID = Auth::id();
 
         if ($landingPageSection->user_id != $userID) {
@@ -200,6 +201,7 @@ class LandingPageController extends Controller
         }
 
         $landingPageSection->delete();
+        $landingPageService->updateAllSectionsPositions($request->all());
 
         return response()->json(['message' => "Section Deleted"]);
     }

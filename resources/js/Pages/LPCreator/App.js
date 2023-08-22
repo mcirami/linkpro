@@ -35,6 +35,8 @@ import {updateSectionsPositions} from '../../Services/LandingPageRequests';
 
 function App() {
 
+    const [showTiny, setShowTiny]   = useState(false);
+
     const [openIndex, setOpenIndex] = useState([0]);
 
     const [hoverSection, setHoverSection] = useState(null);
@@ -111,6 +113,7 @@ function App() {
     }
 
     const handleDragEnd = (event) => {
+
         const {active, over} = event;
 
         if (active.id !== over.id) {
@@ -128,11 +131,15 @@ function App() {
                 return newArray;
             });
 
+
             const packets = {
                 sections: newArray
             }
 
-            updateSectionsPositions(packets);
+            updateSectionsPositions(packets).then(() => {
+                setShowTiny(false);
+                setShowTiny(true);
+            });
         }
     }
 
@@ -163,9 +170,13 @@ function App() {
             <div className="left_column">
                 <h3 className="mb-4 card_title">Create Your Landing Page</h3>
                 <div className="content_wrap my_row creator" id="left_col_wrap">
-                    <section className="my_row section_row">
+                    <section id="header_section"
+                             className="my_row section section_row"
+                             onMouseEnter={(e) =>
+                                 handleMouseEnter(e)
+                            }>
                         <div className="section_title">
-                            <h4>Title</h4>
+                            <h4>Header</h4>
                         </div>
                         <div className="section_content my_row">
                             <InputComponent
@@ -178,21 +189,6 @@ function App() {
                                 dispatch={dispatch}
                                 value={pageData["title"]}
                             />
-                            {pageData["slug"] &&
-                                <div className="url_wrap">
-                                    <p>Landing Page URL:</p>
-                                    <a target="_blank" href={`${url}/${pageData["slug"]}`}>{`${url}/${pageData["slug"]}`}</a>
-                                </div>
-                            }
-                        </div>
-                    </section>
-                    <section id="header_section"
-                             className="my_row section section_row"
-                             onMouseEnter={(e) =>
-                                 handleMouseEnter(e)
-                            }>
-                        <div className="section_title">
-                            <h4>Header</h4>
                         </div>
                         <div className="section_content my_row">
                             <ImageComponent
@@ -253,6 +249,14 @@ function App() {
                                 dispatch={dispatch}
                                 elementName="header_text_color"
                             />
+                            <div className="my_row page_settings">
+                                {pageData["slug"] &&
+                                    <div className="url_wrap">
+                                        <p>Landing Page URL:</p>
+                                        <a target="_blank" href={`${url}/${pageData["slug"]}`}>{`${url}/${pageData["slug"]}`}</a>
+                                    </div>
+                                }
+                            </div>
                         </div>
                     </section>
 
@@ -289,6 +293,8 @@ function App() {
                                                 setOpenIndex={setOpenIndex}
                                                 setShowLoader={setShowLoader}
                                                 handleMouseEnter={handleMouseEnter}
+                                                showTiny={showTiny}
+                                                setShowTiny={setShowTiny}
                                             />
                                         )
                                     })}

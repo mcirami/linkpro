@@ -43,6 +43,8 @@ import {updateSectionsPositions} from '../../Services/CourseRequests';
 
 function App() {
 
+    const [showTiny, setShowTiny]   = useState(false);
+
     const [openIndex, setOpenIndex] = useState([0]);
     const [hoverSection, setHoverSection] = useState(null);
     const [courseData, dispatch] = useReducer(reducer, courseArray);
@@ -152,7 +154,10 @@ function App() {
                 sections: newArray
             }
 
-            updateSectionsPositions(packets);
+            updateSectionsPositions(packets).then(() => {
+               setShowTiny(false);
+               setShowTiny(true);
+            });
         }
     }
 
@@ -301,6 +306,8 @@ function App() {
                                     courseData={courseData}
                                     dispatch={dispatch}
                                     value={courseData["intro_text"]}
+                                    showTiny={showTiny}
+                                    setShowTiny={setShowTiny}
                                 />
                                 <ColorPicker
                                     label="Background Color"
@@ -341,6 +348,8 @@ function App() {
                                                     videoCount={videoCount}
                                                     textCount={textCount}
                                                     setHoverSection={setHoverSection}
+                                                    showTiny={showTiny}
+                                                    setShowTiny={setShowTiny}
                                                 />
 
                                             )

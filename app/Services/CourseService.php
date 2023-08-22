@@ -98,9 +98,18 @@ class CourseService {
     }
 
     public function addCourseSection($course, $userID, $request) {
+
+        $sectionCount = $course->CourseSections()->count();
+        if ($sectionCount > 0) {
+            $position = $sectionCount + 1;
+        } else {
+            $position = 0;
+        }
+
         return $course->CourseSections()->create([
            'user_id'    => $userID,
            'type'       => $request->type,
+           'position'   => $position,
            'lock_video' => $request->type === "video" ? true : null
         ])->fresh();
     }
@@ -114,12 +123,6 @@ class CourseService {
 
         return $keys[0];
     }
-
-   /* public function getPurchasedCourses($authUserID) {
-        return Course::whereHas('purchases', function (Builder $query) use($authUserID) {
-            $query->where('user_id', '=', $authUserID);
-        })->get();
-    }*/
 
     public function getUnpurchasedCourses($authUserID) {
         return Course::whereDoesntHave('purchases',

@@ -174,14 +174,14 @@ class CourseController extends Controller
      *
      * @return JsonResponse|never
      */
-    public function deleteSection(CourseSection $courseSection) {
+    public function deleteSection(Request $request, CourseSection $courseSection, CourseService $courseService) {
         $userID = Auth::id();
 
         if ($courseSection->user_id != $userID) {
             return abort(404);
         }
-
         $courseSection->delete();
+        $courseService->updateAllSectionsPositions($request->all());
 
         return response()->json(['message' => "Section Deleted"]);
     }

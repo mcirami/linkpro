@@ -25,6 +25,8 @@ const InputComponent = ({
                             sections = null,
                             setSections = null,
                             currentSection = null,
+                            showTiny = null,
+                            setShowTiny = null,
 }) => {
 
     const [charactersLeft, setCharactersLeft] = useState(maxChar);
@@ -279,6 +281,8 @@ const InputComponent = ({
                         data={courseData}
                         isValid={isValid}
                         setIsValid={setIsValid}
+                        showTiny={showTiny}
+                        setShowTiny={setShowTiny}
                     />
                 )
             case 'currency' :
@@ -344,8 +348,8 @@ const InputComponent = ({
                             <p>{hoverText}</p></div>
                     </a>
                     :
-                    <span className={`cancel_icon ${type === "textarea" &&
-                    "textarea"}`}>
+                    <span className={`cancel_icon ${type === "textarea" || type === "wysiwyg" ?
+                    "textarea" : ""}`}>
                         <FiThumbsDown/>
                     </span>
                 }

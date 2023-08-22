@@ -1,20 +1,24 @@
 import React from 'react';
-import {MdDeleteForever} from 'react-icons/md';
 import {deleteSection} from '../../../Services/LandingPageRequests';
 
-const DeleteSection = ({id, sections, setSections}) => {
+const DeleteSection = ({id, sections, setSections, setOpenIndex}) => {
 
     const handleDeleteClick = (e) => {
         e.preventDefault();
+        setOpenIndex([])
 
-        deleteSection(id)
+        const newSectionsArray =  sections.filter((section) => {
+            return section.id !== id;
+        })
+
+        const packets = {
+            sections: newSectionsArray
+        }
+
+        deleteSection(id, packets)
         .then((response) => {
             if(response.success) {
-                setSections(
-                    sections.filter((section) => {
-                        return section.id !== id;
-                    })
-                )
+                setSections(newSectionsArray)
             }
         })
     }

@@ -2,6 +2,7 @@ import React, {useEffect, useState, useRef} from 'react';
 import SectionImage from './SectionImage';
 import DOMPurify from 'dompurify';
 import draftToHtml from 'draftjs-to-html';
+import isJSON from 'validator/es/lib/isJSON';
 
 const PreviewSection = ({
                             currentSection,
@@ -32,6 +33,8 @@ const PreviewSection = ({
 
     const firstUpdate = useRef(true);
 
+
+
     useEffect(() => {
         setButtonStyle ({
             background: button_color,
@@ -42,9 +45,19 @@ const PreviewSection = ({
     },[button_text_color, button_color, button_size])
 
     useEffect(() => {
-        if(type === "text") {
-            if (firstUpdate.current) {
-                setTextValue(draftToHtml(JSON.parse(text)));
+
+        if(type === "text" ) {
+            if (firstUpdate.current && text && isJSON(text)) {
+                const allContent = JSON.parse(text);
+                allContent["blocks"] = allContent["blocks"].map((block) => {
+                    if (!block.text) {
+                        block.text = ""
+                    }
+
+                    return block;
+                })
+
+                setTextValue(draftToHtml(allContent));
                 firstUpdate.current = false;
             } else {
                 setTextValue(text)

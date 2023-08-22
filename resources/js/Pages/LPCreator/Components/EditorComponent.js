@@ -12,7 +12,6 @@ import {
     updateData as updateCourseData
 } from '../../../Services/CourseRequests';
 import isJSON from 'validator/es/lib/isJSON';
-import {toJSON} from 'lodash/seq';
 
 const EditorComponent = ({
                              dispatch,
@@ -22,7 +21,9 @@ const EditorComponent = ({
                              elementName,
                              data,
                              isValid,
-                             setIsValid
+                             setIsValid,
+                             showTiny = null,
+                             setShowTiny = null
 }) => {
 
     const editorRef = useRef(null);
@@ -30,26 +31,36 @@ const EditorComponent = ({
     const [editorState, setEditorState] = useState("");
     const [editorValue, setEditorValue] = useState("");
 
-
-
     useEffect(() => {
+
         if (currentSection) {
 
-            setEditorState(
-                currentSection["text"] && isJSON(currentSection["text"]) ?
-                    draftToHtml(JSON.parse(currentSection["text"]))
-                    :
-                    ""
-            )
+            if (currentSection["text"] && isJSON(currentSection["text"])) {
+                const allContent = JSON.parse(currentSection["text"]);
+                allContent["blocks"] = allContent["blocks"].map((block) => {
+                    if (!block.text) {
+                        block.text = ""
+                    }
 
+                    return block;
+                })
+                setEditorState(draftToHtml(allContent))
+            }
         } else {
-            setEditorState(
-                data["intro_text"] && isJSON(data["intro_text"]) ?
-                    draftToHtml(JSON.parse(data["intro_text"]))
-                    :
-                    ""
-            )
+
+            if (data["intro_text"] && isJSON(data["intro_text"])) {
+                const allContent = JSON.parse(data["intro_text"]);
+                allContent["blocks"] = allContent["blocks"].map((block) => {
+                    if (!block.text) {
+                        block.text = ""
+                    }
+
+                    return block;
+                })
+                setEditorState(draftToHtml(allContent))
+            }
         }
+
     },[])
 
     useEffect(() => {
@@ -63,6 +74,12 @@ const EditorComponent = ({
                 JSON.parse(data["intro_text"])["blocks"][0]["text"] !== "") {
                 setIsValid(true)
             }
+        }
+    },[])
+
+    useEffect(() => {
+        if(setShowTiny) {
+            setShowTiny(true);
         }
     },[])
 
@@ -112,11 +129,6 @@ const EditorComponent = ({
 
             const { contentBlocks, entityMap } = blocksFromHTML;
 
-           /* const state = ContentState.createFromBlockArray(
-                blocksFromHTML.contentBlocks,
-                blocksFromHTML.entityMap,
-            );*/
-
             const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
 
             const finalValue = convertToRaw(contentState);
@@ -157,53 +169,54 @@ const EditorComponent = ({
     return (
         <div className="page_settings border_wrap wysiwyg">
 
-            <Editor
-                apiKey='h3695sldkjcjhvyl34syvczmxxely99ind71gtafhpnxy8zj'
-                onInit={(evt, editor) => editorRef.current = editor}
-                initialValue={editorState}
-                value={editorValue}
-                onEditorChange={handleEditorChange}
-                onBlur={(e) => handleSubmit(e)}
-                onSubmit={(e) => handleSubmit(e)}
-                init={{
-                    height: 500,
-                    width: 100 + '%',
-                    menubar: true,
-                    selector: 'textarea',
-                    newline_behavior: 'linebreak',
-                    menu: {
-                        edit: {
-                            title: 'Edit',
-                            items: 'undo redo | cut copy paste pastetext | selectall | searchreplace'
+            {showTiny &&
+                <Editor
+                    apiKey='h3695sldkjcjhvyl34syvczmxxely99ind71gtafhpnxy8zj'
+                    key={currentSection ? currentSection.id : data.id}
+                    onInit={(evt, editor) => editorRef.current = editor}
+                    initialValue={editorState}
+                    value={editorValue}
+                    onEditorChange={handleEditorChange}
+                    onBlur={(e) => handleSubmit(e)}
+                    onSubmit={(e) => handleSubmit(e)}
+                    init={{
+                        height: 500,
+                        width: 100 + '%',
+                        menubar: true,
+                        menu: {
+                            edit: {
+                                title: 'Edit',
+                                items: 'undo redo | cut copy paste pastetext | selectall | searchreplace'
+                            },
+                            view: {
+                                title: 'View',
+                                items: 'code | visualaid visualchars visualblocks | spellchecker | preview fullscreen | showcomments'
+                            },
+                            insert: {
+                                title: 'Insert',
+                                items: 'link | emoticons hr | pagebreak '
+                            },
+                            format: {
+                                title: 'Format',
+                                items: 'bold italic underline strikethrough superscript subscript | styles blocks fontfamily fontsize align lineheight | forecolor backcolor | language | removeformat'
+                            },
+                            tools: {
+                                title: 'Tools',
+                                items: 'spellchecker spellcheckerlanguage | a11ycheck wordcount'
+                            },
                         },
-                        view: {
-                            title: 'View',
-                            items: 'code | visualaid visualchars visualblocks | spellchecker | preview fullscreen | showcomments'
-                        },
-                        insert: {
-                            title: 'Insert',
-                            items: 'link | emoticons hr | pagebreak '
-                        },
-                        format: {
-                            title: 'Format',
-                            items: 'bold italic underline strikethrough superscript subscript | styles blocks fontfamily fontsize align lineheight | forecolor backcolor | language | removeformat'
-                        },
-                        tools: {
-                            title: 'Tools',
-                            items: 'spellchecker spellcheckerlanguage | a11ycheck wordcount'
-                        },
-                    },
-                    plugins: [
-                        'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                        'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen', 'wordcount'
-                    ],
-                    toolbar: 'undo redo | blocks | ' +
-                        'bold italic forecolor | alignleft aligncenter ' +
-                        'alignright alignjustify | bullist numlist outdent indent | ' +
-                        'removeformat | forecolor backcolor',
-                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-                }}
-            />
+                        plugins: [
+                            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen', 'wordcount'
+                        ],
+                        toolbar: 'undo redo | blocks | ' +
+                            'bold italic forecolor | alignleft aligncenter ' +
+                            'alignright alignjustify | bullist numlist outdent indent | ' +
+                            'removeformat | forecolor backcolor',
+                        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                    }}
+                />
+            }
         </div>
     );
 };

@@ -186,9 +186,9 @@ export const updateSectionData = (packets, id, elementName) => {
  * Submit a request to update landing page section image
  * return object
  */
-export const deleteSection = (id) => {
+export const deleteSection = (id, packets) => {
 
-    return axios.post('/creator-center/course/delete-section/' + id)
+    return axios.post('/creator-center/course/delete-section/' + id, packets)
     .then(
         (response) => {
             const returnMessage = JSON.stringify(response.data.message);

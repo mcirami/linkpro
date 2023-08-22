@@ -20,7 +20,8 @@ const Section = ({
                      videoCount,
                      textCount,
                      setHoverSection,
-
+                     showTiny,
+                     setShowTiny,
 }) => {
 
     const [lockVideo, setLockVideo] = useState(true);
@@ -83,6 +84,9 @@ const Section = ({
             }
         });
     }
+    const handleMouseDown = () => {
+        setOpenIndex([])
+    }
 
     return (
         <div ref={setNodeRef}
@@ -96,6 +100,7 @@ const Section = ({
                  onClick={(e) => handleSectionOpen(index)}
             >
                 <div className="drag_handle creator_section"
+                     onMouseDown={handleMouseDown}
                      {...attributes}
                      {...listeners}
                 >
@@ -208,6 +213,7 @@ const Section = ({
                     id={id}
                     sections={sections}
                     setSections={setSections}
+                    setOpenIndex={setOpenIndex}
                 />
             </div>
         </div>

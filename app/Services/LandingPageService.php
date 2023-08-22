@@ -71,10 +71,19 @@ class LandingPageService {
     }
 
     public function addLPSection($landingPage, $userID, $request) {
-       return $landingPage->LandingPageSections()->create([
+
+        $sectionCount = $landingPage->LandingPageSections()->count();
+        if ($sectionCount > 0) {
+            $position = $sectionCount;
+        } else {
+            $position = 0;
+        }
+
+        return $landingPage->LandingPageSections()->create([
            'user_id' => $userID,
            'type'  => $request->type,
-       ])->fresh();
+           'position'   => $position,
+        ])->fresh();
     }
 
     public function saveLPSection($section, $request) {

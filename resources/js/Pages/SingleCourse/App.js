@@ -3,6 +3,7 @@ import VideoComponent from './Components/VideoComponent';
 import React, {useEffect, useState} from 'react';
 import draftToHtml from 'draftjs-to-html';
 import DOMPurify from 'dompurify';
+import isJSON from 'validator/es/lib/isJSON';
 
 const course = user.course;
 const sections = user.sections;
@@ -11,6 +12,27 @@ function App() {
 
     const {intro_video, intro_text, intro_background_color, title} = course;
     const [indexValue, setIndexValue] = useState(null);
+
+    const [introText, setIntroText] = useState(intro_text);
+
+    useEffect(() => {
+
+            if (introText && isJSON(introText)) {
+                const allContent = JSON.parse(introText);
+                allContent["blocks"] = allContent["blocks"].map((block) => {
+                    if (!block.text) {
+                        block.text = ""
+                    }
+
+                    return block;
+                })
+
+                setIntroText(draftToHtml(allContent));
+            } else {
+                setIntroText(introText)
+            }
+
+    },[])
 
     useEffect(() => {
         const handleScroll = (e) => {
@@ -50,9 +72,8 @@ function App() {
 
     const createMarkup = (text) => {
 
-        const html = draftToHtml(JSON.parse(text));
         return {
-            __html: DOMPurify.sanitize(html)
+            __html: DOMPurify.sanitize(text)
         }
     }
 
@@ -76,8 +97,7 @@ function App() {
                         }
                         {intro_text &&
                             <div className="intro_text my_row" style={{background: intro_background_color}}>
-                                <div dangerouslySetInnerHTML={createMarkup(
-                                    intro_text)}>
+                                <div dangerouslySetInnerHTML={createMarkup(introText)}>
                                 </div>
                             </div>
                         }
