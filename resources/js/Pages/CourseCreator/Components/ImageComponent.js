@@ -1,14 +1,50 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
+    forwardRef,
+    useContext,
+} from 'react';
 import {MdEdit} from 'react-icons/md';
-import ReactCrop from 'react-image-crop';
+import ReactCrop, {
+    centerCrop,
+    makeAspectCrop,
+    Crop,
+    PixelCrop,
+    convertToPixelCrop,
+} from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
 import {completedImageCrop, createImage} from '../../../Services/ImageService';
 import { updateIcon} from '../../../Services/OfferRequests';
 import { updateImage} from '../../../Services/CourseRequests';
 import {OFFER_ACTIONS, LP_ACTIONS} from '../Reducer';
+import { useDebounceEffect } from '../../../Utils/useDebounceEffect';
+import 'react-image-crop/dist/ReactCrop.css'
+import { canvasPreview } from './Preview/canvasPreview';
+
+function centerAspectCrop(
+    mediaWidth,
+    mediaHeight,
+    aspect,
+) {
+    return centerCrop(
+        makeAspectCrop(
+            {
+                unit: '%',
+                width: 90,
+            },
+            aspect,
+            mediaWidth,
+            mediaHeight,
+        ),
+        mediaWidth,
+        mediaHeight,
+    )
+}
 
 const ImageComponent = ({
                             placeholder,
-                            nodesRef,
                             completedCrop,
                             setCompletedCrop,
                             fileNames,
@@ -18,17 +54,42 @@ const ImageComponent = ({
                             cropArray,
                             data,
                             dispatch = null,
-                            type
+                            type,
+                            nodesRef
 }) => {
 
     const [elementLabel, setElementLabel] = useState(elementName);
-    const [upImg, setUpImg] = useState();
-    const imgRef = useRef();
+    const [upImg, setUpImg] = useState('');
+    const imgRef = useRef(null);
     const previewCanvasRef = nodesRef;
+    const hiddenAnchorRef = useRef(null);
+    const blobUrlRef = useRef('')
+    const [crop, setCrop] = useState(cropArray);
+    const [scale, setScale] = useState(1)
+    const [rotate, setRotate] = useState(0)
+    const [aspect, setAspect] = useState(16 / 9)
 
-    const [crop, setCrop] = useState(
-        cropArray
-    );
+    useDebounceEffect(
+        async () => {
+            if (
+                completedCrop?.width &&
+                completedCrop?.height &&
+                imgRef.current &&
+                previewCanvasRef?.current
+            ) {
+                // We use canvasPreview as it's much faster than imgPreview.
+                canvasPreview(
+                    imgRef.current,
+                    previewCanvasRef?.current,
+                    completedCrop,
+                    scale,
+                    rotate,
+                )
+            }
+        },
+        100,
+        [completedCrop, scale, rotate],
+    )
 
     useEffect(() => {
 
@@ -49,7 +110,7 @@ const ImageComponent = ({
         if (!files.length) {
             return;
         }
-
+        setCrop(undefined)
         setFileNames((prev) => ([
             ...prev,
             {name: elementName}
@@ -63,19 +124,39 @@ const ImageComponent = ({
         }
 
         createImage(files[0], setUpImg);
+
     };
 
-    const onLoad = useCallback((img) => {
+   /* const onLoad = useCallback((img) => {
         imgRef.current = img;
-    }, []);
+    }, []);*/
 
-    useEffect(() => {
-        if (!completedCrop[elementName]?.isCompleted || !previewCanvasRef.current[elementName] || !imgRef.current) {
-            return;
+    function onLoad(e) {
+        if (aspect) {
+            const {width, height } = e.currentTarget;
+            setCrop(centerAspectCrop(width, height, aspect))
         }
+    }
 
-        completedImageCrop(completedCrop[elementName].isCompleted, imgRef, previewCanvasRef.current[elementName]);
-    }, [completedCrop[elementName]]);
+    function handleToggleAspectClick() {
+        if (aspect) {
+            setAspect(undefined)
+        } else if (imgRef.current) {
+            const { width, height } = imgRef.current
+            setAspect(16 / 9)
+            const newCrop = centerAspectCrop(width, height, 16 / 9)
+            setCrop(newCrop)
+            // Updates the preview
+            setCompletedCrop(convertToPixelCrop(newCrop, width, height))
+        }
+    }
+
+   /* useEffect(() => {
+
+        if (completedCrop?.width || completedCrop?.height || previewCanvasRef?.current || imgRef.current) {
+            completedImageCrop(imgRef.current, previewCanvasRef?.current, completedCrop, scale, rotate);
+        }
+    }, [completedCrop]);*/
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -220,6 +301,8 @@ const ImageComponent = ({
         document.querySelector("." + CSS.escape(elementName) + "_form .bottom_section").classList.add("hidden");
     };
 
+    console.log("previewCanvasRef imageComp: ", previewCanvasRef);
+
     return (
         <article className="my_row page_settings">
             <div className="column_wrap">
@@ -259,27 +342,67 @@ const ImageComponent = ({
                             </div>
                             <div className="my_row info_text file_types">
                                 <p className="m-0 char_count w-100 ">
-                                    Allowed File Types:{" "}
+                                    Allowed File Types:
                                     <span>png, jpg, jpeg, gif</span>
                                 </p>
                             </div>
                         </>
                     )}
+
                     <div className="bottom_section hidden">
                         <div className="crop_section">
+                            <div>
+                                <label htmlFor="scale-input">Scale: </label>
+                                <input
+                                    id="scale-input"
+                                    type="number"
+                                    step="0.1"
+                                    value={scale}
+                                    onChange={(e) => setScale(Number(e.target.value))}
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="rotate-input">Rotate: </label>
+                                <input
+                                    id="rotate-input"
+                                    type="number"
+                                    value={rotate}
+                                    onChange={(e) =>
+                                        setRotate(Math.min(180, Math.max(-180, Number(e.target.value))))
+                                    }
+                                />
+                            </div>
                             <ReactCrop
-                                src={upImg}
-                                onImageLoaded={onLoad}
                                 crop={crop}
-                                onChange={(c) => setCrop(c)}
-                                onComplete={(c) =>  setCompletedCrop({
+                                onChange={(_, percentCrop) => setCrop(percentCrop)}
+                                /*onComplete={(c) =>  setCompletedCrop({
                                     ...completedCrop,
                                     [`${elementName}`]: {
                                         isCompleted: c
                                     }
-                                })}
-                            />
-                            {(type === "inlinePreview" && fileNames.length > 0) &&
+                                })}*/
+                                onComplete={(c) => setCompletedCrop(c)}
+                                aspect={aspect}
+                            >
+                                <img
+                                    onLoad={onLoad}
+                                    src={upImg}
+                                    ref={imgRef}
+                                    style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}
+                                    alt="Crop me"/>
+                            </ReactCrop>
+                            {/*{!!completedCrop &&*/}
+                                {/*<canvas
+                                    ref={ previewCanvasRef }
+                                    style={{
+                                        border: '1px solid black',
+                                        objectFit: 'contain',
+                                        width: completedCrop.width,
+                                        height: completedCrop.height,
+                                    }}
+                                />*/}
+                          {/*  }*/}
+                            {/*{(type === "inlinePreview" && fileNames.length > 0) &&
                                 <div className="icon_col">
                                     <p>Icon Preview</p>
                                     <canvas
@@ -301,7 +424,7 @@ const ImageComponent = ({
                                     />
                                 </div>
 
-                            }
+                            }*/}
                         </div>
                         <div className="bottom_row">
                             <button

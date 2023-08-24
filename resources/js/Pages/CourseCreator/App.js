@@ -1,4 +1,4 @@
-import React, {useState, useRef, useReducer, useEffect} from 'react';
+import React, {useState, useRef, useReducer, useEffect, createRef} from 'react';
 
 const courseArray = user.courseData;
 const offerArray = user.offerData;
@@ -67,7 +67,8 @@ function App() {
     );
 
     const [completedCrop, setCompletedCrop] = useState([])
-    const nodesRef = useRef([]);
+    const nodesRef = useRef(null);
+
     const [fileNames, setFileNames] = useState([]);
 
     const divRef = useRef(null);
@@ -124,6 +125,10 @@ function App() {
 
     }, []);
 
+    useEffect(() => {
+        console.log("nodes ref app,js: ", nodesRef);
+    }, [nodesRef])
+
     const handleMouseHover = (e) => {
         setHoverSection(e.target.id)
     }
@@ -161,6 +166,8 @@ function App() {
         }
     }
 
+
+
     return (
         <ToolTipContextProvider value={{
             infoText,
@@ -172,7 +179,7 @@ function App() {
             infoClicked,
             setInfoClicked,
             setTriangleRef,
-            triangleRef
+            triangleRef,
         }}>
             <div className="my_row page_wrap">
 

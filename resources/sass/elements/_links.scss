@@ -342,7 +342,7 @@
             --n:5;
             grid-template-columns: repeat(auto-fill, minmax(max(50px,100%/var(--n)), 1fr));
             grid-gap: 20px;
-            padding: 0 5%;
+            padding: 40px 5% 0;
             transition: 800ms all ease-in-out;
             -webkit-transition: 800ms all ease-in-out;
             -moz-transition: 800ms all ease-in-out;
@@ -360,6 +360,23 @@
             .icon_col {
                 width: 100%;
                 position: relative;
+            }
+
+            &.no_icons {
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-orient: vertical;
+                -webkit-box-direction: normal;
+                -ms-flex-direction: column;
+                flex-direction: column;
+                -ms-flex-wrap: nowrap;
+                flex-wrap: nowrap;
+                justify-content: center;
+                -webkit-justify-content: center;
+                align-content: center;
+                -webkit-align-content: center;
+                padding-top: 50px;
             }
         }
 

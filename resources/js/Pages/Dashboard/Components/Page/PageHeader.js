@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 import {MdEdit} from 'react-icons/md';
 import { PageContext } from '../../App';
-import ReactCrop from 'react-image-crop';
+import ReactCrop, { Crop } from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
 import {headerImage} from '../../../../Services/PageRequests';
 import {completedImageCrop} from '../../../../Services/ImageService';
@@ -209,7 +209,9 @@ const PageHeader = ({
                                 crop={crop}
                                 onChange={(c) => setCrop(c)}
                                 onComplete={(c) => setCompletedCrop(c)}
-                            />
+                            >
+                                <img src={upImg} alt="" />
+                            </ReactCrop>
                         </div>
                         <div className="bottom_row">
                             <button

@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useLayoutEffect, createRef} from 'react';
+import React, {useEffect} from 'react';
 import TopBar from './TopBar';
 import PreviewSection from './PreviewSection';
 import Hero from './Hero';
@@ -16,6 +16,7 @@ const Preview = ({
                      url,
                      hoverSection,
                      nodesRef,
+                     imgRef,
                      completedCrop,
                      fileNames
 }) => {
@@ -23,7 +24,6 @@ const Preview = ({
 
     const loadPreviewHeight = UseLoadPreviewHeight();
     const resizePreviewHeight = UseResizePreviewHeight();
-
 
     useEffect(() => {
 
@@ -64,6 +64,7 @@ const Preview = ({
                                 nodesRef={nodesRef}
                                 completedCrop={completedCrop}
                                 fileNames={fileNames}
+                                imgRef={imgRef}
                             />
                         </section>
                         <section>

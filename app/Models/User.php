@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notifiable;
 use App\Models\Link as Link;
 use App\Models\Page as Page;
 use App\Models\Referral as Referral;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles;
 use TCG\Voyager\Models\User as VoyagerUser;
 
@@ -120,7 +121,8 @@ class User extends VoyagerUser
 
     public function getRedirectRoute()
     {
-        return match((int)$this->role_id) {
+        $role = $this->roles()->first();
+        return match((int)$role->id) {
             1 => 'admin',
             2 => 'dashboard',
             3 => 'all.courses',

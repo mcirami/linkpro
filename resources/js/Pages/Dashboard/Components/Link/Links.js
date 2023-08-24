@@ -172,7 +172,7 @@ const Links = ({
     }
 
     return (
-        <section ref={targetRef} className='icons_wrap add_icons icons'>
+        <section ref={targetRef} className={`icons_wrap add_icons icons ${userLinks.length === 0 ? "no_icons" : ""} `}>
 
             {userLinks.length === 0 ?
                 <div className="info_message">
