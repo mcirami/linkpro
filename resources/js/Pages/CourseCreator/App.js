@@ -298,7 +298,7 @@ function App() {
                                 <h4>Intro Text</h4>
                             </div>
                             <div className="section_content my_row">
-                                <InputComponent
+                                {/*<InputComponent
                                     placeholder="Intro Text"
                                     type="wysiwyg"
                                     hoverText="Submit Intro Text"
@@ -308,7 +308,7 @@ function App() {
                                     value={courseData["intro_text"]}
                                     showTiny={showTiny}
                                     setShowTiny={setShowTiny}
-                                />
+                                />*/}
                                 <ColorPicker
                                     label="Background Color"
                                     courseData={courseData}

@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {MdEdit} from 'react-icons/md';
 import ReactCrop from 'react-image-crop';
+import 'react-image-crop/src/ReactCrop.scss';
 import {completedImageCrop, createImage} from '../../../Services/ImageService';
 import { updateIcon} from '../../../Services/OfferRequests';
 import { updateImage} from '../../../Services/CourseRequests';

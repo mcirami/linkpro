@@ -120,7 +120,8 @@ class User extends VoyagerUser
 
     public function getRedirectRoute()
     {
-        return match((int)$this->role_id) {
+        $role = $this->roles()->first();
+        return match((int)$role->id) {
             1 => 'admin',
             2 => 'dashboard',
             3 => 'all.courses',
