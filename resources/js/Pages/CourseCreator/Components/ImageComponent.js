@@ -1,27 +1,23 @@
 import React, {
-    useCallback,
     useEffect,
     useRef,
     useState,
     forwardRef,
-    useContext,
 } from 'react';
 import {MdEdit} from 'react-icons/md';
+import {HiPlus, HiMinus} from 'react-icons/hi';
 import ReactCrop, {
     centerCrop,
     makeAspectCrop,
-    Crop,
-    PixelCrop,
     convertToPixelCrop,
 } from 'react-image-crop';
-import 'react-image-crop/dist/ReactCrop.css';
-import {completedImageCrop, createImage} from '../../../Services/ImageService';
+import 'react-image-crop/src/ReactCrop.scss';
+import {createImage} from '../../../Services/ImageService';
 import { updateIcon} from '../../../Services/OfferRequests';
 import { updateImage} from '../../../Services/CourseRequests';
 import {OFFER_ACTIONS, LP_ACTIONS} from '../Reducer';
 import { useDebounceEffect } from '../../../Utils/useDebounceEffect';
-import 'react-image-crop/dist/ReactCrop.css'
-import { canvasPreview } from './Preview/canvasPreview';
+import { canvasPreview } from '../../../Utils/canvasPreview';
 
 function centerAspectCrop(
     mediaWidth,
@@ -43,52 +39,51 @@ function centerAspectCrop(
     )
 }
 
-const ImageComponent = ({
-                            placeholder,
-                            completedCrop,
-                            setCompletedCrop,
-                            fileNames,
-                            setFileNames,
-                            setShowLoader,
-                            elementName,
-                            cropArray,
-                            data,
-                            dispatch = null,
-                            type,
-                            nodesRef
-}) => {
+const ImageComponent = forwardRef(function ImageComponent(props, ref) {
+
+    const {
+        placeholder,
+        completedCrop,
+        setCompletedCrop,
+        setShowLoader,
+        elementName,
+        cropArray,
+        data,
+        dispatch = null,
+        type
+    } = props;
 
     const [elementLabel, setElementLabel] = useState(elementName);
     const [upImg, setUpImg] = useState('');
     const imgRef = useRef(null);
-    const previewCanvasRef = nodesRef;
+    const previewCanvasRef = ref;
     const hiddenAnchorRef = useRef(null);
     const blobUrlRef = useRef('')
     const [crop, setCrop] = useState(cropArray);
     const [scale, setScale] = useState(1)
     const [rotate, setRotate] = useState(0)
-    const [aspect, setAspect] = useState(16 / 9)
+    const [aspect, setAspect] = useState(cropArray['aspect'] || 16 / 9)
 
     useDebounceEffect(
         async () => {
             if (
-                completedCrop?.width &&
-                completedCrop?.height &&
+                completedCrop[elementName]?.isCompleted.width &&
+                completedCrop[elementName]?.isCompleted.height &&
                 imgRef.current &&
-                previewCanvasRef?.current
+                previewCanvasRef?.current[elementName]
             ) {
                 // We use canvasPreview as it's much faster than imgPreview.
                 canvasPreview(
                     imgRef.current,
-                    previewCanvasRef?.current,
-                    completedCrop,
+                    previewCanvasRef?.current[elementName],
+                    completedCrop[elementName]?.isCompleted,
                     scale,
                     rotate,
                 )
             }
         },
         100,
-        [completedCrop, scale, rotate],
+        [completedCrop[elementName]?.isCompleted, scale, rotate],
     )
 
     useEffect(() => {
@@ -98,23 +93,12 @@ const ImageComponent = ({
 
     },[])
 
-    const checkFound = () => {
-        const found = fileNames?.find(el => {
-            return el?.name === elementName;
-        })
-        return found || false;
-    }
-
     const onSelectFile = (e) => {
         let files = e.target.files || e.dataTransfer.files;
         if (!files.length) {
             return;
         }
         setCrop(undefined)
-        setFileNames((prev) => ([
-            ...prev,
-            {name: elementName}
-        ]))
 
         document.querySelector("." + CSS.escape(elementName) + "_form .bottom_section").classList.remove("hidden");
         if (window.innerWidth < 993) {
@@ -126,10 +110,6 @@ const ImageComponent = ({
         createImage(files[0], setUpImg);
 
     };
-
-   /* const onLoad = useCallback((img) => {
-        imgRef.current = img;
-    }, []);*/
 
     function onLoad(e) {
         if (aspect) {
@@ -151,24 +131,13 @@ const ImageComponent = ({
         }
     }
 
-   /* useEffect(() => {
-
-        if (completedCrop?.width || completedCrop?.height || previewCanvasRef?.current || imgRef.current) {
-            completedImageCrop(imgRef.current, previewCanvasRef?.current, completedCrop, scale, rotate);
-        }
-    }, [completedCrop]);*/
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        previewCanvasRef.current[elementName].toBlob(
+        previewCanvasRef?.current[elementName].toBlob(
             (blob) => {
                 const reader = new FileReader();
                 reader.readAsDataURL(blob);
                 reader.onloadend = () => {
-                    /* setPageSettings({
-                         ...pageSettings,
-                         header_img: reader.result,
-                     });*/
                     dataURLtoFile(reader.result, "cropped.jpg");
                 };
             },
@@ -231,9 +200,6 @@ const ImageComponent = ({
                                 position: ''
                             });
 
-                            setFileNames(fileNames.filter(element => {
-                                return element.name !== elementName
-                            }));
                             setUpImg(null);
                             delete completedCrop[elementName];
                             setCompletedCrop(completedCrop);
@@ -264,9 +230,6 @@ const ImageComponent = ({
                                 position: ''
                             });
 
-                            setFileNames(fileNames.filter(element => {
-                                return element.name !== elementName
-                            }));
                             setUpImg(null);
                             delete completedCrop[elementName];
                             setCompletedCrop(completedCrop);
@@ -288,12 +251,8 @@ const ImageComponent = ({
     };
 
     const handleCancel = (e) => {
-        //setIsEditing(false);
         e.preventDefault();
 
-        setFileNames(fileNames.filter(element => {
-            return element.name !== elementName
-        }));
         setUpImg(null);
 
         delete completedCrop[elementName];
@@ -301,13 +260,39 @@ const ImageComponent = ({
         document.querySelector("." + CSS.escape(elementName) + "_form .bottom_section").classList.add("hidden");
     };
 
-    console.log("previewCanvasRef imageComp: ", previewCanvasRef);
+    const handleIncreaseNumber = (e,type) => {
+        e.preventDefault();
+        if (type === "scale") {
+
+            const number = scale + .1;
+            const result = Math.round(number * 10) / 10;
+            setScale(result);
+        }
+
+        if (type === "rotate") {
+            setRotate(Math.min(180, Math.max(-180, Number(rotate + 1))))
+        }
+    }
+
+    const handleDecreaseNumber = (e, type) => {
+        e.preventDefault();
+        if (type === "scale") {
+            const number = scale - .1;
+            const result = Math.round(number * 10) / 10;
+            setScale(result);
+        }
+
+        if (type === "rotate") {
+            setRotate(Math.min(180, Math.max(-180, Number(rotate - 1))))
+        }
+
+    }
 
     return (
         <article className="my_row page_settings">
             <div className="column_wrap">
                 <form onSubmit={handleSubmit} className={`${elementName}_form`}>
-                    {!checkFound() && (
+                    {!completedCrop[elementName]?.isCompleted && (
                         <>
                             <div className="top_section">
                                 <label
@@ -351,37 +336,56 @@ const ImageComponent = ({
 
                     <div className="bottom_section hidden">
                         <div className="crop_section">
-                            <div>
-                                <label htmlFor="scale-input">Scale: </label>
-                                <input
-                                    id="scale-input"
-                                    type="number"
-                                    step="0.1"
-                                    value={scale}
-                                    onChange={(e) => setScale(Number(e.target.value))}
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="rotate-input">Rotate: </label>
-                                <input
-                                    id="rotate-input"
-                                    type="number"
-                                    value={rotate}
-                                    onChange={(e) =>
-                                        setRotate(Math.min(180, Math.max(-180, Number(e.target.value))))
-                                    }
-                                />
+                            <div className="crop_tools">
+                                <div className="column">
+                                    <a href="#" className="number_control" onClick={(e) => handleDecreaseNumber(e, "scale")}>
+                                        <HiMinus />
+                                    </a>
+                                    <div className="position-relative">
+                                        <input
+                                            className="active animate"
+                                            id="scale-input"
+                                            type="text"
+                                            step="0.1"
+                                            value={scale}
+                                            onChange={(e) => setScale(Number(e.target.value))}
+                                        />
+                                        <label htmlFor="scale-input">Scale</label>
+                                    </div>
+                                    <a href="#" className="number_control" onClick={(e) => handleIncreaseNumber(e, "scale")}>
+                                        <HiPlus />
+                                    </a>
+                                </div>
+                                <div className="column">
+                                    <a href="#" className="number_control" onClick={(e) => handleDecreaseNumber(e, "rotate")}>
+                                        <HiMinus />
+                                    </a>
+                                    <div className="position-relative">
+                                        <input
+                                            className="active animate"
+                                            id="rotate-input"
+                                            type="text"
+                                            value={rotate}
+                                            onChange={(e) =>
+                                                setRotate(Math.min(180, Math.max(-180, Number(e.target.value))))
+                                            }
+                                        />
+                                        <label htmlFor="rotate-input">Rotate</label>
+                                    </div>
+                                    <a href="#" className="number_control" onClick={(e) => handleIncreaseNumber(e, "rotate")}>
+                                        <HiPlus />
+                                    </a>
+                                </div>
                             </div>
                             <ReactCrop
                                 crop={crop}
                                 onChange={(_, percentCrop) => setCrop(percentCrop)}
-                                /*onComplete={(c) =>  setCompletedCrop({
+                                onComplete={(c) =>  setCompletedCrop({
                                     ...completedCrop,
                                     [`${elementName}`]: {
                                         isCompleted: c
                                     }
-                                })}*/
-                                onComplete={(c) => setCompletedCrop(c)}
+                                })}
                                 aspect={aspect}
                             >
                                 <img
@@ -391,46 +395,30 @@ const ImageComponent = ({
                                     style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}
                                     alt="Crop me"/>
                             </ReactCrop>
-                            {/*{!!completedCrop &&*/}
-                                {/*<canvas
-                                    ref={ previewCanvasRef }
-                                    style={{
-                                        border: '1px solid black',
-                                        objectFit: 'contain',
-                                        width: completedCrop.width,
-                                        height: completedCrop.height,
-                                    }}
-                                />*/}
-                          {/*  }*/}
-                            {/*{(type === "inlinePreview" && fileNames.length > 0) &&
+                            {(type === "inlinePreview" && completedCrop[elementName]?.isCompleted) &&
                                 <div className="icon_col">
                                     <p>Icon Preview</p>
                                     <canvas
-                                        ref={ref => nodesRef.current["icon"] = ref}
+                                        ref={ref => previewCanvasRef.current[elementName] = ref}
                                         // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
                                         style={{
-                                            backgroundImage: nodesRef.current["icon"],
                                             backgroundSize: `cover`,
                                             backgroundRepeat: `no-repeat`,
-                                            width: completedCrop[elementName]?.isCompleted ?
-                                                `100%` :
-                                                0,
-                                            height: completedCrop[elementName]?.isCompleted ?
-                                                `100%` :
-                                                0,
+                                            width: completedCrop[elementName]?.isCompleted ? `100%` : 0,
+                                            height: completedCrop[elementName]?.isCompleted ? `100%` : 0,
                                             borderRadius: `20px`,
                                         }}
 
                                     />
                                 </div>
 
-                            }*/}
+                            }
                         </div>
                         <div className="bottom_row">
                             <button
                                 type="submit"
                                 className="button green"
-                                disabled={!checkFound() && true}
+                                disabled={!completedCrop[elementName]?.isCompleted && true}
                             >
                                 Save
                             </button>
@@ -453,11 +441,8 @@ const ImageComponent = ({
                     </div>
                 </form>
             </div>
-            {/* {!fileNames && (
-                <ToolTipIcon section="header" />
-            )}*/}
         </article>
     );
-};
+});
 
 export default ImageComponent;

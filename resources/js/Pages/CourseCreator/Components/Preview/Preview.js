@@ -18,7 +18,6 @@ const Preview = ({
                      nodesRef,
                      imgRef,
                      completedCrop,
-                     fileNames
 }) => {
 
 
@@ -63,7 +62,6 @@ const Preview = ({
                                 courseData={courseData}
                                 nodesRef={nodesRef}
                                 completedCrop={completedCrop}
-                                fileNames={fileNames}
                                 imgRef={imgRef}
                             />
                         </section>

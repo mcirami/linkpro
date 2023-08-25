@@ -3,31 +3,20 @@ import React from 'react';
 const TopBar = ({
                     courseData,
                     completedCrop,
-                    fileNames,
                     nodesRef
 }) => {
-
-    const checkFound = () => {
-        const isFound = fileNames?.find(el => {
-            return el?.name === "logo";
-        })
-        return isFound || false;
-    }
-
-    console.log("nodes ref top bar comp: ", nodesRef);
-    console.log("completedCrop: ", completedCrop);
 
     return (
         <div className="top_section" style={{
             background: courseData['header_color']
         }}>
             <div className="logo">
-                {checkFound() ?
+                {completedCrop["logo"] ?
                     <canvas
-                        ref={nodesRef}
+                        ref={ref => nodesRef.current["logo"] = ref}
                         style={{
-                            width: completedCrop ? `100%` : 0,
-                            height: completedCrop ? `100%` : 0,
+                            width: completedCrop["logo"]?.isCompleted ? `100%` : 0,
+                            height: completedCrop["logo"]?.isCompleted ? `100%` : 0,
                             backgroundSize: `cover`,
                             backgroundRepeat: `no-repeat`,
                         }}

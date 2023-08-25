@@ -12,7 +12,6 @@ import {IoIosCloseCircleOutline} from 'react-icons/io';
 const Preview = ({
                      completedCrop,
                      nodesRef,
-                     fileNames,
                      pageData,
                      sections,
                      setShowPreview,
@@ -58,13 +57,11 @@ const Preview = ({
                             <TopBar
                                 nodesRef={nodesRef}
                                 completedCrop={completedCrop}
-                                fileNames={fileNames}
                                 pageData={pageData}
                             />
                             <Hero
                                 nodesRef={nodesRef}
                                 completedCrop={completedCrop}
-                                fileNames={fileNames}
                                 pageData={pageData}
                                 elementName="hero"
                             />
@@ -79,7 +76,6 @@ const Preview = ({
                                         currentSection={section}
                                         nodesRef={nodesRef}
                                         completedCrop={completedCrop}
-                                        fileNames={fileNames}
                                         position={index + 1}
                                         hoverSection={hoverSection}
                                         url={url}

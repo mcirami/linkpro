@@ -126,7 +126,7 @@ const Section = ({
                 }
                 {type === "image" &&
                     <ImageComponent
-                        nodesRef={nodesRef}
+                        ref={nodesRef}
                         completedCrop={completedCrop}
                         setCompletedCrop={setCompletedCrop}
                         fileNames={fileNames}

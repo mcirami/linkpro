@@ -7,7 +7,6 @@ const PreviewSection = ({
                             url
 }) => {
 
-
     const {
         type,
         background_color,

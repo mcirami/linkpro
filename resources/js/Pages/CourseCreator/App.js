@@ -1,4 +1,4 @@
-import React, {useState, useRef, useReducer, useEffect, createRef} from 'react';
+import React, {useState, useRef, useReducer, useEffect} from 'react';
 
 const courseArray = user.courseData;
 const offerArray = user.offerData;
@@ -67,9 +67,9 @@ function App() {
     );
 
     const [completedCrop, setCompletedCrop] = useState([])
-    const nodesRef = useRef(null);
+    const nodesRef = useRef([]);
 
-    const [fileNames, setFileNames] = useState([]);
+    /*const [fileNames, setFileNames] = useState([]);*/
 
     const divRef = useRef(null);
     const columnRef = useRef(null);
@@ -125,10 +125,6 @@ function App() {
 
     }, []);
 
-    useEffect(() => {
-        console.log("nodes ref app,js: ", nodesRef);
-    }, [nodesRef])
-
     const handleMouseHover = (e) => {
         setHoverSection(e.target.id)
     }
@@ -165,8 +161,6 @@ function App() {
             });
         }
     }
-
-
 
     return (
         <ToolTipContextProvider value={{
@@ -224,11 +218,9 @@ function App() {
                                     value={courseData["title"]}
                                 />
                                 <ImageComponent
-                                    nodesRef={nodesRef}
+                                    ref={nodesRef}
                                     completedCrop={completedCrop}
                                     setCompletedCrop={setCompletedCrop}
-                                    fileNames={fileNames}
-                                    setFileNames={setFileNames}
                                     setShowLoader={setShowLoader}
                                     data={courseData}
                                     dispatch={dispatch}
@@ -390,11 +382,9 @@ function App() {
                             <div className="section_content my_row">
                                 <ImageComponent
                                     placeholder="Course Icon"
-                                    nodesRef={nodesRef}
+                                    ref={nodesRef}
                                     completedCrop={completedCrop}
                                     setCompletedCrop={setCompletedCrop}
-                                    fileNames={fileNames}
-                                    setFileNames={setFileNames}
                                     setShowLoader={setShowLoader}
                                     elementName={`icon`}
                                     dispatch={dispatchOfferData}
@@ -445,7 +435,6 @@ function App() {
                         hoverSection={hoverSection}
                         nodesRef={nodesRef}
                         completedCrop={completedCrop}
-                        fileNames={fileNames}
                     />
                 </div>
 
