@@ -93,15 +93,15 @@ function App() {
     const [showConfirmFolderDelete, setShowConfirmFolderDelete] = useState(false);
     const [optionText, setOptionText] = useState("");
 
-    const headerRef = createRef(null);
-    const [completedCrop, setCompletedCrop] = useState(null);
+    const imageRefs = useRef({});
+    const [completedCrop, setCompletedCrop] = useState({});
     const [fileName, setFileName] = useState(null);
 
     const profileRef = useRef(null)
     const [completedProfileCrop, setCompletedProfileCrop] = useState(null);
     const [profileFileName, setProfileFileName] = useState(null);
 
-    const pageHeaderRef = createRef(null);
+    const pageHeaderRef = useRef(null);
     const leftColWrap = useRef(null);
 
     const [subStatus] = useState(checkSubStatus());
@@ -346,21 +346,23 @@ function App() {
                                         <PageName />
 
                                         <PageHeader
-                                            setRef={headerRef}
+                                            ref={imageRefs}
                                             completedCrop={completedCrop}
                                             setCompletedCrop={setCompletedCrop}
                                             fileName={fileName}
                                             setFileName={setFileName}
                                             setShowLoader={setShowLoader}
+                                            elementName="header_img"
                                         />
 
                                         <PageProfile
-                                            profileRef={profileRef}
-                                            completedProfileCrop={completedProfileCrop}
-                                            setCompletedProfileCrop={setCompletedProfileCrop}
+                                            ref={imageRefs}
+                                            completedCrop={completedCrop}
+                                            setCompletedCrop={setCompletedCrop}
                                             profileFileName={profileFileName}
                                             setProfileFileName={setProfileFileName}
                                             setShowLoader={setShowLoader}
+                                            elementName={"profile_img"}
                                         />
 
                                         <PageTitle />
@@ -638,8 +640,7 @@ function App() {
                             </div>
                             <div className={`right_column links_col preview ${showPreview ? "show" : ""}`}>
                                 <Preview
-                                    setRef={headerRef}
-                                    profileRef={profileRef}
+                                    imageRefs={imageRefs}
                                     completedCrop={completedCrop}
                                     completedProfileCrop={completedProfileCrop}
                                     fileName={fileName}

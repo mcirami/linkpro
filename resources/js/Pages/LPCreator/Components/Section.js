@@ -16,8 +16,6 @@ const Section = ({
                      completedCrop,
                      setCompletedCrop,
                      nodesRef,
-                     fileNames,
-                     setFileNames,
                      sections,
                      setSections,
                      openIndex,
@@ -129,8 +127,6 @@ const Section = ({
                         ref={nodesRef}
                         completedCrop={completedCrop}
                         setCompletedCrop={setCompletedCrop}
-                        fileNames={fileNames}
-                        setFileNames={setFileNames}
                         setShowLoader={setShowLoader}
                         currentSection={section}
                         sections={sections}

@@ -118,7 +118,7 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
         }
     }
 
-    function handleToggleAspectClick() {
+    /*function handleToggleAspectClick() {
         if (aspect) {
             setAspect(undefined)
         } else if (imgRef.current) {
@@ -129,7 +129,7 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
             // Updates the preview
             setCompletedCrop(convertToPixelCrop(newCrop, width, height))
         }
-    }
+    }*/
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -255,8 +255,9 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
 
         setUpImg(null);
 
-        delete completedCrop[elementName];
-        setCompletedCrop(completedCrop);
+        const copy = {...completedCrop};
+        delete copy[elementName];
+        setCompletedCrop(copy);
         document.querySelector("." + CSS.escape(elementName) + "_form .bottom_section").classList.add("hidden");
     };
 
@@ -285,7 +286,6 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
         if (type === "rotate") {
             setRotate(Math.min(180, Math.max(-180, Number(rotate - 1))))
         }
-
     }
 
     return (

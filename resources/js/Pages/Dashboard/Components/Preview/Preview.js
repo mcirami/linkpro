@@ -17,7 +17,7 @@ import StoreProducts from './StoreProducts';
 import {UseLoadPreviewHeight, UseResizePreviewHeight} from '../../../../Services/PreviewHooks';
 
 const Preview = ({
-                     setRef,
+                     imageRefs,
                      completedCrop,
                      fileName,
                      profileFileName,
@@ -89,7 +89,7 @@ const Preview = ({
                 <div className="inner_content" id="preview_wrap">
                     <div className="inner_content_wrap" style={{ maxHeight: resizePreviewHeight ? resizePreviewHeight + "px" : loadPreviewHeight + "px"}}>
                         <Header
-                            setRef={setRef}
+                            imageRefs={imageRefs}
                             completedCrop={completedCrop}
                             fileName={fileName}
                         />
@@ -97,8 +97,8 @@ const Preview = ({
                         <div id={pageSettings['profile_layout']} className="profile_content" ref={pageHeaderRef}>
                             <ProfileImage
                                 profileFileName={profileFileName}
-                                completedProfileCrop={completedProfileCrop}
-                                profileRef={profileRef}
+                                completedCrop={completedCrop}
+                                imageRefs={imageRefs}
                             />
                             <ProfileText />
                         </div>

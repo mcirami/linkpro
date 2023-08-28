@@ -45,8 +45,8 @@ function App() {
     const [showPreviewButton, setShowPreviewButton] = useState(false);
     const [showPreview, setShowPreview] = useState(false);
 
-    const [completedCrop, setCompletedCrop] = useState([])
-    const nodesRef = useRef([]);
+    const [completedCrop, setCompletedCrop] = useState({})
+    const nodesRef = useRef({});
 
     const [showLoader, setShowLoader] = useState({
         show: false,

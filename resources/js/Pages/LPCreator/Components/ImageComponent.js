@@ -9,7 +9,6 @@ import {MdEdit} from 'react-icons/md';
 import ReactCrop, {
     centerCrop,
     makeAspectCrop,
-    convertToPixelCrop
 } from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
 import { canvasPreview } from '../../../Utils/canvasPreview';
@@ -47,8 +46,6 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
     const {
         completedCrop,
         setCompletedCrop,
-        fileNames,
-        setFileNames,
         setShowLoader,
         elementName,
         cropArray,
@@ -196,9 +193,6 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
                             position: ''
                         });
 
-                        setFileNames(fileNames.filter(element => {
-                            return element.name !== elementName
-                        }));
                         setUpImg(null);
                         delete completedCrop[elementName];
                         setCompletedCrop(completedCrop);
@@ -228,9 +222,6 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
                                 position: ''
                             });
 
-                            setFileNames(fileNames.filter(element => {
-                                return element.name !== elementName
-                            }));
                             setUpImg(null);
                             delete completedCrop[elementName];
                             setCompletedCrop(completedCrop);
@@ -252,8 +243,10 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
 
         setUpImg(null);
 
-        delete completedCrop[elementName];
-        setCompletedCrop(completedCrop);
+        const copy = {...completedCrop};
+        delete copy[elementName];
+        setCompletedCrop(copy);
+
         document.querySelector("." + CSS.escape(elementName) + "_form .bottom_section").classList.add("hidden");
     };
 
@@ -365,6 +358,7 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
                             </div>
                             <ReactCrop
                                 crop={crop}
+                                aspect={aspect}
                                 onChange={(_, percentCrop) => setCrop(percentCrop)}
                                 onComplete={(c) =>  setCompletedCrop({
                                     ...completedCrop,
@@ -372,7 +366,6 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
                                         isCompleted: c
                                     }
                                 })}
-                                aspect={aspect}
                             >
                                 <img
                                     onLoad={onLoad}

@@ -11,7 +11,7 @@ const TopBar = ({
             background: courseData['header_color']
         }}>
             <div className="logo">
-                {completedCrop["logo"] ?
+                {completedCrop?.logo ?
                     <canvas
                         ref={ref => nodesRef.current["logo"] = ref}
                         style={{
