@@ -21,12 +21,16 @@
 
             .preview {
 
+                .inner_content_wrap {
+                    min-height: 300px;
+                }
+
                 .header {
                     min-height: unset;
+                    border-bottom: 2px solid #000;
                 }
 
                 .top_section {
-                    border-bottom: 2px solid $black;
                     padding: 35px 20px 20px;
                 }
 

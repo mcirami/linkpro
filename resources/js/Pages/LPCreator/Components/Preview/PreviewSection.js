@@ -8,7 +8,6 @@ const PreviewSection = ({
                             currentSection,
                             nodesRef,
                             completedCrop,
-                            fileNames,
                             position,
                             hoverSection,
                             url
@@ -32,8 +31,6 @@ const PreviewSection = ({
     const [textValue, setTextValue] = useState(text)
 
     const firstUpdate = useRef(true);
-
-
 
     useEffect(() => {
         setButtonStyle ({
@@ -101,10 +98,8 @@ const PreviewSection = ({
                         <SectionImage
                             nodesRef={nodesRef}
                             completedCrop={completedCrop}
-                            fileNames={fileNames}
                             elementName={"section_"+ position + "_" + type}
                             imgUrl={image}
-                            type={type}
                         />,
                 }[type]}
                 {( !!button && button_position === "below") &&

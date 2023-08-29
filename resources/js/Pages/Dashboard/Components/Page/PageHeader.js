@@ -5,47 +5,97 @@ import React, {
     useRef,
     useEffect,
     createContext,
+    forwardRef,
 } from 'react';
 import {MdEdit} from 'react-icons/md';
 import { PageContext } from '../../App';
-import ReactCrop from 'react-image-crop';
+import ReactCrop, {
+    centerCrop,
+    makeAspectCrop,
+} from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
+import { canvasPreview } from '../../../../Utils/canvasPreview';
+import { useDebounceEffect } from '../../../../Utils/useDebounceEffect';
 import {headerImage} from '../../../../Services/PageRequests';
 import {completedImageCrop} from '../../../../Services/ImageService';
 import ToolTipIcon from '../../../../Utils/ToolTips/ToolTipIcon';
+import {HiMinus, HiPlus} from 'react-icons/hi';
 
-export const RefContext = createContext();
-export const cropStatus = createContext();
+function centerAspectCrop(
+    mediaWidth,
+    mediaHeight,
+    aspect,
+) {
+    return centerCrop(
+        makeAspectCrop(
+            {
+                unit: '%',
+                width: 90,
+            },
+            aspect,
+            mediaWidth,
+            mediaHeight,
+        ),
+        mediaWidth,
+        mediaHeight,
+    )
+}
 
-const PageHeader = ({
-    setRef,
-    completedCrop,
-    setCompletedCrop,
-    fileName,
-    setFileName,
-    setShowLoader,
-}) => {
+const PageHeader = forwardRef(function PageHeader(props, ref) {
+
+    const {
+        completedCrop,
+        setCompletedCrop,
+        fileName,
+        setFileName,
+        setShowLoader,
+        elementName
+    } = props;
+
     const {pageSettings, setPageSettings} = useContext(PageContext);
 
     const [previousImage, setPreviousImage] = useState(
         pageSettings["header_img"]
     );
 
-    const [upImg, setUpImg] = useState();
+    const [upImg, setUpImg] = useState(null);
     const imgRef = useRef();
-    const previewCanvasRef = setRef;
+    const previewCanvasRef = ref;
     const [crop, setCrop] = useState({ unit: "%", width: 30, aspect: 16 / 9 });
+    const [scale, setScale] = useState(1)
+    const [rotate, setRotate] = useState(0)
+    const [aspect, setAspect] = useState(16 / 9)
+
+    useDebounceEffect(
+        async () => {
+            if (
+                completedCrop[elementName]?.isCompleted.width &&
+                completedCrop[elementName]?.isCompleted.height &&
+                imgRef.current &&
+                previewCanvasRef?.current[elementName]
+            ) {
+                // We use canvasPreview as it's much faster than imgPreview.
+                canvasPreview(
+                    imgRef.current,
+                    previewCanvasRef?.current[elementName],
+                    completedCrop[elementName]?.isCompleted,
+                    scale,
+                    rotate,
+                )
+            }
+        },
+        100,
+        [completedCrop[elementName]?.isCompleted, scale, rotate],
+    )
 
     const onSelectFile = (e) => {
         let files = e.target.files || e.dataTransfer.files;
         if (!files.length) {
             return;
         }
-
+        setCrop(undefined)
         setFileName(files[0]["name"]);
-        document
-            .querySelector("form.header_img_form .bottom_section")
-            .classList.remove("hidden");
+        document.querySelector("form.header_img_form .bottom_section").classList.remove("hidden");
         if (window.innerWidth < 993) {
             document.querySelector(".header_img_form").scrollIntoView({
                 behavior: "smooth",
@@ -66,17 +116,20 @@ const PageHeader = ({
         reader.readAsDataURL(file);
     };
 
-    const onLoad = useCallback((img) => {
-        imgRef.current = img;
-    }, []);
+    function onLoad(e) {
+        if (aspect) {
+            const {width, height } = e.currentTarget;
+            setCrop(centerAspectCrop(width, height, aspect))
+        }
+    }
 
-    useEffect(() => {
+    /*useEffect(() => {
         if (!completedCrop || !previewCanvasRef.current || !imgRef.current) {
             return;
         }
 
         completedImageCrop(completedCrop, imgRef, previewCanvasRef.current);
-    }, [completedCrop]);
+    }, [completedCrop]);*/
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -136,7 +189,7 @@ const PageHeader = ({
                     if (data.success) {
                         setFileName(null);
                         setUpImg(null);
-                        setCompletedCrop(false);
+                        setCompletedCrop({});
                         document.querySelector("form.header_img_form .bottom_section").classList.add("hidden");
                     }
                 });
@@ -156,15 +209,45 @@ const PageHeader = ({
         //setIsEditing(false);
         setFileName(null);
         setUpImg(null);
-        setCompletedCrop(false);
-        document
-            .querySelector("form.header_img_form .bottom_section")
-            .classList.add("hidden");
+
+        const copy = {...completedCrop};
+        delete copy[elementName];
+        setCompletedCrop(copy);
+
+        document.querySelector("form.header_img_form .bottom_section").classList.add("hidden");
         setPageSettings({
             ...pageSettings,
             header_img: previousImage,
         });
     };
+
+    const handleIncreaseNumber = (e,type) => {
+        e.preventDefault();
+        if (type === "scale") {
+
+            const number = scale + .1;
+            const result = Math.round(number * 10) / 10;
+            setScale(result);
+        }
+
+        if (type === "rotate") {
+            setRotate(Math.min(180, Math.max(-180, Number(rotate + 1))))
+        }
+    }
+
+    const handleDecreaseNumber = (e, type) => {
+        e.preventDefault();
+        if (type === "scale") {
+            const number = scale - .1;
+            const result = Math.round(number * 10) / 10;
+            setScale(result);
+        }
+
+        if (type === "rotate") {
+            setRotate(Math.min(180, Math.max(-180, Number(rotate - 1))))
+        }
+
+    }
 
     return (
         <div className="my_row page_settings">
@@ -203,19 +286,71 @@ const PageHeader = ({
                     )}
                     <div className="bottom_section hidden">
                         <div className="crop_section">
+                            <div className="crop_tools">
+                                <div className="column">
+                                    <a href="#" className="number_control" onClick={(e) => handleDecreaseNumber(e, "scale")}>
+                                        <HiMinus />
+                                    </a>
+                                    <div className="position-relative">
+                                        <input
+                                            className="active animate"
+                                            id="scale-input"
+                                            type="text"
+                                            step="0.1"
+                                            value={scale}
+                                            onChange={(e) => setScale(Number(e.target.value))}
+                                        />
+                                        <label htmlFor="scale-input">Scale</label>
+                                    </div>
+                                    <a href="#" className="number_control" onClick={(e) => handleIncreaseNumber(e, "scale")}>
+                                        <HiPlus />
+                                    </a>
+                                </div>
+                                <div className="column">
+                                    <a href="#" className="number_control" onClick={(e) => handleDecreaseNumber(e, "rotate")}>
+                                        <HiMinus />
+                                    </a>
+                                    <div className="position-relative">
+                                        <input
+                                            className="active animate"
+                                            id="rotate-input"
+                                            type="text"
+                                            value={rotate}
+                                            onChange={(e) =>
+                                                setRotate(Math.min(180, Math.max(-180, Number(e.target.value))))
+                                            }
+                                        />
+                                        <label htmlFor="rotate-input">Rotate</label>
+                                    </div>
+                                    <a href="#" className="number_control" onClick={(e) => handleIncreaseNumber(e, "rotate")}>
+                                        <HiPlus />
+                                    </a>
+                                </div>
+                            </div>
                             <ReactCrop
-                                src={upImg}
-                                onImageLoaded={onLoad}
                                 crop={crop}
-                                onChange={(c) => setCrop(c)}
-                                onComplete={(c) => setCompletedCrop(c)}
-                            />
+                                aspect={aspect}
+                                onChange={(_, percentCrop) => setCrop(percentCrop)}
+                                onComplete={(c) =>  setCompletedCrop({
+                                    ...completedCrop,
+                                    [`${elementName}`]: {
+                                        isCompleted: c
+                                    }
+                                })}
+                            >
+                                <img
+                                    onLoad={onLoad}
+                                    src={upImg}
+                                    ref={imgRef}
+                                    style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}
+                                    alt="Crop Me" />
+                            </ReactCrop>
                         </div>
                         <div className="bottom_row">
                             <button
                                 type="submit"
                                 className="button green"
-                                disabled={!fileName && true}
+                                disabled={!completedCrop[elementName]?.isCompleted && true}
                             >
                                 Save
                             </button>
@@ -244,6 +379,6 @@ const PageHeader = ({
             )}
         </div>
     );
-};
+});
 
 export default PageHeader;

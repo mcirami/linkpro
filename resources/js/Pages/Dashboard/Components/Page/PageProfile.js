@@ -3,38 +3,92 @@ import React, {
     useContext,
     useRef,
     useCallback,
-    useEffect,
+    useEffect, forwardRef,
 } from 'react';
 import {MdEdit} from 'react-icons/md';
 import {PageContext} from '../../App';
-import ReactCrop from 'react-image-crop';
+import ReactCrop, {
+    centerCrop,
+    makeAspectCrop,
+} from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
+import { canvasPreview } from '../../../../Utils/canvasPreview';
+import { useDebounceEffect } from '../../../../Utils/useDebounceEffect';
 import {profileImage} from '../../../../Services/PageRequests';
 import {completedImageCrop} from '../../../../Services/ImageService';
 import ToolTipIcon from '../../../../Utils/ToolTips/ToolTipIcon';
+import {HiMinus, HiPlus} from 'react-icons/hi';
 
-const PageProfile = ({
-                         profileRef,
-                         completedProfileCrop,
-                         setCompletedProfileCrop,
-                         profileFileName,
-                         setProfileFileName,
-                         setShowLoader,
-}) => {
+function centerAspectCrop(
+    mediaWidth,
+    mediaHeight,
+    aspect,
+) {
+    return centerCrop(
+        makeAspectCrop(
+            {
+                unit: '%',
+                width: 90,
+            },
+            aspect,
+            mediaWidth,
+            mediaHeight,
+        ),
+        mediaWidth,
+        mediaHeight,
+    )
+}
+
+const PageProfile = forwardRef(function PageProfile(props, ref) {
+
+    const {
+        completedCrop,
+        setCompletedCrop,
+        profileFileName,
+        setProfileFileName,
+        setShowLoader,
+        elementName
+    } = props
 
     const { pageSettings, setPageSettings } = useContext(PageContext);
     const [previousImage, setPreviousImage] = useState(pageSettings['profile_img']);
 
     const [upImg, setUpImg] = useState();
-    const imgRef = useRef(null);
-    const previewCanvasRef = profileRef;
+    const imgRef = useRef();
+    const previewCanvasRef = ref;
     const [crop, setCrop] = useState({ unit: '%', width: 30, aspect: 1 });
+    const [scale, setScale] = useState(1)
+    const [rotate, setRotate] = useState(0)
+    const [aspect, setAspect] = useState(1)
+
+    useDebounceEffect(
+        async () => {
+            if (
+                completedCrop[elementName]?.isCompleted.width &&
+                completedCrop[elementName]?.isCompleted.height &&
+                imgRef.current &&
+                previewCanvasRef.current[elementName]
+            ) {
+                // We use canvasPreview as it's much faster than imgPreview.
+                canvasPreview(
+                    imgRef.current,
+                    previewCanvasRef.current[elementName],
+                    completedCrop[elementName].isCompleted,
+                    scale,
+                    rotate,
+                )
+            }
+        },
+        100,
+        [completedCrop[elementName]?.isCompleted, scale, rotate],
+    )
 
     const onSelectFile = e => {
         let files = e.target.files || e.dataTransfer.files;
         if (!files.length) {
             return;
         }
+        setCrop(undefined)
         setProfileFileName(files[0]["name"]);
         document.querySelector('form.profile_img_form .bottom_section').classList.remove('hidden');
         if (window.innerWidth < 993) {
@@ -57,23 +111,26 @@ const PageProfile = ({
         reader.readAsDataURL(file);
     }
 
-    const onLoad = useCallback((img) => {
-        imgRef.current = img;
-    }, []);
+    function onLoad(e) {
+        if (aspect) {
+            const {width, height } = e.currentTarget;
+            setCrop(centerAspectCrop(width, height, aspect))
+        }
+    }
 
-    useEffect(() => {
+    /*seEffect(() => {
         if (!completedProfileCrop || !previewCanvasRef.current || !imgRef.current) {
             return;
         }
 
         completedImageCrop(completedProfileCrop, imgRef, previewCanvasRef.current);
 
-    }, [completedProfileCrop]);
+    }, [completedProfileCrop]);*/
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        previewCanvasRef.current.toBlob(
+        previewCanvasRef.current[elementName].toBlob(
             (blob) => {
                 const reader = new FileReader();
                 reader.readAsDataURL(blob)
@@ -147,12 +204,44 @@ const PageProfile = ({
     const handleCancel = () => {
         setProfileFileName(null)
         setUpImg(null)
-        setCompletedProfileCrop(false)
+
+        const copy = {...completedCrop};
+        delete copy[elementName];
+        setCompletedCrop(copy);
+
         document.querySelector('form.profile_img_form .bottom_section').classList.add('hidden');
         setPageSettings({
             ...pageSettings,
             profile_img: previousImage,
         });
+    }
+
+    const handleIncreaseNumber = (e,type) => {
+        e.preventDefault();
+        if (type === "scale") {
+
+            const number = scale + .1;
+            const result = Math.round(number * 10) / 10;
+            setScale(result);
+        }
+
+        if (type === "rotate") {
+            setRotate(Math.min(180, Math.max(-180, Number(rotate + 1))))
+        }
+    }
+
+    const handleDecreaseNumber = (e, type) => {
+        e.preventDefault();
+        if (type === "scale") {
+            const number = scale - .1;
+            const result = Math.round(number * 10) / 10;
+            setScale(result);
+        }
+
+        if (type === "rotate") {
+            setRotate(Math.min(180, Math.max(-180, Number(rotate - 1))))
+        }
+
     }
 
     return (
@@ -184,16 +273,70 @@ const PageProfile = ({
                         }
                         <div className="bottom_section hidden">
                             <div className="crop_section">
+                                <div className="crop_tools">
+                                    <div className="column">
+                                        <a href="#" className="number_control" onClick={(e) => handleDecreaseNumber(e, "scale")}>
+                                            <HiMinus />
+                                        </a>
+                                        <div className="position-relative">
+                                            <input
+                                                className="active animate"
+                                                id="scale-input"
+                                                type="text"
+                                                step="0.1"
+                                                value={scale}
+                                                onChange={(e) => setScale(Number(e.target.value))}
+                                            />
+                                            <label htmlFor="scale-input">Scale</label>
+                                        </div>
+                                        <a href="#" className="number_control" onClick={(e) => handleIncreaseNumber(e, "scale")}>
+                                            <HiPlus />
+                                        </a>
+                                    </div>
+                                    <div className="column">
+                                        <a href="#" className="number_control" onClick={(e) => handleDecreaseNumber(e, "rotate")}>
+                                            <HiMinus />
+                                        </a>
+                                        <div className="position-relative">
+                                            <input
+                                                className="active animate"
+                                                id="rotate-input"
+                                                type="text"
+                                                value={rotate}
+                                                onChange={(e) =>
+                                                    setRotate(Math.min(180, Math.max(-180, Number(e.target.value))))
+                                                }
+                                            />
+                                            <label htmlFor="rotate-input">Rotate</label>
+                                        </div>
+                                        <a href="#" className="number_control" onClick={(e) => handleIncreaseNumber(e, "rotate")}>
+                                            <HiPlus />
+                                        </a>
+                                    </div>
+                                </div>
                                 <ReactCrop
-                                    src={upImg}
-                                    onImageLoaded={onLoad}
                                     crop={crop}
-                                    onChange={(c) => setCrop(c)}
-                                    onComplete={(c) => setCompletedProfileCrop(c)}
-                                />
+                                    aspect={aspect}
+                                    onChange={(_, percentCrop) => setCrop(percentCrop)}
+                                    onComplete={(c) => setCompletedCrop({
+                                        ...completedCrop,
+                                        [`${elementName}`]: {
+                                            isCompleted: c
+                                        }
+                                    })}
+                                >
+                                    <img
+                                        onLoad={onLoad}
+                                        src={upImg}
+                                        ref={imgRef}
+                                        style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}
+                                        alt="Crop me"/>
+                                </ReactCrop>
                             </div>
                             <div className="bottom_row">
-                                <button type="submit" className="button green" disabled={!profileFileName && true}>
+                                <button type="submit"
+                                        className="button green"
+                                        disabled={!profileFileName && true}>
                                     Save
                                 </button>
                                 <a className="button transparent gray" href="#"
@@ -215,6 +358,6 @@ const PageProfile = ({
         </div>
 
     )
-}
+})
 
 export default PageProfile;

@@ -123,7 +123,7 @@ const FolderLinks = ({
 
     return (
 
-        <div ref={targetRef} className='icons_wrap add_icons icons folder'>
+        <div ref={targetRef} className={`icons_wrap add_icons icons folder ${folderLinks.length === 0 ? "no_icons" : ""}`}>
 
             {folderLinks.length === 0 ?
                 <div className="info_message">

@@ -48,7 +48,7 @@ export const completedImageCrop = (completedCrop, imgRef, previewCanvasRef) => {
 
 export const createImage = (file, setUpImg, setPageSettings = null, pageSettings = null) => {
     let reader = new FileReader();
-    reader.onload = (e) => {
+    reader.addEventListener('load', (e) => {
         if (setPageSettings && pageSettings) {
             setPageSettings({
                 ...pageSettings,
@@ -56,7 +56,7 @@ export const createImage = (file, setUpImg, setPageSettings = null, pageSettings
             });
         }
         setUpImg(e.target.result);
-    };
+    });
     reader.readAsDataURL(file);
 };
 

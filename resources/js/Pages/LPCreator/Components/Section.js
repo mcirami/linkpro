@@ -16,8 +16,6 @@ const Section = ({
                      completedCrop,
                      setCompletedCrop,
                      nodesRef,
-                     fileNames,
-                     setFileNames,
                      sections,
                      setSections,
                      openIndex,
@@ -126,11 +124,9 @@ const Section = ({
                 }
                 {type === "image" &&
                     <ImageComponent
-                        nodesRef={nodesRef}
+                        ref={nodesRef}
                         completedCrop={completedCrop}
                         setCompletedCrop={setCompletedCrop}
-                        fileNames={fileNames}
-                        setFileNames={setFileNames}
                         setShowLoader={setShowLoader}
                         currentSection={section}
                         sections={sections}

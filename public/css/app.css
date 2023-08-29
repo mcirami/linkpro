@@ -12277,7 +12277,7 @@ header.guest_header .column.right {
   --n:5;
   grid-template-columns: repeat(auto-fill, minmax(max(50px, 100% / var(--n)), 1fr));
   grid-gap: 20px;
-  padding: 0 5%;
+  padding: 40px 5% 0;
   transition: 800ms all ease-in-out;
   -webkit-transition: 800ms all ease-in-out;
   -moz-transition: 800ms all ease-in-out;
@@ -12296,6 +12296,16 @@ header.guest_header .column.right {
 #links_page .icons_wrap.add_icons .icon_col {
   width: 100%;
   position: relative;
+}
+#links_page .icons_wrap.add_icons.no_icons {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  -webkit-justify-content: center;
+  align-content: center;
+  -webkit-align-content: center;
+  padding-top: 50px;
 }
 #links_page .icons_wrap .edit_form {
   grid-column: span 3;
@@ -12568,6 +12578,130 @@ header.guest_header .column.right {
 .crop_section .icon_col {
   width: 125px;
   margin: 0 auto;
+}
+.crop_section .crop_tools {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+  margin-bottom: 20px;
+}
+@media (max-width: 550px) {
+  .crop_section .crop_tools {
+    flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+  }
+}
+@media screen and (max-width: 1199px) and (min-width: 993px) {
+  .crop_section .crop_tools {
+    flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+  }
+}
+.crop_section .crop_tools .column {
+  width: 30%;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  -webkit-align-items: center;
+  justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  gap: 10px;
+}
+@media (max-width: 550px) {
+  .crop_section .crop_tools .column {
+    gap: 5px;
+  }
+}
+@media (max-width: 400px) {
+  .crop_section .crop_tools .column {
+    width: 100%;
+    justify-content: center;
+    -webkit-justify-content: center;
+  }
+}
+@media screen and (max-width: 1199px) and (min-width: 993px) {
+  .crop_section .crop_tools .column {
+    width: 100%;
+    justify-content: center;
+    -webkit-justify-content: center;
+    gap: 5px;
+  }
+}
+.crop_section .crop_tools .column:last-child {
+  justify-content: flex-end;
+  -webkit-justify-content: flex-end;
+}
+@media (max-width: 400px) {
+  .crop_section .crop_tools .column:last-child {
+    justify-content: center;
+    -webkit-justify-content: center;
+    margin-top: 20px;
+  }
+}
+@media screen and (max-width: 1199px) and (min-width: 993px) {
+  .crop_section .crop_tools .column:last-child {
+    justify-content: center;
+    -webkit-justify-content: center;
+    margin-top: 20px;
+  }
+}
+.crop_section .crop_tools .column .css-q0jhri-MuiInputBase-root-MuiInput-root {
+  font-family: "opensansbold", sans-serif;
+  padding-left: 56px;
+}
+.crop_section .crop_tools .column input {
+  width: 70px;
+  text-align: center;
+  padding: 5px;
+  height: 35px;
+}
+@media (max-width: 550px) {
+  .crop_section .crop_tools .column input {
+    padding: 5px;
+    height: 30px;
+    width: 60px;
+  }
+}
+@media (max-width: 400px) {
+  .crop_section .crop_tools .column input {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 1199px) and (min-width: 993px) {
+  .crop_section .crop_tools .column input {
+    width: 100%;
+  }
+}
+.crop_section .crop_tools .column a.number_control {
+  color: #ffffff;
+  background: #424fcf;
+  font-size: 1.2rem;
+  padding: 8px;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  height: 35px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  -webkit-justify-content: center;
+  align-items: center;
+  -webkit-align-items: center;
+}
+@media (max-width: 550px) {
+  .crop_section .crop_tools .column a.number_control {
+    padding: 4px;
+    font-size: 1rem;
+    height: 30px;
+  }
+}
+.crop_section .crop_tools .column a.number_control:hover {
+  background: #2b37ab;
 }
 
 .switch_wrap {
@@ -17766,11 +17900,14 @@ a.delete svg {
   right: 10px;
   z-index: 3;
 }
+.creator.course_creator #links_page .creator_wrap .preview .inner_content_wrap {
+  min-height: 300px;
+}
 .creator.course_creator #links_page .creator_wrap .preview .header {
   min-height: unset;
+  border-bottom: 2px solid #000;
 }
 .creator.course_creator #links_page .creator_wrap .preview .top_section {
-  border-bottom: 2px solid #000;
   padding: 35px 20px 20px;
 }
 .creator.course_creator #links_page .creator_wrap .preview .logo {

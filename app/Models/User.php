@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notifiable;
 use App\Models\Link as Link;
 use App\Models\Page as Page;
 use App\Models\Referral as Referral;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles;
 use TCG\Voyager\Models\User as VoyagerUser;
 

@@ -1,34 +1,22 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
 const TopBar = ({
                     courseData,
-                    nodesRef,
                     completedCrop,
-                    fileNames
+                    nodesRef
 }) => {
-
-    const checkFound = () => {
-        const isFound = fileNames?.find(el => {
-            return el?.name === "logo";
-        })
-        return isFound || false;
-    }
 
     return (
         <div className="top_section" style={{
             background: courseData['header_color']
         }}>
             <div className="logo">
-                {checkFound() ?
+                {completedCrop?.logo ?
                     <canvas
-                        ref={ref => nodesRef.current["logo"] = ref }
-                        // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
+                        ref={ref => nodesRef.current["logo"] = ref}
                         style={{
-                            backgroundImage: nodesRef.current["logo"],
-                            /*width: Math.round(completedCrop?.width ?? 0),
-                            height: Math.round(completedCrop?.height ?? 0)*/
-                            width: completedCrop.logo?.isCompleted ? `100%` : 0,
-                            height: completedCrop.logo?.isCompleted ? `100%` : 0,
+                            width: completedCrop["logo"]?.isCompleted ? `100%` : 0,
+                            height: completedCrop["logo"]?.isCompleted ? `100%` : 0,
                             backgroundSize: `cover`,
                             backgroundRepeat: `no-repeat`,
                         }}

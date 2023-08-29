@@ -38,7 +38,6 @@ function App() {
     const [showTiny, setShowTiny]   = useState(false);
 
     const [openIndex, setOpenIndex] = useState([0]);
-
     const [hoverSection, setHoverSection] = useState(null);
 
     const [pageData, dispatch] = useReducer(reducer, landingPageArray);
@@ -46,9 +45,8 @@ function App() {
     const [showPreviewButton, setShowPreviewButton] = useState(false);
     const [showPreview, setShowPreview] = useState(false);
 
-    const [completedCrop, setCompletedCrop] = useState([])
-    const nodesRef = useRef([]);
-    const [fileNames, setFileNames] = useState([]);
+    const [completedCrop, setCompletedCrop] = useState({})
+    const nodesRef = useRef({});
 
     const [showLoader, setShowLoader] = useState({
         show: false,
@@ -192,11 +190,9 @@ function App() {
                         </div>
                         <div className="section_content my_row">
                             <ImageComponent
-                                nodesRef={nodesRef}
+                                ref={nodesRef}
                                 completedCrop={completedCrop}
                                 setCompletedCrop={setCompletedCrop}
-                                fileNames={fileNames}
-                                setFileNames={setFileNames}
                                 setShowLoader={setShowLoader}
                                 pageData={pageData}
                                 dispatch={dispatch}
@@ -220,11 +216,9 @@ function App() {
                                 value={pageData["slogan"]}
                             />
                             <ImageComponent
-                                nodesRef={nodesRef}
+                                ref={nodesRef}
                                 completedCrop={completedCrop}
                                 setCompletedCrop={setCompletedCrop}
-                                fileNames={fileNames}
-                                setFileNames={setFileNames}
                                 setShowLoader={setShowLoader}
                                 pageData={pageData}
                                 dispatch={dispatch}
@@ -284,8 +278,6 @@ function App() {
                                                 completedCrop={completedCrop}
                                                 setCompletedCrop={setCompletedCrop}
                                                 nodesRef={nodesRef}
-                                                fileNames={fileNames}
-                                                setFileNames={setFileNames}
                                                 sections={sections}
                                                 setSections={setSections}
                                                 url={url}
@@ -332,8 +324,6 @@ function App() {
                 <Preview
                     completedCrop={completedCrop}
                     nodesRef={nodesRef}
-                    fileNames={fileNames}
-                    setFileNames={setFileNames}
                     sections={sections}
                     url={url}
                     pageData={pageData}

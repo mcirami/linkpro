@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import {PageContext} from '../../App';
 
 const Header = ({
-                    setRef,
+                    nodesRef,
                     completedCrop,
                     fileName,
                 }) => {
@@ -13,6 +13,7 @@ const Header = ({
         backgroundSize: "cover",
     };
 
+    console.log("nodesRef: ", nodesRef);
     return (
 
         <>
@@ -30,18 +31,18 @@ const Header = ({
                 :
                 <div className="page_header canvas"
                      style={{
-                         width: completedCrop ? `100%` : 0,
-                         height: completedCrop ? `auto` : 0,
+                         width: completedCrop["header_img"]?.isCompleted ? `100%` : 0,
+                         height: completedCrop["header_img"]?.isCompleted ? `auto` : 0,
                      }}>
                     <canvas
-                        ref={setRef}
+                        ref={ref => nodesRef.current["header_img"] = ref}
                         // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
                         style={{
-                            backgroundImage: setRef,
+                            /*backgroundImage: setRef,*/
                             /*width: Math.round(completedCrop?.width ?? 0),
                             height: Math.round(completedCrop?.height ?? 0)*/
-                            width: completedCrop ? `100%` : 0,
-                            height: completedCrop ? `auto` : 0,
+                            width: completedCrop["header_img"]?.isCompleted ? `100%` : 0,
+                            height: completedCrop["header_img"]?.isCompleted ? `auto` : 0,
                             borderTopRightRadius: `12%`,
                             borderTopLeftRadius: `12%`,
                         }}

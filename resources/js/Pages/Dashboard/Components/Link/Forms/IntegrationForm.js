@@ -3,7 +3,14 @@ import IntegrationType from './IntegrationType';
 import {isEmpty} from 'lodash';
 import MailchimpIntegration from './Mailchimp/MailchimpIntegration';
 import ShopifyIntegration from './Shopify/ShopifyIntegration';
-import ReactCrop from 'react-image-crop';
+import ReactCrop,  {
+    centerCrop,
+    makeAspectCrop,
+    convertToPixelCrop,
+} from 'react-image-crop';
+import 'react-image-crop/src/ReactCrop.scss';
+import { useDebounceEffect } from '../../../../../Utils/useDebounceEffect';
+import { canvasPreview } from '../../../../../Utils/canvasPreview';
 import IconList from '../IconList';
 import {
     PageContext,
@@ -24,6 +31,27 @@ import AllProducts from './Shopify/AllProducts';
 import StoreDropdown from './Shopify/StoreDropdown';
 import SelectedProducts from './Shopify/SelectedProducts';
 import {HandleBlur, HandleFocus} from '../../../../../Utils/InputAnimations';
+import {HiMinus, HiPlus} from 'react-icons/hi';
+
+function centerAspectCrop(
+    mediaWidth,
+    mediaHeight,
+    aspect,
+) {
+    return centerCrop(
+        makeAspectCrop(
+            {
+                unit: '%',
+                width: 90,
+            },
+            aspect,
+            mediaWidth,
+            mediaHeight,
+        ),
+        mediaWidth,
+        mediaHeight,
+    )
+}
 
 const IntegrationForm = ({
                              setAccordionValue,
@@ -56,6 +84,9 @@ const IntegrationForm = ({
     const previewCanvasRef = iconRef;
     const [crop, setCrop] = useState({ unit: '%', width: 30, aspect: 1 });
     const [customIcon, setCustomIcon] = useState(null);
+    const [scale, setScale] = useState(1)
+    const [rotate, setRotate] = useState(0)
+    const [aspect, setAspect] = useState(1)
 
     // Mailchimp integration
     const [lists, setLists] = useState([]);
@@ -84,6 +115,28 @@ const IntegrationForm = ({
             type: null,
         }
     );
+
+    useDebounceEffect(
+        async () => {
+            if (
+                completedIconCrop?.width &&
+                completedIconCrop?.height &&
+                imgRef.current &&
+                previewCanvasRef.current
+            ) {
+                // We use canvasPreview as it's much faster than imgPreview.
+                canvasPreview(
+                    imgRef.current,
+                    previewCanvasRef.current,
+                    completedIconCrop,
+                    scale,
+                    rotate,
+                )
+            }
+        },
+        100,
+        [completedIconCrop, scale, rotate],
+    )
 
     useEffect(() => {
         if(currentLink.shopify_products && currentLink.shopify_id) {
@@ -114,20 +167,21 @@ const IntegrationForm = ({
         return () => URL.revokeObjectURL(objectUrl)
     }, [customIcon]);
 
-    useEffect(() => {
+   /* useEffect(() => {
         if (!completedIconCrop || !previewCanvasRef.current || !imgRef.current) {
             return;
         }
 
         completedImageCrop(completedIconCrop, imgRef, previewCanvasRef.current);
 
-    }, [completedIconCrop]);
+    }, [completedIconCrop]);*/
 
     const selectCustomIcon = e => {
         let files = e.target.files || e.dataTransfer.files;
         if (!files.length) {
             return;
         }
+        setCrop(undefined)
         setIconSelected(true);
 
         createImage(files[0]);
@@ -141,9 +195,13 @@ const IntegrationForm = ({
         reader.readAsDataURL(file);
     }
 
-    const onLoad = useCallback((img) => {
-        imgRef.current = img;
-    }, []);
+    function onLoad(e) {
+        if (aspect) {
+            const {width, height } = e.currentTarget;
+            console.log(width);
+            setCrop(centerAspectCrop(width, height, aspect))
+        }
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -445,8 +503,11 @@ const IntegrationForm = ({
         setShowLinkForm(false);
         setIntegrationType(null);
         setAccordionValue(null);
-        document.getElementById(
-            'left_col_wrap').style.minHeight = "unset";
+        setCompletedIconCrop({});
+        setCustomIcon(null)
+        setIconSelected(false);
+        setUpImg(null);
+        document.getElementById('left_col_wrap').style.minHeight = "unset";
     }
 
     return (
@@ -482,43 +543,79 @@ const IntegrationForm = ({
                 <form onSubmit={handleSubmit} className="link_form">
                     <div className="row">
                         <div className="col-12">
-
-                            <div className={!iconSelected ?
-                                "crop_section hidden" :
-                                "crop_section"}>
-                                {iconSelected &&
+                            {iconSelected &&
+                                <div className="crop_section">
                                     <p>Crop Icon</p>
-                                }
-                                <ReactCrop
-                                    src={upImg}
-                                    onImageLoaded={onLoad}
-                                    crop={crop}
-                                    onChange={(c) => setCrop(c)}
-                                    onComplete={(c) => setCompletedIconCrop(
-                                        c)}
-                                />
-                                <div className="icon_col">
-                                    {iconSelected &&
+                                    <div className="crop_tools">
+                                        <div className="column">
+                                            <a href="#" className="number_control" onClick={(e) => handleDecreaseNumber(e, "scale")}>
+                                                <HiMinus />
+                                            </a>
+                                            <div className="position-relative">
+                                                <input
+                                                    className="active animate"
+                                                    id="scale-input"
+                                                    type="text"
+                                                    step="0.1"
+                                                    value={scale}
+                                                    onChange={(e) => setScale(Number(e.target.value))}
+                                                />
+                                                <label htmlFor="scale-input">Scale</label>
+                                            </div>
+                                            <a href="#" className="number_control" onClick={(e) => handleIncreaseNumber(e, "scale")}>
+                                                <HiPlus />
+                                            </a>
+                                        </div>
+                                        <div className="column">
+                                            <a href="#" className="number_control" onClick={(e) => handleDecreaseNumber(e, "rotate")}>
+                                                <HiMinus />
+                                            </a>
+                                            <div className="position-relative">
+                                                <input
+                                                    className="active animate"
+                                                    id="rotate-input"
+                                                    type="text"
+                                                    value={rotate}
+                                                    onChange={(e) =>
+                                                        setRotate(Math.min(180, Math.max(-180, Number(e.target.value))))
+                                                    }
+                                                />
+                                                <label htmlFor="rotate-input">Rotate</label>
+                                            </div>
+                                            <a href="#" className="number_control" onClick={(e) => handleIncreaseNumber(e, "rotate")}>
+                                                <HiPlus />
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <ReactCrop
+                                        crop={crop}
+                                        onChange={(_, percentCrop) => setCrop(percentCrop)}
+                                        onComplete={(c) => setCompletedIconCrop(c)}
+                                        aspect={aspect}
+                                    >
+                                        <img
+                                            onLoad={onLoad}
+                                            src={upImg}
+                                            ref={imgRef}
+                                            style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}
+                                            alt="Crop Me"/>
+                                    </ReactCrop>
+                                    <div className="icon_col">
                                         <p>Icon Preview</p>
-                                    }
-                                    <canvas
-                                        ref={iconRef}
-                                        // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
-                                        style={{
-                                            backgroundImage: iconRef,
-                                            backgroundSize: `cover`,
-                                            backgroundRepeat: `no-repeat`,
-                                            width: completedIconCrop ?
-                                                `100%` :
-                                                0,
-                                            height: completedIconCrop ?
-                                                `100%` :
-                                                0,
-                                            borderRadius: `20px`,
-                                        }}
-                                    />
+                                        <canvas
+                                            ref={previewCanvasRef}
+                                            // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
+                                            style={{
+                                                backgroundSize: `cover`,
+                                                backgroundRepeat: `no-repeat`,
+                                                width: iconSelected ? `100%` : 0,
+                                                height: iconSelected ? `100%` : 0,
+                                                borderRadius: `20px`,
+                                            }}
+                                        />
+                                    </div>
                                 </div>
-                            </div>
+                            }
 
                             {!displayAllProducts &&
                                 <div className="icon_row">

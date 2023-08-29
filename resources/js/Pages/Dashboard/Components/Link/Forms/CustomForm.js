@@ -1,5 +1,4 @@
 import React, {
-    createRef,
     useCallback,
     useContext,
     useEffect,
@@ -18,15 +17,44 @@ import {
 import {
     addLink,
     checkURL,
-    updateLink, updateLinkStatus,
+    updateLink,
+    updateLinkStatus,
 } from '../../../../../Services/LinksRequest';
 import {
     FOLDER_LINKS_ACTIONS,
     LINKS_ACTIONS,
 } from '../../../../../Services/Reducer';
 import EventBus from '../../../../../Utils/Bus';
-import ReactCrop from 'react-image-crop';
+import ReactCrop, {
+    centerCrop,
+    makeAspectCrop,
+    convertToPixelCrop,
+} from 'react-image-crop';
+import 'react-image-crop/src/ReactCrop.scss';
+import { useDebounceEffect } from '../../../../../Utils/useDebounceEffect';
+import { canvasPreview } from '../../../../../Utils/canvasPreview';
 import {HandleFocus, HandleBlur} from '../../../../../Utils/InputAnimations';
+import {HiMinus, HiPlus} from 'react-icons/hi';
+
+function centerAspectCrop(
+    mediaWidth,
+    mediaHeight,
+    aspect,
+) {
+    return centerCrop(
+        makeAspectCrop(
+            {
+                unit: '%',
+                width: 90,
+            },
+            aspect,
+            mediaWidth,
+            mediaHeight,
+        ),
+        mediaWidth,
+        mediaHeight,
+    )
+}
 
 const CustomForm = ({
                         accordionValue,
@@ -45,17 +73,20 @@ const CustomForm = ({
     const { folderLinks, dispatchFolderLinks } = useContext(FolderLinksContext);
     const  { pageSettings } = useContext(PageContext);
 
-    const iconRef = createRef(null)
-    const [completedIconCrop, setCompletedIconCrop] = useState(null);
+    //const iconRef = useRef(null)
+    const [completedIconCrop, setCompletedIconCrop] = useState({});
+    const [scale, setScale] = useState(1)
+    const [rotate, setRotate] = useState(0)
+    const [aspect, setAspect] = useState(1)
 
     // if a custom icon is selected
     const [iconSelected, setIconSelected] = useState(false);
 
     //image cropping
-    const [upImg, setUpImg] = useState();
+    const [upImg, setUpImg] = useState(null);
     const imgRef = useRef(null);
-    const previewCanvasRef = iconRef;
-    const [crop, setCrop] = useState({ unit: '%', width: 30, aspect: 1 });
+    const previewCanvasRef = useRef(null);
+    const [crop, setCrop] = useState({ unit: '%', width: 30 });
     const [customIcon, setCustomIcon] = useState(null);
 
     const [charactersLeft, setCharactersLeft] = useState();
@@ -79,6 +110,28 @@ const CustomForm = ({
         }
     );
 
+    useDebounceEffect(
+        async () => {
+            if (
+                completedIconCrop?.width &&
+                completedIconCrop?.height &&
+                imgRef.current &&
+                previewCanvasRef.current
+            ) {
+                // We use canvasPreview as it's much faster than imgPreview.
+                canvasPreview(
+                    imgRef.current,
+                    previewCanvasRef.current,
+                    completedIconCrop,
+                    scale,
+                    rotate,
+                )
+            }
+        },
+        100,
+        [completedIconCrop, scale, rotate],
+    )
+
     useEffect(() => {
         if(currentLink.name) {
             setCharactersLeft(11 - currentLink.name.length);
@@ -97,20 +150,12 @@ const CustomForm = ({
         return () => URL.revokeObjectURL(objectUrl)
     }, [customIcon]);
 
-    useEffect(() => {
-        if (!completedIconCrop || !previewCanvasRef.current || !imgRef.current) {
-            return;
-        }
-
-        completedImageCrop(completedIconCrop, imgRef, previewCanvasRef.current);
-
-    }, [completedIconCrop]);
-
     const selectCustomIcon = e => {
         let files = e.target.files || e.dataTransfer.files;
         if (!files.length) {
             return;
         }
+        setCrop(undefined)
         setIconSelected(true);
 
         createImage(files[0]);
@@ -124,9 +169,12 @@ const CustomForm = ({
         reader.readAsDataURL(file);
     }
 
-    const onLoad = useCallback((img) => {
-        imgRef.current = img;
-    }, []);
+    function onLoad(e) {
+        if (aspect) {
+            const {width, height } = e.currentTarget;
+            setCrop(centerAspectCrop(width, height, aspect))
+        }
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -567,8 +615,7 @@ const CustomForm = ({
         setShowLinkForm(false);
         setAccordionValue(null);
         setInputType(null);
-        document.getElementById(
-            'left_col_wrap').style.minHeight = "unset";
+        document.getElementById('left_col_wrap').style.minHeight = "unset";
     }
 
     const handleLinkName = useCallback( (e) => {
@@ -582,46 +629,111 @@ const CustomForm = ({
         }))
     });
 
+    const handleIncreaseNumber = (e,type) => {
+        e.preventDefault();
+        if (type === "scale") {
+
+            const number = scale + .1;
+            const result = Math.round(number * 10) / 10;
+            setScale(result);
+        }
+
+        if (type === "rotate") {
+            setRotate(Math.min(180, Math.max(-180, Number(rotate + 1))))
+        }
+    }
+
+    const handleDecreaseNumber = (e, type) => {
+        e.preventDefault();
+        if (type === "scale") {
+            const number = scale - .1;
+            const result = Math.round(number * 10) / 10;
+            setScale(result);
+        }
+
+        if (type === "rotate") {
+            setRotate(Math.min(180, Math.max(-180, Number(rotate - 1))))
+        }
+    }
+
     return (
         <form onSubmit={handleSubmit} className="link_form">
             <div className="row">
                 <div className="col-12">
-                    <div className={!iconSelected ?
-                        "crop_section hidden" :
-                        "crop_section"}>
-                        {iconSelected &&
+                    {iconSelected &&
+                        <div className="crop_section">
                             <p>Crop Icon</p>
-                        }
-                        <ReactCrop
-                            src={upImg}
-                            onImageLoaded={onLoad}
-                            crop={crop}
-                            onChange={(c) => setCrop(c)}
-                            onComplete={(c) => setCompletedIconCrop(
-                                c)}
-                        />
-                        <div className="icon_col">
-                            {iconSelected &&
+
+                            <div className="crop_tools">
+                                <div className="column">
+                                    <a href="#" className="number_control" onClick={(e) => handleDecreaseNumber(e, "scale")}>
+                                        <HiMinus />
+                                    </a>
+                                    <div className="position-relative">
+                                        <input
+                                            className="active animate"
+                                            id="scale-input"
+                                            type="text"
+                                            step="0.1"
+                                            value={scale}
+                                            onChange={(e) => setScale(Number(e.target.value))}
+                                        />
+                                        <label htmlFor="scale-input">Scale</label>
+                                    </div>
+                                    <a href="#" className="number_control" onClick={(e) => handleIncreaseNumber(e, "scale")}>
+                                        <HiPlus />
+                                    </a>
+                                </div>
+                                <div className="column">
+                                    <a href="#" className="number_control" onClick={(e) => handleDecreaseNumber(e, "rotate")}>
+                                        <HiMinus />
+                                    </a>
+                                    <div className="position-relative">
+                                        <input
+                                            className="active animate"
+                                            id="rotate-input"
+                                            type="text"
+                                            value={rotate}
+                                            onChange={(e) =>
+                                                setRotate(Math.min(180, Math.max(-180, Number(e.target.value))))
+                                            }
+                                        />
+                                        <label htmlFor="rotate-input">Rotate</label>
+                                    </div>
+                                    <a href="#" className="number_control" onClick={(e) => handleIncreaseNumber(e, "rotate")}>
+                                        <HiPlus />
+                                    </a>
+                                </div>
+                            </div>
+                            <ReactCrop
+                                crop={crop}
+                                onChange={(_, percentCrop) => setCrop(percentCrop)}
+                                onComplete={(c) => setCompletedIconCrop(c)}
+                                aspect={aspect}
+                            >
+                                <img
+                                    onLoad={onLoad}
+                                    src={upImg}
+                                    ref={imgRef}
+                                    style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}
+                                    alt="Crop Me"/>
+                            </ReactCrop>
+                            <div className="icon_col">
                                 <p>Icon Preview</p>
-                            }
-                            <canvas
-                                ref={iconRef}
-                                // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
-                                style={{
-                                    backgroundImage: iconRef,
-                                    backgroundSize: `cover`,
-                                    backgroundRepeat: `no-repeat`,
-                                    width: completedIconCrop ?
-                                        `100%` :
-                                        0,
-                                    height: completedIconCrop ?
-                                        `100%` :
-                                        0,
-                                    borderRadius: `20px`,
-                                }}
-                            />
+                                <canvas
+                                    ref={previewCanvasRef}
+                                    // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
+                                    style={{
+                                        backgroundSize: `cover`,
+                                        backgroundRepeat: `no-repeat`,
+                                        width: iconSelected ? `100%` : 0,
+                                        height: iconSelected ? `100%` : 0,
+                                        borderRadius: `20px`,
+                                    }}
+                                />
+                            </div>
                         </div>
-                    </div>
+                    }
                     <div className="icon_row">
                         <div className="icon_box">
                             <div className="uploader">

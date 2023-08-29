@@ -66,9 +66,8 @@ function App() {
         })
     );
 
-    const [completedCrop, setCompletedCrop] = useState([])
-    const nodesRef = useRef([]);
-    const [fileNames, setFileNames] = useState([]);
+    const [completedCrop, setCompletedCrop] = useState({})
+    const nodesRef = useRef({});
 
     const divRef = useRef(null);
     const columnRef = useRef(null);
@@ -172,7 +171,7 @@ function App() {
             infoClicked,
             setInfoClicked,
             setTriangleRef,
-            triangleRef
+            triangleRef,
         }}>
             <div className="my_row page_wrap">
 
@@ -217,11 +216,9 @@ function App() {
                                     value={courseData["title"]}
                                 />
                                 <ImageComponent
-                                    nodesRef={nodesRef}
+                                    ref={nodesRef}
                                     completedCrop={completedCrop}
                                     setCompletedCrop={setCompletedCrop}
-                                    fileNames={fileNames}
-                                    setFileNames={setFileNames}
                                     setShowLoader={setShowLoader}
                                     data={courseData}
                                     dispatch={dispatch}
@@ -383,11 +380,9 @@ function App() {
                             <div className="section_content my_row">
                                 <ImageComponent
                                     placeholder="Course Icon"
-                                    nodesRef={nodesRef}
+                                    ref={nodesRef}
                                     completedCrop={completedCrop}
                                     setCompletedCrop={setCompletedCrop}
-                                    fileNames={fileNames}
-                                    setFileNames={setFileNames}
                                     setShowLoader={setShowLoader}
                                     elementName={`icon`}
                                     dispatch={dispatchOfferData}
@@ -438,7 +433,6 @@ function App() {
                         hoverSection={hoverSection}
                         nodesRef={nodesRef}
                         completedCrop={completedCrop}
-                        fileNames={fileNames}
                     />
                 </div>
 
