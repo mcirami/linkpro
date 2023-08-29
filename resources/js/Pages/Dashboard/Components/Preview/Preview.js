@@ -17,12 +17,10 @@ import StoreProducts from './StoreProducts';
 import {UseLoadPreviewHeight, UseResizePreviewHeight} from '../../../../Services/PreviewHooks';
 
 const Preview = ({
-                     imageRefs,
+                     nodesRef,
                      completedCrop,
                      fileName,
                      profileFileName,
-                     completedProfileCrop,
-                     profileRef,
                      row,
                      setRow,
                      value,
@@ -89,7 +87,7 @@ const Preview = ({
                 <div className="inner_content" id="preview_wrap">
                     <div className="inner_content_wrap" style={{ maxHeight: resizePreviewHeight ? resizePreviewHeight + "px" : loadPreviewHeight + "px"}}>
                         <Header
-                            imageRefs={imageRefs}
+                            nodesRef={nodesRef}
                             completedCrop={completedCrop}
                             fileName={fileName}
                         />
@@ -98,7 +96,7 @@ const Preview = ({
                             <ProfileImage
                                 profileFileName={profileFileName}
                                 completedCrop={completedCrop}
-                                imageRefs={imageRefs}
+                                nodesRef={nodesRef}
                             />
                             <ProfileText />
                         </div>

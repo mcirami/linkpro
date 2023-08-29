@@ -69,8 +69,6 @@ function App() {
     const [completedCrop, setCompletedCrop] = useState({})
     const nodesRef = useRef({});
 
-    /*const [fileNames, setFileNames] = useState([]);*/
-
     const divRef = useRef(null);
     const columnRef = useRef(null);
 

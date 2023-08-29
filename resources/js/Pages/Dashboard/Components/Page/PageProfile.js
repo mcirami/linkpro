@@ -54,7 +54,7 @@ const PageProfile = forwardRef(function PageProfile(props, ref) {
     const [previousImage, setPreviousImage] = useState(pageSettings['profile_img']);
 
     const [upImg, setUpImg] = useState();
-    const imgRef = useRef(null);
+    const imgRef = useRef();
     const previewCanvasRef = ref;
     const [crop, setCrop] = useState({ unit: '%', width: 30, aspect: 1 });
     const [scale, setScale] = useState(1)
@@ -67,13 +67,13 @@ const PageProfile = forwardRef(function PageProfile(props, ref) {
                 completedCrop[elementName]?.isCompleted.width &&
                 completedCrop[elementName]?.isCompleted.height &&
                 imgRef.current &&
-                previewCanvasRef?.current[elementName]
+                previewCanvasRef.current[elementName]
             ) {
                 // We use canvasPreview as it's much faster than imgPreview.
                 canvasPreview(
                     imgRef.current,
-                    previewCanvasRef?.current[elementName],
-                    completedCrop[elementName]?.isCompleted,
+                    previewCanvasRef.current[elementName],
+                    completedCrop[elementName].isCompleted,
                     scale,
                     rotate,
                 )
@@ -88,6 +88,7 @@ const PageProfile = forwardRef(function PageProfile(props, ref) {
         if (!files.length) {
             return;
         }
+        setCrop(undefined)
         setProfileFileName(files[0]["name"]);
         document.querySelector('form.profile_img_form .bottom_section').classList.remove('hidden');
         if (window.innerWidth < 993) {
@@ -317,7 +318,7 @@ const PageProfile = forwardRef(function PageProfile(props, ref) {
                                     crop={crop}
                                     aspect={aspect}
                                     onChange={(_, percentCrop) => setCrop(percentCrop)}
-                                    onComplete={(c) =>  setCompletedCrop({
+                                    onComplete={(c) => setCompletedCrop({
                                         ...completedCrop,
                                         [`${elementName}`]: {
                                             isCompleted: c

@@ -93,12 +93,9 @@ function App() {
     const [showConfirmFolderDelete, setShowConfirmFolderDelete] = useState(false);
     const [optionText, setOptionText] = useState("");
 
-    const imageRefs = useRef({});
+    const nodesRef = useRef({});
     const [completedCrop, setCompletedCrop] = useState({});
     const [fileName, setFileName] = useState(null);
-
-    const profileRef = useRef(null)
-    const [completedProfileCrop, setCompletedProfileCrop] = useState(null);
     const [profileFileName, setProfileFileName] = useState(null);
 
     const pageHeaderRef = useRef(null);
@@ -346,7 +343,7 @@ function App() {
                                         <PageName />
 
                                         <PageHeader
-                                            ref={imageRefs}
+                                            ref={nodesRef}
                                             completedCrop={completedCrop}
                                             setCompletedCrop={setCompletedCrop}
                                             fileName={fileName}
@@ -356,13 +353,13 @@ function App() {
                                         />
 
                                         <PageProfile
-                                            ref={imageRefs}
+                                            ref={nodesRef}
                                             completedCrop={completedCrop}
                                             setCompletedCrop={setCompletedCrop}
                                             profileFileName={profileFileName}
                                             setProfileFileName={setProfileFileName}
                                             setShowLoader={setShowLoader}
-                                            elementName={"profile_img"}
+                                            elementName="profile_img"
                                         />
 
                                         <PageTitle />
@@ -640,9 +637,8 @@ function App() {
                             </div>
                             <div className={`right_column links_col preview ${showPreview ? "show" : ""}`}>
                                 <Preview
-                                    imageRefs={imageRefs}
+                                    nodesRef={nodesRef}
                                     completedCrop={completedCrop}
-                                    completedProfileCrop={completedProfileCrop}
                                     fileName={fileName}
                                     profileFileName={profileFileName}
                                     row={row}

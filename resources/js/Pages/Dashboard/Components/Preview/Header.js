@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import {PageContext} from '../../App';
 
 const Header = ({
-                    imageRefs,
+                    nodesRef,
                     completedCrop,
                     fileName,
                 }) => {
@@ -13,7 +13,7 @@ const Header = ({
         backgroundSize: "cover",
     };
 
-    console.log("setRef: ", imageRefs);
+    console.log("nodesRef: ", nodesRef);
     return (
 
         <>
@@ -35,7 +35,7 @@ const Header = ({
                          height: completedCrop["header_img"]?.isCompleted ? `auto` : 0,
                      }}>
                     <canvas
-                        ref={ref => imageRefs.current["header_img"] = ref}
+                        ref={ref => nodesRef.current["header_img"] = ref}
                         // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
                         style={{
                             /*backgroundImage: setRef,*/

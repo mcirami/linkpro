@@ -93,11 +93,9 @@ const PageHeader = forwardRef(function PageHeader(props, ref) {
         if (!files.length) {
             return;
         }
-
+        setCrop(undefined)
         setFileName(files[0]["name"]);
-        document
-            .querySelector("form.header_img_form .bottom_section")
-            .classList.remove("hidden");
+        document.querySelector("form.header_img_form .bottom_section").classList.remove("hidden");
         if (window.innerWidth < 993) {
             document.querySelector(".header_img_form").scrollIntoView({
                 behavior: "smooth",

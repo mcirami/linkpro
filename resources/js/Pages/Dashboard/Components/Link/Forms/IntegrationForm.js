@@ -181,6 +181,7 @@ const IntegrationForm = ({
         if (!files.length) {
             return;
         }
+        setCrop(undefined)
         setIconSelected(true);
 
         createImage(files[0]);

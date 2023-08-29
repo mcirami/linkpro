@@ -150,20 +150,12 @@ const CustomForm = ({
         return () => URL.revokeObjectURL(objectUrl)
     }, [customIcon]);
 
-   /* useEffect(() => {
-        if (!completedIconCrop || !previewCanvasRef.current || !imgRef.current) {
-            return;
-        }
-
-        completedImageCrop(completedIconCrop, imgRef, previewCanvasRef.current);
-
-    }, [completedIconCrop]);*/
-
     const selectCustomIcon = e => {
         let files = e.target.files || e.dataTransfer.files;
         if (!files.length) {
             return;
         }
+        setCrop(undefined)
         setIconSelected(true);
 
         createImage(files[0]);

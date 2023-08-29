@@ -278,6 +278,8 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
 
     }
 
+    console.log("completedCrop: ", completedCrop)
+
     return (
         <article className="my_row page_settings">
             <div className="column_wrap">
@@ -360,7 +362,7 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
                                 crop={crop}
                                 aspect={aspect}
                                 onChange={(_, percentCrop) => setCrop(percentCrop)}
-                                onComplete={(c) =>  setCompletedCrop({
+                                onComplete={(c) => setCompletedCrop({
                                     ...completedCrop,
                                     [`${elementName}`]: {
                                         isCompleted: c
