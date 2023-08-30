@@ -1,5 +1,5 @@
 import {toLower} from 'lodash';
-import {useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {centerCrop, makeAspectCrop} from 'react-image-crop';
 
 const socialArray = [
@@ -85,17 +85,9 @@ export async function canvasPreview(
 export const createImage = (
     file,
     setUpImg,
-    setPageSettings = null,
-    pageSettings = null
 ) => {
     let reader = new FileReader();
     reader.addEventListener('load', (e) => {
-        if (setPageSettings && pageSettings) {
-            setPageSettings({
-                ...pageSettings,
-                header_img: e.target.result,
-            });
-        }
         setUpImg(e.target.result);
     });
     reader.readAsDataURL(file);
@@ -185,6 +177,45 @@ export const getFileToUpload = async (ref) => {
            1,
        )
    });
+}
+
+export const handleScaleChange = (
+    e,
+    scale,
+    setScale,
+    action
+) => {
+    e.preventDefault();
+    let result = null;
+
+    if(action === "increase") {
+        result = Math.round( (scale + .1) * 10) / 10;
+    }
+
+    if (action === "decrease") {
+        result = Math.round((scale - .1) * 10) / 10;
+    }
+
+    setScale(result);
+}
+
+export const handleRotateChange = (
+    e,
+    rotate,
+    setRotate,
+    action
+) => {
+    e.preventDefault();
+    let result = null;
+    if (action === "increase") {
+        result = Math.min(180, Math.max(-180, Number(rotate + 1)))
+    }
+
+    if (action === "decrease") {
+        result = Math.min(180, Math.max(-180, Number(rotate - 1)))
+    }
+
+    setRotate(result)
 }
 
 const dataURLtoFile = (dataurl, fileName) => {

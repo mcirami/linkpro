@@ -5,19 +5,19 @@ import React, {
     forwardRef,
 } from 'react';
 import {MdEdit} from 'react-icons/md';
-import {HiPlus, HiMinus} from 'react-icons/hi';
-import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
 import {
     createImage,
     canvasPreview,
     useDebounceEffect,
+    getFileToUpload,
     onImageLoad,
-    getFileToUpload
 } from '../../../Services/ImageService';
 import { updateIcon} from '../../../Services/OfferRequests';
 import { updateImage} from '../../../Services/CourseRequests';
 import {OFFER_ACTIONS, LP_ACTIONS} from '../Reducer';
+import CropTools from '../../../Utils/CropTools';
+import ReactCrop from 'react-image-crop';
 
 const ImageComponent = forwardRef(function ImageComponent(props, ref) {
 
@@ -37,8 +37,6 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
     const [upImg, setUpImg] = useState('');
     const imgRef = useRef(null);
     const previewCanvasRef = ref;
-    const hiddenAnchorRef = useRef(null);
-    const blobUrlRef = useRef('')
     const [crop, setCrop] = useState(cropArray);
     const [scale, setScale] = useState(1)
     const [rotate, setRotate] = useState(0)
@@ -169,33 +167,33 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
             } else {
                 updateImage(packets, data["id"])
                 .then((data) => {
-                        if (data.success) {
-                            dispatch({
-                                type: LP_ACTIONS.UPDATE_PAGE_DATA,
-                                payload: {
-                                    value: data.imagePath,
-                                    name: elementName
-                                }
-                            })
-                            setShowLoader({
-                                show: false,
-                                icon: '',
-                                position: ''
-                            });
+                    if (data.success) {
+                        dispatch({
+                            type: LP_ACTIONS.UPDATE_PAGE_DATA,
+                            payload: {
+                                value: data.imagePath,
+                                name: elementName
+                            }
+                        })
+                        setShowLoader({
+                            show: false,
+                            icon: '',
+                            position: ''
+                        });
 
-                            setUpImg(null);
-                            delete completedCrop[elementName];
-                            setCompletedCrop(completedCrop);
-                            document.querySelector("." + CSS.escape(elementName) +
-                                "_form .bottom_section").classList.add("hidden");
-                        } else {
-                            setShowLoader({
-                                show: false,
-                                icon: '',
-                                position: ''
-                            });
-                        }
-                    })
+                        setUpImg(null);
+                        delete completedCrop[elementName];
+                        setCompletedCrop(completedCrop);
+                        document.querySelector("." + CSS.escape(elementName) +
+                            "_form .bottom_section").classList.add("hidden");
+                    } else {
+                        setShowLoader({
+                            show: false,
+                            icon: '',
+                            position: ''
+                        });
+                    }
+                })
             }
 
         }).catch((error) => {
@@ -213,33 +211,6 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
         setCompletedCrop(copy);
         document.querySelector("." + CSS.escape(elementName) + "_form .bottom_section").classList.add("hidden");
     };
-
-    const handleIncreaseNumber = (e,type) => {
-        e.preventDefault();
-        if (type === "scale") {
-
-            const number = scale + .1;
-            const result = Math.round(number * 10) / 10;
-            setScale(result);
-        }
-
-        if (type === "rotate") {
-            setRotate(Math.min(180, Math.max(-180, Number(rotate + 1))))
-        }
-    }
-
-    const handleDecreaseNumber = (e, type) => {
-        e.preventDefault();
-        if (type === "scale") {
-            const number = scale - .1;
-            const result = Math.round(number * 10) / 10;
-            setScale(result);
-        }
-
-        if (type === "rotate") {
-            setRotate(Math.min(180, Math.max(-180, Number(rotate - 1))))
-        }
-    }
 
     return (
         <article className="my_row page_settings">
@@ -289,47 +260,12 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
 
                     <div className="bottom_section hidden">
                         <div className="crop_section">
-                            <div className="crop_tools">
-                                <div className="column">
-                                    <a href="#" className="number_control" onClick={(e) => handleDecreaseNumber(e, "scale")}>
-                                        <HiMinus />
-                                    </a>
-                                    <div className="position-relative">
-                                        <input
-                                            className="active animate"
-                                            id="scale-input"
-                                            type="text"
-                                            step="0.1"
-                                            value={scale}
-                                            onChange={(e) => setScale(Number(e.target.value))}
-                                        />
-                                        <label htmlFor="scale-input">Scale</label>
-                                    </div>
-                                    <a href="#" className="number_control" onClick={(e) => handleIncreaseNumber(e, "scale")}>
-                                        <HiPlus />
-                                    </a>
-                                </div>
-                                <div className="column">
-                                    <a href="#" className="number_control" onClick={(e) => handleDecreaseNumber(e, "rotate")}>
-                                        <HiMinus />
-                                    </a>
-                                    <div className="position-relative">
-                                        <input
-                                            className="active animate"
-                                            id="rotate-input"
-                                            type="text"
-                                            value={rotate}
-                                            onChange={(e) =>
-                                                setRotate(Math.min(180, Math.max(-180, Number(e.target.value))))
-                                            }
-                                        />
-                                        <label htmlFor="rotate-input">Rotate</label>
-                                    </div>
-                                    <a href="#" className="number_control" onClick={(e) => handleIncreaseNumber(e, "rotate")}>
-                                        <HiPlus />
-                                    </a>
-                                </div>
-                            </div>
+                            <CropTools
+                                rotate={rotate}
+                                setRotate={setRotate}
+                                scale={scale}
+                                setScale={setScale}
+                            />
                             <ReactCrop
                                 crop={crop}
                                 onChange={(_, percentCrop) => setCrop(percentCrop)}
@@ -364,7 +300,6 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
 
                                     />
                                 </div>
-
                             }
                         </div>
                         <div className="bottom_row">

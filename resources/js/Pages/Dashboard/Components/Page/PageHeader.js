@@ -16,7 +16,7 @@ import {
     createImage, getFileToUpload,
 } from '../../../../Services/ImageService';
 import ToolTipIcon from '../../../../Utils/ToolTips/ToolTipIcon';
-import {HiMinus, HiPlus} from 'react-icons/hi';
+import CropTools from '../../../../Utils/CropTools';
 
 const PageHeader = forwardRef(function PageHeader(props, ref) {
 
@@ -216,47 +216,12 @@ const PageHeader = forwardRef(function PageHeader(props, ref) {
                     )}
                     <div className="bottom_section hidden">
                         <div className="crop_section">
-                            <div className="crop_tools">
-                                <div className="column">
-                                    <a href="#" className="number_control" onClick={(e) => handleDecreaseNumber(e, "scale")}>
-                                        <HiMinus />
-                                    </a>
-                                    <div className="position-relative">
-                                        <input
-                                            className="active animate"
-                                            id="scale-input"
-                                            type="text"
-                                            step="0.1"
-                                            value={scale}
-                                            onChange={(e) => setScale(Number(e.target.value))}
-                                        />
-                                        <label htmlFor="scale-input">Scale</label>
-                                    </div>
-                                    <a href="#" className="number_control" onClick={(e) => handleIncreaseNumber(e, "scale")}>
-                                        <HiPlus />
-                                    </a>
-                                </div>
-                                <div className="column">
-                                    <a href="#" className="number_control" onClick={(e) => handleDecreaseNumber(e, "rotate")}>
-                                        <HiMinus />
-                                    </a>
-                                    <div className="position-relative">
-                                        <input
-                                            className="active animate"
-                                            id="rotate-input"
-                                            type="text"
-                                            value={rotate}
-                                            onChange={(e) =>
-                                                setRotate(Math.min(180, Math.max(-180, Number(e.target.value))))
-                                            }
-                                        />
-                                        <label htmlFor="rotate-input">Rotate</label>
-                                    </div>
-                                    <a href="#" className="number_control" onClick={(e) => handleIncreaseNumber(e, "rotate")}>
-                                        <HiPlus />
-                                    </a>
-                                </div>
-                            </div>
+                            <CropTools
+                                rotate={rotate}
+                                setRotate={setRotate}
+                                scale={scale}
+                                setScale={setScale}
+                            />
                             <ReactCrop
                                 crop={crop}
                                 aspect={aspect}

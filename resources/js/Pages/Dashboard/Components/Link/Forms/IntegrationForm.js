@@ -32,6 +32,7 @@ import StoreDropdown from './Shopify/StoreDropdown';
 import SelectedProducts from './Shopify/SelectedProducts';
 import {HandleBlur, HandleFocus} from '../../../../../Utils/InputAnimations';
 import {HiMinus, HiPlus} from 'react-icons/hi';
+import CropTools from '../../../../../Utils/CropTools';
 
 const IntegrationForm = ({
                              setAccordionValue,
@@ -468,47 +469,12 @@ const IntegrationForm = ({
                             {iconSelected &&
                                 <div className="crop_section">
                                     <p>Crop Icon</p>
-                                    <div className="crop_tools">
-                                        <div className="column">
-                                            <a href="#" className="number_control" onClick={(e) => handleDecreaseNumber(e, "scale")}>
-                                                <HiMinus />
-                                            </a>
-                                            <div className="position-relative">
-                                                <input
-                                                    className="active animate"
-                                                    id="scale-input"
-                                                    type="text"
-                                                    step="0.1"
-                                                    value={scale}
-                                                    onChange={(e) => setScale(Number(e.target.value))}
-                                                />
-                                                <label htmlFor="scale-input">Scale</label>
-                                            </div>
-                                            <a href="#" className="number_control" onClick={(e) => handleIncreaseNumber(e, "scale")}>
-                                                <HiPlus />
-                                            </a>
-                                        </div>
-                                        <div className="column">
-                                            <a href="#" className="number_control" onClick={(e) => handleDecreaseNumber(e, "rotate")}>
-                                                <HiMinus />
-                                            </a>
-                                            <div className="position-relative">
-                                                <input
-                                                    className="active animate"
-                                                    id="rotate-input"
-                                                    type="text"
-                                                    value={rotate}
-                                                    onChange={(e) =>
-                                                        setRotate(Math.min(180, Math.max(-180, Number(e.target.value))))
-                                                    }
-                                                />
-                                                <label htmlFor="rotate-input">Rotate</label>
-                                            </div>
-                                            <a href="#" className="number_control" onClick={(e) => handleIncreaseNumber(e, "rotate")}>
-                                                <HiPlus />
-                                            </a>
-                                        </div>
-                                    </div>
+                                    <CropTools
+                                        rotate={rotate}
+                                        setRotate={setRotate}
+                                        scale={scale}
+                                        setScale={setScale}
+                                    />
                                     <ReactCrop
                                         crop={crop}
                                         onChange={(_, percentCrop) => setCrop(percentCrop)}
