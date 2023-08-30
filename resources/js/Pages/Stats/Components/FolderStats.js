@@ -120,8 +120,6 @@ const FolderStats = ({
 
     }, [folderStatsDate])
 
-    console.log(folderStats);
-
     return (
         <div className="stats_wrap my_row position-relative">
             <Filters handleDateChange={handleDateChange}

@@ -8,7 +8,13 @@ import React, {
 import IconList from '../IconList';
 import InputTypeRadio from './InputTypeRadio';
 import InputComponent from './InputComponent';
-import {completedImageCrop} from '../../../../../Services/ImageService';
+import {
+    canvasPreview,
+    useDebounceEffect,
+    onImageLoad,
+    createImage,
+    getFileToUpload
+} from '../../../../../Services/ImageService';
 import {
     FolderLinksContext,
     PageContext,
@@ -25,36 +31,10 @@ import {
     LINKS_ACTIONS,
 } from '../../../../../Services/Reducer';
 import EventBus from '../../../../../Utils/Bus';
-import ReactCrop, {
-    centerCrop,
-    makeAspectCrop,
-    convertToPixelCrop,
-} from 'react-image-crop';
+import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
-import { useDebounceEffect } from '../../../../../Utils/useDebounceEffect';
-import { canvasPreview } from '../../../../../Utils/canvasPreview';
 import {HandleFocus, HandleBlur} from '../../../../../Utils/InputAnimations';
 import {HiMinus, HiPlus} from 'react-icons/hi';
-
-function centerAspectCrop(
-    mediaWidth,
-    mediaHeight,
-    aspect,
-) {
-    return centerCrop(
-        makeAspectCrop(
-            {
-                unit: '%',
-                width: 90,
-            },
-            aspect,
-            mediaWidth,
-            mediaHeight,
-        ),
-        mediaWidth,
-        mediaHeight,
-    )
-}
 
 const CustomForm = ({
                         accordionValue,
@@ -158,39 +138,17 @@ const CustomForm = ({
         setCrop(undefined)
         setIconSelected(true);
 
-        createImage(files[0]);
-    }
-
-    const createImage = (file) => {
-        let reader = new FileReader();
-        reader.onload = (e) => {
-            setUpImg(e.target.result);
-        };
-        reader.readAsDataURL(file);
-    }
-
-    function onLoad(e) {
-        if (aspect) {
-            const {width, height } = e.currentTarget;
-            setCrop(centerAspectCrop(width, height, aspect))
-        }
+        createImage(files[0], setUpImg);
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         if (iconSelected) {
-            previewCanvasRef.current.toBlob(
-                (blob) => {
-                    const reader = new FileReader();
-                    reader.readAsDataURL(blob)
-                    reader.onloadend = () => {
-                        dataURLtoFile(reader.result, 'cropped.jpg');
-                    }
-                },
-                'image/png',
-                1
-            );
+            const image = getFileToUpload(previewCanvasRef?.current)
+            image.then((value) => {
+                submitWithCustomIcon(value);
+            })
         } else {
             let URL = currentLink.url;
             let data;
@@ -387,7 +345,7 @@ const CustomForm = ({
         }
     }
 
-    const dataURLtoFile = (dataurl, filename) => {
+    /*const dataURLtoFile = (dataurl, filename) => {
         let arr = dataurl.split(','),
             mime = arr[0].match(/:(.*?);/)[1],
             bstr = atob(arr[1]),
@@ -399,7 +357,7 @@ const CustomForm = ({
         }
         let croppedImage = new File([u8arr], filename, {type:mime});
         submitWithCustomIcon(croppedImage);
-    }
+    }*/
 
     const submitWithCustomIcon = (image) => {
 
@@ -476,6 +434,8 @@ const CustomForm = ({
 
                     if (data.success) {
 
+                        const iconPath = data.iconPath;
+
                         if (folderID) {
 
                             if (editID) {
@@ -485,7 +445,7 @@ const CustomForm = ({
                                         editID: editID,
                                         currentLink: currentLink,
                                         url: URL,
-                                        iconPath: data.iconPath
+                                        iconPath: iconPath
                                     }})
 
                                 dispatch({
@@ -495,7 +455,7 @@ const CustomForm = ({
                                         editID: editID,
                                         currentLink: currentLink,
                                         url: URL,
-                                        iconPath: data.iconPath
+                                        iconPath: iconPath
                                     }})
 
                             } else {
@@ -512,7 +472,7 @@ const CustomForm = ({
                                     shopify_products: currentLink.shopify_products,
                                     shopify_id: currentLink.shopify_id,
                                     type: currentLink.type,
-                                    icon: data.icon_path,
+                                    icon: iconPath,
                                     position: data.position,
                                     active_status: true
                                 }
@@ -552,7 +512,7 @@ const CustomForm = ({
                                         editID: editID,
                                         currentLink: currentLink,
                                         url: URL,
-                                        iconPath: data.iconPath
+                                        iconPath: iconPath
                                     }})
 
                             } else {
@@ -565,7 +525,7 @@ const CustomForm = ({
                                     email: currentLink.email,
                                     phone: currentLink.phone,
                                     type: currentLink.type,
-                                    icon: data.icon_path,
+                                    icon: iconPath,
                                     position: data.position,
                                     active_status: true
                                 }
@@ -581,7 +541,7 @@ const CustomForm = ({
 
                         setCustomIconArray(customIconArray => [
                             ...customIconArray,
-                            data.icon_path
+                            iconPath
                         ]);
 
                         setShowLinkForm(false);
@@ -615,6 +575,7 @@ const CustomForm = ({
         setShowLinkForm(false);
         setAccordionValue(null);
         setInputType(null);
+        setCompletedIconCrop({});
         document.getElementById('left_col_wrap').style.minHeight = "unset";
     }
 
@@ -712,7 +673,7 @@ const CustomForm = ({
                                 aspect={aspect}
                             >
                                 <img
-                                    onLoad={onLoad}
+                                    onLoad={(e) => onImageLoad(e, aspect, setCrop)}
                                     src={upImg}
                                     ref={imgRef}
                                     style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}

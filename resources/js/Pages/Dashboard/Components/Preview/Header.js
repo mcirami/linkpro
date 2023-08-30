@@ -13,7 +13,6 @@ const Header = ({
         backgroundSize: "cover",
     };
 
-    console.log("nodesRef: ", nodesRef);
     return (
 
         <>
@@ -38,9 +37,6 @@ const Header = ({
                         ref={ref => nodesRef.current["header_img"] = ref}
                         // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
                         style={{
-                            /*backgroundImage: setRef,*/
-                            /*width: Math.round(completedCrop?.width ?? 0),
-                            height: Math.round(completedCrop?.height ?? 0)*/
                             width: completedCrop["header_img"]?.isCompleted ? `100%` : 0,
                             height: completedCrop["header_img"]?.isCompleted ? `auto` : 0,
                             borderTopRightRadius: `12%`,

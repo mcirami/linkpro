@@ -3,20 +3,20 @@ import IntegrationType from './IntegrationType';
 import {isEmpty} from 'lodash';
 import MailchimpIntegration from './Mailchimp/MailchimpIntegration';
 import ShopifyIntegration from './Shopify/ShopifyIntegration';
-import ReactCrop,  {
-    centerCrop,
-    makeAspectCrop,
-    convertToPixelCrop,
-} from 'react-image-crop';
+import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
-import { useDebounceEffect } from '../../../../../Utils/useDebounceEffect';
-import { canvasPreview } from '../../../../../Utils/canvasPreview';
 import IconList from '../IconList';
 import {
     PageContext,
     UserLinksContext,
 } from '../../../App';
-import {completedImageCrop} from '../../../../../Services/ImageService';
+import {
+    canvasPreview,
+    useDebounceEffect,
+    onImageLoad,
+    getFileToUpload,
+    createImage
+} from '../../../../../Services/ImageService';
 import {
     addLink,
     checkURL,
@@ -32,26 +32,6 @@ import StoreDropdown from './Shopify/StoreDropdown';
 import SelectedProducts from './Shopify/SelectedProducts';
 import {HandleBlur, HandleFocus} from '../../../../../Utils/InputAnimations';
 import {HiMinus, HiPlus} from 'react-icons/hi';
-
-function centerAspectCrop(
-    mediaWidth,
-    mediaHeight,
-    aspect,
-) {
-    return centerCrop(
-        makeAspectCrop(
-            {
-                unit: '%',
-                width: 90,
-            },
-            aspect,
-            mediaWidth,
-            mediaHeight,
-        ),
-        mediaWidth,
-        mediaHeight,
-    )
-}
 
 const IntegrationForm = ({
                              setAccordionValue,
@@ -167,15 +147,6 @@ const IntegrationForm = ({
         return () => URL.revokeObjectURL(objectUrl)
     }, [customIcon]);
 
-   /* useEffect(() => {
-        if (!completedIconCrop || !previewCanvasRef.current || !imgRef.current) {
-            return;
-        }
-
-        completedImageCrop(completedIconCrop, imgRef, previewCanvasRef.current);
-
-    }, [completedIconCrop]);*/
-
     const selectCustomIcon = e => {
         let files = e.target.files || e.dataTransfer.files;
         if (!files.length) {
@@ -184,23 +155,7 @@ const IntegrationForm = ({
         setCrop(undefined)
         setIconSelected(true);
 
-        createImage(files[0]);
-    }
-
-    const createImage = (file) => {
-        let reader = new FileReader();
-        reader.onload = (e) => {
-            setUpImg(e.target.result);
-        };
-        reader.readAsDataURL(file);
-    }
-
-    function onLoad(e) {
-        if (aspect) {
-            const {width, height } = e.currentTarget;
-            console.log(width);
-            setCrop(centerAspectCrop(width, height, aspect))
-        }
+        createImage(files[0], setUpImg);
     }
 
     const handleSubmit = (e) => {
@@ -211,142 +166,107 @@ const IntegrationForm = ({
 
             if (iconSelected) {
 
-                previewCanvasRef.current.toBlob(
-                    (blob) => {
-                        const reader = new FileReader();
-                        reader.readAsDataURL(blob)
-                        reader.onloadend = () => {
-                            dataURLtoFile(reader.result, 'cropped.jpg');
-                        }
-                    },
-                    'image/png',
-                    1
-                );
+                const image = getFileToUpload(previewCanvasRef?.current)
+                image.then((value) => {
+                    submitWithCustomIcon(value);
+                })
+
 
             } else {
 
                 let URL = currentLink.url;
-                //let data;
 
-                /*if (URL && currentLink.name) {
-                    data = checkURL(URL, currentLink.name, null,
-                        !subStatus);
-                } else {
-                    data = {
-                        success: true,
-                        url: URL
-                    }
-                }*/
+                let packets;
 
-                /*if (data["success"]) {*/
+                switch (integrationType) {
+                    case "mailchimp":
+                        packets = {
+                            name: currentLink.name,
+                            mailchimp_list_id: currentLink.mailchimp_list_id,
+                            icon: currentLink.icon,
+                            page_id: pageSettings["id"],
+                            type: "mailchimp",
+                        };
+                        break;
+                    case "shopify":
+                        packets = {
+                            name: currentLink.name,
+                            shopify_products: currentLink.shopify_products,
+                            shopify_id: currentLink.shopify_id,
+                            icon: currentLink.icon,
+                            page_id: pageSettings["id"],
+                            type: "shopify",
+                        };
+                        break;
+                }
 
-                    //URL = data["url"];
-                    let packets;
+                const func = editID ? updateLink(packets, editID) : addLink(packets);
 
-                    switch (integrationType) {
-                        case "mailchimp":
-                            packets = {
+                func.then((data) => {
+
+                    if (data.success) {
+
+                        if (editID) {
+                            dispatch({
+                                type: LINKS_ACTIONS.UPDATE_LINK,
+                                payload: {
+                                    editID: editID,
+                                    currentLink: currentLink,
+                                    url: URL,
+                                    iconPath: currentLink.icon
+                                }
+                            })
+
+                        } else {
+                            let newLinks = [...userLinks];
+
+                            const newLinkObject = {
+                                id: data.link_id,
                                 name: currentLink.name,
+                                url: URL,
+                                email: currentLink.email,
+                                phone: currentLink.phone,
+                                type: currentLink.type,
                                 mailchimp_list_id: currentLink.mailchimp_list_id,
-                                icon: currentLink.icon,
-                                page_id: pageSettings["id"],
-                                type: "mailchimp",
-                            };
-                            break;
-                        case "shopify":
-                            packets = {
-                                name: currentLink.name,
                                 shopify_products: currentLink.shopify_products,
                                 shopify_id: currentLink.shopify_id,
                                 icon: currentLink.icon,
-                                page_id: pageSettings["id"],
-                                type: "shopify",
-                            };
-                            break;
-                    }
-
-                    const func = editID ? updateLink(packets, editID) : addLink(packets);
-
-                    func.then((data) => {
-
-                        if (data.success) {
-
-                            if (editID) {
-                                dispatch({
-                                    type: LINKS_ACTIONS.UPDATE_LINK,
-                                    payload: {
-                                        editID: editID,
-                                        currentLink: currentLink,
-                                        url: URL,
-                                        iconPath: currentLink.icon
-                                    }
-                                })
-
-                            } else {
-                                let newLinks = [...userLinks];
-
-                                const newLinkObject = {
-                                    id: data.link_id,
-                                    name: currentLink.name,
-                                    url: URL,
-                                    email: currentLink.email,
-                                    phone: currentLink.phone,
-                                    type: currentLink.type,
-                                    mailchimp_list_id: currentLink.mailchimp_list_id,
-                                    shopify_products: currentLink.shopify_products,
-                                    shopify_id: currentLink.shopify_id,
-                                    icon: currentLink.icon,
-                                    position: data.position,
-                                    active_status: true
-                                }
-
-                                dispatch({
-                                    type: LINKS_ACTIONS.SET_LINKS,
-                                    payload: {
-                                        links: newLinks.concat(
-                                            newLinkObject)
-                                    }
-                                })
+                                position: data.position,
+                                active_status: true
                             }
 
-                            setAccordionValue(null);
-                            setShowLinkForm(false);
-                            setIntegrationType(null);
-                            setEditID(null);
-                            setCurrentLink({
-                                icon: null,
-                                name: null,
-                                url: null,
-                                email: null,
-                                phone: null,
-                                mailchimp_list_id: null,
-                                shopify_products: null,
-                                shopify_id: null,
-                                type: null
+                            dispatch({
+                                type: LINKS_ACTIONS.SET_LINKS,
+                                payload: {
+                                    links: newLinks.concat(
+                                        newLinkObject)
+                                }
                             })
                         }
-                    })
-               /* }*/
+
+                        setAccordionValue(null);
+                        setShowLinkForm(false);
+                        setIntegrationType(null);
+                        setEditID(null);
+                        setCurrentLink({
+                            icon: null,
+                            name: null,
+                            url: null,
+                            email: null,
+                            phone: null,
+                            mailchimp_list_id: null,
+                            shopify_products: null,
+                            shopify_id: null,
+                            type: null
+                        })
+                    }
+                })
             }
         } else {
             setShowMessageAlertPopup(true);
             setOptionText("Only 1 Mailchimp subscribe form is allowed per page.")
         }
     };
-
-    const dataURLtoFile = (dataurl, filename) => {
-        let arr = dataurl.split(','),
-            mime = arr[0].match(/:(.*?);/)[1],
-            bstr = atob(arr[1]),
-            n = bstr.length,
-            u8arr = new Uint8Array(n);
-
-        while(n--){
-            u8arr[n] = bstr.charCodeAt(n);
-        }
-        let croppedImage = new File([u8arr], filename, {type:mime});
-        submitWithCustomIcon(croppedImage);
-    }
 
     const submitWithCustomIcon = (image) => {
 
@@ -408,6 +328,8 @@ const IntegrationForm = ({
 
                     if (data.success) {
 
+                        const iconPath = data.iconPath;
+
                         if (editID) {
                             dispatch({
                                 type: LINKS_ACTIONS.UPDATE_LINK,
@@ -415,7 +337,7 @@ const IntegrationForm = ({
                                     editID: editID,
                                     currentLink: currentLink,
                                     url: URL,
-                                    iconPath: data.iconPath
+                                    iconPath: iconPath
                                 }})
 
                         } else {
@@ -431,7 +353,7 @@ const IntegrationForm = ({
                                 mailchimp_list_id: currentLink.mailchimp_list_id,
                                 shopify_products: currentLink.shopify_products,
                                 shopify_id: currentLink.shopify_id,
-                                icon: data.icon_path,
+                                icon: iconPath,
                                 position: data.position,
                                 active_status: true
                             }
@@ -445,7 +367,7 @@ const IntegrationForm = ({
 
                         setCustomIconArray(customIconArray => [
                             ...customIconArray,
-                            data.icon_path
+                            iconPath
                         ]);
 
                         setShowLinkForm(false);
@@ -594,7 +516,7 @@ const IntegrationForm = ({
                                         aspect={aspect}
                                     >
                                         <img
-                                            onLoad={onLoad}
+                                            onLoad={(e) => onImageLoad(e, aspect, setCrop)}
                                             src={upImg}
                                             ref={imgRef}
                                             style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}

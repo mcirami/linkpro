@@ -213,8 +213,7 @@ const IconList = ({
 
                 return (
                     customIconArray ? customIconArray.map((iconPath, index) => {
-                        const newPath = iconPath?.replace("public",
-                            "/storage");
+                        const newPath = iconPath?.replace("public", "/storage");
 
                         return (
                             <div key={index} className="icon_col">
@@ -234,122 +233,122 @@ const IconList = ({
                         <div className="info_message">
                             <p>You don't have any icons to display.</p>
                             <p>Click 'Upload Image' above to add a custom icon.</p>
-                        </div>)
+                        </div>
+                )
 
-                    case "integration":
+                case "integration":
 
-                        return (
-                            <>
-                            <div className="icon_col default_icon">
-                                <p>Default Icon</p>
-                                <img alt=""
-                                     className={`
-                                         ${isDefaultIcon ?
-                                         "active img-fluid icon_image" :
-                                         "img-fluid icon_image"}
-                                         ${parseInt(activeIcon) === parseInt(-1) ? "active" : ""}
-                                         `}
-                                     src={integrationType === "mailchimp" ?
-                                         "https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png" :
-                                         "https://lp-production-images.s3.us-east-2.amazonaws.com/icons/Shopify.png"}
-                                     data-icontype="default"
-                                     data-index={-1}
-                                     onClick={(e) => {
-                                         selectIcon(e, e.target.src)
-                                     }}/>
+                    return (
+                        <>
+                        <div className="icon_col default_icon">
+                            <p>Default Icon</p>
+                            <img alt=""
+                                 className={`
+                                     ${isDefaultIcon ?
+                                     "active img-fluid icon_image" :
+                                     "img-fluid icon_image"}
+                                     ${parseInt(activeIcon) === parseInt(-1) ? "active" : ""}
+                                     `}
+                                 src={integrationType === "mailchimp" ?
+                                     "https://local-lp-user-images.s3.us-east-2.amazonaws.com/icons/Mailchimp.png" :
+                                     "https://lp-production-images.s3.us-east-2.amazonaws.com/icons/Shopify.png"}
+                                 data-icontype="default"
+                                 data-index={-1}
+                                 onClick={(e) => {
+                                     selectIcon(e, e.target.src)
+                                 }}/>
+                        </div>
+                        <div className="custom_icons">
+                            <p>Custom Icons</p>
+                            <div className="icons_wrap inner">
+                                {customIconArray ?
+                                    customIconArray.map((iconPath, index) => {
+                                        const newPath = iconPath.replace("public", "/storage");
+
+                                        return (
+                                            <div key={index}
+                                                 className={`icon_col`}
+                                            >
+                                                <img alt=""
+                                                     data-index={index}
+                                                     className={`img-fluid icon_image ${parseInt(activeIcon) === parseInt(index) ? "active" : ""}`}
+                                                     src={newPath}
+                                                     data-icontype={accordionValue}
+                                                     onClick={(e) => {
+                                                         selectIcon(e, newPath)
+                                                     }}/>
+                                            </div>
+                                        )
+                                    })
+                                    :
+                                    <div className="info_message">
+                                        <p>You don't have any icons to display.</p>
+                                        <p>Click 'Upload Image' above to add a custom icon.</p>
+                                    </div>
+                                }
                             </div>
-                            <div className="custom_icons">
-                                <p>Custom Icons</p>
-                                <div className="icons_wrap inner">
-                                    {customIconArray ?
-                                        customIconArray.map((iconPath, index) => {
-                                            const newPath = iconPath.replace("public",
-                                                "/storage");
-
-                                            return (
-                                                <div key={index}
-                                                     className={`icon_col`}
-                                                >
-                                                    <img alt=""
-                                                         data-index={index}
-                                                         className={`img-fluid icon_image ${parseInt(activeIcon) === parseInt(index) ? "active" : ""}`}
-                                                         src={newPath}
-                                                         data-icontype={accordionValue}
-                                                         onClick={(e) => {
-                                                             selectIcon(e, newPath)
-                                                         }}/>
-                                                </div>
-                                            )
-                                        })
-                                        :
-                                        <div className="info_message">
-                                            <p>You don't have any icons to display.</p>
-                                            <p>Click 'Upload Image' above to add a custom icon.</p>
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                            </>
-                        )
+                        </div>
+                        </>
+                    )
 
                 default:
 
-                return (
-                    filteredIcons ?
-                        filteredIcons.map((icon, index) => {
+                    return (
+                        filteredIcons ?
+                            filteredIcons.map((icon, index) => {
 
-                        return (
-                            <div key={index} className="icon_col">
-                                <img
-                                    className={`img-fluid icon_image ${parseInt(activeIcon) === parseInt(index) ? "active" : ""}`}
-                                    src={icon.path}
-                                    onClick={(e) => {
-                                        selectIcon(e, icon.path)
-                                    }}
-                                    data-name={icon.name}
-                                    data-creator={icon.creator || ""}
-                                    data-slug={icon.slug || ""}
-                                    data-course={icon.course_id || ""}
-                                    data-icontype={accordionValue}
-                                    data-index={index}
-                                    alt=""
-                                />
-                                <div className="hover_text icon_text">
-                                    <p>
-                                        {icon.name}
-                                    </p>
+                            return (
+                                <div key={index} className="icon_col">
+                                    <img
+                                        className={`img-fluid icon_image ${parseInt(activeIcon) === parseInt(index) ? "active" : ""}`}
+                                        src={icon.path}
+                                        onClick={(e) => {
+                                            selectIcon(e, icon.path)
+                                        }}
+                                        data-name={icon.name}
+                                        data-creator={icon.creator || ""}
+                                        data-slug={icon.slug || ""}
+                                        data-course={icon.course_id || ""}
+                                        data-icontype={accordionValue}
+                                        data-index={index}
+                                        alt=""
+                                    />
+                                    <div className="hover_text icon_text">
+                                        <p>
+                                            {icon.name}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        )
-                    })
-                    :
-                    iconList?.map((icon, index) => {
+                            )
+                        })
+                        :
+                        iconList?.map((icon, index) => {
 
-                        return (
-                            <div key={index} className="icon_col">
-                                <img
-                                    className={`img-fluid icon_image ${parseInt(activeIcon) === parseInt(index) ? "active" : ""}`}
-                                    src={icon.path}
-                                    onClick={(e) => {
-                                        selectIcon(e, icon.path)
-                                    }}
-                                    data-name={icon.name}
-                                    data-creator={icon.creator || ""}
-                                    data-slug={icon.slug || ""}
-                                    data-course={icon.course_id || ""}
-                                    data-icontype={accordionValue}
-                                    data-index={index}
-                                    alt=""
-                                />
-                                <div className="hover_text icon_text">
-                                    <p>
-                                        {icon.name}
-                                    </p>
+                            return (
+                                <div key={index} className="icon_col">
+                                    <img
+                                        className={`img-fluid icon_image ${parseInt(activeIcon) === parseInt(index) ? "active" : ""}`}
+                                        src={icon.path}
+                                        onClick={(e) => {
+                                            selectIcon(e, icon.path)
+                                        }}
+                                        data-name={icon.name}
+                                        data-creator={icon.creator || ""}
+                                        data-slug={icon.slug || ""}
+                                        data-course={icon.course_id || ""}
+                                        data-icontype={accordionValue}
+                                        data-index={index}
+                                        alt=""
+                                    />
+                                    <div className="hover_text icon_text">
+                                        <p>
+                                            {icon.name}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        )
-                    })
-                )
+                            )
+                        })
+                    )
         }
     }
 

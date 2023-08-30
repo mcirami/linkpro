@@ -1,45 +1,22 @@
 import React, {
     useState,
     useContext,
-    useCallback,
     useRef,
-    useEffect,
-    createContext,
     forwardRef,
 } from 'react';
 import {MdEdit} from 'react-icons/md';
 import { PageContext } from '../../App';
-import ReactCrop, {
-    centerCrop,
-    makeAspectCrop,
-} from 'react-image-crop';
+import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
-import { canvasPreview } from '../../../../Utils/canvasPreview';
-import { useDebounceEffect } from '../../../../Utils/useDebounceEffect';
 import {headerImage} from '../../../../Services/PageRequests';
-import {completedImageCrop} from '../../../../Services/ImageService';
+import {
+    canvasPreview,
+    useDebounceEffect,
+    onImageLoad,
+    createImage, getFileToUpload,
+} from '../../../../Services/ImageService';
 import ToolTipIcon from '../../../../Utils/ToolTips/ToolTipIcon';
 import {HiMinus, HiPlus} from 'react-icons/hi';
-
-function centerAspectCrop(
-    mediaWidth,
-    mediaHeight,
-    aspect,
-) {
-    return centerCrop(
-        makeAspectCrop(
-            {
-                unit: '%',
-                width: 90,
-            },
-            aspect,
-            mediaWidth,
-            mediaHeight,
-        ),
-        mediaWidth,
-        mediaHeight,
-    )
-}
 
 const PageHeader = forwardRef(function PageHeader(props, ref) {
 
@@ -101,67 +78,15 @@ const PageHeader = forwardRef(function PageHeader(props, ref) {
                 behavior: "smooth",
             });
         }
-        createImage(files[0]);
+        createImage(files[0], setUpImg);
     };
-
-    const createImage = (file) => {
-        let reader = new FileReader();
-        reader.onload = (e) => {
-            setPageSettings({
-                ...pageSettings,
-                header_img: e.target.result,
-            });
-            setUpImg(e.target.result);
-        };
-        reader.readAsDataURL(file);
-    };
-
-    function onLoad(e) {
-        if (aspect) {
-            const {width, height } = e.currentTarget;
-            setCrop(centerAspectCrop(width, height, aspect))
-        }
-    }
-
-    /*useEffect(() => {
-        if (!completedCrop || !previewCanvasRef.current || !imgRef.current) {
-            return;
-        }
-
-        completedImageCrop(completedCrop, imgRef, previewCanvasRef.current);
-    }, [completedCrop]);*/
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        previewCanvasRef.current.toBlob(
-            (blob) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(blob);
-                reader.onloadend = () => {
-                    setPageSettings({
-                        ...pageSettings,
-                        header_img: reader.result,
-                    });
-                    dataURLtoFile(reader.result, "cropped.jpg");
-                };
-            },
-            "image/png",
-            1
-        );
-    };
-
-    const dataURLtoFile = (dataurl, filename) => {
-        let arr = dataurl.split(","),
-            mime = arr[0].match(/:(.*?);/)[1],
-            bstr = atob(arr[1]),
-            n = bstr.length,
-            u8arr = new Uint8Array(n);
-
-        while (n--) {
-            u8arr[n] = bstr.charCodeAt(n);
-        }
-        let croppedImage = new File([u8arr], filename, { type: mime });
-        fileUpload(croppedImage);
+        const image = getFileToUpload(previewCanvasRef?.current[elementName])
+        image.then((value) => {
+            fileUpload(value);
+        })
     };
 
     const fileUpload = (image) => {
@@ -183,13 +108,18 @@ const PageHeader = forwardRef(function PageHeader(props, ref) {
                     ext: response.extension,
                 };
 
-                headerImage(packets, pageSettings["id"]).then((data) => {
+                headerImage(packets, pageSettings["id"])
+                .then((data) => {
                     setShowLoader({show: false, icon: null, position: ""})
 
                     if (data.success) {
                         setFileName(null);
                         setUpImg(null);
                         setCompletedCrop({});
+                        setPageSettings({
+                            ...pageSettings,
+                            header_img: data.imgPath,
+                        });
                         document.querySelector("form.header_img_form .bottom_section").classList.add("hidden");
                     }
                 });
@@ -339,7 +269,7 @@ const PageHeader = forwardRef(function PageHeader(props, ref) {
                                 })}
                             >
                                 <img
-                                    onLoad={onLoad}
+                                    onLoad={(e) => onImageLoad(e, aspect, setCrop)}
                                     src={upImg}
                                     ref={imgRef}
                                     style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}

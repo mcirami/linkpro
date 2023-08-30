@@ -6,38 +6,18 @@ import React, {
 } from 'react';
 import {MdEdit} from 'react-icons/md';
 import {HiPlus, HiMinus} from 'react-icons/hi';
-import ReactCrop, {
-    centerCrop,
-    makeAspectCrop,
-    convertToPixelCrop,
-} from 'react-image-crop';
+import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
-import {createImage} from '../../../Services/ImageService';
+import {
+    createImage,
+    canvasPreview,
+    useDebounceEffect,
+    onImageLoad,
+    getFileToUpload
+} from '../../../Services/ImageService';
 import { updateIcon} from '../../../Services/OfferRequests';
 import { updateImage} from '../../../Services/CourseRequests';
 import {OFFER_ACTIONS, LP_ACTIONS} from '../Reducer';
-import { useDebounceEffect } from '../../../Utils/useDebounceEffect';
-import { canvasPreview } from '../../../Utils/canvasPreview';
-
-function centerAspectCrop(
-    mediaWidth,
-    mediaHeight,
-    aspect,
-) {
-    return centerCrop(
-        makeAspectCrop(
-            {
-                unit: '%',
-                width: 90,
-            },
-            aspect,
-            mediaWidth,
-            mediaHeight,
-        ),
-        mediaWidth,
-        mediaHeight,
-    )
-}
 
 const ImageComponent = forwardRef(function ImageComponent(props, ref) {
 
@@ -111,13 +91,6 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
 
     };
 
-    function onLoad(e) {
-        if (aspect) {
-            const {width, height } = e.currentTarget;
-            setCrop(centerAspectCrop(width, height, aspect))
-        }
-    }
-
     /*function handleToggleAspectClick() {
         if (aspect) {
             setAspect(undefined)
@@ -133,31 +106,11 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        previewCanvasRef?.current[elementName].toBlob(
-            (blob) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(blob);
-                reader.onloadend = () => {
-                    dataURLtoFile(reader.result, "cropped.jpg");
-                };
-            },
-            "image/png",
-            1
-        );
-    };
 
-    const dataURLtoFile = (dataurl, fileName) => {
-        let arr = dataurl.split(","),
-            mime = arr[0].match(/:(.*?);/)[1],
-            bstr = atob(arr[1]),
-            n = bstr.length,
-            u8arr = new Uint8Array(n);
-
-        while (n--) {
-            u8arr[n] = bstr.charCodeAt(n);
-        }
-        let croppedImage = new File([u8arr], fileName, { type: mime });
-        fileUpload(croppedImage);
+        const image = getFileToUpload(previewCanvasRef?.current[elementName])
+        image.then((value) => {
+            fileUpload(value);
+        })
     };
 
     const fileUpload = (image) => {
@@ -389,7 +342,7 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
                                 aspect={aspect}
                             >
                                 <img
-                                    onLoad={onLoad}
+                                    onLoad={(e) => onImageLoad(e, aspect, setCrop)}
                                     src={upImg}
                                     ref={imgRef}
                                     style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}

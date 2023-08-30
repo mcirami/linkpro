@@ -9,7 +9,6 @@ const ProfileImage = ({
 
     const {pageSettings} = useContext(PageContext);
 
-    console.log(completedCrop);
     return (
 
         <>

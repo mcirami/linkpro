@@ -1,45 +1,24 @@
 import React, {
     forwardRef,
-    useCallback,
     useEffect,
     useRef,
     useState,
 } from 'react';
 import {MdEdit} from 'react-icons/md';
-import ReactCrop, {
-    centerCrop,
-    makeAspectCrop,
-} from 'react-image-crop';
+import {HiMinus, HiPlus} from 'react-icons/hi';
+import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
-import { canvasPreview } from '../../../Utils/canvasPreview';
-import { useDebounceEffect } from '../../../Utils/useDebounceEffect';
-import {completedImageCrop, createImage} from '../../../Services/ImageService';
+import {
+    canvasPreview,
+    createImage,
+    useDebounceEffect,
+    onImageLoad, getFileToUpload,
+} from '../../../Services/ImageService';
 import {
     updateImage,
     updateSectionImage,
 } from '../../../Services/LandingPageRequests';
 import {LP_ACTIONS} from '../Reducer';
-import {HiMinus, HiPlus} from 'react-icons/hi';
-
-function centerAspectCrop(
-    mediaWidth,
-    mediaHeight,
-    aspect,
-) {
-    return centerCrop(
-        makeAspectCrop(
-            {
-                unit: '%',
-                width: 90,
-            },
-            aspect,
-            mediaWidth,
-            mediaHeight,
-        ),
-        mediaWidth,
-        mediaHeight,
-    )
-}
 
 const ImageComponent = forwardRef(function ImageComponent(props, ref) {
 
@@ -113,40 +92,12 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
         createImage(files[0], setUpImg);
     };
 
-    function onLoad(e) {
-        if (aspect) {
-            const {width, height } = e.currentTarget;
-            setCrop(centerAspectCrop(width, height, aspect))
-        }
-    }
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        previewCanvasRef.current[elementName].toBlob(
-            (blob) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(blob);
-                reader.onloadend = () => {
-                    dataURLtoFile(reader.result, "cropped.jpg");
-                };
-            },
-            "image/png",
-            1
-        );
-    };
-
-    const dataURLtoFile = (dataurl, fileName) => {
-        let arr = dataurl.split(","),
-            mime = arr[0].match(/:(.*?);/)[1],
-            bstr = atob(arr[1]),
-            n = bstr.length,
-            u8arr = new Uint8Array(n);
-
-        while (n--) {
-            u8arr[n] = bstr.charCodeAt(n);
-        }
-        let croppedImage = new File([u8arr], fileName, { type: mime });
-        fileUpload(croppedImage);
+        const image = getFileToUpload(previewCanvasRef?.current[elementName])
+        image.then((value) => {
+            fileUpload(value);
+        })
     };
 
     const fileUpload = (image) => {
@@ -278,8 +229,6 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
 
     }
 
-    console.log("completedCrop: ", completedCrop)
-
     return (
         <article className="my_row page_settings">
             <div className="column_wrap">
@@ -370,7 +319,7 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
                                 })}
                             >
                                 <img
-                                    onLoad={onLoad}
+                                    onLoad={(e) => onImageLoad(e, aspect, setCrop)}
                                     src={upImg}
                                     ref={imgRef}
                                     style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}

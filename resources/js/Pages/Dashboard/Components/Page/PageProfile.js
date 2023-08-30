@@ -2,42 +2,21 @@ import React, {
     useState,
     useContext,
     useRef,
-    useCallback,
-    useEffect, forwardRef,
+    forwardRef,
 } from 'react';
 import {MdEdit} from 'react-icons/md';
 import {PageContext} from '../../App';
-import ReactCrop, {
-    centerCrop,
-    makeAspectCrop,
-} from 'react-image-crop';
+import ReactCrop from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
-import { canvasPreview } from '../../../../Utils/canvasPreview';
-import { useDebounceEffect } from '../../../../Utils/useDebounceEffect';
 import {profileImage} from '../../../../Services/PageRequests';
-import {completedImageCrop} from '../../../../Services/ImageService';
+import {
+    canvasPreview,
+    useDebounceEffect,
+    onImageLoad,
+    createImage, getFileToUpload,
+} from '../../../../Services/ImageService';
 import ToolTipIcon from '../../../../Utils/ToolTips/ToolTipIcon';
 import {HiMinus, HiPlus} from 'react-icons/hi';
-
-function centerAspectCrop(
-    mediaWidth,
-    mediaHeight,
-    aspect,
-) {
-    return centerCrop(
-        makeAspectCrop(
-            {
-                unit: '%',
-                width: 90,
-            },
-            aspect,
-            mediaWidth,
-            mediaHeight,
-        ),
-        mediaWidth,
-        mediaHeight,
-    )
-}
 
 const PageProfile = forwardRef(function PageProfile(props, ref) {
 
@@ -96,69 +75,16 @@ const PageProfile = forwardRef(function PageProfile(props, ref) {
                 behavior: 'smooth',
             });
         }
-        createImage(files[0]);
+        createImage(files[0], setUpImg);
     }
-
-    const createImage = (file) => {
-        let reader = new FileReader();
-        reader.onload = (e) => {
-            setPageSettings({
-                ...pageSettings,
-                profile_img: e.target.result,
-            });
-            setUpImg(e.target.result);
-        };
-        reader.readAsDataURL(file);
-    }
-
-    function onLoad(e) {
-        if (aspect) {
-            const {width, height } = e.currentTarget;
-            setCrop(centerAspectCrop(width, height, aspect))
-        }
-    }
-
-    /*seEffect(() => {
-        if (!completedProfileCrop || !previewCanvasRef.current || !imgRef.current) {
-            return;
-        }
-
-        completedImageCrop(completedProfileCrop, imgRef, previewCanvasRef.current);
-
-    }, [completedProfileCrop]);*/
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        previewCanvasRef.current[elementName].toBlob(
-            (blob) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(blob)
-                reader.onloadend = () => {
-                    setPageSettings({
-                        ...pageSettings,
-                        profile_img: reader.result,
-                    });
-                    dataURLtoFile(reader.result, 'cropped.jpg');
-                }
-            },
-            'image/png',
-            1
-        );
-    }
-
-    const dataURLtoFile = (dataurl, filename) => {
-        let arr = dataurl.split(','),
-            mime = arr[0].match(/:(.*?);/)[1],
-            bstr = atob(arr[1]),
-            n = bstr.length,
-            u8arr = new Uint8Array(n);
-
-        while(n--){
-            u8arr[n] = bstr.charCodeAt(n);
-        }
-        let croppedImage = new File([u8arr], filename, {type:mime});
-        fileUpload(croppedImage);
+        const image = getFileToUpload(previewCanvasRef?.current[elementName])
+        image.then((value) => {
+            fileUpload(value);
+        })
     }
 
     const fileUpload = (image) => {
@@ -187,6 +113,10 @@ const PageProfile = forwardRef(function PageProfile(props, ref) {
                 if (data.success) {
                     setProfileFileName("")
                     setUpImg("")
+                    setPageSettings({
+                        ...pageSettings,
+                        profile_img: data.imgPath,
+                    });
                     document.querySelector('form.profile_img_form .bottom_section').classList.add('hidden');
                 }
             })
@@ -246,112 +176,110 @@ const PageProfile = forwardRef(function PageProfile(props, ref) {
 
     return (
         <div className="my_row page_settings">
+            <div className="column_wrap">
+                <form onSubmit={handleSubmit} className="profile_img_form">
 
-                <div className="column_wrap">
+                    {!profileFileName &&
+                        <>
+                            <div className="top_section">
 
-                    <form onSubmit={handleSubmit} className="profile_img_form">
-
-                        {!profileFileName &&
-                            <>
-                                <div className="top_section">
-
-                                    <label htmlFor="profile_file_upload" className="custom">
-                                        Profile Image
-                                        <span className="edit_icon">
-                                                <MdEdit/>
-                                            <div className="hover_text edit_image"><p>Edit Profile Image</p></div>
-                                        </span>
-                                    </label>
-                                    <input className="custom" id="profile_file_upload" type="file" accept="image/png, image/jpeg, image/jpg, image/gif"
-                                           onChange={onSelectFile}
-                                    />
-                                </div>
-                                <div className="my_row info_text file_types">
-                                    <p className="m-0 char_count w-100 ">Allowed File Types: <span>png, jpg, jpeg, gif</span></p>
-                                </div>
-                            </>
-                        }
-                        <div className="bottom_section hidden">
-                            <div className="crop_section">
-                                <div className="crop_tools">
-                                    <div className="column">
-                                        <a href="#" className="number_control" onClick={(e) => handleDecreaseNumber(e, "scale")}>
-                                            <HiMinus />
-                                        </a>
-                                        <div className="position-relative">
-                                            <input
-                                                className="active animate"
-                                                id="scale-input"
-                                                type="text"
-                                                step="0.1"
-                                                value={scale}
-                                                onChange={(e) => setScale(Number(e.target.value))}
-                                            />
-                                            <label htmlFor="scale-input">Scale</label>
-                                        </div>
-                                        <a href="#" className="number_control" onClick={(e) => handleIncreaseNumber(e, "scale")}>
-                                            <HiPlus />
-                                        </a>
-                                    </div>
-                                    <div className="column">
-                                        <a href="#" className="number_control" onClick={(e) => handleDecreaseNumber(e, "rotate")}>
-                                            <HiMinus />
-                                        </a>
-                                        <div className="position-relative">
-                                            <input
-                                                className="active animate"
-                                                id="rotate-input"
-                                                type="text"
-                                                value={rotate}
-                                                onChange={(e) =>
-                                                    setRotate(Math.min(180, Math.max(-180, Number(e.target.value))))
-                                                }
-                                            />
-                                            <label htmlFor="rotate-input">Rotate</label>
-                                        </div>
-                                        <a href="#" className="number_control" onClick={(e) => handleIncreaseNumber(e, "rotate")}>
-                                            <HiPlus />
-                                        </a>
-                                    </div>
-                                </div>
-                                <ReactCrop
-                                    crop={crop}
-                                    aspect={aspect}
-                                    onChange={(_, percentCrop) => setCrop(percentCrop)}
-                                    onComplete={(c) => setCompletedCrop({
-                                        ...completedCrop,
-                                        [`${elementName}`]: {
-                                            isCompleted: c
-                                        }
-                                    })}
-                                >
-                                    <img
-                                        onLoad={onLoad}
-                                        src={upImg}
-                                        ref={imgRef}
-                                        style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}
-                                        alt="Crop me"/>
-                                </ReactCrop>
+                                <label htmlFor="profile_file_upload" className="custom">
+                                    Profile Image
+                                    <span className="edit_icon">
+                                            <MdEdit/>
+                                        <div className="hover_text edit_image"><p>Edit Profile Image</p></div>
+                                    </span>
+                                </label>
+                                <input className="custom" id="profile_file_upload" type="file" accept="image/png, image/jpeg, image/jpg, image/gif"
+                                       onChange={onSelectFile}
+                                />
                             </div>
-                            <div className="bottom_row">
-                                <button type="submit"
-                                        className="button green"
-                                        disabled={!profileFileName && true}>
-                                    Save
-                                </button>
-                                <a className="button transparent gray" href="#"
-                                   onClick={(e) => {
-                                       e.preventDefault();
-                                       handleCancel();
-                                   }}
-                                >
-                                    Cancel
-                                </a>
-                                <a className="help_link" href="mailto:help@link.pro">Need Help?</a>
+                            <div className="my_row info_text file_types">
+                                <p className="m-0 char_count w-100 ">Allowed File Types: <span>png, jpg, jpeg, gif</span></p>
                             </div>
+                        </>
+                    }
+                    <div className="bottom_section hidden">
+                        <div className="crop_section">
+                            <div className="crop_tools">
+                                <div className="column">
+                                    <a href="#" className="number_control" onClick={(e) => handleDecreaseNumber(e, "scale")}>
+                                        <HiMinus />
+                                    </a>
+                                    <div className="position-relative">
+                                        <input
+                                            className="active animate"
+                                            id="scale-input"
+                                            type="text"
+                                            step="0.1"
+                                            value={scale}
+                                            onChange={(e) => setScale(Number(e.target.value))}
+                                        />
+                                        <label htmlFor="scale-input">Scale</label>
+                                    </div>
+                                    <a href="#" className="number_control" onClick={(e) => handleIncreaseNumber(e, "scale")}>
+                                        <HiPlus />
+                                    </a>
+                                </div>
+                                <div className="column">
+                                    <a href="#" className="number_control" onClick={(e) => handleDecreaseNumber(e, "rotate")}>
+                                        <HiMinus />
+                                    </a>
+                                    <div className="position-relative">
+                                        <input
+                                            className="active animate"
+                                            id="rotate-input"
+                                            type="text"
+                                            value={rotate}
+                                            onChange={(e) =>
+                                                setRotate(Math.min(180, Math.max(-180, Number(e.target.value))))
+                                            }
+                                        />
+                                        <label htmlFor="rotate-input">Rotate</label>
+                                    </div>
+                                    <a href="#" className="number_control" onClick={(e) => handleIncreaseNumber(e, "rotate")}>
+                                        <HiPlus />
+                                    </a>
+                                </div>
+                            </div>
+                            <ReactCrop
+                                crop={crop}
+                                aspect={aspect}
+                                onChange={(_, percentCrop) => setCrop(percentCrop)}
+                                onComplete={(c) => setCompletedCrop({
+                                    ...completedCrop,
+                                    [`${elementName}`]: {
+                                        isCompleted: c
+                                    }
+                                })}
+                            >
+                                <img
+                                    onLoad={(e) => onImageLoad(e,aspect, setCrop)}
+                                    src={upImg}
+                                    ref={imgRef}
+                                    style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}
+                                    alt="Crop me"/>
+                            </ReactCrop>
                         </div>
-                    </form>
-                </div>
+                        <div className="bottom_row">
+                            <button type="submit"
+                                    className="button green"
+                                    disabled={!profileFileName && true}>
+                                Save
+                            </button>
+                            <a className="button transparent gray" href="#"
+                               onClick={(e) => {
+                                   e.preventDefault();
+                                   handleCancel();
+                               }}
+                            >
+                                Cancel
+                            </a>
+                            <a className="help_link" href="mailto:help@link.pro">Need Help?</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
             {!profileFileName &&
                 <ToolTipIcon section="profile" />
             }

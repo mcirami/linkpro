@@ -71,9 +71,11 @@ export const headerImage = (packets, pageID) => {
         (response) => {
             const returnMessage = JSON.stringify(response.data.message);
             EventBus.dispatch("success", { message: returnMessage });
+            const imgPath = response.data.imgPath;
 
             return {
                 success : true,
+                imgPath : imgPath
             }
         }
     ).catch(error => {
@@ -102,13 +104,12 @@ export const profileImage = (packets, pageID, pageDefault) => {
             EventBus.dispatch("success", { message: returnMessage });
 
             if(pageDefault){
-
                 document.querySelector('#user_image').src = imgPath;
-                //document.querySelector('#mobile_user_image').src = imgPath;
             }
 
             return {
-                success : true,
+                success: true,
+                imgPath: imgPath
             }
 
         }

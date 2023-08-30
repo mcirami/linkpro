@@ -173,7 +173,7 @@ class PageService {
     /**
      * Update Page Header Image
      *
-     * @return void
+     * @return
      */
     public function updateHeaderImage($request, $userID, $page) {
 
@@ -190,6 +190,8 @@ class PageService {
         $amazonPath = Storage::disk('s3')->url($path);
 
         $page->update(['header_img' => $amazonPath]);
+
+        return $amazonPath;
     }
 
     /**

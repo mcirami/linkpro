@@ -110,9 +110,9 @@ class PageController extends Controller
             return abort(404);
         }
 
-        $pageService->updateHeaderImage($request, $userID, $page);
+        $imgPath = $pageService->updateHeaderImage($request, $userID, $page);
 
-        return response()->json(['message' => 'Header Image Updated']);
+        return response()->json(['message' => 'Header Image Updated', 'imgPath' => $imgPath]);
 
     }
 
