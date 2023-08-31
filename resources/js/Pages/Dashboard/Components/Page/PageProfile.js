@@ -17,14 +17,13 @@ import {
 } from '../../../../Services/ImageService';
 import ToolTipIcon from '../../../../Utils/ToolTips/ToolTipIcon';
 import CropTools from '../../../../Utils/CropTools';
+import EventBus from '../../../../Utils/Bus';
 
 const PageProfile = forwardRef(function PageProfile(props, ref) {
 
     const {
         completedCrop,
         setCompletedCrop,
-        profileFileName,
-        setProfileFileName,
         setShowLoader,
         elementName
     } = props
@@ -32,7 +31,7 @@ const PageProfile = forwardRef(function PageProfile(props, ref) {
     const { pageSettings, setPageSettings } = useContext(PageContext);
     const [previousImage, setPreviousImage] = useState(pageSettings['profile_img']);
 
-    const [upImg, setUpImg] = useState();
+    const [upImg, setUpImg] = useState(null);
     const imgRef = useRef();
     const previewCanvasRef = ref;
     const [crop, setCrop] = useState({ unit: '%', width: 30, aspect: 1 });
@@ -67,8 +66,7 @@ const PageProfile = forwardRef(function PageProfile(props, ref) {
         if (!files.length) {
             return;
         }
-        setCrop(undefined)
-        setProfileFileName(files[0]["name"]);
+        setCrop(undefined);
         document.querySelector('form.profile_img_form .bottom_section').classList.remove('hidden');
         if (window.innerWidth < 993) {
             document.querySelector('.profile_img_form').scrollIntoView({
@@ -111,28 +109,20 @@ const PageProfile = forwardRef(function PageProfile(props, ref) {
             .then((data) => {
                 setShowLoader({show: false, icon: null, position: ""})
                 if (data.success) {
-                    setProfileFileName("")
-                    setUpImg("")
-                    setPageSettings({
-                        ...pageSettings,
-                        profile_img: data.imgPath,
-                    });
+                    setUpImg(null)
+                    const newArray = {...pageSettings};
+                    newArray.profile_img = data.imgPath;
+                    setPageSettings(newArray);
                     document.querySelector('form.profile_img_form .bottom_section').classList.add('hidden');
                 }
             })
         }).catch(error => {
             console.error(error);
-            /*if (error.response) {
-                EventBus.dispatch("error", { message: error.response.data.errors.profile_img[0] });
-                console.error("ERROR: " + error.response);
-            } else {
-                console.error("ERROR:: ", error);
-            }*/
+            EventBus.dispatch("error", { message: "There was an error saving your image." });
         });
 
     }
     const handleCancel = () => {
-        setProfileFileName(null)
         setUpImg(null)
 
         const copy = {...completedCrop};
@@ -146,40 +136,12 @@ const PageProfile = forwardRef(function PageProfile(props, ref) {
         });
     }
 
-    const handleIncreaseNumber = (e,type) => {
-        e.preventDefault();
-        if (type === "scale") {
-
-            const number = scale + .1;
-            const result = Math.round(number * 10) / 10;
-            setScale(result);
-        }
-
-        if (type === "rotate") {
-            setRotate(Math.min(180, Math.max(-180, Number(rotate + 1))))
-        }
-    }
-
-    const handleDecreaseNumber = (e, type) => {
-        e.preventDefault();
-        if (type === "scale") {
-            const number = scale - .1;
-            const result = Math.round(number * 10) / 10;
-            setScale(result);
-        }
-
-        if (type === "rotate") {
-            setRotate(Math.min(180, Math.max(-180, Number(rotate - 1))))
-        }
-
-    }
-
     return (
         <div className="my_row page_settings">
             <div className="column_wrap">
                 <form onSubmit={handleSubmit} className="profile_img_form">
 
-                    {!profileFileName &&
+                    {!upImg &&
                         <>
                             <div className="top_section">
 
@@ -229,7 +191,7 @@ const PageProfile = forwardRef(function PageProfile(props, ref) {
                         <div className="bottom_row">
                             <button type="submit"
                                     className="button green"
-                                    disabled={!profileFileName && true}>
+                                    disabled={!upImg && true}>
                                 Save
                             </button>
                             <a className="button transparent gray" href="#"
@@ -245,7 +207,7 @@ const PageProfile = forwardRef(function PageProfile(props, ref) {
                     </div>
                 </form>
             </div>
-            {!profileFileName &&
+            {!upImg &&
                 <ToolTipIcon section="profile" />
             }
         </div>

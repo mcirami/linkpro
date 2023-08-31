@@ -54,7 +54,6 @@ export const getMailchimpLists = () => {
 
     return axios.get('/mailchimp/list').then(
         (response) => {
-            //console.log(JSON.stringify(response.data));
             const lists = response.data.lists;
             return {
                 success : true,
@@ -84,7 +83,6 @@ export const removeMailchimpConnection = () => {
 
     return axios.post('/mailchimp/remove-connection').then(
         (response) => {
-            //console.log(JSON.stringify(response.data));
 
             return {
                 success : true,
@@ -113,7 +111,6 @@ export const getAllProducts = (storeId) => {
 
     return axios.get('/shopify/get-products/' + storeId).then(
         (response) => {
-            //console.log(JSON.stringify(response.data));
             const products = response.data.products
 
             return {
@@ -144,7 +141,6 @@ export const getStores = () => {
 
     return axios.get('/shopify/get-stores').then(
         (response) => {
-            //console.log(JSON.stringify(response.data));
             const stores = response.data.stores
 
             return {

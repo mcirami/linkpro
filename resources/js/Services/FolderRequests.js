@@ -11,7 +11,6 @@ export const addFolder = (packets) => {
     return axios.post('/folder/new', packets)
     .then(
         (response) => {
-            //console.log(JSON.stringify(response.data));
             const returnMessage = JSON.stringify(response.data.message);
             EventBus.dispatch("success", {message: returnMessage});
             const folder_id = response.data.id;
@@ -76,7 +75,6 @@ export const updateFolderName = (folderID, packets) => {
     return axios.post('/dashboard/folder/update-name/' + folderID, packets)
     .then(
         (response) => {
-            //console.log(JSON.stringify(response.data));
             const returnMessage = JSON.stringify(response.data.message);
             EventBus.dispatch("success", {message: returnMessage});
 

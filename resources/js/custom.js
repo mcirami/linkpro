@@ -142,7 +142,6 @@ jQuery(document).ready(function($) {
             axios.post("/subscribe/check-code", packets)
             .then(
                 (response) => {
-                    //console.log(JSON.stringify(response.data))
                     const message = response.data.message;
                     const success = response.data.success;
 
@@ -376,7 +375,6 @@ jQuery(document).ready(function($) {
             axios.post("/mailchimp/subscribe", packets)
             .then(
                 (response) => {
-                    //console.log(JSON.stringify(response.data))
                     const mcResponse = response.data.mcResponse;
 
                     document.querySelector('.my_row.folder .form_content').innerHTML =
@@ -427,7 +425,6 @@ jQuery(document).ready(function($) {
         return await axios.post("/course-register", packets)
         .then(
             (response) => {
-                console.log(response);
                 if(response.data.success) {
                     document.querySelector('#user').value = JSON.stringify(response.data.user);
 
@@ -625,12 +622,10 @@ jQuery(document).ready(function($) {
 
                     if(data.success) {
                         window.location.reload();
-                        //console.log("success: ", data)
                     } else {
                         const invalidDiv = document.querySelector('#custom_login_form .invalid-feedback');
                         invalidDiv.innerHTML = data.error;
                         invalidDiv.classList.add('d-block');
-                        console.log("errors: ", data.error);
                     }
 
                 }

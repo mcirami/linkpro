@@ -4,7 +4,6 @@ export const getPageStats = (packets) => {
 
     return axios.post('/stats/page', packets).then(
         (response) => {
-            //console.log(JSON.stringify(response.data));
             const returnData = response.data;
             //EventBus.dispatch("success", { message: returnMessage });
             return {
@@ -30,7 +29,6 @@ export const getLinkStats = (packets) => {
 
     return axios.post('/stats/link', packets).then(
         (response) => {
-            //console.log(JSON.stringify(response.data));
             const returnData = response.data.data;
             //EventBus.dispatch("success", { message: returnMessage });
 
@@ -58,7 +56,6 @@ export const getFolderStats = (packets) => {
 
     return axios.post('/stats/folder', packets).then(
         (response) => {
-            //console.log(JSON.stringify(response.data));
             const returnData = response.data.data;
             //EventBus.dispatch("success", { message: returnMessage });
 

@@ -17,14 +17,13 @@ import {
 } from '../../../../Services/ImageService';
 import ToolTipIcon from '../../../../Utils/ToolTips/ToolTipIcon';
 import CropTools from '../../../../Utils/CropTools';
+import EventBus from '../../../../Utils/Bus';
 
 const PageHeader = forwardRef(function PageHeader(props, ref) {
 
     const {
         completedCrop,
         setCompletedCrop,
-        fileName,
-        setFileName,
         setShowLoader,
         elementName
     } = props;
@@ -70,8 +69,7 @@ const PageHeader = forwardRef(function PageHeader(props, ref) {
         if (!files.length) {
             return;
         }
-        setCrop(undefined)
-        setFileName(files[0]["name"]);
+        setCrop(undefined);
         document.querySelector("form.header_img_form .bottom_section").classList.remove("hidden");
         if (window.innerWidth < 993) {
             document.querySelector(".header_img_form").scrollIntoView({
@@ -113,31 +111,22 @@ const PageHeader = forwardRef(function PageHeader(props, ref) {
                     setShowLoader({show: false, icon: null, position: ""})
 
                     if (data.success) {
-                        setFileName(null);
                         setUpImg(null);
                         setCompletedCrop({});
-                        setPageSettings({
-                            ...pageSettings,
-                            header_img: data.imgPath,
-                        });
+                        const newArray = {...pageSettings};
+                        newArray.header_img = data.imgPath;
+                        setPageSettings(newArray);
                         document.querySelector("form.header_img_form .bottom_section").classList.add("hidden");
                     }
                 });
             })
             .catch((error) => {
                 console.error(error);
-                /*if (error.response) {
-                EventBus.dispatch("error", { message: error.response.data.errors.profile_img[0] });
-                console.error("ERROR: " + error.response);
-            } else {
-                console.error("ERROR:: ", error);
-            }*/
+                EventBus.dispatch("error", { message: "There was an error saving your image." });
             });
     };
 
     const handleCancel = () => {
-        //setIsEditing(false);
-        setFileName(null);
         setUpImg(null);
 
         const copy = {...completedCrop};
@@ -151,39 +140,11 @@ const PageHeader = forwardRef(function PageHeader(props, ref) {
         });
     };
 
-    const handleIncreaseNumber = (e,type) => {
-        e.preventDefault();
-        if (type === "scale") {
-
-            const number = scale + .1;
-            const result = Math.round(number * 10) / 10;
-            setScale(result);
-        }
-
-        if (type === "rotate") {
-            setRotate(Math.min(180, Math.max(-180, Number(rotate + 1))))
-        }
-    }
-
-    const handleDecreaseNumber = (e, type) => {
-        e.preventDefault();
-        if (type === "scale") {
-            const number = scale - .1;
-            const result = Math.round(number * 10) / 10;
-            setScale(result);
-        }
-
-        if (type === "rotate") {
-            setRotate(Math.min(180, Math.max(-180, Number(rotate - 1))))
-        }
-
-    }
-
     return (
         <div className="my_row page_settings">
             <div className="column_wrap">
                 <form onSubmit={handleSubmit} className="header_img_form">
-                    {!fileName && (
+                    {!upImg && (
                         <>
                             <div className="top_section">
                                 <label
@@ -269,7 +230,7 @@ const PageHeader = forwardRef(function PageHeader(props, ref) {
                     </div>
                 </form>
             </div>
-            {!fileName && (
+            {!upImg && (
                 <ToolTipIcon section="header" />
             )}
         </div>

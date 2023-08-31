@@ -19,8 +19,6 @@ import {UseLoadPreviewHeight, UseResizePreviewHeight} from '../../../../Services
 const Preview = ({
                      nodesRef,
                      completedCrop,
-                     fileName,
-                     profileFileName,
                      row,
                      setRow,
                      value,
@@ -89,12 +87,10 @@ const Preview = ({
                         <Header
                             nodesRef={nodesRef}
                             completedCrop={completedCrop}
-                            fileName={fileName}
                         />
 
                         <div id={pageSettings['profile_layout']} className="profile_content" ref={pageHeaderRef}>
                             <ProfileImage
-                                profileFileName={profileFileName}
                                 completedCrop={completedCrop}
                                 nodesRef={nodesRef}
                             />

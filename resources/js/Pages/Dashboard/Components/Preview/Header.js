@@ -4,7 +4,6 @@ import {PageContext} from '../../App';
 const Header = ({
                     nodesRef,
                     completedCrop,
-                    fileName,
                 }) => {
 
     const {pageSettings} = useContext(PageContext);
@@ -16,7 +15,7 @@ const Header = ({
     return (
 
         <>
-            {!pageSettings["header_img"] && !fileName ?
+            {!pageSettings["header_img"] && !completedCrop["header_img"]?.isCompleted ?
             <div className="page_header default">
                 <img src={ Vapor.asset("images/default-img.png") } alt=""/>
             </div>
@@ -24,7 +23,7 @@ const Header = ({
             ""
             }
 
-            {pageSettings["header_img"] && !fileName ?
+            {pageSettings["header_img"] && !completedCrop["header_img"]?.isCompleted ?
                 <div className="page_header" style={myStyle}>
                 </div>
                 :

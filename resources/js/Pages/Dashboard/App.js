@@ -95,11 +95,9 @@ function App() {
 
     const nodesRef = useRef({});
     const [completedCrop, setCompletedCrop] = useState({});
-    const [fileName, setFileName] = useState(null);
-    const [profileFileName, setProfileFileName] = useState(null);
 
-    const pageHeaderRef = useRef(null);
-    const leftColWrap = useRef(null);
+    const pageHeaderRef = useRef();
+    const leftColWrap = useRef();
 
     const [subStatus] = useState(checkSubStatus());
 
@@ -346,8 +344,6 @@ function App() {
                                             ref={nodesRef}
                                             completedCrop={completedCrop}
                                             setCompletedCrop={setCompletedCrop}
-                                            fileName={fileName}
-                                            setFileName={setFileName}
                                             setShowLoader={setShowLoader}
                                             elementName="header_img"
                                         />
@@ -356,8 +352,6 @@ function App() {
                                             ref={nodesRef}
                                             completedCrop={completedCrop}
                                             setCompletedCrop={setCompletedCrop}
-                                            profileFileName={profileFileName}
-                                            setProfileFileName={setProfileFileName}
                                             setShowLoader={setShowLoader}
                                             elementName="profile_img"
                                         />
@@ -639,8 +633,6 @@ function App() {
                                 <Preview
                                     nodesRef={nodesRef}
                                     completedCrop={completedCrop}
-                                    fileName={fileName}
-                                    profileFileName={profileFileName}
                                     row={row}
                                     setRow={setRow}
                                     value={value}

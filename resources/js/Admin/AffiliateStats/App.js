@@ -94,7 +94,6 @@ function App() {
         getAffiliateStats(url, packets)
         .then((data) => {
             if (data["success"]) {
-                console.log(data["affiliateData"]);
                 setTimeout(() => {
                     setStats(data["affiliateData"])
                     setTotals(data["totals"]);

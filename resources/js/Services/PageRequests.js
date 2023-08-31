@@ -5,7 +5,6 @@ export const addPage = (packets) => {
 
     return axios.post('/dashboard/page/new', packets).then(
         (response) => {
-            //console.log(JSON.stringify(response.data));
             const page_id = JSON.stringify(response.data.page_id);
             const returnMessage = JSON.stringify(response.data.message);
             EventBus.dispatch("success", { message: returnMessage });
@@ -97,7 +96,6 @@ export const profileImage = (packets, pageID, pageDefault) => {
     return axios.post('/dashboard/page/update-profile-image/' + pageID, packets)
     .then(
         (response) => {
-            //console.log(JSON.stringify(response.data))
             const returnMessage = JSON.stringify(response.data.message);
             const imgPath = response.data.imgPath;
 
@@ -131,7 +129,6 @@ export const pageTitle = (packets, pageID) => {
     return axios.post('/dashboard/page/update-title/' + pageID,
         packets).then(
         response => {
-            //console.log(JSON.stringify(response.data))
             const returnMessage = JSON.stringify(response.data.message);
             EventBus.dispatch("success", {message: returnMessage});
         }
@@ -151,7 +148,6 @@ export const pageBio = (packets, pageID) => {
     return axios.post('/dashboard/page/update-bio/' + pageID,
         packets).then(
         (response) => {
-            //console.log(JSON.stringify(response.data))
             const returnMessage = JSON.stringify(response.data.message);
             EventBus.dispatch("success", {message: returnMessage});
         }
@@ -172,7 +168,6 @@ export const updateProfileLayout = (packets, pageID) => {
     return axios.post('/dashboard/page/update-profile-layout/' + pageID,
         packets).then(
         (response) => {
-            //console.log(JSON.stringify(response.data))
             const returnMessage = JSON.stringify(response.data.message);
 
             return {

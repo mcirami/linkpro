@@ -306,7 +306,6 @@ export const updateSectionsPositions = (packets) => {
     .then(
         (response) => {
             const returnedResponse = response.data.message;
-            //EventBus.dispatch("success", { message: returnMessage.replace("_", " ") });
             console.log(returnedResponse);
             return {
                 success : true,

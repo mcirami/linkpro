@@ -2,7 +2,6 @@ import React, {useContext} from 'react';
 import {PageContext} from '../../App';
 
 const ProfileImage = ({
-                          profileFileName,
                           completedCrop,
                           nodesRef,
                       }) => {
@@ -13,12 +12,12 @@ const ProfileImage = ({
 
         <>
             <div className={`
-            ${(pageSettings["profile_img"] && !profileFileName) || profileFileName
+            ${(pageSettings["profile_img"] && !completedCrop.profile_img?.isCompleted) || completedCrop.profile_img?.isCompleted
                 ? "profile_img_column"
                 :
                 "profile_img_column default"} `}
             >
-                {!profileFileName ?
+                {!completedCrop.profile_img?.isCompleted ?
                     <div className="profile_image">
                         <div className="image_wrap">
                             <img src={pageSettings["profile_img"] ||

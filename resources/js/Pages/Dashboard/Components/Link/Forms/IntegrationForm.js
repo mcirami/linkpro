@@ -31,7 +31,6 @@ import AllProducts from './Shopify/AllProducts';
 import StoreDropdown from './Shopify/StoreDropdown';
 import SelectedProducts from './Shopify/SelectedProducts';
 import {HandleBlur, HandleFocus} from '../../../../../Utils/InputAnimations';
-import {HiMinus, HiPlus} from 'react-icons/hi';
 import CropTools from '../../../../../Utils/CropTools';
 
 const IntegrationForm = ({
