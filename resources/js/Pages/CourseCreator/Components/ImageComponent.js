@@ -70,7 +70,7 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
         const words = elementName.split("_");
         setElementLabel( words.join(" "));
 
-    },[])
+    },[elementName])
 
     const onSelectFile = (e) => {
         let files = e.target.files || e.dataTransfer.files;

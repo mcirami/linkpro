@@ -52,7 +52,7 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
         const words = elementName.split("_");
         setElementLabel( elementName === "hero" ? "Header Image" : words.join(" "));
 
-    },[])
+    },[elementName])
 
     useDebounceEffect(
         async () => {
