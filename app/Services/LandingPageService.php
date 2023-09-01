@@ -32,10 +32,12 @@ class LandingPageService {
     }
 
     public function savePageImage($userID, $request, $key, $landingPage) {
-        $imgName = $userID . '-' . $key . '.' . $request->ext; //. time() . '.' . $request->ext;
-        $path = 'landing-pages/' . $userID . '/' . $imgName;
+        $imgName = time() . '.' . $request->ext;
+        $pathToFolder = 'landing-pages/' . $userID . '/' . $landingPage->id . '/' . $key . '/';
+        $path =  $pathToFolder . $imgName;
 
-        Storage::disk('s3')->delete($path);
+        $files = Storage::disk('s3')->allFiles($pathToFolder);
+        Storage::disk('s3')->delete($files);
 
         Storage::disk('s3')->copy(
             $request->$key,
@@ -97,10 +99,13 @@ class LandingPageService {
     }
 
     public function saveSectionImage($userID, $request, $key, $section ) {
-        $imgName = $userID . '-' . $section->id . '-' . $key . '.' . $request->ext; //time() . '.' . $request->ext;
-        $path = 'landing-pages/' . $userID . '/' . $imgName;
+        $imgName = time() . '.' . $request->ext;
 
-        Storage::disk('s3')->delete($path);
+        $pathToFolder = 'landing-pages/' . $userID . '/' . $section->landing_page_id . '/sections/' . $section->id . '/';
+        $path =  $pathToFolder . $imgName;
+
+        $files = Storage::disk('s3')->allFiles($pathToFolder);
+        Storage::disk('s3')->delete($files);
 
         Storage::disk('s3')->copy(
             $request->$key,

@@ -33,6 +33,7 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
         type
     } = props;
 
+    const [disableButton, setDisableButton] = useState(true);
     const [elementLabel, setElementLabel] = useState(elementName);
     const [upImg, setUpImg] = useState('');
     const imgRef = useRef(null);
@@ -77,7 +78,7 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
             return;
         }
         setCrop(undefined)
-
+        setDisableButton(false);
         document.querySelector("." + CSS.escape(elementName) + "_form .bottom_section").classList.remove("hidden");
         if (window.innerWidth < 993) {
             document.querySelector("." + CSS.escape(elementName) + "_form").scrollIntoView({
@@ -104,11 +105,14 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+        setDisableButton(true);
         const image = getFileToUpload(previewCanvasRef?.current[elementName])
         image.then((value) => {
             fileUpload(value);
-        })
+        }).catch((error) => {
+            console.error(error);
+            setDisableButton(false);
+        });
     };
 
     const fileUpload = (image) => {
@@ -198,6 +202,7 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
 
         }).catch((error) => {
             console.error(error);
+            setDisableButton(false);
         });
     };
 
@@ -306,7 +311,7 @@ const ImageComponent = forwardRef(function ImageComponent(props, ref) {
                             <button
                                 type="submit"
                                 className="button green"
-                                disabled={!completedCrop[elementName]?.isCompleted && true}
+                                disabled={disableButton}
                             >
                                 Save
                             </button>

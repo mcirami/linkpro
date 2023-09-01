@@ -9,10 +9,12 @@ class OfferService {
 
     public function updateOfferIcon($request, $userID, $offer) {
 
-        $imgName = $userID . '-icon' . '.' .  $request->ext;//time() . '.' . $request->ext;
-        $path = 'offer-images/' . $userID . '/' . $imgName;
+        $imgName = time() . '.' .  $request->ext;
+        $pathToFolder = 'offer-images/' . $userID . '/' . $offer->id . '/icon/';
+        $path = $pathToFolder . $imgName;
 
-        Storage::disk('s3')->delete($path);
+        $files = Storage::disk('s3')->allFiles($pathToFolder);
+        Storage::disk('s3')->delete($files);
 
         Storage::disk('s3')->copy(
             $request->icon,

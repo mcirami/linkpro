@@ -31,8 +31,7 @@ const ProfileImage = ({
                                 ref={ref => nodesRef.current.profile_img = ref}
                                 // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
                                 style={{
-                                    backgroundSize: `cover`,
-                                    backgroundRepeat: `no-repeat`,
+                                    objectFit: `cover`,
                                     width: completedCrop.profile_img?.isCompleted ? `100%` : 0,
                                     height: completedCrop.profile_img?.isCompleted ? `100%` : 0,
                                     borderRadius: `50px`,

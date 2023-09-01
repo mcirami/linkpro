@@ -80,10 +80,13 @@ class CourseService {
     }
 
     public function saveCourseImage($userID, $request, $key, $course) {
-        $imgName = $userID . '-' . $course->id . '-' . $key . '.' . $request->ext;
-        $path = 'courses/' . $userID . '/' . $imgName;
+        $imgName = time() . '.' . $request->ext;
+        $pathToFolder = 'courses/' . $userID . '/' . $course->id . '/' . $key . '/';
+        $path = $pathToFolder . $imgName;
 
-        Storage::disk('s3')->delete($path);
+        $files = Storage::disk('s3')->allFiles($pathToFolder);
+        Storage::disk('s3')->delete($files);
+
         Storage::disk('s3')->copy(
             $request->$key,
             str_replace($request->$key, $path, $request->$key)

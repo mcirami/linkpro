@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {PageContext} from '../../App';
 
 const Header = ({
@@ -7,8 +7,10 @@ const Header = ({
                 }) => {
 
     const {pageSettings} = useContext(PageContext);
+
     const myStyle = {
-        background: "url(" + pageSettings["header_img"] + ") no-repeat",
+        backgroundImage: "url(" + pageSettings["header_img"] + ")",
+        backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
     };
 
@@ -36,6 +38,7 @@ const Header = ({
                         ref={ref => nodesRef.current["header_img"] = ref}
                         // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
                         style={{
+                            objectFit: `cover`,
                             width: completedCrop["header_img"]?.isCompleted ? `100%` : 0,
                             height: completedCrop["header_img"]?.isCompleted ? `auto` : 0,
                             borderTopRightRadius: `12%`,

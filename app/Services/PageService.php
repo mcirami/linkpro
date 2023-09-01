@@ -177,10 +177,12 @@ class PageService {
      */
     public function updateHeaderImage($request, $userID, $page) {
 
-        $imgName = $userID . '-header_img' . '.' . $request->ext; //time() . '.' . $request->ext;
-        $path = 'page-images/' . $userID . '/' . $imgName;
+        $imgName = time() . '.' . $request->ext;
+        $pathToFolder = 'page-images/' . $userID . '/' . $page->id . '/header-img/';
+        $path = $pathToFolder . $imgName;
 
-        Storage::disk('s3')->delete($path);
+        $files = Storage::disk('s3')->allFiles($pathToFolder);
+        Storage::disk('s3')->delete($files);
 
         Storage::disk('s3')->copy(
             $request->header_img,
@@ -201,10 +203,12 @@ class PageService {
      */
     public function updateProfileImage($request, $userID, $page) {
 
-        $imgName = $userID . '-profile_img' . '.' . $request->ext; //. time() . '.' . $request->ext;
-        $path = 'page-images/' . $userID . '/' . $imgName;
+        $imgName = time() . '.' . $request->ext;
+        $pathToFolder = 'page-images/' . $userID . '/' . $page->id . '/profile-img/';
+        $path = $pathToFolder . $imgName;
 
-        Storage::disk('s3')->delete($path);
+        $files = Storage::disk('s3')->allFiles($pathToFolder);
+        Storage::disk('s3')->delete($files);
 
         Storage::disk('s3')->copy(
             $request->profile_img,

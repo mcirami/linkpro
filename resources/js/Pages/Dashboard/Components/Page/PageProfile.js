@@ -29,8 +29,8 @@ const PageProfile = forwardRef(function PageProfile(props, ref) {
     } = props
 
     const { pageSettings, setPageSettings } = useContext(PageContext);
-    const [previousImage, setPreviousImage] = useState(pageSettings['profile_img']);
 
+    const [disableButton, setDisableButton] = useState(true);
     const [upImg, setUpImg] = useState(null);
     const imgRef = useRef();
     const previewCanvasRef = ref;
@@ -67,6 +67,7 @@ const PageProfile = forwardRef(function PageProfile(props, ref) {
             return;
         }
         setCrop(undefined);
+        setDisableButton(false);
         document.querySelector('form.profile_img_form .bottom_section').classList.remove('hidden');
         if (window.innerWidth < 993) {
             document.querySelector('.profile_img_form').scrollIntoView({
@@ -78,11 +79,14 @@ const PageProfile = forwardRef(function PageProfile(props, ref) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+        setDisableButton(true);
         const image = getFileToUpload(previewCanvasRef?.current[elementName])
         image.then((value) => {
             fileUpload(value);
-        })
+        }).catch((error) => {
+            console.error(error);
+            setDisableButton(false);
+        });
     }
 
     const fileUpload = (image) => {
@@ -118,6 +122,7 @@ const PageProfile = forwardRef(function PageProfile(props, ref) {
             })
         }).catch(error => {
             console.error(error);
+            setDisableButton(false);
             EventBus.dispatch("error", { message: "There was an error saving your image." });
         });
 
@@ -130,10 +135,6 @@ const PageProfile = forwardRef(function PageProfile(props, ref) {
         setCompletedCrop(copy);
 
         document.querySelector('form.profile_img_form .bottom_section').classList.add('hidden');
-        setPageSettings({
-            ...pageSettings,
-            profile_img: previousImage,
-        });
     }
 
     return (
@@ -191,7 +192,7 @@ const PageProfile = forwardRef(function PageProfile(props, ref) {
                         <div className="bottom_row">
                             <button type="submit"
                                     className="button green"
-                                    disabled={!upImg && true}>
+                                    disabled={disableButton}>
                                 Save
                             </button>
                             <a className="button transparent gray" href="#"

@@ -30,9 +30,7 @@ const PageHeader = forwardRef(function PageHeader(props, ref) {
 
     const {pageSettings, setPageSettings} = useContext(PageContext);
 
-    const [previousImage, setPreviousImage] = useState(
-        pageSettings["header_img"]
-    );
+    const [disableButton, setDisableButton] = useState(true);
 
     const [upImg, setUpImg] = useState(null);
     const imgRef = useRef();
@@ -70,6 +68,7 @@ const PageHeader = forwardRef(function PageHeader(props, ref) {
             return;
         }
         setCrop(undefined);
+        setDisableButton(false);
         document.querySelector("form.header_img_form .bottom_section").classList.remove("hidden");
         if (window.innerWidth < 993) {
             document.querySelector(".header_img_form").scrollIntoView({
@@ -81,10 +80,14 @@ const PageHeader = forwardRef(function PageHeader(props, ref) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setDisableButton(true);
         const image = getFileToUpload(previewCanvasRef?.current[elementName])
         image.then((value) => {
             fileUpload(value);
-        })
+        }).catch((error) => {
+            console.error(error);
+            setDisableButton(false);
+        });
     };
 
     const fileUpload = (image) => {
@@ -123,6 +126,7 @@ const PageHeader = forwardRef(function PageHeader(props, ref) {
             .catch((error) => {
                 console.error(error);
                 EventBus.dispatch("error", { message: "There was an error saving your image." });
+                setDisableButton(false);
             });
     };
 
@@ -134,10 +138,6 @@ const PageHeader = forwardRef(function PageHeader(props, ref) {
         setCompletedCrop(copy);
 
         document.querySelector("form.header_img_form .bottom_section").classList.add("hidden");
-        setPageSettings({
-            ...pageSettings,
-            header_img: previousImage,
-        });
     };
 
     return (
@@ -206,7 +206,7 @@ const PageHeader = forwardRef(function PageHeader(props, ref) {
                             <button
                                 type="submit"
                                 className="button green"
-                                disabled={!completedCrop[elementName]?.isCompleted && true}
+                                disabled={disableButton}
                             >
                                 Save
                             </button>
