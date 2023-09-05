@@ -28,9 +28,9 @@ const Folder = ({
             setClickType("folder");
 
             setTimeout(function(){
-                document.querySelector('.icons_wrap.inner .icon_col:last-child').scrollIntoView({
+                document.querySelector('.folder.open .icon_col:last-child').scrollIntoView({
                     behavior: 'smooth',
-                    block: "nearest",
+                    block: "nearest"
                 });
 
             }, 300)

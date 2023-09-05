@@ -184,13 +184,17 @@ const EditorComponent = ({
                         width: 100 + '%',
                         menubar: true,
                         menu: {
+                            file: {
+                                title: 'File',
+                                items: ''
+                            },
                             edit: {
                                 title: 'Edit',
                                 items: 'undo redo | cut copy paste pastetext | selectall | searchreplace'
                             },
                             view: {
                                 title: 'View',
-                                items: 'code | visualaid visualchars visualblocks | spellchecker | preview fullscreen | showcomments'
+                                items: 'visualaid visualchars visualblocks | spellchecker | preview fullscreen | showcomments'
                             },
                             insert: {
                                 title: 'Insert',
@@ -207,7 +211,7 @@ const EditorComponent = ({
                         },
                         plugins: [
                             'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen', 'wordcount'
+                            'anchor', 'searchreplace', 'fullscreen', 'wordcount'
                         ],
                         toolbar: 'undo redo | blocks | ' +
                             'bold italic forecolor | alignleft aligncenter ' +

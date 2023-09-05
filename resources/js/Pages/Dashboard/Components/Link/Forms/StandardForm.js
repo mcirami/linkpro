@@ -24,6 +24,9 @@ import {
 } from '../../../App';
 import {HandleFocus, HandleBlur} from '../../../../../Utils/InputAnimations';
 import {acceptTerms} from '../../../../../Services/UserService';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import TextComponent from './TextComponent';
 
 const StandardForm = ({
                           accordionValue,
@@ -46,6 +49,7 @@ const StandardForm = ({
     const  { pageSettings } = useContext(PageContext);
     const [ showTerms, setShowTerms ] = useState(false);
     const [affiliateStatus, setAffiliateStatus] = useState(affStatus);
+    const [checked, setChecked] = useState(false);
 
     const [currentLink, setCurrentLink] = useState(
         userLinks.find(function(e) {
@@ -342,6 +346,10 @@ const StandardForm = ({
 
     }
 
+    const handleDescCheck = () => {
+        setChecked(!checked);
+    }
+
     return (
         <>
         { accordionValue === "offer" && (affiliateStatus !== "approved" || !affiliateStatus) ?
@@ -483,12 +491,39 @@ const StandardForm = ({
                 </div>
 
                 <div className="row">
+                    <div className="col-12">
+                        <FormControlLabel
+                            label={"Add Description"}
+                            sx={{
+                                '.css-ahj2mt-MuiTypography-root' : {
+                                    fontFamily: "opensanssemibold",
+                                }
+                            }}
+                            control={
+                                <Checkbox
+                                    checked={checked}
+                                    onChange={handleDescCheck}
+                                    inputProps={{ 'aria-label': 'controlled' }}
+                                    sx={{
+                                        '&.Mui-checked': {
+                                            color: '#424fcf',
+                                        },
+                                    }}
+                                />
+                            }
+                        />
+                        {checked &&
+                            <TextComponent />
+                        }
+                    </div>
+                </div>
+
+                <div className="row">
                     <div className="col-12 button_row">
                         <button className="button green" type="submit">
                             Save
                         </button>
-                        <a href="#" className="button transparent gray" onClick={(e) => handleCancel(
-                            e)}>
+                        <a href="#" className="button transparent gray" onClick={(e) => handleCancel(e)}>
                             Cancel
                         </a>
                         <a className="help_link" href="mailto:help@link.pro">Need Help?</a>

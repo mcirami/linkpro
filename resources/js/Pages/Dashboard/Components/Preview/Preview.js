@@ -11,7 +11,7 @@ import Header from './Header';
 import ProfileImage from './ProfileImage';
 import ProfileText from './ProfileText';
 import Folder from './Folder';
-import FormIcon from './FormIcon';
+import AdvancedIcon from './AdvancedIcon';
 import SubscribeForm from './SubscribeForm';
 import StoreProducts from './StoreProducts';
 import {UseLoadPreviewHeight, UseResizePreviewHeight} from '../../../../Services/PreviewHooks';
@@ -188,7 +188,7 @@ const Preview = ({
 
                                         { (type === "mailchimp" || type === "shopify") &&
 
-                                            <FormIcon
+                                            <AdvancedIcon
                                                 colClasses={colClasses}
                                                 displayIcon={displayIcon}
                                                 name={name}
@@ -207,17 +207,47 @@ const Preview = ({
 
                                         {subStatus && ( (index + 1) % 4 === 0 || index + 1 === iconCount) ?
 
-                                                <SubscribeForm
-                                                    dataRow={dataRow}
-                                                    row={row}
-                                                    mailchimpListId={mailchimpListId}
-                                                    clickType={clickType}
-                                                />
+                                            (() => {
+                                                switch (clickType) {
+                                                    case "mailchimp":
+                                                        return (
+                                                            <SubscribeForm
+                                                                dataRow={dataRow}
+                                                                row={row}
+                                                                mailchimpListId={mailchimpListId}
+                                                                clickType={clickType}
+                                                            />
+                                                        )
+                                                    case "shopify":
+                                                        return (
+                                                            <StoreProducts
+                                                                dataRow={dataRow}
+                                                                row={row}
+                                                                clickType={clickType}
+                                                                storeProducts={storeProducts}
+                                                            />
+                                                        )
+                                                    case "folder":
+                                                        return (
+                                                            <div className={`my_row folder ${dataRow == row ? "open" : ""}`}>
+                                                                <div className="icons_wrap inner">
+
+                                                                    {accordionLinks?.map((innerLinkFull, index) => {
+                                                                            return (
+                                                                                <AccordionLinks key={index} icons={innerLinkFull}/>
+                                                                            )
+                                                                        })
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                }
+                                            })()
                                             :
-                                            ""
+                                                ""
                                         }
 
-                                        {subStatus && ( (index + 1) % 4 === 0 || index + 1 === iconCount) ?
+                                       {/* {subStatus && ( (index + 1) % 4 === 0 || index + 1 === iconCount) ?
 
                                             <StoreProducts
                                                 dataRow={dataRow}
@@ -227,27 +257,27 @@ const Preview = ({
                                             />
                                             :
                                             ""
-                                        }
+                                        }*/}
 
-                                        {subStatus && ((index + 1) % 4 === 0 || index + 1 === iconCount) ?
-                                                <div className={`my_row folder ${dataRow == row && clickType === "folder" ? "open" : ""}`}>
-                                                    <div className="icons_wrap inner">
-                                                        {dataRow == row ?
-                                                            accordionLinks?.map((
-                                                                innerLinkFull,
-                                                                index) => {
-                                                                return (
-                                                                    <AccordionLinks key={index} icons={innerLinkFull}/>
-                                                                )
-                                                            })
-                                                            :
-                                                            ""
-                                                        }
-                                                    </div>
+                                        {/*{subStatus && ((index + 1) % 4 === 0 || index + 1 === iconCount) ?
+                                            <div className={`my_row folder ${dataRow == row && clickType === "folder" ? "open" : ""}`}>
+                                                <div className="icons_wrap inner">
+                                                    {dataRow == row ?
+                                                        accordionLinks?.map((
+                                                            innerLinkFull,
+                                                            index) => {
+                                                            return (
+                                                                <AccordionLinks key={index} icons={innerLinkFull}/>
+                                                            )
+                                                        })
+                                                        :
+                                                        ""
+                                                    }
                                                 </div>
+                                            </div>
                                             :
                                             ""
-                                        }
+                                        }*/}
                                     </React.Fragment>
                                 )
                             })}
