@@ -16414,14 +16414,14 @@ a.delete svg {
   width: 100%;
 }
 
-.my_row.folder, .my_row.form {
+.my_row.folder {
   opacity: 0;
   max-height: 0;
   transition: max-height 50ms linear;
   background: #ffffff;
   z-index: -999;
 }
-.my_row.folder.open, .my_row.form.open {
+.my_row.folder.open {
   max-height: 1000px;
   z-index: unset;
   animation: opacity 50ms forwards;
@@ -16446,50 +16446,49 @@ a.delete svg {
     opacity: 1;
   }
 }
-.my_row.folder p, .my_row.form p {
+.my_row.folder p {
   margin-bottom: 0;
 }
-.my_row.folder .icons_wrap, .my_row.folder .form_wrap, .my_row.form .icons_wrap, .my_row.form .form_wrap {
+.my_row.folder .icons_wrap, .my_row.folder .folder_content {
   padding: 20px !important;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 20px;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
-  text-align: center;
   margin-bottom: 20px;
 }
 @media screen and (max-width: 550px) {
-  .my_row.folder .icons_wrap, .my_row.folder .form_wrap, .my_row.form .icons_wrap, .my_row.form .form_wrap {
+  .my_row.folder .icons_wrap, .my_row.folder .folder_content {
     padding: 10px !important;
   }
 }
-.my_row.folder .icons_wrap .icon_col, .my_row.folder .form_wrap .icon_col, .my_row.form .icons_wrap .icon_col, .my_row.form .form_wrap .icon_col {
+.my_row.folder .icons_wrap .icon_col, .my_row.folder .folder_content .icon_col {
   width: 26.3% !important;
   margin-bottom: 5px !important;
   margin-right: 10.5% !important;
 }
-.my_row.folder .icons_wrap .icon_col:nth-child(3n), .my_row.folder .form_wrap .icon_col:nth-child(3n), .my_row.form .icons_wrap .icon_col:nth-child(3n), .my_row.form .form_wrap .icon_col:nth-child(3n) {
+.my_row.folder .icons_wrap .icon_col:nth-child(3n), .my_row.folder .folder_content .icon_col:nth-child(3n) {
   margin-right: 0 !important;
 }
-.my_row.folder .icons_wrap .icon_col:nth-child(4n), .my_row.folder .form_wrap .icon_col:nth-child(4n), .my_row.form .icons_wrap .icon_col:nth-child(4n), .my_row.form .form_wrap .icon_col:nth-child(4n) {
+.my_row.folder .icons_wrap .icon_col:nth-child(4n), .my_row.folder .folder_content .icon_col:nth-child(4n) {
   margin-right: 10.5% !important;
 }
-.my_row.folder form, .my_row.form form {
+.my_row.folder form {
   margin-bottom: 0;
 }
-.my_row.folder form h3, .my_row.folder form .h3, .my_row.form form h3, .my_row.form form .h3 {
+.my_row.folder form h3, .my_row.folder form .h3 {
   font-size: 1em;
 }
 @media screen and (max-width: 550px) {
-  .my_row.folder form h3, .my_row.folder form .h3, .my_row.form form h3, .my_row.form form .h3 {
+  .my_row.folder form h3, .my_row.folder form .h3 {
     font-size: 0.8em;
   }
 }
-.my_row.folder form input, .my_row.form form input {
+.my_row.folder form input {
   width: 100%;
   margin-bottom: 0;
 }
-.my_row.folder form .button, .my_row.form form .button {
+.my_row.folder form .button {
   -webkit-appearance: none;
   width: 100%;
   margin-top: 10px;

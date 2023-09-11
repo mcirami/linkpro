@@ -1,17 +1,15 @@
 import React, {useState} from 'react';
 
-const SubscribeForm = ({dataRow, row, mailchimpListId, clickType}) => {
+const SubscribeForm = ({dataRow, row, mailchimpListId}) => {
 
     const [formValue, setFormValue] = useState("");
 
     return (
         <>
             {mailchimpListId !== undefined &&
-                <div className={`my_row form ${dataRow == row && clickType === "mailchimp" ?
-                    "open" :
-                    ""}`}>
+                <div className={`my_row folder ${dataRow == row ? "open" : ""}`}>
                     {dataRow == row &&
-                        <div className="form_wrap">
+                        <div className="folder_content">
                             <form onSubmit={(e) => e.preventDefault()}>
                                 <h3>Enter Your Email To Subscribe.</h3>
                                 <input

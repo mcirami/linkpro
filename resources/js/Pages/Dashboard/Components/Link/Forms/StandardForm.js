@@ -24,9 +24,9 @@ import {
 } from '../../../App';
 import {HandleFocus, HandleBlur} from '../../../../../Utils/InputAnimations';
 import {acceptTerms} from '../../../../../Services/UserService';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import TextComponent from './TextComponent';
+import htmlToDraft from 'html-to-draftjs';
+import {ContentState, convertToRaw} from 'draft-js';
+import IconDescription from './IconDescription';
 
 const StandardForm = ({
                           accordionValue,
@@ -41,6 +41,8 @@ const StandardForm = ({
                           setOptionText,
                           folderID,
                           affStatus = null,
+                          setShowTiny,
+                          showTiny
 
 }) => {
 
@@ -49,7 +51,6 @@ const StandardForm = ({
     const  { pageSettings } = useContext(PageContext);
     const [ showTerms, setShowTerms ] = useState(false);
     const [affiliateStatus, setAffiliateStatus] = useState(affStatus);
-    const [checked, setChecked] = useState(false);
 
     const [currentLink, setCurrentLink] = useState(
         userLinks.find(function(e) {
@@ -67,9 +68,17 @@ const StandardForm = ({
             shopify_products: null,
             shopify_id: null,
             course_id: null,
+            description: null,
             type: null,
         }
     );
+
+    const [descChecked, setDescChecked] = useState(
+        Boolean(
+            currentLink.description &&
+            currentLink.description !== "" &&
+            currentLink.type === "advanced"
+        ));
 
     const [charactersLeft, setCharactersLeft] = useState();
 
@@ -136,6 +145,15 @@ const StandardForm = ({
 
             URL = data["url"];
             let packets;
+            let descValue = null;
+            let iconType = inputType;
+
+            if (currentLink.description && currentLink.description !== "") {
+                if(descChecked) {
+                    iconType = "advanced";
+                }
+                descValue = getTextValue();
+            }
 
             switch (inputType) {
                 case "url":
@@ -145,8 +163,9 @@ const StandardForm = ({
                         icon: currentLink.icon,
                         page_id: pageSettings["id"],
                         folder_id: folderID,
-                        type: "url",
-                    };
+                        description: descValue,
+                        type: iconType,
+                    }
                     break;
                 case "email":
                     packets = {
@@ -155,8 +174,9 @@ const StandardForm = ({
                         icon: currentLink.icon,
                         page_id: pageSettings["id"],
                         folder_id: folderID,
-                        type: "email",
-                    };
+                        description: descValue,
+                        type: iconType,
+                    }
                     break;
                 case "phone":
                     packets = {
@@ -165,8 +185,9 @@ const StandardForm = ({
                         icon: currentLink.icon,
                         page_id: pageSettings["id"],
                         folder_id: folderID,
-                        type: "phone",
-                    };
+                        description: descValue,
+                        type: iconType,
+                    }
                     break;
                 case "offer":
                     packets = {
@@ -176,12 +197,29 @@ const StandardForm = ({
                         page_id: pageSettings["id"],
                         course_id: currentLink.course_id,
                         folder_id: folderID,
-                        type: "offer",
-                    };
+                        description: descValue,
+                        type: iconType,
+                    }
                     break;
+                /*case "advanced":
+                    packets = {
+                        name: currentLink.name,
+                        icon: currentLink.icon,
+                        url: URL,
+                        email: currentLink.email,
+                        phone: currentLink.phone,
+                        page_id: pageSettings["id"],
+                        course_id: currentLink.course_id || null,
+                        folder_id: folderID,
+                        description: descValue,
+                        type: "advanced",
+                    }
+                    break;*/
                 default:
                     break;
             }
+
+            console.log("currentLink: ", currentLink);
 
             const func = editID ? updateLink(packets, editID) : addLink(packets);
 
@@ -198,6 +236,7 @@ const StandardForm = ({
                                     editID: editID,
                                     currentLink: currentLink,
                                     url: URL,
+                                    type: iconType,
                                     iconPath: currentLink.icon
                                 }
                             })
@@ -209,6 +248,7 @@ const StandardForm = ({
                                     editID: editID,
                                     currentLink: currentLink,
                                     url: URL,
+                                    type: iconType,
                                     iconPath: currentLink.icon
                                 }
                             })
@@ -223,15 +263,15 @@ const StandardForm = ({
                                 url: URL,
                                 email: currentLink.email,
                                 phone: currentLink.phone,
-                                type: currentLink.type,
+                                type: iconType,
                                 icon: currentLink.icon,
                                 course_id: currentLink.course_id,
                                 position: data.position,
+                                description: currentLink.description,
                                 active_status: true
                             }
 
-                            newFolderLinks = newFolderLinks.concat(
-                                newLinkObject);
+                            newFolderLinks = newFolderLinks.concat(newLinkObject);
 
                             dispatchFolderLinks({
                                 type: FOLDER_LINKS_ACTIONS.SET_FOLDER_LINKS,
@@ -248,8 +288,7 @@ const StandardForm = ({
                                     active_status: folderActive,
                                 };
 
-                                updateLinkStatus(packets, folderID,
-                                    url);
+                                updateLinkStatus(packets, folderID, url);
                             }
 
                             dispatch({
@@ -272,6 +311,7 @@ const StandardForm = ({
                                     editID: editID,
                                     currentLink: currentLink,
                                     url: URL,
+                                    type: iconType,
                                     iconPath: currentLink.icon
                                 }
                             })
@@ -285,18 +325,18 @@ const StandardForm = ({
                                 url: URL,
                                 email: currentLink.email,
                                 phone: currentLink.phone,
-                                type: currentLink.type,
+                                type: iconType,
                                 icon: currentLink.icon,
                                 course_id: currentLink.course_id,
                                 position: data.position,
+                                description: currentLink.description,
                                 active_status: true
                             }
 
                             dispatch({
                                 type: LINKS_ACTIONS.SET_LINKS,
                                 payload: {
-                                    links: newLinks.concat(
-                                        newLinkObject)
+                                    links: newLinks.concat(newLinkObject)
                                 }
                             })
                         }
@@ -316,6 +356,7 @@ const StandardForm = ({
                         shopify_products: null,
                         shopify_id: null,
                         course_id: null,
+                        description: null,
                         type: null
                     })
                 }
@@ -346,8 +387,14 @@ const StandardForm = ({
 
     }
 
-    const handleDescCheck = () => {
-        setChecked(!checked);
+    const getTextValue = () => {
+        const blocksFromHTML = htmlToDraft(currentLink.description);
+
+        const { contentBlocks, entityMap } = blocksFromHTML;
+
+        const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+
+        return convertToRaw(contentState);
     }
 
     return (
@@ -490,33 +537,14 @@ const StandardForm = ({
                     </div>
                 </div>
 
-                <div className="row">
-                    <div className="col-12">
-                        <FormControlLabel
-                            label={"Add Description"}
-                            sx={{
-                                '.css-ahj2mt-MuiTypography-root' : {
-                                    fontFamily: "opensanssemibold",
-                                }
-                            }}
-                            control={
-                                <Checkbox
-                                    checked={checked}
-                                    onChange={handleDescCheck}
-                                    inputProps={{ 'aria-label': 'controlled' }}
-                                    sx={{
-                                        '&.Mui-checked': {
-                                            color: '#424fcf',
-                                        },
-                                    }}
-                                />
-                            }
-                        />
-                        {checked &&
-                            <TextComponent />
-                        }
-                    </div>
-                </div>
+                <IconDescription
+                    currentLink={currentLink}
+                    setCurrentLink={setCurrentLink}
+                    descChecked={descChecked}
+                    setDescChecked={setDescChecked}
+                    setShowTiny={setShowTiny}
+                    showTiny={showTiny}
+                />
 
                 <div className="row">
                     <div className="col-12 button_row">

@@ -15,6 +15,7 @@ import AdvancedIcon from './AdvancedIcon';
 import SubscribeForm from './SubscribeForm';
 import StoreProducts from './StoreProducts';
 import {UseLoadPreviewHeight, UseResizePreviewHeight} from '../../../../Services/PreviewHooks';
+import IconDescription from './IconDescription';
 
 const Preview = ({
                      nodesRef,
@@ -25,7 +26,9 @@ const Preview = ({
                      setValue,
                      subStatus,
                      pageHeaderRef,
-                     setShowPreview
+                     setShowPreview,
+                     showTiny,
+                     setShowTiny
 }) => {
 
     const { userLinks } = useContext(UserLinksContext);
@@ -73,6 +76,7 @@ const Preview = ({
     const accordionLinks = value !== null ? userLinks[value].links : null;
     const mailchimpListId = value !== null ? userLinks[value].mailchimp_list_id : null;
     const storeProducts = value !== null ? userLinks[value].shopify_products : null;
+    const description = value !== null ? userLinks[value].description : null;
 
     return (
 
@@ -109,7 +113,7 @@ const Preview = ({
                                     phone,
                                     icon,
                                     active_status,
-                                    links
+                                    links,
                                 } = linkItem;
 
                                 if (email) {
@@ -129,7 +133,7 @@ const Preview = ({
                                 }
 
                                 let colClasses = "";
-                                if (type === "folder" || type === "mailchimp" || type === "shopify") {
+                                if (type === "folder" || type === "mailchimp" || type === "shopify" || type === "advanced") {
                                     colClasses = "icon_col folder";
                                 } else {
                                     colClasses = "icon_col";
@@ -183,27 +187,29 @@ const Preview = ({
                                                             }
                                                         </div>
                                                     )
+                                                case "mailchimp":
+                                                case "shopify":
+                                                case "advanced":
+                                                    return (
+                                                        <AdvancedIcon
+                                                            colClasses={colClasses}
+                                                            displayIcon={displayIcon}
+                                                            name={name}
+                                                            active_status={active_status}
+                                                            dataRow={dataRow}
+                                                            mainIndex={index}
+                                                            setRow={setRow}
+                                                            value={value}
+                                                            setValue={setValue}
+                                                            index={index}
+                                                            setClickType={setClickType}
+                                                            clickType={clickType}
+                                                            type={type}
+                                                            setShowTiny={setShowTiny}
+                                                        />
+                                                    )
                                             }
                                         })()}
-
-                                        { (type === "mailchimp" || type === "shopify") &&
-
-                                            <AdvancedIcon
-                                                colClasses={colClasses}
-                                                displayIcon={displayIcon}
-                                                name={name}
-                                                active_status={active_status}
-                                                dataRow={dataRow}
-                                                mainIndex={index}
-                                                setRow={setRow}
-                                                value={value}
-                                                setValue={setValue}
-                                                index={index}
-                                                setClickType={setClickType}
-                                                clickType={clickType}
-                                                type={type}
-                                            />
-                                        }
 
                                         {subStatus && ( (index + 1) % 4 === 0 || index + 1 === iconCount) ?
 
@@ -215,7 +221,6 @@ const Preview = ({
                                                                 dataRow={dataRow}
                                                                 row={row}
                                                                 mailchimpListId={mailchimpListId}
-                                                                clickType={clickType}
                                                             />
                                                         )
                                                     case "shopify":
@@ -223,8 +228,15 @@ const Preview = ({
                                                             <StoreProducts
                                                                 dataRow={dataRow}
                                                                 row={row}
-                                                                clickType={clickType}
                                                                 storeProducts={storeProducts}
+                                                            />
+                                                        )
+                                                    case "advanced":
+                                                        return (
+                                                            <IconDescription
+                                                                dataRow={dataRow}
+                                                                row={row}
+                                                                description={description}
                                                             />
                                                         )
                                                     case "folder":
@@ -246,38 +258,6 @@ const Preview = ({
                                             :
                                                 ""
                                         }
-
-                                       {/* {subStatus && ( (index + 1) % 4 === 0 || index + 1 === iconCount) ?
-
-                                            <StoreProducts
-                                                dataRow={dataRow}
-                                                row={row}
-                                                clickType={clickType}
-                                                storeProducts={storeProducts}
-                                            />
-                                            :
-                                            ""
-                                        }*/}
-
-                                        {/*{subStatus && ((index + 1) % 4 === 0 || index + 1 === iconCount) ?
-                                            <div className={`my_row folder ${dataRow == row && clickType === "folder" ? "open" : ""}`}>
-                                                <div className="icons_wrap inner">
-                                                    {dataRow == row ?
-                                                        accordionLinks?.map((
-                                                            innerLinkFull,
-                                                            index) => {
-                                                            return (
-                                                                <AccordionLinks key={index} icons={innerLinkFull}/>
-                                                            )
-                                                        })
-                                                        :
-                                                        ""
-                                                    }
-                                                </div>
-                                            </div>
-                                            :
-                                            ""
-                                        }*/}
                                     </React.Fragment>
                                 )
                             })}

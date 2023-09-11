@@ -1,25 +1,27 @@
 import React from 'react';
 
 const AdvancedIcon = ({
-                      colClasses,
-                      displayIcon,
-                      name,
-                      active_status,
-                      dataRow,
-                      setRow,
-                      value,
-                      setValue,
-                      mainIndex,
-                      index,
-                      clickType,
-                      setClickType,
-                      type
+                          colClasses,
+                          displayIcon,
+                          name,
+                          active_status,
+                          dataRow,
+                          setRow,
+                          value,
+                          setValue,
+                          mainIndex,
+                          index,
+                          clickType,
+                          setClickType,
+                          type,
+                          setShowTiny
 }) => {
 
     const handleClick = (e) => {
         e.preventDefault();
 
         const clickedDiv = e.currentTarget;
+        setShowTiny(false);
 
         if (clickedDiv.classList.contains('open')) {
             setRow(null);
@@ -30,13 +32,14 @@ const AdvancedIcon = ({
             setValue(index);
             setClickType(type);
             setTimeout(function(){
-                document.querySelector('.form.open .form_wrap').scrollIntoView({
+                document.querySelector('.folder.open .folder_content').scrollIntoView({
                     behavior: 'smooth',
                     block: "nearest",
                 });
-
             }, 300)
         }
+
+        setShowTiny(true);
     }
 
     return (

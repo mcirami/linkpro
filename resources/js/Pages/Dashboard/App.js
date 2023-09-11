@@ -65,6 +65,8 @@ function App() {
     /* Separating user links array into 2, in order for drag and drop to work properly.
     only 1 state should be updated on drag and drop but both need to be updated for any type of CRUD action  */
 
+    const [showTiny, setShowTiny]   = useState(false);
+
     const [userLinks, dispatch] = useReducer(reducer, myLinksArray);
     const [folderLinks, dispatchFolderLinks] = useReducer(folderLinksReducer, []);
 
@@ -486,6 +488,8 @@ function App() {
                                                                 setShowUpgradePopup={setShowUpgradePopup}
                                                                 setOptionText={setOptionText}
                                                                 folderID={editFolderID}
+                                                                setShowTiny={setShowTiny}
+                                                                showTiny={showTiny}
                                                             />
 
                                                         </div>
@@ -640,6 +644,8 @@ function App() {
                                     subStatus={subStatus}
                                     pageHeaderRef={pageHeaderRef}
                                     setShowPreview={setShowPreview}
+                                    showTiny={showTiny}
+                                    setShowTiny={setShowTiny}
                                 />
                             </div>
                         </ToolTipContextProvider>
