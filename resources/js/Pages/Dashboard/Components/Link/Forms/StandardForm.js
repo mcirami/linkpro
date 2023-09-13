@@ -298,22 +298,11 @@ const StandardForm = ({
                         }
                     }
 
+                    setCurrentLink({});
                     setAccordionValue(null);
                     setShowLinkForm(false);
                     setInputType(null);
                     setEditID(null);
-                    setCurrentLink({
-                        icon: null,
-                        name: null,
-                        url: null,
-                        email: null,
-                        phone: null,
-                        mailchimp_list_id: null,
-                        shopify_products: null,
-                        shopify_id: null,
-                        course_id: null,
-                        type: null
-                    })
                 }
             })
         }

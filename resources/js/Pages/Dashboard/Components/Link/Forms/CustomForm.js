@@ -530,20 +530,11 @@ const CustomForm = ({
                             iconPath
                         ]);
 
+                        setCurrentLink({});
                         setShowLinkForm(false);
                         setAccordionValue(null);
                         setEditID(null)
                         setInputType(null);
-                        setCurrentLink({
-                            icon: null,
-                            name: null,
-                            url: null,
-                            email: null,
-                            phone: null,
-                            mailchimp_list_id: null,
-                            shopify_products: null,
-                            type: null
-                        })
                     }
                 })
 
@@ -575,33 +566,6 @@ const CustomForm = ({
             name: value
         }))
     });
-
-    const handleIncreaseNumber = (e,type) => {
-        e.preventDefault();
-        if (type === "scale") {
-
-            const number = scale + .1;
-            const result = Math.round(number * 10) / 10;
-            setScale(result);
-        }
-
-        if (type === "rotate") {
-            setRotate(Math.min(180, Math.max(-180, Number(rotate + 1))))
-        }
-    }
-
-    const handleDecreaseNumber = (e, type) => {
-        e.preventDefault();
-        if (type === "scale") {
-            const number = scale - .1;
-            const result = Math.round(number * 10) / 10;
-            setScale(result);
-        }
-
-        if (type === "rotate") {
-            setRotate(Math.min(180, Math.max(-180, Number(rotate - 1))))
-        }
-    }
 
     return (
         <form onSubmit={handleSubmit} className="link_form">

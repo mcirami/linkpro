@@ -244,21 +244,11 @@ const IntegrationForm = ({
                             })
                         }
 
+                        setCurrentLink({});
                         setAccordionValue(null);
                         setShowLinkForm(false);
                         setIntegrationType(null);
                         setEditID(null);
-                        setCurrentLink({
-                            icon: null,
-                            name: null,
-                            url: null,
-                            email: null,
-                            phone: null,
-                            mailchimp_list_id: null,
-                            shopify_products: null,
-                            shopify_id: null,
-                            type: null
-                        })
                     }
                 })
             }
