@@ -530,20 +530,11 @@ const CustomForm = ({
                             iconPath
                         ]);
 
+                        setCurrentLink({});
                         setShowLinkForm(false);
                         setAccordionValue(null);
                         setEditID(null)
                         setInputType(null);
-                        setCurrentLink({
-                            icon: null,
-                            name: null,
-                            url: null,
-                            email: null,
-                            phone: null,
-                            mailchimp_list_id: null,
-                            shopify_products: null,
-                            type: null
-                        })
                     }
                 })
 

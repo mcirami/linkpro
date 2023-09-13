@@ -21,12 +21,10 @@ const AdvancedIcon = ({
         e.preventDefault();
 
         const clickedDiv = e.currentTarget;
-        setShowTiny(false);
 
         if (clickedDiv.classList.contains('open')) {
             setRow(null);
             setValue(null);
-            //clickedDiv.classList.remove('open');
         } else {
             setRow(clickedDiv.dataset.row);
             setValue(index);
@@ -39,7 +37,6 @@ const AdvancedIcon = ({
             }, 300)
         }
 
-        setShowTiny(true);
     }
 
     return (

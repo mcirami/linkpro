@@ -10,14 +10,14 @@ const TextComponent = ({
                            showTiny
 }) => {
 
-    console.log("currentLink: ", currentLink);
+
     const editorRef = useRef(null);
     const [editorState, setEditorState] = useState("");
     const [editorValue, setEditorValue] = useState("");
     const firstUpdate = useRef(true);
 
     useEffect(() => {
-
+        /*console.log("currentLink: ", currentLink);*/
         if(currentLink.description !== "") {
             if (currentLink.description && isJSON(currentLink.description)) {
                 const allContent = JSON.parse(currentLink.description);
@@ -53,8 +53,8 @@ const TextComponent = ({
         }
     },[])
 
-    console.log("editorState: ", editorState);
-    console.log("editorValue: ", editorValue);
+    /*console.log("editorState: ", editorState);
+    console.log("editorValue: ", editorValue);*/
 
     return (
 
