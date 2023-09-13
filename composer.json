@@ -8,13 +8,12 @@
         "php": "^8.1",
         "braintree/braintree_php": "^6.4",
         "doctrine/dbal": "^2.5",
-        "fideloper/proxy": "^4.4",
-        "firebase/php-jwt": "^v5.2.0",
+        "firebase/php-jwt": "^v6.8.1",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.4",
         "intervention/image": "^2.7",
         "laracasts/utilities": "^3.2",
-        "laravel/framework": "^8.40",
+        "laravel/framework": "^9.0",
         "laravel/passport": "^10.1",
         "laravel/socialite": "^5.5",
         "laravel/tinker": "^2.5",
@@ -23,6 +22,7 @@
         "laravel/vapor-core": "^2.19",
         "laravel/vapor-ui": "^1.4",
         "laravelcollective/html": "^6.3",
+        "league/flysystem-aws-s3-v3": "^3.0",
         "mailchimp/marketing": "^3.0",
         "maxbanton/cwh": "^2.0",
         "predis/predis": "^1.1",
@@ -37,12 +37,12 @@
         "tcg/voyager": "1.6.*"
     },
     "require-dev": {
-        "facade/ignition": "^2.5",
+        "spatie/laravel-ignition": "^1.0",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
         "laravel/telescope": "^4.14",
         "mockery/mockery": "^1.4.2",
-        "nunomaduro/collision": "^5.0",
+        "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.3.3"
     },
     "autoload": {

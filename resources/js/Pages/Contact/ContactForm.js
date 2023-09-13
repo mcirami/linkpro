@@ -7,7 +7,7 @@ const ContactForm = () => {
     const [values, setValues] = useState({
         name: "",
         email: "",
-        reason: "",
+        reason: "general",
         message: ""
     })
 
@@ -94,7 +94,7 @@ const ContactForm = () => {
                                 name="reason"
                                 id="reason"
                                 onChange={(e) => handleChange(e, "reason")}
-                                defaultValue="general"
+                                value={values.reason}
                             >
                                 <option value="general">General</option>
                                 <option value="support">Account Support</option>
