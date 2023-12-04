@@ -18,7 +18,7 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.3",
         "laravel/vapor-cli": "^1.31",
-        "laravel/vapor-core": "^2.19",
+        "laravel/vapor-core": "^v2.33.2",
         "laravel/vapor-ui": "^1.4",
         "maxbanton/cwh": "^2.0",
         "predis/predis": "^1.1",
